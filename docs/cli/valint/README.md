@@ -49,20 +49,17 @@ Report indicates the changes made to an Image against the source code and open s
 
 ### Integrity types
 Integrity filters the output report by integrity value of the componenets.
-* Preservedfiles
-* ModifiedFiles
-* PreservedByHashFiles
-* MissedFiles
-* AddedFiles
+* Modified
+* NotCovered
 * Validated
 * NotValidated
 
 ### Report Sections
 Integrity filters the output report by section.
-* FilesSection - open source file report section.
-* PackagesSection - open source packages - package report section
-* PackagesFilesSection - open source packages - files report section.
-* AnalyzeSummarySection - Analyze summary and metadata section.
+* Files - open source file report section.
+* Packages - open source packages - package report section
+* Packages files - open source packages - files report section.
+* Summary - Analyze summary and metadata section.
 
 ### Basic usage
 <details>
@@ -84,26 +81,26 @@ valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret
         "source_code": {
                 "files": [ <Source code files list integrity> ],
                 "summary": {
-                        "FilesModified": 0,
-                        "FilesNotValidated": 0,
-                        "FilesTotalCount": 0,
-                        "FilesValidated": 0
+                        "files_modified":,
+                        "files_not_validated":,
+                        "files_total_count":,
+                        "files_validated":,
                 },
         },
         "open_source": {
                 "packages": [  <Packages list integrity> ],
                 "summary": {
-                    "PackagesModified": 0,
-                    "PackagesNotValidated": 0,
-                    "PackagesTotalCount": 0,
-                    "PackagesValidated": 0
+                    "PackagesModified":,
+                    "PackagesNotValidated": ,
+                    "PackagesTotalCount":,
+                    "PackagesValidated":,
                 },
                 "files": [  <Packages files list integrity> ],
                 "files-summary": {
-                    "FilesModified": 0,
-                    "FilesNotValidated": 0,
-                    "FilesTotalCount": 0,
-                    "FilesValidated": 0
+                        "files_modified":,
+                        "files_not_validated":,
+                        "files_total_count":,
+                        "files_validated":,
                 },
         },
         "analyze": {
@@ -123,11 +120,8 @@ valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret
 #### Integrity map
 Integirty options are as following.
 ```
-	PreservedFiles       = "Preservedfiles"
-	ModifiedFiles        = "ModifiedFiles"
-	PreservedByHashFiles = "PreservedByHashFiles"
-	MissedFiles          = "MissedFiles"
-	AddedFiles           = "AddedFiles"
+	Modified      	     = "Modified"
+	NotCovered           = "Not_Covered"
 	Validated            = "Validated"
 	NotValidated         = "Not_Validated"
 ```

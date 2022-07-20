@@ -5,7 +5,7 @@ Configuration search paths:
 - .valint.yaml
 - .valint/valint.yaml
 - ~/.valint.yaml
-- ${PWD}/valint/valint.yaml
+- \<k\>/valint/valint.yaml
 
 For a custom configuration location use `--config` flag with any command.
 

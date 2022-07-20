@@ -66,7 +66,7 @@ Some of the heavy lifting is done by these subtools so its worth metioning.
 Attestations sboms allow you to sign and verify your sbom targets. \
 Attestations allow you to connect PKI based identities to your evidence and policy management. 
 
-See details [CLI documentation - attestation](docs/attestations.md)
+See details [CLI documentation - attestation](docs/attestation.md)
 
 # Installation
 
@@ -112,7 +112,7 @@ Available Commands:
 Global flags can be set by CLI on any command. \
 Flags that can not mapped to configuration are verbose, config and backwards flags.
 
-See details [CLI documentation - global](docs/command/bomber.md)
+See details [CLI documentation - global](docs/command/gensbom.md)
 
 ## Configuration
 
@@ -142,7 +142,7 @@ Scheme:
 - dir: Create sbom on directory
 - file: Create sbom on file
 
-See details [CLI documentation - bom](docs/command/bomber_bom.md)
+See details [CLI documentation - bom](docs/command/gensbom_bom.md)
 
 
 ### basic usage
@@ -212,13 +212,13 @@ It can be used for multiple targets and output formats.
 gensbom verify busybox:latest -v
 ```
 
-See details [CLI documentation - verify](docs/command/bomber_verify.md)
+See details [CLI documentation - verify](docs/command/gensbom_verify.md)
 
 ## Find command
 Command finds sbom for images and file systems.
 It can be used for multiple sources and formats (see help for details)
 
-See details [CLI documentation - find](docs/command/bomber_find.md)
+See details [CLI documentation - find](docs/command/gensbom_find.md)
 
 ## Sign command
 Command signs a external or local sbom.
@@ -226,7 +226,7 @@ It allows you to create the sbom in one point (using Gensbom) and sign it in ano
 Targets for images and directories (docker,oci, dir and registry) will search for a related cyclondex SBOM in cache (Output directory).
 When Sign command does not find cyclondx unsigned SBOM please use `bom` command above to generate one.
 
-See details [CLI documentation - sign](docs/command/bomber_sign.md)
+See details [CLI documentation - sign](docs/command/gensbom_sign.md)
 
 # Scribe service
 Scribe provides a set of services allowing you to secure your supply chain. \
