@@ -12,12 +12,11 @@ Actions are are wrappers to provided CLI tools.
 * Fs-tracker - TBD
 
 # 🚀  Gensbom actions
-Included GitHub Actions uses the [gensbom](https://github.com/scribe-security/bomber) cli tool. \
+Included GitHub Actions uses the [gensbom](https://github.com/scribe-security/gensbom) cli tool. \
 Actions allow one to both collect sbom evidence for images and directory targets.
 
-Source see [gensbom](https://github.com/scribe-security/bomber), Sbom generator
+Source see [gensbom](https://github.com/scribe-security/gensbom), Sbom generator
 Source see [cocosign](https://github.com/scribe-security/cocosign), attestation manager
-
 
 ## Bom action
 The action invokes a containerized `gensbom` sub command `bom`. 
@@ -40,8 +39,8 @@ The action invokes a containerized `gensbom` sub command `verify`.
 Command allows users to verify a image via a signed attestation (In-toto).
 - By default action will include github specific context to its SBOMs (GIT_URL, DOB_ID .. etc)
 - By default action will verify Sigstore keyless flow (Fulcio CA + Rekor log) while using github (See example below).
-- Verify signer identity, for example Github workflow ids (2DO Add Input argument).
-- Download attestations (signed SBOMs) from scribe service (Not supported yet).
+- Verify signer identity, for example Github workflow ids.
+- Download attestations (signed SBOMs) from scribe service.
 - Verify attestations via OPA/CUE policies (see cocosign documentation).
 - Verify trust of a image (local or remote) (see example below).
 - Verify trust of a local directory (see example below).
@@ -76,8 +75,24 @@ By default report is written in to local cache.
 See details [Valint - report action](valint/report/README.md)
 
 
-# Integrations
+## Notice Support
+Currently we only support Github linux workers.
+Add condition for multi OS workflows.
+```YAML
+- name: Gensbom Image generate bom, upload to scribe
+  id: gensbom_bom_image
+  if: ${{ runner.os == 'Linux' }}
+  uses: scribe-security/actions/gensbom/bom@master
+  with:
+      target: 'mongo-express:1.0.0-alpha.4'
+      verbose: 2
+```
 
+## .gitignore
+Recommended to add output directory value to your .gitignore file.
+By default add `**/scribe` to your gitignore.
+
+# Integrations
 ## Scribe service integration
 Scribe provides a set of services to store,verify and manage the supply chain integrity.
 Following are some integration examples.
@@ -284,7 +299,7 @@ Custom private registry, skip cache (using `Force`), output verbose (debug level
 - name: Generate cyclonedx json SBOM
   uses: scribe-security/actions/gensbom/bom@master
   with:
-    target: 'scribesecuriy.jfrog.io/scribe-docker-public-local/stub_remote:latest'
+    target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
     verbose: 3
     force: true
 ```
@@ -555,6 +570,8 @@ Install valint as a tool
 ``` 
 </details>
 
+
+
 ## Integration examples
 <details>
   <summary>  Scribe integrity report download </summary>
@@ -590,18 +607,3 @@ Download report for CI run, save output to local file.
           output-file: "./result_report.json"
 ``` 
 </details>
-
-
-<!-- ## Github context
-## Gensbom action
-## Valint action
-## Tool installer action
-
-## Attaching sbom artifact
-## Verifying github cache
-## Verifying image attesation
-## Verifying source code
-## Collecting external reports
-## Scribe integrity service
-### Sigle workflow
-### Multi workflow --> -->

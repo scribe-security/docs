@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-repos=( "gensbom" "valint" )
+repos=( "gensbom" "valint" "actions" "JSL" )
 
 pull_submodules() {
     for repo in "${repos[@]}"
@@ -26,5 +26,37 @@ import_cli() {
     cp -r "${repo_dir}/docs" docs/cli/${repo}
 }
 
-import_cli gensbom
-import_cli valint
+import_file() {
+    repo=$1
+    src_dir=$2
+    dst_dir=$3
+    repo_dir="${submodules_dir}/${repo}"
+    mkdir -p ${dst_dir}/${src_dir}
+    cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
+}
+
+import_action() {
+    repo="actions"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrations/github"
+    import_file ${repo} "" "${dst_dir}"
+    import_file ${repo} "valint/report" "${dst_dir}"
+    import_file ${repo} "gensbom/bom" "${dst_dir}"
+    import_file ${repo} "gensbom/verify" "${dst_dir}"
+}
+
+import_JSL() {
+    repo="JSL"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrations/jenkins/JSL"
+    import_file ${repo} "" "${dst_dir}"
+    cp -r "${repo_dir}/imgs" "${dst_dir}"
+}
+
+# pull_submodules
+# import_cli gensbom
+# import_cli valint
+# import_action
+
+set -x
+import_JSL
