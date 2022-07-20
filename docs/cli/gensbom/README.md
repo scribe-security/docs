@@ -66,7 +66,7 @@ Some of the heavy lifting is done by these subtools so its worth metioning.
 Attestations sboms allow you to sign and verify your sbom targets. \
 Attestations allow you to connect PKI based identities to your evidence and policy management. 
 
-See details [CLI documentation - attestation](docs/attestation.md)
+See details [CLI documentation - attestation](docs/attestations.md)
 
 # Installation
 

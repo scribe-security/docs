@@ -15,7 +15,7 @@ You will need a Mac or Linux workstation running dockerd with access to the sour
 
 ## Getting Started
 
-To get started navigate in your browser to <a href='https://mui.production.scribesecurity.com/install-scribe'>this address</a>. You can also try Scribe out with a demo project <a href='/docosaurus-scribe/docs/sampleproject'>here</a>. 
+To get started navigate in your browser to <a href='https://mui.production.scribesecurity.com/install-scribe'>this address</a>. You can also try Scribe out with a demo project <a href='/docs/sampleproject'>here</a>. 
 
 ## Get gensbom CLI tool
 
