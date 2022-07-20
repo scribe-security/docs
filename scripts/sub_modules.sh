@@ -53,10 +53,8 @@ import_JSL() {
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
 
-# pull_submodules
-# import_cli gensbom
-# import_cli valint
-# import_action
-
-set -x
+pull_submodules
+import_cli gensbom
+import_cli valint
+import_action
 import_JSL
