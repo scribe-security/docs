@@ -380,11 +380,10 @@ docker_signs:
 
 Download your image attestations from your release page, verify the image against sigstore.
 
-```YAML
-After download image attestation (goreleaser-example_v1.2.23.image.sbom.sig) from github releases.
 ```shell
 gensbom verify scribesecuriy.jfrog.io/scribe-docker-public-local/goreleaser-example:v1.2.23 -vv --external external:goreleaser-example_v1.2.23.image.sbom.sig
 ```
+
 Output:
 ```log
 INFO[0007] [enabled] rekorStorer, using storer          
