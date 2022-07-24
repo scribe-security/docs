@@ -398,24 +398,4 @@ Note Github workload identity `https://github.com/scribe-security/goreleaser-exa
 
 </details>
 
-<!-- ## Gensbom integration
-<details>
-  <summary>  source SBOM, upload scribe service </summary>
-
-Env section to allow one to control the scribe login argument via env. \
-You can also use configuration or arguments.
-```YAML
-sboms:
-  - id: gensbom_source
-    artifacts: source
-    cmd: gensbom
-    args: ["bom", "file:$artifact", "--output-file", "$document", "-vv", "-f"]
-    env:
-      - GENSBOM_SCRIBE_URL={{ if index .Env "GENSBOM_SCRIBE_URL"  }}{{ .Env.GENSBOM_SCRIBE_URL }}{{ end }}
-      - GENSBOM_SCRIBE_AUTH0_CLIENTID={{ if index .Env "GENSBOM_SCRIBE_AUTH0_CLIENTID"  }}{{ .Env.GENSBOM_SCRIBE_AUTH0_CLIENTID }}{{ end }}
-      - GENSBOM_SCRIBE_AUTH0_CLIENTSECRET={{ if index .Env "GENSBOM_SCRIBE_AUTH0_CLIENTSECRET"  }}{{ .Env.GENSBOM_SCRIBE_AUTH0_CLIENTSECRET }}{{ end }}
-      - GENSBOM_SCRIBE_ENABLE={{ if index .Env "GENSBOM_SCRIBE_ENABLE"  }}{{ .Env.GENSBOM_SCRIBE_ENABLE }}{{ end }}
-```
-</details> -->
-
 
