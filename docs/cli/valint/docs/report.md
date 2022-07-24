@@ -34,10 +34,10 @@ Integrity report output example
                     }
             ],
             "summary": {
-                    "FilesModified": 0,
-                    "FilesNotValidated": 0,
-                    "FilesTotalCount": 0,
-                    "FilesValidated": 0
+ 		"summary": {
+ 			"files_total_count": 64,
+ 			"files_validated": 63
+ 		}
             }
     },
     "open_source": {
@@ -61,10 +61,8 @@ Integrity report output example
                 //    ## OMITTED ....
             ],
             "summary": {
-                    "PackagesModified": 0,
-                    "PackagesNotValidated": 0,
-                    "PackagesTotalCount": 0,
-                    "PackagesValidated": 0
+                "files_total_count": 64,
+                "files_validated": 63
             },
             "files": [
                     {
@@ -85,10 +83,9 @@ Integrity report output example
 
             ],
             "files-summary": {
-                    "FilesModified": 0,
-                    "FilesNotValidated": 0,
-                    "FilesTotalCount": 0,
-                    "FilesValidated": 0
+                "files_not_validated": 2,
+                "files_total_count": 6199,
+                "files_validated": 6197
             }
     },
     "analyze": {

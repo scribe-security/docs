@@ -9,7 +9,7 @@
     description: 'Application config file'
   output-directory:
     description: 'Output directory path'
-    default: ./valint_reports
+    default: ./scribe/valint
   output-file:
     description: 'Output file path'
   scribe-enable:
@@ -37,4 +37,16 @@
 ```yaml
   output-file:
     description: 'Report output file path'
+```
+
+### Usage
+```YAML
+- name: Valint - download report
+  id: valint_report
+  uses: scribe-security/actions/valint/report@master
+  with:
+      verbose: 2
+      scribe-enable: true
+      scribe-clientid: ${{ inputs.clientid }}
+      scribe-clientsecret: ${{ inputs.clientsecret }}
 ```

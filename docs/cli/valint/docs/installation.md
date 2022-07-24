@@ -5,7 +5,7 @@ CLI installation options
 <details>
   <summary> Pull binary </summary>
 
-Get the gensbom tool
+Get the valint tool
 ```bash
 curl https://www.scribesecurity.com/getscribe | sh
 ```
@@ -15,12 +15,12 @@ curl https://www.scribesecurity.com/getscribe | sh
 <details>
   <summary> Apt repository </summary>
 
-Download agent DEB package from https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local/gensbom
+Download agent DEB package from https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local/valint
 
 ```bash
 wget -qO - https://scribesecuriy.jfrog.io/artifactory/api/security/keypair/scribe-artifactory/public | sudo apt-key add -
 sudo sh -c "echo 'deb https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local stable non-free' >> /etc/apt/sources.list"
-apt-get install gensbom -t stable
+apt-get install valint -t stable
 ```
 
 </details>
@@ -31,7 +31,7 @@ apt-get install gensbom -t stable
 You can pull the cli release binary wrapped in its relevant docker image (tag should equal the version).
 
 ```bash
-docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest
+docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 ```
 
 </details>
@@ -40,12 +40,12 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest
 <details>
   <summary> Release packages </summary>
 
-Download a `.deb` or `.rpm` file from the [releases page](https://github.com/scribe-security/gensbom/releases)
+Download a `.deb` or `.rpm` file from the [releases page](https://github.com/scribe-security/valint/releases)
 and install with `dpkg -i` and `rpm -i` respectively.
 
 ```bash
-dpkg -i <gensbom_package.deb>
-gensbom --version
+dpkg -i <valint_package.deb>
+valint --version
 ```
 
 </details>
