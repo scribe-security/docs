@@ -1,47 +1,65 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
+# Getting started
 
-# Tutorial Intro
+## Scribe Early Access
 
-Let's discover **Docusaurus in less than 5 minutes**.
+With Scribe’s Early Access you can validate the integrity of Node.JS images you build. Scribe maps all the components and files that made their way into your Node.js’s project final docker image and validates that each file’s hash value hasn’t changed if it wasn’t supposed to.
+
+## Prerequisites 
+
+You will need a Mac or Linux workstation running dockerd with access to the source repo and the image’s registry. Copy and run the following commands in a shell on your workstation.
+
+<hr/>
 
 ## Getting Started
 
-Get started by **creating a new site**.
+To get started navigate in your browser to <a href='https://mui.production.scribesecurity.com/install-scribe'>this address</a>. You can also try Scribe out with a demo project <a href='/docs/sampleproject'>here</a>. 
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Get gensbom CLI tool
 
-### What you'll need
+```curl https://www.scribesecurity.com/getscribe | sh```
+## Clone the source repo of your docker image to your local machine
 
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+```git clone <your_repo>```
 
-## Generate a new site
+Replace ```<your_repo>``` with the source repo path.
 
-Generate a new Docusaurus site using the **classic template**.
+## Collect metadata about your source code
 
-The classic template will automatically be added to your project after you run the command:
+```$HOME/.scribe/bin/gensbom bom dir:<path> --scribe.url=https://api.dev.scribesecurity.com --scribe.username=<username> --scribe.password=<password> --name=scribe -E -f -vv```
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+Replace ```<path>``` with the path to the repo you cloned. ```<username>``` and ```<password>``` are re-generated for you every time you access the page.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+## Collect metadata about your docker image
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+```$HOME/.scribe/bin/gensbom bom <your_docker_repository:tag> --scribe.url=https://api.dev.scribesecurity.com --scribe.username=<username> --scribe.password=<password> --name=scribe -E -f -vv```
 
-## Start your site
+Replace ```<your_docker_repository:tag>``` with the path to the your docker image. ```<username>``` and ```<password>``` are re-generated for you every time you access the page.
 
-Run the development server:
+## Finish
 
-```bash
-cd my-website
-npm run start
-```
+After these commands are done, click the <b>Done</b> button at the bottom of the web page.
+If you clicked Done but didn’t run the commands in this guide, go back and start over.
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+## How to read the integrity analysis
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+### Source Code Validation
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Scribe reports how many JS files in the docker image were validated.
+In case that a file’s hash value changed between its version in the source repo and and the destination image, Scribe determines whether this is a benign modification and flags only suspicious files. 
+In the lower half of the page you can view the details of the individual files that were validated.
+
+### Open Source Dependency Validation
+
+Scribe reports how many open-source packages were validated and the total number of open-source files validated within these packages.
+Scribe does this, by first analyzing the composition of the docker image. Then, for each package Scribe compares each of its files hashes with Scribe’s package intelligence DB. 
+In the lower half of the page you can view the details of the individual packages and files that  were validated. 
+In case that a file’s hash value changed between its version in the source repo and and the destination image, Scribe determines whether this is a benign modification and flags only suspicious files
+
+### Export SBOM 
+
+You can export the SBOM detailing the open-source dependencies of the docker image you analyzed by clicking <b>Export SBOM</b> in the top right of the report. The SBOM is in CycloneDX format.
+
+
