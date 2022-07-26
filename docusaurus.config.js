@@ -50,6 +50,14 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+      id: 'new_documentation',
+      content:
+        'The new Scribe documentation website is live!',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+      isCloseable: false,
+    },
       navbar: {
         title: 'My Site',
         logo: {
