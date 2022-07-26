@@ -22,6 +22,8 @@ declare -a toMaster=(
 )
 
 git checkout master
+git fetch origin master
+git pull origin master
 git branch -D staging
 git checkout -b staging
 
