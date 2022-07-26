@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-repos=( "gensbom" "valint" "actions" "JSL" )
+repos=( "gensbom" "valint" "actions" "JSL" "misc" )
 
 pull_submodules() {
     for repo in "${repos[@]}"
@@ -35,6 +35,16 @@ import_file() {
     cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
 }
 
+import_file_rename() {
+    repo=$1
+    src_dir=$2
+    dst_file=$3
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir=$(dirname $dst_file)
+    mkdir -p ${dst_dir}
+    cp  ${repo_dir}/${src_dir}/README.md ${dst_file}
+}
+
 import_action() {
     repo="actions"
     repo_dir="${submodules_dir}/${repo}"
@@ -53,8 +63,16 @@ import_JSL() {
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
 
+import_misc() {
+    repo="misc"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrations/"
+    import_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
+}
+
 pull_submodules
-import_cli gensbom
-import_cli valint
-import_action
-import_JSL
+import_misc
+# import_cli gensbom
+# import_cli valint
+# import_action
+# import_JSL
