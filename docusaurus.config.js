@@ -7,7 +7,7 @@ var branch = require('child_process')
   .execSync('git branch --show-current')
   .toString().trim();
 branch = branch ? branch : process.env.HEAD?.toString() ?? "";
-var isPullRequest = Boolean(process.env.PULL_REQUEST);
+var isPullRequest = process.env.PULL_REQUEST === "true";
 console.log(process.env);
 console.log("###########", process.env.PULL_REQUEST, process.env.PULL_REQUEST==="true", );
 console.log("###########2", isPullRequest, isPullRequest===true);
