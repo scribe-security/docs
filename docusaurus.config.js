@@ -41,7 +41,7 @@ const config = {
           //   ...((branch == "master")) ? ['**/dev_*.md', "**/dev_*/*"] : ["nothing"],
           //   ],
           include: [
-            ...((branch == "dev")) ? [
+            ...((branch.includes("dev"))) ? [
               '**/*.md',
               ] : [
                 "ci-cd-integration/*",
