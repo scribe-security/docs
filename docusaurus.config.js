@@ -3,10 +3,12 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-const branch = require('child_process')
+var branch = require('child_process')
   .execSync('git branch --show-current')
   .toString().trim();
-  
+branch = branch ? branch : process.env.HEAD?.toString() ?? "";
+var isPullRequest = process.env.PULL_REQUEST;
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'The Scribe Documentation Site',
@@ -38,7 +40,8 @@ const config = {
       ({
         docs: {
           include: [
-            ...((branch.includes("dev"))) ? [
+            ...((isPullRequest && branch.includes("dev-preview") || 
+              (!isPullRequest && branch == "dev") )) ? [
               '**/*.md',
               ] : [
                 "ci-cd-integration/*",
