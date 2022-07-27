@@ -3,12 +3,17 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-const branch = require('child_process')
+var branch = require('child_process')
   .execSync('git branch --show-current')
   .toString().trim();
+
+branch = branch ? branch : process.env.HEAD?.toString() ?? "";
+
+
+
   
 console.log("###########################", branch);
-console.log(process.env)
+console.log(process.env.HEAD)
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
