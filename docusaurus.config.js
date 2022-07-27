@@ -8,9 +8,7 @@ var branch = require('child_process')
   .toString().trim();
 branch = branch ? branch : process.env.HEAD?.toString() ?? "";
 var isPullRequest = process.env.PULL_REQUEST === "true";
-console.log(process.env);
-console.log("###########", process.env.PULL_REQUEST, process.env.PULL_REQUEST==="true", );
-console.log("###########2", isPullRequest, isPullRequest===true);
+// console.log(process.env);
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
