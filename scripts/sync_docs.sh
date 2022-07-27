@@ -184,9 +184,9 @@ parse_args() {
     case "$arg" in
       h | \?) usage "$0" ;;
       x) set -x ;;
-      I) COMMAND="import"
-      E) COMMAND="export"
-      S) COMMAND="status"
+      I) COMMAND="import";;
+      E) COMMAND="export";;
+      S) COMMAND="status";;
     esac
   done
   shift $((OPTIND - 1))
