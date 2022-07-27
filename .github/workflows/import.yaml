@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
-        repo: ["JSL"]
+        repo: ["JSL", "misc"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -30,7 +30,6 @@ jobs:
       - name: impor docs
         run: |
           bash scripts/sync_docs.sh -I -x -r ${{ matrix.repo }}
-          bash scripts/sync_docs.sh -S || true
           git status
     
       - name: Create Pull Request
