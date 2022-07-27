@@ -37,9 +37,6 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          // exclude: [
-          //   ...((branch == "master")) ? ['**/dev_*.md', "**/dev_*/*"] : ["nothing"],
-          //   ],
           include: [
             ...((branch.includes("dev"))) ? [
               '**/*.md',
