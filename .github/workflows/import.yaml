@@ -1,0 +1,30 @@
+name: export
+
+# env:
+#   GITHUB_USER: "houdini91" # TODO CHANGE TO A SCRIBE USER.
+#   GOPRIVATE: "github.com/scribe-security/*"
+#   GO_VERSION: "1.18"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export_docs:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04] # TODO: only build
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          bash scripts/sync_docs.sh -E
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        path: subs/JSL
+        token: ${{ secrets.PR_PAT }}
+        title: autogen - docs export
