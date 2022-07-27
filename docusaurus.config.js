@@ -6,14 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 var branch = require('child_process')
   .execSync('git branch --show-current')
   .toString().trim();
-
 branch = branch ? branch : process.env.HEAD?.toString() ?? "";
-
-
-
-  
-console.log("###########################", branch);
-console.log(process.env.HEAD)
+var isPullRequest = process.env.PULL_REQUEST;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -46,7 +40,8 @@ const config = {
       ({
         docs: {
           include: [
-            ...((branch.includes("dev"))) ? [
+            ...((isPullRequest && branch.includes("dev-preview") || 
+              (!isPullRequest && branch == "dev") )) ? [
               '**/*.md',
               ] : [
                 "ci-cd-integration/*",
