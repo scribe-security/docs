@@ -4,8 +4,8 @@ name: import
 on:
   workflow_dispatch:
   # push:
-  schedule:
-    - cron: "0 0 * * *" #Every day
+  # schedule:
+  #   - cron: "0 0 * * *" #Every day
 
 jobs:
   import_docs:
