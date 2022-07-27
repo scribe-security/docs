@@ -40,7 +40,6 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
 
-
 ### DEV
 * Branch `dev` is deployed (updated on each push).
 Access it by `dev--<docs_domain>.com`
@@ -53,3 +52,4 @@ Each PR opens a preview site.
 * Master will include only the public site. (See docusaurus.config.js for full list).
 * PR preview - will show preview will deploy only the public part.
 * PR including `dev-preview` prefix will show the preview of the entire site.
+
