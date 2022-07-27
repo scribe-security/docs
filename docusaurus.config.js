@@ -9,6 +9,7 @@ var branch = require('child_process')
 branch = branch ? branch : process.env.HEAD?.toString() ?? "";
 var isPullRequest = process.env.PULL_REQUEST;
 
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'The Scribe Documentation Site',
