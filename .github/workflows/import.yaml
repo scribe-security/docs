@@ -23,32 +23,32 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: scribe-security/gensbom
-          path: sub/${{ matrix.repo }}
+          path: sub/gensbom
           token: ${{ secrets.PR_PAT }}
 
       - uses: actions/checkout@v3
         with:
           repository: scribe-security/valint
-          path: sub/${{ matrix.repo }}
+          path: sub/valint
           token: ${{ secrets.PR_PAT }}
 
 
       - uses: actions/checkout@v3
         with:
           repository: scribe-security/actions
-          path: sub/${{ matrix.repo }}
+          path: sub/actions
           token: ${{ secrets.PR_PAT }}
 
       - uses: actions/checkout@v3
         with:
           repository: scribe-security/JSL
-          path: sub/${{ matrix.repo }}
+          path: sub/JSL
           token: ${{ secrets.PR_PAT }}
       
       - uses: actions/checkout@v3
         with:
           repository: scribe-security/misc
-          path: sub/${{ matrix.repo }}
+          path: sub/misc
           token: ${{ secrets.PR_PAT }}
 
       - name: impor docs
