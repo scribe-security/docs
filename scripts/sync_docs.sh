@@ -73,6 +73,12 @@ import_file() {
     repo_dir="${submodules_dir}/${repo}"
     mkdir -p ${dst_dir}/${src_dir}
     cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
+
+    if [ ! -z "$src_dir" ]; then
+        cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
+    else
+        cp  ${repo_dir}/README.md ${dst_dir}/
+    fi
 }
 
 export_file() {
@@ -80,7 +86,11 @@ export_file() {
     src_dir=$2
     dst_dir=$3
     repo_dir="${submodules_dir}/${repo}"
-    cp ${dst_dir}/${src_dir}/README.md ${repo_dir}/${src_dir}/
+    if [ ! -z "$src_dir" ]; then
+        cp ${dst_dir}/${src_dir}/README.md ${repo_dir}/${src_dir}/
+    else
+        cp ${dst_dir}/README.md ${repo_dir}/
+    fi
 }
 
 
