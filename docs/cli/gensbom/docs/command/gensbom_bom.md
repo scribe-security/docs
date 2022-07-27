@@ -1,6 +1,6 @@
 ## gensbom bom
 
-Create target BOM (images,dir)
+Create SBOM for target
 
 ```
 gensbom bom [TARGET] [flags]
@@ -40,8 +40,8 @@ gensbom bom [TARGET] [flags]
   -o, --format strings                   Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json] (default [cyclonedx-json])
   -h, --help                             help for bom
   -L, --label strings                    Label to connect to sboms
-  -n, --name string                      Bomb custom/project name
       --normalizers.packagejson.enable   Normalize package json files (default true)
+  -n, --product-key string               Bomb custom/project name
 ```
 
 ### Options inherited from parent commands
@@ -67,5 +67,5 @@ gensbom bom [TARGET] [flags]
 
 ### SEE ALSO
 
-* [gensbom](gensbom.md)	 - Generate a source SBOM
+* [gensbom](gensbom.md)	 - Create SBOM for target
 

@@ -213,7 +213,7 @@ gensbom verify busybox:latest -v
 ```
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
-<!-- 
+
 ## Find command
 Command finds sbom for images and file systems.
 It can be used for multiple sources and formats (see help for details)
@@ -226,7 +226,7 @@ It allows you to create the sbom in one point (using Gensbom) and sign it in ano
 Targets for images and directories (docker,oci, dir and registry) will search for a related cyclondex SBOM in cache (Output directory).
 When Sign command does not find cyclondx unsigned SBOM please use `bom` command above to generate one.
 
-See details [CLI documentation - sign](docs/command/gensbom_sign.md) -->
+See details [CLI documentation - sign](docs/command/gensbom_sign.md)
 
 # Scribe service
 Scribe provides a set of services allowing you to secure your supply chain. \

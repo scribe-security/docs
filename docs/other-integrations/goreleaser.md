@@ -1,7 +1,5 @@
 ---
-title: Goreleaser
-author: mikey strauss - Scribe
-date: June 30, 2022
+title: goreleaser
 geometry: margin=2cm
 ---
 # Goreleaser integration 🛸

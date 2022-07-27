@@ -32,7 +32,7 @@ gensbom verify [TARGET] [flags]
   -C, --context-type string   Snapshot header types, options=[jenkins github local] (default "local")
   -h, --help                  help for verify
   -i, --inputformat string    Sbom input formatter, options=[attest-cyclonedx-json] (default "attest-cyclonedx-json")
-  -n, --name string           Custom/project name
+  -n, --product-key string    Custom/project name
 ```
 
 ### Options inherited from parent commands
@@ -58,5 +58,5 @@ gensbom verify [TARGET] [flags]
 
 ### SEE ALSO
 
-* [gensbom](gensbom.md)	 - Generate a source SBOM
+* [gensbom](gensbom.md)	 - Create SBOM for target
 

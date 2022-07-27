@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+title: github-actions
+sidebar_position: 2
 ---
 
 # GitHub Actions
