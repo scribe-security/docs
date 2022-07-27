@@ -24,6 +24,12 @@ jobs:
           bash scripts/sync_docs.sh -E
           bash scripts/sync_docs.sh -S
 
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/JSL
+          path: subs/JSL
+          token: ${{ secrets.PR_PAT }}
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
