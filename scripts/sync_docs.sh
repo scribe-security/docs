@@ -259,6 +259,7 @@ case $COMMAND in
         importFunction="export_${repo}"
         eval ${importFunction}
     done
+
     ;;
   status)
     status_submodules "${repos}"
