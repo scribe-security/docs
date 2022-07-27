@@ -180,12 +180,13 @@ EOF
 
 
 parse_args() {
-  while getopts "IESdh?x" arg; do
+  while getopts "IESLdh?x" arg; do
     case "$arg" in
       x) set -x ;;
       I) COMMAND="import";;
       E) COMMAND="export";;
       S) COMMAND="status";;
+      L) LOCAL="true";;
       h | \?) usage "$0" ;;
     esac
   done
@@ -197,7 +198,9 @@ parse_args "$@"
 case $COMMAND in
   import)
     echo -n "import"
-    pull_submodules
+    if [ ! -z "$LOCAL" ]; then
+        pull_submodules
+    fi
     import_misc
     import_cli gensbom
     import_cli valint
@@ -207,7 +210,9 @@ case $COMMAND in
 
   export)
     echo -n "export"
-    checkout_submodules
+    if [ ! -z "$LOCAL" ]; then
+        checkout_submodules
+    fi
     export_misc
     export_cli gensbom
     export_cli valint
