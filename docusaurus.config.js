@@ -44,7 +44,11 @@ const config = {
               (!isPullRequest && branch == "dev") )) ? [
               '**/*.md',
               ] : [
-                "ci-cd-integration/*",
+                "ci-cd-integrations/github/README.md",
+                "ci-cd-integrations/jenkins/README.md",
+                "ci-cd-integrations/example.md",
+                "ci-cd-integrations/general.md",
+                "ci-cd-integrations/README.md",
                 "cves.md",
                 "intro.md",
                 "sampleproject.md",
