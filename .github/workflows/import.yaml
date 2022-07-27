@@ -3,6 +3,7 @@ name: import
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   import_docs:
