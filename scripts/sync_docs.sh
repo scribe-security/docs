@@ -272,7 +272,10 @@ case $COMMAND in
 
     ;;
   status)
-    status_submodules "${repos}"
+    for repo in "${repos[@]}"
+    do
+        status_submodules "${repos}"
+    done
     ;;
   *)
     echo -n "unknown"
