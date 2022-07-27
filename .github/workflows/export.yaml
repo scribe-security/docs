@@ -2,7 +2,10 @@ name: export
 
 on:
   workflow_dispatch:
-
+  push:
+    branches:    
+      - 'main'
+      - 'dev'
 jobs:
   export_docs:
     strategy:
@@ -29,9 +32,21 @@ jobs:
         run: |
           bash scripts/sync_docs.sh -E -x -r ${{ matrix.repo }}
 
+      - name: Branch used
+        id: extract_branch
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            echo "::set-output name=branch::$(echo ${GITHUB_REF##*/})"
+          elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            echo "::set-output name=branch::$(echo $GITHUB_BASE_REF)"
+          else
+            echo "::set-output name=branch::INVALID_EVENT_BRANCH_UNKNOWN"
+          fi
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
+          branch: docs_import_${{ steps.extract_branch.outputs.branch }}
           path: sub/${{ matrix.repo }}
           token: ${{ secrets.PR_PAT }}
           title: autogen - docs export
