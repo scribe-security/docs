@@ -7,7 +7,8 @@ const branch = require('child_process')
   .execSync('git branch --show-current')
   .toString().trim();
   
-  console.log("###########################", branch);
+console.log("###########################", branch);
+console.log(process.env)
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
