@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
-        repos: ["gensbom", "valint", "actions", "JSL", "misc"]
+        repo: ["gensbom", "valint", "actions", "JSL", "misc"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
