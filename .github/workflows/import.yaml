@@ -31,6 +31,7 @@ jobs:
           token: ${{ secrets.PR_PAT }}
       
       - run: |
+          ls -lh
           bash scripts/sync_docs.sh -E -r JSL
 
       - name: Create Pull Request
