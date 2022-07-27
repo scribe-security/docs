@@ -62,4 +62,3 @@ In case that a file’s hash value changed between its version in the source rep
 
 You can export the SBOM detailing the open-source dependencies of the docker image you analyzed by clicking <b>Export SBOM</b> in the top right of the report. The SBOM is in CycloneDX format.
 
-

@@ -3,14 +3,18 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
+const branch = require('child_process')
+  .execSync('git branch --show-current')
+  .toString().trim();
+  
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'The Scribe Documentation Site',
+  tagline: 'Four legs good. Two legs bad.',
+  url: 'https://profound-wisp-8a86b9.netlify.app/',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  //onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
@@ -33,6 +37,23 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          // exclude: [
+          //   ...((branch == "master")) ? ['**/dev_*.md', "**/dev_*/*"] : ["nothing"],
+          //   ],
+          include: [
+            ...((branch.includes("dev"))) ? [
+              '**/*.md',
+              ] : [
+                "ci-cd-integration/*",
+                "cves.md",
+                "intro.md",
+                "sampleproject.md",
+                "gensbomcli.md",
+                "faq.md",
+                "overview.md" ,
+                "README.md",
+              ],
+            ],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -42,6 +63,8 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+
+
       }),
     ],
   ],
@@ -49,11 +72,19 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+      id: 'new_documentation',
+      content:
+        'The new Scribe documentation website is live!',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+      isCloseable: false,
+    },
       navbar: {
         title: 'My Site',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          src: 'img/Scribe_dark.svg',
         },
         items: [
           {
