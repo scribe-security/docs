@@ -180,13 +180,13 @@ EOF
 
 
 parse_args() {
-  while getopts "I:E:dh?x" arg; do
+  while getopts "IESdh?x" arg; do
     case "$arg" in
-      h | \?) usage "$0" ;;
       x) set -x ;;
       I) COMMAND="import";;
       E) COMMAND="export";;
       S) COMMAND="status";;
+      h | \?) usage "$0" ;;
     esac
   done
   shift $((OPTIND - 1))
