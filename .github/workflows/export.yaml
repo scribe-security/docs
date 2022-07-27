@@ -1,15 +1,15 @@
-name: import
-
+name: export
 
 on:
   workflow_dispatch:
 
 jobs:
-  import_docs:
+  export_docs:
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
+        repo: ["gensbom", "valint", "actions", "JSL", "misc"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -27,9 +27,11 @@ jobs:
       
       - name: export docs
         run: |
-          bash scripts/sync_docs.sh -I -x
+          bash scripts/sync_docs.sh -E -x -r ${{ matrix.repo }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          title: autogen - docs import
+          path: sub/${{ matrix.repo }}
+          token: ${{ secrets.PR_PAT }}
+          title: autogen - docs export

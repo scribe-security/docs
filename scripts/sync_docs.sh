@@ -4,9 +4,10 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-repos=( "gensbom" "valint" "actions" "JSL" "misc" )
+supported_repos=( "gensbom" "valint" "actions" "JSL" "misc" )
 
 pull_submodules() {
+    repos=$1
     for repo in "${repos[@]}"
     do
         echo "Download repo $${repo}"
@@ -20,6 +21,7 @@ pull_submodules() {
 }
 
 checkout_submodules() {
+    repos=$1
     for repo in "${repos[@]}"
     do
         echo "Download repo $${repo}"
@@ -35,6 +37,7 @@ checkout_submodules() {
 }
 
 status_submodules() {
+    repos=$1
     for repo in "${repos[@]}"
     do
         echo "Download repo $${repo}"
@@ -70,6 +73,12 @@ import_file() {
     repo_dir="${submodules_dir}/${repo}"
     mkdir -p ${dst_dir}/${src_dir}
     cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
+
+    if [ ! -z "$src_dir" ]; then
+        cp  ${repo_dir}/${src_dir}/README.md ${dst_dir}/${src_dir}
+    else
+        cp  ${repo_dir}/README.md ${dst_dir}/
+    fi
 }
 
 export_file() {
@@ -77,7 +86,11 @@ export_file() {
     src_dir=$2
     dst_dir=$3
     repo_dir="${submodules_dir}/${repo}"
-    cp ${dst_dir}/${src_dir}/README.md ${repo_dir}/${src_dir}/
+    if [ ! -z "$src_dir" ]; then
+        cp ${dst_dir}/${src_dir}/README.md ${repo_dir}/${src_dir}/
+    else
+        cp ${dst_dir}/README.md ${repo_dir}/
+    fi
 }
 
 
@@ -101,7 +114,7 @@ export_file_rename() {
 }
 
 
-import_action() {
+import_actions() {
     repo="actions"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-cd-integrations/github/actions"
@@ -111,7 +124,7 @@ import_action() {
     import_file ${repo} "gensbom/verify" "${dst_dir}"
 }
 
-export_action() {
+export_actions() {
     repo="actions"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-cd-integrations/github/actions"
@@ -158,6 +171,22 @@ import_cli() {
     cp -r "${repo_dir}/docs" "docs/cli/${repo}"
 }
 
+import_gensbom() {
+    import_cli gensbom
+}
+
+export_gensbom() {
+    export_cli gensbom
+}
+
+import_valint() {
+    import_cli valint
+}
+
+export_valint() {
+    export_cli valint
+}
+
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
@@ -180,42 +209,70 @@ EOF
 
 
 parse_args() {
-  while getopts "I:E:dh?x" arg; do
+  while getopts "r:IESLdh?x" arg; do
     case "$arg" in
-      h | \?) usage "$0" ;;
       x) set -x ;;
-      I) COMMAND="import"
-      E) COMMAND="export"
-      S) COMMAND="status"
+      r) repos+=(${OPTARG});;
+      I) COMMAND="import";;
+      E) COMMAND="export";;
+      S) COMMAND="status";;
+      L) LOCAL="true";;
+      h | \?) usage "$0" ;;
     esac
   done
   shift $((OPTIND - 1))
 }
 
+function processItems
+{
+    local -r PROCESSING_FUNCTION=$1
+    shift 1
+    
+    for item in "$@"
+    do
+        $PROCESSING_FUNCTION 
+    done
+}
+
+
+
 COMMAND="unknown"
 parse_args "$@"
+if (( ${#repos[@]} == 0 )); then
+    # repos="${supported_repos[@]}"
+    echo "EMPTY"
+    repos=("${supported_repos[@]}")                  #copy the array in another one 
+fi 
+
+
 case $COMMAND in
   import)
     echo -n "import"
-    pull_submodules
-    import_misc
-    import_cli gensbom
-    import_cli valint
-    import_action
-    import_JSL
+    if [ ! -z "$LOCAL" ]; then
+        pull_submodules "${repos}"
+    fi
+    for repo in "${repos[@]}"
+    do
+        importFunction="import_${repo}"
+        eval ${importFunction}
+    done
     ;;
 
   export)
     echo -n "export"
-    checkout_submodules
-    export_misc
-    export_cli gensbom
-    export_cli valint
-    export_action
-    export_JSL
+    if [ ! -z "$LOCAL" ]; then
+        checkout_submodules "${repos}"
+    fi
+
+    for repo in "${repos[@]}"
+    do
+        importFunction="export_${repo}"
+        eval ${importFunction}
+    done
+
     ;;
   status)
-    status_submodules
+    status_submodules "${repos}"
     ;;
   *)
     echo -n "unknown"
