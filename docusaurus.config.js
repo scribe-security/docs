@@ -3,7 +3,10 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
+const branch = require('child_process')
+  .execSync('git branch --show-current')
+  .toString().trim();
+  
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'The Scribe Documentation Site',
@@ -34,6 +37,23 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          // exclude: [
+          //   ...((branch == "master")) ? ['**/dev_*.md', "**/dev_*/*"] : ["nothing"],
+          //   ],
+          include: [
+            ...((branch == "dev")) ? [
+              '**/*.md',
+              ] : [
+                "ci-cd-integration/*",
+                "cves.md",
+                "intro.md",
+                "sampleproject.md",
+                "gensbomcli.md",
+                "faq.md",
+                "overview.md" ,
+                "README.md",
+              ],
+            ],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -43,6 +63,8 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+
+
       }),
     ],
   ],
