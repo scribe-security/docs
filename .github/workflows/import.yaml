@@ -26,6 +26,7 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
-        path: subs/JSL
-        token: ${{ secrets.PR_PAT }}
-        title: autogen - docs export
+        with:
+          path: subs/JSL
+          token: ${{ secrets.PR_PAT }}
+          title: autogen - docs export
