@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "actions" "JSL" "misc" )
+supported_repos=( "gensbom" "valint" "actions" "JSL" "misc" "orbs" )
 
 pull_submodules() {
     repos=$1
@@ -164,6 +164,20 @@ export_misc() {
     export_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
 }
 
+import_orbs() {
+    repo="misc"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-cd-integrations/"
+    import_file_rename ${repo} "" "${dst_dir}/circleci.md"
+}
+
+export_orbs() {
+    repo="orbs"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-cd-integrations/"
+    export_file_rename ${repo} "" "${dst_dir}/circleci.md"
+}
+
 import_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
@@ -240,7 +254,6 @@ COMMAND="unknown"
 parse_args "$@"
 if (( ${#repos[@]} == 0 )); then
     # repos="${supported_repos[@]}"
-    echo "EMPTY"
     repos=("${supported_repos[@]}")                  #copy the array in another one 
 fi 
 
