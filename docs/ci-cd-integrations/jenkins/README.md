@@ -39,7 +39,6 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-             --scribe.loginurl=https://scribesecurity-staging.us.auth0.com --scribe.auth0.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             -vv'''
           }
         }
@@ -53,12 +52,10 @@ pipeline {
            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) { 
             # this stage creats the second SBOM 
             sh '''
-            # this SBOM is created on the docker image, it's running on the uploaded image of this repository
             gensbom bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.loginurl=https://scribesecurity-staging.us.auth0.com --scribe.auth0.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             -vv'''
           }
         }
@@ -75,7 +72,6 @@ pipeline {
             valint report \
             # the default location for the report to be downloaded here is 'scribe/valint'
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --scribe.loginurl=https://scribesecurity-staging.us.auth0.com --scribe.auth.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             -vv'''
           }
           publish()

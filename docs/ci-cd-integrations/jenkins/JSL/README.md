@@ -227,6 +227,18 @@ Following are some integration examples.
 Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
 You may collect evidence anywhere in your workflows. 
 
+### Credentials
+Scribe provides a set of services allowing you to secure your supply chain. \
+Use configuration/args to set `scribe.clientid`, `scribe.clientsecret`, `scribe.enable` .
+```
+    bom(target: "dir:mongo-express-scm", 
+            verbose: 3,
+            scribe_enable: true,
+            scribe_clientid: "$SCRIBE_CLIENT_ID",
+            scribe_clientsecret: "$SCRIBE_CLIENT_SECRET",
+            )
+```
+
 <details>
   <summary>  Scribe integrity report - full pipeline </summary>
 

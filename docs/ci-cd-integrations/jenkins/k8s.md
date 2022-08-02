@@ -13,6 +13,19 @@ Following are some integration examples.
 Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
 You may collect evidence anywhere in your workflows. 
 
+### Credentials
+Scribe provides a set of services allowing you to secure your supply chain. \
+Use configuration/args to set `scribe.clientid` (`-U`), `scribe.clientsecret` (`-P`), `scribe.enable` (`-E`).
+
+```
+  sh '''
+  gensbom bom dir:mongo-express-scm \
+  --context-type jenkins \
+  --output-directory ./scribe/gensbom \
+    -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+  -vv'''
+```
+
 ## .gitignore
 Recommended to add output directory value to your .gitignore file.
 By default add `**/scribe` to your gitignore.
