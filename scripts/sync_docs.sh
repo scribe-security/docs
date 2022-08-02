@@ -165,7 +165,7 @@ export_misc() {
 }
 
 import_orbs() {
-    repo="misc"
+    repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-cd-integrations/"
     import_file_rename ${repo} "" "${dst_dir}/circleci.md"
