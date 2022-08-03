@@ -89,6 +89,7 @@ const config = {
         logo: {
           alt: 'My Site Logo',
           src: 'img/Scribe_dark.svg',
+          srcDark: 'img/Scribe_white.svg',
         },
         items: [
           {
