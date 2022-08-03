@@ -3,7 +3,7 @@
 toMaster=( "docs/ci-cd-integration/" "docs/cves.md" )
 
 declare -a toMaster=(
-    "docs/ci-cd-integration/"
+    "docs/ci-integration/"
     "docs/cves.md"
     "docs/intro.md"
     "docs/sampleproject.md"
