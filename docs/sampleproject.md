@@ -19,7 +19,7 @@ Copy and run the following commands in a bash shell on your workstation.
 
 3. Run *gensbom* locally to collect metadata about the source code
 
-    ```$HOME/.scribe/bin/gensbom bom dir:amberik-core --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<project_key> --scribe.url=https://api.beta.scribesecurity.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.loginurl=https://scribesecurity-beta.us.auth0.com -E -f -v```
+    ```$HOME/.scribe/bin/gensbom dir:amberik-core --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<project_key> --scribe.url=https://api.beta.scribesecurity.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.loginurl=https://scribesecurity-beta.us.auth0.com -E -f -v```
 
     Replace <client_id>, <client_secret> and <project_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com/producer-products'>Scribe Hub installation instructions page</a>.  
 
@@ -31,7 +31,7 @@ Copy and run the following commands in a bash shell on your workstation.
 
 5. Run *gensbom* locally to collect metadata about the docker image
 
-    ```$HOME/.scribe/bin/gensbom bom amberik-core:latest --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --scribe.clientsecret=<client_secret> --product-key=<project_key> --scribe.url=https://api.beta.scribesecurity.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.loginurl=https://scribesecurity-beta.us.auth0.com -E -f -v```
+    ```$HOME/.scribe/bin/gensbom amberik-core:latest --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --scribe.clientsecret=<client_secret> --product-key=<project_key> --scribe.url=https://api.beta.scribesecurity.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.loginurl=https://scribesecurity-beta.us.auth0.com -E -f -v```
 
     Replace <client_id>, <client_secret> and <project_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com/producer-products'>Scribe Hub installation instructions page</a>.  
 

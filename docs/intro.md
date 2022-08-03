@@ -5,7 +5,7 @@ sidebar_position: 2
 
 ## Scribe Hub
 
-Scribe Hub allows you to connect as many projects / pipelines as you want to the Hub. You'll need to connect the project's CI pipeline to Scribe Hub and from that point, each time you run the pipeline you'll be generating an *SBOM* and an integrity report that will appear directly on the Hub. You can share the *SBOM* and an integrity report with selected subscribers allowing you to share the visibility and trust gained from the generated information with relevant stakeholders. At this time our tools can verify the integrity of Node.JS projects using NPM and generating a Kubernetes image. For each project you connect to Scribe Hub, Scribe maps all the components and files that made their way into your Node.js’s project final docker image and validates that each file’s hash value hasn’t changed if it wasn’t supposed to. 
+Scribe Hub allows you to connect as many projects / pipelines as you want to the Hub. You'll need to connect the project's CI pipeline to Scribe Hub and from that point, each time you run the pipeline you'll be generating an *SBOM* and an integrity report that will appear directly on the Hub. You can share the *SBOM* and integrity report with selected subscribers allowing you to extend the visibility and trust gained from the generated information with relevant stakeholders. At this time our tools can verify the integrity of Node.JS projects using NPM and generating a Kubernetes image. For each project you connect to Scribe Hub, Scribe maps all the components and files that made their way into your Node.js’s project final docker image and validates that each file’s hash value hasn’t changed if it wasn’t supposed to. 
 
 ## Prerequisites 
 
@@ -15,7 +15,7 @@ For each project you want to add to Scribe Hub you will need access to the proje
 
 ## Getting Started
 
-To get started navigate in your browser to <a href='https://beta.hub.scribesecurity.com/producer-products'>this address</a>. You can also try Scribe out with a demo project <a href='/docs/sampleproject'>here</a>.  
+To get started navigate in your browser to <a href='https://beta.hub.scribesecurity.com/producer-products'>this address</a>. You can also try Scribe out with a local CLI (not in the CI pipeline) with a demo project <a href='/docs/sampleproject'>here</a>.  
 
 Once you have a project you want to connect to Scribe Hub follow the instructions matching your CI pipeline <a href='/docs/ci-integration'>here</a>.
 
