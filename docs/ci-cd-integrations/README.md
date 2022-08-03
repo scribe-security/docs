@@ -1,5 +1,5 @@
 ---
-description: CI/CD Integration
+description: CI Integration
 ---
 
 # CI/CD Integration
