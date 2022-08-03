@@ -3,6 +3,9 @@ name: import
 
 on:
   workflow_dispatch:
+  # push:
+  # schedule:
+  #   - cron: "0 0 * * *" #Every day
 
 jobs:
   import_docs:
@@ -21,15 +24,43 @@ jobs:
 
       - uses: actions/checkout@v3
         with:
-          repository: scribe-security/${{ matrix.repo }}
-          path: sub/${{ matrix.repo }}
+          repository: scribe-security/gensbom
+          path: sub/gensbom
+          token: ${{ secrets.PR_PAT }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/valint
+          path: sub/valint
+          token: ${{ secrets.PR_PAT }}
+
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/actions
+          path: sub/actions
+          token: ${{ secrets.PR_PAT }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/JSL
+          path: sub/JSL
           token: ${{ secrets.PR_PAT }}
       
-      - name: export docs
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/misc
+          path: sub/misc
+          token: ${{ secrets.PR_PAT }}
+
+      - name: impor docs
         run: |
           bash scripts/sync_docs.sh -I -x
-
+          git status
+    
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
+          branch: docs_import
           title: autogen - docs import
+          token: ${{ secrets.GITHUB_TOKEN }}
