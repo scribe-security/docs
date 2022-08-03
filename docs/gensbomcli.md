@@ -2,11 +2,11 @@
 sidebar_position: 3
 ---
 
-# How to generate an SBOM
+# How to generate an SBOM using our CLI
 
 Scribe's *gensbom* CLI tool generates an SBOM for docker images and OCI images. You can call *gensbom* from your CI pipeline after the build stage, or run it from a bash shell and point it to an image in your registry.  
 
-*gensbom* runs on Mac or Linux. To access docker images in public registries, have dockerd installed on your machine.
+*gensbom* runs on Mac or Linux.
 
 1. Get Scribe *gensbom* CLI tool  
 ```curl https://www.scribesecurity.com/getscribe | sh```
