@@ -15,6 +15,7 @@ pull_submodules() {
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
         pushd "${repo_dir}"
+        git checkout master || git checkout main
         git pull origin master || git pull origin main
         popd
     done
@@ -24,11 +25,12 @@ checkout_submodules() {
     repos=$1
     for repo in "${repos[@]}"
     do
-        echo "Download repo $${repo}"
+        echo "#### Checkout repo $${repo} ####"
         repo_url="${base}/${repo}"
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
         pushd "${repo_dir}"
+        git checkout master || git checkout main
         git pull origin master || git pull origin main
         git branch -D doc_export
         git checkout -b doc_export
@@ -40,7 +42,7 @@ status_submodules() {
     repos=$1
     for repo in "${repos[@]}"
     do
-        echo "Download repo $${repo}"
+        echo -e "\n#### Status repo ${repo} "####
         repo_url="${base}/${repo}"
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
@@ -54,7 +56,7 @@ status_submodules() {
 add_push_submodules() {
     for repo in "${repos[@]}"
     do
-        echo "Download repo $${repo}"
+        echo "#### Push repo $${repo} ####\n"
         repo_url="${base}/${repo}"
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
@@ -260,13 +262,13 @@ fi
 
 case $COMMAND in
   import)
-    echo -n "import"
     if [ ! -z "$LOCAL" ]; then
         pull_submodules "${repos}"
     fi
     for repo in "${repos[@]}"
     do
         importFunction="import_${repo}"
+        echo "$importFunction"
         eval ${importFunction}
     done
     ;;
@@ -285,10 +287,7 @@ case $COMMAND in
 
     ;;
   status)
-    for repo in "${repos[@]}"
-    do
         status_submodules "${repos}"
-    done
     ;;
   *)
     echo -n "unknown"
