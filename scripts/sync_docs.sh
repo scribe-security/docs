@@ -117,7 +117,7 @@ export_file_rename() {
 import_actions() {
     repo="actions"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/github/actions"
+    dst_dir="docs/ci-integrations/github/actions"
     import_file ${repo} "" "${dst_dir}"
     import_file ${repo} "valint/report" "${dst_dir}"
     import_file ${repo} "gensbom/bom" "${dst_dir}"
@@ -127,7 +127,7 @@ import_actions() {
 export_actions() {
     repo="actions"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/github/actions"
+    dst_dir="docs/ci-integrations/github/actions"
     export_file ${repo} "" "${dst_dir}"
     export_file ${repo} "valint/report" "${dst_dir}"
     export_file ${repo} "gensbom/bom" "${dst_dir}"
@@ -137,7 +137,7 @@ export_actions() {
 import_JSL() {
     repo="JSL"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/jenkins/JSL"
+    dst_dir="docs/ci-integrations/jenkins/JSL"
     import_file ${repo} "" "${dst_dir}"
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
@@ -145,7 +145,7 @@ import_JSL() {
 export_JSL() {
     repo="JSL"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/jenkins/JSL"
+    dst_dir="docs/ci-integrations/jenkins/JSL"
     export_file ${repo} "" "${dst_dir}"
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
@@ -167,14 +167,14 @@ export_misc() {
 import_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/"
+    dst_dir="docs/ci-integrations/"
     import_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
 export_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-cd-integrations/"
+    dst_dir="docs/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 

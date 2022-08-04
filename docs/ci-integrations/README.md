@@ -23,7 +23,7 @@ Important to note that this is for <b>Jenkins over Kubernetes</b> only.
 Integrate into other <b><a href='/docs/ci-integration/general'>CI systems</a></b>.  
 :::
 
-<!-- [![button](http://www.presentationpro.com/images/product/medium/slide/PPP_CGENE_LT3_Presentation-PowerPoint-Slide-Graphic_Push_Button_Up.jpg)](/docosaurus-scribe/docs/ci-cd-integration/github-actions) -->
+<!-- [![button](http://www.presentationpro.com/images/product/medium/slide/PPP_CGENE_LT3_Presentation-PowerPoint-Slide-Graphic_Push_Button_Up.jpg)](/docosaurus-scribe/docs/ci-integration/github-actions) -->
 
 Let's get started.
 
