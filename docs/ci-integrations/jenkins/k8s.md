@@ -43,7 +43,8 @@ pipeline {
             gensbom bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
-             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --product-key $SCRIBE_PROJECT_KEY \
             -vv'''
           }
         }
@@ -59,6 +60,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --product-key $SCRIBE_PROJECT_KEY \
             -vv'''
           }
         }
