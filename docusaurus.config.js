@@ -44,11 +44,11 @@ const config = {
               (!isPullRequest && branch == "dev") )) ? [
               '**/*.md',
               ] : [
-                "ci-cd-integrations/github/README.md",
-                "ci-cd-integrations/jenkins/README.md",
-                "ci-cd-integrations/example.md",
-                "ci-cd-integrations/general.md",
-                "ci-cd-integrations/README.md",
+                "ci-integrations/github/README.md",
+                "ci-integrations/jenkins/README.md",
+                "ci-integrations/example.md",
+                "ci-integrations/general.md",
+                "ci-integrations/README.md",
                 "cves.md",
                 "intro.md",
                 "sampleproject.md",
@@ -84,25 +84,51 @@ const config = {
       textColor: '#091E42',
       isCloseable: false,
     },
-      navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/Scribe_dark.svg',
-          srcDark: 'img/Scribe_white.svg',
+    navbar: {
+      // title: 'My Site',
+      logo: {
+        alt: 'Scribe Security Logo',
+        src: 'img/Scribe_dark.svg',
+        srcDark: 'img/Scribe_white.svg',
+      },
+      items: [
+        {
+          type: 'doc',
+          docId: 'overview',
+          position: 'left',
+          label: 'Overview',
         },
-        items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Tutorial',
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+        {
+          type: 'doc',
+          docId: 'intro',
+          position: 'left',
+          label: 'Getting Started',
+        },
+        {
+          type: 'doc',
+          docId: 'gensbomcli',
+          position: 'left',
+          label: 'Generate SBOM using CLI',
+        },
+        {to: 'docs/ci-integrations/', label: 'CI Integration', position: 'left'},
+        {
+          type: 'doc',
+          docId: 'cves',
+          position: 'left',
+          label: 'Detecting CVEs',
+        },
+        {
+          type: 'doc',
+          docId: 'sampleproject',
+          position: 'left',
+          label: 'Sample Project',
+        }
+        // {to: '/blog', label: 'Blog', position: 'left'},
+        // {
+        //   href: 'https://github.com/facebook/docusaurus',
+        //   label: 'GitHub',
+        //   position: 'right',
+        // },
         ],
       },
       footer: {
