@@ -71,8 +71,8 @@ def bom(Map conf)
     default: ./scribe/gensbom
   output-file:
     description: 'Output result to file'
-  name:
-    description: 'Custom/project name'
+  product-key:
+    description: 'Custom/project product-key'
   label:
     description: 'Custom label'
   env:
@@ -423,6 +423,4 @@ bom(target: "dir:./testdir",
 ```
 
 </details>
-
-
 

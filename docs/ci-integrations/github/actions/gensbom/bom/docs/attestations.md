@@ -4,6 +4,9 @@ Framework allows users to select between signing and verifying schemes.
 gensbom creates a cyclonedx json attestation according to the In-toto spec.
 Please see full documentation of `cocosign` 
 
+Source see [cocosign](https://github.com/scribe-security/cocosign), attestation manager
+Source see [sigstore](https://github.com/sigstore)
+
 ## Signer types
 Signers/Verifiers are selected via configuration (supported) or provided by application (custom), objects allow application to chose between signed and verifying flows .
 
@@ -94,7 +97,7 @@ You may can use the default Sigstore `cocosign` configuration flag.
 Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
 
 ```bash
-gensbom busybox:latest -o attest --attest.default sigstore -v
+gensbom bom busybox:latest -o attest --attest.default sigstore -v
 gensbom verify busybox:latest --attest.default sigstore -v
 ``` 
 Default config
@@ -127,7 +130,7 @@ X509 flows allow you to use local keys, cert and CA file to sign and verify you 
 You may can use the default x509 `cocosign` configuration flag.
 
 ```bash
-gensbom busybox:latest -o attest --attest.default x509 -v
+gensbom bom busybox:latest -o attest --attest.default x509 -v
 gensbom verify busybox:latest --attest.default fulcio -v
 ```
 Default config
@@ -158,7 +161,7 @@ You may use any configuration supported by `cocosign` as well.
 Create a configuration file (default .cocosign)
 
 ```bash
-gensbom busybox:latest -o attest --attest.config <config_path> -v
+gensbom bom busybox:latest -o attest --attest.config <config_path> -v
 gensbom verify busybox:latest --attest.config <config_path> -v
 ``` 
 </details>
@@ -171,7 +174,7 @@ Gensbom allows you to use cosign cli tool `attest`,`verify-attestation` subcomma
 You may use cosign to connect the attestation to your OCI registry (sign and verify).
 Example uses keyless (sigstore) but you may use any cosign signer/verifer supported.
 ```
-gensbom <image> -vv -o predicate -f --output-file gensbom_predicate.json
+gensbom bom <image> -vv -o predicate -f --output-file gensbom_predicate.json
 COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json <image> --type https://scribesecurity.com/predicate/cyclondex
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation <image>
 ```

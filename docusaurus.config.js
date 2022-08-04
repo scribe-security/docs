@@ -44,11 +44,11 @@ const config = {
               (!isPullRequest && branch == "dev") )) ? [
               '**/*.md',
               ] : [
-                "ci-cd-integrations/github/README.md",
-                "ci-cd-integrations/jenkins/README.md",
-                "ci-cd-integrations/example.md",
-                "ci-cd-integrations/general.md",
-                "ci-cd-integrations/README.md",
+                "ci-integrations/github/README.md",
+                "ci-integrations/jenkins/README.md",
+                "ci-integrations/example.md",
+                "ci-integrations/general.md",
+                "ci-integrations/README.md",
                 "cves.md",
                 "intro.md",
                 "sampleproject.md",
@@ -76,75 +76,103 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      announcementBar: {
-      id: 'new_documentation',
-      content:
-        'The new Scribe documentation website is live!',
-      backgroundColor: '#fafbfc',
-      textColor: '#091E42',
-      isCloseable: false,
-    },
-      navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/Scribe_dark.svg',
+    //   announcementBar: {
+    //   id: 'new_documentation',
+    //   content:
+    //     'The new Scribe documentation website is live!',
+    //   backgroundColor: '#fafbfc',
+    //   textColor: '#091E42',
+    //   isCloseable: false,
+    // },
+    navbar: {
+      // title: 'My Site',
+      logo: {
+        alt: 'Scribe Security Logo',
+        src: 'img/Scribe_dark.svg',
+        srcDark: 'img/Scribe_white.svg',
+        href: 'https://scribesecurity.com/',
+      },
+      items: [
+        {
+          type: 'doc',
+          docId: 'overview',
+          position: 'left',
+          label: 'Overview',
         },
-        items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Tutorial',
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+        {
+          type: 'doc',
+          docId: 'intro',
+          position: 'left',
+          label: 'Getting Started',
+        },
+        {to: 'docs/ci-integrations/', label: 'CI Integration', position: 'left'},          
+        {
+          type: 'doc',
+          docId: 'sampleproject',
+          position: 'left',
+          label: 'Sample Project',
+        },
+        {
+          type: 'doc',
+          docId: 'gensbomcli',
+          position: 'left',
+          label: 'Generate an SBOM from CLI',
+        },
+        {
+          type: 'doc',
+          docId: 'cves',
+          position: 'left',
+          label: 'Detecting CVEs',
+        }
+        // {to: '/blog', label: 'Blog', position: 'left'},
+        // {
+        //   href: 'https://github.com/facebook/docusaurus',
+        //   label: 'GitHub',
+        //   position: 'right',
+        // },
         ],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-      },
+      // footer: {
+      //   style: 'dark',
+      //   links: [
+      //     {
+      //       title: 'Docs',
+      //       items: [
+      //         {
+      //           label: 'Tutorial',
+      //           to: '/docs/intro',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Community',
+      //       items: [
+      //         {
+      //           label: 'Stack Overflow',
+      //           href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      //         },
+      //         {
+      //           label: 'Discord',
+      //           href: 'https://discordapp.com/invite/docusaurus',
+      //         },
+      //         {
+      //           label: 'Twitter',
+      //           href: 'https://twitter.com/docusaurus',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'More',
+      //       items: [
+      //         {
+      //           label: 'GitHub',
+      //           href: 'https://github.com/facebook/docusaurus',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      //   copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      // },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,

@@ -129,7 +129,7 @@ It can be used for multiple targets and output formats. \
 Further more command can be used to sign the resulting sbom.
 
 ```
-gensbom bom busybox:latest -v
+gensbom busybox:latest -v
 ```
 
 ### Target format
@@ -154,8 +154,8 @@ Gensbom allows you to create sboms in multiple flavors.
 Cyclonedx sbom with all the available components.
 
 ```bash
-gensbom bom busybox:latest -o json
-gensbom bom busybox:latest -o xml
+gensbom busybox:latest -o json
+gensbom busybox:latest -o xml
 ``` 
 </details>
 
@@ -166,7 +166,7 @@ Intoto statement is basically an unsigned attestation.
 Output can be useful if you like to connect to other attestation frameworks such as `cosign`.
 
 ```bash
-gensbom bom busybox:latest -o statement
+gensbom busybox:latest -o statement
 ``` 
 </details>
 
@@ -175,7 +175,7 @@ gensbom bom busybox:latest -o statement
 
 Intoto Attestation output, default via keyless sigstore flow 
 ```bash
-gensbom bom busybox:latest -o attest
+gensbom busybox:latest -o attest
 ``` 
 
 </details>
@@ -187,9 +187,9 @@ You may select which components groups are added to your sbom.
 For example you may use Gensbom to simply sign and verify your images, you only really need the `metadata` group.
 Note metadata is implicate (BOM must include something).
 ```bash
-gensbom bom busybox:latest --components metadata #Only include the target metadata
-gensbom bom busybox:latest --components packages #Only include packages
-gensbom bom busybox:latest --components packages,files,dep #Include packages files and there related relationship.
+gensbom busybox:latest --components metadata #Only include the target metadata
+gensbom busybox:latest --components packages #Only include packages
+gensbom busybox:latest --components packages,files,dep #Include packages files and there related relationship.
 ``` 
 </details>
 
@@ -199,7 +199,7 @@ gensbom bom busybox:latest --components packages,files,dep #Include packages fil
 Gensbom allows you to include external files content as part of the reported evidence.
 For example you may use Gensbom to include a external security report in your sbom.
 ```bash
-gensbom bom busybox:latest -vv -A **/some_report.json
+gensbom busybox:latest -vv -A **/some_report.json
 ``` 
 </details>
 
@@ -245,7 +245,7 @@ You may can use the default Scribe `cocosign` configuration flag.
 **Scribe root cert \<TBD public link\> to verify against.**
 
 ```bash
-gensbom bom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -o attest -v
+gensbom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -o attest -v
 gensbom verify busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
 ```
 </details>
@@ -257,7 +257,7 @@ You can use scribe service run  integrity policies against your evidence.
 
 
 ```bash
-gensbom bom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
+gensbom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
 ```
 </details>
 

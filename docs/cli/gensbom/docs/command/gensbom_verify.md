@@ -29,30 +29,32 @@ gensbom verify [TARGET] [flags]
 ### Options
 
 ```
-  -C, --context-type string   Snapshot header types, options=[jenkins github local] (default "local")
-  -h, --help                  help for verify
-  -i, --inputformat string    Sbom input formatter, options=[attest-cyclonedx-json] (default "attest-cyclonedx-json")
-  -n, --product-key string    Custom/project name
+  -a, --attestation string   Attestation for target
+  -h, --help                 help for verify
+  -i, --inputformat string   Sbom input formatter, options=[attest-cyclonedx-json] (default "attest-cyclonedx-json")
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --attest.config string         Attestation config map
+      --attest.config string         Attestation config path
       --attest.default string        Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
-      --attest.name string           Attestation config name (default "gensbom")
-  -c, --config string                Application config file
+      --attest.name string           Attestation config name
+  -c, --config string                Config of the application
+  -C, --context-type string          Context type, options=[jenkins github CircleCI local] (default "local")
       --failonerror                  Fail on errors (default true)
-      --filter-purl strings          Filter out purls by regex
   -F, --filter-regex strings         Filter out files by regex (default [.*\.pyc,.*\.git/.*])
-  -d, --output-directory string      Report output directory (default "/home/mikey/.cache/gensbom")
-      --output-file string           Output result to file
+  -L, --labels strings               Add custom labels
+  -D, --level string                 Log level, options=[panic fatal error warning info debug trace]
+  -d, --output-directory string      Output directory path (default "/home/mikey/.cache/gensbom")
+  -O, --output-file string           Output file path
+  -n, --product-key string           Scribe project key
   -q, --quiet                        Suppress all logging output
   -U, --scribe.clientid string       Scribe client id
   -P, --scribe.clientsecret string   Scribe client secret
   -E, --scribe.enable                Enable scribe client
   -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
-  -s, --show                         Print object to stdout
+  -s, --show                         Print report to stdout
   -v, --verbose count                Increase verbosity (-v = info, -vv = debug)
 ```
 
