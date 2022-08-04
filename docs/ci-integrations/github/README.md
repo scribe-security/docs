@@ -8,7 +8,7 @@ This action includes *gensbom* - the tool creating the *SBOM*.
 
 *gensbom* has other capabilities and CLI options but the simplest integration is to call it to create an *SBOM* of the repository and the final image. these *SBOMs* are then automatically uploaded to Scribe Hub.
 
-For the integration to work, you must first set the repository-specific secrets provided for you on the <a href='https://beta.hub.scribesecurity.com/producer-products'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
+For the integration to work, you must first set the repository-specific secrets provided for you on the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
 
 ## Creating encrypted secrets for a repository
 
