@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Important to note that this is for Jenkins over Kubernetes only.
 
-For the integration with Scribe Hub to work, you must first make sure you have the secrets provided for you on the <a href='https://beta.hub.scribesecurity.com/producer-products'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
+For the integration with Scribe Hub to work, you must first make sure you have the secrets provided for you on the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
 
 ## Adding new credentials in Jenkins 
 
@@ -69,7 +69,7 @@ pipeline {
                 }
 
                 container('gensbom') {
-                    // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com/producer-products
+                    // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
                         // this stage creats the first SBOM
                         // it is created on the local directory, running on the source code of the image
@@ -88,7 +88,7 @@ pipeline {
         stage('image-bom') {
             steps {
                 container('gensbom') {
-                    // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com/producer-products
+                    // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
                         // this stage creats the second SBOM 
                         // the SBOM is created on the docker image, running on the uploaded image of this repository
