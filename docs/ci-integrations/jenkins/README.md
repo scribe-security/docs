@@ -74,11 +74,11 @@ pipeline {
                         // this stage creats the first SBOM
                         // it is created on the local directory, running on the source code of the image
                         sh '''
-                        gensbom bom dir: mongo-express-scm \
+                        gensbom bom dir:mongo-express-scm \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
-                            -E - U $SCRIBE_CLIENT_ID - P $SCRIBE_CLIENT_SECRET \
-                            --project-key $SCRIBE_PROJECT_KEY \
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PROJECT_KEY \
                             -v '''
                     }
                 }
@@ -91,13 +91,13 @@ pipeline {
                     // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com/producer-products
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', projectkeyVariable: 'SCRIBE_PROJECT_KEY')]) {
                         // this stage creats the second SBOM 
-                        // this SBOM is created on the docker image, running on the uploaded image of this repository
+                        // the SBOM is created on the docker image, running on the uploaded image of this repository
                         sh '''
-                        gensbom bom mongo-express:1.0.0-alpha.4 \
+                        gensbom bom mongo-express:1.0 .0-alpha.4 \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
-                            -E - U $SCRIBE_CLIENT_ID - P $SCRIBE_CLIENT_SECRET\
-                            --project-key $SCRIBE_PROJECT_KEY \
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PROJECT_KEY \
                             -v '''
                     }
                 }
