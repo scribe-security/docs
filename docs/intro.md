@@ -15,7 +15,7 @@ For each project you want to add to Scribe Hub you will need access to the proje
 
 ## Getting Started
 
-To get started navigate in your browser to <a href='https://beta.hub.scribesecurity.com/producer-products'>this address</a>. You can also try Scribe out with a local CLI (not in the CI pipeline) with a demo project <a href='/docs/sampleproject'>here</a>.  
+To get started navigate in your browser to <a href='https://beta.hub.scribesecurity.com/producer-products'>this link</a>. You can also try Scribe out with a local CLI (not in the CI pipeline) with a demo project <a href='/docs/sampleproject'>here</a>.  
 
 Once you have a project you want to connect to Scribe Hub follow the instructions matching your CI pipeline <a href='/docs/ci-integration'>here</a>.
 
