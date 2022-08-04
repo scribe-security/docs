@@ -73,13 +73,13 @@ pipeline {
                     // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com/producer-products
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', projectkeyVariable: 'SCRIBE_PROJECT_KEY')]) {
                         // this stage creats the first SBOM
-                        sh '''
                         // this SBOM is created on the local directory, it is running on the source code of the image
-                        gensbom bom dir: mongo - express - scm\
-                            --context - type jenkins\
-                            --output - directory. / scribe / gensbom\ 
-                            -E - U $SCRIBE_CLIENT_ID - P $SCRIBE_CLIENT_SECRET\
-                            --scribe.loginurl = https: //scribesecurity-staging.us.auth0.com --scribe.auth0.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                        sh '''
+                        gensbom bom dir:mongo-express-scm \
+                            --context-type jenkins \
+                            --output-directory ./scribe/gensbom \ 
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PROJECT_KEY \
                             -v '''
                     }
                 }
@@ -92,13 +92,13 @@ pipeline {
                     // these credentials can be copied from your CLI page: https://beta.hub.scribesecurity.com/producer-products
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', projectkeyVariable: 'SCRIBE_PROJECT_KEY')]) {
                         // this stage creats the second SBOM 
-                        sh '''
                         // this SBOM is created on the docker image, it is running on the uploaded image of this repository
-                        gensbom bom mongo - express: 1.0 .0 - alpha .4\
-                            --context - type jenkins\
-                            --output - directory. / scribe / gensbom\ 
-                            -E - U $SCRIBE_CLIENT_ID - P $SCRIBE_CLIENT_SECRET\
-                            --scribe.loginurl = https: //scribesecurity-staging.us.auth0.com --scribe.auth0.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                        sh '''
+                        gensbom bom mongo-express:1.0 .0-alpha.4 \
+                            --context-type jenkins \
+                            --output-directory ./scribe/gensbom \ 
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PROJECT_KEY \
                             -v '''
                     }
                 }
