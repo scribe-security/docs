@@ -76,20 +76,21 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      announcementBar: {
-      id: 'new_documentation',
-      content:
-        'The new Scribe documentation website is live!',
-      backgroundColor: '#fafbfc',
-      textColor: '#091E42',
-      isCloseable: false,
-    },
+    //   announcementBar: {
+    //   id: 'new_documentation',
+    //   content:
+    //     'The new Scribe documentation website is live!',
+    //   backgroundColor: '#fafbfc',
+    //   textColor: '#091E42',
+    //   isCloseable: false,
+    // },
     navbar: {
       // title: 'My Site',
       logo: {
         alt: 'Scribe Security Logo',
         src: 'img/Scribe_dark.svg',
         srcDark: 'img/Scribe_white.svg',
+        href: 'https://scribesecurity.com/',
       },
       items: [
         {
@@ -104,24 +105,24 @@ const config = {
           position: 'left',
           label: 'Getting Started',
         },
-        {
-          type: 'doc',
-          docId: 'gensbomcli',
-          position: 'left',
-          label: 'Generate SBOM using CLI',
-        },
-        {to: 'docs/ci-integrations/', label: 'CI Integration', position: 'left'},
-        {
-          type: 'doc',
-          docId: 'cves',
-          position: 'left',
-          label: 'Detecting CVEs',
-        },
+        {to: 'docs/ci-integrations/', label: 'CI Integration', position: 'left'},          
         {
           type: 'doc',
           docId: 'sampleproject',
           position: 'left',
           label: 'Sample Project',
+        },
+        {
+          type: 'doc',
+          docId: 'gensbomcli',
+          position: 'left',
+          label: 'Generate an SBOM from CLI',
+        },
+        {
+          type: 'doc',
+          docId: 'cves',
+          position: 'left',
+          label: 'Detecting CVEs',
         }
         // {to: '/blog', label: 'Blog', position: 'left'},
         // {
@@ -131,47 +132,47 @@ const config = {
         // },
         ],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-      },
+      // footer: {
+      //   style: 'dark',
+      //   links: [
+      //     {
+      //       title: 'Docs',
+      //       items: [
+      //         {
+      //           label: 'Tutorial',
+      //           to: '/docs/intro',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Community',
+      //       items: [
+      //         {
+      //           label: 'Stack Overflow',
+      //           href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      //         },
+      //         {
+      //           label: 'Discord',
+      //           href: 'https://discordapp.com/invite/docusaurus',
+      //         },
+      //         {
+      //           label: 'Twitter',
+      //           href: 'https://twitter.com/docusaurus',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'More',
+      //       items: [
+      //         {
+      //           label: 'GitHub',
+      //           href: 'https://github.com/facebook/docusaurus',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      //   copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      // },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,

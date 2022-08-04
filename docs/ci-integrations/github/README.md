@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # GitHub Actions
@@ -8,9 +8,11 @@ This action includes *gensbom* - the tool creating the *SBOM*.
 
 *gensbom* has other capabilities and CLI options but the simplest integration is to call it to create an *SBOM* of the repository and the final image. these *SBOMs* are then automatically uploaded to Scribe Hub.
 
-In order for the integration to work you must first set the repository specific secrets provided for you at the <a href='https://beta.hub.scribesecurity.com/producer-products'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `projectkey` is unique for this particular project only.
+For the integration to work, you must first set the repository-specific secrets provided for you on the <a href='https://beta.hub.scribesecurity.com/producer-products'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `projectkey` is unique for this particular project only.
 
 ## Creating encrypted secrets for a repository
+
+The instructions on how to configure secrets in GitHub can be found in the GitHub documentation <a href='https://docs.github.com/en/actions/security-guides/encrypted-secrets'>here</a>. For your convenience, we present the instructions here as well.
 
 To create secrets for a personal account repository, you must be the repository owner. To create secrets for an organization repository, you must have `admin` access.
 
@@ -23,13 +25,12 @@ To create secrets for a personal account repository, you must be the repository 
 7. Click <b>Add secret</b>.
 
 If your repository has environment secrets or can access secrets from the parent organization, then those secrets are also listed on this page.
-You can read more about the configuration of secrets in the GitHub documentation <a href='https://docs.github.com/en/actions/security-guides/encrypted-secrets'>here</a>.
 
 ## Scribe *SBOM* upload - full pipeline example
 
 This is a full workflow example, connecting your pipeline to Scribe Hub and uploading evidence using *gensbom*.
 
-This example pipeline YAML does a checkout on a docker image, creates an *SBOM* for it from the local repository, and creates another *SBOM* from the docker image. In this example the project used is `mongo-express`.  
+In this example pipeline, the YAML file does a checkout on a docker image, creates an *SBOM* for it from the local repository, and creates another *SBOM* from the docker image. In this example the project used is `mongo-express`.  
 
 ```YAML
 name: example workflow
