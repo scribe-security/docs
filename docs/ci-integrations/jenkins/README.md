@@ -94,7 +94,7 @@ pipeline {
                         // this stage creats the second SBOM 
                         // this SBOM is created on the docker image, it is running on the uploaded image of this repository
                         sh '''
-                        gensbom bom mongo-express:1.0 .0-alpha .4 \
+                        gensbom bom mongo-express:1.0 .0-alpha.4 \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
