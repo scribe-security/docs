@@ -38,13 +38,13 @@ pipeline {
         }
         
         container('gensbom') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
             sh '''
             gensbom bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PROJECT_KEY \
+            --product-key $SCRIBE_PRODUCT_KEY \
             -vv'''
           }
         }
@@ -54,13 +54,13 @@ pipeline {
     stage('image-bom') {
       steps {
         container('gensbom') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {  
             sh '''
             gensbom bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PROJECT_KEY \
+            --product-key $SCRIBE_PRODUCT_KEY \
             -vv'''
           }
         }
@@ -73,7 +73,8 @@ pipeline {
            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             valint report \
-            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --output-directory scribe/valint \
             -vv'''
           }
           publish()
