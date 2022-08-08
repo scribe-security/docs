@@ -4,38 +4,38 @@ sidebar_position: 3
 
 # Other CI Systems
 
-In order to integrate our tools into any other CI pipeline you'll need to download *gensbom*. Once you have it you can implement its CLI commands in any any pipeline you want.
+:::info Note:
+The configuration requires <em><b>productkey</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
-## Set Credentials
-In order for the integration to work you must first set the secrets provided for you at the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page in your environment / credential store. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
+Or when you add a new product.
+:::
 
-Here's an example for setting your `clientid` credential:
-```
-CLIENT_ID=<client_id>
-```
-Instead of `<client_id>` enter the `clientid` credential downloaded from the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page.
-
-## Get the *SBOMs* 
-
-You can use this command to download *gensbom*
+## Step 1: Download *gensbom*
+​
+Download the Scribe *gensbom* CLI tool.
 
 ```
 curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh
 ```
 
-## Get the *SBOMs* 
+## Step 2: Add the credentials to your CI system​
 
-Generate an *SBOM* for your source code. The credentials can be copied from the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page.
+Here's an example for setting your `clientid` credential:
+```
+export CLIENT_ID=<client_id>
+```
+Replace `<client_id>` with `clientid` from Scribe Hub.
 
+## Step 3: Call Scribe *gensbom* from your build script 
+
+1. Optional: if your project is in Node.Js you can call *gensbom* after the checkout stage to collect evidence of hash values of the source code files to facilitate the Scribe integrity validation.
 
 ```bash
-gensbom bom dir:<path> --scribe.clientid=CLIENT_ID -P --scribe.clientsecret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
+gensbom dir:<path> --scribe.clientid=$CLIENT_ID -P --scribe.clientsecret=$CLIENT_SECRET --scribe.productkey=$PRODUCT_KEY --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v
 ```
 
-Generate an *SBOM* for your final image.
+2. Call *gensbom* after the build to generate an *SBOM* from the docker image.
 
 ```bash
-gensbom bom <your_docker_repository:tag> --scribe.clientid=CLIENT_ID -P --scribe.clientsecret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
+gensbom <your_docker_repository:tag> --scribe.clientid=$CLIENT_ID -P --scribe.clientsecret=$CLIENT_SECRET --scribe.productkey=$PRODUCT_KEY --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v
 ```
-
-And that's it - once these two steps finished you can go to the project page on Scribe Hub and examine the integrity report.

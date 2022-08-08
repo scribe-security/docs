@@ -7,14 +7,17 @@ sidebar_position: 4
 You can try out Scribe with an open-source Node.js project at:  
 https://github.com/scribe-security/image-demo
 
-First you need to go to the Scribe Hub <a href='https://beta.hub.scribesecurity.com'>projects page</a> and add a `image-demo` project. Once you do, you'll get 3 forms of credentials: `clientid`, `clientsecret` and `productkey`.
-Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only. If you want to keep using these credentials for multiple projects we recommend you set them up as environment variables.
+:::info Note:
+The configuration requires <em><b>productkey</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+
+Or when you add a new product.
+:::
 
 Here's an example for setting your `clientid` credential as an environment variable:
 ```
-CLIENT_ID=<client_id>
+export CLIENT_ID=<client_id>
 ```
-Instead of `<client_id>` enter the `clientid` credential downloaded from the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page.
+Replace `<client_id>` with `clientid` from Scribe Hub.
 
 Now that you have set whatever environment variables you wanted, you can go ahead and download and use our *gensbom* CLI tool.
 
@@ -30,9 +33,7 @@ Copy and run the following commands in a bash shell on your workstation.
 
 3. Run *gensbom* locally to collect metadata about the source code
 
-    ```$HOME/.scribe/bin/gensbom dir:image-demo --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
-
-    Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
+    ```$HOME/.scribe/bin/gensbom dir:image-demo --scribe.clientid=$CLIENT_ID --scribe.clientsecret=$CLIENT_SECRET --product-key=$PRODUCT_KEY --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
 
 4. Build a docker image for the project
 
@@ -42,8 +43,6 @@ Copy and run the following commands in a bash shell on your workstation.
 
 5. Run *gensbom* locally to collect metadata about the docker image
 
-    ```$HOME/.scribe/bin/gensbom image-demo:latest --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
-
-    Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
+    ```$HOME/.scribe/bin/gensbom image-demo:latest --scribe.clientid=$CLIENT_ID --scribe.clientsecret=$CLIENT_SECRET --product-key=$PRODUCT_KEY --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
 
 6. When *gensbom* is done press the 'done' button at the bottom of the <a href='https://beta.hub.scribesecurity.com'>page</a> and you'll be taken to the product page to review the integrity information and *SBOM*.
