@@ -8,7 +8,7 @@ You can try out Scribe with an open-source Node.js project at:
 https://github.com/scribe-security/image-demo
 
 :::info Note:
-The configuration requires <em><b>productkey</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+The configuration requires <em><b>product_key</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
 Or when you add a new product.
 :::

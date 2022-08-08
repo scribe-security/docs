@@ -5,7 +5,7 @@ sidebar_position: 2
 # GitHub Actions
 
 :::info Note:
-The configuration requires <em><b>productkey</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+The configuration requires <em><b>product_key</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
 Or when you add a new product.
 :::
@@ -24,6 +24,11 @@ The following example workflow builds project mongo express and calls Scribe *ge
 
 ```YAML
 name: example workflow
+
+env:
+  LOGIN_URL: "https://scribesecurity-beta.us.auth0.com"
+  AUTH0_AUDIANCE: "api.beta.scribesecurity.com"
+  URL: "https://api.beta.scribesecurity.com"
 
 on: 
   push:
@@ -55,7 +60,10 @@ jobs:
            scribe-enable: true
            scribe-clientid: ${{ secrets.clientid }}
            scribe-clientsecret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.productkey }}
+           scribe-productkey: ${{ secrets.product_key }}
+           scribe-loginurl: ${{ env.LOGIN_URL }}
+           scribe-auth0.audience: ${{ env.AUTH0_AUDIANCE }}
+           scribe-url: ${{ env.URL }}
 
       - name: Build and push remote
         uses: docker/build-push-action@v2
@@ -73,7 +81,11 @@ jobs:
            scribe-enable: true
            scribe-clientid: ${{ secrets.clientid }}
            scribe-clientsecret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.productkey }}
+           scribe-productkey: ${{ secrets.product_key }}
+           scribe-loginurl: ${{ env.LOGIN_URL }}
+           scribe-auth0.audience: ${{ env.AUTH0_AUDIANCE }}
+           scribe-url: ${{ env.URL }}
+
 
       - uses: actions/upload-artifact@v2
         with:
