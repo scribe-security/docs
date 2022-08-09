@@ -58,7 +58,7 @@ verify:
     context-type: ""
 sign:
   format: attest-cyclonedx-json
-  inputformat: cyclonedx-json
+  input-format: cyclonedx-json
   force: false
   context:
     name: ""

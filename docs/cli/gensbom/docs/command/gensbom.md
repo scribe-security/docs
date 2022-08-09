@@ -35,31 +35,31 @@ gensbom [TARGET] [flags]
 ### Options
 
 ```
-  -A, --attach-regex strings         Attach files content by regex
-      --attest.config string         Attestation config path
-      --attest.default string        Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
-      --attest.name string           Attestation config name
-      --components strings           Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])
-  -c, --config string                Config of the application
-  -C, --context-type string          Context type, options=[jenkins github CircleCI local] (default "local")
-  -e, --env strings                  Envrionment keys to include in sbom
-      --failonerror                  Fail on errors (default true)
-  -F, --filter-regex strings         Filter out files by regex (default [.*\.pyc,.*\.git/.*])
-  -f, --force                        Force overwrite cache
-  -o, --formats strings              Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json] (default [cyclonedx-json])
-  -h, --help                         help for gensbom
-  -L, --labels strings               Add custom labels
-  -D, --level string                 Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string      Output directory path (default "/home/mikey/.cache/gensbom")
-  -O, --output-file string           Output file path
-  -n, --product-key string           Scribe project key
-  -q, --quiet                        Suppress all logging output
+  -A, --attach-regex strings          Attach files content by regex
+      --attest.config string          Attestation config path
+      --attest.default string         Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
+      --attest.name string            Attestation config name
+      --components strings            Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])
+  -c, --config string                 Config of the application
+  -C, --context-type string           Context type, options=[jenkins github CircleCI local] (default "local")
+  -e, --env strings                   Envrionment keys to include in sbom
+      --failonerror                   Fail on errors (default true)
+  -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
+  -f, --force                         Force overwrite cache
+  -o, --formats strings               Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json] (default [cyclonedx-json])
+  -h, --help                          help for gensbom
+  -L, --labels strings                Add custom labels
+  -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
+  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/gensbom")
+  -O, --output-file string            Output file path
+  -n, --product-key string            Scribe project key
+  -q, --quiet                         Suppress all logging output
   -U, --scribe.client-id string       Scribe client id
   -P, --scribe.client-secret string   Scribe client secret
-  -E, --scribe.enable                Enable scribe client
-  -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
-  -s, --show                         Print report to stdout
-  -v, --verbose count                Increase verbosity (-v = info, -vv = debug)
+  -E, --scribe.enable                 Enable scribe client
+  -u, --scribe.url string             Scribe url (default "https://api.production.scribesecurity.com")
+  -s, --show                          Print report to stdout
+  -v, --verbose count                 Increase verbosity (-v = info, -vv = debug)
 ```
 
 ### SEE ALSO

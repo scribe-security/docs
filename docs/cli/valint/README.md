@@ -69,7 +69,7 @@ Download report and store in a local file.
 Using `output-file` you can select where the report will be copied to.
 
 ```bash
-valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> --output-file my_report.json
+valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --output-file my_report.json
 ```
 
 </details>
