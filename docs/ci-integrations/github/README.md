@@ -63,8 +63,8 @@ jobs:
            target: 'mongo-express-scm'
            verbose: 2
            scribe-enable: true
-           scribe-clientid: ${{ secrets.clientid }}
-           scribe-clientsecret: ${{ secrets.clientsecret }}
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
            scribe-productkey: ${{ secrets.productkey }}
 
       - name: Build and push remote
@@ -81,8 +81,8 @@ jobs:
            target: 'mongo-express:1.0.0-alpha.4'
            verbose: 2
            scribe-enable: true
-           scribe-clientid: ${{ secrets.clientid }}
-           scribe-clientsecret: ${{ secrets.clientsecret }}
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
            scribe-productkey: ${{ secrets.productkey }}
 
       - uses: actions/upload-artifact@v2

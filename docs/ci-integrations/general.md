@@ -29,13 +29,13 @@ Generate an *SBOM* for your source code. The credentials can be copied from the 
 
 
 ```bash
-gensbom bom dir:<path> --scribe.clientid=CLIENT_ID -P --scribe.clientsecret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
+gensbom bom dir:<path> --scribe.client-id=CLIENT_ID -P --scribe.client-secret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
 ```
 
 Generate an *SBOM* for your final image.
 
 ```bash
-gensbom bom <your_docker_repository:tag> --scribe.clientid=CLIENT_ID -P --scribe.clientsecret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
+gensbom bom <your_docker_repository:tag> --scribe.client-id=CLIENT_ID -P --scribe.client-secret=CLIENT_SECRET --scribe.productkey=PRODUCT_KEY -E -f -v
 ```
 
 And that's it - once these two steps finished you can go to the project page on Scribe Hub and examine the integrity report.

@@ -16,8 +16,8 @@ Example command line multiline description
   -d, --output-directory string      Output directory path (default "/home/mikey/.cache/valint")
   -o, --output-file string           Output file path
   -q, --quiet                        Suppress all logging output
-  -U, --scribe.clientid string       Scribe client id
-  -P, --scribe.clientsecret string   Scribe client secret
+  -U, --scribe.client-id string       Scribe client id
+  -P, --scribe.client-secret string   Scribe client secret
   -E, --scribe.enable                Enable scribe client
   -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
   -v, --verbose count                Increase verbosity (-v = info, -vv = debug)

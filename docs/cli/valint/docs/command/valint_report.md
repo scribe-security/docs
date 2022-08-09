@@ -10,11 +10,11 @@ valint report [TARGET] [flags]
 
 ```
 	valint report [flags]
-	valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret>			"download report from scribe service"
-	valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> -T 30s		"download report retry timeout after 30s"
-	valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> -T 30s -B 10s		"download report retry timeout after 30s, backoff 10s"4
-	valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> -I ModifiedFiles -S files 	"download report of all source code files that where modified"
-	valint report --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> -I Verified -S packages 	"download report of all source code packages that where verified"
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			"download report from scribe service"
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		"download report retry timeout after 30s"
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		"download report retry timeout after 30s, backoff 10s"4
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	"download report of all source code files that where modified"
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	"download report of all source code packages that where verified"
 	
 ```
 
@@ -36,8 +36,8 @@ valint report [TARGET] [flags]
   -d, --output-directory string      Output directory path (default "/home/mikey/.cache/valint")
   -o, --output-file string           Output file path
   -q, --quiet                        Suppress all logging output
-  -U, --scribe.clientid string       Scribe client id
-  -P, --scribe.clientsecret string   Scribe client secret
+  -U, --scribe.client-id string       Scribe client id
+  -P, --scribe.client-secret string   Scribe client secret
   -E, --scribe.enable                Enable scribe client
   -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
   -v, --verbose count                Increase verbosity (-v = info, -vv = debug)

@@ -95,9 +95,9 @@ def bom(Map conf)
   scribe-enable:
     description: 'Enable scribe client'
     default: false
-  scribe-clientid:
+  scribe-client-id:
     description: 'Scribe client id' 
-  scribe-clientsecret:
+  scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
     description: 'Scribe url' 
@@ -161,8 +161,8 @@ def report(Map conf)
  report(target: "busybox:latest", 
       verbose: 2,
        scribe-enable: true,
-      scribe-clientid: ${{ inputs.clientid }}
-      scribe-clientsecret: ${{ inputs.clientsecret }}
+      scribe-client-id: ${{ secrets.clientid }}
+      scribe-client-secret: ${{ secrets.clientsecret }}
       )
 ```
 
@@ -181,13 +181,13 @@ def report(Map conf)
   scribe-enable:
     description: 'Enable scribe client'
     default: false
-  scribe-clientid:
+  scribe-client-id:
     description: 'Scribe client id' 
-  scribe-clientsecret:
+  scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
     description: 'Scribe url' 
-  scribe-loginurl:
+  scribe-login-url:
     description: 'Scribe auth login url' 
   scribe-audience:
     description: 'Scribe auth audience' 

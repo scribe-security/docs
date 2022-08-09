@@ -30,7 +30,7 @@ Copy and run the following commands in a bash shell on your workstation.
 
 3. Run *gensbom* locally to collect metadata about the source code
 
-    ```$HOME/.scribe/bin/gensbom dir:image-demo --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
+    ```$HOME/.scribe/bin/gensbom dir:image-demo --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> --product-key=<product_key> -E -f -v```
 
     Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
 
@@ -42,7 +42,7 @@ Copy and run the following commands in a bash shell on your workstation.
 
 5. Run *gensbom* locally to collect metadata about the docker image
 
-    ```$HOME/.scribe/bin/gensbom image-demo:latest --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
+    ```$HOME/.scribe/bin/gensbom image-demo:latest --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> --product-key=<product_key> -E -f -v```
 
     Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
 

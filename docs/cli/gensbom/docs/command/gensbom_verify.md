@@ -50,8 +50,8 @@ gensbom verify [TARGET] [flags]
   -O, --output-file string           Output file path
   -n, --product-key string           Scribe project key
   -q, --quiet                        Suppress all logging output
-  -U, --scribe.clientid string       Scribe client id
-  -P, --scribe.clientsecret string   Scribe client secret
+  -U, --scribe.client-id string       Scribe client id
+  -P, --scribe.client-secret string   Scribe client secret
   -E, --scribe.enable                Enable scribe client
   -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
   -s, --show                         Print report to stdout
