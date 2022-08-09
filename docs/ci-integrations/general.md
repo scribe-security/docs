@@ -11,7 +11,7 @@ In order to integrate our tools into any other CI pipeline you'll need to downlo
 You can use this command to download *gensbom*
 
 ```
-curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh
+curl -sSfL http://get.scribesecurity.com/install.sh | sh
 ```
 
 ## Get the *SBOMs* 
