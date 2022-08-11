@@ -8,7 +8,7 @@ This action includes *gensbom* - the tool creating the *SBOM*.
 
 *gensbom* has other capabilities and CLI options but the simplest integration is to call it to create an *SBOM* of the repository and the final image. these *SBOMs* are then automatically uploaded to Scribe Hub.
 
-For the integration to work, you must first set the repository-specific secrets provided for you on the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page. Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only.
+For the integration to work, you must first set the repository-specific secrets provided for you on the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page. Of the provided secrets, `client-id` and `client-secret` are identical for all your future projects and `product-key` is unique for this particular project only.
 
 ## Creating encrypted secrets for a repository
 
@@ -65,7 +65,7 @@ jobs:
            scribe-enable: true
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.productkey }}
+           scribe-product-key: ${{ secrets.product-key }}
 
       - name: Build and push remote
         uses: docker/build-push-action@v2
@@ -83,7 +83,7 @@ jobs:
            scribe-enable: true
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.productkey }}
+           scribe-product-key: ${{ secrets.product-key }}
 
       - uses: actions/upload-artifact@v2
         with:

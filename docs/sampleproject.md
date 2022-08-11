@@ -7,14 +7,14 @@ sidebar_position: 4
 You can try out Scribe with an open-source Node.js project at:  
 https://github.com/scribe-security/image-demo
 
-First you need to go to the Scribe Hub <a href='https://beta.hub.scribesecurity.com'>projects page</a> and add a `image-demo` project. Once you do, you'll get 3 forms of credentials: `clientid`, `clientsecret` and `productkey`.
-Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only. If you want to keep using these credentials for multiple projects we recommend you set them up as environment variables.
+First you need to go to the Scribe Hub <a href='https://beta.hub.scribesecurity.com'>projects page</a> and add a `image-demo` project. Once you do, you'll get 3 forms of credentials: `clientid`, `client-secret` and `product-key`.
+Of the provided secrets, `client-id` and `client-secret` are identical for all your future projects and `product-key` is unique for this particular project only. If you want to keep using these credentials for multiple projects we recommend you set them up as environment variables.
 
-Here's an example for setting your `clientid` credential as an environment variable:
+Here's an example for setting your `client-id` credential as an environment variable:
 ```
 CLIENT_ID=<client_id>
 ```
-Instead of `<client_id>` enter the `clientid` credential downloaded from the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page.
+Instead of `<client_id>` enter the `client-id` credential downloaded from the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page.
 
 Now that you have set whatever environment variables you wanted, you can go ahead and download and use our *gensbom* CLI tool.
 
