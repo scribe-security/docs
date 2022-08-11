@@ -183,9 +183,9 @@ gensbom busybox:latest -o attest
 <details>
   <summary> Metadata only </summary>
 
-You may select which components groups are added to your sbom.
-For example you may use Gensbom to simply sign and verify your images, you only really need the `metadata` group.
-Note metadata is implicate (BOM must include something).
+You may select which components groups are added to your SBOM.
+For example, you may use Gensbom to simply sign and verify your images, you only really need the `metadata` group.
+Note metadata is implicit (BOM must include something).
 ```bash
 gensbom busybox:latest --components metadata #Only include the target metadata
 gensbom busybox:latest --components packages #Only include packages
@@ -196,7 +196,7 @@ gensbom busybox:latest --components packages,files,dep #Include packages files a
 <details>
   <summary> Attach external data </summary>
 
-Gensbom allows you to include external files content as part of the reported evidence.
+Gensbom allows you to include external file content as part of the reported evidence.
 For example you may use Gensbom to include a external security report in your sbom.
 ```bash
 gensbom busybox:latest -vv -A **/some_report.json
