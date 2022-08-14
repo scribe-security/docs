@@ -9,7 +9,7 @@ geometry: margin=2cm
 
 Gensbom is a CLI tool by Scribe which analyzes components and creates sboms. \
 Gensbom sboms are populated cyclondex sbom with target packages, files, layers, and dependancies. \
-Gensbom also supports signed sbom as populated Intoto attestations using the cocosign framework.
+Gensbom also supports signed sbom or SLSA provenance as populated Intoto attestations using the cocosign framework.
 
 # Overview
 
@@ -25,9 +25,9 @@ Gensbom supports analyzes of directories/file targets.
 Gensbom supports the following formats.
 Bom command also supports multi-choice when generating a bom.
 - Cyclonedx - json, xml
-- In-toto statements
-- In-toto predicate
-- In-toto attestations
+- In-toto statements - BOM, SLSA Provenance
+- In-toto predicate - BOM, SLSA Provenance
+- In-toto attestations - BOM, SLSA Provenance
 
 ### BOM details
 Bom includes a large amount of analysed data for each target. \
@@ -38,14 +38,14 @@ Gensbom allows you to select which groups you like to include (TBD not imp). \
 - Package group - currently supporting debian, apk, python, go, ruby, npm, rpm, java, rust.
 - File group: details on all files in target.
 - Dependancies
-  - Image->Layer: Image and its related layers.
-  - Layer->Pkg: Layer and its related packages.
-  - Pkg->File: pkgs and there related files.
+-  - Image->Layer: Image and its related layers.
+-  - Layer->Pkg: Layer and its related packages.
+-  - Pkg->File: pkgs and there related files.
 
 ### Gensbom context
 Gensbom supports gathering of the context of the sbom creator. \
 Context will be added to both sbom and attestations for further reference. \
-Currently Gensbom supports `github`, `jenkins` and `local` contexts. \
+Currently Gensbom supports `github`, `jenkins`, `circleci` and `local` contexts. \
 So for example sbom created/signed on a `github workflow` will add the current git url, workflow name.. etc to the sbom as well.
 
 ### Subtools
@@ -146,7 +146,7 @@ See details [CLI documentation - bom](docs/command/gensbom_bom.md)
 
 
 ### basic usage
-Gensbom allows you to create sboms in multiple flavors.
+Gensbom allows you to create sboms and SLSA provenances in multiple flavors.
 
 <details>
   <summary> Cyclonedx </summary>
@@ -163,10 +163,12 @@ gensbom busybox:latest -o xml
   <summary> Statement </summary>
 
 Intoto statement is basically an unsigned attestation.
+Creates sbom or SLSA provenance statements
 Output can be useful if you like to connect to other attestation frameworks such as `cosign`.
 
 ```bash
 gensbom busybox:latest -o statement
+gensbom busybox:latest -o statement-slsa
 ``` 
 </details>
 
@@ -174,8 +176,10 @@ gensbom busybox:latest -o statement
   <summary> Attestations </summary>
 
 Intoto Attestation output, default via keyless sigstore flow 
+
 ```bash
 gensbom busybox:latest -o attest
+gensbom busybox:latest -o statement-slsa
 ``` 
 
 </details>

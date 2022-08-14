@@ -10,7 +10,8 @@ gensbom verify [TARGET] [flags]
 
 ```
   gensbom verify <target>
-  gensbom verify alpine:latest                         verify target against signed attestation
+  gensbom verify alpine:latest                         verify target against signed attestation of sbom
+  gensbom verify alpine:latest -i attest-slsa          verify target against signed attestation of SLSA provenance
   gensbom verify alpine:latest -vv                     show verbose debug information
 
   Supports the following image sources:
@@ -31,7 +32,7 @@ gensbom verify [TARGET] [flags]
 ```
   -a, --attestation string    Attestation for target
   -h, --help                  help for verify
-  -i, --input-format string   Sbom input formatter, options=[attest-cyclonedx-json] (default "attest-cyclonedx-json")
+  -i, --input-format string   Sbom input formatter, options=[attest-cyclonedx-json attest-slsa] (default "attest-cyclonedx-json")
 ```
 
 ### Options inherited from parent commands
@@ -41,12 +42,12 @@ gensbom verify [TARGET] [flags]
       --attest.default string         Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
       --attest.name string            Attestation config name
   -c, --config string                 Config of the application
-  -C, --context-type string           Context type, options=[jenkins github CircleCI local] (default "local")
+  -C, --context-type string           Context type, options=[jenkins github circleci local] (default "local")
       --failonerror                   Fail on errors (default true)
   -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
   -L, --labels strings                Add custom labels
   -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/gensbom")
+  -d, --output-directory string       Output directory path (default "/home/eitan/.cache/gensbom")
   -O, --output-file string            Output file path
   -n, --product-key string            Scribe project key
   -q, --quiet                         Suppress all logging output
