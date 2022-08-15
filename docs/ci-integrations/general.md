@@ -20,7 +20,7 @@ Instead of `<client_id>` enter the `clientid` credential downloaded from the <a 
 You can use this command to download *gensbom*
 
 ```
-curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh
+curl -sSfL http://get.scribesecurity.com/install.sh | sh
 ```
 
 ## Get the *SBOMs* 
