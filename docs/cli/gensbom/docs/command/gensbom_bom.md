@@ -57,8 +57,8 @@ gensbom bom [TARGET] [flags]
   -d, --output-directory string      Report output directory (default "/home/mikey/.cache/gensbom")
       --output-file string           Output result to file
   -q, --quiet                        Suppress all logging output
-  -U, --scribe.clientid string       Scribe client id
-  -P, --scribe.clientsecret string   Scribe client secret
+  -U, --scribe.client-id string       Scribe client id
+  -P, --scribe.client-secret string   Scribe client secret
   -E, --scribe.enable                Enable scribe client
   -u, --scribe.url string            Scribe url (default "https://api.production.scribesecurity.com")
   -s, --show                         Print object to stdout

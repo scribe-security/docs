@@ -173,8 +173,8 @@ jobs:
         with:
            verbose: 3
            scribe-enable: true
-           scribe-clientid: ${{ secrets.clientid }}
-           scribe-clientsecret: ${{ secrets.clientsecret }}
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
 
       - uses: actions/upload-artifact@v2
         with:
