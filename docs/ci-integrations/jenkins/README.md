@@ -3,7 +3,7 @@
 Important to note that this is for Jenkins over Kubernetes only.
 
 :::info Note:
-The configuration requires <em><b>product_key</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
 Or when you add a new product.
 :::
@@ -56,12 +56,12 @@ pipeline {
                 container('gensbom') {
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
                         sh '''
-                        gensbom bom dir:mongo-express-scm \
+                        gensbom dir:mongo-express-scm \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
                             --product-key $SCRIBE_PRODUCT_KEY \
-                            --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com \
+                            --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com \
                             --scribe.url https://api.beta.scribesecurity.com \
                             -v '''
                     }
@@ -75,12 +75,12 @@ pipeline {
                 container('gensbom') {
                     withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
                         sh '''
-                        gensbom bom mongo-express:1.0 .0-alpha.4 \
+                        gensbom mongo-express:1.0.0-alpha.4 \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
                             --product-key $SCRIBE_PRODUCT_KEY \
-                            --scribe.loginurl=https://scribesecurity-beta.us.auth0.com --scribe.auth0.audience=api.beta.scribesecurity.com \
+                            --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com \
                             --scribe.url https://api.beta.scribesecurity.com \
                             -v '''
                     }

@@ -4,7 +4,7 @@ description: Setup your CI
 
 # Setup your CI
 
-<font size="5">Start managing your builds’ *SBOMs* and validating the builds’ integrity in Scribe Hub.</font>  
+<font size="5">Start managing your builds’ <em>SBOMs</em> and validating the builds’ integrity in Scribe Hub.</font>    
 
 To generate an *SBOM* for every build run and upload it to Scribe Hub, integrate Scribe into your CI after your build step. If you are building a Node.JS project, you can also validate its integrity (that is, that it hasn’t been tampered with) by integrating Scribe after the checkout step as well.
 

@@ -5,7 +5,7 @@ sidebar_position: 2
 # GitHub Actions
 
 :::info Note:
-The configuration requires <em><b>product_key</b></em>, <em><b>clientid</b></em>, and <em><b>clientsecret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
 Or when you add a new product.
 :::
@@ -16,7 +16,7 @@ This action includes *gensbom* - the tool creating the *SBOM*.
 
 ## Step 1: Add the credentials to GitHub
 
-Add the credentials according to the GitHub instructions <a href='https://docs.github.com/en/actions/security-guides/encrypted-secrets'>here</a>. 
+Add the credentials according to the GitHub instructions <a href='https://docs.github.com/en/actions/security-guides/encrypted-secrets'>here</a>.  
 
 ## Step 2: Call Scribe *gensbom* action from your GitHub workflow
 
@@ -27,8 +27,8 @@ name: example workflow
 
 env:
   LOGIN_URL: "https://scribesecurity-beta.us.auth0.com"
-  AUTH0_AUDIANCE: "api.beta.scribesecurity.com"
-  URL: "https://api.beta.scribesecurity.com"
+  AUTH: "api.beta.scribesecurity.com"
+  SCRIBE_URL: "https://api.beta.scribesecurity.com"
 
 on: 
   push:
@@ -58,12 +58,12 @@ jobs:
            target: 'mongo-express-scm'
            verbose: 2
            scribe-enable: true
-           scribe-clientid: ${{ secrets.clientid }}
-           scribe-clientsecret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.product_key }}
-           scribe-loginurl: ${{ env.LOGIN_URL }}
-           scribe-auth0.audience: ${{ env.AUTH0_AUDIANCE }}
-           scribe-url: ${{ env.URL }}
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
+           product-key: ${{ secrets.productkey }}
+           scribe-login-url: ${{ env.LOGIN_URL }}
+           scribe-auth.audience: ${{ env.AUTH }}
+           scribe-url: ${{ env.SCRIBE_URL }}
 
       - name: Build and push remote
         uses: docker/build-push-action@v2
@@ -74,18 +74,16 @@ jobs:
 
       - name: Gensbom Image generate bom, upload to scribe
         id: gensbom_bom_image
-        uses: scribe-security/actions/gensbom/bom@master
-        with:
+           type: docker # to be included only if you're creating your docker image locally
            target: 'mongo-express:1.0.0-alpha.4'
            verbose: 2
            scribe-enable: true
-           scribe-clientid: ${{ secrets.clientid }}
-           scribe-clientsecret: ${{ secrets.clientsecret }}
-           scribe-productkey: ${{ secrets.product_key }}
-           scribe-loginurl: ${{ env.LOGIN_URL }}
-           scribe-auth0.audience: ${{ env.AUTH0_AUDIANCE }}
-           scribe-url: ${{ env.URL }}
-
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
+           product-key: ${{ secrets.productkey }}
+           scribe-login-url: ${{ env.LOGIN_URL }}
+           scribe-auth.audience: ${{ env.AUTH }}
+           scribe-url: ${{ env.SCRIBE_URL }}
 
       - uses: actions/upload-artifact@v2
         with:
