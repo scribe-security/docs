@@ -62,7 +62,7 @@ jobs:
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
            scribe-login-url: ${{ env.LOGIN_URL }}
-           scribe-auth.audience: ${{ env.AUTH }}
+           scribe-audience: ${{ env.AUTH }}
            scribe-url: ${{ env.SCRIBE_URL }}
 
       - name: Build and push remote
@@ -82,7 +82,7 @@ jobs:
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
            scribe-login-url: ${{ env.LOGIN_URL }}
-           scribe-auth.audience: ${{ env.AUTH }}
+           scribe-audience: ${{ env.AUTH }}
            scribe-url: ${{ env.SCRIBE_URL }}
 
       - uses: actions/upload-artifact@v2
