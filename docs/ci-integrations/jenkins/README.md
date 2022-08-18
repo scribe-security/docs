@@ -2,14 +2,8 @@
 
 Important to note that this is for Jenkins over Kubernetes only.
 
-<<<<<<< HEAD
 :::info Note:
 The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
-=======
-For the integration with Scribe Hub to work, you must first make sure you have the secrets provided for you on the <a href='https://beta.hub.scribesecurity.com'>'add project'</a> page. Of the provided secrets, `client-id` and `client-secret` are identical for all your future projects and `product-key` is unique for this particular project only.
-
-## Adding new credentials in Jenkins 
->>>>>>> c16c411dd4a861a13975f6e036806f65ddb355fa
 
 Or when you add a new product.
 :::
