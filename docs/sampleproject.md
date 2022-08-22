@@ -7,14 +7,17 @@ sidebar_position: 4
 You can try out Scribe with an open-source Node.js project at:  
 https://github.com/scribe-security/image-demo
 
-First you need to go to the Scribe Hub <a href='https://beta.hub.scribesecurity.com/producer-products'>projects page</a> and add a `image-demo` project. Once you do, you'll get 3 forms of credentials: `clientid`, `clientsecret` and `productkey`.
-Of the provided secrets, `clientid` and `clientsecret` are identical for all your future projects and `productkey` is unique for this particular project only. If you want to keep using these credentials for multiple projects we recommend you set them up as environment variables.
+:::info Note:
+The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
 
-Here's an example for setting your `clientid` credential as an environment variable:
+Or when you add a new product.
+:::
+
+Here's an example for setting your `client-id` credential:
 ```
-CLIENT_ID=<client_id>
+export CLIENT_ID=<client-id>
 ```
-Instead of `<client_id>` enter the `clientid` credential downloaded from the <a href='https://beta.hub.scribesecurity.com/producer-products'>'add project'</a> page.
+Replace `<client-id>` with `client-id` from Scribe Hub.
 
 Now that you have set whatever environment variables you wanted, you can go ahead and download and use our *gensbom* CLI tool.
 
@@ -22,7 +25,7 @@ Copy and run the following commands in a bash shell on your workstation.
  
 1. Get Scribe *gensbom* CLI tool
 
-    ```curl https://www.scribesecurity.com/getscribe | sh```
+    ```curl -sSfL http://get.scribesecurity.com/install.sh | sh```
  
 2. Clone the project from GitHub
 
@@ -30,20 +33,16 @@ Copy and run the following commands in a bash shell on your workstation.
 
 3. Run *gensbom* locally to collect metadata about the source code
 
-    ```$HOME/.scribe/bin/gensbom dir:image-demo --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
-
-    Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com/producer-products'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
+    ```$HOME/.scribe/bin/gensbom dir:image-demo --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET  --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
 
 4. Build a docker image for the project
 
-    ```CD image-demo```
+    ```cd image-demo```
 
     ```docker build -t image-demo .```
 
 5. Run *gensbom* locally to collect metadata about the docker image
 
-    ```$HOME/.scribe/bin/gensbom image-demo:latest --scribe.clientid=<client_id> --scribe.clientsecret=<client_secret> --product-key=<product_key> -E -f -v```
+    ```$HOME/.scribe/bin/gensbom bom image-demo:latest --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
 
-    Replace <client_id>, <client_secret> and <product_key> with the values you receive once you submit your projct name and press 'add project' in the <a href='https://beta.hub.scribesecurity.com/producer-products'>Scribe Hub installation instructions page</a> or use the environmental variables you set up earlier.  
-
-6. When *gensbom* is done press the 'done' button at the bottom of the <a href='https://beta.hub.scribesecurity.com/producer-products'>page</a> and you'll be taken to the product page to review the integrity information and *SBOM*.
+6. When *gensbom* is done press the 'done' button at the bottom of the <a href='https://beta.hub.scribesecurity.com'>page</a> and you'll be taken to the product page to review the integrity information and *SBOM*.

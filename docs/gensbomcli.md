@@ -2,14 +2,14 @@
 sidebar_position: 5
 ---
 
-# How to generate an SBOM using our CLI
+# How to generate an SBOM from CLI
 
-Scribe's *gensbom* CLI tool generates an SBOM for docker images and OCI images. You can call *gensbom* from your CI pipeline after the build stage, or run it from a bash shell and point it to an image in your registry.  
+Scribe's *gensbom* CLI tool generates an SBOM for docker images and OCI images. You can call *gensbom* from your CI pipeline after the build stage, or run it from a bash shell and point it to an image in your registry..  
 
 *gensbom* runs on Mac or Linux.
 
 1. Get Scribe *gensbom* CLI tool  
-```curl https://www.scribesecurity.com/getscribe | sh```
+```curl -sSfL http://get.scribesecurity.com/install.sh | sh```
 
 2. Generate an *SBOM*  
 ```gensbom <target>```  
@@ -27,11 +27,12 @@ creates the SBOM of image *alpine:latest* from Dockerhub. The SBOM is found by d
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can also change the output directory as follows:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```gensbom <target> [--output-directory /file_path]```  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBOMs path format is as follows: ```{target source}/{image name}/{image tag}```
-For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBOMs path format is as follows:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```{target source}/{image name}/{image tag}```  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```/tmp/scribe/registry/alpine/latest```
 
-## Examples   
+# Examples   
 
 ### Target (image) locations:
 

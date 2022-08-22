@@ -19,7 +19,7 @@ title: Bom
   config:
     description: 'Application config file'
   format:
-    description: 'Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json]'
+    description: 'Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
     default: cyclonedxjson
   output-directory:
     description: 'Report output directory'
@@ -50,9 +50,9 @@ title: Bom
   scribe-enable:
     description: 'Enable scribe client'
     default: false
-  scribe-clientid:
+  scribe-client-id:
     description: 'Scribe client id' 
-  scribe-clientsecret:
+  scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
     description: 'Scribe url' 
@@ -77,17 +77,21 @@ title: Bom
 
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or
-provide custom path using `config` input argument.
+provide a custom path using `config` input argument.
+See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
-See detail [documentation - config](docs/configuration.md)
-
-You may add a `.cocosign.yaml` file at your repository or pass with `--config` \
+You may add a `.cocosign.yaml` file to your repository or pass it with `--`config` \
 for more [Cocosign configuration](https://github.com/scribe-security/cocosign)
 
 
 ## Attestations 
-Attestations sboms allow you to sign and verify your sbom targets. \
-Attestations allow you to connect PKI based identities to your evidence and policy management. 
+Attestations SBOMs allows you to sign and verify your SBOM targets. \
+Attestations allow you to connect PKI-based identities to your evidence and policy management. 
+Supported outputs:
+- In-toto statements - cyclonedx BOM, SLSA Provenance
+- In-toto predicate - cyclonedx, BOM, SLSA Provenance
+- In-toto attestations -cyclonedx, BOM, SLSA Provenance
+
 
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
