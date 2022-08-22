@@ -9,7 +9,7 @@ Scribe's *gensbom* CLI tool generates an SBOM for docker images and OCI images. 
 *gensbom* runs on Mac or Linux.
 
 1. Get Scribe *gensbom* CLI tool  
-```curl -sSfL http://get.scribesecurity.com/install.sh | sh```
+```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
 
 2. Generate an *SBOM*  
 ```gensbom <target>```  

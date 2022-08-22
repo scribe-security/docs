@@ -14,9 +14,7 @@ Or when you add a new product.
 ​
 Download the Scribe *gensbom* CLI tool.
 
-```
-curl -sSfL http://get.scribesecurity.com/install.sh | sh
-```
+```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
 
 ## Step 2: Add the credentials to your CI system​
 
