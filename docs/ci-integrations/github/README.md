@@ -74,7 +74,7 @@ jobs:
 
       - name: Gensbom Image generate bom, upload to scribe
         id: gensbom_bom_image
-           type: docker # to be included only if you're creating your docker image locally
+           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
            target: 'mongo-express:1.0.0-alpha.4'
            verbose: 2
            scribe-enable: true
