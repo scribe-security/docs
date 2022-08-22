@@ -25,7 +25,7 @@ Copy and run the following commands in a bash shell on your workstation.
  
 1. Get Scribe *gensbom* CLI tool
 
-    ```curl -sSfL http://get.scribesecurity.com/install.sh | sh```
+    ```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
  
 2. Clone the project from GitHub
 
