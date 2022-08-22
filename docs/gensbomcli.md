@@ -27,8 +27,9 @@ creates the SBOM of image *alpine:latest* from Dockerhub. The SBOM is found by d
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can also change the output directory as follows:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```gensbom <target> [--output-directory /file_path]```  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBOMs path format is as follows: ```{target source}/{image name}/{image tag}```
-For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBOMs path format is as follows:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```{target source}/{image name}/{image tag}```  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```/tmp/scribe/registry/alpine/latest```
 
 # Examples   
