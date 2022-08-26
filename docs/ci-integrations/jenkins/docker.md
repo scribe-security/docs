@@ -4,7 +4,7 @@ Images are are wrappers to provided CLI tools.
 * Gensbom - gitHub Action for SBOM Generation (Scribe) 
 * Valint - validate supply chain integrity tool
 
-[See Jenkins documentation](https://plugins.jenkins.io/kubernetes/)
+[See Jenkins documentation](https://plugins.jenkins.io/docker-plugin/)
 
 # Integration
 ## Scribe service integration
