@@ -65,12 +65,13 @@ jobs:
            scribe-audience: ${{ env.AUTH }}
            scribe-url: ${{ env.SCRIBE_URL }}
 
-      - name: Build and push remote
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: mongo-express:1.0.0-alpha.4
+      # Build a push your image - example skips this as where using the published mongo express.
+      # - name: Build and push remote
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: mongo-express:1.0.0-alpha.4
 
       - name: Gensbom Image generate bom, upload to scribe
         id: gensbom_bom_image
@@ -93,5 +94,4 @@ jobs:
           path: |
             ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
             ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
