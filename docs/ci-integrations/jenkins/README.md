@@ -299,6 +299,5 @@ pipeline {
   }
 }
 ```
-
-<details>
+</details>
 
