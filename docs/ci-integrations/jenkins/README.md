@@ -229,8 +229,76 @@ pipeline {
 ```
 </details>
 
-<!-- 
+
 <details>
-  <summary>  Example pipeline (download binary) </summary>
-<details> -->
+  <summary>  Example pipeline (binary) </summary>
+    Scribe offers images for evidence collecting and integrity verification using provided binaries.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+     PATH="./temp/bin:$PATH"
+  }
+  stages {
+    stage('install') {
+        steps {
+          cleanWs()
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    stage('checkout') {
+      steps {
+          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
+    }
+    
+    stage('sbom') {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        sh '''
+            gensbom bom dir:mongo-express-scm \
+            --context-type jenkins \
+            --output-directory ./scribe/gensbom \
+            --product-key testing \
+             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+             --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            -vv
+          '''
+        }
+      }
+    }
+
+    stage('image-bom') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            gensbom bom mongo-express:1.0.0-alpha.4 \
+            --context-type jenkins \
+            --output-directory ./scribe/gensbom \
+            --product-key testing \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            -vv'''
+          }
+      }
+    }
+
+    stage('download-report') {
+      steps {
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            valint report \
+            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --timeout 120s \
+            -vv'''
+          }
+      }
+    }
+  }
+}
+```
+
+<details>
 
