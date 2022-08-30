@@ -34,8 +34,10 @@ pipeline {
   }
   stages {
     stage('install') {
+        steps {
           cleanWs()
           sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+        }
     }
     stage('checkout') {
       steps {
