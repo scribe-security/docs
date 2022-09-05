@@ -1,44 +1,47 @@
 ---
 sidebar_position: 3
+sidebar_label: Other CI systems
 ---
 
-# Other CI Systems
+# Integrating Scribe with Other CI Systems
 
-:::info Note:
-The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+## Before you begin
+Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to Home>Products>[$product]>Setup)
 
-Or when you add a new product.
-:::
+* **product key**
+* **client id**
+* **client secret**
 
-## Step 1: Download *gensbom*
-​
-Download the Scribe *gensbom* CLI tool.
+>Note that the product key is unique per product, while the client id and secret are unique for your account.
 
-```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
+## Procedure
+1. Download `gensbom`  
+   * Open your *Unix* based command line interface (CLI), such as *bash*.  
+   * Download the Scribe *gensbon* CLI tool   
+      ```
+      curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom
+      ```
+1. Add the credentials to your CI system.
+Here is an example for setting your *client id* credential as an environment variable:  
+   ```js
+   export CLIENT_ID=<client-id>
+   export PRODUCT_KEY=<product-key>
+   export CLIENT_SECRET=<client-secret>
+   ```
+   Replace <client_id> with the client id value you received from **Scribe Hub**. In the same way you can add the client secret and the product key as environment variables.
 
-## Step 2: Add the credentials to your CI system​
-
-Here's an example for setting your `client-id` credential:
-```
-export CLIENT_ID=<client-id>
-```
-Replace `<client-id>` with `client-id` from Scribe Hub.
-
-## Step 3: Call Scribe *gensbom* from your build script 
-
-1. Optional: if your project is in Node.js you can call *gensbom* after the checkout stage to collect evidence of hash values of the source code files to facilitate the Scribe integrity validation.
+1. Call Scribe `gensbom` from your build script.
+<!--- Copy from illustration -->
+These are the two points for adding Scribe Hub code:
+* **Source Code Checkout**: Calling `gensbom` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
 
 ```
 $HOME/.scribe/bin/gensbom dir:<path> --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID \
---scribe.client-secret=$CLIENT_SECRET --scribe.login-url=https://scribesecurity-beta.us.auth0.com \
---scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v
+--scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```
 
-2. Call *gensbom* after the build to generate an *SBOM* from the docker image.
-
+* **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
-$HOME/.scribe/bin/gensbom <your_docker_repository:tag> --product-key=$PRODUCT_KEY \
---scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET \
---scribe.login-url=https://scribesecurity-beta.us.auth0.com \
---scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v
+   $HOME/.scribe/bin/gensbom <your_docker_repository:tag> --product-key=$PRODUCT_KEY \
+--scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```

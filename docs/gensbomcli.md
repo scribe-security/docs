@@ -1,63 +1,92 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
+sidebar_label: Generating SBOM from CLI
 ---
 
-# How to generate an SBOM from CLI
+# Generating SBOM from CLI 
 
-Scribe's *gensbom* CLI tool generates an SBOM for docker images and OCI images. You can call *gensbom* from your CI pipeline after the build stage, or run it from a bash shell and point it to an image in your registry..  
+The `gensbom` Command Line Interface (CLI) tool developed by Scribe, generates a [Software Bill of Materials (SBOM)](https://scribesecurity.com/sbom/ "Read About SBOMs") for Docker and Open Containers Images (OCI). 
+You can call `gensbom` from your Continuous Integration (CI) pipeline after the build stage, or run it from a CLI on an image.
 
-*gensbom* runs on Mac or Linux.
+The `gensbom` tool runs on Mac or Linux.
 
-1. Get Scribe *gensbom* CLI tool  
-```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
+**To generate an SBOM from a CLI:**
 
-2. Generate an *SBOM*  
-```gensbom <target>```  
-```<target>``` is the docker image: *name:tag, file path, or registry URL*  
-This creates a default SBOM in a CycloneDX JSON format. For example:  
-```gensbom alpine:latest```  
-creates the SBOM of image *alpine:latest* from Dockerhub. The SBOM is found by default under ```/tmp/scribe/registry/alpine/latest```  
+1. Get the Scribe `gensbom` CLI tool:  
+    ```sh
+    curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom    
+    ```
+2. Generate an SBOM:  
+   ```sh
+    gensbom <target>
+   ```
+   where <target\> is your Docker image.
+        
+    This creates a default SBOM in a CycloneDX JSON format. 
+    For example:  
+    ```sh
+    gensbom bom alpine:latest
+    ```
+    creates the SBOM of image `alpine:latest` from Docker Hub.
 
-<br/>  
+    
+### Finding SBOM file locations and renaming options
+* An image name can be: `name:tag`, a file path, or a registry URL. 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By default, the SBOM file name is the hash of the image. You change the output file path and name as follows:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```gensbom <target> [--output-file /path/file_name.json]```  
+**Defaults**
+ * SBOM files will be under this directory: */tmp/scribe/registry/. 
+ 
+    For example: the SBOM generated from an image named **alpine:latest** is at: /tmp/scribe/registry/alpine/latest
+* The SBOM file name is the hash of the image.
+* Result SBOM path format is as follows: *{target source}/{image name}/{image tag}*.
 
-<br/>  
+  For example: */tmp/scribe/registry/alpine/latest*.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can also change the output directory as follows:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```gensbom <target> [--output-directory /file_path]```  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBOMs path format is as follows:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```{target source}/{image name}/{image tag}```  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```/tmp/scribe/registry/alpine/latest```
+**Changing defaults**       
+* Change the default output file name and path as follows:  
+      `gensbom <target> [--output-file /path/file_name.json]`
+      
+* Change the output directory as follows:  
+      `gensbom <target> [--output-directory /file_path]`
+      
+## Using Vairous Target (Image) locations
+You can use the following image locations: 
+### Docker images
+* By default the image is retrieved by Docker on Docker Hub.  
+  ```sh
+  gensbom your_repo/your_image:tag
+  ```
 
-# Examples   
+* To explicitly use the Docker daemon:  
+  ```sh
+  gensbom docker:your_repo/your_image:tag
+  ```
 
-### Target (image) locations:
+* To use a local tarball created by `docker save`:  
+  ```sh
+  gensbom docker-archive:path/to/your_image.tar 
+   ```  
 
-```gensbom yourrepo/yourimage:tag```    
-By default the image is retrieved by dockerd on dockerhub.  
+### From local disk
+* Use a tarball from your local disk for *OCI archives* (for example, Skopeo):  
+  ```sh
+  gensbom oci-archive:path/to/your_image.tar 
+  ```  
 
-Explicitly use the *Docker* daemon:  
-```gensbom docker:yourrepo/yourimage:tag ```  
+* Read the image directly from a path on your local disk (any directory):  
+  ```sh
+  gensbom dir:path/to/your_project
+  ```  
 
-Use a local traball created by "docker save":  
-```gensbom docker-archive:path/to/yourimage.tar ```  
+* Read directly from a path on disk (any single file):  
+  ```sh
+  gensbom file:path/to/your_project/file 
+  ```
 
-Use a tarball from your local disk for *OCI archives* (for example, Skopeo):  
-```gensbom oci-archive:path/to/yourimage.tar ```  
+### Remote Registry
+* Pull image directly from a registry:  
+  ```sh
+  gensbom registry:your_repo/your_image:tag
+  ```  
 
-Read the image directly from a path on your local disk (any directory):  
-```gensbom dir:path/to/yourproject```  
 
-Pull image directly from a registry:  
-```gensbom registry:yourrepo/yourimage:tag```  
-
-Read directly from a path on disk (any single file):  
-```gensbom file:path/to/yourproject/file ```
-
-### Output SBOM locations
-
-```gensbom alpine:latest --output-file /your_sboms/sample-sbom.json  ```  
-```gensbom alpine:latest --output-directory /your_sboms```
