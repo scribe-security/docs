@@ -1,34 +1,66 @@
 ---
 sidebar_position: 2
+sidebar_label: GitHub Actions
 ---
 
 # GitHub Actions
 
-:::info Note:
-The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+## Before you begin
 
-Or when you add a new product.
-:::
+Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to Home>Products>[$product]>Setup)
 
-This action includes *gensbom* - the tool creating the *SBOM*.
+* **product key**
+* **client id**
+* **client secret**
 
-*gensbom* has other capabilities and CLI options but the simplest integration is to call it to create an *SBOM* of the repository and the final image. these *SBOMs* are then automatically uploaded to Scribe Hub.
+>Note that the product key is unique per product, while the client id and secret are unique for your account.
 
-## Step 1: Add the credentials to GitHub
+## Gensbom - Creating your SBOM
+*Gensbom* is Scribe Hubs' tool used to collect evidence and generate an SBOM.
 
-Add the credentials according to the GitHub instructions <a href='https://docs.github.com/en/actions/security-guides/encrypted-secrets'>here</a>.  
+The simplest integration is to automate calling Scribe to collect evidence of the repository and create an SBOM of the final image. The evidence and SBOM are then automatically uploaded to Scribe Hub. 
+While *Gensbom* does have other capabilities and CLI options, we will focus on its' basic usage.
 
-## Step 2: Call Scribe *gensbom* action from your GitHub workflow
 
-The following example workflow builds project mongo express and calls Scribe *gensbom* twice: after checkout and after the docker image is built.
+1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below be sure to call the secrets **clientid** for the **client-id**, **clientsecret** for the           **client-secret** and **productkey** for the **product-key**.
+2. Add Code snippets to your pipeline from your GitHub flow:   
+    * Replace the `Mongo express` repo in the example with your repo name.
+    ```YAML
+      target: <repo-name>
+    ```
+    * Call `gensbom` right after checkout to collect hash value evidence of the source code files.
+    ```YAML
+      - name: Gensbom Scm generate bom, upload to scribe
+        id: gensbom_bom_scm
+        uses: scribe-security/actions/gensbom/bom@master
+        with:
+           type: dir
+           target: <repo-name>
+           verbose: 2
+           scribe-enable: true
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
+           product-key: ${{ secrets.productkey }}
+    ```
+    * Call `gensbom` to generate an SBOM from the final Docker image.
+    ```YAML
+        - name: Gensbom Image generate bom, upload to scribe
+        id: gensbom_bom_image
+        uses: scribe-security/actions/gensbom/bom@master
+        with:
+          type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
+           target: <image-name:tag>
+           verbose: 2
+           scribe-enable: true
+           scribe-client-id: ${{ secrets.clientid }}
+           scribe-client-secret: ${{ secrets.clientsecret }}
+           product-key: ${{ secrets.productkey }}
+    ```
+
+Here's the full example pipeline:
 
 ```YAML
 name: example workflow
-
-env:
-  LOGIN_URL: "https://scribesecurity-beta.us.auth0.com"
-  AUTH: "api.beta.scribesecurity.com"
-  SCRIBE_URL: "https://api.beta.scribesecurity.com"
 
 on: 
   push:
@@ -61,9 +93,6 @@ jobs:
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
-           scribe-login-url: ${{ env.LOGIN_URL }}
-           scribe-audience: ${{ env.AUTH }}
-           scribe-url: ${{ env.SCRIBE_URL }}
 
       # Build and push your image - this example skips this step as we're using the published mongo express.
       # - name: Build and push remote
@@ -84,9 +113,6 @@ jobs:
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
-           scribe-login-url: ${{ env.LOGIN_URL }}
-           scribe-audience: ${{ env.AUTH }}
-           scribe-url: ${{ env.SCRIBE_URL }}
 
       - uses: actions/upload-artifact@v2
         with:

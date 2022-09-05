@@ -1,30 +1,53 @@
 ---
 sidebar_position: 1
+sidebar_label: About Scribe
 ---
 # What is Scribe
 
-Scribe is a solution for organizations that are concerned about threats from their software supply chain. 
+Scribe is a leading security solution for organizations that are concerned about threats from their software supply chain.
 
-DevSecOps teams securing software builds and security teams responsible for software in-use can use Scribe as a means to continuously assure this software is secure.
+## Who needs Scribe? ##
 
-## How Scribe works
+Scribe continuously assures your software is secure. It could be used by:
 
-### Software Bill of Materials (SBOM)
+- DevSecOps teams securing software builds
+- Security teams responsible for software in-use
+- Larger scale development teams collaborating via remote tools
 
-Scribe can generate an SBOM for every build with a tool you can run in your build pipeline. 
 
- 
+## How Scribe works  
 
-An SBOM is a standard format for expressing information about the components comprising a software artifact. An SBOM can be utilized for example, for identifying vulnerabilities in dependencies. 
+### Software Bill of Materials (SBOM) 
 
- 
+An SBOM is a standard format for documenting information about components of a software artifact.  Integrating Scribe tools in your pipeline can generate an SBOM for every build.
 
-Read more on SBOM here: https://scribesecurity.com/sbom/.
+SBOMs have many uses. They can, for example, be used to identify vulnerabilities in dependencies.
+After creating your SBOM, Scribe uses the SBOM to analyze and validate your software build. 
 
-### Integrity Validation and Open Source Authentication
 
-Scribe validates the integrity of your software build by tracking every file’s hash value from the file’s origin to the built artifact. This origin can be open-source or internal: a code repo, a package manager, or a container registry. In the process, Scribe flags suspicious modifications while accounting for legitimate changes such as linting and compilation. With its open-source package intelligence, Scribe authenticates the open-source components, assuring that they were not maliciously modified. Scribe enriches SBOMs with validation information and you can share it with relevant stakeholders.
+\>\> [Read more about SBOM](https://scribesecurity.com/sbom/)
+### Integrity Validation and Open Source Authentication 
 
-- In this release, Scribe validates Node.js projects and npm packages.
+ Scribe validates the integrity of your software build by tracking the hash value of every file from its origin to the built artifact.
 
-Advanced users can cryptographically sign and validate critical evidence with customer keys, throughout the software development lifecycle (SDLC). This method provides resistance against tampering. It can also be regarded as extending the well-known concept of software signing to the SDLC.
+
+The origin of the files can be internal (from your organization), or from an external third party. For example: 
+
+  - A code repo
+  - A package manager
+  - A container registry
+
+Scribe flags suspicious modifications while accounting for legitimate changes such as linting and compilation in the validation process.
+
+Scribe authenticates the open-source components, using our open-source package intelligence, assuring components were not maliciously modified.
+
+Once your pipeline is integrated and configured with Scribe, every time you run the pipeline, Scribe creates an SBOM and an integrity report. Your builds are automatically secured and analyzed. 
+
+### Results
+Scribe enriches SBOMs with validation information and creates integrity reports that you can easily share with stakeholders.
+> In this release, Scribe validates Node.js projects and npm packages, that create an Open Containers Image (OCI) such as Docker.
+
+### Signing critical files 
+
+Throughout the software development lifecycle (SDLC), advanced users can cryptographically sign and validate critical evidence with customer keys. Cryptographically signing and validating provides resistance against tampering. It extends software signing to the SDLC.
+
