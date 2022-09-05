@@ -53,6 +53,7 @@ const config = {
                 "intro.md",
                 "sampleproject.md",
                 "gensbomcli.md",
+                "readingoutput.md",
                 "faq.md",
                 "overview.md" ,
                 "README.md",
@@ -114,15 +115,21 @@ const config = {
         },
         {
           type: 'doc',
+          docId: 'cves',
+          position: 'left',
+          label: 'Detecting CVEs',
+        },
+        {
+          type: 'doc',
           docId: 'gensbomcli',
           position: 'left',
           label: 'Generate an SBOM from CLI',
         },
         {
           type: 'doc',
-          docId: 'cves',
+          docId: 'readingoutput',
           position: 'left',
-          label: 'Detecting CVEs',
+          label: 'Reading Analysis',
         }
         // {to: '/blog', label: 'Blog', position: 'left'},
         // {

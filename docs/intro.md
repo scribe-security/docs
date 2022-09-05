@@ -3,39 +3,35 @@ sidebar_position: 2
 ---
 # Getting started
 
-## Scribe Hub
 
-Scribe Hub allows you to connect as many projects / pipelines as you want to the Hub. You'll need to connect the project's CI pipeline to Scribe Hub and from that point, each time you run the pipeline you'll be generating an *SBOM* and an integrity report that will appear directly on the Hub. You can share the *SBOM* and integrity report with selected subscribers allowing you to extend the visibility and trust gained from the generated information with relevant stakeholders. At this time our tools can verify the integrity of Node.JS projects using NPM and generating a Kubernetes image. For each project you connect to Scribe Hub, Scribe maps all the components and files that made their way into your Node.js’s project final docker image and validates that each file’s hash value hasn’t changed if it wasn’t supposed to. 
+### Securing your pipeline with Scribe
 
-## Prerequisites 
+Scribe Hub is a hub designed for correlating, organizing, and sharing your various pipelines and their security information in a single place.
 
-For each project you want to add to Scribe Hub you will need access to the project's pipeline and the ability to add the relevant code snippets connecting it to the Hub.
+The following occurs once you have connected the Continuous Integration (CI) pipeline of your project to Scribe Hub:
 
-<hr/>
+1. Scribe Hub maps all components and files and validates that there were no unwanted changes.
+2. Running your pipeline will generate an SBOM and an integrity report.
+3. Scribe Hub enables you to share the SBOM and report with selected subscribers.
 
-## Getting Started
+Scribe allows you to connect to the Hub as many projects/pipelines as you want.
 
-To get started navigate in your browser to <a href='https://beta.hub.scribesecurity.com'>this link</a>. You can also try Scribe out with a local CLI (not in the CI pipeline) with a demo project <a href='/docs/sampleproject'>here</a>.  
+## Before you begin 
 
-Once you have a project you want to connect to Scribe Hub follow the instructions matching your CI pipeline <a href='/docs/ci-integrations'>here</a>.
+- **Work environment:** Scribe Hub has a web user interface. Scribe's evidence collectors run on Linux or Mac.
+- **Permissions:** You will need permission to modify your project's build script to add a relevant code snippet connecting your project to Scribe Hub.
+- **Your project:** Scribe collects evidence for projects of any type of programming language that build a container image. However, in this release, Scribe's integrity validation works only with Node.js projects.
 
-## How to read the integrity analysis
+## Procedure 
+1. In your browser, go to **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. If you have not yet registered, do so now.
+2. Once you have logged in to the **Scribe Hub** go to Home>Products>[$product]>Setup. Even if this is your first time visiting the **Scribe Hub** you'll already have a Demo Product you can interact with. [$product] can be the Demo Product or a new product that you choose to integrate with the **Scribe Hub**.
 
-### Source Code Validation
+3. Once you have a project you want to connect to Scribe Hub, follow these [instructions to set up your CI pipeline](/docs/ci-integrations "instructions to set up your CI pipeline").
 
-Scribe reports how many JS files in the docker image were validated.
-In case that a file’s hash value changed between its version in the source repo and and the destination image, Scribe determines whether this is a benign modification and flags only suspicious files. 
-In the lower half of the page you can view the details of the individual files that were validated.
+## Trying out Scribe
 
-### Open Source Dependency Validation
+You can try Scribe by downloading a small [sample project](/docs/sampleproject  "sample project").
+The Instructions will walk you through the process of setting up the sample node.js project, downloading the Scribe tool, `gensbom`, and running it in your Command Line Interpreter (CLI) to create an SBOM and an integrity report.
 
-Scribe reports how many open-source packages were validated and the total number of open-source files validated within these packages.
-Scribe does this, by first analyzing the composition of the docker image. Then, for each package Scribe compares each of its files hashes with Scribe’s package intelligence DB. 
-In the lower half of the page you can view the details of the individual packages and files that  were validated. 
-In case that a file’s hash value changed between its version in the source repo and and the destination image, Scribe determines whether this is a benign modification and flags only suspicious files
-
-### Export SBOM 
-
-You can export the SBOM detailing the open-source dependencies of the docker image you analyzed by clicking <b>Export SBOM</b> in the top right of the report. The SBOM is in CycloneDX format.
 
 

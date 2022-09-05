@@ -1,48 +1,63 @@
 ---
 sidebar_position: 4
+sidebar_label: Sample Project
 ---
 
-# A Sample Project
+# Demo: Run gensbom on a Sample project
+<!--- problem -  offer a demo to try out, assuming the person has a product?  --->
+## Before you begin
 
-You can try out Scribe with an open-source Node.js project at:  
-https://github.com/scribe-security/image-demo
+Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to Home>Products>[$product]>Setup). If you choose not to create a new product at this time you can use the credentials for the Demo Product present in you Products page.
 
-:::info Note:
-The configuration requires <em><b>product-key</b></em>, <em><b>client-id</b></em>, and <em><b>client-secret</b></em> credentials obtained from your Scribe hub account at: `Home>Products>[$your_product]>Setup`
+* **product key**
+* **client id**
+* **client secret**
 
-Or when you add a new product.
-:::
+Note that the product key is unique per product, while the client id and secret are unique for your account.
 
-Here's an example for setting your `client-id` credential:
-```
-export CLIENT_ID=<client-id>
-```
-Replace `<client-id>` with `client-id` from Scribe Hub.
+## Run Gensbom on a Sample Project
 
-Now that you have set whatever environment variables you wanted, you can go ahead and download and use our *gensbom* CLI tool.
+Try out Scribe with our sample open-source Node.js project by following these steps: 
 
-Copy and run the following commands in a bash shell on your workstation.
- 
-1. Get Scribe *gensbom* CLI tool
+1. Go to `https://github.com/scribe-security/image-demo`.
 
-    ```curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom```
- 
-2. Clone the project from GitHub
 
-    ```git clone https://github.com/scribe-security/image-demo.git```
+1. Set the following keys with the corresponding credential values obtained from Scribe as environment variables:  
+   ```js
+   export CLIENT_ID=<client-id>
+   export PRODUCT_KEY=<product-key>
+   export CLIENT_SECRET=<client-secret>
+   ```
+   
+1. Using a Shell-based CLI, download the `gensbom` CLI tool, created by Scribe Hubs:
+   ```sh
+   curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom
+   ```
+1. Clone the sample project from GitHub  
+      ```sh
+      git clone https://github.com/scribe-security/image-demo.git
+      ```
 
-3. Run *gensbom* locally to collect metadata about the source code
+1. Run `gensbom` locally to collect hash value evidence of the source code files
 
-    ```$HOME/.scribe/bin/gensbom dir:image-demo --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET  --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
+      ```sh
+      $HOME/.scribe/bin/gensbom dir:image-demo --product-key=$PRODUCT_KEY \
+      --scribe.client-id=$CLIENT_ID \
+      --scribe.client-secret=$CLIENT_SECRET -E -f -v
+      ```
 
-4. Build a docker image for the project
+4. Build a Docker image for the project  
+   ```sh
+   cd image-demo
+   docker build -t image-demo .
+   ```
 
-    ```cd image-demo```
+5. Run `gensbom` locally to collect hash value evidence about your docker image
 
-    ```docker build -t image-demo .```
+    ```sh
+    $HOME/.scribe/bin/gensbom bom image-demo:latest --product-key=$PRODUCT_KEY \ 
+    --scribe.client-id=$CLIENT_ID \
+    --scribe.client-secret=$CLIENT_SECRET -E -f -v  
+    ```
 
-5. Run *gensbom* locally to collect metadata about the docker image
-
-    ```$HOME/.scribe/bin/gensbom bom image-demo:latest --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET --scribe.login-url=https://scribesecurity-beta.us.auth0.com --scribe.auth.audience=api.beta.scribesecurity.com --scribe.url https://api.beta.scribesecurity.com -E -f -v```
-
-6. When *gensbom* is done press the 'done' button at the bottom of the <a href='https://beta.hub.scribesecurity.com'>page</a> and you'll be taken to the product page to review the integrity information and *SBOM*.
+6. When `gensbom` is done, check out your your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** Home>Products>[$product] page and you'll see a new build being updated. Clicking on that build will allow you to review the integrity information and SBOM for the new build you have just uploaded.
