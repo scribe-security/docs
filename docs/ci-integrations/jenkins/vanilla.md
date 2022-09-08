@@ -30,7 +30,8 @@ Finally attaching reports and evidence to your pipeline run.
 pipeline {
   agent any
   environment {
-     PATH="./temp/bin:$PATH"
+    SCRIBE_PRODUCT_KEY     = credentials('scribe-product-key')
+    PATH="./temp/bin:$PATH"
   }
   stages {
     stage('install') {
@@ -52,9 +53,8 @@ pipeline {
             gensbom bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
-            --product-key testing \
+            --product-key $SCRIBE_PRODUCT_KEY \
              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-             --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             -vv
           '''
         }
@@ -70,7 +70,6 @@ pipeline {
             --output-directory ./scribe/gensbom \
             --product-key testing \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             -vv'''
           }
       }
@@ -81,8 +80,8 @@ pipeline {
            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             valint report \
+            --product-key $SCRIBE_PRODUCT_KEY \
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
             --timeout 120s \
             -vv'''
           }

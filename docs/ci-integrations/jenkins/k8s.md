@@ -30,6 +30,9 @@ pipeline {
       yamlFile 'jenkins/k8s/scribe-test/KubernetesPod.yaml'
     }
   }
+  environment {
+    SCRIBE_PRODUCT_KEY     = credentials('scribe-product-key')
+  }
   stages {
     stage('checkout-bom') {
       steps {        
@@ -38,7 +41,7 @@ pipeline {
         }
         
         container('gensbom') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
             gensbom bom dir:mongo-express-scm \
             --context-type jenkins \
@@ -54,7 +57,7 @@ pipeline {
     stage('image-bom') {
       steps {
         container('gensbom') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             gensbom bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
@@ -70,7 +73,7 @@ pipeline {
     stage('download-report') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', )]) {  
             sh '''
             valint report \
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \

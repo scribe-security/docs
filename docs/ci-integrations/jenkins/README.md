@@ -108,6 +108,12 @@ pipeline {
                 tty: true
         }
     }
+    environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+       SCRIBE_URL = "https://api.staging.scribesecurity.com"
+       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
+    }
     stages {
         stage('checkout-bom') {
             steps {
@@ -117,13 +123,14 @@ pipeline {
                 }
                 // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom dir:mongo-express-scm \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
                             --product-key $SCRIBE_PRODUCT_KEY \
+                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
                             -v '''
                     }
                 }
@@ -134,13 +141,15 @@ pipeline {
             steps {
                 // The following call to gensbom generates an SBOM from the docker image
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom mongo-express:1.0.0-alpha.4 \
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
                             --product-key $SCRIBE_PRODUCT_KEY \
+                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
                             -v '''
                     }
                 }
@@ -168,6 +177,12 @@ You also need to have a `docker` installed on your build node in jenkins.
 ```javascript
 pipeline {
   agent any
+  environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+       SCRIBE_URL = "https://api.staging.scribesecurity.com"
+       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
+  }
   stages {
         stage('checkout') {
             steps {
@@ -196,7 +211,7 @@ pipeline {
                     --output-directory ./scribe/gensbom \
                     --product-key testing \
                     -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-                    --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                    --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
                     -vv
                 '''
                 }
@@ -217,9 +232,9 @@ pipeline {
                     gensbom bom mongo-express:1.0.0-alpha.4 \
                     --context-type jenkins \
                     --output-directory ./scribe/gensbom \
-                    --product-key testing \
+                    --product-key $SCRIBE_PRODUCT_KEY \
                     -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-                    --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                    --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
                     -vv'''
                 }
             }
@@ -232,12 +247,15 @@ pipeline {
 
 <details>
   <summary>  Example pipeline (binary) </summary>
-    Scribe offers images for evidence collecting and integrity verification using provided binaries.
 
 ```javascript
 pipeline {
   agent any
   environment {
+     SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+     SCRIBE_URL = "https://api.staging.scribesecurity.com"
+     SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+     SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
      PATH="./temp/bin:$PATH"
   }
   stages {
@@ -260,9 +278,9 @@ pipeline {
             gensbom bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
-            --product-key testing \
+            --product-key $SCRIBE_PRODUCT_KEY \
              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-             --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv
           '''
         }
@@ -276,9 +294,9 @@ pipeline {
             gensbom bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/gensbom \
-            --product-key testing \
+            --product-key $SCRIBE_PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv'''
           }
       }
@@ -290,7 +308,7 @@ pipeline {
             sh '''
             valint report \
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             --timeout 120s \
             -vv'''
           }
