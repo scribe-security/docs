@@ -14,7 +14,6 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 * **client id**
 * **client secret**
 
-<<<<<<< HEAD
 >Note that the product key is unique per product, while the client id and secret are unique for your account.
 
 ## Procedure
