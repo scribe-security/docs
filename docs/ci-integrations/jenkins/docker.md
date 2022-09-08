@@ -1,10 +1,22 @@
 # Jenkins over Docker
-Scribe offers images for evidence collecting and integrity verification using Jenkins over K8s. \
+Scribe offers images for evidence collecting and integrity verification using Jenkins over docker. \
 Images are are wrappers to provided CLI tools.
 * Gensbom - gitHub Action for SBOM Generation (Scribe) 
 * Valint - validate supply chain integrity tool
 
 [See Jenkins documentation](https://plugins.jenkins.io/docker-plugin/)
+
+### Pre requisites
+
+You need the following jenkins extenstions
+1. [docker pipeline](https://plugins.jenkins.io/docker-workflow/)
+2. [docker commons](https://plugins.jenkins.io/docker-commons/)
+3. [docker plugin](https://plugins.jenkins.io/docker-plugin/)
+4. [Docker API](https://plugins.jenkins.io/docker-java-api/)
+5. [Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/) (optional)
+
+You also need to have a `docker` installed on your build node in jenkins.
+
 
 # Integration
 ## Scribe service integration
@@ -23,7 +35,7 @@ By default add `**/scribe` to your gitignore.
 Full workflow example of a workflow, upload evidence using gensbom and download report using valint.
 Finally attaching reports and evidence to your pipeline run.
 
-```YAML
+```javascript
 pipeline {
   agent any
   stages {

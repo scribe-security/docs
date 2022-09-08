@@ -23,7 +23,7 @@ By default add `**/scribe` to your gitignore.
 Full workflow example of a workflow, upload evidence using gensbom and download report using valint.
 Finally attaching reports and evidence to your pipeline run.
 
-```YAML
+```javascript
 pipeline {
   agent {
     kubernetes {

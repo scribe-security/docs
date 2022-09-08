@@ -14,6 +14,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 * **client id**
 * **client secret**
 
+<<<<<<< HEAD
 >Note that the product key is unique per product, while the client id and secret are unique for your account.
 
 ## Procedure
@@ -79,7 +80,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
 ## Full examples
 
 <details>
-  <summary>  K8s pipeline </summary>
+  <summary>  Example pipeline (Kubernetes) </summary>
 
 ```javascript
 pipeline {
@@ -148,15 +149,13 @@ pipeline {
     }
 }
 ```
-
 </details>
 
 
 <details>
-  <summary>  docker  agent pipeline </summary>
+  <summary>  Example pipeline (Docker agent) </summary>
 
 ### Pre requisites
-
 You need the following jenkins extenstions
 1. [docker pipeline](https://plugins.jenkins.io/docker-workflow/)
 2. [docker commons](https://plugins.jenkins.io/docker-commons/)
@@ -165,11 +164,6 @@ You need the following jenkins extenstions
 5. [Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/) (optional)
 
 You also need to have a `docker` installed on your build node in jenkins.
-
-
-### Pipeline Example
-
-The following example pipeline builds project mongo express and calls Scribe *gensbom* twice: after checkout and after the docker image is built.  
 
 ```javascript
 pipeline {
@@ -234,3 +228,8 @@ pipeline {
 }
 ```
 </details>
+<!-- 
+<details>
+  <summary>  Example pipeline (download binary) </summary>
+<details> -->
+
