@@ -97,7 +97,7 @@ Integrity report output example
                     "git_commit": "904ee9d78e2c265a8630caba7eeff0319a13e763",
                     "git_ref": "904ee9d78e2c265a8630caba7eeff0319a13e763 refs/heads/master",
                     "git_tag": "v2.1.94",
-                    "git_url": "https://github.com/scribe-security/bomber.git",
+                    "git_url": "https://github.com/scribe-security/gensbom.git",
                     "hostname": "mikey-Latitude-5520",
                     "name": "scribe",
                     "sbomgroup": "image",
