@@ -104,6 +104,12 @@ pipeline {
                 tty: true
         }
     }
+    environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+       SCRIBE_URL = "https://api.staging.scribesecurity.com"
+       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
+    }
     stages {
         stage('checkout-bom') {
             steps {
@@ -113,7 +119,7 @@ pipeline {
                 }
                 // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom dir:mongo-express-scm \
                             --context-type jenkins \
@@ -130,7 +136,7 @@ pipeline {
             steps {
                 // The following call to gensbom generates an SBOM from the docker image
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom mongo-express:1.0.0-alpha.4 \
                             --context-type jenkins \
@@ -145,3 +151,164 @@ pipeline {
     }
 }
 ```
+</details>
+<details>
+  <summary>  Example pipeline (Docker agent) </summary>
+  Scribe offers images for evidence collecting and integrity verification using Jenkins over docker.
+
+### Pre requisites
+You need the following jenkins extenstions
+1. [docker pipeline](https://plugins.jenkins.io/docker-workflow/)
+2. [docker commons](https://plugins.jenkins.io/docker-commons/)
+3. [docker plugin](https://plugins.jenkins.io/docker-plugin/)
+4. [Docker API](https://plugins.jenkins.io/docker-java-api/)
+5. [Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/) (optional)
+
+You also need to have a `docker` installed on your build node in jenkins.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+       SCRIBE_URL = "https://api.staging.scribesecurity.com"
+       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
+  }
+  stages {
+        stage('checkout') {
+            steps {
+                // Cleans the workspace for old code / build
+                cleanWs()
+                // this is an example of the repository this pipeline is running on. replace with your own repository
+                sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+            }
+        }
+        // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
+        stage('gensbom') {
+        agent {
+            docker {
+                // taking the image from scribesecuriy means you don't need to have a local version
+                image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                reuseNode true
+                // required to avoid error for jenkins
+                args "--entrypoint="
+            }
+        }
+        steps {       
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+                sh '''
+                    gensbom bom dir:mongo-express-scm \
+                    --context-type jenkins \
+                    --output-directory ./scribe/gensbom \
+                    --product-key $SCRIBE_PRODUCT_KEY \
+                    -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                    --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                    -vv
+                '''
+                }
+            }
+        }
+        // The following call to gensbom generates an SBOM from the docker image
+        stage('image-bom') {
+            agent {
+                docker {
+                    image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                    reuseNode true
+                    args "--entrypoint="
+                }
+            }
+            steps {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+                    sh '''
+                    gensbom bom mongo-express:1.0.0-alpha.4 \
+                    --context-type jenkins \
+                    --output-directory ./scribe/gensbom \
+                    --product-key $SCRIBE_PRODUCT_KEY \
+                    -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                    --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                    -vv'''
+                }
+            }
+        }
+    }
+}
+```
+</details>
+
+
+<details>
+  <summary>  Example pipeline (binary) </summary>
+    Scribe offers images for evidence collecting and integrity verification using provided binaries.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+     SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+     PATH="./temp/bin:$PATH"
+  }
+  }
+  stages {
+    stage('install') {
+        steps {
+          cleanWs()
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    stage('checkout') {
+      steps {
+          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
+    }
+    
+    stage('sbom') {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        sh '''
+            gensbom bom dir:mongo-express-scm \
+            --context-type jenkins \
+            --output-directory ./scribe/gensbom \
+            --product-key $SCRIBE_PRODUCT_KEY \
+             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+            -vv
+          '''
+        }
+      }
+    }
+
+    stage('image-bom') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            gensbom bom mongo-express:1.0.0-alpha.4 \
+            --context-type jenkins \
+            --output-directory ./scribe/gensbom \
+            --product-key $SCRIBE_PRODUCT_KEY \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+            -vv'''
+          }
+      }
+    }
+
+    stage('download-report') {
+      steps {
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            valint report \
+            --product-key $SCRIBE_PRODUCT_KEY \
+            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+            --timeout 120s \
+            -vv'''
+          }
+      }
+    }
+  }
+}
+```
+</details>
+
+

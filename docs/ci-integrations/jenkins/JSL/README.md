@@ -233,12 +233,19 @@ You may collect evidence anywhere in your workflows.
 Full workflow example of a workflow, upload evidence using gensbom and download report using valint.
 Finally attaching reports and evidence to your pipeline run.
 
-```YAML
+```javascript
+library identifier: 'JSL@master', retriever: modernSCM(
+     [$class       : 'GitSCMSource',
+      remote       : 'https://github.com/scribe-security/JSL.git'])
+
 pipeline {
   agent {
     kubernetes {
       yamlFile 'jenkins/k8s/jsl-scribe-test/KubernetesPod.yaml'
     }
+  }
+  environment {
+     SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
   }
   stages {
     stage('checkout-bom') {
@@ -250,11 +257,12 @@ pipeline {
         container('gensbom') {
           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             bom(target: "dir:mongo-express-scm", 
-                   verbose: 3,
-                   scribe_enable: true,
-                   scribe_client_id: "$SCRIBE_CLIENT_ID",
-                   scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
-                   )
+                verbose: 3,
+                product_key: "$SCRIBE_PRODUCT_KEY",
+                scribe_enable: true,
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+                )
           }
         }
       }
@@ -268,6 +276,7 @@ pipeline {
            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             bom(target: "mongo-express:1.0.0-alpha.4", 
                 verbose: 3,
+                product_key: "$SCRIBE_PRODUCT_KEY",
                 scribe_enable: true,
                 scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
@@ -284,6 +293,7 @@ pipeline {
             report(
                 verbose: 3,
                 scribe_enable: true,
+                product_key: "$SCRIBE_PRODUCT_KEY",
                 scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
             )
@@ -324,6 +334,175 @@ spec:
     tty: true
 ```
 </details>
+
+<details>
+  <summary>  Scribe integrity report - full pipeline (docker) </summary>
+
+Full workflow example of a workflow, upload evidence using Gensbom and download report using Valint.
+Finally, attach reports and evidence to your pipeline run.
+
+```javascript
+library identifier: 'JSL@master', retriever: modernSCM(
+     [$class       : 'GitSCMSource',
+      remote       : 'https://github.com/scribe-security/JSL.git'])
+
+pipeline {
+  agent any
+  environment {
+     SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+  }
+  stages {
+    stage('checkout') {
+      steps {
+          cleanWs()
+          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
+    }
+
+    stage('sbom') {
+        agent {
+            docker {
+                image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                reuseNode true
+                args "--entrypoint="
+            }
+        }
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+            bom(target: "dir:mongo-express-scm", 
+                verbose: 2,
+                product_key: "$SCRIBE_PRODUCT_KEY",
+                scribe_enable: true,
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+                )
+           }
+        }
+    }
+
+    stage('image-bom') {
+        agent {
+            docker {
+                image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                reuseNode true
+                args "--entrypoint="
+            }
+        }
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+            bom(target: "mongo-express:1.0.0-alpha.4", 
+                verbose: 2,
+                product_key: "$SCRIBE_PRODUCT_KEY",
+                scribe_enable: true,
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+                )
+           }
+        }
+    }
+    stage('download-report') {
+        agent {
+            docker {
+                image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+                reuseNode true
+                args "--entrypoint="
+            }
+        }
+        steps {
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            report(
+                verbose: 2,
+                scribe_enable: true,
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+                scribe_url: "https://api.staging.scribesecurity.com",
+                scribe_login_url: "https://scribesecurity-staging.us.auth0.com",
+                scribe_audience: "api.staging.scribesecurity.com",
+            )
+          }   
+      }
+    }
+  }
+}
+```
+</details>
+
+<details>
+  <summary>  Scribe integrity report - full pipeline (binary) </summary>
+
+Full workflow example of a workflow, upload evidence using Gensbom and download report using Valint.
+Finally, attach reports and evidence to your pipeline run.
+
+```javascript
+library identifier: 'JSL@master', retriever: modernSCM(
+     [$class       : 'GitSCMSource',
+      remote       : 'https://github.com/scribe-security/JSL.git'])
+
+pipeline {
+  agent any
+  environment {
+     SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+     PATH="./temp/bin:$PATH"
+  }
+  stages {
+    stage('install') {
+        steps {
+          cleanWs()
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    stage('checkout') {
+      steps {
+          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
+    }
+    
+    stage('sbom') {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        bom(target: "dir:mongo-express-scm", 
+            verbose: 2,
+            product_key: "$SCRIBE_PRODUCT_KEY",
+            scribe_enable: true,
+            scribe_client_id: "$SCRIBE_CLIENT_ID",
+            scribe_client_secret: "$SCRIBE_CLIENT_SECRET",,
+            )
+        }
+      }
+    }
+
+    stage('image-bom') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            bom(target: "mongo-express:1.0.0-alpha.4", 
+                verbose: 2,
+                product_key: "$SCRIBE_PRODUCT_KEY",
+                scribe_enable: true,
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+                )
+          }
+      }
+    }
+
+    stage('download-report') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            report(
+                verbose: 2,
+                scribe_enable: true,
+                product_key: "$SCRIBE_PRODUCT_KEY",
+                scribe_client_id: "$SCRIBE_CLIENT_ID",
+                scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
+            )
+          }
+      }
+    }
+  }
+}
+```
+</details>
+
 
 ## Gensbom integration
 <details>
