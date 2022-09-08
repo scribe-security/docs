@@ -46,7 +46,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
     * Call `gensbom` right after checkout to collect hash value evidence of the source code files.
     ```javascript
               container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom dir:<repo-name> \
                             --context-type jenkins \
@@ -62,7 +62,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
         stage('image-bom') {
             steps {
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom <image-name:tag> \
                             --context-type jenkins \
@@ -104,6 +104,9 @@ pipeline {
                 tty: true
         }
     }
+    environment {
+        SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+    }
     stages {
         stage('checkout-bom') {
             steps {
@@ -113,7 +116,7 @@ pipeline {
                 }
                 // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom dir:mongo-express-scm \
                             --context-type jenkins \
@@ -130,7 +133,7 @@ pipeline {
             steps {
                 // The following call to gensbom generates an SBOM from the docker image
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom mongo-express:1.0.0-alpha.4 \
                             --context-type jenkins \
