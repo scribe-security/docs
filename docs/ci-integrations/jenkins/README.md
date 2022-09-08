@@ -26,7 +26,8 @@ This example uses a sample pipeline building a Mongo express project.
 
 The code snippets call `gensbom`, the evidence collector and SBOM generator developed by Scribe, twice: at checkout and after creating the Docker image.
 
-1. Add the credentials to your environment according to the [Jenkins instructions](https://www.jenkins.io/doc/book/using/using-credentials/ "Jenkins Instructions"). Following the code example below, be sure to use the names **usernameVariable** for the **client-id**, **passwordVariable** for the  **client-secret** and **productkeyVariable** for the **product-key**.
+1. Add the credentials to your environment according to the [Jenkins instructions](https://www.jenkins.io/doc/book/using/using-credentials/ "Jenkins Instructions"). Following the code example below, be sure to use the names **scribe-login-auth** to store **client-id**, **client-secret** secret, and **scribe-product-key** to store **product-key**.
+**product-key** can be stored in local env as plain text as well.
 2. Add Code snippets to your pipeline:   
     * Add `gensbom` declarations to the container definitions.
     ```javascript
@@ -37,6 +38,12 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
                 - cat
                 tty: true
     ``` 
+    * Add product key to env
+    ```javascript
+      environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+      }
+    ```
     * Replace the `Mongo express` repo in the example with your repo name.
     ```javascript
                 container('git') {
@@ -46,7 +53,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
     * Call `gensbom` right after checkout to collect hash value evidence of the source code files.
     ```javascript
               container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-login-auth', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom dir:<repo-name> \
                             --context-type jenkins \
@@ -62,7 +69,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
         stage('image-bom') {
             steps {
                 container('gensbom') {
-                    withCredentials([usernamePassword(usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET', productkeyVariable: 'SCRIBE_PRODUCT_KEY')]) {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-login-auth', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
                         sh '''
                         gensbom <image-name:tag> \
                             --context-type jenkins \
