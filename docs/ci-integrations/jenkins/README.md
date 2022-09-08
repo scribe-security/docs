@@ -75,8 +75,11 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
             }
         }
     ```
-         
-Here's the full example pipeline:
+
+## Full examples
+
+<details>
+  <summary>  K8s pipeline </summary>
 
 ```javascript
 pipeline {
@@ -145,3 +148,89 @@ pipeline {
     }
 }
 ```
+
+</details>
+
+
+<details>
+  <summary>  docker  agent pipeline </summary>
+
+### Pre requisites
+
+You need the following jenkins extenstions
+1. [docker pipeline](https://plugins.jenkins.io/docker-workflow/)
+2. [docker commons](https://plugins.jenkins.io/docker-commons/)
+3. [docker plugin](https://plugins.jenkins.io/docker-plugin/)
+4. [Docker API](https://plugins.jenkins.io/docker-java-api/)
+5. [Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/) (optional)
+
+You also need to have a `docker` installed on your build node in jenkins.
+
+
+### Pipeline Example
+
+The following example pipeline builds project mongo express and calls Scribe *gensbom* twice: after checkout and after the docker image is built.  
+
+```javascript
+pipeline {
+  agent any
+  stages {
+        stage('checkout') {
+            steps {
+                // Cleans the workspace for old code / build
+                cleanWs()
+                // this is an example of the repository this pipeline is running on. replace with your own repository
+                sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+            }
+        }
+        // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
+        stage('gensbom') {
+        agent {
+            docker {
+                // taking the image from scribesecuriy means you don't need to have a local version
+                image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                reuseNode true
+                // required to avoid error for jenkins
+                args "--entrypoint="
+            }
+        }
+        steps {       
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+                sh '''
+                    gensbom bom dir:mongo-express-scm \
+                    --context-type jenkins \
+                    --output-directory ./scribe/gensbom \
+                    --product-key testing \
+                    -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                    --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                    -vv
+                '''
+                }
+            }
+        }
+        // The following call to gensbom generates an SBOM from the docker image
+        stage('image-bom') {
+            agent {
+                docker {
+                    image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+                    reuseNode true
+                    args "--entrypoint="
+                }
+            }
+            steps {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+                    sh '''
+                    gensbom bom mongo-express:1.0.0-alpha.4 \
+                    --context-type jenkins \
+                    --output-directory ./scribe/gensbom \
+                    --product-key testing \
+                    -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                    --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+                    -vv'''
+                }
+            }
+        }
+    }
+}
+```
+</details>
