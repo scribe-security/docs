@@ -52,6 +52,4 @@ Please make sure you use secret variables for client id, client secret and prody
 
 ## Resources
 
-[CircleCI Orb Registry Page](https://circleci.com/orbs/registry/orb/scribe-security/orbs) - The official registry page of this orb for all versions, executors, commands, and jobs described.
-
-[CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using, creating, and publishing CircleCI Orbs.
+[Gitlab CI Jobs Page](https://docs.gitlab.com/ee/ci/) - The page where gitlab ci is described.
