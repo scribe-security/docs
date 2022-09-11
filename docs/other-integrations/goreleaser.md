@@ -6,7 +6,7 @@ geometry: margin=2cm
 Scribe tools can be integrated in to Goreleaser to generate and/or sign source,
 artifacts and images. \
 Integrations requires the Gensbom CLI installed.
-* Gensbom - gitHub Action for SBOM Generation (Scribe) 
+* Gensbom - bill of material generation tool
 
 ## Gensbom installation
 See details [CLI documentation - install ](../cli/gensbom/docs/installation.md)

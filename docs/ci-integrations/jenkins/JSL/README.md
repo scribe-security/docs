@@ -7,7 +7,7 @@ geometry: margin=2cm
 # Scribe Jenkins shared library
 Scribe offers Jenkins shared library for embedding evidence collecting and integrity verification to your pipeline. \
 Library wraps scribe provided CLI tools.
-* Gensbom - gitHub Action for SBOM Generation (Scribe) 
+* Gensbom - bill of material generation tool
 * Valint - validate supply chain integrity tool
 
 

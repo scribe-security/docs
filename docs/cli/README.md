@@ -13,5 +13,3 @@ All CLIs are accessible via debian package, docker and binary.
 
 * Valint - Valint tool provides a tool to verify integrity of a supply chain. \
   See [CLI documentation - Valint](valint/README.md)
-
-* Fs-tracker - TBD

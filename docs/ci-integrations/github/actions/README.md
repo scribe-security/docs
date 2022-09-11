@@ -7,7 +7,7 @@ geometry: margin=2cm
 # Scribe GitHub actions 🛸
 Scribe offers GitHub actions for embedding evidence collecting and integrity verification to your workflows. \
 Actions are wrappers to provide CLI tools.
-* gensbom - GitHub Action for SBOM Generation (Scribe) 
+* Gensbom - bill of material generation tool
 * Valint - validate supply chain integrity tool
 * Fs-tracker - TBD
 
