@@ -1,7 +1,7 @@
 # Jenkins over Kubernetes
 Scribe offers images for evidence collecting and integrity verification using Jenkins over K8s. \
 Images are are wrappers to provided CLI tools.
-* Gensbom - gitHub Action for SBOM Generation (Scribe) 
+* Gensbom - bill of material generation tool
 * Valint - validate supply chain integrity tool
 
 [See Jenkins documentation](https://plugins.jenkins.io/kubernetes/)
