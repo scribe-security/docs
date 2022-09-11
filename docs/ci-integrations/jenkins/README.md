@@ -83,7 +83,87 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
         }
     ```
 
-## Full examples
+Here's the full example pipeline:
+
+```javascript
+pipeline {
+    agent {
+        kubernetes {
+            metadata:
+              labels:
+                some-label: jsl-scribe-test
+            spec:
+              containers:
+              - name: jnlp
+                env:
+                - name: CONTAINER_ENV_VAR
+                  value: jnlp
+              - name: gensbom
+                // taking the image from scribesecuriy means you don't need to have a local version
+                image: scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest 
+                command:
+                - cat
+                tty: true
+              - name: git
+                image: alpine/git
+                command:
+                  - cat
+                tty: true
+        }
+    }
+    environment {
+       SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
+       SCRIBE_URL = "https://api.staging.scribesecurity.com"
+       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
+       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
+    }
+    stages {
+        stage('checkout-bom') {
+            steps {
+                container('git') {
+                    // this is an example of the repository this pipeline is running on. replace with your own repository
+                    sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+                }
+                // The following call to gensbom collects hash value evidence of the source code files to facilitate the integrity validation
+                container('gensbom') {
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+                        sh '''
+                        gensbom dir:mongo-express-scm \
+                            --context-type jenkins \
+                            --output-directory ./scribe/gensbom \ 
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PRODUCT_KEY \
+                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                            -v '''
+                    }
+                }
+            }
+        }
+
+        stage('image-bom') {
+            steps {
+                // The following call to gensbom generates an SBOM from the docker image
+                container('gensbom') {
+
+                    withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+                        sh '''
+                        gensbom mongo-express:1.0.0-alpha.4 \
+                            --context-type jenkins \
+                            --output-directory ./scribe/gensbom \ 
+                            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+                            --product-key $SCRIBE_PRODUCT_KEY \
+                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                            -v '''
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+
+<!-- ## Full examples
 
 <details>
   <summary>  Example pipeline (Kubernetes) </summary>
@@ -324,4 +404,4 @@ pipeline {
 }
 ```
 </details>
-
+ -->
