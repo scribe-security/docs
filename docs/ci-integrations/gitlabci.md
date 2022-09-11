@@ -43,6 +43,10 @@ You may collect evidence anywhere in your workflows.
 
 ```yaml
 image: ubuntu:latest
+variables:
+  LOGIN_URL: https://scribesecurity-staging.us.auth0.com
+  AUTH_AUDIENCE: api.staging.scribesecurity.com
+  SCRIBE_URL: https://api.staging.scribesecurity.com
 before_script:
   - apt update && apt install git
   - apt install git -y
@@ -60,7 +64,7 @@ test:
             --output-directory ./scribe/gensbom \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url https://scribesecurity-staging.us.auth0.com --scribe.auth.audience api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv
       - >-
         gensbom bom mongo-express:1.0.0-alpha.4 \
@@ -68,13 +72,13 @@ test:
             --output-directory ./scribe/gensbom \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url=https://scribesecurity-staging.us.auth0.com --scribe.auth.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv
       - >-
         valint report \
             --product-key $PRODUCT_KEY \
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --scribe.login-url=https://scribesecurity-staging.us.auth0.com --scribe.auth.audience=api.staging.scribesecurity.com --scribe.url https://api.staging.scribesecurity.com \
+            --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
             --timeout 120s \
             -vv
 
