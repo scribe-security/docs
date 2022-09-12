@@ -124,6 +124,7 @@ import_actions() {
     import_file ${repo} "valint/report" "${dst_dir}"
     import_file ${repo} "gensbom/bom" "${dst_dir}"
     import_file ${repo} "gensbom/verify" "${dst_dir}"
+    import_file ${repo} "installer" "${dst_dir}"
 }
 
 export_actions() {
