@@ -38,7 +38,7 @@ The code snippets call `gensbom`, the evidence collector and SBOM generator deve
                 - cat
                 tty: true
     ``` 
-    * Add product key to env
+    * Add product key to the environment
     ```javascript
       environment {
        SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
