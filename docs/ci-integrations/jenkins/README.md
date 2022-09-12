@@ -113,9 +113,6 @@ pipeline {
     }
     environment {
        SCRIBE_PRODUCT_KEY = credentials('scribe-product-key')
-       SCRIBE_URL = "https://api.staging.scribesecurity.com"
-       SCRIBE_LOGIN_URL = "https://scribesecurity-staging.us.auth0.com"
-       SCRIBE_AUDIENCE = "api.staging.scribesecurity.com"
     }
     stages {
         stage('checkout-bom') {
@@ -132,8 +129,7 @@ pipeline {
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-                            --product-key $SCRIBE_PRODUCT_KEY \
-                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                            --product-key $SCRIBE_PRODUCT_KEY 
                             -v '''
                     }
                 }
@@ -151,8 +147,7 @@ pipeline {
                             --context-type jenkins \
                             --output-directory ./scribe/gensbom \ 
                             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-                            --product-key $SCRIBE_PRODUCT_KEY \
-                            --scribe.-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+                            --product-key $SCRIBE_PRODUCT_KEY 
                             -v '''
                     }
                 }
