@@ -1,56 +1,34 @@
----
-title: Installer
----
-
-# Installer actions
+# Installer actions 🍕
 Installer action allows you to install tools locally and use them directly.
 
 ### Input arguments
 ```yaml
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
-    default: registry
-  target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
-    required: true
-  verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
-    default: 0
-  config:
-    description: 'Application config file'
-  inputformat:
-    description: 'Sbom input formatter, options=[attest-cyclonedx-json] (default "attest-cyclonedx-json")'
-    default: attest-cyclonedx-json
-  output-directory:
-    description: 'report output directory'
-    default: ./gensbom_reports
-  output-file:
-    description: 'Output result to file'
-  filter-regex:
-    description: 'Filter out files by regex'
-    default: .*\.pyc,\.git/.*
-  attest-config:
-    description: 'Attestation config map'
-  attest-name:
-    description: 'Attestation config name (default "gensbom")'
-  attest-default:
-    description: 'Attestation default config, options=[sigstore sigstore-github x509]'
-    default: sigstore-github
+  tools:
+    description: 'Select scribe tools <tool:version>'
+    required: false
+    default: 'gensbom,valint'
 ```
 
 ## Supported tools
 * valint
-* bomber
+* gensbom
 
-## Linux support
-* Debian based - (arm64, amd64), https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local.
+## OS - Arch support
+* Linux - arm64, amd64.
 
 ### Usage
 ```
-- name: Bomber verify
-  id: bomber_verify
-  uses: scribe-security/actions/gensbom/verify@master
+- name: Scribe tool install
+  id: scribe_install
+  uses: scribe-security/actions/installer@master
+```
+
+### Select tools
+```YAML
+- name: Gensbom install
+  id: gensbom_install
+  uses: scribe-security/actions/installer@master
   with:
-      tool: 'valint'
+    tools: gensbom
 ```
 
