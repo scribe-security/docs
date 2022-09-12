@@ -3,7 +3,7 @@ sidebar_position: 2
 sidebar_label: GitHub Actions
 ---
 
-# GitHub Actions
+# Integrating Scribe in your GitHub Actions pipeline
 
 ## Before you begin
 
