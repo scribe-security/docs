@@ -27,7 +27,7 @@ This example uses a sample pipeline building a Mongo express project.
 The code snippets call `gensbom`, the evidence collector and SBOM generator developed by Scribe, twice: at checkout and after creating the Docker image.
 
 1. Add the credentials to your environment according to the [Jenkins instructions](https://www.jenkins.io/doc/book/using/using-credentials/ "Jenkins Instructions"). Following the code example below, be sure to use the names **scribe-login-auth** to store **client-id**, **client-secret** secret, and **scribe-product-key** to store **product-key**.
-**product-key** can be stored in local env as plain text as well.
+**product-key** can be stored in your local environment as plain text as well.
 2. Add Code snippets to your pipeline:   
     * Add `gensbom` declarations to the container definitions.
     ```javascript
