@@ -32,6 +32,24 @@ See details [CLI documentation - config](docs/configuration.md)
 # Commands
 valint supports the following commands.
 
+## Diff
+Command checks the differences between source and destination sboms.
+
+See details [CLI documentation - diff](docs/command/valint_diff.md)
+
+### Diff additional info
+Additional info can be added to the diff report adding:
+* Metadata of the sboms.
+* Synopsis of the report. 
+
+### Diff scoping
+SBOM differences can be filtered to show only part of the sbom data by:
+1) Integrity types
+2) Component types
+3) Package types.
+4) Mime-type types.
+5) Lists of regex paths for source and destination sboms.
+
 ## Report
 Command pulls Scribe service reports.
 Once a set of evidence are uploaded to Scribe service a report is generated.
@@ -44,8 +62,8 @@ See details [CLI documentation - report](docs/command/valint_report.md)
 Including results from the source code integrity and open source integrity results.
 Report indicates the changes made to an Image against the source code and open source packages.
 
-1.1) File integrity - Source code comparied to an image.
-1.2) Open source integrity - open source packages (NPM) compared to an image.
+1) File integrity - Source code comparied to an image.
+1) Open source integrity - open source packages (NPM) compared to an image.
 
 ### Integrity types
 Integrity filters the output report by integrity value of the componenets.
