@@ -3,12 +3,11 @@ sidebar_position: 1
 sidebar_label: Jenkins
 ---
 # Integrating Scribe in your Jenkins pipeline 
-Images wrap Scribe Command Line Interpreter (CLI)tools. Scribe provides two CLI tools: 
-* **Gensbom**: SBOM Generator 
-* **Valint**: Validator and integrity checker for your supply chain
+
+If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
 
 ## Before you begin
-### Acquire credentials from ScribeHub
+### Acquiring credentials from ScribeHub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
@@ -17,9 +16,39 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 
 >Note that the product key is unique per product, while the client ID and secret are unique for your account.
 
-### Add to .gitignore
-To avoid potentially costly commits we recommended adding the Scribe output directory to your .gitignore file.
-By default add `**/scribe` to your .gitignore.
+### Adding Credentials to Jenkins
+
+1. Go to your Jenkins Web Console.
+1. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
+1. To add global credentials, in the **Global credentials** area, click **+ Add Credentials**.
+A new **Credentials** form opens.
+1.	To add the Product Key, in the **Kind** field, select **Secret Text**.
+1.	Copy *Product Key* provided by Scribe to the **Secret** field.
+
+1.	Set **ID** as **`scribe-product-key`** (lower case).
+1.	Leave **Scope** as Global.
+1. Add a helpful **Description** to manage your secrets.
+1. Click **Create**. A New Global credential is created, as a **Secret Text** (Kind). A key sign on your new credential row indicates the secret **Kind**. 
+1.	To add Client ID and Client Secret, click **+ Add Credentials** again.
+1.	In the **Kind** field, select **Username with password**.
+
+1. Set **ID** to **`scribe-production-auth-id`** (lower case).
+1.	Copy *Client ID* provided by Scribe to  **Username**.
+1.	Copy *Client Secret* provided by Scribe to  **Password**.
+1.	Leave **Scope** as **Global**.
+1.	Click **Create**.
+1. Another Global credential is created as a  **Username with Password** (Kind)
+
+
+The final state of the secrets definition should be as shown on the following screenshot:
+![Jenkins Credentials](../../../static/img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
+ 
+
+### Avoiding costly commits
+To avoid potentially costly commits, we recommended adding the Scribe output directory to your .gitignore file.
+By default, add `**/scribe` to your .gitignore.
+
 
 ### Using Jenkins Shared Library (JSL)
 
@@ -27,6 +56,10 @@ Use JSL to ease your integration.
 Read [Scribe JSL Documentation](./JSL/) for instructions.
 
 ## Procedure
+Scribe installation includes the Command Line Interpreter (CLI) tools. Scribe provides the following CLI tools: 
+* **Gensbom**: SBOM Generator 
+* **Valint**: Validator and integrity checker for your supply chain.
+
 Every integration pipeline is unique. 
 Integrating Scribe code to your pipeline varies from one case to another.
 
@@ -153,7 +186,7 @@ pipeline {
   <summary> <b> Jenkins over Kubernetes (K8s) </b>
   </summary>
 
-  <h3>  Pre requisites </h3>
+  <h3>  Prerequisites </h3>
 
 [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
 
@@ -262,7 +295,7 @@ spec:
 <details>
   <summary> <b> Jenkins Vanilla (No Agent) </b>
   </summary>
-<h3>  Pre requisites </h3>
+<h3>  Prerequisites </h3>
 
  `curl` installed on your build node in jenkins.
 
