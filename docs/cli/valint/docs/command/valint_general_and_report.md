@@ -103,7 +103,7 @@ By default the report is written to the local cache.
 | -v | --verbose count | console output verbosity level  | | -v = info, -vv = debug |
 | -s | --show | Print report to `stdout` | | | 
 
-### Examples of running `valint` report [flags]` 
+### Examples of running `valint` report `[flags]` 
 Download your report from Scribe service:
   ```sh
 valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			
