@@ -6,7 +6,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 
 Validations are based on evidence collected from your build.
 
-## Installing Valint
+## Installing `Valint`
 Choose any of the following command line interpreter (CLI) installation options:
 
 <details>
