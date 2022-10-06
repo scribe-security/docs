@@ -67,7 +67,7 @@ The following are examples that illustrate where to add Scribe code snippets.
 
 The code in these examples of a workflow executes these three steps:
 1. Calls `gensbom` to upload evidence.
-1. Calls `valint` to  download report.
+1. Calls `valint` to download report.
 1. Attaches report and evidence to your pipeline run.
  
 The examples use a sample pipeline building a Mongo express project. 
