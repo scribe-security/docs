@@ -3,7 +3,7 @@ title: gitlab ci
 sidebar_position: 5
 ---
 
-# Jenkins over Kubernetes
+# Gitlab CI
 Scribe offers images for evidence collecting and integrity verification using Gitlab CI. \
 * Gensbom - bill of material generation tool
 * Valint - validate supply chain integrity tool 
