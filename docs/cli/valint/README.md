@@ -45,10 +45,9 @@ Additional info can be added to the diff report adding:
 ### Diff scoping
 SBOM differences can be filtered to show only part of the sbom data by:
 1) Integrity types
-2) Component types
-3) Package types.
-4) Mime-type types.
-5) Lists of regex paths for source and destination sboms.
+2) Package types.
+3) Mime-type types.
+4) Lists of regex paths for source and destination sboms.
 
 ## Report
 Command pulls Scribe service reports.
