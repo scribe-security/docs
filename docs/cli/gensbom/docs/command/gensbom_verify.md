@@ -42,12 +42,12 @@ gensbom verify [TARGET] [flags]
       --attest.default string         Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
       --attest.name string            Attestation config name (default "gensbom")
   -c, --config string                 Config of the application
+      --context-dir string            Context dir
   -C, --context-type string           Context type, options=[jenkins github circleci local gitlab] (default "local")
-      --failonerror                   Fail on errors (default true)
   -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
   -L, --label strings                 Add custom labels
   -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string       Output directory path (default "/home/eitan/.cache/gensbom")
+  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/gensbom")
   -O, --output-file string            Output file path
   -n, --product-key string            Scribe project key
   -q, --quiet                         Suppress all logging output

@@ -45,9 +45,9 @@ gensbom [TARGET] [flags]
       --attest.name string            Attestation config name (default "gensbom")
       --components strings            Select sbom components groups, options=[metadata layers packages syft files dep commits] (default [metadata,layers,packages,syft,files,dep,commits])
   -c, --config string                 Config of the application
+      --context-dir string            Context dir
   -C, --context-type string           Context type, options=[jenkins github circleci local gitlab] (default "local")
   -e, --env strings                   Envrionment keys to include in sbom
-      --failonerror                   Fail on errors (default true)
   -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
   -f, --force                         Force overwrite cache
   -o, --format strings                Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] (default [cyclonedx-json])
@@ -58,7 +58,7 @@ gensbom [TARGET] [flags]
   -h, --help                          help for gensbom
   -L, --label strings                 Add custom labels
   -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string       Output directory path (default "/home/eitan/.cache/gensbom")
+  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/gensbom")
   -O, --output-file string            Output file path
   -n, --product-key string            Scribe project key
   -q, --quiet                         Suppress all logging output
