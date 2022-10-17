@@ -70,3 +70,4 @@ Scribe provides security validation for each version of your product.
             * To edit or delete an existing advisory note, click the three dots>**Edit Advisory**. Edit and **Save** or **Cancel**. 
             
                 To delete, click the red bin icon.
+
