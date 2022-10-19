@@ -53,6 +53,3 @@ Each PR opens a preview site.
 * PR preview - will show preview will deploy only the public part.
 * PR including `dev-preview` prefix will show the preview of the entire site.
 
-
-
-
