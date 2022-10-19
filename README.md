@@ -60,6 +60,12 @@ Each PR opens a preview site.
 git add ...
 git commit -m ...
 ```
+**vscode**
+* select `Source control` on Left Bar
+* select `Source control` on Left Bar
+* press Plus sign next to files modified.
+* Enter commit message
+* Select commit
 
 3) Publish feature 
 ```
@@ -67,6 +73,12 @@ bash git-flow/publish_feature.sh <feature_name>
 ```
 
 4) Create PR on github or vscode plugin from feature branch to dev.
+**vscode**
+* select `Github extension` on Left Bar
+* Select `Create Pull request`
+* Change Into branch to `dev`
+* Add discription
+* Select Create
 
 5) Reviews. comments
 
