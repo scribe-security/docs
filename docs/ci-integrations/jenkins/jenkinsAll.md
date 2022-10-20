@@ -67,14 +67,14 @@ The following are examples that illustrate where to add Scribe code snippets.
 
 The code in these examples of a workflow executes these three steps:
 1. Calls `gensbom` to upload evidence.
-1. Calls `valint` to download report.
+1. Calls `valint` to  download report.
 1. Attaches report and evidence to your pipeline run.
  
 The examples use a sample pipeline building a Mongo express project. 
 <details>
   <summary> <b> Jenkins over Docker </b>
   </summary>
-<h3>  Pre requisites </h3>
+<h3>  Prerequisites </h3>
 
 * Jenkins extensions installed:
    1. [Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")
@@ -88,7 +88,7 @@ The examples use a sample pipeline building a Mongo express project.
 ### Procedure
 
 <details>
-  <summary>  <b>Code of Integration example </b> </summary>
+  <summary>  <b> Sample integration code </b> </summary>
 
 
 
@@ -176,7 +176,7 @@ pipeline {
 
 
 ### See Also
-[See Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
+[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
 </details>
 
 
@@ -189,8 +189,10 @@ pipeline {
   <h3>  Prerequisites </h3>
 
 [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
+### Procedure
 
-<h3>  Code of Integration example  </h3>
+<details>
+  <summary>  <b> Sample integration code </b> </summary>
 
 
 ```javascript
@@ -285,9 +287,10 @@ spec:
       - cat
     tty: true
 ```
+</details>
 
 ### See Also
-[See Jenkins documentation](https://plugins.jenkins.io/kubernetes/)
+[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)
 
 </details>
 
@@ -298,8 +301,10 @@ spec:
 <h3>  Prerequisites </h3>
 
  `curl` installed on your build node in jenkins.
+### Procedure
 
-<h3> Code of Integration example</h3>
+<details>
+  <summary>  <b> Sample integration code </b> </summary>
 
 ```javascript
 pipeline {
@@ -367,6 +372,7 @@ pipeline {
 
 ```
 
+</details>
 </details>
 
 
