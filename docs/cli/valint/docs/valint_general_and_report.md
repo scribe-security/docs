@@ -1,12 +1,13 @@
-# Valint Command
-## About `valint`
+# `valint` command
+## 🦀 Validate supply chain integrity tool 🦀
+
 `valint` is a Command Line Interpreter (CLI) tool developed by Scribe, that validates the integrity of your build. 
 
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
 
 Validations are based on evidence collected from your build.
 
-## Installing `Valint`
+## Installing `valint`
 Choose any of the following command line interpreter (CLI) installation options:
 
 <details>
@@ -67,19 +68,19 @@ Running `valint` requires the following credentials that are found in the produc
 
 ## Running `valint` report
 
-Use `valint` report` to download the integrity validation report from Scribe service:
+Use `valint` report to download the integrity validation report from Scribe service:
 
 ```sh
 valint report [flags]
 ```
 
-By default the report is written to the local cache. 
+By default, the report is written to the local cache. 
 ```sh
 ~/.cache/valint/reports/<timestamp>/<report-file>
 ```
 
 
-## Valint Flags 
+## `valint` flags 
 >The following flags are mandatory:
 >* -U (Client ID)
 >* -P (Client Secret)
@@ -103,7 +104,7 @@ By default the report is written to the local cache.
 | -v | --verbose count | console output verbosity level  | | -v = info, -vv = debug |
 | -s | --show | Print report to `stdout` | | | 
 
-### Examples of running `valint` report `[flags]` 
+### Examples of running `valint report [flags]` 
 Download your report from Scribe service:
   ```sh
 valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			
