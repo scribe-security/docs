@@ -10,32 +10,6 @@ Generate Software Bill Of Materials (SBOM) from container images and filesystems
 gensbom [TARGET] [flags]
 ```
 
-### Examples for running `gensbom`
-
-```
-  gensbom  <target>
-  gensbom  alpine:latest                         create default (cyclonedxjson) sbom
-  gensbom  alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
-  gensbom  alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
-  gensbom  alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
-  gensbom  alpine:latest -vv                     show verbose debug information
-  gensbom  alpine:latest -vv -A "*/**"           collect files content
-
-  Supports the following image sources:
-  gensbom  yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
-
-  You can also explicitly specify the scheme to use:
-  gensbom  docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-  gensbom  docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-  gensbom  oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
-  gensbom  dir:path/to/yourproject                read directly from a path on disk (any directory)
-  gensbom  registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-  gensbom  file:path/to/yourproject/file          read directly from a path on disk (any single file)
-  gensbom  git:path/to/yourrepository             read directly from a local repository on disk
-  gensbom  git:path/to/yourrepository.git         read directly from a remote repository on git
-
-```
-
 ### Options flags 
 specific flags for command
 
@@ -72,6 +46,32 @@ specific flags for command
 | -s | --show | Print report to stdout | |
 | -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
 
+
+### Examples for running `gensbom`
+
+```
+  gensbom  <target>
+  gensbom  alpine:latest                         create default (cyclonedxjson) sbom
+  gensbom  alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
+  gensbom  alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
+  gensbom  alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
+  gensbom  alpine:latest -vv                     show verbose debug information
+  gensbom  alpine:latest -vv -A "*/**"           collect files content
+
+  Supports the following image sources:
+  gensbom  yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+
+  You can also explicitly specify the scheme to use:
+  gensbom  docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+  gensbom  docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+  gensbom  oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+  gensbom  dir:path/to/yourproject                read directly from a path on disk (any directory)
+  gensbom  registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+  gensbom  file:path/to/yourproject/file          read directly from a path on disk (any single file)
+  gensbom  git:path/to/yourrepository             read directly from a local repository on disk
+  gensbom  git:path/to/yourrepository.git         read directly from a remote repository on git
+
+```
 
 ### SEE ALSO
 

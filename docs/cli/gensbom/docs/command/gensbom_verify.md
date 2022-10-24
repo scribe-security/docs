@@ -6,27 +6,6 @@ Verify Software Bill Of Materials (SBOM) from container images and filesystems
 gensbom verify [TARGET] [flags]
 ```
 
-### Examples for running `gensbom verify`
-
-```
-  gensbom verify <target>
-  gensbom verify alpine:latest                         verify target against signed attestation of sbom
-  gensbom verify alpine:latest -i attest-slsa          verify target against signed attestation of SLSA provenance
-  gensbom verify alpine:latest -vv                     show verbose debug information
-
-  Supports the following image sources:
-  gensbom verify yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
-
-  You can also explicitly specify the scheme to use:
-  gensbom verify docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-  gensbom verify docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-  gensbom verify oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
-  gensbom verify dir:path/to/yourproject                read directly from a path on disk (any directory)
-  gensbom verify registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-  gensbom verify file:path/to/yourproject/file          read directly from a path on disk (any single file)
-
-```
-
 ### Options flags 
 specific flags for command
 
@@ -64,6 +43,27 @@ global flag for all commands
 | -s | --show | Print report to stdout | |
 | -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
 
+
+### Examples for running `gensbom verify`
+
+```
+  gensbom verify <target>
+  gensbom verify alpine:latest                         verify target against signed attestation of sbom
+  gensbom verify alpine:latest -i attest-slsa          verify target against signed attestation of SLSA provenance
+  gensbom verify alpine:latest -vv                     show verbose debug information
+
+  Supports the following image sources:
+  gensbom verify yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+
+  You can also explicitly specify the scheme to use:
+  gensbom verify docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+  gensbom verify docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+  gensbom verify oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+  gensbom verify dir:path/to/yourproject                read directly from a path on disk (any directory)
+  gensbom verify registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+  gensbom verify file:path/to/yourproject/file          read directly from a path on disk (any single file)
+
+```
 
 ### SEE ALSO
 

@@ -6,18 +6,6 @@ Download integrity report from Scribe service
 valint report [flags]
 ```
 
-### Examples for running `valint report`
-
-```
-	valint report [flags]
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			(Download your report from Scribe service)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		(Download report, retry timeout after 30 seconds)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		(Download report, retry timeout after 30 seconds and backoff 10 seconds)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	(Download report of all source code files that were suspiciously modified)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	(Download report of all source code packages that were verified)
-	
-```
-
 ### Options flags 
 specific flags for command
 
@@ -53,6 +41,18 @@ global flag for all commands
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
 | -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
 
+
+### Examples for running `valint report`
+
+```
+	valint report [flags]
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			(Download your report from Scribe service)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		(Download report, retry timeout after 30 seconds)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		(Download report, retry timeout after 30 seconds and backoff 10 seconds)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	(Download report of all source code files that were suspiciously modified)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	(Download report of all source code packages that were verified)
+	
+```
 
 ### SEE ALSO
 

@@ -33,6 +33,5 @@ specific flags for command
 
 ### SEE ALSO
 
-* [valint diff](valint_diff.md)	 - Compare differences between source and destination sboms
 * [valint report](valint_report.md)	 - Download integrity report from Scribe service
 
