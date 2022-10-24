@@ -1,6 +1,6 @@
 ## gensbom verify
 
-Verify target by BOM attestation
+Verify Software Bill Of Materials (SBOM) from container images and filesystems
 
 ```
 gensbom verify [TARGET] [flags]
@@ -42,8 +42,8 @@ gensbom verify [TARGET] [flags]
       --attest.default string         Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
       --attest.name string            Attestation config name (default "gensbom")
   -c, --config string                 Config of the application
-  -C, --context-type string           Context type, options=[jenkins github circleci local] (default "local")
-      --failonerror                   Fail on errors (default true)
+      --context-dir string            Context dir
+  -C, --context-type string           Context type, options=[jenkins github circleci local gitlab] (default "local")
   -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
   -L, --label strings                 Add custom labels
   -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
