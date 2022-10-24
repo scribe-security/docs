@@ -12,9 +12,7 @@ For a custom configuration location use `--config` flag with any command.
 Configuration format and default values.
 
 ```yaml
-logger:
-  verbose: 2
-output_directory: /home/user/.cache/valint
+output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
     login-url: https://scribesecurity-production.us.auth0.com
@@ -28,7 +26,7 @@ context:
 report:
   retry:
     backoff: 3s
-    timeout: 30s
+    timeout: 60s
   sections:
   - files
   - packages
