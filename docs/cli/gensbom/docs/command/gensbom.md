@@ -54,7 +54,7 @@ specific flags for command
 | -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
-| | --git-auth | Git repository authentication info, [format: <username>:<password>] | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
@@ -76,6 +76,8 @@ specific flags for command
 ### SEE ALSO
 
 * [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
+
+tems
 
 rl (default "https://api.production.scribesecurity.com")
   -s, --show                          Print report to stdout
