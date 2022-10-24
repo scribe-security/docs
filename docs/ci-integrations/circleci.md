@@ -28,8 +28,6 @@ Scribe offers CircleCI Orbs for embedding evidence collecting and integrity veri
 * Set your Scribe credentials as environment variables according to [CircleCI instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project).
 * Follow instructions and examples on the [ScribeHub Orb](https://circleci.com/developer/orbs/orb/scribe-security/orbs "Instructions for using ScribeHub Orb")
 
-
-
 ---
 
 ## Resources
