@@ -1,5 +1,5 @@
-# `valint` command
-## 🦀 Validate supply chain integrity tool 🦀
+
+# `valint` - Validate integrity of your supply chain
 
 `valint` is a Command Line Interpreter (CLI) tool developed by Scribe, that validates the integrity of your build. 
 
@@ -58,7 +58,7 @@ valint --version
 
 </details>
 
-## Aquire Scribe Credentials 
+## Acquiring Scribe credentials  
 
 Running `valint` requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
@@ -91,20 +91,13 @@ By default, the report is written to the local cache.
 |  -n | --product-key \<string\> | Scribe Product Key  | | | 
 | -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | |  |
 | -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | | |
-| -E | --scribe.enable | Enable Scribe client  | | disabled  |
-| -c | --config \<string\> | optional path of configuration file  | | | 
-| -C | --context-type \<string\> |  CI tool |  [jenkins github circleci local] | local
-| -h | --help | Help for  `valint [report]` | | | 
-| -L | --label \<string\> | Add Custom labels  | | | 
-| -D | --level \<string\> | Depth, levels to Log | [panic fatal error warning info debug trace] | fatal | 
-| -d | --output-directory \<string\> | optional output directory path | | ~/.cache/valint  | 
-| -O | --output-file \<string\> | optional output file name   | | ~/.cache/valint/reports/\<timestamp\>/\<report-file\> |
-| - q | --quiet | Quiet mode, suppress all logging output | | |
-| -u | --scribe.url \<string\> | API Scribe Url string  | | `https://api.production.scribesecurity.com` |
-| -v | --verbose count | console output verbosity level  | | -v = info, -vv = debug |
-| -s | --show | Print report to `stdout` | | | 
 
-### Examples of running `valint report [flags]` 
+For full list of flag options see [valint documentation](command/valint.md)
+
+## Examples
+---
+
+### Examples of running `valint report [flags]`
 Download your report from Scribe service:
   ```sh
 valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			
@@ -126,3 +119,25 @@ Download report of all source code packages that were verified (validated):
 valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	
 ```
 
+For full list of `valint report` flag options see [valint report documentation](command/valint_report.md)
+
+
+<!-- # Commands
+valint supports the following commands.
+
+## Diff
+Command checks the differences between source and destination sboms.
+
+See details [CLI documentation - diff](docs/command/valint_diff.md)
+
+### Diff additional info
+Additional info can be added to the diff report adding:
+* Metadata of the sboms.
+* Synopsis of the report. 
+
+### Diff scoping
+SBOM differences can be filtered to show only part of the sbom data by:
+1) Integrity types
+2) Package types.
+3) Mime-type types.
+4) Lists of regex paths for source and destination sboms. -->
