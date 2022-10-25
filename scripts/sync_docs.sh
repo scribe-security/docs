@@ -210,7 +210,6 @@ export_cli() {
     cp -R "docs/CLI/${repo}/." "${repo_dir}/docs" 
     mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
 }
-set -x
 
 usage() {
   this=$1
