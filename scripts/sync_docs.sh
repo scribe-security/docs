@@ -207,8 +207,8 @@ export_valint() {
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "docs/cli/${repo}/README.md" "${repo_dir}" 
-    cp -r "docs/cli/${repo}/docs" "${repo_dir}"
+    cp "docs/CLI/${repo}/README.md" "${repo_dir}" 
+    cp -r "docs/CLI/${repo}" "${repo_dir}"
 }
 
 
