@@ -1,35 +1,137 @@
 ---
 title: Valint
-author: mikey strauss - Scribe
 date: Jun 14, 2022
 geometry: margin=2cm
 ---
 
-# 🦀 Valint - validate supply chain integrity tool  🦀
-Valint tool provides a tool to verify integrity of a supply chain.
-Tool allows you to verify and validate the integrity multiple parts of the supply chain artifacts and flow.
+# `valint` - Validate integrity of your supply chain
 
-# Overview
-Valint provides a range of validation capabilities pulled from evidence collected in your supply chain.
-Tool allows you to access a set of reports both created locally and by using Scribe services showing the integrity of our supply chain.
+`valint` is a Command Line Interpreter (CLI) tool developed by Scribe, that validates the integrity of your build. 
 
-# Scribe service based report
-* Package integrity report for you images artifacts. (See `Report` subcommand).
-* File integrity report for your images artifacts (See `Report` subcommand).
+At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
 
-## Global Flags:
-Global flags can be set by CLI on any command. \
-Flags that can not mapped to configuration are verbose, config and backwards flags.
+Validations are based on evidence collected from your build.
 
-See details [CLI documentation - global](docs/command/valint.md)
+## Installing `valint`
+Choose any of the following command line interpreter (CLI) installation options:
 
-## Configuration
-Configuration can be set for CLI for all commands as well as for the global flags.
-Configuration fields can be overridden by CLI, see CLI help for flags details.
+<details>
+  <summary> Pull binary </summary>
 
-See details [CLI documentation - config](docs/configuration.md)
+Get the `valint` tool
+```bash
+curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+```
 
-# Commands
+</details>
+
+<details>
+  <summary> Apt repository </summary>
+
+Download agent DEB package from https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local/valint
+
+```bash
+wget -qO - https://scribesecuriy.jfrog.io/artifactory/api/security/keypair/scribe-artifactory/public | sudo apt-key add -
+sudo sh -c "echo 'deb https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local stable non-free' >> /etc/apt/sources.list"
+apt-get install valint -t stable
+```
+
+</details>
+
+<details>
+  <summary> Docker image </summary>
+
+Pull the `valint` release binary wrapped in its relevant docker image. Tag should be the requested version.
+
+```bash
+docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
+```
+
+</details>
+
+
+<details>
+  <summary> Release packages </summary>
+
+1. Download a `.deb` or `.rpm` file from the [releases page](https://github.com/scribe-security/valint/releases "release page").
+1. Install `.deb` files using `dpkg -i` and `.rpm` files using `rpm -i`.
+
+```bash
+dpkg -i <valint_package.deb>
+valint --version
+```
+
+</details>
+
+## Acquiring Scribe credentials  
+
+Running `valint` requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Product Key**
+* **Client ID**
+* **Client Secret**
+
+## Running `valint` report
+
+Use `valint` report to download the integrity validation report from Scribe service:
+
+```sh
+valint report [flags]
+```
+
+By default, the report is written to the local cache. 
+```sh
+~/.cache/valint/reports/<timestamp>/<report-file>
+```
+
+
+## `valint` flags 
+>The following flags are mandatory:
+>* -U (Client ID)
+>* -P (Client Secret)
+>* -E (Enable Scribe client)
+
+| Short | Long | Description |  Option Values | Default |
+| --- | --- | --- | --- | --- |
+|  -n | --product-key \<string\> | Scribe Product Key  | | | 
+| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | |  |
+| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | | |
+
+For full list of flag options see [valint documentation](command/valint.md)
+
+## Examples
+### Running `valint report`
+---
+Download your report from Scribe service:
+  ```sh
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			
+  ```
+---
+Download report, retry timeout after 30 seconds: 
+  ```sh
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		
+  ```
+---
+Download report, retry timeout after 30 seconds and backoff 10 seconds: 
+  ```sh
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		
+  ```
+---
+Download report of all source code files that were suspiciously modified:
+  ```sh
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 
+  ```
+---
+Download report of all source code packages that were verified (validated):
+```sh
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	
+```
+---
+
+For full list of `valint report` flag options see [valint report documentation](command/valint_report.md)
+
+
+<!-- # Commands
 valint supports the following commands.
 
 ## Diff
@@ -47,103 +149,4 @@ SBOM differences can be filtered to show only part of the sbom data by:
 1) Integrity types
 2) Package types.
 3) Mime-type types.
-4) Lists of regex paths for source and destination sboms.
-
-## Report
-Command pulls Scribe service reports.
-Once a set of evidence are uploaded to Scribe service a report is generated.
-By default report is written in to local cache. 
-`~/.cache/valint/reports/<timestamp>/<report-file>`
-
-See details [CLI documentation - report](docs/command/valint_report.md)
-
-## Integrity report
-Including results from the source code integrity and open source integrity results.
-Report indicates the changes made to an Image against the source code and open source packages.
-
-1) File integrity - Source code comparied to an image.
-1) Open source integrity - open source packages (NPM) compared to an image.
-
-### Integrity types
-Integrity filters the output report by integrity value of the componenets.
-* Modified
-* NotCovered
-* Validated
-* NotValidated
-
-### Report Sections
-Integrity filters the output report by section.
-* Files - open source file report section.
-* Packages - open source packages - package report section
-* Packages files - open source packages - files report section.
-* Summary - Analyze summary and metadata section.
-
-### Basic usage
-<details>
-  <summary> Download report </summary>
-
-Download report and store in a local file.
-Using `output-file` you can select where the report will be copied to.
-
-```bash
-valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> --output-file my_report.json
-```
-
-</details>
-
-### Report format
-
-```
- {
-        "source_code": {
-                "files": [ <Source code files list integrity> ],
-                "summary": {
-                        "files_modified":,
-                        "files_not_validated":,
-                        "files_total_count":,
-                        "files_validated":,
-                },
-        },
-        "open_source": {
-                "packages": [  <Packages list integrity> ],
-                "summary": {
-                    "PackagesModified":,
-                    "PackagesNotValidated": ,
-                    "PackagesTotalCount":,
-                    "PackagesValidated":,
-                },
-                "files": [  <Packages files list integrity> ],
-                "files-summary": {
-                        "files_modified":,
-                        "files_not_validated":,
-                        "files_total_count":,
-                        "files_validated":,
-                },
-        },
-        "analyze": {
-                "access_time": ,
-                "created_at": ,
-                "file_id": ,
-                "metadata": { <Analysis target metadata> },
-                "project_id": ,
-                "request_id": ,
-                "result": {    },
-                "status": "checked",
-                "type": "analyze:sbom",
-                "updated_at": ,
-}
-```
-
-#### Integrity map
-Integirty options are as following.
-```
-	Modified      	     = "Modified"
-	NotCovered           = "Not_Covered"
-	Validated            = "Validated"
-	NotValidated         = "Not_Validated"
-```
-
-See example report [Example - report](docs/report.md)
-
-# Dev
-See details [CLI documentation - dev](docs/dev.md)
+4) Lists of regex paths for source and destination sboms. -->
