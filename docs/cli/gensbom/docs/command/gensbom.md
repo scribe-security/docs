@@ -10,7 +10,44 @@ Generate Software Bill Of Materials (SBOM) from container images and filesystems
 gensbom [TARGET] [flags]
 ```
 
-### Examples
+### Optional flags 
+Flags for `gensbom`
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| -A | --attach-regex | Attach files content by regex | |
+| | --attest.config | Attestation config path | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
+| | --attest.name | Attestation config name | "gensbom" |
+| | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
+| -c | --config | Configuration file path | |
+| | --context-dir | Context dir | |
+| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -e | --env | Envrionment keys to include in sbom | |
+| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
+| -f | --force | Force overwrite cache | |
+| -o | --format | Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
+| -h | --help | help for gensbom | |
+| -L | --label | Add Custom labels | |
+| -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
+| -O | --output-file | Output file name | |
+| -n | --product-key | Scribe Project Key | |
+| -q | --quiet | Suppress all logging output | |
+| -U | --scribe.client-id | Scribe Client ID | |
+| -P | --scribe.client-secret | Scribe Client Secret | |
+| -E | --scribe.enable | Enable scribe client | |
+| -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| -s | --show | Print report to stdout | |
+| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+
+
+### Examples for running `gensbom`
 
 ```
   gensbom  <target>
@@ -36,36 +73,15 @@ gensbom [TARGET] [flags]
 
 ```
 
-### Options
+### SEE ALSO
 
-```
-  -A, --attach-regex strings          Attach files content by regex
-      --attest.config string          Attestation config path
-      --attest.default string         Attestation default config, options=[sigstore sigstore-github x509 kms] (default "sigstore")
-      --attest.name string            Attestation config name (default "gensbom")
-      --components strings            Select sbom components groups, options=[metadata layers packages syft files dep commits] (default [metadata,layers,packages,syft,files,dep,commits])
-  -c, --config string                 Config of the application
-      --context-dir string            Context dir
-  -C, --context-type string           Context type, options=[jenkins github circleci local gitlab] (default "local")
-  -e, --env strings                   Envrionment keys to include in sbom
-  -F, --filter-regex strings          Filter out files by regex (default [.*\.pyc,.*\.git/.*])
-  -f, --force                         Force overwrite cache
-  -o, --format strings                Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] (default [cyclonedx-json])
-      --git-auth string               Git repository authentication info, [format: <username>:<password>]
-      --git-branch string             Git branch in the repository
-      --git-commit string             Git commit hash in the repository
-      --git-tag string                Git tag in the repository
-  -h, --help                          help for gensbom
-  -L, --label strings                 Add custom labels
-  -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/gensbom")
-  -O, --output-file string            Output file path
-  -n, --product-key string            Scribe project key
-  -q, --quiet                         Suppress all logging output
-  -U, --scribe.client-id string       Scribe client id
-  -P, --scribe.client-secret string   Scribe client secret
-  -E, --scribe.enable                 Enable scribe client
-  -u, --scribe.url string             Scribe url (default "https://api.production.scribesecurity.com")
+* [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
+
+tems
+
+tems
+
+rl (default "https://api.production.scribesecurity.com")
   -s, --show                          Print report to stdout
   -v, --verbose count                 Increase verbosity (-v = info, -vv = debug)
 ```

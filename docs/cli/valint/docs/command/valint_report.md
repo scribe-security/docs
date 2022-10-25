@@ -1,55 +1,60 @@
 ## valint report
 
-download report from scribe service
+Download integrity report from Scribe service
 
 ```
 valint report [flags]
 ```
 
-### Examples
+### Optional flags 
+Flags for `report` subcommand
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| -B | --backoff | Backoff duration | "3s" |
+| -h | --help | help for report | |
+| -I | --integrity | Select report integrity, options=[Modified Not_Covered Validated Not_Validated] | [Modified,Not_Covered,Validated,Not_Validated] |
+| -S | --section | Select report sections, options=[files packages packages-files summary] | [files,packages,packages-files,summary] |
+| -s | --show | Print report to stdout | |
+| -T | --timeout | Timeout duration | "60s" |
+
+
+### Global options flags
+Flags for all `valint` subcommands
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| -c | --config | Configuration file path | |
+| | --context-dir | Context dir | |
+| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -L | --label | Add Custom labels | |
+| -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -O | --output-file | Output file name | |
+| -n | --product-key | Scribe Project Key | |
+| -q | --quiet | Suppress all logging output | |
+| -U | --scribe.client-id | Scribe Client ID | |
+| -P | --scribe.client-secret | Scribe Client Secret | |
+| -E | --scribe.enable | Enable scribe client | |
+| -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+
+
+### Examples for running `valint report`
 
 ```
 	valint report [flags]
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			"download report from scribe service"
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		"download report retry timeout after 30s"
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		"download report retry timeout after 30s, backoff 10s"4
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	"download report of all source code files that where modified"
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	"download report of all source code packages that where verified"
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			(Download your report from Scribe service)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		(Download report, retry timeout after 30 seconds)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		(Download report, retry timeout after 30 seconds and backoff 10 seconds)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	(Download report of all source code files that were suspiciously modified)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	(Download report of all source code packages that were verified)
 	
-```
-
-### Options
-
-```
-  -B, --backoff string      Backoff duration (default "3s")
-  -h, --help                help for report
-  -I, --integrity strings   Select report integrity, options=[Modified Not_Covered Validated Not_Validated] (default [Modified,Not_Covered,Validated,Not_Validated])
-  -S, --section strings     Select report sections, options=[files packages packages-files summary] (default [files,packages,packages-files,summary])
-  -s, --show                Print report to stdout
-  -T, --timeout string      Timeout duration (default "60s")
-```
-
-### Options inherited from parent commands
-
-```
-  -c, --config string                 Config of the application
-      --context-dir string            Context dir
-  -C, --context-type string           Context type, options=[jenkins github circleci local gitlab] (default "local")
-  -L, --label strings                 Add custom labels
-  -D, --level string                  Log level, options=[panic fatal error warning info debug trace]
-  -d, --output-directory string       Output directory path (default "/home/mikey/.cache/valint")
-  -O, --output-file string            Output file path
-  -n, --product-key string            Scribe project key
-  -q, --quiet                         Suppress all logging output
-  -U, --scribe.client-id string       Scribe client id
-  -P, --scribe.client-secret string   Scribe client secret
-  -E, --scribe.enable                 Enable scribe client
-  -u, --scribe.url string             Scribe url (default "https://api.production.scribesecurity.com")
-  -v, --verbose count                 Increase verbosity (-v = info, -vv = debug)
 ```
 
 ### SEE ALSO
 
-* [valint](valint.md)	 - supply chain integrity tool
+* [valint](valint.md)	 - Validate integrity of supply chain
 
-###### Auto generated by spf13/cobra on 17-Oct-2022

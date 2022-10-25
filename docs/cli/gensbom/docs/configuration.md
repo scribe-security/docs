@@ -1,6 +1,7 @@
 # Configuration 
 
 Configuration search paths:
+
 - .gensbom.yaml
 - .gensbom/gensbom.yaml
 - ~/.gensbom.yaml
@@ -9,13 +10,12 @@ Configuration search paths:
 For a custom configuration location use `--config` flag with any command.
 
 Configuration format and default values.
+
 ```yaml
-output-directory: $XDG_CACHE_HOME/gensbom
+output_directory: ${XDG_CACHE_HOME}/gensbom
 scribe:
   auth:
     login-url: https://scribesecurity-production.us.auth0.com
-    client-id: '******'
-    client-secret: '******'
     grant-type: client_credentials
     enable: true
     audience: api.production.scribesecurity.com
@@ -25,7 +25,7 @@ context:
   context-type: local
 attest:
   config: ""
-  name: ""
+  name: gensbom
   default: sigstore
 filter:
   filter-regex:
@@ -36,7 +36,7 @@ bom:
   normalizers:
     packagejson:
       enable: true
-  format:
+  formats:
   - cyclonedx-json
   env: []
   force: false
@@ -44,9 +44,16 @@ bom:
   - metadata
   - layers
   - packages
+  - syft
   - files
   - dep
+  - commits
   attach-regex: []
+  git:
+    auth: ""
+    tag: ""
+    branch: ""
+    commit: ""
 find:
   format: cyclonedx-json
   all: false
@@ -56,13 +63,10 @@ sign:
   format: attest-cyclonedx-json
   input-format: cyclonedx-json
   force: false
-log:
-  structured: false
-  level: ""
-  file: ""
 dev:
   profile-cpu: false
   profile-mem: false
   backwards: false
   insecure: true
+  failonerror: true
 ```
