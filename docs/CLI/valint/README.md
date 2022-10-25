@@ -130,6 +130,18 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 
 For full list of `valint report` flag options see [valint report documentation](docs/command/valint_report.md)
 
+## Filtering Report 
+Run `valint report -I` with any of these filters to specify XXX of your integrity report
+* `Modified`
+* `Not_Covered`
+* `Validated`
+* `Not_Validated`
+
+Run `valint report -S` with any of these filters to specify the report sections to output XXXX 
+* `files` - All source files
+* `packages` - All Packages
+* `packages-files` - All files in source and packages
+* `summary` - Summary of the validation report 
 
 <!-- # Commands
 valint supports the following commands.
