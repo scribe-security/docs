@@ -97,7 +97,7 @@ By default, the report is written to the local cache.
 | -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | |  |
 | -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | | |
 
-For full list of flag options see [valint documentation](command/valint.md)
+For full list of flag options see [valint documentation](docs/command/valint.md)
 
 ## Examples
 ### Running `valint report`
@@ -128,7 +128,7 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 ```
 ---
 
-For full list of `valint report` flag options see [valint report documentation](command/valint_report.md)
+For full list of `valint report` flag options see [valint report documentation](docs/command/valint_report.md)
 
 
 <!-- # Commands
