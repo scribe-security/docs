@@ -43,6 +43,7 @@ jobs:
             echo EVENT_NAME=${GITHUB_EVENT_NAME}
             echo "::set-output name=branch::INVALID_EVENT_BRANCH_UNKNOWN"
           fi
+          cd sub/${{ matrix.repo }}
           git status
 
       - name: Create Pull Request
