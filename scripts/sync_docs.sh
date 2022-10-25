@@ -184,8 +184,8 @@ export_orbs() {
 import_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "${repo_dir}/README.md" "docs/cli/${repo}"
-    cp -r "${repo_dir}/docs" "docs/cli/${repo}"
+    cp "${repo_dir}/README.md" "CLI/${repo}"
+    cp -r "${repo_dir}/docs" "CLI/${repo}"
 }
 
 import_gensbom() {
