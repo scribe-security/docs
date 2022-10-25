@@ -6,8 +6,8 @@ Verify Software Bill Of Materials (SBOM) from container images and filesystems
 gensbom verify [TARGET] [flags]
 ```
 
-### Options flags 
-specific flags for command
+### Optional flags 
+Flags for `verify` subcommand
 
 
 | Short | Long | Description | Default |
@@ -18,7 +18,7 @@ specific flags for command
 
 
 ### Global options flags
-global flag for all commands
+Flags for all `gensbom` subcommands
 
 
 | Short | Long | Description | Default |
@@ -69,7 +69,7 @@ global flag for all commands
 
 * [gensbom](gensbom.md)	 - Create SBOM for target
 
- verbosity (-v = info, -vv = debug)
+(-v = info, -vv = debug)
 ```
 
 ### SEE ALSO

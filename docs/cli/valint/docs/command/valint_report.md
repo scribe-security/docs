@@ -6,8 +6,8 @@ Download integrity report from Scribe service
 valint report [flags]
 ```
 
-### Options flags 
-specific flags for command
+### Optional flags 
+Flags for `report` subcommand
 
 
 | Short | Long | Description | Default |
@@ -21,7 +21,7 @@ specific flags for command
 
 
 ### Global options flags
-global flag for all commands
+Flags for all `valint` subcommands
 
 
 | Short | Long | Description | Default |
@@ -56,5 +56,5 @@ global flag for all commands
 
 ### SEE ALSO
 
-* [valint](valint.md)	 - supply chain integrity tool
+* [valint](valint.md)	 - Validate integrity of supply chain
 

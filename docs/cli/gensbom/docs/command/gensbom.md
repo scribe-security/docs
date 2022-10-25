@@ -10,8 +10,8 @@ Generate Software Bill Of Materials (SBOM) from container images and filesystems
 gensbom [TARGET] [flags]
 ```
 
-### Options flags 
-specific flags for command
+### Optional flags 
+Flags for `gensbom`
 
 
 | Short | Long | Description | Default |
@@ -76,6 +76,8 @@ specific flags for command
 ### SEE ALSO
 
 * [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
+
+tems
 
 tems
 

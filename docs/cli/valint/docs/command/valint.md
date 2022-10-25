@@ -1,6 +1,6 @@
 ## valint
 
-supply chain integrity tool
+Validate integrity of supply chain
 
 ### Synopsis
 
@@ -8,8 +8,8 @@ Command Line Interpreter (CLI) tool developed by Scribe, that validates the inte
 	
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.
 
-### Options flags 
-specific flags for command
+### Optional flags 
+Flags for `valint`
 
 
 | Short | Long | Description | Default |
@@ -34,4 +34,6 @@ specific flags for command
 ### SEE ALSO
 
 * [valint report](valint_report.md)	 - Download integrity report from Scribe service
+
+e service
 
