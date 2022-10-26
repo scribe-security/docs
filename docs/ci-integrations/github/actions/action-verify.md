@@ -62,7 +62,7 @@ The command allows users to verify an image via a signed attestation (In-toto).
 ```
 - name: Gensbom verify
   id: gensbom_verify
-  uses: scribe-security/actions/installer@master
+  uses: scribe-security/action-installer@master
   with:
       target: 'busybox:latest'
       verbose: 2
