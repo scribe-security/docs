@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" )
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" )
 
 pull_submodules() {
     repos=$1
@@ -220,6 +220,20 @@ export_orbs() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
+}
+
+import_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    import_file_rename ${repo} "" "${dst_dir}/azure.md"
+}
+
+export_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    export_file_rename ${repo} "" "${dst_dir}/azure.md"
 }
 
 import_cli() {

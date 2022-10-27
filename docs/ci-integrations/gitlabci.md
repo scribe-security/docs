@@ -1,6 +1,6 @@
 ---
 title: gitlab ci
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 # Gitlab CI
@@ -17,9 +17,9 @@ Integrating Scribe Hub with Gitlab requires the following credentials that are f
 
 # Procedure
 
-* Store credentials using [GitLab  project variable]https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project 
+* Store credentials using [GitLab  project variable](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash) 
 
-* Open your GitLab project and make sure you have a yaml file named .gitlab-ci.yml
+* Open your GitLab project and make sure you have a yaml file named `.gitlab-ci.yml`
 As an example update it to contain the following steps:
 
 ```yaml
