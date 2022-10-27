@@ -32,7 +32,7 @@ While *Gensbom* does have other capabilities and CLI options, we will focus on i
     ```YAML
       - name: Gensbom Scm generate bom, upload to scribe
         id: gensbom_bom_scm
-        uses: scribe-security/actions/gensbom/bom@master
+        uses: scribe-security/action-bom@master
         with:
            type: dir
            target: <repo-name>
@@ -46,7 +46,7 @@ While *Gensbom* does have other capabilities and CLI options, we will focus on i
     ```YAML
         - name: Gensbom Image generate bom, upload to scribe
         id: gensbom_bom_image
-        uses: scribe-security/actions/gensbom/bom@master
+        uses: scribe-security/action-bom@master
         with:
           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
            target: <image-name:tag>
@@ -84,7 +84,7 @@ jobs:
 
       - name: Gensbom Scm generate bom, upload to scribe
         id: gensbom_bom_scm
-        uses: scribe-security/actions/gensbom/bom@master
+        uses: scribe-security/action-bom@master
         with:
            type: dir
            target: 'mongo-express-scm'
@@ -104,7 +104,7 @@ jobs:
 
       - name: Gensbom Image generate bom, upload to scribe
         id: gensbom_bom_image
-        uses: scribe-security/actions/gensbom/bom@master
+        uses: scribe-security/action-bom@master
         with:
           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
            target: 'mongo-express:1.0.0-alpha.4'
