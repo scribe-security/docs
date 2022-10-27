@@ -15,14 +15,17 @@ Validations are based on evidence collected from your pipeline.
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
 
   <details> 
-      <summary> Read more: How we validate the integrity of your files 
+      <summary> <i> How <code>valint</code> validates the integrity of your files </i>
       </summary>
-      Valint compares the unique hash values of each file to the its' previous assured version.       
-      The validation process includes checking your source files (Node.js) and all files in (npm) packages and dependencies used, assuring their hash values have not changed on their way to the final container image.
+      To assure that hash values have not changed on their way to the final container image, valint compares hash values of each file in your pipeline to the hash value of an assured version.
+      <ul>
+      <li><b>File integrity:</b> the validation process includes checking your source files (Node.js) using the software configuration management (SCM) source code as an assured version. </li> 
+      <li> <b>Package integrity:</b> validation for all files in (npm) packages and dependencies use the official npm registry as an assured version.  </li> 
+      </ul>      
+      
 </details>
 
-
-<!--- i suggest linking from here to text explaining the process of comparing hash - tracing node.js source files from git repo and package files from package managers - container images . Second best option is here, in a collapse.
+<!--- I strongly suggest linking to this text from somewhere else, explaining the process of comparing hashes. Only second best option is here, in a collapse.
  -->
 
 ## Installing `valint`
@@ -38,6 +41,7 @@ curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
 
 </details>
 
+<!---  DEBIAN NOT RELEASED YET>
 <details>
   <summary> Apt repository </summary>
 
@@ -51,6 +55,7 @@ apt-get install valint -t stable
 
 </details>
 
+--> 
 <details>
   <summary> Docker image </summary>
 
@@ -115,9 +120,9 @@ For the full list of flag options, see [valint documentation](docs/command/valin
 ## Filtering output of report
 
 Filter your integrity check results by running `valint report -I <option>`. Specify one of the following options: 
-* `Validated` - Recieve information of all files/packages that are validated. 
-* `Modified` - Recieve information of all files/packages in which a change was dedtected.
-* `Not_Covered`, `Not_Validated` - Recieve information of all files/packages that the current release of `valint` was unable to confirm validation.
+* `Validated` - Receive information on all files/packages that are validated. 
+* `Modified` - Receive information on all files/packages in which a change was detected.
+* `Not_Covered`, `Not_Validated` - Receive information of all files/packages that the current release of `valint` was unable to confirm validation.
 
 ### Requesting detail type
 To request the type of output information, run `valint report -S <option>`. Specify one of the following options:  
@@ -125,6 +130,7 @@ To request the type of output information, run `valint report -S <option>`. Spec
 * `files` - Validation information of all source files 
 * `packages` - Validation information per package, including dependencies
 * `packages-files` - Validation information per file in each package, including dependencies
+
 
 ## Examples - running `valint report`
 ---
@@ -156,6 +162,15 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 
 For full list of `valint report` flag options see [valint report documentation](docs/command/valint_report.md)
 
+## Supported architecture and operating systems (OS) 
+CPU Architecture 
+* AMD64 (x86_64) 
+* ARM64  
+
+OS 
+* Linux
+* macOS 
+* Windows 
 
 <!-- # Commands
 valint supports the following commands.
