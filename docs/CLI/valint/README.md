@@ -8,9 +8,22 @@ geometry: margin=2cm
 
 `valint` is a Command Line Interpreter (CLI) tool developed by Scribe, that validates the integrity of your build. 
 
+> Currently, our release validates only *Node.js* and *npm* files/packages.
+
+Validations are based on evidence collected from your pipeline. 
+
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
 
-Validations are based on evidence collected from your build.
+  <details> 
+      <summary> Read more: How we validate the integrity of your files 
+      </summary>
+      Valint compares the unique hash values of each file to the its' previous assured version.       
+      The validation process includes checking your source files (Node.js) and all files in (npm) packages and dependencies used, assuring their hash values have not changed on their way to the final container image.
+</details>
+
+
+<!--- i suggest linking from here to text explaining the process of comparing hash - tracing node.js source files from git repo and package files from package managers - container images . Second best option is here, in a collapse.
+ -->
 
 ## Installing `valint`
 Choose any of the following command line interpreter (CLI) installation options:
@@ -73,7 +86,7 @@ Running `valint` requires the following credentials that are found in the produc
 
 ## Running `valint` report
 
-Use `valint` report to download the integrity validation report from Scribe service:
+Use `valint report` to download your integrity validation report from Scribe service:
 
 ```sh
 valint report [flags]
@@ -85,22 +98,35 @@ By default, the report is written to the local cache.
 ```
 
 
-## `valint` flags 
+### `valint` flags 
 >The following flags are mandatory:
 >* -U (Client ID)
 >* -P (Client Secret)
 >* -E (Enable Scribe client)
 
-| Short | Long | Description |  Option Values | Default |
-| --- | --- | --- | --- | --- |
-|  -n | --product-key \<string\> | Scribe Product Key  | | | 
-| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | |  |
-| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | | |
+| Short | Long | Description |  
+| --- | --- | --- |
+|  -n | --product-key \<string\> | Scribe Product Key  |  
+| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | 
+| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | 
 
-For full list of flag options see [valint documentation](docs/command/valint.md)
+For the full list of flag options, see [valint documentation](docs/command/valint.md).
 
-## Examples
-### Running `valint report`
+## Filtering output of report
+
+Filter your integrity check results by running `valint report -I <option>`. Specify one of the following options: 
+* `Validated` - Recieve information of all files/packages that are validated. 
+* `Modified` - Recieve information of all files/packages in which a change was dedtected.
+* `Not_Covered`, `Not_Validated` - Recieve information of all files/packages that the current release of `valint` was unable to confirm validation.
+
+### Requesting detail type
+To request the type of output information, run `valint report -S <option>`. Specify one of the following options:  
+* `summary` - Summary of the validation report
+* `files` - Validation information of all source files 
+* `packages` - Validation information per package, including dependencies
+* `packages-files` - Validation information per file in each package, including dependencies
+
+## Examples - running `valint report`
 ---
 Download your report from Scribe service:
   ```sh
@@ -119,7 +145,7 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 ---
 Download report of all source code files that were suspiciously modified:
   ```sh
-valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Modified -S files 
   ```
 ---
 Download report of all source code packages that were verified (validated):
@@ -130,18 +156,6 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 
 For full list of `valint report` flag options see [valint report documentation](docs/command/valint_report.md)
 
-## Filtering Report 
-Run `valint report -I` with any of these filters to specify XXX of your integrity report
-* `Modified`
-* `Not_Covered`
-* `Validated`
-* `Not_Validated`
-
-Run `valint report -S` with any of these filters to specify the report sections to output XXXX 
-* `files` - All source files
-* `packages` - All Packages
-* `packages-files` - All files in source and packages
-* `summary` - Summary of the validation report 
 
 <!-- # Commands
 valint supports the following commands.
