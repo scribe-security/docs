@@ -77,16 +77,3 @@ Flags for `gensbom`
 
 * [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
 
-tems
-
-tems
-
-rl (default "https://api.production.scribesecurity.com")
-  -s, --show                          Print report to stdout
-  -v, --verbose count                 Increase verbosity (-v = info, -vv = debug)
-```
-
-### SEE ALSO
-
-* [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
-

@@ -8,18 +8,21 @@ geometry: margin=2cm
 # 🚀 Gensbom - bill of material report CLI tool
 
 Gensbom is a CLI tool by Scribe which analyzes components and creates sboms. \
-Gensbom sboms are populated cyclondex sbom with target packages, files, layers, and dependancies. \
+Gensbom sboms are populated cyclondex sbom with target packages, files, layers, commits and dependancies. \
 Gensbom also supports signed sbom or SLSA provenance as populated Intoto attestations using the cocosign framework.
 
 # Overview
 
 ### Image target
-Gensbom supports analyzes of image targets, \
+Gensbom supports analysis of image targets, \
 Image formats supported are currently docker manifest v2 and OCI. \
 Image sources supported are docker-daemon, OCI storage, docker archive, OCI archive.
 
-### Directory/files target
-Gensbom supports analyzes of directories/file targets.
+### Directory/file target
+Gensbom supports analysis of directory/file targets.
+
+### GIT target
+Gensbom supports analysis of remote/local git repository targets.
 
 ### Formats
 Gensbom supports the following formats.
@@ -31,22 +34,32 @@ Bom command also supports multi-choice when generating a bom.
 
 ### BOM details
 Bom includes a large amount of analysed data for each target. \
-Gensbom allows you to select which groups you like to include (TBD not imp). \
+Gensbom allows you to select which groups you like to include (TBD not imp). 
 
 - Target metadata: details on the target and its context.
 - Layer group: (image targets only).
 - Package group - currently supporting debian, apk, python, go, ruby, npm, rpm, java, rust.
 - File group: details on all files in target.
+- Commit group: details on all commits in the git repository's branch.
 - Dependancies
 -  - Image->Layer: Image and its related layers.
 -  - Layer->Pkg: Layer and its related packages.
 -  - Pkg->File: pkgs and there related files.
+-  - Repo->Commit: git repository and its related commits.
+-  - Commit->File: git commit and its related files.
 
 ### Gensbom context
 Gensbom supports gathering of the context of the sbom creator. \
 Context will be added to both sbom and attestations for further reference. \
-Currently Gensbom supports `github`, `jenkins`, `circleci` and `local` contexts. \
+Currently Gensbom supports `github`, `gitlab`, `jenkins`, `circleci` and `local` contexts. \
 So for example sbom created/signed on a `github workflow` will add the current git url, workflow name.. etc to the sbom as well.
+Gensbom collects context data based on the target:
+- Image target context: image id, image name, image tag.
+- Directory/file target context: dir/file path, dir/file id.
+- Git target context: git repository url, git commit, git branch, git tag.
+
+Gensbom collects additional environmental context information such as: git url, git branch, git commit, git ref, git actor.
+
 
 ### Subtools
 
@@ -141,6 +154,7 @@ Scheme:
 - registry:  pull \<name\>:\<tag\> from registry
 - dir: Create sbom on directory
 - file: Create sbom on file
+- git: Create sbom on a remote or local git repository 
 
 See details [CLI documentation - bom](docs/command/gensbom_bom.md)
 
