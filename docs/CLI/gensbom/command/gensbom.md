@@ -23,7 +23,7 @@ Flags for `gensbom`
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
 | -e | --env | Envrionment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -f | --force | Force overwrite cache | |

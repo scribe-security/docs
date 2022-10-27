@@ -28,7 +28,7 @@ Flags for all `gensbom` subcommands
 | | --attest.name | Attestation config name | "gensbom" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
 | -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |

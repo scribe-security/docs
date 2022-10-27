@@ -28,7 +28,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
@@ -49,12 +49,14 @@ Flags for all `valint` subcommands
 	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret>			(Download your report from Scribe service)
 	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s		(Download report, retry timeout after 30 seconds)
 	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -T 30s -B 10s		(Download report, retry timeout after 30 seconds and backoff 10 seconds)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 	(Download report of all source code files that were suspiciously modified)
-	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Verified -S packages 	(Download report of all source code packages that were verified)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Modified -S files 	(Download report of all source code files that were suspiciously modified)
+	valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Validated -S packages 	(Download report of all source code packages that were verified)
 	
 ```
 
 ### SEE ALSO
 
 * [valint](valint.md)	 - Validate integrity of supply chain
+
+in
 

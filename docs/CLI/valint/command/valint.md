@@ -16,7 +16,7 @@ Flags for `valint`
 | --- | --- | --- | --- |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
 | -h | --help | help for valint | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -34,6 +34,4 @@ Flags for `valint`
 ### SEE ALSO
 
 * [valint report](valint_report.md)	 - Download integrity report from Scribe service
-
-e service
 

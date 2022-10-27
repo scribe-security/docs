@@ -15,7 +15,8 @@ valint diff [SOURCE_SBOM] [DESTINATION_SBOM] [flags]
   valint diff <source sbom file> <destination sbom file> --paths github:/var/bin/github
   valint diff <source sbom file> <destination sbom file> --synopsis=false
   valint diff <source sbom file> <destination sbom file> --metadata=false
-  valint diff <source sbom file> <destination sbom file> --regex-src .*.go,.*.md
+  valint diff <source sbom file> <destination sbom file> --regex-scope .*.go,.*.md
+  valint diff <source sbom file> <destination sbom file> --regex-filter .*.h,.*.json
   valint diff <source sbom file> <destination sbom file> --mime-type text/plain,application/json
   valint diff <source sbom file> <destination sbom file> -vv
 
@@ -23,7 +24,6 @@ valint diff [SOURCE_SBOM] [DESTINATION_SBOM] [flags]
 
 ### Options flags 
 specific flags for command
-
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
@@ -63,4 +63,3 @@ global flag for all commands
 ### SEE ALSO
 
 * [valint](valint.md)	 - supply chain integrity tool
-
