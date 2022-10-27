@@ -146,7 +146,7 @@ jobs:
         with:
           go-version: 1.18
 
-      - uses: scribe-security/actions/installer@master
+      - uses: scribe-security/action-installer@master
         with:
           tools: gensbom
 
@@ -283,7 +283,7 @@ jobs:
         with:
           go-version: 1.18
 
-      - uses: scribe-security/actions/installer@master
+      - uses: scribe-security/action-installer@master
         with:
           tools: gensbom
 

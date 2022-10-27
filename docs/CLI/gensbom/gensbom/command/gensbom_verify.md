@@ -69,3 +69,10 @@ Flags for all `gensbom` subcommands
 
 * [gensbom](gensbom.md)	 - Create SBOM for target
 
+(-v = info, -vv = debug)
+```
+
+### SEE ALSO
+
+* [gensbom](gensbom.md)	 - Create SBOM for target
+
