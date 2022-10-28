@@ -19,7 +19,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
       </summary>
       To assure that hash values have not changed on their way to the final container image, valint compares hash values of each file in your pipeline to the hash value of an assured version.
       <ul>
-      <li><b>File integrity:</b> the validation process includes checking your source files (Node.js) using the software configuration management (SCM) source code as an assured version. </li> 
+      <li><b>File integrity:</b> the validation process includes checking your source files (Node.js) using the source control management (SCM) source code as an assured version. </li> 
       <li> <b>Package integrity:</b> validation for all files in (npm) packages and dependencies use the official npm registry as an assured version.  </li> 
       </ul>      
       
@@ -41,21 +41,6 @@ curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
 
 </details>
 
-<!---  DEBIAN NOT RELEASED YET>
-<details>
-  <summary> Apt repository </summary>
-
-Download agent DEB package from https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local/valint
-
-```bash
-wget -qO - https://scribesecuriy.jfrog.io/artifactory/api/security/keypair/scribe-artifactory/public | sudo apt-key add -
-sudo sh -c "echo 'deb https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local stable non-free' >> /etc/apt/sources.list"
-apt-get install valint -t stable
-```
-
-</details>
-
---> 
 <details>
   <summary> Docker image </summary>
 
