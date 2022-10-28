@@ -4,9 +4,11 @@ description: Scribe CLIs
 
 # CLI
 
-Scribe CLI allow you to manage the integrity of your supply chain. all CLIs can be run locally, or in your CI/CD pipeline.
-CLIs all include arguments and configuration that allow you to access its functionality.
-All CLIs are accessible via debian package, docker and binary.
+Scribe Command Line Interface (CLI) commands allow you to manage the integrity of your supply chain. You can run all CLIs locally or in your CI/CD pipeline.
+
+All CLIs are accessible via Debian package, Docker, and binary.
+
+Follow installation and usage instructions here:
 
 * Gensbom - Generates a Software Bill Of Materials (SBOM) from container images and filesystems. \
   See [CLI documentation - Gensbom](gensbom/README.md)

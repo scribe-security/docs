@@ -8,9 +8,25 @@ geometry: margin=2cm
 
 `valint` is a Command Line Interpreter (CLI) tool developed by Scribe, that validates the integrity of your build. 
 
+> Currently, our release validates only *Node.js* and *npm* files/packages.
+
+Validations are based on evidence collected from your pipeline. 
+
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
 
-Validations are based on evidence collected from your build.
+  <details> 
+      <summary> <i> How <code>valint</code> validates the integrity of your files </i>
+      </summary>
+      To assure that hash values have not changed on their way to the final container image, valint compares hash values of each file in your pipeline to the hash value of an assured version.
+      <ul>
+      <li><b>File integrity:</b> the validation process includes checking your source files (Node.js) using the source control management (SCM) source code as an assured version. </li> 
+      <li> <b>Package integrity:</b> validation for all files in (npm) packages and dependencies use the official npm registry as an assured version.  </li> 
+      </ul>      
+      
+</details>
+
+<!--- I strongly suggest linking to this text from somewhere else, explaining the process of comparing hashes. Only second best option is here, in a collapse.
+ -->
 
 ## Installing `valint`
 Choose any of the following command line interpreter (CLI) installation options:
@@ -21,19 +37,6 @@ Choose any of the following command line interpreter (CLI) installation options:
 Get the `valint` tool
 ```bash
 curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
-```
-
-</details>
-
-<details>
-  <summary> Apt repository </summary>
-
-Download agent DEB package from https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local/valint
-
-```bash
-wget -qO - https://scribesecuriy.jfrog.io/artifactory/api/security/keypair/scribe-artifactory/public | sudo apt-key add -
-sudo sh -c "echo 'deb https://scribesecuriy.jfrog.io/artifactory/scribe-debian-local stable non-free' >> /etc/apt/sources.list"
-apt-get install valint -t stable
 ```
 
 </details>
@@ -73,7 +76,7 @@ Running `valint` requires the following credentials that are found in the produc
 
 ## Running `valint` report
 
-Use `valint` report to download the integrity validation report from Scribe service:
+Use `valint report` to download your integrity validation report from Scribe service:
 
 ```sh
 valint report [flags]
@@ -85,22 +88,36 @@ By default, the report is written to the local cache.
 ```
 
 
-## `valint` flags 
+### `valint` flags 
 >The following flags are mandatory:
 >* -U (Client ID)
 >* -P (Client Secret)
 >* -E (Enable Scribe client)
 
-| Short | Long | Description |  Option Values | Default |
-| --- | --- | --- | --- | --- |
-|  -n | --product-key \<string\> | Scribe Product Key  | | | 
-| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | |  |
-| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | | |
+| Short | Long | Description |  
+| --- | --- | --- |
+|  -n | --product-key \<string\> | Scribe Product Key  |  
+| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | 
+| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | 
 
-For full list of flag options see [valint documentation](docs/command/valint.md)
+For the full list of flag options, see [valint documentation](docs/command/valint.md).
 
-## Examples
-### Running `valint report`
+## Filtering output of report
+
+Filter your integrity check results by running `valint report -I <option>`. Specify one of the following options: 
+* `Validated` - Receive information on all files/packages that are validated. 
+* `Modified` - Receive information on all files/packages in which a change was detected.
+* `Not_Covered`, `Not_Validated` - Receive information of all files/packages that the current release of `valint` was unable to confirm validation.
+
+### Requesting detail type
+To request the type of output information, run `valint report -S <option>`. Specify one of the following options:  
+* `summary` - Summary of the validation report
+* `files` - Validation information of all source files 
+* `packages` - Validation information per package, including dependencies
+* `packages-files` - Validation information per file in each package, including dependencies
+
+
+## Examples - running `valint report`
 ---
 Download your report from Scribe service:
   ```sh
@@ -119,7 +136,7 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 ---
 Download report of all source code files that were suspiciously modified:
   ```sh
-valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I ModifiedFiles -S files 
+valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secret> -I Modified -S files 
   ```
 ---
 Download report of all source code packages that were verified (validated):
@@ -130,6 +147,15 @@ valint report --scribe.client-id=<client_id> --scribe.client-secret=<client_secr
 
 For full list of `valint report` flag options see [valint report documentation](docs/command/valint_report.md)
 
+## Supported architecture and operating systems (OS) 
+CPU Architecture 
+* AMD64 (x86_64) 
+* ARM64  
+
+OS 
+* Linux
+* macOS 
+* Windows 
 
 <!-- # Commands
 valint supports the following commands.
