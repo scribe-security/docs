@@ -6,7 +6,7 @@ sidebar_position: 4
 # Integrating Scribe in your Azure DevOps pipeline
 
 ## Before you begin
-Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Azure DevOps requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
 * **Client ID**
