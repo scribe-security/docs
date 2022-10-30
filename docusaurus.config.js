@@ -46,9 +46,13 @@ const config = {
               ] : [
                 "ci-integrations/github/README.md",
                 "ci-integrations/jenkins/README.md",
+                "cveReports.md",
                 "ci-integrations/example.md",
                 "ci-integrations/general.md",
                 "ci-integrations/README.md",
+                "CLI/valint/README.md",
+                "CLI/valint/command/valint.md",
+                "CLI/valint/command/valint_report.md",
                 "cves.md",
                 "intro.md",
                 "sampleproject.md",

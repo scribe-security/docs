@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "actions" "JSL" "misc" "orbs" )
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" )
 
 pull_submodules() {
     repos=$1
@@ -115,6 +115,47 @@ export_file_rename() {
     cp  ${dst_file} ${repo_dir}/${src_dir}/README.md
 }
 
+import_action() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+
+    dst_dir="docs/ci-integrations/github/actions/"
+    import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
+    cp -r "${repo_dir}/docs" "${dst_dir}" || true
+}
+
+export_action() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/github/actions/"
+    export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
+    cp -r "${dst_dir}/docs" "${repo_dir}" || true
+}
+
+import_action-bom() {
+    import_action "action-bom"
+}
+import_action-verify() {
+    import_action "action-verify"
+}
+import_action-report() {
+    import_action "action-report"
+}
+import_action-installer() {
+    import_action "action-installer"
+}
+export_action-bom() {
+    export_action "action-bom"
+}
+export_action-verify() {
+    export_action "action-verify"
+}
+export_action-report() {
+    export_action "action-report"
+}
+export_action-installer() {
+    export_action "action-installer"
+}
 
 import_actions() {
     repo="actions"
@@ -124,6 +165,7 @@ import_actions() {
     import_file ${repo} "valint/report" "${dst_dir}"
     import_file ${repo} "gensbom/bom" "${dst_dir}"
     import_file ${repo} "gensbom/verify" "${dst_dir}"
+    import_file ${repo} "installer" "${dst_dir}"
 }
 
 export_actions() {
@@ -180,11 +222,25 @@ export_orbs() {
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
+import_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    import_file_rename ${repo} "" "${dst_dir}/azure.md"
+}
+
+export_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    export_file_rename ${repo} "" "${dst_dir}/azure.md"
+}
+
 import_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "${repo_dir}/README.md" "docs/cli/${repo}"
-    cp -r "${repo_dir}/docs" "docs/cli/${repo}"
+    cp "${repo_dir}/README.md" "docs/CLI/${repo}"
+    cp -R "${repo_dir}/docs/." "docs/CLI/${repo}"
 }
 
 import_gensbom() {
@@ -206,10 +262,9 @@ export_valint() {
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "docs/cli/${repo}/README.md" "${repo_dir}" 
-    cp -r "docs/cli/${repo}/docs" "${repo_dir}"
+    cp -R "docs/CLI/${repo}/." "${repo_dir}/docs" 
+    mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
 }
-
 
 usage() {
   this=$1

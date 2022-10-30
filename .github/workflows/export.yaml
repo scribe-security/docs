@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
-        repo: ["gensbom", "valint", "actions", "JSL", "misc", "orbs"]
+        repo: ["gensbom", "valint", "action-bom", "action-verify", "action-report", "action-installer", "JSL", "misc", "orbs", "azure-tasks"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -40,8 +40,11 @@ jobs:
           elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
             echo "::set-output name=branch::$(echo $GITHUB_BASE_REF)"
           else
+            echo EVENT_NAME=${GITHUB_EVENT_NAME}
             echo "::set-output name=branch::INVALID_EVENT_BRANCH_UNKNOWN"
           fi
+          cd sub/${{ matrix.repo }}
+          git status
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
