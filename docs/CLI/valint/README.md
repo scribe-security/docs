@@ -94,13 +94,8 @@ By default, the report is written to the local cache.
 >* -P (Client Secret)
 >* -E (Enable Scribe client)
 
-| Short | Long | Description |  
-| --- | --- | --- |
-|  -n | --product-key \<string\> | Scribe Product Key  |  
-| -U | --scribe.client-id \<string\> | Scribe Client ID (mandatory) | 
-| -P | --scribe.client-secret \<string\> | Scribe Client Secret (mandatory) | 
 
-For the full list of flag options, see [valint documentation](docs/command/valint.md).
+For the full list of flag options, see [valint documentation](command/valint.md).
 
 ## Filtering output of report
 
