@@ -9,6 +9,16 @@ Scribe offers images for evidence collecting and integrity verification using Tr
 * Valint - validate supply chain integrity tool 
 
 # Integration
+## Before you begin
+Integrating Scribe Hub with CircleCI requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Product Key**
+* **Client ID**
+* **Client Secret**
+
+>Note that the product key is unique per product, while the client ID and secret are unique for your account.
+
+
 1. Open your Travis project and make sure you have a yaml file named .travis-ci.yml
 As an example update it to contain the following steps:
 
@@ -17,11 +27,6 @@ As an example update it to contain the following steps:
 language: go
 go:
  - 1.18.x
-
-env:
-  LOGIN_URL: https://scribesecurity-staging.us.auth0.com
-  AUTH_AUDIENCE: api.staging.scribesecurity.com
-  SCRIBE_URL: https://api.staging.scribesecurity.com
 
 install:
   - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b /usr/local/bin
@@ -34,7 +39,6 @@ pre_script:
         --output-directory ./scribe/gensbom \
         --product-key $PRODUCT_KEY \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
         -vv
   - >-
     gensbom bom mongo-express:1.0.0-alpha.4 \
@@ -42,13 +46,11 @@ pre_script:
         --output-directory ./scribe/gensbom \
         --product-key $PRODUCT_KEY \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
         -vv
   - >-
     valint report \
         --product-key $PRODUCT_KEY \
         -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-        --scribe.login-url $LOGIN_URL --scribe.auth.audience $AUTH_AUDIENCE --scribe.url $SCRIBE_URL \
         --timeout 120s \
         -vv
 
