@@ -95,7 +95,7 @@ By default, the report is written to the local cache.
 >* -E (Enable Scribe client)
 
 
-For the full list of flag options, see [valint documentation](docs/command/valint.md).
+For the full list of flag options, see [valint documentation](command/valint.md).
 
 ## Filtering output of report
 
