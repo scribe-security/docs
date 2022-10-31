@@ -83,15 +83,24 @@ By default, the report is written to the local cache.
 
 For the full list of flag options, see [valint documentation](command/valint.md).
 
-## Filtering output of report
+### Filtering output of report
 
-Filter your integrity check results by running `valint report -I <option>`. Specify one of the following options: 
+To filter your integrity check results, run:
+```
+valint report -I <option>
+```
+
+Specify one of the following options: 
 * `Validated` - Receive information on all files/packages that are validated. 
 * `Modified` - Receive information on all files/packages in which a change was detected.
 * `Not_Covered`, `Not_Validated` - Receive information of all files/packages that the current release of `valint` was unable to confirm validation.
 
 ### Requesting detail type
-To request the type of output information, run `valint report -S <option>`. Specify one of the following options:  
+To request the type of output information, run:
+```
+valint report -S <option>
+```
+Specify one of the following options:  
 * `summary` - Summary of the validation report
 * `files` - Validation information of all source files 
 * `packages` - Validation information per package, including dependencies
