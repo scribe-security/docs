@@ -52,20 +52,6 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 
 </details>
 
-
-<details>
-  <summary> Release packages </summary>
-
-1. Download a `.deb` or `.rpm` file from the [releases page](https://github.com/scribe-security/valint/releases "release page").
-1. Install `.deb` files using `dpkg -i` and `.rpm` files using `rpm -i`.
-
-```bash
-dpkg -i <valint_package.deb>
-valint --version
-```
-
-</details>
-
 ## Acquiring Scribe credentials  
 
 Running `valint` requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
