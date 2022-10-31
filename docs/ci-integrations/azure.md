@@ -36,7 +36,7 @@ trigger:
         - main
 
         pool:
-          vmImage: 'ubuntu-latest' # set to windows-latest or another Windows vmImage for Windows builds
+          vmImage: 'ubuntu-latest'
 
         variables:
           imageName: 'pipelines-javascript-docker'
