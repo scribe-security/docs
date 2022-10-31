@@ -63,7 +63,7 @@ test:
     script:
       - >-
         gensbom bom dir:mongo-express \
-            --context-type jenkins \
+            --context-type gitlab \
             --output-directory ./scribe/gensbom \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
@@ -71,7 +71,7 @@ test:
             -vv
       - >-
         gensbom bom mongo-express:1.0.0-alpha.4 \
-            --context-type jenkins \
+            --context-type gitlab \
             --output-directory ./scribe/gensbom \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
