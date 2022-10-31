@@ -1,5 +1,5 @@
 ---
-title: azure-devops
+title: Azure-DevOps
 sidebar_position: 4
 ---
 
