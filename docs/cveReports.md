@@ -63,17 +63,23 @@ Scribe provides security validation for each version of your product.
         * Component version installed
         * Date vulnerability was identified
         * To view details in the open-source vulnerability database, click anywhere on the vulnerability details.
-        * Advisory notes
+        * Advisory notes - using VEX format
         
-            Add or read information written by version stakeholders regarding the vulnerability found. 
-            * To add an advisory note:
+            Version stakeholders can write, edit, or read advisory notes, using machine readable VEX (Vulnerability Exploitability eXchange) format. 
+            
+            Notes can help developers communicate the relevance of the vulnerability found in a dependency. CVEs that are irrelevant or pose only a low risk can reduce a criticality score. 
+            
+            > For further reading see:  
+            >[VEX Overview](https://www.ntia.gov/files/ntia/publications/vex_one-page_summary.pdf)            
+            >[Status Justifications Overview](/https://www.cisa.gov/sites/default/files/publications/VEX_Status_Justification_Jun22.pdf)
+            * Adding an advisory note:
               1. Go to right end of row.
               1. Click the three dots>**Add Advisory**. A new note form opens. 
-              1. Choose a relevant **Status**.
-                 * If you choose **Not Affected** as the **Status** of the vulnerability, you must choose one of the **Justification** options.
+              1. Choose a relevant VEX **Status**.
+                 * If you choose **Not Affected**, the **Justification** drop down menu becomes enabled. Choose one of the **Justification** options.
               1. Add text to the **Comment** window (optional).
               1. Click **Save** or **Cancel**.
-            * To edit or delete an existing advisory note:
+            * Editing or deleting an existing advisory note:
               1. Go to right end of row.
               1. On the three dots, click **Edit Advisory**. 
               1. The advisory note appears. 
