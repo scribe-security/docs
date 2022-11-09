@@ -320,15 +320,12 @@ function processItems
     done
 }
 
-
-
 COMMAND="unknown"
 parse_args "$@"
 if (( ${#repos[@]} == 0 )); then
     # repos="${supported_repos[@]}"
     repos=("${supported_repos[@]}")                  #copy the array in another one 
 fi 
-
 
 case $COMMAND in
   import)
