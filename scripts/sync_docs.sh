@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" )
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts")
 
 pull_submodules() {
     repos=$1
@@ -221,6 +221,21 @@ export_orbs() {
     dst_dir="docs/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
+
+import_helm-charts() {
+    repo="helm-charts"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/other-integrations/"
+    import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+}
+
+export_helm-charts() {
+    repo="helm-charts"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/other-integrations/"
+    export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+}
+
 
 import_azure-tasks() {
     repo="azure-tasks"

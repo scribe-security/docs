@@ -79,64 +79,21 @@ Some of the heavy lifting is done by these subtools so its worth metioning.
 Attestations sboms allow you to sign and verify your sbom targets. \
 Attestations allow you to connect PKI based identities to your evidence and policy management. 
 
-See details [CLI documentation - attestation](docs/attestation.md)
+See details [CLI documentation - attestation](docs/attestations.md)
 
 # Installation
 
 CLI can be installed by the following methods for linux (arm, amd64).
 
-See details [CLI documentation - install ](docs/installation.md)
+See details [CLI documentation - install](docs/installation.md)
 
 
-## Integration options
-
-Gensbom can be integrated in the the following tools.
-
-<details>
-  <summary> Github Actions </summary>
-
-### Github Actions (Docs TBD)
-
-You can use Gensbom as an action on your github CI.
-See documenation [GitHub Actions](https://github.com/scribe-security/Gensbom-action)
-
-</details>
-
-# Usage
-Gensbom uses command line and/or a configuration file to operate.
-All flags have a default value and can be set by configuration as well (with some exceptions).
-```yaml
-Generate Software Bill Of Materials (SBOM) from container images and filesystems
-
-Usage:
-  gensbom [command] [IMAGE] [flags]
-  gensbom [command]
-
-Available Commands:
-  bom         Create target BOM (images,dir)
-  find        Find target BOM
-  help        Help about any command
-  sign        Sign external BOM file, create attestation
-  verify      Verify target by BOM attestation
-```
-
-## Global Flags:
-
+# Gensbom command
+Gensbom uses command line and/or a configuration file to operate. \
+All flags have a default value and can be set by configuration as well (with some exceptions). \
 Global flags can be set by CLI on any command. \
 Flags that can not mapped to configuration are verbose, config and backwards flags.
 
-See details [CLI documentation - global](docs/command/gensbom.md)
-
-## Configuration
-
-Configuration can be set for CLI for all commands as well as for the global flags.
-Configuration fields can be overridden by CLI, see CLI help for flags details.
-
-
-See details [CLI documentation - config](docs/configuration.md)
-
-
-## Bom command
 Command analyzes image components and file systems. \
 It can be used for multiple targets and output formats. \
 Further more command can be used to sign the resulting sbom.
@@ -145,21 +102,17 @@ Further more command can be used to sign the resulting sbom.
 gensbom busybox:latest -v
 ```
 
-### Target format
-Target format \<schema\>:\<name\>:\<tag\>
-Scheme: 
-- docker: pull \<name\>:\<tag\> from docker daemon
-- docker-archive: Extract docker image from file \<name\>. (`docker save ..`)
-- oci-archive: Extract oci image from file \<name\>. (`docker save ..`)
-- registry:  pull \<name\>:\<tag\> from registry
-- dir: Create sbom on directory
-- file: Create sbom on file
-- git: Create sbom on a remote or local git repository 
+See details [CLI documentation - gensbom](docs/command/gensbom.md)
 
-See details [CLI documentation - bom](docs/command/gensbom_bom.md)
+## Configuration
+
+Configuration can be set for CLI for all commands as well as for the global flags.
+Configuration fields can be overridden by CLI, see CLI help for flags details.
 
 
-### basic usage
+See details [CLI documentation - configuration](docs/configuration.md)
+
+## basic usage
 Gensbom allows you to create sboms and SLSA provenances in multiple flavors.
 
 <details>
@@ -222,7 +175,7 @@ gensbom busybox:latest -vv -A **/some_report.json
 </details>
 
 
-## Verify command
+# Verify command
 Command finds and verifies signed SBOM for image components and file systems. \
 It can be used for multiple targets and output formats.
 
@@ -232,19 +185,6 @@ gensbom verify busybox:latest -v
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
 
-## Find command
-Command finds sbom for images and file systems.
-It can be used for multiple sources and formats (see help for details)
-
-See details [CLI documentation - find](docs/command/gensbom_find.md)
-
-## Sign command
-Command signs a external or local sbom.
-It allows you to create the sbom in one point (using Gensbom) and sign it in another.
-Targets for images and directories (docker,oci, dir and registry) will search for a related cyclondex SBOM in cache (Output directory).
-When Sign command does not find cyclondx unsigned SBOM please use `bom` command above to generate one.
-
-See details [CLI documentation - sign](docs/command/gensbom_sign.md)
 
 # Scribe service
 Scribe provides a set of services allowing you to secure your supply chain. \
