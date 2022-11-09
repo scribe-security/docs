@@ -22,7 +22,7 @@ Scribe provides security validation for each version of your product.
 | Layers | Number of base layers identified in your Docker image. (such as operating systems, databases). Click to see details of layers. |  
 | Licenses | Number of Licenses (such as OS, Packages) found in your Docker image. Click to see details of license types. |   
 | OS | Operating System identified in Image. Click to see details of OS found. |  
-| CVEs High+ | Number of high and critical vulnerabilities found compared to previous version checked. Additional vulnerablities (+, red), vulnerabilities no longer in current version (-, green)  |  
+| CVEs High+ | Number of high and critical vulnerabilities found compared to previous version checked. Additional vulnerabilities (+, red), vulnerabilities no longer in current version (-, green)  |  
 | Policies | Number of policies checked: Policies complied with (green), not complied with (red). | 
 | Integrity | Automated final validation verdict | 
 
@@ -56,17 +56,35 @@ Scribe provides security validation for each version of your product.
     * For details, click **More**. A list opens, sorted by descending severity.
     * Filtering options: 
         * **High+** (default): view only high and critical vulnerabilities.
-        * **All**: view all vulnerabilities.Search filter according to search results.
+        * **All**: view all vulnerabilities. Search filter according to search results.
     * Details of vulnerabilities: 
         * Unique identifier of vulnerability from the open source vulnerabilities database. 
         * Component name
         * Component version installed
         * Date vulnerability was identified
         * To view details in the open-source vulnerability database, click anywhere on the vulnerability details.
-        * Advisory notes
+        * Advisory notes - using VEX format
         
-            Add or read information written by version stakeholders regarding the vulnerability found. 
-            * To add an advisory note, go to the right end or row. Click the three dots>**Add Advisory**. A new note form opens. Add text and **Save** to save, or **Cancel**.
-            * To edit or delete an existing advisory note, click the three dots>**Edit Advisory**. Edit and **Save** or **Cancel**. 
+            Version stakeholders can write, edit, or read advisory notes, using machine readable VEX (Vulnerability Exploitability eXchange) format. 
             
-                To delete, click the red bin icon.
+            Notes can help developers communicate the relevance of the vulnerability found in a dependency. CVEs that are irrelevant or pose only a low risk can reduce a criticality score. 
+            
+            > For further reading see:  
+            >[VEX Overview](https://www.ntia.gov/files/ntia/publications/vex_one-page_summary.pdf)            
+            >[Status Justifications Overview](/https://www.cisa.gov/sites/default/files/publications/VEX_Status_Justification_Jun22.pdf)
+            * Adding an advisory note:
+              1. Go to right end of row.
+              1. Click the three dots>**Add Advisory**. A new note form opens. 
+              1. Choose a relevant VEX **Status**.
+                 * If you choose **Not Affected**, the **Justification** drop down menu becomes enabled. Choose one of the **Justification** options.
+              1. Add text to the **Comment** window (optional).
+              1. Click **Save** or **Cancel**.
+            * Editing or deleting an existing advisory note:
+              1. Go to right end of row.
+              1. On the three dots, click **Edit Advisory**. 
+              1. The advisory note appears. 
+                 * To delete, click red bin.
+                 * To edit, make your changes and then **Save** or **Cancel**. 
+            
+
+                           
