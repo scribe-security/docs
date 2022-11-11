@@ -10,7 +10,7 @@ Scribe offers images for evidence collecting and integrity verification using Tr
 
 # Integration
 ## Before you begin
-Integrating Scribe Hub with CircleCI requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Travis CI requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
 * **Client ID**
@@ -60,4 +60,4 @@ script:
 ```
 
 
-2. Please make sure you use secret variables for client id, client secret and prodyct key. To avoid revealing secrets.
+2. Please make sure you use environment variables for client id, client secret and prodyct key in the build settings to avoid revealing secrets.
