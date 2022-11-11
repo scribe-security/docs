@@ -23,18 +23,19 @@ Integrating Scribe Hub with CircleCI requires the following credentials that are
 As an example update it to contain the following steps:
 
 ```yaml
-
 language: go
 go:
  - 1.18.x
 
 install:
-  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b /usr/local/bin
+  - mkdir ./bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b $PWD/bin
+  - export PATH=$PATH:$PWD/bin/
 
-pre_script:
+before_script:
   - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
   - >-
-    gensbom bom dir:mongo-express \
+    gensbom bom dir:mongo-express-scm \
         --context-type jenkins \
         --output-directory ./scribe/gensbom \
         --product-key $PRODUCT_KEY \
@@ -55,7 +56,7 @@ pre_script:
         -vv
 
 script:
- - go test -v ./...
+  - echo "hello travis"
 ```
 
 
