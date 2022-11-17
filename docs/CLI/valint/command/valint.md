@@ -14,9 +14,13 @@ Flags for `valint`
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --attest.config | Attestation config path | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
+| | --attest.name | Attestation config name | "valint" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
+| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -h | --help | help for valint | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -33,5 +37,7 @@ Flags for `valint`
 
 ### SEE ALSO
 
+* [valint bom](valint_bom.md)	 - Create SBOM for target
 * [valint report](valint_report.md)	 - Download integrity report from Scribe service
+* [valint verify](valint_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
 

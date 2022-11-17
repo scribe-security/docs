@@ -15,7 +15,7 @@ Flags for `report` subcommand
 | -B | --backoff | Backoff duration | "3s" |
 | -h | --help | help for report | |
 | -I | --integrity | Select report integrity, options=[Modified Not_Covered Validated Not_Validated] | [Modified,Not_Covered,Validated,Not_Validated] |
-| -S | --section | Select report sections, options=[files packages packages-files summary] | [files,packages,packages-files,summary] |
+| -S | --section | Select report sections, options=[files packages packages-files summary metadata] | [files,packages,packages-files,summary,metadata] |
 | -s | --show | Print report to stdout | |
 | -T | --timeout | Timeout duration | "60s" |
 
@@ -26,9 +26,13 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --attest.config | Attestation config path | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
+| | --attest.name | Attestation config name | "valint" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
+| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
@@ -57,6 +61,4 @@ Flags for all `valint` subcommands
 ### SEE ALSO
 
 * [valint](valint.md)	 - Validate integrity of supply chain
-
-in
 

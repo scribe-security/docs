@@ -20,7 +20,7 @@ scribe:
     enable: true
     audience: api.production.scribesecurity.com
   url: https://api.production.scribesecurity.com
-  enable: true
+  enable: false
 context:
   context-type: local
 report:
@@ -32,6 +32,7 @@ report:
   - packages
   - packages-files
   - summary
+  - metadata
   integrity:
   - Modified
   - Not_Covered
@@ -70,4 +71,37 @@ diff:
     enable: true
   metadata:
     enable: true
+bom:
+  normalizers:
+    packagejson:
+      enable: true
+  formats:
+  - cyclonedx-json
+  env: []
+  force: false
+  components:
+  - metadata
+  - layers
+  - packages
+  - syft
+  - files
+  - dep
+  - commits
+  attach-regex: []
+  git:
+    auth: ""
+    tag: ""
+    branch: ""
+    commit: ""
+attest:
+  config: ""
+  name: valint
+  default: sigstore
+verify:
+  input-format: attest-cyclonedx-json
+filter:
+  filter-regex:
+  - .*\.pyc
+  - .*\.git/.*
+  filter-purl: []
 ```
