@@ -316,12 +316,12 @@ gensbom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
 gensbom verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
 ```
+
 > For image targets **only** you may attach the evidence in the same repo as the image.
+
 ```bash
-# Generating evidence, storing on [image] OCI repo.
 gensbom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
 
-# Verifying evidence, pulling attestation from [image] OCI repo.
 gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
@@ -340,8 +340,7 @@ Lastly enable scribe client using `-E` flag.
 Gensbom will upload/download sboms to your scribe account.
 
 # Subtools
-Gensbom uses some external tools, libraries, packages to achieve its goal. \
-Some of the heavy lifting is done by these subtools so its worth metioning.
+Gensbom uses some external tools, libraries, and packages to achieve its goal.
 
 - Syft - CLI tool for generating a Software Bill of Materials (SBOM) from container images and filesystem. \
   [https://github.com/anchore/syft]
