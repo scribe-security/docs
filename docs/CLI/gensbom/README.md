@@ -370,7 +370,7 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
 </details>
 
 <details>
-  <summary> Signing and verification using cosign <summary>
+  <summary> Signing and verification using cosign </summary>
 
 One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
 
