@@ -97,7 +97,7 @@ Evidence can be tailor-made to fit your supply chain policies and transparency n
 Gensbom allows you to create SBOMs and SLSA provenances in multiple flavors and targets.
 
 ```bash
-gensbom \<target\> \<json, xml, statement, statement-slsa,attest,attest-slsa\>
+gensbom [target] [json, xml, statement, statement-slsa,attest,attest-slsa]
 ```
 
 See details [CLI documentation - gensbom](docs/command/gensbom.md)
@@ -179,7 +179,7 @@ Verification flow for `statements` includes policy verification.
 
 ### Basic usage
 ```
-gensbom verify \<target\> -v -i \<attest, statement, attest-slsa, statement-slsa\>
+gensbom verify [target] -v -i [attest, statement, attest-slsa, statement-slsa]
 ```
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
@@ -310,19 +310,19 @@ You must first login with the required access to your registry before you callin
 
 ### Basic usage
 ```bash
-# Generating evidence, storing on \<my_repo\> OCI repo.
-gensbom \<target\> -o \<attest, statement, attest-slsa,statement-slsa\> --oci --oci-repo=\<my_repo\>
+# Generating evidence, storing on [my_repo] OCI repo.
+gensbom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
 
-# Verifying evidence, pulling attestation from \<my_repo\> OCI repo.
-gensbom verify \<target\> -i \<attest, statement, attest-slsa,statement-slsa\> --oci --oci-repo=\<my_repo\>
+# Verifying evidence, pulling attestation from [my_repo] OCI repo.
+gensbom verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
 ```
 > For image targets **only** you may attach the evidence in the same repo as the image.
 ```bash
-# Generating evidence, storing on \<image\> OCI repo.
-gensbom \<image\> -o \<attest, statement, attest-slsa,statement-slsa\> --oci
+# Generating evidence, storing on [image] OCI repo.
+gensbom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
 
-# Verifying evidence, pulling attestation from \<image\> OCI repo.
-gensbom verify \<image\> -i \<attest, statement, attest-slsa,statement-slsa\> --oci
+# Verifying evidence, pulling attestation from [image] OCI repo.
+gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
 ## Configuration
@@ -354,10 +354,10 @@ One can use `gensbom` to generate the `cyclonedx` attestation and attach it to O
 
 ```bash
 # Generate sbom attestation
-gensbom \<image\> -vv -o attest -f --oci
+gensbom [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation \<image\> --type cyclonedx
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
 ```
 </details>
 
@@ -370,10 +370,10 @@ One can use `gensbom` to generate the `slsa` attestation and attach it to OCI re
 
 ```bash
 # Generate sbom attestation
-gensbom \<image\> -vv -o attest-slsa -f --oci
+gensbom [image] -vv -o attest-slsa -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation \<image\> --type slsaprovenance
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
 ```
 </details>
 
@@ -386,31 +386,15 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 ```bash
 # Generate sbom predicate
-gensbom \<image\> -vv -o predicate -f --output-file gensbom_predicate.json
+gensbom [image] -vv -o predicate -f --output-file gensbom_predicate.json
 
 # Sign and OCI store using cosign
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json \<image\> --type https://scribesecurity.com/predicate/cyclondex
+COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation \<image\>
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 ```
 </details>
-
-<!-- <details>
-  <summary> Signing </summary>
-
-You can use scribe signing service to sign.
-Scribe will sign sbom for you and provide access to the signed attestation.
-Scribe service will allow you to verify against Scribe Root CA against your account identity.
-You may can use the default Scribe `cocosign` configuration flag.
-
-**Scribe root cert \<TBD public link\> to verify against.**
-
-```bash
-gensbom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -o attest -v
-gensbom verify busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
-```
-</details> -->
 
 <details>
   <summary> Integrity </summary>
