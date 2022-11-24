@@ -369,6 +369,24 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
 ```
 </details>
 
+<details>
+  <summary> Signing and verification using cosign <summary>
+
+One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
+
+> Example uses keyless (sigstore) flow, you may use any `cosign` signer/verifer supported.
+
+```bash
+# Generate sbom predicate
+gensbom [image] -vv -o predicate -f --output-file gensbom_predicate.json
+
+# Sign and OCI store using cosign
+COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
+
+# Verify attestation using cosign 
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
+```
+</details>
 
 # Scribe service
 Scribe provides a set of services allowing you to secure your supply chain. \
