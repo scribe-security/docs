@@ -147,7 +147,21 @@ verifier:
 </details>
 
 <details>
-  <summary> Scribe service - TBD </summary>
+  <summary> OCI registry support </summary>
+
+### OCI attestation storage
+Gensbom supports upload attestations to your OCI registry.
+Attestations can be attached to a specific image or uploaded to a general repo location.
+OCI as a attestation cache provides access across you supply chain.
+
+```bash
+```bash
+# Generate sbom/slsa attestation
+gensbom <image|git|directory|file> -vv -o <attest|attest-slsa> -f --oci --oci-repo=<custom OCI repo>
+
+# Verify attestation using cosign 
+gensbom verify <image|git|directory|file> -vv -i <attest|attest-slsa> -f --oci --oci-repo=<custom OCI repo>
+```
 </details>
 
 <details>
@@ -161,18 +175,4 @@ Create a configuration file (default .cocosign)
 gensbom busybox:latest -o attest --attest.config <config_path> -v
 gensbom verify busybox:latest --attest.config <config_path> -v
 ``` 
-</details>
-
-<details>
-  <summary> Cosign integration </summary>
-
-## Cosign integration
-Gensbom allows you to use cosign cli tool `attest`,`verify-attestation` subcommands.
-You may use cosign to connect the attestation to your OCI registry (sign and verify).
-Example uses keyless (sigstore) but you may use any cosign signer/verifer supported.
-```
-gensbom <image> -vv -o predicate -f --output-file gensbom_predicate.json
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json <image> --type https://scribesecurity.com/predicate/cyclondex
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation <image>
-```
 </details>

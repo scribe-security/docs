@@ -13,8 +13,9 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -a | --attestation | Attestation for target | |
+| -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
-| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa] | "attest-cyclonedx-json" |
+| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
 
 
 ### Global options flags
@@ -32,6 +33,8 @@ Flags for all `gensbom` subcommands
 | -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |

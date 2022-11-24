@@ -34,6 +34,8 @@ Flags for `gensbom`
 | -h | --help | help for gensbom | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
@@ -75,6 +77,4 @@ Flags for `gensbom`
 ### SEE ALSO
 
 * [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
-
-md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
 

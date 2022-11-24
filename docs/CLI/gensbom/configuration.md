@@ -27,6 +27,10 @@ attest:
   config: ""
   name: gensbom
   default: sigstore
+  oci:
+    enable: false
+    ref: ""
+    repo: ""
 filter:
   filter-regex:
   - .*\.pyc
@@ -59,6 +63,7 @@ find:
   all: false
 verify:
   input-format: attest-cyclonedx-json
+  force: false
 sign:
   format: attest-cyclonedx-json
   input-format: cyclonedx-json
