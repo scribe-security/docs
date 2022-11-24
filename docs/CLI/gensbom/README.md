@@ -318,11 +318,11 @@ gensbom verify \<target\> -i \<attest, statement, attest-slsa,statement-slsa\> -
 ```
 > For image targets **only** you may attach the evidence in the same repo as the image.
 ```bash
-# Generating evidence, storing on <image target> OCI repo.
-gensbom <image target> -o \<attest, statement, attest-slsa,statement-slsa\> --oci
+# Generating evidence, storing on \<image\> OCI repo.
+gensbom \<image\> -o \<attest, statement, attest-slsa,statement-slsa\> --oci
 
-# Verifying evidence, pulling attestation from <image target> OCI repo.
-gensbom verify \<target\> -i \<attest, statement, attest-slsa,statement-slsa\> --oci
+# Verifying evidence, pulling attestation from \<image\> OCI repo.
+gensbom verify \<image\> -i \<attest, statement, attest-slsa,statement-slsa\> --oci
 ```
 
 ## Configuration
