@@ -333,6 +333,43 @@ Configuration fields can be overridden by CLI, see CLI help for flags details.
 
 See details [CLI documentation - configuration](docs/configuration.md)
 
+# Cosign support 
+[Cosign](https://github.com/sigstore/cosign) is and awesome tool that  aims to make signatures invisible infrastructure.
+Gensbom supports integration with the awesome `cosign` cli tool and other `sigstore` verification process.
+
+<details>
+  <summary> Cyclonedx verification using cosign </summary>
+
+One can use `gensbom` to generate the `cyclonedx` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+
+> Attestations are pushed to OCI for cosign to consume.
+
+```bash
+# Generate sbom attestation
+gensbom [image] -vv -o attest -f --oci
+
+# Verify attestation using cosign 
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
+```
+</details>
+
+<details>
+  <summary> SLSA verification using cosign </summary>
+
+One can use `gensbom` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+
+> Attestations are pushed to OCI for cosign to consume.
+
+```bash
+# Generate sbom attestation
+gensbom [image] -vv -o attest-slsa -f --oci
+
+# Verify attestation using cosign 
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
+```
+</details>
+
+
 # Scribe service
 Scribe provides a set of services allowing you to secure your supply chain. \
 Use configuration/args to set `scribe.client-id` (`-U`), `scribe.client-secret` (`-P`) provided by scribe.
