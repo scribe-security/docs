@@ -4,7 +4,7 @@ sidebar_position: 6
 ---
 
 # Travis
-Scribe offers tools for evidence collecting and integrity verification using Travis CI.
+Scribe support evidence collecting and integrity verification for Travis CI.
 
 # Integration
 ## Before you begin
@@ -30,31 +30,32 @@ install:
   - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 
-before_script:
+
+name: "scribe-travis-simple-test"
+
+script:
   - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
   - >-
-    gensbom bom dir:mongo-express-scm \
-        --context-type jenkins \
-        --output-directory ./scribe/gensbom \
+    valint bom dir:mongo-express-scm \
+        --context-type travis \
+        --output-directory ./scribe/valint \
         --product-key $PRODUCT_KEY \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
         -vv
   - >-
-    gensbom bom mongo-express:1.0.0-alpha.4 \
-        --context-type jenkins \
-        --output-directory ./scribe/gensbom \
+    valint bom mongo-express:1.0.0-alpha.4 \
+        --context-type travis \
+        --output-directory ./scribe/valint \
         --product-key $PRODUCT_KEY \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
         -vv
   - >-
     valint report \
+        --context-type travis \
         --product-key $PRODUCT_KEY \
-        -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
         --timeout 120s \
         -vv
-
-script:
-  - echo "hello travis"
 ```
 
 
