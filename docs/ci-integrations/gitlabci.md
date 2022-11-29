@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 
 # Gitlab CI
-Scribe offers images for evidence collecting and integrity verification using Gitlab CI.
+Scribe support evidence collecting and integrity verification for GitLab CI.
 
 ## Before you begin
 Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -25,17 +25,19 @@ As an example update it to contain the following steps:
 ```yaml
 image: ubuntu:latest
 before_script:
+  - apt update
+  - apt install git curl -y
   - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
-    - test
+    - scribe-gitlab-simple-test
 
-test:
-    stage: test
+
+scribe-gitlab-simple-job:
+    stage: scribe-gitlab-simple-test
     script:
       - >-
-        gensbom bom busybox:latest \
-            -vv
+        valint bom busybox:latest -vv
 ```
 
 ## 
@@ -47,45 +49,44 @@ test:
 ```yaml
 image: ubuntu:latest
 before_script:
-  - apt update && apt install git
-  - apt install git -y
+  - apt update
+  - apt install git curl -y
   - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
-    - test
+    - scribe-gitlab-simple-test
 
-test:
-    stage: test
+scribe-gitlab-simple-job:
+    tags: [ saas-linux-large-amd64 ]
+    stage: scribe-gitlab-simple-test
     script:
       - >-
-        gensbom bom dir:mongo-express \
+        valint bom dir:mongo-express-scm \
             --context-type gitlab \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv
       - >-
-        gensbom bom mongo-express:1.0.0-alpha.4 \
+        valint bom mongo-express:1.0.0-alpha.4 \
             --context-type gitlab \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key $PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             -vv
       - >-
         valint report \
+            --context-type gitlab \
             --product-key $PRODUCT_KEY \
             -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
             --timeout 120s \
             -vv
 
 ```
 </details>
-
-<!-- <details>
-  <summary>  Scribe integrity report - full gitlab ci workflow (docker) </summary>
-  
-</details> -->
-
 ---
 
 ## Resources

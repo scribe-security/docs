@@ -1,12 +1,10 @@
 ---
-title: travis ci
+title: Travis
 sidebar_position: 6
 ---
 
 # Travis
-Scribe offers images for evidence collecting and integrity verification using Travis CI. \
-* Gensbom - bill of material generation tool
-* Valint - validate supply chain integrity tool 
+Scribe offers tools for evidence collecting and integrity verification using Travis CI.
 
 # Integration
 ## Before you begin

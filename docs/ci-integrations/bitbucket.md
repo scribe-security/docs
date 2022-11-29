@@ -4,7 +4,9 @@ sidebar_position: 4
 ---
 
 
-# Integrating Scribe in your Bitbucket pipeline using Orbs
+# Bitbuucket Pipeline
+Scribe support evidence collecting and integrity verification for Bitbucket Pipelines.
+Scribe offers custom pipe to easily integrate in to your Pipelines.
 
 ## Before you begin
 Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -21,6 +23,7 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 
 # Procedure
 * Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/).
+
 * Use the pipe as shown in the example bellow
 <details>
   <summary>  <b> Sample integration code </b> </summary>
@@ -29,47 +32,50 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 image:
   name: python:3.7
 
-test: &test
+scribe-bitbucket-simple-job: &scribe-bitbucket-simple-job
   step:
-    name: Test
-    script:
-    - pip install -r ./requirements.txt
-    - python ./update_config.py ./src/config ./src/config.yaml  
-    - git_didd() { git diff $1 ; git add $1 ; git commit -m "updated config"; }
-    - echo $(git_didd ./src/config.yaml)
-    - git push
+    name: scribe-bitbucket-simple-test
     - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+    - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
       variables:
-        COMMAND: bom
+        COMMAND_NAME: bom
         TARGET: dir:mongo-express-scm
         PRODUCT_KEY: $PRODUCT_KEY
         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+        SCRIBE_URL: "https://api.staging.scribesecurity.com"
+        SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+        SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+    - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
       variables:
-        COMMAND: bom
+        COMMAND_NAME: bom
         TARGET: "mongo-express:1.0.0-alpha.4" 
         VERBOSE: 2
         SCRIBE_ENABLE: "true"
         PRODUCT_KEY: $PRODUCT_KEY
         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+        SCRIBE_URL: "https://api.staging.scribesecurity.com"
+        SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+        SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+    - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
       variables:
-        COMMAND: report
+        COMMAND_NAME: report
         VERBOSE: 2
         SCRIBE_ENABLE: "true"
         PRODUCT_KEY: $PRODUCT_KEY
         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-        TIMEOUT: 4500s
+        SCRIBE_URL: "https://api.staging.scribesecurity.com"
+        SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+        SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+        TIMEOUT: 120s
     services:
     - docker
 
 pipelines:
   default:
-  - <<: *test
+  - <<: *scribe-bitbucket-simple-job
 
 ```
 
