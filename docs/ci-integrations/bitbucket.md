@@ -9,7 +9,7 @@ Scribe support evidence collecting and integrity verification for Bitbucket Pipe
 Scribe offers custom pipe to easily integrate in to your Pipelines.
 
 ## Before you begin
-Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home&ltProducts&lt[$product]&ltSetup**)
+Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
 * **Client ID**
@@ -22,14 +22,63 @@ Integrating Scribe Hub with Bitbucket Pipeline requires the following credential
 Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 
 # Procedure
-* Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/).
 
+* Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/).
 * Use the pipe as shown in the example bellow
 
 <details>
   <summary>  Sample integration code </summary>
 
-  
+  ```YAML
+  image:
+    name: python:3.7
+
+  scribe-bitbucket-simple-job: &scribe-bitbucket-simple-job
+    step:
+      name: scribe-bitbucket-simple-test
+      - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: dir:mongo-express-scm
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: "mongo-express:1.0.0-alpha.4" 
+          VERBOSE: 2
+          SCRIBE_ENABLE: "true"
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: report
+          VERBOSE: 2
+          SCRIBE_ENABLE: "true"
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+          TIMEOUT: 120s
+      services:
+      - docker
+
+  pipelines:
+    default:
+    - &lt&lt: *scribe-bitbucket-simple-job
+
+  ```
 
 </details>
 
@@ -39,20 +88,20 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 <details>
   <summary>  Public registry image </summary>
 
-  Create SBOM from remote `busybox:latest` image, skip if found by the cache.
+Create SBOM from remote `busybox:latest` image, skip if found by the cache.
 
-  ```YAML
-    step:
-      name: Test
-      script:
-      - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-        variables:
-          COMMAND: bom
-          TARGET: busybox:latest
-          PRODUCT_KEY: $PRODUCT_KEY
-          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-  ``` 
+```YAML
+  step:
+    name: Test
+    script:
+    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+      variables:
+        COMMAND: bom
+        TARGET: busybox:latest
+        PRODUCT_KEY: $PRODUCT_KEY
+        SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+        SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+``` 
 
 </details>
 
