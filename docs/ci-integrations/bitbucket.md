@@ -76,7 +76,7 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 
   pipelines:
     default:
-    - &lt&lt: *scribe-bitbucket-simple-job
+    - &gt;&gt;: *scribe-bitbucket-simple-job
 
   ```
 
