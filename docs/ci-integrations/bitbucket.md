@@ -28,54 +28,54 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 <details>
   <summary>  <b> Sample integration code </b> </summary>
 
-```YAML
-# image:
-#   name: python:3.7
+  ```YAML
+  image:
+    name: python:3.7
 
-# scribe-bitbucket-simple-job: &scribe-bitbucket-simple-job
-#   step:
-#     name: scribe-bitbucket-simple-test
-#     - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-#     - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-#       variables:
-#         COMMAND_NAME: bom
-#         TARGET: dir:mongo-express-scm
-#         PRODUCT_KEY: $PRODUCT_KEY
-#         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-#         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-#         SCRIBE_URL: "https://api.staging.scribesecurity.com"
-#         SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-#         SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
-#     - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-#       variables:
-#         COMMAND_NAME: bom
-#         TARGET: "mongo-express:1.0.0-alpha.4" 
-#         VERBOSE: 2
-#         SCRIBE_ENABLE: "true"
-#         PRODUCT_KEY: $PRODUCT_KEY
-#         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-#         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-#         SCRIBE_URL: "https://api.staging.scribesecurity.com"
-#         SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-#         SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
-#     - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-#       variables:
-#         COMMAND_NAME: report
-#         VERBOSE: 2
-#         SCRIBE_ENABLE: "true"
-#         PRODUCT_KEY: $PRODUCT_KEY
-#         SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-#         SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-#         SCRIBE_URL: "https://api.staging.scribesecurity.com"
-#         SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-#         SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
-#         TIMEOUT: 120s
-#     services:
-#     - docker
+  scribe-bitbucket-simple-job: &scribe-bitbucket-simple-job
+    step:
+      name: scribe-bitbucket-simple-test
+      - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: dir:mongo-express-scm
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: "mongo-express:1.0.0-alpha.4" 
+          VERBOSE: 2
+          SCRIBE_ENABLE: "true"
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: report
+          VERBOSE: 2
+          SCRIBE_ENABLE: "true"
+          PRODUCT_KEY: $PRODUCT_KEY
+          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          SCRIBE_URL: "https://api.staging.scribesecurity.com"
+          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
+          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
+          TIMEOUT: 120s
+      services:
+      - docker
 
-# pipelines:
-#   default:
-#   - <<: *scribe-bitbucket-simple-job
+  pipelines:
+    default:
+    - <<: *scribe-bitbucket-simple-job
 
   ```
 

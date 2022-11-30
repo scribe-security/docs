@@ -46,46 +46,46 @@ scribe-gitlab-simple-job:
 <details>
   <summary>  Scribe integrity report - full gitlab ci workflow (binary) </summary>
 
-```yaml
-image: ubuntu:latest
-before_script:
-  - apt update
-  - apt install git curl -y
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  ```yaml
+  image: ubuntu:latest
+  before_script:
+    - apt update
+    - apt install git curl -y
+    - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
-stages:
-    - scribe-gitlab-simple-test
+  stages:
+      - scribe-gitlab-simple-test
 
-scribe-gitlab-simple-job:
-    tags: [ saas-linux-large-amd64 ]
-    stage: scribe-gitlab-simple-test
-    script:
-      - >-
-        valint bom dir:mongo-express-scm \
-            --context-type gitlab \
-            --output-directory ./scribe/valint \
-            --product-key $PRODUCT_KEY \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
-            -vv
-      - >-
-        valint bom mongo-express:1.0.0-alpha.4 \
-            --context-type gitlab \
-            --output-directory ./scribe/valint \
-            --product-key $PRODUCT_KEY \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
-            -vv
-      - >-
-        valint report \
-            --context-type gitlab \
-            --product-key $PRODUCT_KEY \
-            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
-            --timeout 120s \
-            -vv
+  scribe-gitlab-simple-job:
+      tags: [ saas-linux-large-amd64 ]
+      stage: scribe-gitlab-simple-test
+      script:
+        - >-
+          valint bom dir:mongo-express-scm \
+              --context-type gitlab \
+              --output-directory ./scribe/valint \
+              --product-key $PRODUCT_KEY \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+              -vv
+        - >-
+          valint bom mongo-express:1.0.0-alpha.4 \
+              --context-type gitlab \
+              --output-directory ./scribe/valint \
+              --product-key $PRODUCT_KEY \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+              -vv
+        - >-
+          valint report \
+              --context-type gitlab \
+              --product-key $PRODUCT_KEY \
+              -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
+              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
+              --timeout 120s \
+              -vv
 
-```
+  ```
 </details>
 ---
 
