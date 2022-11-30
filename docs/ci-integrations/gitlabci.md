@@ -13,7 +13,7 @@ Integrating Scribe Hub with Gitlab requires the following credentials that are f
 * **Client ID**
 * **Client Secret**
 
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+> Note that the product key is unique per product, while the client ID and secret are unique for your account.
 
 # Procedure
 
@@ -86,7 +86,9 @@ scribe-gitlab-simple-job:
               -vv
 
   ```
+  
 </details>
+
 ---
 
 ## Resources
