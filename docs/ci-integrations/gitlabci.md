@@ -60,7 +60,7 @@ scribe-gitlab-simple-job:
       tags: [ saas-linux-large-amd64 ]
       stage: scribe-gitlab-simple-test
       script:
-        - >-
+        - &lt-
           valint bom dir:mongo-express-scm \
               --context-type gitlab \
               --output-directory ./scribe/valint \
@@ -68,7 +68,7 @@ scribe-gitlab-simple-job:
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
               --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
               -vv
-        - >-
+        - &lt-
           valint bom mongo-express:1.0.0-alpha.4 \
               --context-type gitlab \
               --output-directory ./scribe/valint \
@@ -76,7 +76,7 @@ scribe-gitlab-simple-job:
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
               --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
               -vv
-        - >-
+        - &lt-
           valint report \
               --context-type gitlab \
               --product-key $PRODUCT_KEY \
