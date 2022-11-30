@@ -25,7 +25,12 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 * Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/).
 
 * Use the pipe as shown in the example bellow
+<details>
+  <summary>  Sample integration code </summary>
 
+  
+
+</details>
 
 ---
 ## Generating SBOM examples
