@@ -28,7 +28,7 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 <details>
   <summary>  <b> Sample integration code </b> </summary>
 
-  ```YAML
+  <!-- ```YAML
   image:
     name: python:3.7
 
@@ -77,7 +77,7 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
     default:
     - <<: *scribe-bitbucket-simple-job
 
-  ```
+  ``` -->
 
 </details>
 ---
