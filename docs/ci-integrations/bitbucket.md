@@ -9,7 +9,7 @@ Scribe support evidence collecting and integrity verification for Bitbucket Pipe
 Scribe offers custom pipe to easily integrate in to your Pipelines.
 
 ## Before you begin
-Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home&ltProducts&lt[$product]&ltSetup**)
 
 * **Product Key**
 * **Client ID**
