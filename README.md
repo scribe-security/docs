@@ -9,7 +9,7 @@ $ yarn
 ```
 
 ### Local Development
-Test 
+Test
 ```
 $ yarn start
 ```
