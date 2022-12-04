@@ -106,6 +106,7 @@ Note: Default attestation config **Required** `id-token` permission access. \
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 
+
 ```YAML
 job_example:
   runs-on: ubuntu-latest
