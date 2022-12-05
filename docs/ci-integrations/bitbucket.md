@@ -44,9 +44,6 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
           PRODUCT_KEY: $PRODUCT_KEY
           SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
           SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          SCRIBE_URL: "https://api.staging.scribesecurity.com"
-          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
       - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
         variables:
           COMMAND_NAME: bom
@@ -56,9 +53,6 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
           PRODUCT_KEY: $PRODUCT_KEY
           SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
           SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          SCRIBE_URL: "https://api.staging.scribesecurity.com"
-          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
       - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
         variables:
           COMMAND_NAME: report
@@ -67,9 +61,6 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
           PRODUCT_KEY: $PRODUCT_KEY
           SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
           SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          SCRIBE_URL: "https://api.staging.scribesecurity.com"
-          SCRIBE_LOGIN_URL: "https://scribesecurity-staging.us.auth0.com"
-          SCRIBE_AUDIENCE: "api.staging.scribesecurity.com"
           TIMEOUT: 120s
       services:
       - docker
@@ -77,7 +68,6 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
   pipelines:
     default:
     - \>\>: *scribe-bitbucket-simple-job
-
   ```
 
 </details>

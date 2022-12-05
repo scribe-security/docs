@@ -37,8 +37,10 @@ scribe-gitlab-simple-job:
     stage: scribe-gitlab-simple-test
     script:
       - \>-
-        valint bom busybox:latest -vv
+        valint bom busybox:latest --context-type gitlab --vv 
 ```
+
+> Use `gitlab` context-type.
 
 ## 
 # Examples
@@ -66,7 +68,6 @@ scribe-gitlab-simple-job:
               --output-directory ./scribe/valint \
               --product-key $PRODUCT_KEY \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
               -vv
         - \>-
           valint bom mongo-express:1.0.0-alpha.4 \
@@ -74,14 +75,12 @@ scribe-gitlab-simple-job:
               --output-directory ./scribe/valint \
               --product-key $PRODUCT_KEY \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
               -vv
         - \>-
           valint report \
               --context-type gitlab \
               --product-key $PRODUCT_KEY \
               -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-              --scribe.login-url $SCRIBE_LOGIN_URL --scribe.auth.audience $SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
               --timeout 120s \
               -vv
 
