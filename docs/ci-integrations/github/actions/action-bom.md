@@ -6,7 +6,7 @@ Scribe offers GitHub Actions for embedding evidence collecting and validated int
 
 Use `gensbom bom` to collect evidence and generate an SBOM.
 
-Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+Further documentation regarding [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 
 ## Other Actions
@@ -18,10 +18,10 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
 ## Bom Action
 Action for `gensbom bom`.
 The command allows users to generate and manage SBOMs.
-- GitHub-specific context attached to all SBOMs (GIT_URL, JOB_ID, JOB_NAME .. etc)
-- Signing SBOMs, SLSA provenance, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
-- Generates detailed SBOMs, SLSA provenance for images, directories, files and git repositories targets. 
-- Store and manage SBOMs on Scribe service.
+- GitHub-specific context attached to all SBOMs (includes GitHub specific descriptors: GIT_URL, JOB_ID, JOB_NAME .. etc)
+- Signing SBOMs, SLSA provenance objects, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
+- Generates detailed SBOMs, SLSA provenance objects for various types of targets: images, directories, files and git repositories targets. 
+- Store and manage SBOMs on the Scribe Service.
 - Attach SBOM in your CI or releases.
 - Generate SBOM directly from your private OCI registry support.
 - Customizable SBOM with environments, labels, sections, etc.
