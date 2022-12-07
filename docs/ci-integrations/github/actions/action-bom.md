@@ -120,11 +120,6 @@ provide custom path using `attest-config` input argument.
 
 See details [attestations](docs/attestations.md)
 
-
-## .gitignore
-It is recommended to add output directory value to your .gitignore file.  <br />
-By default add `**/scribe` to your `.gitignore`.
-
 # Integrations
 
 ## Before you begin
@@ -786,3 +781,7 @@ Install Valint as a tool
     valint report --scribe.client-id $SCRIBE_CLIENT_ID $SCRIBE_CLIENT_SECRET
 ``` 
 </details>
+
+## .gitignore
+It is recommended to add output directory value to your .gitignore file.  <br />
+By default add `**/scribe` to your `.gitignore`.
