@@ -76,7 +76,7 @@ See detailed [configuration](docs/configuration.md)
 
 
 ## Attestations 
-Attestations SBOMs allows you to sign and verify your SBOM targets. <br />
+Attestations allows you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance
