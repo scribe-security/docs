@@ -134,7 +134,8 @@ By default add `**/scribe` to your `.gitignore`.
 See [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Scribe service integration
-Scribe provides a set of cloud-based services to store, verify and manage the attestations and other kinds of records, enabling users to assure their supply-chain integrity. \
+Scribe provides a set of cloud-based services to store, verify and manage the attestations and other kinds of records, enabling users to assure their supply-chain integrity.
+
 Following are some practical integration examples of CI pipelines with the Scribe Service.
 
 Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`.
