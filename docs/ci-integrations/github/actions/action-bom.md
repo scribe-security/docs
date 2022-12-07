@@ -222,7 +222,7 @@ jobs:
 
 ## Basic examples
 <details>
-  <summary>  Public registry image </summary>
+  <summary>  Public registry image (SBOM) </summary>
 
 Create SBOM for remote `busybox:latest` image.
 
@@ -237,7 +237,7 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image </summary>
+  <summary>  Docker built image (SBOM) </summary>
 
 Create SBOM for image built by local docker `image_name:latest` image, overwrite cache.
 
@@ -253,7 +253,7 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
 </details>
 
 <details>
-  <summary>  Private registry image </summary>
+  <summary>  Private registry image (SBOM) </summary>
 
 Custom private registry, output verbose (debug level) log output.
 
@@ -268,7 +268,7 @@ Custom private registry, output verbose (debug level) log output.
 </details>
 
 <details>
-  <summary>  Custom SBOM metadata </summary>
+  <summary>  Custom metadata (SBOM) </summary>
 
 Custom metadata added to SBOM
 Data will be included in the signed payload when the output is an attestation.
@@ -291,7 +291,7 @@ Data will be included in the signed payload when the output is an attestation.
 
 
 <details>
-  <summary> Save SBOM as artifact </summary>
+  <summary> Save as artifact (SBOM) </summary>
 
 Using action `output_path` you can access the generated SBOM and store it as an artifact.
 ```YAML
@@ -310,7 +310,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
 </details>
 
 <details>
-  <summary> Save SLSA provenance statement as artifact </summary>
+  <summary> Save provenance statement as artifact (SLSA) </summary>
 Using action `output_path` you can access the generated SBOM and store it as an artifact.
 
 ```YAML
@@ -329,7 +329,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
 </details>
 
 <details>
-  <summary> Docker archive image </summary>
+  <summary> Docker archive image (SBOM) </summary>
 
 Create SBOM for local `docker save ...` output.
 ```YAML
@@ -372,10 +372,9 @@ Create SBOM for the local oci archive.
 </details>
 
 <details>
-  <summary> Directory target </summary>
+  <summary> Directory target (SBOM) </summary>
 
 Create SBOM for a local directory.
-Note directory must be mapped to working dir for actions to access (containerized action).
 
 ```YAML
 - name: Create dir
@@ -394,7 +393,7 @@ Note directory must be mapped to working dir for actions to access (containerize
 
 
 <details>
-  <summary> Git target </summary>
+  <summary> Git target (SBOM) </summary>
 
 Create SBOM for `mongo-express` remote git repository.
 
