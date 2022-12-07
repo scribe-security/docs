@@ -143,7 +143,7 @@ See [Github integration](https://scribe-security.netlify.app/docs/ci-integration
           scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
-### Integrating Scribe in your Jenkins pipeline 
+### Integrating Scribe in your Github workflow 
 
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
