@@ -93,7 +93,7 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 ```
 
 ### Usage
-```
+```yaml
 - name: Generate cyclonedx json SBOM
   uses: scribe-security/action-bom@master
   with:
@@ -129,13 +129,22 @@ By default add `**/scribe` to your `.gitignore`.
 ## Before you begin
 See [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
-## Scribe service integration
-Scribe provides a set of cloud-based services to store, verify and manage the attestations and other kinds of records, enabling users to assure their supply-chain integrity.
+### Usage
+```yaml
+      - name: generate sbom for image
+        uses: scribe-security/action-bom@master
+        with:
+          target: 'busybox:latest'
+          verbose: 2
+          scribe-enable: true
+          product-key:  ${{ secrets.product-key }}
+          scribe-client-id: ${{ secrets.client-id }}
+          scribe-client-secret: ${{ secrets.client-secret }}
+```
 
-Following are some practical integration examples of CI pipelines with the Scribe Service.
+### Integrating Scribe in your Jenkins pipeline 
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`.
-You may collect evidence anywhere in your workflows.
+If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
 <details>
   <summary>  Scribe integrity report - full workflow </summary>
@@ -282,7 +291,7 @@ jobs:
 ```
 </details>
 
-## Generating SBOMs examples
+## Basic examples
 <details>
   <summary>  Public registry image </summary>
 
