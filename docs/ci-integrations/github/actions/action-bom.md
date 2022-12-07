@@ -120,9 +120,9 @@ provide custom path using `attest-config` input argument.
 
 See details [attestations](docs/attestations.md)
 
-# Integrations
+## Integrations
 
-## Before you begin
+### Before you begin
 See [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ### Usage
