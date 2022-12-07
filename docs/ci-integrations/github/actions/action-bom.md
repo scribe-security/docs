@@ -145,7 +145,8 @@ If you are using Jenkins as your Continuous Integration tool (CI), use these ins
 <details>
   <summary>  Scribe integrity report </summary>
 
-Full workflow example of a workflow, upload evidence using gensbom and download report using Valint.
+Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
+Download the integrity report,verifying the image integrity from Scribe.
 
 ```YAML
 name: example workflow
