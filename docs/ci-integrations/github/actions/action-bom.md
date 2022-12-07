@@ -18,9 +18,9 @@ Further documentation regarding [Github integration](https://scribe-security.net
 ## Bom Action
 Action for `gensbom bom`.
 The command allows users to generate and manage SBOMs.
-- GitHub-specific context attached to all SBOMs (includes GitHub specific descriptors: GIT_URL, JOB_ID, JOB_NAME .. etc)
 - Signing SBOMs, SLSA provenance objects, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
 - Generates detailed SBOMs, SLSA provenance objects for various types of targets: images, directories, files and git repositories targets. 
+- GitHub-specific context attached to all SBOMs (includes GitHub specific descriptors: GIT_URL, JOB_ID, JOB_NAME .. etc)
 - Store and manage SBOMs on the Scribe Service.
 - Attach SBOM in your CI or releases.
 - Generate an SBOM directly from your private OCI registry.
@@ -102,12 +102,11 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 ```
 
 ## Configuration
-Use default configuration path `.gensbom.yaml`, or
-provide a custom path using `--config` flag.
+Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
 ## Attestations 
-Attestations SBOMs allows you to sign and verify your SBOM targets. \
+Attestations SBOMs allows you to sign and verify your SBOM targets.
 Attestations allow you to connect PKI-based identities to your evidence and policy management. 
 Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance

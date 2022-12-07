@@ -81,7 +81,6 @@ Supported outputs:
 - In-toto predicate - cyclonedx, BOM, SLSA Provenance
 - In-toto attestations -cyclonedx, BOM, SLSA Provenance
 
-
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
 
