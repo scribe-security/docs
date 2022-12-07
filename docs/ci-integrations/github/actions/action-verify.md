@@ -94,12 +94,12 @@ By default add `**/scribe` to your `.gitignore`.
 ## Verify SBOMs examples
 
 <details>
-  <summary> Attest target (BOM) </summary>
+  <summary> Attest target (SBOM) </summary>
 
-Create and sign SBOM targets.
-Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access.
-Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
+Create and sign SBOM targets. <br />
+By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
+
+> Note: Default attestation config **Required** `id-token` permission access. <br />
 
 ```YAML
 job_example:
@@ -118,10 +118,10 @@ job_example:
 <details>
   <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets.
-Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access.
-Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
+Create and sign SLSA targets. <br />
+By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
+
+> Note: Default attestation config **Required** `id-token` permission access. <br />
 
 ```YAML
 job_example:
@@ -138,7 +138,7 @@ job_example:
 </details>
 
 <details>
-  <summary> Verify target (BOM) </summary>
+  <summary> Verify target (SBOM) </summary>
 
 Verify targets against a signed attestation.
 Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
@@ -173,7 +173,7 @@ gensbom will look for both a bom or slsa attestation to verify against
 </details>
 
 <details>
-  <summary> Attest and verify image (BOM) </summary>
+  <summary> Attest and verify image (SBOM) </summary>
 
 Full job example of a image signing and verifying flow.
 
