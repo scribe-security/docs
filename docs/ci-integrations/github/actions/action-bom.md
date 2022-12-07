@@ -592,7 +592,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify directory </summary>
+  <summary> Attest and verify directory (SBOM) </summary>
 
 Full job example of a directory signing and verifying flow.
 
@@ -637,7 +637,7 @@ Full job example of a directory signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify git </summary>
+  <summary> Attest and verify git (SBOM) </summary>
 
 Full job example of a git repo signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
