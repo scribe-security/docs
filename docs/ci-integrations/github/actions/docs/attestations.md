@@ -1,5 +1,6 @@
 ---
 title: Attestations
+sidebar_position: 3
 ---
 
 # Attestations

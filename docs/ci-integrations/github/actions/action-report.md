@@ -1,5 +1,6 @@
 ---
 title: Report
+sidebar_position: 2
 ---
 # Scribe GitHub Actions - `valint report`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
