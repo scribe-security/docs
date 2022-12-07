@@ -507,7 +507,7 @@ Gensbom will look for both a bom or slsa attestation to verify against. <br />
 </details>
 
 <details>
-  <summary> Attest and verify image (SBOM) </summary>
+  <summary> Attest and verify image target (SBOM) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -549,7 +549,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify image (SLSA) </summary>
+  <summary> Attest and verify image target (SLSA) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -592,7 +592,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify directory (SBOM) </summary>
+  <summary> Attest and verify directory target (SBOM) </summary>
 
 Full job example of a directory signing and verifying flow.
 
@@ -637,7 +637,7 @@ Full job example of a directory signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify git (SBOM) </summary>
+  <summary> Attest and verify Git repository target (SBOM) </summary>
 
 Full job example of a git repo signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
