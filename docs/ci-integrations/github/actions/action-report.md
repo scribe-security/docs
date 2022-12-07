@@ -78,7 +78,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. \
+Scribe provides a set of services to store, verify and manage the supply chain integrity.
 Following are some integration examples.
 
 Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \

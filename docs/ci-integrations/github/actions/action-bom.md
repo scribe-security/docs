@@ -106,7 +106,7 @@ Use default configuration path `.gensbom.yaml`, or
 provide a custom path using `config` input argument.
 See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
-In order to configure signing-specific parameters, you may add a `.cocosign.yaml` file to your repository or pass it with `--`config`. \
+In order to configure signing-specific parameters, you may add a `.cocosign.yaml` file to your repository or pass it with `--`config`.
 Learn more about [Cocosign configuration](https://github.com/scribe-security/cocosign) 
 
 
@@ -122,8 +122,7 @@ Supported outputs:
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
 
-See details [documentation - attestation](docs/attestations.md) \
-<!-- Source see [cocosign](https://github.com/scribe-security/cocosign), attestation manager -->
+See details [documentation - attestation](docs/attestations.md)
 
 ## .gitignore
 It is recommended to add output directory value to your .gitignore file.
@@ -138,7 +137,7 @@ See [Github integration](https://scribe-security.netlify.app/docs/ci-integration
 Scribe provides a set of cloud-based services to store, verify and manage the attestations and other kinds of records, enabling users to assure their supply-chain integrity. \
 Following are some practical integration examples of CI pipelines with the Scribe Service.
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
+Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`.
 You may collect evidence anywhere in your workflows.
 
 <details>
@@ -476,7 +475,7 @@ Create SBOM from the local oci archive.
 <details>
   <summary> Directory target </summary>
 
-Create SBOM from a local directory. \
+Create SBOM from a local directory.
 Note directory must be mapped to working dir for actions to access (containerized action).
 
 ```YAML
@@ -497,9 +496,9 @@ Note directory must be mapped to working dir for actions to access (containerize
 <details>
   <summary> Attest target (BOM) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache. \
+Create and sign SBOM targets, skip if found signed SBOM by the cache.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access. \
+Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 
@@ -520,9 +519,9 @@ job_example:
 <details>
   <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache. \
+Create and sign SBOM targets, skip if found signed SBOM by the cache.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access. \
+Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 ```YAML
@@ -542,8 +541,8 @@ job_example:
 <details>
   <summary> Verify target (BOM) </summary>
 
-Verify targets against a signed attestation. \
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions) \
+Verify targets against a signed attestation.
+Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
 Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
 gensbom will look for both a bom or slsa attestation to verify against
 
@@ -559,8 +558,8 @@ gensbom will look for both a bom or slsa attestation to verify against
 <details>
   <summary> Verify target (SLSA) </summary>
 
-Verify targets against a signed attestation. \
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions) \
+Verify targets against a signed attestation.
+Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
 Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
 gensbom will look for both a bom or slsa attestation to verify against
 

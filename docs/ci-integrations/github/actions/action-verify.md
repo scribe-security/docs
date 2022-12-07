@@ -73,11 +73,10 @@ Use default configuration path `.gensbom.yaml`, or
 provide a custom path using `config` input argument.
 
 You may add a `.cocosign.yaml` file to your repository or pass it with `--`config` \
-<!-- for more [Cocosign configuration](https://github.com/scribe-security/cocosign) -->
 
 
 ## Attestations 
-Attestations SBOMs allows you to sign and verify your SBOM targets. \
+Attestations SBOMs allows you to sign and verify your SBOM targets.
 Attestations allow you to connect PKI-based identities to your evidence and policy management. 
 Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance
@@ -88,8 +87,7 @@ Supported outputs:
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
 
-See details [documentation - attestation](docs/attestations.md) \
-<!-- Source see [cocosign](https://github.com/scribe-security/cocosign), attestation manager -->
+See details [documentation - attestation](docs/attestations.md)
 
 ## .gitignore
 Recommended to add output directory value to your .gitignore file.
@@ -100,9 +98,9 @@ By default add `**/scribe` to your `.gitignore`.
 <details>
   <summary> Attest target (BOM) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache. \
+Create and sign SBOM targets, skip if found signed SBOM by the cache.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access. \
+Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 
@@ -124,9 +122,9 @@ job_example:
 <details>
   <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache. \
+Create and sign SBOM targets, skip if found signed SBOM by the cache.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
-Note: Default attestation config **Required** `id-token` permission access. \
+Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 ```YAML
@@ -146,8 +144,8 @@ job_example:
 <details>
   <summary> Verify target (BOM) </summary>
 
-Verify targets against a signed attestation. \
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions) \
+Verify targets against a signed attestation.
+Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
 Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
 gensbom will look for both a bom or slsa attestation to verify against
 
@@ -163,8 +161,8 @@ gensbom will look for both a bom or slsa attestation to verify against
 <details>
   <summary> Verify target (SLSA) </summary>
 
-Verify targets against a signed attestation. \
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions) \
+Verify targets against a signed attestation.
+Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
 Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
 gensbom will look for both a bom or slsa attestation to verify against
 
