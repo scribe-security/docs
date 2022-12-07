@@ -367,47 +367,6 @@ Custom private registry, output verbose (debug level) log output.
 </details>
 
 <details>
-  <summary>  Remote git repository </summary>
-
-Create SBOM for `mongo-express` remote git repository.
-
-```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
-  with:
-    type: git
-    target: 'https://github.com/mongo-express/mongo-express.git'
-    format: json
-``` 
-
-Create SBOM for `my_repo` local git repository.
-```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
-  with:
-    type: git
-    target: '/GitHub/workspace/my_repo'
-    format: json
-``` 
-
-</details>
-
-<details>
-  <summary>  Local directory </summary>
-
-Create SBOM for workspace directory.
-
-```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
-  with:
-    type: dir
-    target: '/GitHub/workspace/'
-    format: json
-``` 
-</details>
-
-<details>
   <summary>  Custom SBOM metadata </summary>
 
 Custom metadata added to SBOM
@@ -528,8 +487,42 @@ Note directory must be mapped to working dir for actions to access (containerize
   uses: scribe-security/action-bom@master
   with:
     type: dir
-    target: '/GitHub/workspace/testdir'
+    target: 'testdir'
 ``` 
+</details>
+
+
+<details>
+  <summary> Git target </summary>
+
+Create SBOM for `mongo-express` remote git repository.
+
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    type: git
+    target: 'https://github.com/mongo-express/mongo-express.git'
+    format: json
+``` 
+
+Create SBOM for `my_repo` local git repository.
+
+```YAML
+
+- uses: actions/checkout@v3
+  with:
+    fetch-depth: 0
+    path: my_repo
+
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    type: git
+    target: 'my_repo'
+    format: json
+``` 
+
 </details>
 
 <details>
