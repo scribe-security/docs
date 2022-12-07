@@ -103,12 +103,8 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or
-provide a custom path using `config` input argument.
+provide a custom path using `--config` flag.
 See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
-
-In order to configure signing-specific parameters, you may add a `.cocosign.yaml` file to your repository or pass it with `--`config`.
-Learn more about [Cocosign configuration](https://github.com/scribe-security/cocosign) 
-
 
 ## Attestations 
 Attestations SBOMs allows you to sign and verify your SBOM targets. \
@@ -117,7 +113,6 @@ Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance
 - In-toto predicate - cyclonedx, BOM, SLSA Provenance
 - In-toto attestations -cyclonedx, BOM, SLSA Provenance
-
 
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.

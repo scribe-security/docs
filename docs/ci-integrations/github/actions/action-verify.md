@@ -70,10 +70,8 @@ The command allows users to verify an image via a signed attestation (In-toto).
 
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or
-provide a custom path using `config` input argument.
-
-You may add a `.cocosign.yaml` file to your repository or pass it with `--`config` \
-
+provide a custom path using `--config` flag.
+See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
 ## Attestations 
 Attestations SBOMs allows you to sign and verify your SBOM targets.
@@ -102,8 +100,6 @@ Create and sign SBOM targets, skip if found signed SBOM by the cache.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
 Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
-
-
 
 ```YAML
 job_example:
