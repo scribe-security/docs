@@ -127,15 +127,14 @@ See [Github integration](https://scribe-security.netlify.app/docs/ci-integration
 
 ### Usage
 ```yaml
-      - name: generate sbom for image
-        uses: scribe-security/action-bom@master
-        with:
-          target: 'busybox:latest'
-          verbose: 2
-          scribe-enable: true
-          product-key:  ${{ secrets.product-key }}
-          scribe-client-id: ${{ secrets.client-id }}
-          scribe-client-secret: ${{ secrets.client-secret }}
+- name: generate sbom for image
+  uses: scribe-security/action-bom@master
+  with:
+    target: 'busybox:latest'
+    scribe-enable: true
+    product-key:  ${{ secrets.product-key }}
+    scribe-client-id: ${{ secrets.client-id }}
+    scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
 ### Scribe service integration

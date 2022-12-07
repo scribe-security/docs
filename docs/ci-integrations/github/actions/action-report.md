@@ -73,10 +73,21 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
       scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
-# Integrations
+## Integrations
 
-## Before you begin
+### Before you begin
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+
+### Usage
+```yaml
+- name: Download integrity report
+  uses: scribe-security/action-report@master
+  with:
+      scribe-enable: true
+      product-key:  ${{ secrets.product-key }}
+      scribe-client-id: ${{ secrets.client-id }}
+      scribe-client-secret: ${{ secrets.client-secret }}
+```
 
 ### Scribe service integration
 
