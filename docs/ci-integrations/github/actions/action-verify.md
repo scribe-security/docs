@@ -95,7 +95,7 @@ By default add `**/scribe` to your `.gitignore`.
 <details>
   <summary> Attest target (BOM) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache.
+Create and sign SBOM targets.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
 Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
@@ -117,7 +117,7 @@ job_example:
 <details>
   <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache.
+Create and sign SBOM targets.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
 Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).

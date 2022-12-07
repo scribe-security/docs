@@ -78,7 +78,7 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 <details>
   <summary>  Public registry image </summary>
 
-Create SBOM from remote `busybox:latest` image, skip if found by the cache.
+Create SBOM for remote `busybox:latest` image, skip if found by the cache.
 
 ```YAML
   step:
@@ -185,7 +185,7 @@ step:
 <details>
   <summary> Docker archive image </summary>
 
-Create SBOM from local `docker save ...` output.
+Create SBOM for local `docker save ...` output.
 ```YAML
 step:
   name: Test
@@ -204,7 +204,7 @@ step:
 <details>
   <summary> OCI archive image </summary>
 
-Create SBOM from the local oci archive.
+Create SBOM for the local oci archive.
 
 ```YAML
 step:
@@ -224,7 +224,7 @@ step:
 <details>
   <summary> Directory target </summary>
 
-Create SBOM from a local directory. 
+Create SBOM for a local directory. 
 
 ```YAML
 step:

@@ -106,7 +106,7 @@ Use default configuration path `.gensbom.yaml`, or provide a custom path using `
 See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
 ## Attestations 
-Attestations SBOMs allows you to sign and verify your SBOM targets.
+Attestations SBOMs allows you to sign and verify your SBOM targets. \
 Attestations allow you to connect PKI-based identities to your evidence and policy management. 
 Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance
@@ -322,7 +322,7 @@ Valint downloading integrity report from scribe service
 <details>
   <summary>  Public registry image </summary>
 
-Create SBOM from remote `busybox:latest` image, skip if found by the cache.
+Create SBOM for remote `busybox:latest` image.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
@@ -331,6 +331,7 @@ Create SBOM from remote `busybox:latest` image, skip if found by the cache.
     target: 'busybox:latest'
     format: json
 ``` 
+
 </details>
 
 <details>
@@ -352,7 +353,8 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
 <details>
   <summary>  Private registry image </summary>
 
-Custom private registry, skip cache (using `Force`), output verbose (debug level) log output.
+Custom private registry, output verbose (debug level) log output.
+
 ```YAML
 - name: Generate cyclonedx json SBOM
   uses: scribe-security/action-bom@master
@@ -361,6 +363,47 @@ Custom private registry, skip cache (using `Force`), output verbose (debug level
     verbose: 2
     force: true
 ```
+</details>
+
+<details>
+  <summary>  Remote git repository </summary>
+
+Create SBOM for `mongo-express` remote git repository.
+
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    type: git
+    target: 'https://github.com/mongo-express/mongo-express.git'
+    format: json
+``` 
+
+Create SBOM for `my_repo` local git repository.
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    type: git
+    target: '/GitHub/workspace/my_repo'
+    format: json
+``` 
+
+</details>
+
+<details>
+  <summary>  Local directory </summary>
+
+Create SBOM for workspace directory.
+
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    type: dir
+    target: '/GitHub/workspace/'
+    format: json
+``` 
 </details>
 
 <details>
@@ -427,7 +470,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
 <details>
   <summary> Docker archive image </summary>
 
-Create SBOM from local `docker save ...` output.
+Create SBOM for local `docker save ...` output.
 ```YAML
 - name: Build and save local docker archive
   uses: docker/build-push-action@v3
@@ -448,7 +491,7 @@ Create SBOM from local `docker save ...` output.
 <details>
   <summary> OCI archive image </summary>
 
-Create SBOM from the local oci archive.
+Create SBOM for the local oci archive.
 
 ```YAML
 - name: Build and save local oci archive
@@ -470,7 +513,7 @@ Create SBOM from the local oci archive.
 <details>
   <summary> Directory target </summary>
 
-Create SBOM from a local directory.
+Create SBOM for a local directory.
 Note directory must be mapped to working dir for actions to access (containerized action).
 
 ```YAML
@@ -491,11 +534,10 @@ Note directory must be mapped to working dir for actions to access (containerize
 <details>
   <summary> Attest target (BOM) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache.
-Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
+Create and sign SBOM targets.
+
 Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
-
 
 ```YAML
 job_example:
@@ -504,17 +546,18 @@ job_example:
     id-token: write
   steps:
     - name: gensbom attest
-    uses: scribe-security/action-bom@master
-    with:
-        target: 'busybox:latest'
-        format: attest
+      uses: scribe-security/action-bom@master
+      with:
+          target: 'busybox:latest'
+          format: attest
 ``` 
+
 </details>
 
 <details>
   <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets, skip if found signed SBOM by the cache.
+Create and sign SBOM targets.
 Targets: `registry`, `docker-archive`, `oci-archive`, `dir`.
 Note: Default attestation config **Required** `id-token` permission access.
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
@@ -692,6 +735,52 @@ Full job example of a directory signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-workdir-reports
+          path: |
+            gensbom_reports      
+``` 
+
+</details>
+
+<details>
+  <summary> Attest and verify git </summary>
+
+Full job example of a git repo signing and verifying flow.
+> Support for both local (path) and remote git (url) repositories.
+
+```YAML
+  gensbom-dir-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: gensbom attest local repo
+        id: gensbom_attest_dir
+        uses: scribe-security/action-bom@master
+        with:
+           type: git
+           target: '/GitHub/workspace/my_repo'
+           verbose: 2
+           format: attest
+           force: true
+
+      - name: gensbom verify local repo
+        id: gensbom_verify_dir
+        uses: scribe-security/action-verify@master
+        with:
+           type: git
+           target: '/GitHub/workspace/my_repo'
+           verbose: 2
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: gensbom-git-reports
           path: |
             gensbom_reports      
 ``` 

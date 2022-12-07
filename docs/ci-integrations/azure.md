@@ -77,7 +77,7 @@ trigger:
 <details>
   <summary>  Public registry image </summary>
 
-Create SBOM from remote `busybox:latest` image, skip if found by the cache.
+Create SBOM for remote `busybox:latest` image, skip if found by the cache.
 
 ```YAML
 - task: scribeCli@2 
@@ -162,7 +162,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
 <details>
   <summary> Docker archive image </summary>
 
-Create SBOM from local `docker save ...` output.
+Create SBOM for local `docker save ...` output.
 ```YAML
 - task: scribeCli@2 
   displayName: Generate cyclonedx json SBOM
@@ -175,7 +175,7 @@ Create SBOM from local `docker save ...` output.
 <details>
   <summary> OCI archive image </summary>
 
-Create SBOM from the local oci archive.
+Create SBOM for the local oci archive.
 
 ```YAML
 - task: scribeCli@2 
@@ -189,7 +189,7 @@ Create SBOM from the local oci archive.
 <details>
   <summary> Directory target </summary>
 
-Create SBOM from a local directory. 
+Create SBOM for a local directory. 
 
 ```YAML
 - task: scribeCli@2 
