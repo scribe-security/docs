@@ -104,7 +104,7 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
+See detailed [configuration](docs/configuration.md)
 
 ## Attestations 
 Attestations SBOMs allows you to sign and verify your SBOM targets. \
@@ -117,7 +117,7 @@ Supported outputs:
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
 
-See details [documentation - attestation](docs/attestations.md)
+See details [attestations](docs/attestations.md)
 
 ## .gitignore
 It is recommended to add output directory value to your .gitignore file.

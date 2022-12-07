@@ -71,7 +71,7 @@ The command allows users to verify an image via a signed attestation (In-toto).
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
+See detailed [configuration](docs/configuration.md)
 
 
 ## Attestations 
@@ -85,7 +85,7 @@ Supported outputs:
 Use default configuration path `.cocosign.yaml`, or
 provide custom path using `attest-config` input argument.
 
-See details [documentation - attestation](docs/attestations.md)
+See details [attestations](docs/attestations.md)
 
 ## .gitignore
 Recommended to add output directory value to your .gitignore file.

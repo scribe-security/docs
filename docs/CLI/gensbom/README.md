@@ -326,12 +326,9 @@ gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
 ## Configuration
+Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-Configuration can be set for CLI for all commands as well as for the global flags.
-Configuration fields can be overridden by CLI, see CLI help for flags details.
-
-
-See details [CLI documentation - configuration](docs/configuration.md)
+See detailed [configuration](docs/configuration.md)
 
 # Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is and awesome tool that  aims to make signatures invisible infrastructure.
