@@ -23,7 +23,8 @@ Install the tool locally if you want to:
 - Generate/sign local directories (not mapped to the working dir)
 - Generate evidence for a global cache directory
 - Use tool functionality not exposed by containerized actions.
-Note: Installing gensbom locally is very useful when you want to create an SBOM outside the workflow default workspace directory.
+
+>Installing `gensbom` locally is useful when you want to create an evidence (mainly directories) on targets outside the workflow working dir.
 
 > action allows users to utilize `gensbom bom` in a non-containerized environment.
 

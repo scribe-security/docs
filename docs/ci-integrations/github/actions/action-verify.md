@@ -2,7 +2,6 @@
 title: Verify
 sidebar_position: 2
 ---
-
 # Scribe Github Action for `gensbom bom`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
 
@@ -101,7 +100,7 @@ By default add `**/scribe` to your `.gitignore`.
 Create and sign SBOM targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
-> Note: Default attestation config **Required** `id-token` permission access. <br />
+>Default attestation config **Required** `id-token` permission access. <br />
 
 ```YAML
 job_example:
@@ -123,7 +122,7 @@ job_example:
 Create and sign SLSA targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
-> Note: Default attestation config **Required** `id-token` permission access. <br />
+>Default attestation config **Required** `id-token` permission access. <br />
 
 ```YAML
 job_example:
@@ -143,9 +142,8 @@ job_example:
   <summary> Verify target (SBOM) </summary>
 
 Verify targets against a signed attestation.
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
-Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
-gensbom will look for both a bom or slsa attestation to verify against
+Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor). <br />
+Gensbom will look for both a bom or slsa attestation to verify against. <br />
 
 ```YAML
 - name: gensbom verify
@@ -159,10 +157,10 @@ gensbom will look for both a bom or slsa attestation to verify against
 <details>
   <summary> Verify target (SLSA) </summary>
 
-Verify targets against a signed attestation.
-Note: `docker` in target `type` field (is not accessible because it requires docker daemon (containerized actions)
-Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor).
-gensbom will look for both a bom or slsa attestation to verify against
+Verify targets against a signed attestation. <br />
+Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor). <br />
+Gensbom will look for both a bom or slsa attestation to verify against. <br />
+
 
 ```YAML
 - name: gensbom verify
