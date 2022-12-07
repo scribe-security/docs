@@ -173,7 +173,7 @@ Gensbom will look for both a bom or slsa attestation to verify against. <br />
 </details>
 
 <details>
-  <summary> Attest and verify image (SBOM) </summary>
+  <summary> Attest and verify image target (SBOM) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -215,7 +215,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify image (SLSA) </summary>
+  <summary> Attest and verify image target (SLSA) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -258,7 +258,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify directory </summary>
+  <summary> Attest and verify directory target (SBOM) </summary>
 
 Full job example of a directory signing and verifying flow.
 
@@ -296,6 +296,53 @@ Full job example of a directory signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-workdir-reports
+          path: |
+            gensbom_reports      
+``` 
+
+</details>
+
+
+<details>
+  <summary> Attest and verify Git repository target (SBOM) </summary>
+
+Full job example of a git repository signing and verifying flow.
+> Support for both local (path) and remote git (url) repositories.
+
+```YAML
+  gensbom-dir-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: gensbom attest local repo
+        id: gensbom_attest_dir
+        uses: scribe-security/action-bom@master
+        with:
+           type: git
+           target: '/GitHub/workspace/my_repo'
+           verbose: 2
+           format: attest
+           force: true
+
+      - name: gensbom verify local repo
+        id: gensbom_verify_dir
+        uses: scribe-security/action-verify@master
+        with:
+           type: git
+           target: '/GitHub/workspace/my_repo'
+           verbose: 2
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: gensbom-git-reports
           path: |
             gensbom_reports      
 ``` 

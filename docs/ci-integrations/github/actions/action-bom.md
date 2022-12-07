@@ -639,7 +639,7 @@ Full job example of a directory signing and verifying flow.
 <details>
   <summary> Attest and verify Git repository target (SBOM) </summary>
 
-Full job example of a git repo signing and verifying flow.
+Full job example of a git repository signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
 
 ```YAML
