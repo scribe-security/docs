@@ -1,6 +1,8 @@
 ---
 title: Installer
+sidebar_position: 2
 ---
+
 # Scribe GitHub Actions - `installer`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain. 
 

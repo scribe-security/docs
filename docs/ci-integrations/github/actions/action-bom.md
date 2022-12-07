@@ -1,5 +1,6 @@
 ---
 title: Bom
+sidebar_position: 2
 ---
 # Scribe Github Action for `gensbom bom`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.

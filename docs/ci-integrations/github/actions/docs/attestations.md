@@ -1,3 +1,7 @@
+---
+title: Attestations
+---
+
 # Attestations
 Scribe utilized the `cocosign` framework to manage attestations and statements collected by the supply chain. \
 Framework allows users to select between signing, verifying and storage schemes to manage the attestations as well as statements life cycle.
