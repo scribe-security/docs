@@ -78,17 +78,15 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 ## Before you begin
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
-## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity.
-Following are some integration examples.
+### Scribe service integration
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
-You may collect evidence anywhere in your workflows.
+If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
 <details>
-  <summary>  Scribe integrity report - full workflow </summary>
+  <summary>  Scribe integrity report </summary>
 
-Full workflow example of a workflow, upload evidence using gensbom and download report using Valint.
+Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
+Download the integrity report,verifying the image integrity from Scribe.
 
 ```YAML
 name: example workflow
@@ -124,73 +122,6 @@ jobs:
            product-key:  ${{ secrets.product-key }}
            scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
-
-      - name: Build and push remote
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: mongo-express:1.0.0-alpha.4
-
-      - name: gensbom Image generate bom, upload to scribe
-        id: gensbom_bom_image
-        uses: scribe-security/action-bom@master
-        with:
-           target: 'mongo-express:1.0.0-alpha.4'
-           verbose: 2
-           scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
-
-      - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           verbose: 2
-           scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: scribe-reports
-          path: |
-            ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_report.outputs.OUTPUT_PATH }}
-```
-</details>
-
-
-<details>
-  <summary>  Scribe integrity report - Multi workflow </summary>
-
-Full workflow example of a workflow, upload evidence using gensbom and download report using valint
-
-```YAML
-name: example workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-report-test:
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - uses: actions/checkout@v3
-        with:
-          repository: mongo-express/mongo-express
-          ref: refs/tags/v1.0.0-alpha.4
-          path: mongo-express-scm
 
       - name: Build and push remote
         uses: docker/build-push-action@v3
