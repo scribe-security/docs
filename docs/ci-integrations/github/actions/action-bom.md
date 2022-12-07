@@ -103,6 +103,7 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
+
 See detailed [documentation -](docs/configuration.md) config](docs/configuration.md)
 
 ## Attestations 
