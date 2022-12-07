@@ -107,8 +107,8 @@ Use default configuration path `.gensbom.yaml`, or provide a custom path using `
 See detailed [configuration](docs/configuration.md)
 
 ## Attestations 
-Attestations SBOMs allows you to sign and verify your SBOM targets. \
-Attestations allow you to connect PKI-based identities to your evidence and policy management. 
+Attestations SBOMs allows you to sign and verify your SBOM targets. <br />
+Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 Supported outputs:
 - In-toto statements - cyclonedx BOM, SLSA Provenance
 - In-toto predicate - cyclonedx, BOM, SLSA Provenance
@@ -119,8 +119,9 @@ provide custom path using `attest-config` input argument.
 
 See details [attestations](docs/attestations.md)
 
+
 ## .gitignore
-It is recommended to add output directory value to your .gitignore file.
+It is recommended to add output directory value to your .gitignore file.  <br />
 By default add `**/scribe` to your `.gitignore`.
 
 # Integrations
