@@ -282,44 +282,6 @@ jobs:
 ```
 </details>
 
-## Integrity report examples
-<details>
-  <summary>  Scribe integrity report </summary>
-
-Valint downloading integrity report from scribe service
-
-```YAML
-  - name: Valint - download report
-    id: valint_report
-    uses: scribe-security/action-report@master
-    with:
-        verbose: 2
-        scribe-enable: true
-        product-key:  ${{ secrets.product-key }}
-        scribe-client-id: ${{ secrets.client-id }}
-        scribe-client-secret: ${{ secrets.client-secret }}
-```
-</details>
-
-<details>
-  <summary>  Scribe integrity report, select section </summary>
-
-Valint downloading integrity report from scribe service
-
-```YAML
-  - name: Valint - download report
-    id: valint_report
-    uses: scribe-security/action-report@master
-    with:
-        verbose: 2
-        scribe-enable: true
-        product-key:  ${{ secrets.product-key }}
-        scribe-client-id: ${{ secrets.client-id }}
-        scribe-client-secret: ${{ secrets.client-secret }}
-        section: packages
-```
-</details>
-
 ## Generating SBOMs examples
 <details>
   <summary>  Public registry image </summary>
