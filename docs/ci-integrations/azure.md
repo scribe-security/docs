@@ -24,51 +24,51 @@ As an example update it to contain the following steps:
 <details>
   <summary>  <b> Sample integration code </b> </summary>
 
-  ```YAML
-  resources:
-    repositories:
-    - repository: mongo-express
-      type: github
-      ref: 'refs/tags/v1.0.0-alpha.4'
-      name: mongo-express/mongo-express
+```YAML
+resources:
+  repositories:
+  - repository: mongo-express
+    type: github
+    ref: 'refs/tags/v1.0.0-alpha.4'
+    name: mongo-express/mongo-express
 
-  trigger:
-          - main
+trigger:
+        - main
 
-          pool:
-            vmImage: 'ubuntu-latest'
+        pool:
+          vmImage: 'ubuntu-latest'
 
-          variables:
-            imageName: 'pipelines-javascript-docker'
+        variables:
+          imageName: 'pipelines-javascript-docker'
 
-          steps:
-          - task: scribeInstall@0
+        steps:
+        - task: scribeInstall@0
 
-          - checkout: mongo-express
-            path: mongo-express-scm
+        - checkout: mongo-express
+          path: mongo-express-scm
 
-          - task: scribeCli@2
-            inputs:
-              commandName: bom
-              target: dir:mongo-express-scm
-              scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
-              scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+        - task: scribeCli@2
+          inputs:
+            commandName: bom
+            target: dir:mongo-express-scm
+            scribeEnable: true
+            scribeClientId: $(SCRIBE-CLIENT-ID)
+            scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
 
-          - task: scribeCli@2
-            inputs:
-              commandName: bom
-              target: mongo-express:1.0.0-alpha.4
-              scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
-              scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+        - task: scribeCli@2
+          inputs:
+            commandName: bom
+            target: mongo-express:1.0.0-alpha.4
+            scribeEnable: true
+            scribeClientId: $(SCRIBE-CLIENT-ID)
+            scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
 
-          - task: scribeCli@2
-            inputs:
-              commandName: report
-              scribeClientId: $(SCRIBE-CLIENT-ID)
-              scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
-  ```
+        - task: scribeCli@2
+          inputs:
+            commandName: report
+            scribeClientId: $(SCRIBE-CLIENT-ID)
+            scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+```
 </details>
 
 

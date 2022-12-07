@@ -3,9 +3,7 @@ title: Circle-CI
 sidebar_position: 4
 ---
 
-# Circle CI
-Scribe support evidence collecting and integrity verification for Circle CI.
-Scribe offers custom orbs to easly integrate in to your Pipelines.
+# Integrating Scribe in your CircleCI pipeline using Orbs
 
 <!---
 [![CircleCI Build Status](https://circleci.com/gh/scribe-security/orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/scribe-security/orbs) [![CircleCI Orb Version](https://badges.circleci.com/orbs/scribe-security/orbs.svg)](https://circleci.com/orbs/registry/orb/scribe-security/orbs) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/scribe-security/orbs/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
