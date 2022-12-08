@@ -106,7 +106,6 @@ Note: Default attestation config **Required** `id-token` permission access. \
 Default attestation config: `sigstore-config` - GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 
-
 ```YAML
 job_example:
   runs-on: ubuntu-latest
@@ -192,7 +191,7 @@ Full job example of a image signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -212,7 +211,7 @@ Full job example of a image signing and verifying flow.
            target: 'busybox:latest'
            verbose: 2
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-busybox-test
           path: gensbom_reports
@@ -234,7 +233,7 @@ Full job example of a image signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -255,7 +254,7 @@ Full job example of a image signing and verifying flow.
            input-format: attest-slsa
            verbose: 2
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-busybox-test
           path: gensbom_reports
@@ -277,7 +276,7 @@ Full job example of a directory signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -299,7 +298,7 @@ Full job example of a directory signing and verifying flow.
            target: '/GitHub/workspace/'
            verbose: 2
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-workdir-reports
           path: |
