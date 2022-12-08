@@ -7,7 +7,7 @@ sidebar_label: Jenkins
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
 
 ## Before you begin
-### Acquiring credentials from ScribeHub
+### Acquiring credentials from Scribe Hub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
@@ -49,26 +49,27 @@ The final state of the secrets definition should be as shown on the following sc
 To avoid potentially costly commits, we recommended adding the Scribe output directory to your .gitignore file.
 By default, add `**/scribe` to your .gitignore.
 
-
+<!---
 ### Using Jenkins Shared Library (JSL)
 
 Use JSL to ease your integration. 
 Read [Scribe JSL Documentation](./JSL/) for instructions.
+-->
 
 ## Procedure
-Scribe installation includes the Command Line Interpreter (CLI) tools. Scribe provides the following CLI tools: 
-* **Gensbom**: SBOM Generator 
-* **Valint**: Validator and integrity checker for your supply chain.
+Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following CLI tools: 
+* **Gensbom**: An SBOM Generator 
+* **Valint**: A validator and integrity checker for your Node.js projects and NPM files/packages. It's used to download the integrity report created by the Scribe system.
 
 Every integration pipeline is unique. 
-Integrating Scribe code to your pipeline varies from one case to another.
+Integrating Scribe's code into your pipeline varies from one case to another.
 
 The following are examples that illustrate where to add Scribe code snippets. 
 
 The code in these examples of a workflow executes these three steps:
-1. Calls `gensbom` to upload evidence.
-1. Calls `valint` to  download report.
-1. Attaches report and evidence to your pipeline run.
+1. Calls `gensbom` right after checkout to collect hash value evidence of the source code files and upload the evidence.
+2. Calls `gensbom` to generate an SBOM from the final Docker image and upload the evidence.
+3. Calls `valint` to download the integrity report results and attach the report and evidence to the pipeline run.
  
 The examples use a sample pipeline building a Mongo express project. 
 <details>
@@ -259,8 +260,7 @@ pipeline {
   }
 }
 ```
-Example uses Jenkins over k8s plugin, 
-Pod template defined
+This example uses Jenkins over k8s plugin with the Pod template defined like this:
 ```YAML
 metadata:
   labels:

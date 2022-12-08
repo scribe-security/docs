@@ -45,7 +45,7 @@ Once your pipeline is integrated and configured with Scribe, every time you run 
 
 ### Results
 Scribe enriches SBOMs with validation information and creates integrity reports that you can easily share with stakeholders.
-> In this release, Scribe validates Node.js projects and npm packages, that create an Open Containers Image (OCI) such as Docker.
+> In this release, Scribe validates Node.js projects and NPM packages, that create an Open Containers Image (OCI) such as Docker.
 
 ### Signing critical files 
 

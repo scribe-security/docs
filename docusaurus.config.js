@@ -46,28 +46,37 @@ const config = {
               ] : [
                 "ci-integrations/github/README.md",
                 "ci-integrations/jenkins/README.md",
-                "cveReports.md",
                 "ci-integrations/example.md",
                 "ci-integrations/general.md",
                 "ci-integrations/README.md",
-                "CLI/valint/README.md",
-                "CLI/valint/command/valint.md",
-                "CLI/valint/command/valint_report.md",
+                // "ci-integrations/azure.md",
+                // "ci-integrations/bitbucket.md",
+                // "ci-integrations/circleci.md",
+                // "ci-integrations/gitlabcli.md",
+                // "ci-integrations/travis.md",
+                //"CLI/README.md",
+                //"CLI/valint/README.md",
+                "CLI/valint/report.md",
+                "CLI/gensbom/gensbomcli.md",
+                //"CLI/valint/command/valint.md",
+                //"CLI/valint/command/valint_report.md",
                 "cves.md",
+                "cveReports.md",
                 "intro.md",
                 "sampleproject.md",
-                "gensbomcli.md",
+                //"gensbomcli.md",
                 "readingoutput.md",
                 "faq.md",
                 "overview.md" ,
+                "glossary.md",
                 "README.md",
               ],
             ],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          //editUrl:
+          //  'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -125,15 +134,21 @@ const config = {
         },
         {
           type: 'doc',
-          docId: 'gensbomcli',
-          position: 'left',
-          label: 'Generate an SBOM from CLI',
-        },
-        {
-          type: 'doc',
           docId: 'readingoutput',
           position: 'left',
           label: 'Reading Analysis',
+        },
+        {
+          type: 'doc',
+          docId: 'cveReports',
+          position: 'left',
+          label: 'CVE Reports',
+        },
+        {
+          type: 'doc',
+          docId: 'glossary',
+          position: 'left',
+          label: 'Glossary',
         }
         // {to: '/blog', label: 'Blog', position: 'left'},
         // {

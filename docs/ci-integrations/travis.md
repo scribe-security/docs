@@ -4,7 +4,7 @@ sidebar_position: 6
 ---
 
 # Travis
-Scribe support evidence collecting and integrity verification for Travis CI.
+If you are using Travis as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. 
 
 # Integration
 ## Before you begin
@@ -16,9 +16,13 @@ Integrating Scribe Hub with Travis CI requires the following credentials that ar
 
 >Note that the product key is unique per product, while the client ID and secret are unique for your account.
 
+* Add the credentials (client id, client secret, and product key) to your Travis environment according to the [Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables") to avoid revealing secrets.
 
-1. Open your Travis project and make sure you have a yaml file named .travis-ci.yml
-As an example update it to contain the following steps:
+* Open your Travis project and make sure you have a YAML file named `.travis-ci.yml`.
+The code in the following examples of a workflow running on the mongo-express image executes these three steps:
+  * Collect evidence (`valint bom`) right after checkout including hash value evidence of the source code files and upload that evidence.
+  * Generate an SBOM (`valint bom`) from the final Docker image and upload the evidence.
+  * Get the integrity report (`valint report`) results and attach the report and evidence to the pipeline run.  
 
 ```yaml
 language: go
@@ -57,6 +61,3 @@ script:
         --timeout 120s \
         -vv
 ```
-
-
-2. Please make sure you use environment variables for client id, client secret and prodyct key in the build settings to avoid revealing secrets.
