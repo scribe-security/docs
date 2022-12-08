@@ -1,12 +1,11 @@
 ---
-title: Bitbucket Pipeline
 sidebar_position: 4
+title: Bitbucket
 ---
 
 
-# Bitbuucket Pipeline
-Scribe support evidence collecting and integrity verification for Bitbucket Pipelines.
-Scribe offers custom pipe to easily integrate in to your Pipelines.
+# Bitbucket Pipeline
+If you are using Bitbucket pipelines as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. Scribe offers a custom pipe to easily integrate our code snippets with your existing pipelines.
 
 ## Before you begin
 Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -19,15 +18,15 @@ Integrating Scribe Hub with Bitbucket Pipeline requires the following credential
 
 ## Scribe Bitbucket Pipeline
 
-Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
+Scribe offers a custom bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 
 # Procedure
 
-* Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/).
-* Use the pipe as shown in the example bellow
+* Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
+* Use the Scribe custom pipe as shown in the example bellow
 
 <details>
-  <summary>  Sample integration code </summary>
+  <summary>  Sample integration code using Scribe's custom Bitbucket pipe</summary>
 
   ```YAML
   image:
@@ -74,11 +73,12 @@ Scribe offers bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
 
 ---
 ## Generating SBOM examples
+Since there could be several different options for where the final image is created/stored here's how Scribe's `gensbom` code handles the various options:
 
 <details>
   <summary>  Public registry image </summary>
 
-Create SBOM from remote `busybox:latest` image, skip if found by the cache.
+Create SBOM from remote `busybox:latest` image. The SBOM will not be created if an appropriate one is already found in the cache.
 
 ```YAML
   step:
@@ -99,7 +99,7 @@ Create SBOM from remote `busybox:latest` image, skip if found by the cache.
 <details>
   <summary>  Docker built image </summary>
 
-Create SBOM for image built by local docker `image_name:latest` image, overwrite cache.
+Create SBOM for image built by local docker `image_name:latest` image. This SBOM will overwrite the SBOM found in local cache (assuming there is one).
 
 ```YAML
   step:
@@ -116,10 +116,11 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
         format: json
 ``` 
 </details>
+
 <details>
   <summary>  Private registry image </summary>
 
-Custom private registry, skip cache (using `Force`), output verbose (debug level) log output.
+Create SBOM for image in a custom private registry. You can skip the cache search for an appropriate SBOM by using the `Force` flag. The output in this example uses verbose (debug level) 2 which will create a log output.
 ```YAML
 step:
   name: Test
@@ -136,12 +137,12 @@ step:
 ```
 </details>
 
-
 <details>
   <summary>  Custom SBOM metadata </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
+Create SBOM from remote `busybox:latest` image and add custom metadata to the SBOM created.  
+The data will be included in the signed payload when the output is an attestation. In this example the metadata included is the env (environment) and label of the image. 
+
 ```YAML
 step:
   name: Test
@@ -159,27 +160,6 @@ step:
       LABEL: test_label
       ENV: test_env
 ```
-</details>
-
-
-<details>
-  <summary> Save SBOM as artifact </summary>
-
-Using action `output_path` you can access the generated SBOM and store it as an artifact.
-```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: bom
-      TARGET: busybox:latest
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
-      OUTPUT_FILE: "./result_report.json"
-``` 
 </details>
 
 <details>
@@ -204,7 +184,7 @@ step:
 <details>
   <summary> OCI archive image </summary>
 
-Create SBOM from the local oci archive.
+Create SBOM from the local OCI (Oracle Cloud Infrastructure) archive.
 
 ```YAML
 step:
@@ -241,11 +221,31 @@ step:
 ``` 
 </details>
 
-## Integration examples
+<details>
+  <summary> Save SBOM as artifact </summary>
+
+Using action `output_path` you can access the generated SBOM and store it as an artifact.
+```YAML
+step:
+  name: Test
+  script:
+  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+    variables:
+      COMMAND: bom
+      TARGET: busybox:latest
+      PRODUCT_KEY: $PRODUCT_KEY
+      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+      VERBOSE: 2
+      OUTPUT_FILE: "./result_report.json"
+``` 
+</details>
+
+## Integrity report download examples
 <details>
   <summary>  Scribe integrity report download </summary>
 
-Download integrity report. \
+Integrity report standard download.  
 The default output will be set to `scribe/valint/` subdirectory (Use `output-directory` argument to overwrite location).
 
 ```YAML
@@ -266,9 +266,9 @@ step:
 </details>
 
 <details>
-  <summary> Simple download report verbose, custom output path </summary>
+  <summary> Integrity report download with added verbosity and a custom output file </summary>
 
-Download report for CI run and save the output to a local file.
+Download report for current CI run and save the output to a local file.
 
 ```YAML
 step:
@@ -287,6 +287,6 @@ step:
 
 
 ## Resources
-
-[Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/) - The official registry page of pipeline described.
+If you're new to Bitbucket pipelines this link should help you get started:
+* [Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
 

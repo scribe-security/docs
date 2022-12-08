@@ -1,6 +1,6 @@
-# Report
+# Valinet Report
 
-Integrity report output example
+Valint integrity report output example
 ```
  {
     "source_code": {
