@@ -86,7 +86,7 @@ Since there could be several different options for where the final image is crea
 <details>
   <summary>  Public registry image </summary>
 
-Create SBOM from remote `busybox:latest` image. The SBOM will not be created if an appropriate one is already found in the cache.
+Create SBOM for remote `busybox:latest` image.
 
 ```YAML
 - task: scribeCli@2 

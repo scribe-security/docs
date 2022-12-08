@@ -66,10 +66,10 @@ Currently, tool supports `github`, `gitlab`, `jenkins`,`azure`, `circleci` and `
 For example, SBOM created/signed on a `github workflow` will add the current git url, workflow name.. etc to the SBOM as well, which in turn will allow you to know where the SBOM was created but also also allow context is verified by your supply chain policy.
 
 ## Attestations 
-Attestations allow you to sign and verify your targets.
-Furthermore, attestations allow you to connect PKI-based identities to your evidence and policy management. \
+Attestations allow you to sign and verify your targets. <br />
+Furthermore, attestations allow you to connect PKI-based identities to your evidence and policy management. <br />
 
-Both these properties can be used to verify the identity of the signer and verify the evidence complies with any policy. \
+Both these properties can be used to verify the identity of the signer and verify the evidence complies with any policy. <br />
 All attestations comply with the InToto-Attestation standard.
 
 > For example, you can create SBOM attestations for your image, allowing
@@ -326,12 +326,9 @@ gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
 ## Configuration
+Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-Configuration can be set for CLI for all commands as well as for the global flags.
-Configuration fields can be overridden by CLI, see CLI help for flags details.
-
-
-See details [CLI documentation - configuration](docs/configuration.md)
+See detailed [configuration](docs/configuration.md)
 
 # Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is and awesome tool that  aims to make signatures invisible infrastructure.
