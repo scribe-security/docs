@@ -118,6 +118,7 @@ Create SBOM for image built by local docker `image_name:latest` image. This SBOM
   <summary>  Private registry image </summary>
 
 Create SBOM for image in a custom private registry. You can skip the cache search for an appropriate SBOM by using the `Force` flag. The output in this example uses verbose (debug level) 2 which will create a log output.
+
 ```YAML
 - task: scribeCli@2 
   displayName: Generate cyclonedx json SBOM
