@@ -40,7 +40,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
-| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
 ### Examples for running `valint verify`

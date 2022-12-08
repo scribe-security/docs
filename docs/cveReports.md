@@ -9,7 +9,7 @@ Make an informed decision about deploying your build version by analyzing the in
 Details, such as the specific packages and versions where vulnerabilities were found and their severity score, can support your risk analysis and decision of whether to deploy and what mitigations to employ.
 
 ## Before you begin
-1. Login to your [Scribe Hub account]("https://scribesecurity.com/" "Login or register to Scribe Hub"), or register for a new account. 
+1. Login to your [Scribe Hub account](https://prod.hub.scribesecurity.com/ "Login to Scribe Hub"), or register for a [new account](https://scribesecurity.com/scribe-platform-lp/ "new Scribe Hub account") for free. 
 1. Go to **Home>Products**.
 1. Click on a product from the list to access the detailed report of CVEs (Common Vulnerabilities and Exposures).
 ## Product version report page
@@ -70,8 +70,8 @@ Scribe provides security validation for each version of your product.
             Notes can help developers communicate the relevance of the vulnerability found in a dependency. CVEs that are irrelevant or pose only a low risk can reduce a criticality score. 
             
             > For further reading see:  
-            >[VEX Overview](https://www.ntia.gov/files/ntia/publications/vex_one-page_summary.pdf)            
-            >[Status Justifications Overview](/https://www.cisa.gov/sites/default/files/publications/VEX_Status_Justification_Jun22.pdf)
+            >[Vulnerability Exploitability eXchange (VEX) Overview from NTIA](https://www.ntia.gov/files/ntia/publications/vex_one-page_summary.pdf)            
+            >[Status Justifications Overview from CISA](https://www.cisa.gov/sites/default/files/publications/VEX_Status_Justification_Jun22.pdf)
             * Adding an advisory note:
               1. Go to right end of row.
               1. Click the three dots>**Add Advisory**. A new note form opens. 

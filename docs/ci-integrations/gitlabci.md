@@ -1,5 +1,5 @@
 ---
-title: GitLab-CI
+title: GitLab CI
 sidebar_position: 4
 ---
 

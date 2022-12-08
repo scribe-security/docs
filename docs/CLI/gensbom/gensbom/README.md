@@ -62,11 +62,18 @@ Some of the heavy lifting is done by these subtools so its worth metioning.
   [https://github.com/sigstore]
 
 
-# Attestations 
-Attestations sboms allow you to sign and verify your sbom targets. \
-Attestations allow you to connect PKI based identities to your evidence and policy management. 
+## Attestations 
+Attestations allows you to sign and verify your targets. <br />
+Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
+Supported outputs:
+- In-toto statements - cyclonedx BOM, SLSA Provenance
+- In-toto predicate - cyclonedx, BOM, SLSA Provenance
+- In-toto attestations -cyclonedx, BOM, SLSA Provenance
 
-See details [CLI documentation - attestation](docs/attestation.md)
+Use default configuration path `.cocosign.yaml`, or
+provide custom path using `attest-config` input argument.
+
+See details [attestations](docs/attestations.md)
 
 # Installation
 
@@ -115,13 +122,9 @@ Flags that can not mapped to configuration are verbose, config and backwards fla
 See details [CLI documentation - global](docs/command/gensbom.md)
 
 ## Configuration
+Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-Configuration can be set for CLI for all commands as well as for the global flags.
-Configuration fields can be overridden by CLI, see CLI help for flags details.
-
-
-See details [CLI documentation - config](docs/configuration.md)
-
+See detailed [configuration](docs/configuration.md)
 
 ## Bom command
 Command analyzes image components and file systems. \
