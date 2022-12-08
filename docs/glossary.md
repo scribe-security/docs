@@ -63,7 +63,7 @@ You can read more about SLSA [here](https://slsa.dev/ "SLSA").
 ### SLSA Provenance
 Provenance is the place of origin or earliest known history of something. SLSA provenance is a claim that some entity produced one or more software artifacts by executing some recipe or procedure, using some other artifacts as input built to the SLSA standard. It’s the verifiable information about software artifacts describing where, when and how something was produced. 
 
-You can read more about SLSA provenance and it's structure [here](https://slsa.dev/provenance/v0.1 "SLSA Provenance").
+You can read more about SLSA provenance and it's structure [here](https://slsa.dev/provenance/v0.2 "SLSA Provenance").
 
 ### Software Supply Chain
 The software supply chain refers to everything involved in the development of an application throughout the entire software development life cycle (SDLC). There are many factors to consider in this regard, including custom code (in-house components), open source dependencies and libraries (third-party components), DevOps tools and infrastructure that make up the CI/CD process, and finally developers and DevOps teams.      
