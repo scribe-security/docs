@@ -13,8 +13,9 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
 ## Other Actions
 * [bom - action](https://github.com/scribe-security/action-bom/README.md)
 * [verify - action](https://github.com/scribe-security/action-verify/README.md)
-* [integrity report - action](https://github.com/scribe-security/action-report/README.md)
 * [installer - action](https://github.com/scribe-security/action-installer/README.md)
+<!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
+
 
 ## Verify Action
 Action for `gensbom verify`.
@@ -209,7 +210,7 @@ Full job example of a image signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-busybox-test
-          path: gensbom_reports
+          path: scribe/gensbom
 ``` 
 
 </details>
@@ -252,7 +253,7 @@ Full job example of a image signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-busybox-test
-          path: gensbom_reports
+          path: scribe/gensbom
 ``` 
 
 </details>
@@ -295,9 +296,9 @@ Full job example of a directory signing and verifying flow.
       
       - uses: actions/upload-artifact@v3
         with:
-          name: gensbom-workdir-reports
+          name: gensbom-workdir-evidence
           path: |
-            gensbom_reports      
+            scribe/gensbom      
 ``` 
 
 </details>
@@ -342,9 +343,9 @@ Full job example of a git repository signing and verifying flow.
       
       - uses: actions/upload-artifact@v3
         with:
-          name: gensbom-git-reports
+          name: gensbom-git-evidence
           path: |
-            gensbom_reports      
+            scribe/gensbom      
 ``` 
 
 </details>

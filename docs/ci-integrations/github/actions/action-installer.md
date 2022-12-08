@@ -87,7 +87,7 @@ Install gensbom as a tool
 ``` 
 </details>
 
-<details>
+<!-- <details>
   <summary> Install Valint (tool) </summary>
 
 Install Valint as a tool
@@ -102,4 +102,4 @@ Install Valint as a tool
     valint --version
     valint report --scribe.client-id $SCRIBE_CLIENT_ID $SCRIBE_CLIENT_SECRET
 ``` 
-</details>
+</details> -->

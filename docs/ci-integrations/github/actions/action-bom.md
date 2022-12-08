@@ -13,8 +13,8 @@ Further documentation regarding [Github integration](https://scribe-security.net
 ## Other Actions
 * [bom - action](https://github.com/scribe-security/action-bom/README.md)
 * [verify - action](https://github.com/scribe-security/action-verify/README.md)
-* [integrity report - action](https://github.com/scribe-security/action-report/README.md)
 * [installer - action](https://github.com/scribe-security/action-installer/README.md)
+<!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Bom Action
 Action for `gensbom bom`.
@@ -142,10 +142,10 @@ See [Github integration](https://scribe-security.netlify.app/docs/ci-integration
 If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
 <details>
-  <summary>  Scribe integrity report </summary>
+  <summary>  Scribe integrity </summary>
 
 Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
-Download the integrity report,verifying the image integrity from Scribe.
+Verifying the  target integrity on Scribe.
 
 ```YAML
 name: example workflow
@@ -156,7 +156,7 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-evidence-test:
     runs-on: ubuntu-latest
     steps:
 
@@ -200,23 +200,12 @@ jobs:
            scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
-      - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           verbose: 2
-           scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
-
       - uses: actions/upload-artifact@v3
         with:
-          name: scribe-reports
+          name: scribe-evidence
           path: |
             ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
             ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
 </details>
 
@@ -543,7 +532,7 @@ Full job example of a image signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-busybox-test
-          path: gensbom_reports
+          path: scribe/gensbom
 ``` 
 
 </details>
@@ -586,7 +575,7 @@ Full job example of a image signing and verifying flow.
       - uses: actions/upload-artifact@v3
         with:
           name: gensbom-busybox-test
-          path: gensbom_reports
+          path: scribe/gensbom
 ``` 
 
 </details>
@@ -629,9 +618,9 @@ Full job example of a directory signing and verifying flow.
       
       - uses: actions/upload-artifact@v3
         with:
-          name: gensbom-workdir-reports
+          name: gensbom-workdir-evidence
           path: |
-            gensbom_reports      
+            scribe/gensbom      
 ``` 
 
 </details>
@@ -675,9 +664,9 @@ Full job example of a git repository signing and verifying flow.
       
       - uses: actions/upload-artifact@v3
         with:
-          name: gensbom-git-reports
+          name: gensbom-git-evidence
           path: |
-            gensbom_reports      
+            scribe/gensbom      
 ``` 
 
 </details>
@@ -693,24 +682,7 @@ Install gensbom as a tool
 - name: gensbom run
   run: |
     gensbom --version
-    gensbom bom busybox:latest -vv
-``` 
-</details>
-
-<details>
-  <summary> Install Valint (tool) </summary>
-
-Install Valint as a tool
-```YAML
-- name: install gensbom
-  uses: scribe-security/action-installer@master
-  with:
-    tool: valint
-
-- name: valint run
-  run: |
-    valint --version
-    valint report --scribe.client-id $SCRIBE_CLIENT_ID $SCRIBE_CLIENT_SECRET
+    gensbom busybox:latest -vv
 ``` 
 </details>
 

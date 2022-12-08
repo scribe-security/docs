@@ -211,21 +211,6 @@ Valint downloading integrity report from scribe service
 </details>
 
 <details>
-  <summary> Install gensbom (tool) </summary>
-
-Install gensbom as a tool
-```YAML
-- name: install gensbom
-  uses: scribe-security/action-installer@master
-
-- name: gensbom run
-  run: |
-    gensbom --version
-    gensbom bom busybox:latest -vv
-``` 
-</details>
-
-<details>
   <summary> Install Valint (tool) </summary>
 
 Install Valint as a tool
