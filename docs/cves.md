@@ -7,7 +7,7 @@ sidebar_position: 6
 You can list all the Common Vulnerabilities and Exposures (CVEs) relevant to your software artifact as follows: 
 1. Generate an SBOM with `gensbom`.
    
-   SBOM can be generated automatically as part of your [pipeline integrated with Scribe](/docosaurus-scribe/docs/ci-integration "integrating Scribe in a pipeline"), or [manually](/docosaurus-scribe/docs/gensbomcli "Manually run gensbom from a CLI"). 
+   SBOM can be generated automatically as part of your [pipeline integrated with Scribe](../docs/ci-integrations "integrating Scribe into a pipeline"), or [manually](../docs/CLI/gensbom/gensbomcli "Manually run gensbom from a CLI"). 
 2. Use open-source tool [Grype](https://github.com/anchore/grype "Grype") on this SBOM. 
     
    You can run **grype** either offline or online. If you run offline, you need to update the tool frequently and suppress the automatic update.  

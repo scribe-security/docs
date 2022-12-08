@@ -7,7 +7,7 @@ Scribe offers GitHub Actions for embedding evidence collecting and validated int
 
 Use `gensbom bom` to collect evidence and generate an SBOM.
 
-Further documentation regarding [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 
 ## Other Actions
@@ -19,18 +19,18 @@ Further documentation regarding [Github integration](https://scribe-security.net
 ## Bom Action
 Action for `gensbom bom`.
 The command allows users to generate and manage SBOMs.
-- Signing SBOMs, SLSA provenance objects, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
-- Generates detailed SBOMs, SLSA provenance objects for various types of targets: images, directories, files and git repositories targets. 
-- GitHub-specific context attached to all SBOMs (includes GitHub specific descriptors: GIT_URL, JOB_ID, JOB_NAME .. etc)
-- Store and manage SBOMs on the Scribe Service.
+- GitHub-specific context attached to all SBOMs (GIT_URL, JOB_ID, JOB_NAME .. etc)
+- Signing SBOMs, SLSA provenance, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
+- Generates detailed SBOMs, SLSA provenance for images, directories, files and git repositories targets. 
+- Store and manage SBOMs on Scribe service.
 - Attach SBOM in your CI or releases.
-- Generate an SBOM directly from your private OCI registry.
+- Generate SBOM directly from your private OCI registry support.
 - Customizable SBOM with environments, labels, sections, etc.
 - Attach external reports to your SBOM.
 - Generate In-Toto attestation, statement or predicates.
 
-> BOM Action is containerized which limites the ability to generate sboms outside of the workflow working dir.
-To overcome the limitation install the Gensbom tool directly - [installer - action](https://github.com/scribe-security/action-installer/README.md)
+> action is containerized which limites the ability to generate sboms outside of the workflow working dir.
+To overcome the limitation install tool directly - [installer - action](https://github.com/scribe-security/action-installer/README.md)
 
 ### Input arguments
 ```yaml
@@ -103,6 +103,7 @@ To overcome the limitation install the Gensbom tool directly - [installer - acti
 ```
 
 ## Configuration
+
 Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
 See detailed [configuration](docs/configuration.md)
@@ -125,6 +126,10 @@ See details [attestations](docs/attestations.md)
 ### Before you begin
 See [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
+## Scribe service integration
+Scribe provides a set of services to store, verify and manage the supply chain integrity. \
+Following are some integration examples.
+
 ### Usage
 ```yaml
 - name: generate sbom for image
@@ -137,7 +142,6 @@ See [Github integration](https://scribe-security.netlify.app/docs/ci-integration
     scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
-### Scribe service integration
 
 If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
@@ -160,7 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -183,7 +187,7 @@ jobs:
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Build and push remote
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v2
         with:
           context: .
           push: true
@@ -291,7 +295,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
     target: 'busybox:latest'
     format: json
 
-- uses: actions/upload-artifact@v3
+- uses: actions/upload-artifact@v2
   with:
     name: gensbom-busybox-output-test
     path: ${{ steps.gensbom_json.outputs.OUTPUT_PATH }}
@@ -310,7 +314,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
     target: 'busybox:latest'
     format: statement-slsa
 
-- uses: actions/upload-artifact@v3
+- uses: actions/upload-artifact@v2
   with:
     name: scribe-evidence
     path: ${{ steps.gensbom_slsa_statement.outputs.OUTPUT_PATH }}
@@ -323,7 +327,7 @@ Using action `output_path` you can access the generated SBOM and store it as an 
 Create SBOM for local `docker save ...` output.
 ```YAML
 - name: Build and save local docker archive
-  uses: docker/build-push-action@v3
+  uses: docker/build-push-action@v2
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
@@ -345,7 +349,7 @@ Create SBOM for the local oci archive.
 
 ```YAML
 - name: Build and save local oci archive
-  uses: docker/build-push-action@v3
+  uses: docker/build-push-action@v2
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
@@ -509,7 +513,7 @@ Full job example of a image signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -529,7 +533,7 @@ Full job example of a image signing and verifying flow.
            target: 'busybox:latest'
            verbose: 2
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-busybox-test
           path: scribe/gensbom
@@ -551,7 +555,7 @@ Full job example of a image signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -572,7 +576,7 @@ Full job example of a image signing and verifying flow.
            input-format: attest-slsa
            verbose: 2
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-busybox-test
           path: scribe/gensbom
@@ -594,7 +598,7 @@ Full job example of a directory signing and verifying flow.
       id-token: write
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -616,7 +620,7 @@ Full job example of a directory signing and verifying flow.
            target: '/GitHub/workspace/'
            verbose: 2
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: gensbom-workdir-evidence
           path: |
@@ -687,5 +691,6 @@ Install gensbom as a tool
 </details>
 
 ## .gitignore
-It is recommended to add output directory value to your .gitignore file.  <br />
+Recommended to add output directory value to your .gitignore file.
 By default add `**/scribe` to your `.gitignore`.
+

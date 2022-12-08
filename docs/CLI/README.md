@@ -1,5 +1,7 @@
 ---
-description: Scribe CLIs
+sidebar_position: 10
+sidebar_label: "Scribe's CLI"
+description: Scribe CLI
 ---
 
 # CLI
