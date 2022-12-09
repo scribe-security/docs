@@ -24,7 +24,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 ### Input arguments
 ```yaml
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 1
   config:
     description: 'Application config file'
@@ -179,15 +179,15 @@ jobs:
 Valint downloading integrity report from scribe service
 
 ```YAML
-  - name: Valint - download report
-    id: valint_report
-    uses: scribe-security/action-report@master
-    with:
-        verbose: 2
-        scribe-enable: true
-        product-key:  ${{ secrets.product-key }}
-        scribe-client-id: ${{ secrets.client-id }}
-        scribe-client-secret: ${{ secrets.client-secret }}
+- name: Valint - download report
+  id: valint_report
+  uses: scribe-security/action-report@master
+  with:
+      verbose: 2
+      scribe-enable: true
+      product-key:  ${{ secrets.product-key }}
+      scribe-client-id: ${{ secrets.client-id }}
+      scribe-client-secret: ${{ secrets.client-secret }}
 ```
 </details>
 

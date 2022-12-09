@@ -35,35 +35,33 @@ To overcome the limitation install tool directly - [installer - action](https://
 ### Input arguments
 ```yaml
   type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
+    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
     default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
+    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
     required: true
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 1
   config:
     description: 'Application config file'
   format:
     description: 'Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
-    default: cyclonedxjson
   output-directory:
     description: 'Report output directory'
     default: ./scribe/gensbom
   output-file:
     description: 'Output result to file'
-  name:
-    description: 'Custom/project name'
+  product-key:
+    description: 'Custom/project product key'
   label:
     description: 'Custom label'
   env:
     description: 'Custom env'
   filter-regex:
     description: 'Filter out files by regex'
-    default: .*\.pyc,\.git/.*
-  collect-regex:
-    description: 'Collect files content by regex'
+  attach-regex:
+    description: 'Attach files content by regex'
   force:
     description: 'Force overwrite cache'
     default: false
@@ -82,9 +80,16 @@ To overcome the limitation install tool directly - [installer - action](https://
   scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
-    description: 'Scribe url' 
+    description: 'Scribe url'
+  scribe-login-url:
+    description: 'Scribe auth login url' 
+  scribe-audience:
+    description: 'Scribe auth audience' 
   context-dir:
     description: 'Context dir' 
+  components:
+    description: 'Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])'
+
 ```
 
 ### Output arguments
@@ -507,38 +512,38 @@ Gensbom will look for both a bom or slsa attestation to verify against. <br />
 Full job example of a image signing and verifying flow.
 
 ```YAML
- gensbom-busybox-test:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
+gensbom-busybox-test:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+    id-token: write
+  steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-      - name: gensbom attest
-        id: gensbom_attest
-        uses: scribe-security/action-bom@master
-        with:
-           target: 'busybox:latest'
-           verbose: 2
-           format: attest
-           force: true
+    - name: gensbom attest
+      id: gensbom_attest
+      uses: scribe-security/action-bom@master
+      with:
+          target: 'busybox:latest'
+          verbose: 2
+          format: attest
+          force: true
 
-      - name: gensbom verify
-        id: gensbom_verify
-        uses: scribe-security/action-verify@master
-        with:
-           target: 'busybox:latest'
-           verbose: 2
+    - name: gensbom verify
+      id: gensbom_verify
+      uses: scribe-security/action-verify@master
+      with:
+          target: 'busybox:latest'
+          verbose: 2
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: gensbom-busybox-test
-          path: scribe/gensbom
+    - uses: actions/upload-artifact@v2
+      with:
+        name: gensbom-busybox-test
+        path: scribe/gensbom
 ``` 
 
 </details>
@@ -549,39 +554,39 @@ Full job example of a image signing and verifying flow.
 Full job example of a image signing and verifying flow.
 
 ```YAML
- gensbom-busybox-test:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
+gensbom-busybox-test:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+    id-token: write
+  steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-      - name: gensbom attest slsa
-        id: gensbom_attest
-        uses: scribe-security/action-bom@master
-        with:
-           target: 'busybox:latest'
-           verbose: 2
-           format: attest-slsa
-           force: true
+    - name: gensbom attest slsa
+      id: gensbom_attest
+      uses: scribe-security/action-bom@master
+      with:
+          target: 'busybox:latest'
+          verbose: 2
+          format: attest-slsa
+          force: true
 
-      - name: gensbom verify attest slsa
-        id: gensbom_verify
-        uses: scribe-security/action-verify@master
-        with:
-           target: 'busybox:latest'
-           input-format: attest-slsa
-           verbose: 2
+    - name: gensbom verify attest slsa
+      id: gensbom_verify
+      uses: scribe-security/action-verify@master
+      with:
+          target: 'busybox:latest'
+          input-format: attest-slsa
+          verbose: 2
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: gensbom-busybox-test
-          path: scribe/gensbom
+    - uses: actions/upload-artifact@v2
+      with:
+        name: gensbom-busybox-test
+        path: scribe/gensbom
 ``` 
 
 </details>
@@ -592,41 +597,41 @@ Full job example of a image signing and verifying flow.
 Full job example of a directory signing and verifying flow.
 
 ```YAML
-  gensbom-dir-test:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
+gensbom-dir-test:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+    id-token: write
+  steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-      - name: gensbom attest workdir
-        id: gensbom_attest_dir
-        uses: scribe-security/action-bom@master
-        with:
-           type: dir
-           target: '/GitHub/workspace/'
-           verbose: 2
-           format: attest
-           force: true
+    - name: gensbom attest workdir
+      id: gensbom_attest_dir
+      uses: scribe-security/action-bom@master
+      with:
+          type: dir
+          target: '/GitHub/workspace/'
+          verbose: 2
+          format: attest
+          force: true
 
-      - name: gensbom verify workdir
-        id: gensbom_verify_dir
-        uses: scribe-security/action-verify@master
-        with:
-           type: dir
-           target: '/GitHub/workspace/'
-           verbose: 2
-      
-      - uses: actions/upload-artifact@v2
-        with:
-          name: gensbom-workdir-evidence
-          path: |
-            scribe/gensbom      
+    - name: gensbom verify workdir
+      id: gensbom_verify_dir
+      uses: scribe-security/action-verify@master
+      with:
+          type: dir
+          target: '/GitHub/workspace/'
+          verbose: 2
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: gensbom-workdir-evidence
+        path: |
+          scribe/gensbom      
 ``` 
 
 </details>
@@ -638,41 +643,41 @@ Full job example of a git repository signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
 
 ```YAML
-  gensbom-dir-test:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
+gensbom-dir-test:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+    id-token: write
+  steps:
 
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-      - name: gensbom attest local repo
-        id: gensbom_attest_dir
-        uses: scribe-security/action-bom@master
-        with:
-           type: git
-           target: '/GitHub/workspace/my_repo'
-           verbose: 2
-           format: attest
-           force: true
+    - name: gensbom attest local repo
+      id: gensbom_attest_dir
+      uses: scribe-security/action-bom@master
+      with:
+          type: git
+          target: '/GitHub/workspace/my_repo'
+          verbose: 2
+          format: attest
+          force: true
 
-      - name: gensbom verify local repo
-        id: gensbom_verify_dir
-        uses: scribe-security/action-verify@master
-        with:
-           type: git
-           target: '/GitHub/workspace/my_repo'
-           verbose: 2
-      
-      - uses: actions/upload-artifact@v3
-        with:
-          name: gensbom-git-evidence
-          path: |
-            scribe/gensbom      
+    - name: gensbom verify local repo
+      id: gensbom_verify_dir
+      uses: scribe-security/action-verify@master
+      with:
+          type: git
+          target: '/GitHub/workspace/my_repo'
+          verbose: 2
+    
+    - uses: actions/upload-artifact@v3
+      with:
+        name: gensbom-git-evidence
+        path: |
+          scribe/gensbom      
 ``` 
 
 </details>

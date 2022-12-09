@@ -29,19 +29,19 @@ The command allows users to verify an image via a signed attestation (In-toto).
 
 ### Input arguments
 ```yaml
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
+ type:
+    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
     default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
+    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
     required: true
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 1
   config:
     description: 'Application config file'
   input-format:
-    description: 'Sbom input formatter, options=[attest-cyclonedx-json attest-slsa] (default "attest-cyclonedx-json")'
+    description: 'Sbom input formatter, options=[attest-cyclonedx-json attest-slsa]  (default "attest-cyclonedx-json")'
     default: attest-cyclonedx-json
   output-directory:
     description: 'report output directory'
@@ -58,6 +58,8 @@ The command allows users to verify an image via a signed attestation (In-toto).
   attest-default:
     description: 'Attestation default config, options=[sigstore sigstore-github x509]'
     default: sigstore-github
+  attestation:
+    description: 'Attestation for target'
 ```
 
 ### Usage

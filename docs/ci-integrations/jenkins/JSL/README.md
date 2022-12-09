@@ -52,13 +52,13 @@ def bom(Map conf)
 ### Map arguments
 ```YAML
   type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
+    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
     default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
+    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
     required: true
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 0
   config:
     description: 'Application config file'
@@ -120,13 +120,13 @@ def verify(Map conf)
 ### Map arguments
 ```YAML
   type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
+    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
     default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
+    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
     required: true
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 0
   config:
     description: 'Application config file'
@@ -168,7 +168,7 @@ def report(Map conf)
 ### Map arguments
 ```YAML
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 0
   config:
     description: 'Application config file'

@@ -83,7 +83,7 @@ tems
 
 rl (default "https://api.production.scribesecurity.com")
   -s, --show                          Print report to stdout
-  -v, --verbose count                 Increase verbosity (-v = info, -vv = debug)
+  -v, --verbose count                 Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
 ```
 
 ### SEE ALSO
