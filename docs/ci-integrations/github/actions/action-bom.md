@@ -18,19 +18,21 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
 
 ## Bom Action
 Action for `gensbom bom`.
-The command allows users to generate and manage SBOMs.
-- GitHub-specific context attached to all SBOMs (GIT_URL, JOB_ID, JOB_NAME .. etc)
-- Signing SBOMs, SLSA provenance, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
-- Generates detailed SBOMs, SLSA provenance for images, directories, files and git repositories targets. 
-- Store and manage SBOMs on Scribe service.
-- Attach SBOM in your CI or releases.
-- Generate SBOM directly from your private OCI registry.
-- Customizable SBOM with environments, labels, sections, etc.
-- Attach external reports to your SBOM.
+The command allows users to generate and manage evidence collection process.
+- CycloneDX SBOM and SLSA provenance evidence support. 
+- Generates detailed SBOMs for images, directories, files and git repositories targets.
+- Store and manage evidence on Scribe service.
+- Attach evidence in your CI or releases.
+- Generate evidence directly from your private OCI registry.
+- Customizable SBOM with environments, labels.
+- Customizable SBOM with your required component groups.
+- Attach any external reports to your SBOM.
 - Generate In-Toto attestation, statement or predicates.
+- Signing SBOMs, SLSA provenance, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
+- Attach GitHub workflows [environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables) context (git url , commit, workflow, job, run id ..).
 
-> action is containerized which limites the ability to generate sboms outside of the workflow working dir.
-To overcome the limitation install tool directly - [installer - action](https://github.com/scribe-security/action-installer/README.md)
+> Containerized actions limit's the ability to generate evidence on a target located outside the working directory (directory or git targets). <br />
+To overcome the limitation install tool directly - [installer](https://github.com/scribe-security/action-installer/README.md)
 
 ### Input arguments
 ```yaml
@@ -133,7 +135,7 @@ See details [attestations](docs/attestations.md)
 See [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. \
+Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
 Following are some integration examples.
 
 ### Usage
@@ -147,7 +149,6 @@ Following are some integration examples.
     scribe-client-id: ${{ secrets.client-id }}
     scribe-client-secret: ${{ secrets.client-secret }}
 ```
-
 
 If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
