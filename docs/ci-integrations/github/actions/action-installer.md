@@ -10,10 +10,10 @@ Use `installer` to install Scribe tools in your workflow.
 For Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Other Actions
-* [bom - action](https://github.com/scribe-security/action-bom/README.md)
-* [verify - action](https://github.com/scribe-security/action-verify/README.md)
-* [integrity report - action](https://github.com/scribe-security/action-report/README.md)
-* [installer - action](https://github.com/scribe-security/action-installer/README.md)
+* [bom](https://github.com/scribe-security/action-bom/README.md)
+* [verify](https://github.com/scribe-security/action-verify/README.md)
+* [installer](https://github.com/scribe-security/action-installer/README.md)
+<!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Tool installer Action
 You can use the `installer` Action to install any scribe tool in to your workflow allowing full access to all the CLI options in your workflows. 
