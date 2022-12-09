@@ -21,8 +21,10 @@ The command allows users to generate and manage evidence collection process.
 - CycloneDX SBOM and SLSA provenance evidence support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
-- Attach evidence in your CI or releases.
+- Attach evidence in your CI, OCI or release service.
 - Generate evidence directly from your private OCI registry.
+- Extensive SBOM component relation graph including, file to package, file and package to layer, commit history and file to commit relations.
+- SBOM including package CPEs and Licensing information.
 - Customizable SBOM with environments, labels.
 - Customizable SBOM with your required component groups.
 - Attach any external reports to your SBOM.
