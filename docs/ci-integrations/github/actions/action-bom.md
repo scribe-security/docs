@@ -24,7 +24,7 @@ The command allows users to generate and manage SBOMs.
 - Generates detailed SBOMs, SLSA provenance for images, directories, files and git repositories targets. 
 - Store and manage SBOMs on Scribe service.
 - Attach SBOM in your CI or releases.
-- Generate SBOM directly from your private OCI registry support.
+- Generate SBOM directly from your private OCI registry.
 - Customizable SBOM with environments, labels, sections, etc.
 - Attach external reports to your SBOM.
 - Generate In-Toto attestation, statement or predicates.
