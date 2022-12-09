@@ -1,16 +1,18 @@
 ---
 title: Attestations
-sidebar_position: 3
 ---
 
 # Attestations
-Scribe utilized the `cocosign` framework to manage attestations and statements collected by the supply chain. \
-Framework allows users to select between signing, verifying and storage schemes to manage the attestations as well as statements life cycle.
+Attestations represents authenticated metadata about a set of software artifacts (evidence). <br /> 
+scribe utilizes both attestations (signed) and statement (unsigned) to validate the integrity and policy compliance of your supply chain.
 
 ## Evidence 
 `cocosign` supports both signed and unsigned evidence.
 * InToto statement - unsigned evidence
 * InToto attestation - signed evidence
+
+See details [In-toto spec](https://github.com/in-toto/attestation)
+
 
 ## Default configuration
 You can select from a set of prefilled default configuration.

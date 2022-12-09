@@ -109,16 +109,18 @@ Use default configuration path `.gensbom.yaml`, or provide a custom path using `
 See detailed [configuration](docs/configuration.md)
 
 ## Attestations 
-Attestations allows you to sign and verify your targets. <br />
+Attestations allow you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
+
 Supported outputs:
-- In-toto statements - cyclonedx BOM, SLSA Provenance
-- In-toto predicate - cyclonedx, BOM, SLSA Provenance
-- In-toto attestations -cyclonedx, BOM, SLSA Provenance
+- In-toto predicate - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
+- In-toto statements - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
+- In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
 
-Use default configuration path `.cocosign.yaml`, or
-provide custom path using `attest-config` input argument.
+Select default configuration using `--attest.default` flag. <br />
+Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
+See details [In-toto spec](https://github.com/in-toto/attestation)
 See details [attestations](docs/attestations.md)
 
 ## Integrations

@@ -67,20 +67,21 @@ For example, SBOM created/signed on a `github workflow` will add the current git
 
 ## Attestations 
 Attestations allow you to sign and verify your targets. <br />
-Furthermore, attestations allow you to connect PKI-based identities to your evidence and policy management. <br />
+Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 
-Both these properties can be used to verify the identity of the signer and verify the evidence complies with any policy. <br />
-All attestations comply with the InToto-Attestation standard.
+Supported outputs:
+- In-toto predicate - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
+- In-toto statements - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
+- In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
 
-> For example, you can create SBOM attestations for your image, allowing
-you verify the image not only was signed by your CI identity but also complies to licensing policy (SBOM includes licensing information). 
+Select default configuration using `--attest.default` flag. <br />
+Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
-> Supported both SBOM and SLSA Provenance attestations.
-
-See details [CLI documentation - attestation](docs/attestations.md)
+See details [In-toto spec](https://github.com/in-toto/attestation)
+See details [attestations](docs/attestations.md)
 
 # Installation
-CLI can be installed by the following methods for linux (arm, amd64).
+CLI can be installed by the following methods for Linux (arm, amd64).
 
 See details [CLI documentation - install](docs/installation.md)
 
