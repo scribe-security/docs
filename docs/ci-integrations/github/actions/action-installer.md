@@ -24,7 +24,6 @@ Install the tool locally if you want to:
 - Generate evidence for a global cache directory
 - Use tool functionality not exposed by containerized actions.
 
-
 > action allows users to utilize `gensbom` in a non-containerized environment.
 
 >Installing `gensbom` locally is useful when you want to create an evidence (directory or git targets) on targets outside working directory.
