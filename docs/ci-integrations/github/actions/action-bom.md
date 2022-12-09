@@ -17,7 +17,7 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
 <!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Bom Action
-Action for `gensbom bom`.
+Action for `gensbom bom`. <br />
 The command allows users to generate and manage evidence collection process.
 - CycloneDX SBOM and SLSA provenance evidence support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
@@ -28,7 +28,7 @@ The command allows users to generate and manage evidence collection process.
 - Customizable SBOM with your required component groups.
 - Attach any external reports to your SBOM.
 - Generate In-Toto attestation, statement or predicates.
-- Signing SBOMs, SLSA provenance, supporting Sigstore keyless flow while using GitHub's workload auth ODIC identity.
+- Support Sigstore keyless verifying as well as [Github workload identity](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect).
 - Attach GitHub workflows [environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables) context (git url , commit, workflow, job, run id ..).
 
 > Containerized actions limit's the ability to generate evidence on a target located outside the working directory (directory or git targets). <br />
