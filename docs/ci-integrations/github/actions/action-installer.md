@@ -28,7 +28,6 @@ Install the tool locally if you want to:
 
 >Installing `gensbom` locally is useful when you want to create an evidence (directory or git targets) on targets outside working directory.
 
-
 ### Input arguments
 ```yaml
   tools:

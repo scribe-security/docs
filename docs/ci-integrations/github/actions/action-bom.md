@@ -9,7 +9,6 @@ Use `gensbom bom` to collect evidence and generate an SBOM.
 
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
-
 ## Other Actions
 * [bom](https://github.com/scribe-security/action-bom/README.md)
 * [verify](https://github.com/scribe-security/action-verify/README.md)
