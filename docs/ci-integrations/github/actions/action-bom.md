@@ -89,13 +89,12 @@ To overcome the limitation install tool directly - [installer - action](https://
     description: 'Context dir' 
   components:
     description: 'Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])'
-
 ```
 
 ### Output arguments
 ```yaml
-  output-file:
-    description: 'Bom output file path'
+  OUTPUT_PATH:
+    description: 'evidence output file path'
 ```
 
 ### Usage
