@@ -17,7 +17,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 ## Procedure
 1. Download `gensbom`  
    * Open your *Unix* based command line interface (CLI), such as *bash*.  
-   * Download the Scribe *gensbon* CLI tool   
+   * Download the Scribe *gensbom* CLI tool   
       ```
       curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom
       ```

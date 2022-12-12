@@ -142,7 +142,7 @@ job_example:
   <summary> Verify target (SBOM) </summary>
 
 Verify targets against a signed attestation.
-Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor). <br />
+Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
 Gensbom will look for both a bom or slsa attestation to verify against. <br />
 
 ```YAML
@@ -158,7 +158,7 @@ Gensbom will look for both a bom or slsa attestation to verify against. <br />
   <summary> Verify target (SLSA) </summary>
 
 Verify targets against a signed attestation. <br />
-Default attestation config: `sigstore-config` - sigstore (Fulcio, Rekor). <br />
+Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
 Gensbom will look for both a bom or slsa attestation to verify against. <br />
 
 
