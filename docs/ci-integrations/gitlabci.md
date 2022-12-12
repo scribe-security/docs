@@ -13,6 +13,7 @@ before_script:
   - apt update
   - apt install git curl -y
   - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin```
+```
 
 ### Usage
 ```yaml
@@ -36,7 +37,7 @@ scribe-gitlab-job:
 
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [configuration](docs/configuration.md)
+See detailed [configuration](docs/configuration)
 
 ## Attestations 
 Attestations allow you to sign and verify your targets. <br />
@@ -48,10 +49,10 @@ Supported outputs:
 - In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
 
 Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
-See details [attestations](docs/attestations.md)
+See details [attestations](docs/attestations)
 
 > Gitlab workload identity will is not yet compatible with Sigstore keyless flow, a fix for the issue will soon be available.
 

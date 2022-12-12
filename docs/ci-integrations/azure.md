@@ -21,10 +21,6 @@ Integrating Scribe Hub with Azure DevOps requires the following credentials that
 * Add the credentials to your Azure environment according to the [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables"). 
 
 * Open your Azure DevOps project and make sure you have a YAML file named `azure-pipelines.yml`.  
-The code in the following examples of a workflow running on the mongo-express image executes these three steps:
-  * Calls `gensbom` (`commandName: bom`) right after checkout to collect hash value evidence of the source code files and upload the evidence.
-  * Calls `gensbom` (`commandName: bom`) to generate an SBOM from the final Docker image and upload the evidence.
-  * Calls `valint` (`commandName: report`) to download the integrity report results and attach the report and evidence to the pipeline run.  
 
 Here's what all the steps look like in a unified pipeline example:
 

@@ -13,8 +13,9 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -a | --attestation | Attestation for target | |
+| -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
-| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa] | "attest-cyclonedx-json" |
+| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
 
 
 ### Global options flags
@@ -25,13 +26,14 @@ Flags for all `gensbom` subcommands
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
-| | --attest.name | Attestation config name | "gensbom" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*,.*\.git\.*] |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
@@ -41,7 +43,7 @@ Flags for all `gensbom` subcommands
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
 | -s | --show | Print report to stdout | |
-| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
 ### Examples for running `gensbom verify`
@@ -69,10 +71,5 @@ Flags for all `gensbom` subcommands
 
 * [gensbom](gensbom.md)	 - Create SBOM for target
 
-(-v = info, -vv = debug)
-```
-
-### SEE ALSO
-
-* [gensbom](gensbom.md)	 - Create SBOM for target
+et
 

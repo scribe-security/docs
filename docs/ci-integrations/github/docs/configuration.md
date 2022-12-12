@@ -1,3 +1,8 @@
+---
+title: Configuration
+sidebar_position: 3
+---
+
 # Configuration 
 
 Configuration search paths:
@@ -25,12 +30,13 @@ context:
   context-type: local
 attest:
   config: ""
-  name: gensbom
   default: sigstore
+  cocosign: {}
 filter:
   filter-regex:
   - .*\.pyc
   - .*\.git/.*
+  - .*\.git\.*
   filter-purl: []
 bom:
   normalizers:
@@ -59,6 +65,7 @@ find:
   all: false
 verify:
   input-format: attest-cyclonedx-json
+  force: false
 sign:
   format: attest-cyclonedx-json
   input-format: cyclonedx-json

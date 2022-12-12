@@ -119,24 +119,42 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/ci-integrations/github/actions/"
+    dst_dir="docs/ci-integrations/github/"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
-    cp -r "${repo_dir}/docs" "${dst_dir}" || true
 }
+
+import_action_extra() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/github/"
+    cp -r "${repo_dir}/docs" "${dst_dir}" || true
+    cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
+}
+
 
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/actions/"
+    dst_dir="docs/ci-integrations/github/"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
-    cp -r "${dst_dir}/docs" "${repo_dir}" || true
 }
 
+export_action_extra() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/github/"
+    cp -r "${dst_dir}/../docs" "${repo_dir}" || true
+}
+
+
 import_action-bom() {
-    import_action "action-bom"
+    repo="action-bom"
+    import_action  ${repo}
+    import_action_extra ${repo}
 }
 import_action-verify() {
-    import_action "action-verify"
+    repo="action-verify"
+    import_action  ${repo}
 }
 import_action-report() {
     import_action "action-report"
@@ -145,37 +163,20 @@ import_action-installer() {
     import_action "action-installer"
 }
 export_action-bom() {
-    export_action "action-bom"
+    repo="action-bom"
+    export_action ${repo}
+    export_action_extra ${repo}
 }
 export_action-verify() {
-    export_action "action-verify"
+    repo="action-verify"
+    export_action ${repo}
+    export_action_extra ${repo}
 }
 export_action-report() {
     export_action "action-report"
 }
 export_action-installer() {
     export_action "action-installer"
-}
-
-import_actions() {
-    repo="actions"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/actions"
-    import_file ${repo} "" "${dst_dir}"
-    import_file ${repo} "valint/report" "${dst_dir}"
-    import_file ${repo} "gensbom/bom" "${dst_dir}"
-    import_file ${repo} "gensbom/verify" "${dst_dir}"
-    import_file ${repo} "installer" "${dst_dir}"
-}
-
-export_actions() {
-    repo="actions"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/actions"
-    export_file ${repo} "" "${dst_dir}"
-    export_file ${repo} "valint/report" "${dst_dir}"
-    export_file ${repo} "gensbom/bom" "${dst_dir}"
-    export_file ${repo} "gensbom/verify" "${dst_dir}"
 }
 
 import_JSL() {
@@ -255,7 +256,14 @@ import_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
     cp "${repo_dir}/README.md" "docs/CLI/${repo}"
-    cp -R "${repo_dir}/docs/." "docs/CLI/${repo}"
+    cp -r "${repo_dir}/docs" "docs/CLI/${repo}"
+}
+
+export_cli() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    cp -r "docs/CLI/${repo}/*" "${repo_dir}/docs"
+    mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
 }
 
 import_gensbom() {
@@ -274,12 +282,7 @@ export_valint() {
     export_cli valint
 }
 
-export_cli() {
-    repo=$1
-    repo_dir="${submodules_dir}/${repo}"
-    cp -R "docs/CLI/${repo}/." "${repo_dir}/docs" 
-    mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
-}
+
 
 usage() {
   this=$1

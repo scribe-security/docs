@@ -19,22 +19,22 @@ Flags for `gensbom`
 | -A | --attach-regex | Attach files content by regex | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
-| | --attest.name | Attestation config name | "gensbom" |
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -e | --env | Envrionment keys to include in sbom | |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
+| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*,.*\.git\.*] |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
-| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for gensbom | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
@@ -44,7 +44,7 @@ Flags for `gensbom`
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
 | -s | --show | Print report to stdout | |
-| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
 ### Examples for running `gensbom`
@@ -71,19 +71,6 @@ Flags for `gensbom`
   gensbom  git:path/to/yourrepository             read directly from a local repository on disk
   gensbom  git:path/to/yourrepository.git         read directly from a remote repository on git
 
-```
-
-### SEE ALSO
-
-* [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
-
-tems
-
-tems
-
-rl (default "https://api.production.scribesecurity.com")
-  -s, --show                          Print report to stdout
-  -v, --verbose count                 Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
 ```
 
 ### SEE ALSO
