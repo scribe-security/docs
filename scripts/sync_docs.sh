@@ -128,6 +128,7 @@ import_action_extra() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/github/"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
+    cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
 
 
@@ -142,7 +143,7 @@ export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/github/"
-    cp -r "${dst_dir}/docs" "${repo_dir}" || true
+    cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
 
