@@ -30,13 +30,13 @@ Integrating Scribe Hub with GitHub actions requires the following credentials th
         id: gensbom_bom_scm
         uses: scribe-security/action-bom@master
         with:
-           type: dir
-           target: <repo-name>
-           verbose: 2
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
+          type: dir
+          target: <repo-name>
+          verbose: 2
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
+          product-key: ${{ secrets.productkey }}
     ```
     * Call `gensbom` to generate an SBOM from the final Docker image.
     ```YAML
@@ -45,14 +45,14 @@ Integrating Scribe Hub with GitHub actions requires the following credentials th
         uses: scribe-security/action-bom@master
         with:
           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
-           target: <image-name:tag>
-           verbose: 2
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
+          target: <image-name:tag>
+          verbose: 2
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
+          product-key: ${{ secrets.productkey }}
     ```
-    * Call `valint` to get the integrity report results.
+    <!-- * Call `valint` to get the integrity report results.
     ```YAML
         - name: Valint - download report
         id: valint_report
@@ -64,7 +64,7 @@ Integrating Scribe Hub with GitHub actions requires the following credentials th
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
     ```
-    Note that the `valint` report will be downloaded to where you have determined in the `valint_report.outputs.OUTPUT_PATH` in the `scribe-reports` step (the last step in the example pipeline). 
+    Note that the `valint` report will be downloaded to where you have determined in the `valint_report.outputs.OUTPUT_PATH` in the `scribe-reports` step (the last step in the example pipeline).  -->
 
 Here's the full example pipeline:
 
@@ -123,21 +123,10 @@ jobs:
            scribe-client-secret: ${{ secrets.clientsecret }}
            product-key: ${{ secrets.productkey }}
 
-      - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           verbose: 2
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
-
       - uses: actions/upload-artifact@v2
         with:
           name: scribe-reports
           path: |
             ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
             ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
