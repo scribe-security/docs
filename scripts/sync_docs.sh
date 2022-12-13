@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "actions" "JSL" "misc" "orbs" )
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts")
 
 pull_submodules() {
     repos=$1
@@ -115,25 +115,68 @@ export_file_rename() {
     cp  ${dst_file} ${repo_dir}/${src_dir}/README.md
 }
 
-
-import_actions() {
-    repo="actions"
+import_action() {
+    repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/actions"
-    import_file ${repo} "" "${dst_dir}"
-    import_file ${repo} "valint/report" "${dst_dir}"
-    import_file ${repo} "gensbom/bom" "${dst_dir}"
-    import_file ${repo} "gensbom/verify" "${dst_dir}"
+
+    dst_dir="docs/ci-integrations/github/"
+    import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
-export_actions() {
-    repo="actions"
+import_action_extra() {
+    repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/actions"
-    export_file ${repo} "" "${dst_dir}"
-    export_file ${repo} "valint/report" "${dst_dir}"
-    export_file ${repo} "gensbom/bom" "${dst_dir}"
-    export_file ${repo} "gensbom/verify" "${dst_dir}"
+    dst_dir="docs/ci-integrations/github/"
+    cp -r "${repo_dir}/docs" "${dst_dir}" || true
+    cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
+}
+
+
+export_action() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/github/"
+    export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
+}
+
+export_action_extra() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/github/"
+    cp -r "${dst_dir}/../docs" "${repo_dir}" || true
+}
+
+
+import_action-bom() {
+    repo="action-bom"
+    import_action  ${repo}
+    import_action_extra ${repo}
+}
+import_action-verify() {
+    repo="action-verify"
+    import_action  ${repo}
+}
+import_action-report() {
+    import_action "action-report"
+}
+import_action-installer() {
+    import_action "action-installer"
+}
+export_action-bom() {
+    repo="action-bom"
+    export_action ${repo}
+    export_action_extra ${repo}
+}
+export_action-verify() {
+    repo="action-verify"
+    export_action ${repo}
+    export_action_extra ${repo}
+}
+export_action-report() {
+    export_action "action-report"
+}
+export_action-installer() {
+    export_action "action-installer"
 }
 
 import_JSL() {
@@ -180,11 +223,47 @@ export_orbs() {
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
+import_helm-charts() {
+    repo="helm-charts"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/other-integrations/"
+    import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+}
+
+export_helm-charts() {
+    repo="helm-charts"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/other-integrations/"
+    export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+}
+
+
+import_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    import_file_rename ${repo} "" "${dst_dir}/azure.md"
+}
+
+export_azure-tasks() {
+    repo="azure-tasks"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    export_file_rename ${repo} "" "${dst_dir}/azure.md"
+}
+
 import_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "${repo_dir}/README.md" "docs/cli/${repo}"
-    cp -r "${repo_dir}/docs" "docs/cli/${repo}"
+    cp "${repo_dir}/README.md" "docs/CLI/${repo}"
+    cp -r "${repo_dir}/docs" "docs/CLI/${repo}"
+}
+
+export_cli() {
+    repo=$1
+    repo_dir="${submodules_dir}/${repo}"
+    cp -r "docs/CLI/${repo}/*" "${repo_dir}/docs"
+    mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
 }
 
 import_gensbom() {
@@ -203,12 +282,6 @@ export_valint() {
     export_cli valint
 }
 
-export_cli() {
-    repo=$1
-    repo_dir="${submodules_dir}/${repo}"
-    cp "docs/cli/${repo}/README.md" "${repo_dir}" 
-    cp -r "docs/cli/${repo}/docs" "${repo_dir}"
-}
 
 
 usage() {
@@ -250,15 +323,12 @@ function processItems
     done
 }
 
-
-
 COMMAND="unknown"
 parse_args "$@"
 if (( ${#repos[@]} == 0 )); then
     # repos="${supported_repos[@]}"
     repos=("${supported_repos[@]}")                  #copy the array in another one 
 fi 
-
 
 case $COMMAND in
   import)

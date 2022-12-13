@@ -37,8 +37,26 @@ jobs:
 
       - uses: actions/checkout@v3
         with:
-          repository: scribe-security/actions
-          path: sub/actions
+          repository: scribe-security/action-bom
+          path: sub/action-bom
+          token: ${{ secrets.PR_PAT }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/action-verify
+          path: sub/action-verify
+          token: ${{ secrets.PR_PAT }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/action-report
+          path: sub/action-report
+          token: ${{ secrets.PR_PAT }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: scribe-security/action-installer
+          path: sub/action-installer
           token: ${{ secrets.PR_PAT }}
 
       - uses: actions/checkout@v3

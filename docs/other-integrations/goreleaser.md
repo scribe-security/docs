@@ -146,7 +146,7 @@ jobs:
         with:
           go-version: 1.18
 
-      - uses: scribe-security/actions/installer@master
+      - uses: scribe-security/action-installer@master
         with:
           tools: gensbom
 
@@ -169,7 +169,7 @@ jobs:
 
       - name: Valint - download report
         id: valint_report
-        uses: scribe-security/actions/valint/report@master
+        uses: scribe-security/action-report@master
         with:
            verbose: 3
            scribe-enable: true
@@ -283,7 +283,7 @@ jobs:
         with:
           go-version: 1.18
 
-      - uses: scribe-security/actions/installer@master
+      - uses: scribe-security/action-installer@master
         with:
           tools: gensbom
 
