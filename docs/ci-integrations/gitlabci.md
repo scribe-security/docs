@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 
 # Gitlab CI
-Scribe support evidence collecting and integrity verification for GitLab CI.
+Scribe supports evidence collecting and integrity verification for GitLab CI.
 
 ## Before you begin
 Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -44,7 +44,7 @@ scribe-gitlab-simple-job:
 # Examples
 
 <details>
-  <summary>  Scribe integrity report - full gitlab ci workflow (binary) </summary>
+  <summary>  Scribe integrity report - a full gitlab ci workflow example using valint, Scribe's attestation collection command line tool. Valint is run as a binary, collecting attestations at the start of the build process (documenting the source code) and at the end of the build process, documenting the final Docker image, which is the build product.  </summary>
 
   ```yaml
   image: ubuntu:latest
