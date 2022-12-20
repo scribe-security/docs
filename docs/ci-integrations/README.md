@@ -21,6 +21,7 @@ Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provid
 
 The simplest integration is to automate calling *Gensbom* to collect evidence of the repository and create an SBOM of the final image. The evidence and SBOM are then automatically uploaded to Scribe Hub. 
 While *Gensbom* does have other capabilities and CLI options, we will focus on its basic usage.
+
 <!--You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").-->
 <!-- 
 ## Valint - Fetching your integrity report
