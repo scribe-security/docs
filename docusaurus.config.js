@@ -57,7 +57,7 @@ const config = {
                 // "ci-integrations/azure.md",
                 // "ci-integrations/bitbucket.md",
                 // "ci-integrations/circleci.md",
-                // "ci-integrations/gitlabcli.md",
+                "ci-integrations/gitlabci.md",
                 // "ci-integrations/travis.md",
                 //"CLI/README.md",
                 //"CLI/valint/README.md",
