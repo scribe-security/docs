@@ -21,8 +21,9 @@ Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provid
 
 The simplest integration is to automate calling *Gensbom* to collect evidence of the repository and create an SBOM of the final image. The evidence and SBOM are then automatically uploaded to Scribe Hub. 
 While *Gensbom* does have other capabilities and CLI options, we will focus on its basic usage.
-<!--You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").-->
 
+<!--You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").-->
+<!-- 
 ## Valint - Fetching your integrity report
 
 *Valint* is a Scribe tool used to validate the code integrity of your project and open-source dependencies.  
@@ -33,7 +34,7 @@ Currently, our release validates only Node.js projects and NPM files/packages (d
 Integrity validation is based on evidence collected from your pipeline.
 At the end of your pipeline run you may decide to accept or fail a build, depending on the integrity analysis result reported by Scribe as downloaded by *Valint*. Using *Valint* is ___optional___ and completely at your discretion. 
 
-You can read more about *Valint* [here](../CLI/valint "Valint documentation").
+You can read more about *Valint* [here](../CLI/valint "Valint documentation"). -->
 
 
 ## Where to place Scribe Code in your pipeline 
@@ -51,11 +52,7 @@ ___Note___ that if you do not collect evidence about your source code using *Gen
 Currently, Scribe natively supports the following CI setups:
 * [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [Github Actions](../ci-integrations/github "GitHub actions").
-* [Azure](../ci-integrations/azure "Azure").
-* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
-* [CircleCI](../ci-integrations/circleci "CircleCI").
 * [GitLab](../ci-integrations/gitlabci "GitLab").
-* [Travis](../ci-integrations/travis "Travis").
 
 If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions").  
 
