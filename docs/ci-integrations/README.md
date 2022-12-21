@@ -52,7 +52,8 @@ ___Note___ that if you do not collect evidence about your source code using *Gen
 Currently, Scribe natively supports the following CI setups:
 * [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [Github Actions](../ci-integrations/github "GitHub actions").
-* [GitLab](../ci-integrations/gitlabci "GitLab").
+* [GitLab](../ci-integrations/gitlabci "GitLab CI").
+* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
 
 If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions").  
 
