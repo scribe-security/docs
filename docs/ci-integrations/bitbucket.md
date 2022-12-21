@@ -3,25 +3,47 @@ sidebar_position: 4
 title: Bitbucket
 ---
 
-# Bitbucket Pipeline
+# Bitbucket Pipelines Pipe: Scribe evidence generator
+
 Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
 
-## Usage
+## YAML Definition
+
+Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
+
 ```yaml
-- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+- pipe: scribe-security/valint-pipe:0.1.4
   variables:
-    COMMAND_NAME: bom
-    TARGET: busybox:latest
-    VERBOSE: 2
-    FORCE: "true"
+    COMMAND_NAME: "<string>"
+    TARGET: "<string>"
+    # VERBOSE "<boolean>" # Optional
+    # CONFIG: "<string>" # Optional
+    # FORMAT: "<string>" # Optional
+    # INPUT_FORMAT: '<string>' # Optional
+    # OUTPUT_DIRECTORY: '<boolean>' # Optional
+    # OUTPUT_FILE: '<string>' # Optional
+    # PRODUCT_KEY: '<string>' # Optional
+    # LABEL: '<string>' # Optional
+    # ENV: '<string>' # Optional
+    # FILTER_REGEX: '<string>' # Optional
+    # FILTER_SCOPE: '<string>' # Optional
+    # PACKAGE_TYPE: '<string>' # Optional
+    # PACKAGE_GROUP: '<string>' # Optional
+    # FORCE: '<boolean>' # Optional
+    # ATTEST_CONFIG: '<string>' # Optional
+    # ATTEST_DEFAULT: '<string>' # Optional
+    # SCRIBE_ENABLE: '<string>' # Optional
+    # SCRIBE_CLIENT_ID: '<string>' # Optional
+    # SCRIBE_CLIENT_SECRET: '<string>' # Optional
+    # ATTESTATION: '<string>' # Optional
 ```
 
 ## Variables
 
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
-| COMMAND_NAME | Name of the command to execute (bom, verify) | | |
-| TARGET |  Target object name format=[docker:{image:tag}, dir:{dir_path}, git:{git_path}, docker-archive:{archive_path}, oci-archive:archive_path, registry:image:tag] | | any |
+| COMMAND_NAME (*) | Name of the command to execute (bom, verify) | | |
+| TARGET (*) |  Target object name format=[docker:{image:tag}, dir:{dir_path}, git:{git_path}, docker-archive:{archive_path}, oci-archive:archive_path, registry:image:tag] | | any |
 | VERBOSE | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug' | | any |
 | CONFIG | Config of the application | | any |
 | FORMAT | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | | bom |
@@ -43,6 +65,17 @@ Scribe support evidence collecting and integrity verification for Bitbucket pipe
 | SCRIBE_CLIENT_ID | Scribe client id | | any |
 | SCRIBE_CLIENT_SECRET |  Scribe access token | | any |
 | ATTESTATION | Attestation for target  | | verify |
+(*) = required variable.
+
+## Usage
+```yaml
+ - pipe: scribe-security/valint-pipe:0.1.4
+   variables:
+    COMMAND_NAME: bom
+    TARGET: busybox:latest
+    VERBOSE: 2
+    FORCE: "true"
+```
 
 ## Before you begin
 Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -71,7 +104,7 @@ pipelines:
     - step:
         name: scribe-bitbucket-pipeline
         script:      
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+          - pipe: scribe-security/valint-pipe:0.1.4
             variables:
               COMMAND_NAME: bom
               TARGET: busybox:latest 
@@ -93,14 +126,14 @@ pipelines:
         name: scribe-bitbucket-simple-test
         script:      
           - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+          - pipe: scribe-security/valint-pipe:0.1.4
             variables:
               COMMAND_NAME: bom
               TARGET: dir:mongo-express-scm
               PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+          - pipe: scribe-security/valint-pipe:0.1.4
             variables:
               COMMAND_NAME: bom
               TARGET: "mongo-express:1.0.0-alpha.4" 
@@ -120,7 +153,7 @@ pipelines:
 Create SBOM from remote `busybox:latest` image.
 
 ```YAML
-  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+  - pipe: scribe-security/valint-pipe:0.1.4
       variables:
         COMMAND: bom
         TARGET: busybox:latest
@@ -137,7 +170,7 @@ Create SBOM from remote `busybox:latest` image.
 Create SBOM for image built by local docker `image_name:latest` image.
 
 ```YAML
-- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+- pipe: scribe-security/valint-pipe:0.1.4
   variables:
     COMMAND: bom
     TARGET: image_name:latest
@@ -154,7 +187,7 @@ Create SBOM for image hosted on private registry.
 > Use `docker login` to add access.
 
 ```YAML
-- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+- pipe: scribe-security/valint-pipe:0.1.4
   variables:
     COMMAND: bom
     TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
@@ -220,7 +253,7 @@ step:
   script:
   - mkdir testdir
   - echo "test" > testdir/test.txt
-  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+  - pipe: scribe-security/valint-pipe:0.1.4
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
@@ -268,3 +301,20 @@ Create SBOM for local git repository. <br />
 If you're new to Bitbucket pipelines this link should help you get started:
 * [Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
 
+## Support
+
+If you'd like help with this pipe, or you have an issue or feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
+
+If you are reporting an issue, please include:
+
+- the version of the pipe
+- relevant logs and error messages
+- steps to reproduce
+
+By email or slack.
+[Contact-us] (https://scribesecurity.com/contact-us/)
+
+## License
+
+Copyright (c) 2019 Atlassian and others.
+Apache 2.0 licensed, see [LICENSE](LICENSE.txt) file.
