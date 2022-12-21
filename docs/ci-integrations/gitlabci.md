@@ -52,7 +52,7 @@ Integrating Scribe Hub with Gitlab requires the following credentials that are f
 Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
 Following are some integration examples.
 
-# Procedure
+## Procedure
 
 * Store credentials using [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project) 
 

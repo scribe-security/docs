@@ -57,7 +57,7 @@ Integrating Scribe Hub with Bitbucket Pipeline requires the following credential
 Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
 Following are some integration examples.
 
-# Procedure
+## Procedure
 
 * Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
 
@@ -207,28 +207,7 @@ Using command `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artif
       - scribe/**
       - my_sbom.json
 ```
-
-<!-- <details>
-  <summary> Archive image (SBOM) </summary>
-
-Create SBOM for local `docker save` output.
-
-> Use `oci-archive` target type when creating a OCI archive (`podman save`).
-
-```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
-    variables:
-      COMMAND: bom
-      TARGET: docker-archive:saved_docker.tar
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
-``` 
-</details> -->
+</details>
 
 <details>
   <summary> Directory target (SBOM) </summary>
