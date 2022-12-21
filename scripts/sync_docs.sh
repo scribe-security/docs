@@ -4,7 +4,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts")
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts", "bitbucket-pipe")
 
 pull_submodules() {
     repos=$1
@@ -209,6 +209,20 @@ export_misc() {
     export_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
 }
 
+import_bitbucket-pipe() {
+    repo="bitbucket-pipe"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+}
+
+export_bitbucket-pipe() {
+    repo="bitbucket-pipe"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/ci-integrations/"
+    export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+}
+
 import_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
@@ -236,7 +250,6 @@ export_helm-charts() {
     dst_dir="docs/other-integrations/"
     export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
 }
-
 
 import_azure-tasks() {
     repo="azure-tasks"

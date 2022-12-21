@@ -43,7 +43,7 @@ The `gensbom` tool runs on Mac or Linux.
   For example: */tmp/scribe/registry/alpine/latest*.
 
 **Changing defaults**       
-* Change the default output file name and path as follows:  
+* Change the default Output file name and path as follows:  
       `gensbom <target> [--output-file /path/file_name.json]`
       
 * Change the output directory as follows:  

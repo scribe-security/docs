@@ -26,7 +26,7 @@ Flags for `gensbom`
 | -e | --env | Envrionment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*,.*\.git\.*] |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
+| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |

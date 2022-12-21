@@ -3,9 +3,46 @@ sidebar_position: 4
 title: Bitbucket
 ---
 
-
 # Bitbucket Pipeline
-If you are using Bitbucket pipelines as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. Scribe offers a custom pipe to easily integrate our code snippets with your existing pipelines.
+Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
+
+## Usage
+```yaml
+- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+  variables:
+    COMMAND_NAME: bom
+    TARGET: busybox:latest
+    VERBOSE: 2
+    FORCE: "true"
+```
+
+## Variables
+
+| Variable              | Usage                                                       | Default | COMMAND |
+| --------------------- | ----------------------------------------------------------- | ------- | ------- |
+| COMMAND_NAME | Name of the command to execute (bom, verify) | | |
+| TARGET |  Target object name format=[docker:{image:tag}, dir:{dir_path}, git:{git_path}, docker-archive:{archive_path}, oci-archive:archive_path, registry:image:tag] | | any |
+| VERBOSE | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug' | | any |
+| CONFIG | Config of the application | | any |
+| FORMAT | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | | bom |
+| INPUT_FORMAT | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | | verify |
+| OUTPUT_DIRECTORY | Output directory path |  scribe/valint | any |
+| OUTPUT_FILE | Output file name | | any |
+| PRODUCT_KEY | Custom/project product-key | | any |
+| LABEL |  Custom labels | | bom | 
+| ENV | Custom env | | bom |
+| FILTER_REGEX | Filter out files by regex | | bom |
+| FILTER_SCOPE | Filter packages by scope | | bom |
+| PACKAGE_TYPE | Select package type | | bom |
+| PACKAGE_GROUP | Select package group | | bom |
+| ATTACH_REGEX | Attach files content by regex| | bom |
+| FORCE | Force overwrite cache | | bom |
+| ATTEST_CONFIG | Attestation config path | | any |
+| ATTEST_DEFAULT | Attestation default config, options=[sigstore sigstore-github x509 kms] | | any |
+| SCRIBE_ENABLE |  Enable scribe client | | any |
+| SCRIBE_CLIENT_ID | Scribe client id | | any |
+| SCRIBE_CLIENT_SECRET |  Scribe access token | | any |
+| ATTESTATION | Attestation for target  | | verify |
 
 ## Before you begin
 Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -16,201 +53,195 @@ Integrating Scribe Hub with Bitbucket Pipeline requires the following credential
 
 >Note that the product key is unique per product, while the client ID and secret are unique for your account.
 
-## Scribe Bitbucket Pipeline
-
-Scribe offers a custom bitbucket pipe `docker://scribesecurity/scribe-cli-pipe:0.1.2`
+## Scribe service integration
+Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
+Following are some integration examples.
 
 # Procedure
 
 * Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
+
 * Use the Scribe custom pipe as shown in the example bellow
 
+* As an example update it to contain the following steps:
+
+```yaml
+pipelines:
+  default:
+    - step:
+        name: scribe-bitbucket-pipeline
+        script:      
+          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+            variables:
+              COMMAND_NAME: bom
+              TARGET: busybox:latest 
+              PRODUCT_KEY: $PRODUCT_KEY
+              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+```
+
 <details>
-  <summary>  Sample integration code using Scribe's custom Bitbucket pipe</summary>
+  <summary>  Scribe integrity </summary>
+
+Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
+Verifying the  target integrity on Scribe.
 
   ```YAML
-  image:
-    name: python:3.7
-
-  scribe-bitbucket-simple-job: &scribe-bitbucket-simple-job
-    step:
-      name: scribe-bitbucket-simple-test
-      - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: bom
-          TARGET: dir:mongo-express-scm
-          PRODUCT_KEY: $PRODUCT_KEY
-          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: bom
-          TARGET: "mongo-express:1.0.0-alpha.4" 
-          VERBOSE: 2
-          SCRIBE_ENABLE: "true"
-          PRODUCT_KEY: $PRODUCT_KEY
-          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: report
-          VERBOSE: 2
-          SCRIBE_ENABLE: "true"
-          PRODUCT_KEY: $PRODUCT_KEY
-          SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-          SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          TIMEOUT: 120s
-      services:
-      - docker
-
-  pipelines:
-    default:
-    - \>\>: *scribe-bitbucket-simple-job
+pipelines:
+  default:
+    - step:
+        name: scribe-bitbucket-simple-test
+        script:      
+          - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
+          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+            variables:
+              COMMAND_NAME: bom
+              TARGET: dir:mongo-express-scm
+              PRODUCT_KEY: $PRODUCT_KEY
+              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+            variables:
+              COMMAND_NAME: bom
+              TARGET: "mongo-express:1.0.0-alpha.4" 
+              SCRIBE_ENABLE: "true"
+              PRODUCT_KEY: $PRODUCT_KEY
+              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
   ```
-
 </details>
 
----
-## Generating SBOM examples
-Since there could be several different options for where the final image is created/stored here's how Scribe's `gensbom` code handles the various options:
+
+## Basic examples
 
 <details>
-  <summary>  Public registry image </summary>
+  <summary>  Public registry image (SBOM) </summary>
 
 Create SBOM from remote `busybox:latest` image.
 
 ```YAML
-  step:
-    name: Test
-    script:
-    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
       variables:
         COMMAND: bom
         TARGET: busybox:latest
-        PRODUCT_KEY: $PRODUCT_KEY
-        SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-        SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+        VERBOSE: 2
+        FORCE: "true"
 ``` 
 
 </details>
 
 
 <details>
-  <summary>  Docker built image </summary>
+  <summary>  Docker built image (SBOM) </summary>
 
-Create SBOM for image built by local docker `image_name:latest` image. This SBOM will overwrite the SBOM found in local cache (assuming there is one).
+Create SBOM for image built by local docker `image_name:latest` image.
 
 ```YAML
-  step:
-    name: Test
+- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+  variables:
+    COMMAND: bom
+    TARGET: image_name:latest
+    VERBOSE: 2
+    FORCE: "true"
+``` 
+</details>
+
+<details>
+  <summary>  Private registry image (SBOM) </summary>
+
+Create SBOM for image hosted on private registry.
+
+> Use `docker login` to add access.
+
+```YAML
+- pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
+  variables:
+    COMMAND: bom
+    TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    FORCE: true
+    VERBOSE: 2
+```
+</details>
+
+<details>
+  <summary>  Custom metadata (SBOM) </summary>
+
+Custom metadata added to SBOM
+Data will be included in the signed payload when the output is an attestation.
+
+```YAML
+- step:
+    name: valint-image-step
     script:
-    - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-      variables:
-        COMMAND: bom
-        TARGET: image_name:latest
-        PRODUCT_KEY: $PRODUCT_KEY
-        SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-        SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-        FORCE: true
-        format: json
-``` 
-</details>
-
-<details>
-  <summary>  Private registry image </summary>
-
-Create SBOM for image in a custom private registry. You can skip the cache search for an appropriate SBOM by using the `Force` flag. The output in this example uses verbose (debug level) 2 which will create a log output.
-```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: bom
-      TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      FORCE: true
-      VERBOSE: 2
+      - export test_env=test_env_value
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: busybox:latest
+          VERBOSE: 2
+          FORCE: "true"
+          ENV: test_env
+          LABEL: test_label
 ```
 </details>
 
 <details>
-  <summary>  Custom SBOM metadata </summary>
+  <summary> Save as artifact (SBOM, SLSA) </summary>
 
-Create SBOM from remote `busybox:latest` image and add custom metadata to the SBOM created.  
-The data will be included in the signed payload when the output is an attestation. In this example the metadata included is the env (environment) and label of the image. 
+Using command `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
+
+> Use `FORMAT` to select between the format.
 
 ```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: bom
-      TARGET: busybox:latest
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      FORCE: true
-      VERBOSE: 2
-      FORMAT: json
-      LABEL: test_label
-      ENV: test_env
+- step:
+    name: save-artifact-step
+    script:
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          OUTPUT_FILE: my_sbom.json
+          TARGET: busybox:latest
+          VERBOSE: 2
+          FORCE: "true"
+    artifacts:
+      - scribe/**
+      - my_sbom.json
 ```
-</details>
 
-<details>
-  <summary> Docker archive image </summary>
+<!-- <details>
+  <summary> Archive image (SBOM) </summary>
 
-Create SBOM from local `docker save ...` output.
-```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: bom
-      TARGET: saved_docker.tar
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
-``` 
-</details>
+Create SBOM for local `docker save` output.
 
-<details>
-  <summary> OCI archive image </summary>
-
-Create SBOM from the local OCI (Oracle Cloud Infrastructure) archive.
+> Use `oci-archive` target type when creating a OCI archive (`podman save`).
 
 ```YAML
 step:
   name: Test
   script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
     variables:
       COMMAND: bom
-      TARGET: oci-archive:saved_oci.tar
+      TARGET: docker-archive:saved_docker.tar
       PRODUCT_KEY: $PRODUCT_KEY
       SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
       VERBOSE: 2
 ``` 
-</details>
+</details> -->
 
 <details>
-  <summary> Directory target </summary>
+  <summary> Directory target (SBOM) </summary>
 
 Create SBOM from a local directory. 
 
 ```YAML
 step:
-  name: Test
+  name: dir-sbom-step
   script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
+  - mkdir testdir
+  - echo "test" > testdir/test.txt
+  - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:latest
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
@@ -222,69 +253,37 @@ step:
 </details>
 
 <details>
-  <summary> Save SBOM as artifact </summary>
+  <summary> Git target (SBOM) </summary>
 
-Using action `output_path` you can access the generated SBOM and store it as an artifact.
-```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: bom
-      TARGET: busybox:latest
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
-      OUTPUT_FILE: "./result_report.json"
-``` 
-</details>
-
-## Integrity report download examples
-<details>
-  <summary>  Scribe integrity report download </summary>
-
-Integrity report standard download.  
-The default output will be set to `scribe/valint/` subdirectory (Use `output-directory` argument to overwrite location).
+Create SBOM for `mongo-express` remote git repository.
 
 ```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: report
-      TARGET: dir:./testdir
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
+- step:
+    name: valint-git-step
+    script:
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: git:https://github.com/mongo-express/mongo-express.git
+          VERBOSE: 2
+          FORCE: "true"
 ``` 
 
-
-</details>
-
-<details>
-  <summary> Integrity report download with added verbosity and a custom output file </summary>
-
-Download report for current CI run and save the output to a local file.
+Create SBOM for local git repository. <br />
 
 ```YAML
-step:
-  name: Test
-  script:
-  - pipe: docker://scribesecurity/scribe-cli-pipe:0.1.2
-    variables:
-      COMMAND: report
-      PRODUCT_KEY: $PRODUCT_KEY
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
-      OUTPUT_FILE: "./result_report.json"
+    - step:
+        name: valint-git-step
+        script:
+          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
+          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+            variables:
+              COMMAND_NAME: bom
+              TARGET: dir:scm_mongo_express
+              VERBOSE: 2
+              FORCE: "true"
 ``` 
 </details>
-
 
 ## Resources
 If you're new to Bitbucket pipelines this link should help you get started:
