@@ -16,7 +16,10 @@ Scribe support evidence collecting and integrity verification for Bitbucket pipe
     FORCE: "true"
 ```
 
-## Variables
+<details>
+<summary> <b> Bitbucket Scribe Variables </b>
+  </summary>
+<h3>  Variables </h3>
 
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
@@ -43,6 +46,7 @@ Scribe support evidence collecting and integrity verification for Bitbucket pipe
 | SCRIBE_CLIENT_ID | Scribe client id | | any |
 | SCRIBE_CLIENT_SECRET |  Scribe access token | | any |
 | ATTESTATION | Attestation for target  | | verify |
+</details>
 
 ## Before you begin
 Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)

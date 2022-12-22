@@ -23,25 +23,25 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
 1. To add global credentials, in the **Global credentials** area, click **+ Add Credentials**.
 A new **Credentials** form opens.
-1.	To add the Product Key, in the **Kind** field, select **Secret Text**.
-1.	Copy *Product Key* provided by Scribe to the **Secret** field.
+1. To add the Product Key, in the **Kind** field, select **Secret Text**.
+1. Copy the *Product Key* provided by Scribe to the **Secret** field.
 
-1.	Set **ID** as **`scribe-product-key`** (lower case).
-1.	Leave **Scope** as Global.
+1. Set the **ID** as **scribe-product-key** (lowercase).
+1. Leave **Scope** as Global.
 1. Add a helpful **Description** to manage your secrets.
 1. Click **Create**. A New Global credential is created, as a **Secret Text** (Kind). A key sign on your new credential row indicates the secret **Kind**. 
-1.	To add Client ID and Client Secret, click **+ Add Credentials** again.
-1.	In the **Kind** field, select **Username with password**.
+1. To add Client ID and Client Secret, click **+ Add Credentials** again.
+1. In the **Kind** field, select **Username with password**.
 
-1. Set **ID** to **`scribe-production-auth-id`** (lower case).
-1.	Copy *Client ID* provided by Scribe to  **Username**.
-1.	Copy *Client Secret* provided by Scribe to  **Password**.
-1.	Leave **Scope** as **Global**.
-1.	Click **Create**.
-1. Another Global credential is created as a  **Username with Password** (Kind)
+1. Set **ID** to **`scribe-production-auth-id`** (lowercase).
+1. Copy the *Client ID* provided by Scribe to the **Username**.
+1. Copy the *Client Secret* provided by Scribe to the **Password**.
+1. Leave **Scope** as **Global**.
+1. Click **Create**.
+1. Another Global credential is created as a **Username with Password** (Kind)
 
 
-The final state of the secrets definition should be as shown on the following screenshot:
+The final state of the secrets definition should be as shown in the following screenshot:
 ![Jenkins Credentials](../../../static/img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
  
 
@@ -57,19 +57,16 @@ Read [Scribe JSL Documentation](./JSL/) for instructions.
 -->
 
 ## Procedure
-Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following CLI tools: 
-* **Gensbom**: An SBOM Generator 
-* **Valint**: A validator and integrity checker for your Node.js projects and NPM files/packages. It's used to download the integrity report created by the Scribe system.
+Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following a CLI tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance.  
 
 Every integration pipeline is unique. 
 Integrating Scribe's code into your pipeline varies from one case to another.
 
 The following are examples that illustrate where to add Scribe code snippets. 
 
-The code in these examples of a workflow executes these three steps:
-1. Calls `gensbom` right after checkout to collect hash value evidence of the source code files and upload the evidence.
-2. Calls `gensbom` to generate an SBOM from the final Docker image and upload the evidence.
-3. Calls `valint` to download the integrity report results and attach the report and evidence to the pipeline run.
+The code in these examples of a workflow executes these steps:
+1. Calls `valint` right after checkout to collect hash value evidence of the source code files and upload the evidence.
+2. Calls `valint` to generate an SBOM from the final Docker image and upload the evidence.
  
 The examples use a sample pipeline building a Mongo express project. 
 <details>
@@ -118,9 +115,9 @@ pipeline {
       steps {        
         withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
-            gensbom bom dir:mongo-express-scm \
+            valint bom dir:mongo-express-scm \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
             -vv
@@ -140,31 +137,11 @@ pipeline {
       steps {
             withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
-            gensbom bom mongo-express:1.0.0-alpha.4 \
+            valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv'''
-          }
-      }
-    }
-
-    stage('download-report') {
-      agent {
-        docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-          reuseNode true
-          args "--entrypoint="
-        }
-      }
-      steps {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint report \
-            --product-key $SCRIBE_PRODUCT_KEY \
-            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --timeout 120s \
             -vv'''
           }
       }
@@ -213,12 +190,12 @@ pipeline {
           sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
         }
         
-        container('gensbom') {
+        container('valint') {
           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
-            gensbom bom dir:mongo-express-scm \
+            valint bom dir:mongo-express-scm \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
             --product-key $SCRIBE_PRODUCT_KEY \
             -vv'''
@@ -229,31 +206,16 @@ pipeline {
 
     stage('image-bom') {
       steps {
-        container('gensbom') {
+        container('valint') {
            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
-            gensbom bom mongo-express:1.0.0-alpha.4 \
+            valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
             --product-key $SCRIBE_PRODUCT_KEY \
             -vv'''
           }
-        }
-      }
-    }
-
-    stage('download-report') {
-      steps {
-        container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', )]) {  
-            sh '''
-            valint report \
-            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --output-directory scribe/valint \
-            -vv'''
-          }
-          publish()
         }
       }
     }
@@ -271,13 +233,8 @@ spec:
     env:
     - name: CONTAINER_ENV_VAR
       value: jnlp
-  - name: gensbom
-    image: scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest 
-    command:
-    - cat
-    tty: true
   - name: valint
-    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
+    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
     command:
     - cat
     tty: true
@@ -330,9 +287,9 @@ pipeline {
       steps {        
         withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
-            gensbom bom dir:mongo-express-scm \
+            valint bom dir:mongo-express-scm \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
             -vv
@@ -345,24 +302,11 @@ pipeline {
       steps {
             withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
-            gensbom bom mongo-express:1.0.0-alpha.4 \
+            valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
-            --output-directory ./scribe/gensbom \
+            --output-directory ./scribe/valint \
             --product-key testing \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv'''
-          }
-      }
-    }
-
-    stage('download-report') {
-      steps {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint report \
-            --product-key $SCRIBE_PRODUCT_KEY \
-            -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET --output-directory scribe/valint \
-            --timeout 120s \
             -vv'''
           }
       }

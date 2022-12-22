@@ -3,7 +3,7 @@ sidebar_position: 4
 sidebar_label: Sample Project
 ---
 
-# Demo: Run gensbom on a Sample project
+# Demo: Run valint on a Sample project
 <!--- problem -  offer a demo to try out, assuming the person has a product?  --->
 ## Before you begin
 
@@ -15,7 +15,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 
 Note that the product key is unique per product, while the client id and secret are unique for your account.
 
-## Run Gensbom on a Sample Project
+## Run Valint on a Sample Project
 
 Try out Scribe with our sample open-source Node.js project by following these steps: 
 
@@ -29,19 +29,19 @@ Try out Scribe with our sample open-source Node.js project by following these st
    export CLIENT_SECRET=<client-secret>
    ```
    
-1. Using a Shell-based CLI, download the `gensbom` CLI tool, created by Scribe Hubs:
+1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
-   curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom
+   curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
 1. Clone the sample project from GitHub  
       ```sh
       git clone https://github.com/scribe-security/image-demo.git
       ```
 
-1. Run `gensbom` locally to collect hash value evidence of the source code files
+1. Run `valint` locally to collect hash value evidence of the source code files
 
       ```sh
-      $HOME/.scribe/bin/gensbom dir:image-demo --product-key=$PRODUCT_KEY \
+      $HOME/.scribe/bin/valint valint bom dir:image-demo --product-key=$PRODUCT_KEY \
       --scribe.client-id=$CLIENT_ID \
       --scribe.client-secret=$CLIENT_SECRET -E -f -v
       ```
@@ -52,12 +52,12 @@ Try out Scribe with our sample open-source Node.js project by following these st
    docker build -t image-demo .
    ```
 
-5. Run `gensbom` locally to collect hash value evidence about your docker image
+5. Run `valint` locally to collect hash value evidence about your docker image
 
     ```sh
-    $HOME/.scribe/bin/gensbom bom image-demo:latest --product-key=$PRODUCT_KEY \ 
+    $HOME/.scribe/bin/valint valint bom image-demo:latest --product-key=$PRODUCT_KEY \ 
     --scribe.client-id=$CLIENT_ID \
     --scribe.client-secret=$CLIENT_SECRET -E -f -v  
     ```
 
-6. When `gensbom` is done, check out your your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** Home>Products>[$product] page and you'll see a new build being updated. Clicking on that build will allow you to review the integrity information and SBOM for the new build you have just uploaded.
+6. When `valint` is done, check out your your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** Home>Products>[$product] page and you'll see a new build being updated. Clicking on that build will allow you to review the integrity information and SBOM for the new build you have just uploaded.
