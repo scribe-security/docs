@@ -128,7 +128,7 @@ jobs:
             ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
 ```
 
-## Generating SLSA provenance
+## Generating SLSA provenance and enacting SLSA policy on your project
 
 To collect SLSA provenance from your GitHub pipeline you'll first need to install the Scribe GitHub app in your organizational GitHub account. You'll then need to add the relevant code snippet to your pipeline.
 
@@ -179,18 +179,14 @@ You can now go back to the product's **policies** tab and activate the policies 
 
 <img src='../../../img/ci/slsa_active.jpg' alt='Approve access' width='40%' min-width='400px'/> 
 
-You can turn the policies off or on for each project at any time, assuming that the project's repository is covered by ScribeApp. Note that even if you have turned on the policies you won't see any SLSA provenance results until you have integrated Scribe's code snippet into your pipeline and have run a new build.
+You can turn the SLSA policy off or on for each project at any time, assuming that the project's repository is covered by ScribeApp. Note that even if you have turned on the policy you won't see any SLSA provenance results until you have integrated Scribe's code snippet into your pipeline and have run the action.
 
 If anything isn't clear you can check out the GitHub instruction page for <a href='https://docs.github.com/en/developers/apps/managing-github-apps/installing-github-apps'>installing GitHub Apps</a>.
 
 ### Generating the SLSA provenance in your pipeline
 
-1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client-id**, **clientsecret** for the           **client-secret** and **productkey** for the **product-key**.
+1. Add the project credential according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secret **productkey** for the **product-key**.
 2. Add the Code snippet to your pipeline from your GitHub flow:   
-    * Replace the `Mongo express` repo in the example with your repo name.
-    ```YAML
-      target: <repo-name>
-    ```
     * Call `valint` to generate SLSA provenance from the final Docker image.
     ```YAML
         - name: Generate SLSA provenance statement
@@ -199,9 +195,13 @@ If anything isn't clear you can check out the GitHub instruction page for <a hre
         with:
           target: <image-name:tag>
           format: statement-slsa
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
           product-key: ${{ secrets.productkey }}
+
+        -uses: actions/upload-artifact@v2
+        with:
+          name: provenance
+          path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
+    ```
 
 Here's the full example pipeline:
 
@@ -222,20 +222,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/checkout@v3
-        with:
-          repository: mongo-express/mongo-express
-          ref: refs/tags/v1.0.0-alpha.4
-          path: mongo-express-scm
-
       - name: Generate SLSA provenance statement
         id: valint_slsa_statement
         uses: scribe-security/action-bom@master
         with:
           target: mongo-express:1.0.0-alpha.4
           format: statement-slsa
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
           product-key: ${{ secrets.productkey }
 
       -uses: actions/upload-artifact@v2
@@ -244,4 +236,36 @@ jobs:
         path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
 ```
 
-Note that at this time you cannot generate both SLSA provenance and an SBOM at the same time. 
+This code snippet generates a SLSA provenance file for the artifact it is run on, usually an image. To see that provenance information you need to go to the **Actions** tab in your GitHub repository.
+
+<img src='../../../img/ci/actions_tab.jpg' alt='Actions tab' width='70%' min-width='750px'/> 
+
+There you can examine the workflows and actions you have run on this GutHub repository. Once you have run a workflow that includes the SLSA provenance generation you'll be able to find the resulting file at the bottom of the page:
+
+<img src='../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' width='70%' min-width='750px'/>
+
+The provenance information is in <a href='../glossary.md#in-toto'>in-toto</a> format and looks like this:
+
+<img src='../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format' width='70%' min-width='750px'/>
+
+### Checking the SLSA policy for your project
+
+To see the results of the SLSA policy you have enacted on your project you can look at the product build where you will now see some results in the SLSA compliance column:
+
+<img src='../../../img/ci/slsa_compliance.jpg' alt='SLSA Compliance Column'/>
+
+When you click on a build to get to the full results you'll see a new option - **Policies Compliance**:
+
+<img src='../../../img/ci/policies_compliance.jpg' alt='Policies Compliance' width='40%' min-width='400px'/>
+
+clicking the **more** link will open the policies report where you can see each of the policies checked and whether they have passed or failed for this run of the workflow.
+
+<img src='../../../img/ci/policies_compliance_more.jpg' alt='Policies Compliance Full List'/>
+
+There are 22 SLSA policies that Scribe checks and if all of them are checkout out (pass) that means that the build is approved for SLSA level 3.
+
+To learn more about each policy you can either click on them or see the explanation page [here](../../slsapolicies.md).
+
+
+
+
