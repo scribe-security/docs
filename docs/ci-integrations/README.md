@@ -49,5 +49,8 @@ Currently, Scribe natively supports the following CI setups:
 * [Github](../ci-integrations/github "GitHub").
 * [GitLab](../ci-integrations/gitlabci "GitLab CI").
 * [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
+* [Azure](../ci-integrations/azure "Azure").
+* [CircleCI](../ci-integrations/circleci "CircleCI").
+* [Travis](../ci-integrations/travis "Travis").
 
 If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions"). 
