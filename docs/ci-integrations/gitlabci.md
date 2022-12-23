@@ -33,30 +33,11 @@ scribe-gitlab-job:
           --vv
 ```
 
-## Configuration
+### Input arguments
+```yaml
 
-Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
+```
 
-See detailed [configuration](docs/configuration)
-
-## Attestations 
-Attestations allow you to sign and verify your targets. <br />
-Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
-
-Supported outputs:
-- In-toto predicate - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto statements - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
-
-Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
-
-See details [In-toto spec](https://github.com/in-toto/attestation)
-See details [attestations](docs/attestations)
-
-> Gitlab workload identity will is not yet compatible with Sigstore keyless flow, a fix for the issue will soon be available.
-
-## Installation
 
 ## Before you begin
 Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
@@ -71,7 +52,7 @@ Integrating Scribe Hub with Gitlab requires the following credentials that are f
 Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
 Following are some integration examples.
 
-# Procedure
+## Procedure
 
 * Store credentials using [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project) 
 
@@ -160,10 +141,10 @@ Create SBOM for remote `busybox:latest` image.
 <details>
   <summary>  Docker built image (SBOM) </summary>
 
-Create SBOM for image built by local docker `image_name:latest` image, overwrite cache.
+Create SBOM for image built by local docker `image_name:latest` image.
 
 ```YAML
-- valint bom my_image:latest
+- valint bom image_name:latest
       --context-type gitlab
       --output-directory ./scribe/valint
       -vv -f
@@ -173,7 +154,9 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
 <details>
   <summary>  Private registry image (SBOM) </summary>
 
-Custom private registry, output verbose (debug level) log output.
+Create SBOM for image hosted on private registry.
+
+> Use `docker login` to add access.
 
 ```YAML
 - valint bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
@@ -186,11 +169,9 @@ Custom private registry, output verbose (debug level) log output.
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
-
+Custom metadata added to SBOM.
 ```YAML
-create_sbom_job:
+valint_image_job:
   variables:
     test_env: "test_env_value"
   script:
@@ -207,7 +188,7 @@ create_sbom_job:
 <details>
   <summary> Save as artifact (SBOM, SLSA) </summary>
 
-Using command `output-directory` or `output-file` to export the SBOM as an artifact.
+Using command `output-directory` or `output-file` to export evidence as an artifact.
 
 > Use `--format`, `-o` to select between the format.
 

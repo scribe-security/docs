@@ -2,21 +2,21 @@
 title: Bom
 sidebar_position: 2
 ---
-# Scribe Github Action for `gensbom bom`
+# Scribe Github Action for `valint bom`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
 
-Use `gensbom bom` to collect evidence and generate an SBOM.
+Use `valint bom` to collect evidence and generate an SBOM.
 
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Other Actions
-* [bom](https://github.com/scribe-security/action-bom/README.md)
-* [verify](https://github.com/scribe-security/action-verify/README.md)
-* [installer](https://github.com/scribe-security/action-installer/README.md)
+* [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
+* [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
+* [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)
 <!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Bom Action
-Action for `gensbom bom`. <br />
+Action for `valint bom`. <br />
 The command allows users to generate and manage evidence collection process.
 - CycloneDX SBOM and SLSA provenance evidence support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
@@ -41,7 +41,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
     default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
+    description: 'Target object name format=[<image:tag>, dir:<dir_path>, <git_path>]'
     required: true
   verbose:
     description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
@@ -49,10 +49,10 @@ To overcome the limitation install tool directly - [installer](https://github.co
   config:
     description: 'Application config file'
   format:
-    description: 'Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
+    description: 'Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
   output-directory:
-    description: 'Report output directory'
-    default: ./scribe/gensbom
+    description: 'Output directory path'
+    default: ./scribe/valint
   output-file:
     description: 'Output result to file'
   product-key:
@@ -63,6 +63,12 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: 'Custom env'
   filter-regex:
     description: 'Filter out files by regex'
+  filter-scope:
+    description: 'Filter packages by scope'
+  package-type:
+    description: 'Select package type'
+  package-group:
+    description: 'Select package group'
   attach-regex:
     description: 'Attach files content by regex'
   force:
@@ -70,8 +76,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
     default: false
   attest-config:
     description: 'Attestation config map'
-  attest-name:
-    description: 'Attestation config name (default "gensbom")'
   attest-default:
     description: 'Attestation default config, options=[sigstore sigstore-github x509]'
     default: sigstore-github
@@ -82,16 +86,10 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: 'Scribe client id' 
   scribe-client-secret:
     description: 'Scribe access token' 
-  scribe-url:
-    description: 'Scribe url'
-  scribe-login-url:
-    description: 'Scribe auth login url' 
-  scribe-audience:
-    description: 'Scribe auth audience' 
   context-dir:
     description: 'Context dir' 
   components:
-    description: 'Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])'
+    description: 'Select sbom components groups, options=[metadata layers packages syft files dep commits]'
 ```
 
 ### Output arguments
@@ -111,7 +109,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ## Configuration
 
-Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
+Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
 See detailed [configuration](docs/configuration.md)
 
@@ -184,8 +182,8 @@ jobs:
           ref: refs/tags/v1.0.0-alpha.4
           path: mongo-express-scm
 
-      - name: gensbom Scm generate bom, upload to scribe
-        id: gensbom_bom_scm
+      - name: valint Scm generate bom, upload to scribe
+        id: valint_bom_scm
         uses: scribe-security/action-bom@master
         with:
            type: dir
@@ -203,8 +201,8 @@ jobs:
           push: true
           tags: mongo-express:1.0.0-alpha.4
 
-      - name: gensbom Image generate bom, upload to scribe
-        id: gensbom_bom_image
+      - name: valint Image generate bom, upload to scribe
+        id: valint_bom_image
         uses: scribe-security/action-bom@master
         with:
            target: 'mongo-express:1.0.0-alpha.4'
@@ -218,8 +216,8 @@ jobs:
         with:
           name: scribe-evidence
           path: |
-            ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_scm.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
 ```
 </details>
 
@@ -273,11 +271,11 @@ Custom private registry, output verbose (debug level) log output.
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
+Custom metadata added to SBOM.
+
 ```YAML
 - name: Generate cyclonedx json SBOM - add metadata - labels, envs, name
-  id: gensbom_labels
+  id: valint_labels
   uses: scribe-security/action-bom@master
   with:
       target: 'busybox:latest'
@@ -298,33 +296,39 @@ Data will be included in the signed payload when the output is an attestation.
 
 Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
 
-> Use action `output-path: <my_custom_path>` input argument to set a custom output path.
+> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
-  id: gensbom_json
+  id: valint_json
   uses: scribe-security/action-bom@master
   with:
     target: 'busybox:latest'
+    output-file: my_sbom.json
     format: json
 
 - uses: actions/upload-artifact@v2
   with:
-    name: gensbom-busybox-output-test
-    path: ${{ steps.gensbom_json.outputs.OUTPUT_PATH }}
+    name: scribe-sbom
+    path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
+
+- uses: actions/upload-artifact@v2
+  with:
+    name: scribe-evidence
+    path: scribe/
 ``` 
 </details>
 
 <details>
   <summary> Save provenance statement as artifact (SLSA) </summary>
 
-Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
+Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact.
 
-> Use action `output-path: <my_custom_path>` input argument to set a custom output path.
+> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
 - name: Generate SLSA provenance statement
-  id: gensbom_slsa_statement
+  id: valint_slsa_statement
   uses: scribe-security/action-bom@master
   with:
     target: 'busybox:latest'
@@ -333,7 +337,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
 - uses: actions/upload-artifact@v2
   with:
     name: provenance
-    path: ${{ steps.gensbom_slsa_statement.outputs.OUTPUT_PATH }}
+    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
 ``` 
 </details>
 
@@ -392,8 +396,8 @@ Create SBOM for a local directory.
     mkdir testdir
     echo "test" > testdir/test.txt
 
-- name: gensbom attest dir
-  id: gensbom_attest_dir
+- name: valint attest dir
+  id: valint_attest_dir
   uses: scribe-security/action-bom@master
   with:
     type: dir
@@ -449,7 +453,7 @@ job_example:
   permissions:
     id-token: write
   steps:
-    - name: gensbom attest
+    - name: valint attest
       uses: scribe-security/action-bom@master
       with:
           target: 'busybox:latest'
@@ -472,7 +476,7 @@ job_example:
   permissions:
     id-token: write
   steps:
-    - name: gensbom attest
+    - name: valint attest
     uses: scribe-security/action-bom@master
     with:
         target: 'busybox:latest'
@@ -486,10 +490,10 @@ job_example:
 Verify targets against a signed attestation. <br />
 
 Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
-Gensbom will look for both a bom or slsa attestation to verify against.  <br />
+valint will look for both a bom or slsa attestation to verify against.  <br />
 
 ```YAML
-- name: gensbom verify
+- name: valint verify
   uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
@@ -503,10 +507,10 @@ Gensbom will look for both a bom or slsa attestation to verify against.  <br />
 Verify targets against a signed attestation. <br />
 
 Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
-Gensbom will look for both a bom or slsa attestation to verify against. <br />
+Tool will look for sbom or slsa attestation to verify against. <br />
 
 ```YAML
-- name: gensbom verify
+- name: valint verify
   uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
@@ -521,7 +525,7 @@ Gensbom will look for both a bom or slsa attestation to verify against. <br />
 Full job example of a image signing and verifying flow.
 
 ```YAML
-gensbom-busybox-test:
+valint-busybox-test:
   runs-on: ubuntu-latest
   permissions:
     contents: read
@@ -533,8 +537,8 @@ gensbom-busybox-test:
       with:
         fetch-depth: 0
 
-    - name: gensbom attest
-      id: gensbom_attest
+    - name: valint attest
+      id: valint_attest
       uses: scribe-security/action-bom@master
       with:
           target: 'busybox:latest'
@@ -542,8 +546,8 @@ gensbom-busybox-test:
           format: attest
           force: true
 
-    - name: gensbom verify
-      id: gensbom_verify
+    - name: valint verify
+      id: valint_verify
       uses: scribe-security/action-verify@master
       with:
           target: 'busybox:latest'
@@ -551,8 +555,8 @@ gensbom-busybox-test:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: gensbom-busybox-test
-        path: scribe/gensbom
+        name: valint-busybox-test
+        path: scribe/valint
 ``` 
 
 </details>
@@ -563,7 +567,7 @@ gensbom-busybox-test:
 Full job example of a image signing and verifying flow.
 
 ```YAML
-gensbom-busybox-test:
+valint-busybox-test:
   runs-on: ubuntu-latest
   permissions:
     contents: read
@@ -575,8 +579,8 @@ gensbom-busybox-test:
       with:
         fetch-depth: 0
 
-    - name: gensbom attest slsa
-      id: gensbom_attest
+    - name: valint attest slsa
+      id: valint_attest
       uses: scribe-security/action-bom@master
       with:
           target: 'busybox:latest'
@@ -584,8 +588,8 @@ gensbom-busybox-test:
           format: attest-slsa
           force: true
 
-    - name: gensbom verify attest slsa
-      id: gensbom_verify
+    - name: valint verify attest slsa
+      id: valint_verify
       uses: scribe-security/action-verify@master
       with:
           target: 'busybox:latest'
@@ -594,8 +598,8 @@ gensbom-busybox-test:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: gensbom-busybox-test
-        path: scribe/gensbom
+        name: valint-busybox-test
+        path: scribe/valint
 ``` 
 
 </details>
@@ -606,7 +610,7 @@ gensbom-busybox-test:
 Full job example of a directory signing and verifying flow.
 
 ```YAML
-gensbom-dir-test:
+valint-dir-test:
   runs-on: ubuntu-latest
   permissions:
     contents: read
@@ -618,8 +622,8 @@ gensbom-dir-test:
       with:
         fetch-depth: 0
 
-    - name: gensbom attest workdir
-      id: gensbom_attest_dir
+    - name: valint attest workdir
+      id: valint_attest_dir
       uses: scribe-security/action-bom@master
       with:
           type: dir
@@ -628,8 +632,8 @@ gensbom-dir-test:
           format: attest
           force: true
 
-    - name: gensbom verify workdir
-      id: gensbom_verify_dir
+    - name: valint verify workdir
+      id: valint_verify_dir
       uses: scribe-security/action-verify@master
       with:
           type: dir
@@ -638,9 +642,9 @@ gensbom-dir-test:
     
     - uses: actions/upload-artifact@v2
       with:
-        name: gensbom-workdir-evidence
+        name: valint-workdir-evidence
         path: |
-          scribe/gensbom      
+          scribe/valint      
 ``` 
 
 </details>
@@ -652,7 +656,7 @@ Full job example of a git repository signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
 
 ```YAML
-gensbom-dir-test:
+valint-dir-test:
   runs-on: ubuntu-latest
   permissions:
     contents: read
@@ -664,8 +668,8 @@ gensbom-dir-test:
       with:
         fetch-depth: 0
 
-    - name: gensbom attest local repo
-      id: gensbom_attest_dir
+    - name: valint attest local repo
+      id: valint_attest_dir
       uses: scribe-security/action-bom@master
       with:
           type: git
@@ -674,8 +678,8 @@ gensbom-dir-test:
           format: attest
           force: true
 
-    - name: gensbom verify local repo
-      id: gensbom_verify_dir
+    - name: valint verify local repo
+      id: valint_verify_dir
       uses: scribe-security/action-verify@master
       with:
           type: git
@@ -684,25 +688,25 @@ gensbom-dir-test:
     
     - uses: actions/upload-artifact@v3
       with:
-        name: gensbom-git-evidence
+        name: valint-git-evidence
         path: |
-          scribe/gensbom      
+          scribe/valint      
 ``` 
 
 </details>
 
 <details>
-  <summary> Install gensbom (tool) </summary>
+  <summary> Install valint (tool) </summary>
 
-Install gensbom as a tool
+Install valint as a tool
 ```YAML
-- name: install gensbom
+- name: install valint
   uses: scribe-security/action-installer@master
 
-- name: gensbom run
+- name: valint run
   run: |
-    gensbom --version
-    gensbom busybox:latest -vv
+    valint --version
+    valint bom busybox:latest -vv
 ``` 
 </details>
 

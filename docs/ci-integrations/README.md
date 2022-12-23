@@ -5,54 +5,52 @@ description: Setting up your Continuous Integration (CI)
 
 # Setting up Scribe protection in your CI pipeline
 
-Adding Scribe Hub code snippets to your Continuous Integration (CI) pipeline automates the process of generating SBOMs and analysis reports for your builds.
+Adding Scribe's code snippets to your Continuous Integration (CI) pipeline automates the process of generating SBOMs and analysis reports for your builds. You may also use Scribe's tool to generate SLSA provenance for your final artifact.
 
-The following scheme demonstrates the points on your CI pipeline to enter the Scribe Hub code snippets:
+The following scheme demonstrates the points on your CI pipeline to enter the code snippets calling Scribe's tool:
 
 ![Two points on a generic pipeline to enter scribe code snippets](../../static/img/ci/ci_diagram.jpg "Two points on a generic pipeline to enter scribe code snippets")
 
 
-Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following CLI tools: 
-* **Gensbom**: An SBOM Generator 
-* **Valint**: A validator and integrity checker for your Node.js projects and NPM files/packages. It's used to download the integrity report created by the Scribe system.
+Scribe installation includes a Command Line Interpreter (CLI) tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance. 
 
-## Gensbom - Creating your SBOM
-*Gensbom* is the Scribe tool used to collect evidence and generate an SBOM.
+## Creating an SBOM and collecting evidence
 
-The simplest integration is to automate calling *Gensbom* to collect evidence of the repository and create an SBOM of the final image. The evidence and SBOM are then automatically uploaded to Scribe Hub. 
-While *Gensbom* does have other capabilities and CLI options, we will focus on its basic usage.
+The simplest integration is to automate calling *Valint* to collect evidence of the repository and create an SBOM of the final artifact. Scribe currently supports collecting evidence from the following entities:
+* An image - Image formats supported are currently docker manifest v2 and Oracle Cloud Infrastructure (OCI). An image is the most common final artifact.
+* A folder
+* A file
+* A GIT repository - A remote/local GIT repository   
 
+Once you generate the evidence in the pipeline it is then automatically uploaded to Scribe Hub. 
+While *Valint* does have other capabilities and CLI options, we will focus on its basic usage.
 <!--You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").-->
-<!-- 
-## Valint - Fetching your integrity report
 
-*Valint* is a Scribe tool used to validate the code integrity of your project and open-source dependencies.  
+## Generating SLSA provenance
 
-[Here's](../CLI/valint/report "Valint report") an example of a `valint` report. The important information would be in __source_code > summary__ and __open_source > summary__. Essentially, you'll see how many files/packages were there, and how many of those were validated. It's up to you to decide how many mismatched or modified files are still considered OK for your particular build. 
+At this time Scribe's tool can be used to collect SLSA provenance only from a GitHub pipeline. To collect this provenance you'll need to connect the Scribe GitHub app to your GitHub organizational account and add the appropriate code snippet to your GitHub repositories' pipeline. You can find more details on the [Github](../ci-integrations/github "GitHub") integration quick-start page.
 
-Currently, our release validates only Node.js projects and NPM files/packages (dependencies).
-Integrity validation is based on evidence collected from your pipeline.
-At the end of your pipeline run you may decide to accept or fail a build, depending on the integrity analysis result reported by Scribe as downloaded by *Valint*. Using *Valint* is ___optional___ and completely at your discretion. 
+## Where to place Scribe's Code in your pipeline 
+For the SBOM generation, these are the two points for adding the code snippet:
+* **Source Code Checkout**: Collects evidence of your source code files after checkout. This is an important but ___optional___ point. It's used to generate an integrity report for Node.js projects and NPM files/packages.
 
-You can read more about *Valint* [here](../CLI/valint "Valint documentation"). -->
+* **Final built artifact**: Generates an SBOM right after the final artifact is created. This is the main and ___mandatory___ point. 
 
+Note that you can generate an SBOM for various other entities as stated earlier. You can save and use these SBOMs at your discretion.
 
-## Where to place Scribe Code in your pipeline 
-Regarding *Gensbom*, these are the two points for adding the code snippet:
-* **Source Code Checkout**: Collects evidence of your Node.js source code files after checkout. This is an important but ___optional___ point.
+Regarding SLSA provenance generation, if relevant, it would be placed after the final artifact is created. 
 
-* **Final built image**: Generates an SBOM right after the final image is created. This is the main and ___mandatory___ point.
-
-Regarding *Valint*, you would probably want to call it at the end of your pipeline, after all the other tests have passed/failed. You can choose to use the *Valint* report as an additional data point for a Build pass/fail decision. 
-
-___Note___ that if you do not collect evidence about your source code using *Gensbom*, you cannot get integrity information about your code. You can get integrity information about your NPM dependencies regardless of localized evidence collection.   
+___Note___ that if you do not collect evidence about your source code, you cannot get integrity information about your code. You can get integrity information about your NPM dependencies regardless of localized evidence collection.   
 
 ## Supported CIs
 
 Currently, Scribe natively supports the following CI setups:
 * [Jenkins](../ci-integrations/jenkins "Jenkins"). 
-* [Github Actions](../ci-integrations/github "GitHub actions").
-* [GitLab](../ci-integrations/gitlabci "GitLab").
+* [Github](../ci-integrations/github "GitHub").
+* [GitLab](../ci-integrations/gitlabci "GitLab CI").
+* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
+* [Azure](../ci-integrations/azure "Azure").
+* [CircleCI](../ci-integrations/circleci "CircleCI").
+* [Travis](../ci-integrations/travis "Travis").
 
-If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions").  
-
+If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions"). 

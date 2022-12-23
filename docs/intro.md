@@ -31,7 +31,7 @@ Scribe allows you to connect to the Hub as many projects/pipelines as you want.
 ## Trying out Scribe
 
 You can try Scribe by downloading a small [sample project](/docs/sampleproject  "sample project").
-The Instructions will walk you through the process of setting up the sample node.js project, downloading the Scribe tool, `gensbom`, and running it in your Command Line Interpreter (CLI) to create an SBOM and an integrity report.
+The Instructions will walk you through the process of setting up the sample node.js project, downloading the Scribe tool, `valint`, and running it in your Command Line Interpreter (CLI) to create an SBOM and an integrity report.
 
 
 
