@@ -107,7 +107,7 @@ pipeline {
     stage('sbom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -129,7 +129,7 @@ pipeline {
     stage('image-bom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest'
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
