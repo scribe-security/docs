@@ -89,7 +89,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   context-dir:
     description: 'Context dir' 
   components:
-    description: 'Select sbom components groups, options=[metadata layers packages syft files dep commits] (default [metadata,layers,packages,syft,files,dep,commits]'
+    description: 'Select sbom components groups, options=[metadata layers packages syft files dep commits]'
 ```
 
 ### Output arguments
@@ -271,8 +271,8 @@ Custom private registry, output verbose (debug level) log output.
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
+Custom metadata added to SBOM.
+
 ```YAML
 - name: Generate cyclonedx json SBOM - add metadata - labels, envs, name
   id: gensbom_labels
@@ -296,7 +296,7 @@ Data will be included in the signed payload when the output is an attestation.
 
 Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
 
-> Use action `output-path: <my_custom_path>` input argument to set a custom output path.
+> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
@@ -304,12 +304,18 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
   uses: scribe-security/action-bom@master
   with:
     target: 'busybox:latest'
+    output-file: my_sbom.json
     format: json
 
 - uses: actions/upload-artifact@v2
   with:
-    name: gensbom-busybox-output-test
+    name: scribe-sbom
     path: ${{ steps.gensbom_json.outputs.OUTPUT_PATH }}
+
+- uses: actions/upload-artifact@v2
+  with:
+    name: scribe-evidence
+    path: scribe/
 ``` 
 </details>
 
@@ -318,7 +324,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
 
 Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact.
 
-> Use action `output-path: <my_custom_path>` input argument to set a custom output path.
+> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
 - name: Generate SLSA provenance statement

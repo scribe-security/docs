@@ -169,9 +169,7 @@ Create SBOM for image hosted on private registry.
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
-
+Custom metadata added to SBOM.
 ```YAML
 valint_image_job:
   variables:

@@ -199,9 +199,7 @@ Create SBOM for image hosted on private registry.
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
-Custom metadata added to SBOM
-Data will be included in the signed payload when the output is an attestation.
-
+Custom metadata added to SBOM.
 ```YAML
 - step:
     name: valint-image-step
@@ -221,9 +219,10 @@ Data will be included in the signed payload when the output is an attestation.
 <details>
   <summary> Save as artifact (SBOM, SLSA) </summary>
 
-Using command `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
+Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
 
-> Use `FORMAT` to select between the format.
+> Use input variable `FORMAT` to select between the format, .
+
 
 ```YAML
 - step:
