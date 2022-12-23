@@ -38,7 +38,10 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # ATTESTATION: '<string>' # Optional
 ```
 
-## Variables
+<details>
+<summary> <b> Bitbucket Scribe Variables </b>
+  </summary>
+<h3>  Variables </h3>
 
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
@@ -66,6 +69,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | SCRIBE_CLIENT_SECRET |  Scribe access token | | any |
 | ATTESTATION | Attestation for target  | | verify |
 (*) = required variable.
+</details>
 
 ## Usage
 ```yaml
