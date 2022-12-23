@@ -36,13 +36,13 @@ These are the two points for adding Scribe Hub code:
 * **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
 
 ```
-$HOME/.scribe/bin/valint valint bom dir:<path> --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID \
+$HOME/.scribe/bin/valint bom dir:<path> --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID \
 --scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
-   $HOME/.scribe/bin/valint valint bom <your_docker_repository:tag> --product-key=$PRODUCT_KEY \
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --product-key=$PRODUCT_KEY \
 --scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```
 

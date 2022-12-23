@@ -41,7 +41,7 @@ Try out Scribe with our sample open-source Node.js project by following these st
 1. Run `valint` locally to collect hash value evidence of the source code files
 
       ```sh
-      $HOME/.scribe/bin/valint valint bom dir:image-demo --product-key=$PRODUCT_KEY \
+      $HOME/.scribe/bin/valint bom dir:image-demo --product-key=$PRODUCT_KEY \
       --scribe.client-id=$CLIENT_ID \
       --scribe.client-secret=$CLIENT_SECRET -E -f -v
       ```
@@ -55,7 +55,7 @@ Try out Scribe with our sample open-source Node.js project by following these st
 5. Run `valint` locally to collect hash value evidence about your docker image
 
     ```sh
-    $HOME/.scribe/bin/valint valint bom image-demo:latest --product-key=$PRODUCT_KEY \ 
+    $HOME/.scribe/bin/valint bom image-demo:latest --product-key=$PRODUCT_KEY \
     --scribe.client-id=$CLIENT_ID \
     --scribe.client-secret=$CLIENT_SECRET -E -f -v  
     ```
