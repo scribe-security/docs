@@ -120,8 +120,10 @@ pipelines:
 <details>
   <summary>  Scribe integrity </summary>
 
-Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
-Verifying the  target integrity on Scribe.
+A full working example of a workflow - upload evidence on source code and on the final built image to Scribe.<br /> 
+Verifying the target integrity on Scribe.<br />
+This example workflow uses the public repository of the mongo-express project to demonstrate Scribe's capability to verify the integrity of a build product. <br />
+
 
   ```YAML
 pipelines:
@@ -306,7 +308,7 @@ If you're new to Bitbucket pipelines this link should help you get started:
 
 ## Support
 
-If you'd like help with this pipe, or you have an issue or feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
+If you'd like help with this pipe, or you have an issue or a feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
 
 If you are reporting an issue, please include:
 
