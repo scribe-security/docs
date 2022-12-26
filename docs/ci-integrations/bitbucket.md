@@ -36,6 +36,9 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # SCRIBE_CLIENT_ID: '<string>' # Optional
     # SCRIBE_CLIENT_SECRET: '<string>' # Optional
     # ATTESTATION: '<string>' # Optional
+    # COMPONENTS: '<string>' # Optional
+    # OCI: '<boolean>' # Optional
+    # OCI_REPO: '<string>' # Optional
 ```
 
 <details>
@@ -68,6 +71,9 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | SCRIBE_CLIENT_ID | Scribe client id | | any |
 | SCRIBE_CLIENT_SECRET |  Scribe access token | | any |
 | ATTESTATION | Attestation for target  | | verify |
+| COMPONENTS | Select sbom components groups, options=[metadata layers packages files dep]  | | bom |
+| OCI | Enable OCI store  | | any |
+| OCI_REPO | Select OCI custom attestation repo  | | any |
 (*) = required variable.
 </details>
 

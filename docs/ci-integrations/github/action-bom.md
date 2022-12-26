@@ -90,6 +90,11 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: 'Context dir' 
   components:
     description: 'Select sbom components groups, options=[metadata layers packages syft files dep commits]'
+  oci:
+    description: 'Enable OCI store'
+    default: false
+  oci-repo:
+    description: 'Select OCI custom attestation repo'
 ```
 
 ### Output arguments
