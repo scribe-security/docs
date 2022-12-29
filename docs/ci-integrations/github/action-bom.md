@@ -716,10 +716,10 @@ valint-dir-test:
 <details>
   <summary> Store evidence on OCI (SBOM,SLSA) </summary>
 
-Store any evidence on any OCI registry.
+Store any evidence on any OCI registry. <br />
 Support storage for all targets and both SBOM and SLSA evidence formats.
 
-> Use input variable `format` to select between supported formats.
+> Use input variable `format` to select between supported formats. <br />
 > Write permission to `oci-repo` is required. 
 
 ```YAML
@@ -759,7 +759,7 @@ Following command can be used to verify a target over the OCI store.
 valint verify busybox:latest -vv -f --oci --oci-repo=$REGISTRY_URL/attestations
 ```
 
-> Use `--input-format` to select between supported formats.
+> Use `--input-format` to select between supported formats. <br />
 > Read permission to `oci-repo` is required. 
 
 </details>
