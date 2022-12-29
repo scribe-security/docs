@@ -269,14 +269,12 @@ Custom private registry, output verbose (debug level) log output.
 env:
   DOCKER_CONFIG: $HOME/.docker
 steps:
-
   - name: Login to GitHub Container Registry
     uses: docker/login-action@v2
     with:
-      registry: ${{ env.ARTIFACTORY_URL }}
-      username: ${{ secrets.DEMO_ARTIFACTORY_USERNAME }}
-      password: ${{ secrets.DEMO_ARTIFACTORY_TOKEN }}
-
+      registry: ${{ env.REGISTRY_URL }}
+      username: ${{ secrets.REGISTRY_USERNAME }}
+      password: ${{ secrets.REGISTRY_TOKEN }}
 
   - name: Generate cyclonedx json SBOM
     uses: scribe-security/action-bom@master
@@ -710,6 +708,59 @@ valint-dir-test:
         path: |
           scribe/valint      
 ``` 
+
+</details>
+
+
+
+<details>
+  <summary> Store evidence on OCI (SBOM,SLSA) </summary>
+
+Store any evidence on any OCI registry.
+Support storage for all targets and both SBOM and SLSA evidence formats.
+
+> Use input variable `format` to select between supported formats.
+> Write permission to `oci-repo` is required. 
+
+```YAML
+valint-dir-test:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+    id-token: write
+  env:
+    DOCKER_CONFIG: $HOME/.docker
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+
+      - uses: scribe-security/action-bom@dev
+        id: valint_attest_slsa
+        with:
+          target: busybox:latest
+          verbose: 2
+          force: true
+          format: attest
+          oci: true
+          oci-repo: ${{ env.REGISTRY_URL }}/attestations    
+``` 
+
+Following command can be used to verify a target over the OCI store.
+```yaml
+valint verify busybox:latest -vv -f --oci --oci-repo=$REGISTRY_URL/attestations
+```
+
+> Use `--input-format` to select between supported formats.
+> Read permission to `oci-repo` is required. 
 
 </details>
 
