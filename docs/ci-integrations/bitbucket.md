@@ -12,7 +12,7 @@ Scribe support evidence collecting and integrity verification for Bitbucket pipe
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-- pipe: scribe-security/valint-pipe:0.1.4
+- pipe: scribe-security/valint-pipe:0.1.1
   variables:
     COMMAND_NAME: "<string>"
     TARGET: "<string>"
@@ -41,10 +41,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # OCI_REPO: '<string>' # Optional
 ```
 
-<details>
-<summary> <b> Bitbucket Scribe Variables </b>
-  </summary>
-<h3>  Variables </h3>
+##  Variables
 
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
@@ -75,11 +72,10 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | OCI | Enable OCI store  | | any |
 | OCI_REPO | Select OCI custom attestation repo  | | any |
 (*) = required variable.
-</details>
 
 ## Usage
 ```yaml
- - pipe: scribe-security/valint-pipe:0.1.4
+ - pipe: scribe-security/valint-pipe:0.1.1
    variables:
     COMMAND_NAME: bom
     TARGET: busybox:latest
@@ -97,7 +93,7 @@ Integrating Scribe Hub with Bitbucket Pipeline requires the following credential
 >Note that the product key is unique per product, while the client ID and secret are unique for your account.
 
 ## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
+Scribe provides a set of services to store, verify and manage the supply chain integrity.
 Following are some integration examples.
 
 ## Procedure
@@ -114,7 +110,7 @@ pipelines:
     - step:
         name: scribe-bitbucket-pipeline
         script:      
-          - pipe: scribe-security/valint-pipe:0.1.4
+          - pipe: scribe-security/valint-pipe:0.1.1
             variables:
               COMMAND_NAME: bom
               TARGET: busybox:latest 
@@ -123,29 +119,28 @@ pipelines:
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 
-<details>
-  <summary>  Scribe integrity </summary>
+## Scribe integrity
 
-A full working example of a workflow - upload evidence on source code and on the final built image to Scribe.<br /> 
-Verifying the target integrity on Scribe.<br />
-This example workflow uses the public repository of the mongo-express project to demonstrate Scribe's capability to verify the integrity of a build product. <br />
+A full working example of a workflow - upload evidence on source code and on the final built image to Scribe.
+Verifying the target integrity on Scribe.
+This example workflow uses the public repository of the mongo-express project to demonstrate Scribe's capability to verify the integrity of a build product.
 
 
-  ```YAML
+```YAML
 pipelines:
   default:
     - step:
         name: scribe-bitbucket-simple-test
         script:      
           - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-          - pipe: scribe-security/valint-pipe:0.1.4
+          - pipe: scribe-security/valint-pipe:0.1.1
             variables:
               COMMAND_NAME: bom
               TARGET: dir:mongo-express-scm
               PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          - pipe: scribe-security/valint-pipe:0.1.4
+          - pipe: scribe-security/valint-pipe:0.1.1
             variables:
               COMMAND_NAME: bom
               TARGET: "mongo-express:1.0.0-alpha.4" 
@@ -153,19 +148,16 @@ pipelines:
               PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-  ```
-</details>
-
+```
 
 ## Basic examples
 
-<details>
-  <summary>  Public registry image (SBOM) </summary>
+### Public registry image (SBOM)
 
 Create SBOM from remote `busybox:latest` image.
 
 ```YAML
-  - pipe: scribe-security/valint-pipe:0.1.4
+  - pipe: scribe-security/valint-pipe:0.1.1
       variables:
         COMMAND: bom
         TARGET: busybox:latest
@@ -173,43 +165,35 @@ Create SBOM from remote `busybox:latest` image.
         FORCE: "true"
 ``` 
 
-</details>
-
-
-<details>
-  <summary>  Docker built image (SBOM) </summary>
+###  Docker built image (SBOM)
 
 Create SBOM for image built by local docker `image_name:latest` image.
 
 ```YAML
-- pipe: scribe-security/valint-pipe:0.1.4
+- pipe: scribe-security/valint-pipe:0.1.1
   variables:
     COMMAND: bom
     TARGET: image_name:latest
     VERBOSE: 2
     FORCE: "true"
 ``` 
-</details>
 
-<details>
-  <summary>  Private registry image (SBOM) </summary>
+###  Private registry image (SBOM)
 
 Create SBOM for image hosted on private registry.
 
 > Use `docker login` to add access.
 
 ```YAML
-- pipe: scribe-security/valint-pipe:0.1.4
+- pipe: scribe-security/valint-pipe:0.1.1
   variables:
     COMMAND: bom
     TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
     FORCE: true
     VERBOSE: 2
 ```
-</details>
 
-<details>
-  <summary>  Custom metadata (SBOM) </summary>
+###  Custom metadata (SBOM)
 
 Custom metadata added to SBOM.
 ```YAML
@@ -226,10 +210,8 @@ Custom metadata added to SBOM.
           ENV: test_env
           LABEL: test_label
 ```
-</details>
 
-<details>
-  <summary> Save as artifact (SBOM, SLSA) </summary>
+### Save as artifact (SBOM, SLSA)
 
 Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
 
@@ -251,10 +233,8 @@ Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as a
       - scribe/**
       - my_sbom.json
 ```
-</details>
 
-<details>
-  <summary> Directory target (SBOM) </summary>
+### Directory target (SBOM)
 
 Create SBOM from a local directory. 
 
@@ -264,7 +244,7 @@ step:
   script:
   - mkdir testdir
   - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:0.1.4
+  - pipe: scribe-security/valint-pipe:0.1.1
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
@@ -273,10 +253,8 @@ step:
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
       VERBOSE: 2
 ``` 
-</details>
 
-<details>
-  <summary> Git target (SBOM) </summary>
+### Git target (SBOM)
 
 Create SBOM for `mongo-express` remote git repository.
 
@@ -292,7 +270,7 @@ Create SBOM for `mongo-express` remote git repository.
           FORCE: "true"
 ``` 
 
-Create SBOM for local git repository. <br />
+Create SBOM for local git repository.
 
 ```YAML
     - step:
@@ -306,7 +284,6 @@ Create SBOM for local git repository. <br />
               VERBOSE: 2
               FORCE: "true"
 ``` 
-</details>
 
 ## Resources
 If you're new to Bitbucket pipelines this link should help you get started:

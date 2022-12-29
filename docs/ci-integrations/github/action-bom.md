@@ -263,13 +263,27 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
 
 Custom private registry, output verbose (debug level) log output.
 
+> `DOCKER_CONFIG` environment will allow the containerized action to access the private registry.
+
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
-  with:
-    target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
-    verbose: 2
-    force: true
+env:
+  DOCKER_CONFIG: $HOME/.docker
+steps:
+
+  - name: Login to GitHub Container Registry
+    uses: docker/login-action@v2
+    with:
+      registry: ${{ env.ARTIFACTORY_URL }}
+      username: ${{ secrets.DEMO_ARTIFACTORY_USERNAME }}
+      password: ${{ secrets.DEMO_ARTIFACTORY_TOKEN }}
+
+
+  - name: Generate cyclonedx json SBOM
+    uses: scribe-security/action-bom@master
+    with:
+      target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
+      verbose: 2
+      force: true
 ```
 </details>
 
@@ -279,7 +293,7 @@ Custom private registry, output verbose (debug level) log output.
 Custom metadata added to SBOM.
 
 ```YAML
-- name: Generate cyclonedx json SBOM - add metadata - labels, envs, name
+- name: Generate cyclonedx json SBOM - add metadata - labels, envs
   id: valint_labels
   uses: scribe-security/action-bom@master
   with:
@@ -287,7 +301,6 @@ Custom metadata added to SBOM.
       verbose: 2
       format: json
       force: true
-      name: name_value
       env: test_env
       label: test_label
   env:
