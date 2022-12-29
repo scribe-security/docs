@@ -726,8 +726,6 @@ Support storage for all targets and both SBOM and SLSA evidence formats.
 valint-dir-test:
   runs-on: ubuntu-latest
   permissions:
-    contents: read
-    packages: write
     id-token: write
   env:
     DOCKER_CONFIG: $HOME/.docker
