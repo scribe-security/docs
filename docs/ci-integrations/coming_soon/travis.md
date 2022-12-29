@@ -28,7 +28,6 @@ jobs:
         - export PATH=$PATH:$PWD/bin/
       env: test_env=test_env_value
       script:
-
         - |
           valint bom busybox:latest \
               --context-type travis \
