@@ -742,7 +742,7 @@ valint-dir-test:
           password: ${{ secrets.REGISTRY_TOKEN }}
 
       - uses: scribe-security/action-bom@dev
-        id: valint_attest_slsa
+        id: valint_attest
         with:
           target: busybox:latest
           verbose: 2
