@@ -217,7 +217,7 @@ title: Bitbucket
 sidebar_position: 4
 ---
 " > "${dst_dir}/bitbucket.md"
-    echo ${repo}/README.md >>  "${dst_dir}/bitbucket.md"
+    echo ${repo_dir}/README.md >>  "${dst_dir}/bitbucket.md"
     # import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
