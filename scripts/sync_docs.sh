@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
@@ -209,15 +208,15 @@ export_misc() {
     export_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
 }
 
-import_bitbucket-pipe() {
-    repo="bitbucket-pipe"
+import_valint-pipe() {
+    repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
     import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
-export_bitbucket-pipe() {
-    repo="bitbucket-pipe"
+export_valint-pipe() {
+    repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
