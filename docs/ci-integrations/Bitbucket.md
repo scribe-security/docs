@@ -1,8 +1,3 @@
----
-sidebar_position: 4
-title: Bitbucket
----
-
 # Bitbucket Pipelines Pipe: Scribe evidence generator
 
 Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
@@ -46,8 +41,8 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
 | COMMAND_NAME (*) | Name of the command to execute (bom, verify) | | |
-| TARGET (*) |  Target object name format=[docker:{image:tag}, dir:{dir_path}, git:{git_path}, docker-archive:{archive_path}, oci-archive:archive_path, registry:image:tag] | | any |
-| VERBOSE | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug' | | any |
+| TARGET (*) |  Target object name format=`[docker:{image:tag}, dir:{dir_path}, git:{git_path}, docker-archive:{archive_path}, oci-archive:archive_path, registry:image:tag`] | | any |
+| VERBOSE | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | | any |
 | CONFIG | Config of the application | | any |
 | FORMAT | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | | bom |
 | INPUT_FORMAT | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | | verify |
@@ -215,7 +210,7 @@ Custom metadata added to SBOM.
 
 Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
 
-> Use input variable `FORMAT` to select between the format, .
+> Use input variable `FORMAT` to select between supported formats.
 
 
 ```YAML
@@ -287,7 +282,8 @@ Create SBOM for local git repository.
 
 ## Resources
 If you're new to Bitbucket pipelines this link should help you get started:
-* [Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
+
+[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
 
 ## Support
 
@@ -299,8 +295,8 @@ If you are reporting an issue, please include:
 - relevant logs and error messages
 - steps to reproduce
 
-By email or slack.
-[Contact-us] (https://scribesecurity.com/contact-us/)
+By email or slack, 
+[Contact-us](https://scribesecurity.com/contact-us/).
 
 ## License
 
