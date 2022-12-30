@@ -227,7 +227,7 @@ export_valint-pipe() {
     dst_dir="docs/ci-integrations/"
     
     # Hack to remove header not supported by bitbucket
-    sed -n '/^# Bitbucket Pipelines Pipe:/,$p' "${dst_dir}/bitbucket.md" > ${repo}/README.md    
+    sed -n '/^# Bitbucket Pipelines Pipe:/,$p' "${dst_dir}/bitbucket.md" > ${repo_dir}/README.md    
     # export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
