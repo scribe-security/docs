@@ -274,7 +274,7 @@ import_cli() {
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp -r "docs/CLI/${repo}/*" "${repo_dir}/docs"
+    cp -r "docs/CLI/${repo}/docs" "${repo_dir}"
     mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
 }
 
