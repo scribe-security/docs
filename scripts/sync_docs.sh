@@ -212,14 +212,23 @@ import_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+    echo "---
+title: Bitbucket
+sidebar_position: 4
+---
+" > "${dst_dir}/bitbucket.md"
+    echo ${repo}/README.md >>  "${dst_dir}/bitbucket.md"
+    # import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
 export_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+    
+    # Hack to remove header not supported by bitbucket
+    sed -n '/^# Bitbucket Pipelines Pipe:/,$p' "${dst_dir}/bitbucket.md" > ${repo}/README.md    
+    # export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
 import_orbs() {
