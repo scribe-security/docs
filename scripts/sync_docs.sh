@@ -212,6 +212,8 @@ import_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
+
+    # Hack to remove header not supported by bitbucket
     echo "---
 title: Bitbucket
 sidebar_position: 4
@@ -263,14 +265,23 @@ import_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    import_file_rename ${repo} "" "${dst_dir}/azure.md"
+
+    # Hack to remove header not supported by bitbucket
+    echo "---
+title: Azure-DevOps
+sidebar_position: 4
+---
+" > "${dst_dir}/azure.md"
+    echo ${repo_dir}/README.md >>  "${dst_dir}/azure.md"
+    # import_file_rename ${repo} "" "${dst_dir}/azure.md"
 }
 
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    export_file_rename ${repo} "" "${dst_dir}/azure.md"
+
+    sed -n '/^# Azure DevOps pipeline/,$p' "${dst_dir}/coming_soon/azure.md" > ${repo_dir}/README.md    
 }
 
 import_cli() {
