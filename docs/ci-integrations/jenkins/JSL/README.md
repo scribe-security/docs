@@ -473,9 +473,12 @@ bom(target: "busybox:latest",
 
 
 <details>
-  <summary> Save SBOM as artifact </summary>
+  <summary>  Save as artifact (SBOM, SLSA) </summary>
 
-Using action `output_path` you can access the generated SBOM and store it as an artifact.
+Using input variable `output_directory` or `output_file` to export evidence as an artifact.
+
+> Use input variable `format` to select between supported formats.
+
 ```YAML
 bom(target: "busybox:latest", 
     verbose: 2,

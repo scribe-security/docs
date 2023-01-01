@@ -308,7 +308,7 @@ Custom metadata added to SBOM.
 
 
 <details>
-  <summary> Save as artifact (SBOM) </summary>
+  <summary> Save as artifact (SBOM, SLSA) </summary>
 
 Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
 

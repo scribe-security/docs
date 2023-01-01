@@ -186,9 +186,11 @@ Custom metadata added to SBOM.
 </details>
 
 <details>
-  <summary> Save SBOM as artifact </summary>
+  <summary>  Save as artifact (SBOM, SLSA) </summary>
 
-Using input variables `output-directory` or `output-file` to export evidence as an artifact.
+Using input variable `outputDirectory` or `outputFile` to export evidence as an artifact.
+
+> Use input variable `format` to select between supported formats.
 
 ```YAML
 - task: ValintCli@0
