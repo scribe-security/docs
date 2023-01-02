@@ -281,7 +281,7 @@ export_azure-tasks() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
 
-    sed -n '/^# Azure DevOps pipeline/,$p' "${dst_dir}/coming_soon/azure.md" > ${repo_dir}/README.md    
+    sed -n '/^# Azure DevOps pipeline/,$p' "${dst_dir}/azure.md" > ${repo_dir}/README.md    
 }
 
 import_cli() {
