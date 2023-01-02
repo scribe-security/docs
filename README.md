@@ -133,3 +133,4 @@ Note: if don't need the updates in your feature branch you don't need to do this
 Rebasing dev may require to solve some conflicts if updated dev files are also changed in the feature branch.
 2) Force publish feature branch
 ```git push -f origin dev-preview/<feature_name>```
+
