@@ -78,4 +78,4 @@ The `verify` command's default value of the `-i` flag is `attest` so you can omi
    Note the `Verify - Success` at the end - that's what we're looking to see.
 
 ## GitHub Actions
-   Scribe has added all these options of our *Valint* tool to GitHub as actions. Too learn more about it and to see how you may use them you can go to [this link](ci-integrations/github "GitHub"). 
+   Scribe has added all these options of our *Valint* tool to GitHub as actions. To learn more about it and to see how you may use them you can go to [this link](ci-integrations/github "GitHub"). 
