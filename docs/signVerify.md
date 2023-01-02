@@ -31,12 +31,18 @@ An attestation is cryptographically signed piece of evidence. It's a mechanism f
    ```sh
    $HOME/.scribe/bin/valint bom busybox:latest -o attest -v -f
    ```
+   Note that you can also create a SLSA provenance attestation from the same evidence:
+   ```sh
+   $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -v -f
+   ```
 
-   Since *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") as the engine behind the signing mechanism, once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
+   By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
    
    <img src='../../../img/ci/bomAttest.jpg' alt='Approve Signing'/>
 
-   Assuming you approve you'll need to log in to *Sigstore* from your browser using either your GitHub account, your Google account, or your Microsoft account:
+   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, or x509 (public key certificates). You can check out the configuration file [here](ci-integrations/github/docs/configuration.md "Configuration file") or at the source, [here](https://github.com/scribe-security/action-bom). 
+
+   Assuming you approve, you'll be directed to *Sigstore* in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 
    <img src='../../../img/ci/sigstore.jpg' alt='Log in to Sigstore' width='50%' min-width='500px'/>
 
@@ -44,7 +50,7 @@ An attestation is cryptographically signed piece of evidence. It's a mechanism f
 
    <img src='../../../img/ci/sigstoreSuccess.jpg' alt='Sigstore Auth Successful' width='50%' min-width='400px'/>
 
-   at which point you can close the page and go back to your Shell
+   at which point you can close the browser page and go back to your Shell
 
    <img src='../../../img/ci/attestS.jpg' alt='Attest Successful'/>
 
@@ -63,6 +69,7 @@ So, if we want to verify the `busybox:latest` image we have signed in the previo
    ```sh
    $HOME/.scribe/bin/valint verify busybox:latest -i attest -v
    ```
+The `verify` command's default value of the `-i` flag is `attest` so you can omit it if you want.
 
    The result should look like this:
 
