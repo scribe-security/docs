@@ -36,11 +36,11 @@ An attestation is cryptographically signed piece of evidence. It's a mechanism f
    $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -v -f
    ```
 
-   By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
+   By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
    
    <img src='../../../img/ci/bomAttest.jpg' alt='Approve Signing'/>
 
-   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, or x509 (public key certificates). You can check out the configuration file [here](ci-integrations/github/docs/configuration.md "Configuration file") or at the source, [here](https://github.com/scribe-security/action-bom). 
+   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, x509 (public key certificates) or KMS (key management system). You can check out the configuration file [here](ci-integrations/github/docs/configuration.md "Configuration file").
 
    Assuming you approve, you'll be directed to *Sigstore* in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 
