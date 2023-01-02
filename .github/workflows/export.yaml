@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
-        repo: ["gensbom", "valint", "action-bom", "action-verify", "action-report", "action-installer", "JSL", "misc", "orbs", "azure-tasks", "helm-charts", "bitbucket-pipe"]
+        repo: ["gensbom", "valint", "action-bom", "action-verify", "action-report", "action-installer", "JSL", "misc", "orbs", "azure-tasks", "helm-charts", "valint-pipe"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:

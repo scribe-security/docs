@@ -4,7 +4,7 @@ Create SBOM for target
 
 ### Synopsis
 
-Generate Software Bill Of Materials (SBOM) from container images and filesystems
+Generate Software Bill Of Materials (SBOM) for container images, filesystems and git repositories
 
 ```
 valint bom [TARGET] [flags]
@@ -17,6 +17,7 @@ Flags for `bom` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -A | --attach-regex | Attach files content by regex | |
+| | --backoff | Backoff duration | "15s" |
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
 | -e | --env | Envrionment keys to include in sbom | |
 | -f | --force | Force overwrite cache | |
@@ -25,6 +26,9 @@ Flags for `bom` subcommand
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for bom | |
+| | --package-group | Select package group, options=[index install all] | |
+| -t | --package-type | Select package group, options=[ruby python javascript java dpkg apkdb rpm rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,rust,binary,sbom] |
+| | --timeout | Timeout duration | "120s" |
 
 
 ### Global options flags
@@ -34,14 +38,16 @@ Flags for all `valint` subcommands
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
-| | --attest.name | Attestation config name | "valint" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
+| | --filter-scope | Filter packages by scope | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
@@ -50,7 +56,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
-| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
 ### Examples for running `valint bom`

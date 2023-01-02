@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 8
 sidebar_label: Other CI systems
 ---
 
@@ -19,7 +19,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
    * Open your *Unix* based command line interface (CLI), such as *bash*.  
    * Download the Scribe *valint* CLI tool   
       ```
-      curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+      curl -sSfL http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
       ```
 2. Add the credentials to your CI system.
 Here is an example for setting your *client id* credential as an environment variable:  

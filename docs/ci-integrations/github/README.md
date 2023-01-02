@@ -6,9 +6,9 @@ sidebar_label: GitHub
 # Integrating Scribe in your GitHub pipeline 
 
 If you are using GitHub as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's tool GitHub capabilities check out the following GitHub actions documentation links:
-* [bom](action-bom.md)
-* [verify](action-verify.md)
-* [installer](action-installer.md)
+* [Bom](action-bom.md)
+* [Verify](action-verify.md)
+* [Installer](action-installer.md)
 
 ## Before you begin
 ### Acquiring credentials from Scribe Hub

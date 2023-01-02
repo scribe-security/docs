@@ -1,10 +1,9 @@
 #!/bin/bash
 
-
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts", "bitbucket-pipe")
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
 
 pull_submodules() {
     repos=$1
@@ -209,18 +208,29 @@ export_misc() {
     export_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
 }
 
-import_bitbucket-pipe() {
-    repo="bitbucket-pipe"
+import_valint-pipe() {
+    repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+
+    # Hack to remove header not supported by bitbucket
+    echo "---
+title: Bitbucket
+sidebar_position: 4
+---
+" > "${dst_dir}/bitbucket.md"
+    cat ${repo_dir}/README.md >>  "${dst_dir}/bitbucket.md"
+    # import_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
-export_bitbucket-pipe() {
-    repo="bitbucket-pipe"
+export_valint-pipe() {
+    repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
+    
+    # Hack to remove header not supported by bitbucket
+    sed -n '/^# Bitbucket Pipelines Pipe:/,$p' ${dst_dir}/bitbucket.md > ${repo_dir}/README.md    
+    # export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
 import_orbs() {
@@ -255,28 +265,42 @@ import_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    import_file_rename ${repo} "" "${dst_dir}/azure.md"
+
+    # Hack to remove header not supported by bitbucket
+    echo "---
+title: Azure
+sidebar_position: 4
+---
+" > "${dst_dir}/azure.md"
+    cat ${repo_dir}/README.md >>  "${dst_dir}/azure.md"
+    # import_file_rename ${repo} "" "${dst_dir}/azure.md"
 }
 
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
-    export_file_rename ${repo} "" "${dst_dir}/azure.md"
+
+    sed -n '/^# Azure DevOps pipeline/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
 
 import_cli() {
+    set -x
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
     cp "${repo_dir}/README.md" "docs/CLI/${repo}"
-    cp -r "${repo_dir}/docs" "docs/CLI/${repo}"
+    cp -r "${repo_dir}/docs" "docs/CLI/${repo}/"
 }
 
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp -r "docs/CLI/${repo}/*" "${repo_dir}/docs"
-    mv "${repo_dir}/docs/README.md"  "${repo_dir}/README.md" 
+
+    dst_dir="docs/CLI/${repo}"
+    cp -r "${dst_dir}/docs" "${repo_dir}"
+    # mv "docs/CLI/${repo}/README.md" "${repo_dir}/README.md" 
+    export_file ${repo} "" "${dst_dir}"
+
 }
 
 import_gensbom() {

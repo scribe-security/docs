@@ -1,6 +1,10 @@
 ## gensbom verify
 
-Verify Software Bill Of Materials (SBOM) from container images and filesystems
+Verify target evidence
+
+### Synopsis
+
+Verify Software Bill Of Materials (SBOM) and other evidence for container images, filesystems and git repositories
 
 ```
 gensbom verify [TARGET] [flags]
@@ -15,7 +19,7 @@ Flags for `verify` subcommand
 | -a | --attestation | Attestation for target | |
 | -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
-| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
+| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
 
 
 ### Global options flags
@@ -25,11 +29,12 @@ Flags for all `gensbom` subcommands
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*,.*\.git\.*] |
+| -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
+| | --filter-scope | Filter packages by scope | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --oci | Enable OCI store | |
@@ -42,7 +47,7 @@ Flags for all `gensbom` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
-| -s | --show | Print report to stdout | |
+| -s | --show | Print evidence to stdout | |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
