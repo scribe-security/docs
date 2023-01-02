@@ -1,6 +1,10 @@
 ## valint verify
 
-Verify Software Bill Of Materials (SBOM) from container images and filesystems
+Verify target evidence
+
+### Synopsis
+
+Verify Software Bill Of Materials (SBOM) and other evidence for container images, filesystems and git repositories
 
 ```
 valint verify [TARGET] [flags]
@@ -13,8 +17,9 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -a | --attestation | Attestation for target | |
+| -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
-| -i | --input-format | Sbom input formatter, options=[attest-cyclonedx-json attest-slsa] | "attest-cyclonedx-json" |
+| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
 
 
 ### Global options flags
@@ -24,14 +29,16 @@ Flags for all `valint` subcommands
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
-| | --attest.name | Attestation config name | "valint" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci local azure gitlab] | "local" |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*] |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
+| | --filter-scope | Filter packages by scope | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
@@ -40,7 +47,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
-| -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
 ### Examples for running `valint verify`

@@ -25,17 +25,14 @@ context:
   context-type: local
 attest:
   config: ""
-  name: gensbom
   default: sigstore
-  oci:
-    enable: false
-    ref: ""
-    repo: ""
+  cocosign: {}
 filter:
   filter-regex:
-  - .*\.pyc
-  - .*\.git/.*
+  - '**/*.pyc'
+  - '**/.git/**'
   filter-purl: []
+  filter-scope: []
 bom:
   normalizers:
     packagejson:
@@ -52,18 +49,37 @@ bom:
   - files
   - dep
   - commits
+  package:
+    group: ""
+    type:
+    - ruby
+    - python
+    - javascript
+    - java
+    - dpkg
+    - apkdb
+    - rpm
+    - rust
+    - binary
+    - sbom
   attach-regex: []
   git:
     auth: ""
     tag: ""
     branch: ""
     commit: ""
+  final-artifact: false
+  retry:
+    backoff: 15s
+    timeout: 120s
 find:
   format: cyclonedx-json
   all: false
 verify:
   input-format: attest-cyclonedx-json
+  attestation: ""
   force: false
+  final-artifact: false
 sign:
   format: attest-cyclonedx-json
   input-format: cyclonedx-json
@@ -74,4 +90,5 @@ dev:
   backwards: false
   insecure: true
   failonerror: true
+list: false
 ```

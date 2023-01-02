@@ -1,5 +1,6 @@
 ---
 title: Bitbucket
+sidebar_position: 4
 ---
 
 # Bitbucket Pipelines Pipe: Scribe evidence generator

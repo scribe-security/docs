@@ -87,21 +87,48 @@ bom:
   - files
   - dep
   - commits
+  package:
+    group: ""
+    type:
+    - ruby
+    - python
+    - javascript
+    - java
+    - dpkg
+    - apkdb
+    - rpm
+    - rust
+    - binary
+    - sbom
   attach-regex: []
   git:
     auth: ""
     tag: ""
     branch: ""
     commit: ""
+  final-artifact: false
+  retry:
+    backoff: 15s
+    timeout: 120s
 attest:
   config: ""
-  name: valint
   default: sigstore
+  cocosign: {}
 verify:
   input-format: attest-cyclonedx-json
+  attestation: ""
+  force: false
+  final-artifact: false
 filter:
   filter-regex:
-  - .*\.pyc
-  - .*\.git/.*
+  - '**/*.pyc'
+  - '**/.git/**'
   filter-purl: []
+  filter-scope: []
+dev:
+  profile-cpu: false
+  profile-mem: false
+  backwards: false
+  insecure: true
+  failonerror: true
 ```

@@ -4,7 +4,7 @@ Create SBOM for target
 
 ### Synopsis
 
-Generate Software Bill Of Materials (SBOM) from container images and filesystems
+Generate Software Bill Of Materials (SBOM) for container images, filesystems and git repositories
 
 ```
 gensbom [TARGET] [flags]
@@ -18,13 +18,15 @@ Flags for `gensbom`
 | --- | --- | --- | --- |
 | -A | --attach-regex | Attach files content by regex | |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 kms] | "sigstore" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
+| | --backoff | Backoff duration | "15s" |
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -e | --env | Envrionment keys to include in sbom | |
-| -F | --filter-regex | Filter out files by regex | [.*\.pyc,.*\.git/.*,.*\.git\.*] |
+| -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
+| | --filter-scope | Filter packages by scope | |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
 | | --git-branch | Git branch in the repository | |
@@ -37,13 +39,16 @@ Flags for `gensbom`
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
+| | --package-group | Select package group, options=[index install all] | |
+| -t | --package-type | Select package group, options=[ruby python javascript java dpkg apkdb rpm rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,rust,binary,sbom] |
 | -n | --product-key | Scribe Project Key | |
 | -q | --quiet | Suppress all logging output | |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
-| -s | --show | Print report to stdout | |
+| -s | --show | Print evidence to stdout | |
+| | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
@@ -75,5 +80,5 @@ Flags for `gensbom`
 
 ### SEE ALSO
 
-* [gensbom verify](gensbom_verify.md)	 - Verify Software Bill Of Materials (SBOM) from container images and filesystems
+* [gensbom verify](gensbom_verify.md)	 - Verify target evidence
 
