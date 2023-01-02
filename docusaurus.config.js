@@ -67,6 +67,7 @@ const config = {
                 //"CLI/valint/command/valint_report.md",
                 "cves.md",
                 "cveReports.md",
+                "signVerify.md",
                 "intro.md",
                 "sampleproject.md",
                 //"gensbomcli.md",

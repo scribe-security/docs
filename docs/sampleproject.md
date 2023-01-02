@@ -31,7 +31,7 @@ Try out Scribe with our sample open-source Node.js project by following these st
    
 1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
-   curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   curl -sSfL http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
 1. Clone the sample project from GitHub  
       ```sh
