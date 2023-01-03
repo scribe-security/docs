@@ -17,7 +17,7 @@ Install the Scribe `valint` CLI tool:
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin```
+  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
 
 ### Usage
