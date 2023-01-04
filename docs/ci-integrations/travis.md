@@ -1,10 +1,10 @@
 ---
-title: Travis
+title: Travis CI
 sidebar_position: 6
 ---
 
-# Travis
-If you are using Travis as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. 
+# Travis CI
+If you are using Travis CI as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. 
 
 ## Installation
 Install the Scribe `valint` CLI tool:
