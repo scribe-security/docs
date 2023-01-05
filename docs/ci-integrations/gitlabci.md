@@ -16,7 +16,7 @@ Install the Scribe `valint` CLI tool:
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
 
 ### Usage
@@ -24,7 +24,7 @@ before_script:
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
     - scribe-gitlab-job
@@ -58,7 +58,7 @@ Following are some integration examples.
 
 * Install `valint` tool using the following command
 ```bash
-curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
 
 As an example update it to contain the following steps:
@@ -68,7 +68,7 @@ image: ubuntu:latest
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
     - scribe-gitlab-simple-test
@@ -96,7 +96,7 @@ Verifying the  target integrity on Scribe.
   before_script:
     - apt update
     - apt install git curl -y
-    - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+    - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
   stages:
       - scribe-gitlab-job
@@ -218,7 +218,7 @@ Create SBOM for local `docker save` output.
 before_script:
   - apk update
   - apk add curl
-  - curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 valint-docker-job:
     tags: [ saas-linux-large-amd64 ]
