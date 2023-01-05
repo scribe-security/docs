@@ -39,8 +39,9 @@ Flags for `gensbom`
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/gensbom" |
 | -O | --output-file | Output file name | |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
-| -t | --package-type | Select package group, options=[ruby python javascript java dpkg apkdb rpm rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,rust,binary,sbom] |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,rust,binary,sbom] |
 | -n | --product-key | Scribe Project Key | |
 | -q | --quiet | Suppress all logging output | |
 | -U | --scribe.client-id | Scribe Client ID | |
@@ -81,4 +82,6 @@ Flags for `gensbom`
 ### SEE ALSO
 
 * [gensbom verify](gensbom_verify.md)	 - Verify target evidence
+
+
 
