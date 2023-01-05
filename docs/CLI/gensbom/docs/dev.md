@@ -74,7 +74,7 @@ CLI installation options
 
 Get the gensbom tool
 ```bash
-curl http://get.scribesecurity.com/install.sh  | sh -s -- -t gensbom
+curl https://get.scribesecurity.com/install.sh  | sh -s -- -t gensbom
 ```
 
 </details>

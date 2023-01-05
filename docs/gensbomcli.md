@@ -14,7 +14,7 @@ The `gensbom` tool runs on Mac or Linux.
 
 1. Get the Scribe `gensbom` CLI tool:  
     ```sh
-    curl -sSfL http://get.scribesecurity.com/install.sh | sh -s -- -t gensbom    
+    curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -t gensbom    
     ```
 2. Generate an SBOM:  
    ```sh

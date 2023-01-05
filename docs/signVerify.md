@@ -10,7 +10,7 @@ An attestation is cryptographically signed piece of evidence. It's a mechanism f
 
 1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
-   curl -sSfL http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
 2. Run the `valint bom` command on one of the available options:
    ```sh

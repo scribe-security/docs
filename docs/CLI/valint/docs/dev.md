@@ -88,7 +88,7 @@ CLI installation options
 
 Get the valint tool
 ```bash
-curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+curl https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
 ```
 
 </details>
