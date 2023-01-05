@@ -26,8 +26,9 @@ Flags for `bom` subcommand
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for bom | |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
-| -t | --package-type | Select package group, options=[ruby python javascript java dpkg apkdb rpm rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,rust,binary,sbom] |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,rust,binary,sbom] |
 | | --timeout | Timeout duration | "120s" |
 
 
