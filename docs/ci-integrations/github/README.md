@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-sidebar_label: GitHub
+sidebar_label: GitHub Actions
 ---
 
-# Integrating Scribe in your GitHub pipeline 
+# Integrating Scribe with your GitHub Actions 
 
-If you are using GitHub as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's tool GitHub capabilities check out the following GitHub actions documentation links:
+If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
 * [Bom](action-bom.md)
 * [Verify](action-verify.md)
 * [Installer](action-installer.md)
