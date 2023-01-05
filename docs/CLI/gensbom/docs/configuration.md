@@ -59,9 +59,11 @@ bom:
     - dpkg
     - apkdb
     - rpm
+    - go-mod
     - rust
     - binary
     - sbom
+    exclude-type: []
   attach-regex: []
   git:
     auth: ""

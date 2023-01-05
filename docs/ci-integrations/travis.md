@@ -11,7 +11,7 @@ Install the Scribe `valint` CLI tool:
 ```yaml
 install:
   - mkdir ./bin
-  - curl -sSfL http://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 ```
 
@@ -24,7 +24,7 @@ jobs:
         depth: false
       install:
         - mkdir ./bin
-        - curl -sSfL http://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
         - export PATH=$PATH:$PWD/bin/
       env: test_env=test_env_value
       script:
@@ -51,7 +51,7 @@ The code in the following examples of a workflow running on the mongo-express im
 
 * Install `valint` tool using the following command
 ```bash
-curl -sSfL http://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
 ```
 
 As an example update it to contain the following steps:
@@ -63,7 +63,7 @@ go:
 
 install:
   - mkdir ./bin
-  - curl -sSfL http://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 
 
@@ -174,7 +174,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 
       install:
         - mkdir ./bin
-        - curl -sSfL http://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
         - export PATH=$PATH:$PWD/bin/
       
       script:
