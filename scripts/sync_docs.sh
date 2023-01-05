@@ -174,7 +174,9 @@ export_action-verify() {
 export_action-report() {
     export_action "action-report"
 }
+
 export_action-installer() {
+    set -x
     export_action "action-installer"
 }
 
@@ -268,7 +270,7 @@ import_azure-tasks() {
 
     # Hack to remove header not supported by bitbucket
     echo "---
-title: Azure
+title: Azure Pipelines
 sidebar_position: 4
 ---
 " > "${dst_dir}/azure.md"

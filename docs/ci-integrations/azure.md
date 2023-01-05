@@ -1,14 +1,13 @@
 ---
-title: Azure
+title: Azure Pipelines
 sidebar_position: 4
 ---
 
-# Azure DevOps pipeline
-Scribe offers Azure Devops Tasks for embedding evidence collecting and integrity verification to your workflows.
+# Azure Pipeline
+Scribe offers users of Azure Pipelines to use Devops Tasks for embedding evidence collecting and integrity verification in their workflows.
 
 Tasks provides several actions enabling generation of SBOMs from various sources.
-The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository,
-SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
+The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
 
 ## Installation
 Install the Scribe `valint` CLI tool:

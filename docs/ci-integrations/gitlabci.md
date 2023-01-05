@@ -1,14 +1,13 @@
 ---
-title: GitLab CI
+title: GitLab CI/CD
 sidebar_position: 4
 ---
 
-# Gitlab CI
-Scribe support evidence collecting and integrity verification for GitLab CI.
+# GitLab CI/CD
+Scribe support evidence collecting and integrity verification for GitLab CI/CD.
 
 Integrations provides several options enabling generation of SBOMs from various sources.
-The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository,
-SBOM from a local directory) as well as several use cases of uploading the evidence either to the Gitliab CI workflows or to the Scribe Service.
+The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the GitLab CI/CD workflows or to the Scribe Service.
 
 
 ## Installation

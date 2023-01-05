@@ -49,5 +49,5 @@ Scribe enriches SBOMs with validation information and creates integrity reports 
 
 ### Signing critical files 
 
-Throughout the software development lifecycle (SDLC), advanced users can cryptographically sign and validate critical evidence with customer keys. Cryptographically signing and validating provides resistance against tampering. It extends software signing to the SDLC.
+Throughout the software development lifecycle (SDLC), advanced users can cryptographically [sign and validate](signVerify.md "sign and validate") critical evidence using Sigstore keys by default or by employing customer keys. Cryptographically signing and validating provides resistance against tampering. It extends software signing to the SDLC.
 
