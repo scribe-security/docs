@@ -36,7 +36,7 @@ Choose any of the following command line interpreter (CLI) installation options:
 
 Get the `valint` tool
 ```bash
-curl http://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
 ```
 
 </details>
