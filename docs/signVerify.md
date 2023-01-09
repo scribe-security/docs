@@ -6,15 +6,30 @@ sidebar_label: "Attest And Verify"
 # Signing And Verifying Evidence 
 An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. Scribe's tool *Valint* allows you to not only create various pieces of evidence based on different forms of an SBOM, but also to sign them into an attestation. Once signed, you can later verify that the file or folder or image you have signed is indeed intact and trustworthy. You can read more about an in-toto attestation [here](https://github.com/in-toto/attestation "in-toto attestation GitHub link") and about the SLSA Attestation Model [here](https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md "SLSA Attestation Model GitHub link").
 
+## Supported format tables
+Following table includes the supported format.
+
+| Format | alias | Description | signed
+| --- | --- | --- | --- |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
+
+> Both Bom command output formnat `-o`,`--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats.
+   
+
 ## Signing the result of the *Valint bom* command into an attestation
 
 1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
    curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
-2. Run the `valint bom` command on one of the available options:
+2. Run the `valint bom [target] -o [format]` command on one of the available.
+ `format` options: See supported formats table.   
+ `target` options:
    ```sh
-   valint bom docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+   valint bom docker:yourrepo/yourimage:tag        explicitly use the Docker daemon
    valint bom docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
    valint bom oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
    valint bom dir:path/to/yourproject                read directly from a path on disk (any directory)
@@ -25,13 +40,15 @@ An attestation is cryptographically signed piece of evidence. It's a mechanism f
    ```
    Note that when employing the `bom` command on an image you don't have to use a specified tag like `docker` or `oci-archive` since an image is the default that the tool is expecting to get. For any other option you should tag what your attempting to use the command on such as a `file` or a `git` repository.
 
-   Other than using the command `bom` you should add the flag `-o` to the command with the distinction `attest` to state that you want to sign the resulting evidence into an attestation.
+   Other than using the command `bom` you should add the flag `-o` to the command with the distinction `attest-cyclonedx-json` or `attest-slsa` to state that you want to sign the resulting evidence into an attestation.
 
    So, for example, if you want to `bom` the image of `busybox:latest` the command will look like this:
    ```sh
    $HOME/.scribe/bin/valint bom busybox:latest -o attest -v -f
    ```
-   Note that you can also create a SLSA provenance attestation from the same evidence:
+   > Note `attest` is an alias for `attest-cyclonedx-json`
+
+   You can also also create a SLSA provenance attestation from the same evidence:
    ```sh
    $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -v -f
    ```
@@ -69,6 +86,14 @@ So, if we want to verify the `busybox:latest` image we have signed in the previo
    ```sh
    $HOME/.scribe/bin/valint verify busybox:latest -i attest -v
    ```
+> Note you must first create the evidence using `valint bom busybox:latest -o attest`
+
+In case you want to verify `busybox:latest` using a SLSA provenance attestation from the same evidence:
+   ```sh
+   $HOME/.scribe/bin/valint verify busybox:latest -i attest-slsa -v -f
+   ```
+> Note you must first create the evidence using `valint bom busybox:latest -o attest-slsa` 
+
 The `verify` command's default value of the `-i` flag is `attest` so you can omit it if you want.
 
    The result should look like this:
