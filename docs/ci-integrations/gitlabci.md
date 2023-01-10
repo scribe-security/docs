@@ -34,7 +34,6 @@ scribe-gitlab-job:
     script:
       - valint bom busybox:latest 
           --context-type gitlab
-          --vv
 ```
 
 ## Before you begin
@@ -80,7 +79,7 @@ scribe-gitlab-job:
           --context-type gitlab
           --product-key $PRODUCT_KEY
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --vv -f
+           -f
 ```
 
 > Use `gitlab` as context-type.
@@ -111,13 +110,13 @@ Verifying the  target integrity on Scribe.
               --output-directory ./scribe/valint
               --product-key $PRODUCT_KEY
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-              -vv
+              
         - valint bom mongo-express:1.0.0-alpha.4
               --context-type gitlab
               --output-directory ./scribe/valint
               --product-key $PRODUCT_KEY
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-              -vv
+              
   ```
 </details>
 
@@ -131,7 +130,7 @@ Create SBOM for remote `busybox:latest` image.
 - valint bom busybox
       --context-type gitlab
       --output-directory ./scribe/valint
-      -vv -f
+       -f
 ``` 
 
 </details>
@@ -145,7 +144,7 @@ Create SBOM for image built by local docker `image_name:latest` image.
 - valint bom image_name:latest
       --context-type gitlab
       --output-directory ./scribe/valint
-      -vv -f
+       -f
 ``` 
 </details>
 
@@ -160,7 +159,7 @@ Create SBOM for image hosted on private registry.
 - valint bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
       --context-type gitlab \
       --output-directory ./scribe/valint \
-      -vv -f
+       -f
 ```
 </details>
 
@@ -179,7 +178,7 @@ valint_image_job:
       --output-directory ./scribe/valint
       --env test_env
       --label test_label
-      -vv -f
+       -f
 ```
 </details>
 
@@ -198,7 +197,7 @@ save-artifact-job:
       --context-type gitlab
       --output-directory ./scribe/valint
       --output-file ./my_sbom.json
-      -vv -f
+       -f
   artifacts:
       paths:
         - ./scribe/valint
@@ -236,7 +235,7 @@ valint-docker-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           --output-file ./busybox.json
-          -vv -f
+           -f
 ``` 
 </details>
 
@@ -253,7 +252,7 @@ dir-sbom-job:
     - valint bom dir:testdir
           --context-type gitlab
           --output-directory ./scribe/valint
-          -vv -f
+           -f
 ``` 
 </details>
 
@@ -269,7 +268,7 @@ git-remote-job:
     - valint bom git:https://github.com/mongo-express/mongo-express.git
           --context-type gitlab
           --output-directory ./scribe/valint
-          -vv -f
+           -f
 
 ``` 
 
@@ -283,7 +282,7 @@ git-remote-job:
     - valint bom .
           --context-type gitlab
           --output-directory ./scribe/valint
-          -vv -f
+           -f
 ``` 
 </details>
 

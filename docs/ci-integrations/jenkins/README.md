@@ -119,8 +119,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
           '''
         }
       }
@@ -141,8 +140,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
       }
     }
@@ -197,8 +195,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PRODUCT_KEY \
-            -vv'''
+            --product-key $SCRIBE_PRODUCT_KEY'''
           }
         }
       }
@@ -213,8 +210,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PRODUCT_KEY \
-            -vv'''
+            --product-key $SCRIBE_PRODUCT_KEY'''
           }
         }
       }
@@ -291,8 +287,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             --product-key $SCRIBE_PRODUCT_KEY \
-             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv
+             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
           '''
         }
       }
@@ -306,8 +301,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             --product-key testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            -vv'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
       }
     }

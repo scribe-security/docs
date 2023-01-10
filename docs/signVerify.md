@@ -44,13 +44,13 @@ Following table includes the supported format.
 
    So, for example, if you want to `bom` the image of `busybox:latest` the command will look like this:
    ```sh
-   $HOME/.scribe/bin/valint bom busybox:latest -o attest -v -f
+   $HOME/.scribe/bin/valint bom busybox:latest -o attest -f
    ```
    > Note `attest` is an alias for `attest-cyclonedx-json`
 
    You can also also create a SLSA provenance attestation from the same evidence:
    ```sh
-   $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -v -f
+   $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -f
    ```
 
    By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
@@ -111,13 +111,13 @@ The command to verify something is logically named `verify`. The way to use it i
 So, if we want to verify the `busybox:latest` image we have signed in the previous example the command will look like this:
 
    ```sh
-   $HOME/.scribe/bin/valint verify busybox:latest -i attest -v
+   $HOME/.scribe/bin/valint verify busybox:latest -i attest
    ```
 > Note you must first create the evidence using `valint bom busybox:latest -o attest`
 
 In case you want to verify `busybox:latest` using a SLSA provenance attestation from the same evidence:
    ```sh
-   $HOME/.scribe/bin/valint verify busybox:latest -i attest-slsa -v -f
+   $HOME/.scribe/bin/valint verify busybox:latest -i attest-slsa -f
    ```
 > Note you must first create the evidence using `valint bom busybox:latest -o attest-slsa` 
 

@@ -83,7 +83,7 @@ Install valint as a tool
 - name: valint run
   run: |
     valint --version
-    valint bom busybox:latest -vv
+    valint bom busybox:latest
 ``` 
 </details>
 
