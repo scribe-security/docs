@@ -54,8 +54,23 @@ Following table includes the supported format.
    ```
 
    By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
-   
-   <img src='../../../img/ci/bomAttest.jpg' alt='Approve Signing'/>
+
+   ```
+   [2023-01-10 09:35:35]  INFO target: collecting context, Type: local
+   [2023-01-10 09:35:36]  INFO target: analyzing docker:busybox:latest
+   [2023-01-10 09:35:37]  INFO target: docker:busybox:latest analyzing success
+   [2023-01-10 09:35:37]  INFO cocosign: config selection, default: sigstore, Scheme: docker
+   [2023-01-10 09:35:37]  INFO disabled: ociStorer, Storer skipping,
+   [2023-01-10 09:35:37]  INFO enabled: rekorStorer, using storer
+   Retrieving signed certificate...
+
+         Note that there may be personally identifiable information associated with this signed artifact.
+         This may include the email address associated with the account with which you authenticate.
+         This information will be used for signing this artifact and will be stored in public transparency logs and cannot be removed later.
+         By typing 'y', you attest that you grant (or have permission to grant) and agree to have this information stored permanently in transparency logs.
+
+   Are you sure you want to continue? (y/[N]):
+   ```   
 
    If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, x509 (public key certificates) or KMS (key management system). You can check out the configuration file [here](ci-integrations/github/docs/configuration.md "Configuration file").
 
@@ -69,9 +84,21 @@ Following table includes the supported format.
 
    at which point you can close the browser page and go back to your Shell
 
-   <img src='../../../img/ci/attestS.jpg' alt='Attest Successful'/>
+   ```bash
+   Successfully verified SCT...
+   INFO enabled: fulcioSigner, using signer
+   INFO enabled: fulcioVerifier, using verifer
+   tlog entry created with index: 10855458 c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d
+   INFO storer: upload success, Storer: rekorStorer
+   sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com]
+   INFO output: File write to FS, Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+   INFO scribe: client disabled
+   INFO attest: evidence generated successfully
+   ```
 
-   Note that the signed attestation is now saved on your machine in the default location. The path is specified in the result. In the example above it's saved in: `/home/barak/.cache/valint/docker/busybox/latest/sha256-05a79c7279f71f86a2a0d05eb72fcb56ea36139150f0a75cd87e80a4272e4e39.bom.sig.json`
+   Attestation is written by default to the local cache provided by the `--output-directory` flag (default `$HOME/.cache/valint`), you can also use `--output-file` flag to provide a custom path for the attestation.
+
+   Note in the logs that the signed attestation is now saved on your machine in the default location. The path is specified in the result. In the example above it's saved in: `$HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json`.
 
 ## Verify the result of *Valint bom* 
 
@@ -79,7 +106,7 @@ Once you have signed something into an attestation you can later verify that the
 
 Without access to the signed attestation there is nothing to verify against.
 
-The command to verify something is logically named `verify`. The way to use it is almost identical to the `bom` command except we'll be using the flag `-i`.
+The command to verify something is logically named `verify`. The way to use it is almost identical to the `bom` command except we'll be using the flag `-i` (default `attest-cyclonedx-json` alias `attest`).
 
 So, if we want to verify the `busybox:latest` image we have signed in the previous example the command will look like this:
 
@@ -98,9 +125,23 @@ The `verify` command's default value of the `-i` flag is `attest` so you can omi
 
    The result should look like this:
 
-   <img src='../../../img/ci/verifyS.jpg' alt='Verify Successful'/>
-
-   Note the `Verify - Success` at the end - that's what we're looking to see.
-
+   ```bash
+   INFO cocosign: config selection, default: sigstore, Scheme: docker
+   INFO disabled: ociStorer, Storer skipping,
+   INFO enabled: rekorStorer, using storer
+   INFO enabled: fulcioVerifier, using verifer
+   INFO rekor: verify offline success (bundle)
+   INFO rekor: download cert, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com]
+   INFO attest: verify success - TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com], URIs: []
+   INFO rekor: verify offline success (bundle)
+   INFO attest: verify attestation success
+   INFO attest: verify policy success, Policies: []
+   INFO verify: success, Type: attest-cyclonedx-json Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+   ```
+   Note the `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com], URIs: []` which includes signers identity,
+   
+   Note the `verify: success, Type: attest-cyclonedx-json` at the end - that's what we're looking to see.
+   
+   
 ## GitHub Actions
    Scribe has added all these options of our *Valint* tool to GitHub as actions. To learn more about it and to see how you may use them you can go to [this link](ci-integrations/github "GitHub"). 
