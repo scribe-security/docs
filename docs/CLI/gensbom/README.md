@@ -5,111 +5,221 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-# 🚀 Gensbom - bill of material report CLI tool
+# Gensbom - bill of material report CLI tool
 
-Gensbom creates and verifies evidence for a collection of target types.
-Gensbom also allows you to store evidence locally on OCI registry or using Scribe service.
+Gensbom generates and verifies evidence collected on targets and artifacts across your supply chain. <br />
+Gensbom also allows you to store evidence locally on a remote OCI registry or using Scribe service. <br />
 
-Gensbom collects automatically the `envrionment context`, which allows you to refrence where in your supply chain the evidence was created.
+Target support includes directories, files, images and git repositories. <br />
+While evidence types supported are CycloneDX SBOMS and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
 
-Evidence format types support SBOMS and SLSA provenance for all targets.
+Evidence collection will automatically collect information from the Supply chain environment which allows you to reference where in your supply chain the evidence was generated, see the `environment context` section below.
 
-Furthermore, Gensbom also allows you to sign and verify any target evidence across your supply chain. \
-Verification flows for `attestations` (signed evidence) and `statements` (unsigned evidence).
+Lastly, Gensbom allows you to sign and verify a target against the signer's identity and policy across the supply chain.
+
+## Installing `gensbom`
+Choose any of the following command line interpreter (CLI) installation options:
+
+<details>
+  <summary> Pull binary </summary>
+
+Get the `gensbom` tool
+```bash
+curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t gensbom
+```
+
+</details>
+
+<details>
+  <summary> Docker image </summary>
+
+Pull the `gensbom` release binary wrapped in its relevant docker image. <br />
+Tag value should be the requested version.
+
+```bash
+docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest
+```
+</details>
+
+
+## Supported architecture and operating systems (OS) 
+CPU Architecture 
+* AMD64 (x86_64) 
+* ARM64  
+
+OS 
+* Linux
+* macOS 
+* Windows 
 
 ## Target types
-Each target allows you to collect evidence on the target itself. 
-For example, collect SBOMs for images built by your supply chain, but also any directory or git repo.
+---
+Each target can be used to collect evidence on different parts of your supply chain.  <br />
+For example, you can collect SBOMs for images or binaries created by your supply chain.
+
+Target format `[scheme]:[name]:[tag]`
+
+| Sources | scheme | Description | example
+| --- | --- | --- | --- |
+| Docker Daemon | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | docker-archive | use a tarball from disk for archives created from "docker save" | docker-archive:path/to/yourimage.tar |
+| OCI archive | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file path on disk | file:path/to/yourproject/file | 
 
 ### Image Target
-Gensbom supports analysis of image targets, \
-Image formats supported are currently docker manifest v2 and OCI. \
-Image sources supported are docker-daemon, OCI storage, docker archive, OCI archive.
+Images are a very common artifact for many supply chains,
+From the actual application release to build/test environments run by supply chains.
 
-### Directory/file Target
-Gensbom supports the analysis of directory/file targets.
+Image formats supported are currently docker manifest v2 and OCI. <br />
+Image sources supported are docker-daemon, image archives and direct registry access.
+
+> By default scheme assumes Docker daemon but falls back to registry when not found.
+
+### Directory/File Target
+Directories and files are common artifacts created by supply chains, 
+From the actual application released, configurations or even internal build dependencies caches.
 
 ### Git Target
-Gensbom supports analysis of remote/local git repository targets.
+Git repositories are a common part of most supply chains,
+Target allows you to collect evidence including sources, commits and packages found in your source targets.
 
-## Evidence format types
-Gensbom supports the following evidence formats.
-- CyclondeDX - JSON and XML formats
-- In-toto attestations - CyclondeDX and SLSA Provenance
-- In-toto statements - CyclondeDX and SLSA Provenance
-- In-toto predicate - CyclondeDX and SLSA Provenance
+## Evidence formats
+Gensbom supports the following evidence output formats and related `format` and `input-format` flags.
 
-### SBOM details
-SBOM includes a large amount of analyzed data for each target. \
-Gensbom allows you to select which groups you like to include (TBD not imp). 
+| Format | alias | Description | signed
+| --- | --- | --- | --- |
+| CycloneDX-json | json | CyclondeDX json format | no |
+| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
+| statement-CycloneDX-json | statement | In-toto Statement | no |
+| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| predicate-slsa |  | In-toto Predicate | no |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
 
-- Target metadata: details on the target and its context.
-- Layer group: (image targets only).
-- Package group - currently supporting Debian, Apk, Python, Golang, Ruby, Npm, Rpm, Java, Rust.
-- File group: details on all files included in target.
-- Commit group: details on all commits in the git repository's branch.
-- Dependencies
--  - Image->Layer: Image and its related layers.
--  - Layer->Pkg: Layer and its related packages.
--  - Pkg->File: Package and their related files.
--  - Repo->Commit: Git repository and its related commits history.
--  - Commit->File: Git commit and its related files.
+## CycloneDX SBOM
+CycloneDX SBOM evidence includes a large amount of analyzed data depending on the target and user configuration.
+The following table describes the `group` types we currently support.
 
-### Environment context
-Gensbom supports the gathering of the context of the evidence creator. \
-Evironment context is key to connecting evidence not only to the target but to its origin in your supply chain.
+| Component group | Description | targets | required |
+| --- | --- | --- | --- |
+| Metadata (Target) | target details | all | yes |
+| Layer | found layers details including `CreatedBy` command | images | no |
+| Package | found packages details including `PURL` and `CPE` fields | all | no |
+| Commit | target commit history deatils | git | no |
+| File | found file deatils including `sha256` hash | all | no |
+| Dependency | relations between components | all | no |
 
-Environment context will be added to both SBOM and other evidence formats for further reference and verification flows. \
+The following list includes the packages types we currently support:
+* Debian
+* Apk 
+* Python
+* Golang
+* Ruby
+* Javascript
+* Rpm
+* Java
+* Rust
 
-Currently, tool supports `github`, `gitlab`, `jenkins`,`azure`, `circleci` and `local` contexts collections.
+### Dependencies graph
+Currently, we support the following dependencies relations.
 
-For example, SBOM created/signed on a `github workflow` will add the current git url, workflow name.. etc to the SBOM as well, which in turn will allow you to know where the SBOM was created but also also allow context is verified by your supply chain policy.
+| Type | description | targets | Parent group | Child group  |
+| --- | --- | --- | --- | --- |
+| Package-File | File relation to the package it belongs to | all | Package | File |
+| Layers | layer relation to its target | images | Metadata | Layer |
+| Package-Layer | package relation to the layer it was found on | images | Layer | Package |
+| File-Layer | file relation to the layer it was found on | images | Layer | File |
+| Commit | Commit history relation | git | Commit | Commit |
+| Commit-File | File relation to the commit it was last edited by | git | Commit | File |
+
+### Customizing
+Following are some of the customizable features we support.
+* Include only specific component groups, use `--components` to select between the group types.
+* Include or exclude specific package types, use `--package-type` or `--package-exclude-type` to select a specific package type.
+* Include found installed packages (package group `install`) or refrenced by sources (package group `index`), use `--package-group` to select between options.
+* Exclude components, use `--filter-regex`, `--filter-scope` and `--filter-purl` to exclude any component.
+* Attach any file content, use `--attach-regex` to include the content of external files.
+* Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
+
+## SLSA Provenance
+SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
+It is required for SLSA compliance level 2 and above.
+
+See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
+See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
+
+## Environment context
+`environment context` collects information from the underlining environments.
+Environment context is key to connecting the target and the actual point in your supply chain it was created in.
+
+The following table includes the types of environments we currently support:
+| context-type | description |
+| --- | --- |
+| local | local endpoints |
+| github | Github Actions |
+| gitlab | GitLab CI/CD |
+| azure | Azure Pipelines |
+| bitbucket | Bitbucket pipelines |
+| circle | CircleCI workflows |
+| travis | Travis CI workflows |
+| jenkins | Jenkins declarative pipelines |
+
+For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
 
 ## Attestations 
-Attestations allow you to sign and verify your targets. <br />
-Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
+In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
+Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
-Supported outputs:
-- In-toto predicate - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto statements - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
+The following table includes the supported format by the verification command.
+
+| Format | alias | Description | signed
+| --- | --- | --- | --- |
+| statement-CycloneDX-json | statement | In-toto Statement | no |
+| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
 
 Select default configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
-See details [In-toto spec](https://github.com/in-toto/attestation)
+> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptography.
+
+See details [In-toto spec](https://github.com/in-toto/attestation) <br />
 See details [attestations](docs/attestations.md)
 
-# Installation
-CLI can be installed by the following methods for Linux (arm, amd64).
+# CLI
 
-See details [CLI documentation - install](docs/installation.md)
-
-# CLI Overview
-## Generate command
-Gensbom command allows you to create evidence for any target. \
+## Evidence Generator - `bom` command
+`bom` command allows you to generate SBOMs and SLSA provenances in multiple flavors and targets. <br />
 Evidence can be tailor-made to fit your supply chain policies and transparency needs.
 
-> Evidence formats - CycloneDX SBOM and SLSA Provenance.
+> By default, the evidence is written to `~/.cache/gensbom/`, use `--output-file` or `--output-directory` to customize the evidence output location. 
 
-> Resulted evidence can be stored locally on OCI registry or Scribe service.
-
-### Basic usage
-Gensbom allows you to create SBOMs and SLSA provenances in multiple flavors and targets.
-
-```bash
-gensbom [target] [json, xml, statement, statement-slsa,attest,attest-slsa]
+### Usage
+```shell
+gensbom [scheme]:[name]:[tag]
 ```
 
 See details [CLI documentation - gensbom](docs/command/gensbom.md)
 
+### Examples
 <details>
-  <summary> Cyclonedx </summary>
+  <summary> CycloneDX SBOM </summary>
 
-Cyclonedx SBOM with all the available components.
+CycloneDX SBOM with all the available components.
+
+> Note `-o`, `--format` default is `cyclonedx-json` which alias is also `json`.
 
 ```bash
+# Create a CycloneDX SBOM for busybox image.
+gensbom busybox:latest
 gensbom busybox:latest -o json
+
+# Create a CycloneDX SBOM for mongo remote git repository
 gensbom git:https://github.com/mongo-express/mongo-express.git -o json
 ``` 
 </details>
@@ -117,14 +227,21 @@ gensbom git:https://github.com/mongo-express/mongo-express.git -o json
 <details>
   <summary> Statement </summary>
 
-Intoto statement is basically an unsigned attestation.
-Creates SBOM or SLSA provenance statements
-Output can be useful if you like to connect to other attestation frameworks such as `cosign`.
+Creates In-toto statements evidence.
+
+> Output can be useful with integration with other attestation frameworks such as `cosign`.
 
 ```bash
+# Create a CycloneDX SBOM statement for busybox image.
 gensbom busybox:latest -o statement
+
+# Create a SLSA Provenance statement for busybox image.
 gensbom busybox:latest -o statement-slsa
+
+# Create a CycloneDX SBOM statement for mongo remote git repository
 gensbom git:https://github.com/mongo-express/mongo-express.git -o statement
+
+# Create a SLSA Provenance statement for mongo remote git repository.
 gensbom git:https://github.com/mongo-express/mongo-express.git -o statement-slsa
 ``` 
 </details>
@@ -132,171 +249,79 @@ gensbom git:https://github.com/mongo-express/mongo-express.git -o statement-slsa
 <details>
   <summary> Attestations </summary>
 
-Intoto Attestation output, default via keyless Sigstore flow 
+Creates In-toto Attestation evidence.
+ n output.
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
 
 ```bash
+# Create a CycloneDX SBOM attestation for busybox image.
 gensbom busybox:latest -o attest
-gensbom busybox:latest -o statement-slsa
+
+# Create a SLSA Provenance attestation for busybox image.
+gensbom busybox:latest -o attest-slsa
+
+# Create a CycloneDX SBOM attestation for mongo remote git repository
 gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
+
+# Create a SLSA Provenance attestation for mongo remote git repository.
 gensbom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
 ``` 
-
 </details>
 
 <details>
-  <summary> Metadata only </summary>
+  <summary> Custom component group (SBOM) </summary>
 
-You may select which component groups are added to your SBOM.
-For example, you may use Gensbom to simply sign and verify your images, you only really need the `metadata` group.
-Note metadata is implicit (BOM must include something).
+Using `--components` You may select which component groups are added to your SBOM.
+
+> Note metadata is required.
+
 ```bash
-gensbom busybox:latest --components metadata #Only include the target metadata
-gensbom busybox:latest --components packages #Only include packages
-gensbom busybox:latest --components packages,files,dep #Include packages files and there related relationship.
+# Include only target metadata
+gensbom mongo-express:latest --components metadata
+
+# Include only packages information
+gensbom mongo-express:latest --components packages
+
+# Include packages files and there respective relations
+gensbom mongo-express:latest --components packages,files,dep
 ``` 
 </details>
 
 <details>
-  <summary> Attach external data </summary>
+  <summary> Attaching external reports (SBOM) </summary>
 
-Gensbom allows you to include external file content as part of the reported evidence.
+Using `--attach-regex`, `-A` you may attach external files as part of the SBOM evidence.
 
-For example, you may use Gensbom to include an external security report in your SBOM.
+For example, you may use this feature to include an external security report in your SBOM.
+
 ```bash
-gensbom busybox:latest -A **/some_report.json
+gensbom busybox:latest -vv -A **/some_report.json
 ``` 
 </details>
 
-## Verify command
-Command finds and verifies evidence for any of the targets. \
-It can be used for multiple targets and output formats.
+## Evidence verification - `verify` command
+`verify` command allows one to verify the target and its respective evidence. 
 
-Evidence can be pulled locally, OCI registry or Scribe service.
+The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy based verification.
 
-Supported verification flows for `attestations` (signed evidence) as well as `statements`(unsigned evidence).
+Verification flow for `attestations` which re signed evidence formats includes PKI and identity verification as well as policy verification. <br />
+Verification flow for `statements` that are unsigned evidence includes policy verification. <br />
 
-Verification flow for `attestations` includes PKI and identity verification as well as policy verification.
-Verification flow for `statements` includes policy verification.
+> Evidence must be available locally (on disc), remotly on a OCI registry or through Scribe service.
 
-### Basic usage
-```
-gensbom verify [target] -v -i [attest, statement, attest-slsa, statement-slsa]
+> By default, the evidence is read from `~/.cache/gensbom/`, use `--output-file` or `--output-directory` to customize the evidence output location.
+
+### Usage
+```bash
+# Use `bom` command to generate one of the supported formats.
+gensbom bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
+
+# Use `verify` command to verify the target against the evidence
+gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
 ```
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
-
-
-<details>
-  <summary> Image target attestations </summary>
-
-Creating and verifying `attestation` for image target `busybox:latest`.
-
-> By default Sigstore signing flow is triggered.
-
-```bash
-# Create SBOM attestations (signed SBOMS)
-gensbom busybox:latest -o attest
-
-# Create SLSA Provenance attestations
-gensbom busybox:latest -o attest-slsa
-
-``` 
-
-Verifying attestation for images,
-
-```bash
-# Verify SBOM attestations (signed SBOMS)
-gensbom verify busybox:latest -o attest
-
-# Verify SLSA Provenance attestations
-gensbom verify busybox:latest -i attest-slsa
-``` 
-</details>
-
-
-<details>
-  <summary> Git target attestations </summary>
-
-Creating and verifying `attestation` for git repo target `https://github.com/mongo-express/mongo-express.git`.
-
-> By default Sigstore signing flow is triggered.
-
-```bash
-# Create SBOM attestations (signed SBOMS)
-gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
-
-# Create SLSA Provenance attestations
-gensbom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
-
-``` 
-
-Verifying attestation for git repo target,
-
-```bash
-# Verify SBOM attestations (signed SBOMS)
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -o attest
-
-# Verify SLSA Provenance attestations
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -i attest-slsa
-``` 
-
-> Note you can also use local repos as targets using `git:<path to local dir>` as the target.
-
-</details>
-
-<details>
-  <summary> Image target statements </summary>
-
-
-Creating and verifying `statements` for image target `busybox:latest`.
-
-> Note `statements` verification is not PKI based
-
-```bash
-# Create SBOM statement (signed SBOMS)
-gensbom busybox:latest -o statement
-
-# Create SLSA Provenance statement
-gensbom busybox:latest -o statement-slsa
-
-``` 
-
-Verifying statements for images,
-```bash
-# Verify SBOM statement (signed SBOMS)
-gensbom verify busybox:latest -o statement
-
-# Verify SLSA Provenance statement
-gensbom verify busybox:latest -i statement-slsa
-``` 
-</details>
-
-<details>
-  <summary> Git targets statements </summary>
-
-Creating, and verifying `statements` for git repo target `https://github.com/mongo-express/mongo-express.git`.
-
-> Note `statements` verification is not PKI based
-
-```bash
-# Create SBOM attestations (signed SBOMS)
-gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
-
-# Create SLSA Provenance attestations
-gensbom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
-
-``` 
-
-Verifying attestation for git repo target,
-
-```bash
-# Verify SBOM attestations (signed SBOMS)
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -o attest
-
-# Verify SLSA Provenance attestations
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -i attest-slsa
-```
-</details>
 
 ## OCI storage
 Gensbom supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
@@ -309,7 +334,7 @@ Write access is required for upload as well as Read access is for download.
 
 You must first login with the required access to your registry before you calling Gensbom.
 
-### Basic usage
+### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 gensbom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
@@ -336,18 +361,18 @@ See detailed [configuration](docs/configuration.md)
 Gensbom supports integration with the awesome `cosign` cli tool and other `sigstore` verification process.
 
 <details>
-  <summary> Cyclonedx verification using cosign </summary>
+  <summary> CycloneDX verification using cosign </summary>
 
-One can use `gensbom` to generate the `cyclonedx` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+One can use `gensbom` to generate the `CycloneDX` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
 > Attestations are pushed to OCI for cosign to consume.
 
 ```bash
 # Generate sbom attestation
-gensbom [image] -o attest -f --oci
+gensbom [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type CycloneDX
 ```
 </details>
 
@@ -360,7 +385,7 @@ One can use `gensbom` to generate the `slsa` attestation and attach it to OCI re
 
 ```bash
 # Generate sbom attestation
-gensbom [image] -o attest-slsa -f --oci
+gensbom [image] -vv -o attest-slsa -f --oci
 
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
@@ -376,7 +401,7 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 ```bash
 # Generate sbom predicate
-gensbom [image] -o predicate -f --output-file gensbom_predicate.json
+gensbom [image] -vv -o predicate -f --output-file gensbom_predicate.json
 
 # Sign and OCI store using cosign
 COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
@@ -387,19 +412,268 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 </details>
 
 # Scribe service
-Scribe provides a set of services allowing you to secure your supply chain. \
-Use configuration/args to set `scribe.client-id` (`-U`), `scribe.client-secret` (`-P`) provided by scribe.
-Lastly enable scribe client using `-E` flag.
-Gensbom will upload/download sboms to your scribe account.
 
-# Subtools
+## Acquiring Scribe credentials  
+
+Running `valint` requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Product Key**
+* **Client ID**
+* **Client Secret**
+
+> Flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+## Basic examples
+<details>
+  <summary>  Public registry image (SBOM) </summary>
+
+Create SBOM for remote `busybox:latest` image.
+
+```YAML
+gensbom busybox:latest
+``` 
+
+</details>
+
+<details>
+  <summary>  Docker built image (SBOM) </summary>
+
+Create SBOM for image built by local docker `image_name:latest` image.
+
+```bash
+docker build . -t image_name:latest
+gensbom image_name:latest
+``` 
+</details>
+
+<details>
+  <summary>  Private registry image (SBOM) </summary>
+
+Create SBOM for images hosted by a private registry.
+
+> `docker login` command is required to enable access the private registry.
+
+```bash
+docker login
+gensbom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+```
+</details>
+
+<details>
+  <summary>  Custom metadata (SBOM) </summary>
+
+Custom metadata added to SBOM.
+
+```bash
+export test_env=test_env_value
+gensbom busybox:latest --env test_env --label test_label
+```
+</details>
+
+
+<details>
+  <summary> Custom evidence location (SBOM, SLSA) </summary>
+
+Use flags `--output-directory` or `--output-file` flags to set the default location.
+
+```bash
+# Save evidence to custom path
+gensbom busybox:latest --output-file my_sbom.json
+ls -lh my_sbom.json
+
+# Change evidence cache directory 
+gensbom busybox:latest --output-directory ./my_evidence_cache
+ls -lhR my_evidence_cache
+``` 
+</details>
+
+<details>
+  <summary> Docker archive image (SBOM) </summary>
+
+Create SBOM for local `docker save ...` output.
+
+```bash
+docker save busybox:latest -o busybox_archive.tar
+gensbom docker-archive:busybox_archive.tar
+``` 
+</details>
+
+<details>
+  <summary> Directory target (SBOM) </summary>
+
+Create SBOM for a local directory.
+
+```bash
+mkdir testdir
+echo "test" > testdir/test.txt
+
+gensbom dir:testdir
+``` 
+</details>
+
+
+<details>
+  <summary> Git target (SBOM) </summary>
+
+Create SBOM for `mongo-express` remote git repository.
+
+```bash
+gensbom git:https://github.com/mongo-express/mongo-express.git
+``` 
+
+Create SBOM for `yourrepository` local git repository.
+
+```bash
+git clone https://github.com/yourrepository.git
+gensbom git:yourrepository
+``` 
+
+</details>
+
+<details>
+  <summary> Attest target (SBOM) </summary>
+
+Create and sign SBOM targets. <br />
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+gensbom busybox:latest -o attest
+``` 
+</details>
+
+<details>
+  <summary> Attest target (SLSA) </summary>
+
+Create and sign SLSA targets. <br />
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+gensbom busybox:latest -o attest-slsa
+``` 
+</details>
+
+<details>
+  <summary> Attest and verify image target (SBOM) </summary>
+
+Generating and verifying CycloneDX SBOM `attestation` for image target `busybox:latest`.
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+# Create CycloneDX SBOM attestations
+gensbom busybox:latest -o attest
+
+# Verify CycloneDX Provenance attestations
+gensbom verify busybox:latest
+```
+</details>
+
+<details>
+  <summary> Attest and verify image target (SLSA) </summary>
+
+Generating and verifying SLSA Provenance `attestation` for image target `busybox:latest`.
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+# Create SLSA Provenance attestations
+gensbom busybox:latest -vv -o attest-slsa
+
+# Verify SLSA Provenance attestations
+gensbom verify busybox:latest -i attest-slsa
+```
+</details>
+
+<details>
+  <summary> Attest and verify directory target (SBOM) </summary>
+
+Generating and verifying SLSA Provenance `attestation` for directory target.
+
+> By default, *Gensbom* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+mkdir testdir
+echo "test" > testdir/test.txt
+
+# Create CycloneDX SBOM attestations
+gensbom dir:testdir -vv -o attest
+
+# Verify CycloneDX SBOM attestations
+gensbom verify dir:testdir
+```
+</details>
+
+<details>
+  <summary> Attest and verify Git repository target (SBOM) </summary>
+
+Generating and verifying `statements` for remote git repo target `https://github.com/mongo-express/mongo-express.git`.
+
+```bash
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
+gensbom verify git:https://github.com/mongo-express/mongo-express.git
+``` 
+
+Or for a local repository
+```bash
+# Cloned a local repository
+git clone https://github.com/mongo-express/mongo-express.git
+
+# Create CycloneDX SBOM attestations
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
+
+# Verify CycloneDX SBOM attestations
+gensbom verify git:https://github.com/mongo-express/mongo-express.git
+```
+</details>
+
+
+<details>
+  <summary> Store evidence on OCI (SBOM,SLSA) </summary>
+
+Store any evidence on any OCI registry. <br />
+Support storage for all targets and both SBOM and SLSA evidence formats.
+
+> Use `-o`, `format` to select between supported formats. <br />
+> Write permission to `--oci-repo` value is required. 
+
+```bash
+# Login to registry
+docker login $
+
+# Generate and push evidence to registry
+gensbom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL
+
+# Pull and validate evidence from registry
+gensbom verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
+```
+> Note `-f` in the verification command, which skips the local cache evidence lookup.
+
+</details>
+
+# External frameworks
 Gensbom uses some external tools, libraries, and packages to achieve its goal.
 
-- Syft - CLI tool for generating a Software Bill of Materials (SBOM) from container images and filesystem. \
-  [https://github.com/anchore/syft]
-- Cyclonedx-go - CycloneDX module for Go creates a valid CycloneDX bill-of-material document. \
-  [https://github.com/ozonru/cyclonedx-go]
-- Cocosign - uses the awesome **sigstore** framework and specificly **sigstore/cosign** libraries for signing and verifying attestations. \
-  [https://github.com/sigstore/cosign]
-  [https://github.com/sigstore]
+- Syft - CLI tool for generating a Software Bill of Materials (SBOM) from container images and filesystem.
+  - [Syft](https://github.com/anchore/syft)
+- CycloneDX-go - CycloneDX module for Go creates a valid CycloneDX bill-of-material document.
+  - [CycloneDX](https://github.com/ozonru/CycloneDX-go)
+- Cocosign - uses the awesome **sigstore** framework and specificly **sigstore/cosign** libraries for signing and verifying attestations. <br />
+  - [cosign](https://github.com/sigstore/cosign) <br />
+  - [sigstore](https://github.com/sigstore)
 
+## Support
+
+If you'd like help with this pipe, or you have an issue or a feature request,
+If you are reporting an issue, please include:
+
+- the version of the pipe
+- relevant logs and error messages
+- steps to reproduce
+
+By email or slack, 
+[Contact-us](https://scribesecurity.com/contact-us/).

@@ -74,23 +74,9 @@ bom:
   retry:
     backoff: 15s
     timeout: 120s
-find:
-  format: cyclonedx-json
-  all: false
 verify:
   input-format: attest-cyclonedx-json
   attestation: ""
   force: false
   final-artifact: false
-sign:
-  format: attest-cyclonedx-json
-  input-format: cyclonedx-json
-  force: false
-dev:
-  profile-cpu: false
-  profile-mem: false
-  backwards: false
-  insecure: true
-  failonerror: true
-list: false
 ```
