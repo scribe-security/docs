@@ -5,8 +5,8 @@ geometry: margin=2cm
 # Goreleaser integration 🛸
 Scribe tools can be integrated in to Goreleaser to generate and/or sign source,
 artifacts and images. \
-Integrations requires the Gensbom CLI installed.
-* Gensbom - gitHub Action for SBOM Generation (Scribe) 
+Integrations requires the Valint CLI installed.
+* Valint - gitHub Action for SBOM Generation (Scribe) 
 
 ## Valint installation
 See details [CLI documentation - install ](../cli/valint/docs/installation.md)
@@ -163,9 +163,9 @@ jobs:
           args: release  --debug --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GENSBOM_SCRIBE_AUTH0_CLIENTID:  ${{ secrets.clientid }}
-          GENSBOM_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
-          GENSBOM_SCRIBE_ENABLE: true
+          VALINT_SCRIBE_AUTH0_CLIENTID:  ${{ secrets.clientid }}
+          VALINT_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
+          VALINT_SCRIBE_ENABLE: true
 
       - uses: actions/upload-artifact@v2
         with:
