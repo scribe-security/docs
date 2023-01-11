@@ -48,7 +48,7 @@ Following table includes the supported format.
    ```
    > Note `attest` is an alias for `attest-cyclonedx-json`
 
-   You can also also create a SLSA provenance attestation from the same evidence:
+   You can also create a SLSA provenance attestation from the same evidence:
    ```sh
    $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -f
    ```
