@@ -410,20 +410,61 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 ```
 </details>
 
-# Scribe service
+## Scribe service integration
+Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
+Following are some integration examples.
 
-## Acquiring Scribe credentials  
-
-Running `valint` requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+## Before you begin
+Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
 * **Client ID**
 * **Client Secret**
 
-> Flag set:
+> Note that the product key is unique per product, while the client ID and secret are unique for your account.
+
+> Note the flag set:
 >* `-U`, `--scribe.client-id`
 >* `-P`, `--scribe.client-secret`
 >* `-E`, `--scribe.enable`
+
+## Procedure
+
+* Install `valint` tool using the following command
+```bash
+curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -t valint
+```
+
+As an example use the following commands
+
+```bash
+valint bom busybox:latest -E \
+  --product-key $PRODUCT_KEY \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
+```
+
+<details>
+  <summary>  Scribe integrity </summary>
+
+Full command examples, upload evidence on source and image to Scribe. <br />
+Verifying the target integrity on Scribe.
+
+```bash
+git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
+
+valint bom dir:mongo-express-scm -E \
+  --product-key $PRODUCT_KEY \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
+
+valint bom mongo-express:1.0.0-alpha.4 -E \
+  --product-key $PRODUCT_KEY \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
+```
+</details>
+
 
 ## Basic examples
 <details>

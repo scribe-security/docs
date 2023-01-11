@@ -84,8 +84,8 @@ You may can use the default x509 `cocosign` configuration flag.
 > Use flag `--attest.default=x509`.
 
 ```bash
-gensbom busybox:latest -o attest --attest.default x509 -v
-gensbom verify busybox:latest --attest.default fulcio -v
+gensbom busybox:latest -o attest --attest.default x509
+gensbom verify busybox:latest --attest.default x509
 ```
 
 Default config
