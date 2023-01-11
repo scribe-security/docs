@@ -163,7 +163,7 @@ Gensbom allows you to include external file content as part of the reported evid
 
 For example, you may use Gensbom to include an external security report in your SBOM.
 ```bash
-gensbom busybox:latest -vv -A **/some_report.json
+gensbom busybox:latest -A **/some_report.json
 ``` 
 </details>
 
@@ -195,10 +195,10 @@ Creating and verifying `attestation` for image target `busybox:latest`.
 
 ```bash
 # Create SBOM attestations (signed SBOMS)
-gensbom busybox:latest -vv -o attest
+gensbom busybox:latest -o attest
 
 # Create SLSA Provenance attestations
-gensbom busybox:latest -vv -o attest-slsa
+gensbom busybox:latest -o attest-slsa
 
 ``` 
 
@@ -206,10 +206,10 @@ Verifying attestation for images,
 
 ```bash
 # Verify SBOM attestations (signed SBOMS)
-gensbom verify busybox:latest -vv -o attest
+gensbom verify busybox:latest -o attest
 
 # Verify SLSA Provenance attestations
-gensbom verify busybox:latest -vv -i attest-slsa
+gensbom verify busybox:latest -i attest-slsa
 ``` 
 </details>
 
@@ -223,10 +223,10 @@ Creating and verifying `attestation` for git repo target `https://github.com/mon
 
 ```bash
 # Create SBOM attestations (signed SBOMS)
-gensbom git:https://github.com/mongo-express/mongo-express.git -vv -o attest
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
 
 # Create SLSA Provenance attestations
-gensbom git:https://github.com/mongo-express/mongo-express.git -vv -o attest-slsa
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
 
 ``` 
 
@@ -234,10 +234,10 @@ Verifying attestation for git repo target,
 
 ```bash
 # Verify SBOM attestations (signed SBOMS)
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -vv -o attest
+gensbom verify git:https://github.com/mongo-express/mongo-express.git -o attest
 
 # Verify SLSA Provenance attestations
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -vv -i attest-slsa
+gensbom verify git:https://github.com/mongo-express/mongo-express.git -i attest-slsa
 ``` 
 
 > Note you can also use local repos as targets using `git:<path to local dir>` as the target.
@@ -254,20 +254,20 @@ Creating and verifying `statements` for image target `busybox:latest`.
 
 ```bash
 # Create SBOM statement (signed SBOMS)
-gensbom busybox:latest -vv -o statement
+gensbom busybox:latest -o statement
 
 # Create SLSA Provenance statement
-gensbom busybox:latest -vv -o statement-slsa
+gensbom busybox:latest -o statement-slsa
 
 ``` 
 
 Verifying statements for images,
 ```bash
 # Verify SBOM statement (signed SBOMS)
-gensbom verify busybox:latest -vv -o statement
+gensbom verify busybox:latest -o statement
 
 # Verify SLSA Provenance statement
-gensbom verify busybox:latest -vv -i statement-slsa
+gensbom verify busybox:latest -i statement-slsa
 ``` 
 </details>
 
@@ -280,10 +280,10 @@ Creating, and verifying `statements` for git repo target `https://github.com/mon
 
 ```bash
 # Create SBOM attestations (signed SBOMS)
-gensbom git:https://github.com/mongo-express/mongo-express.git -vv -o attest
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest
 
 # Create SLSA Provenance attestations
-gensbom git:https://github.com/mongo-express/mongo-express.git -vv -o attest-slsa
+gensbom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
 
 ``` 
 
@@ -291,10 +291,10 @@ Verifying attestation for git repo target,
 
 ```bash
 # Verify SBOM attestations (signed SBOMS)
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -vv -o attest
+gensbom verify git:https://github.com/mongo-express/mongo-express.git -o attest
 
 # Verify SLSA Provenance attestations
-gensbom verify git:https://github.com/mongo-express/mongo-express.git -vv -i attest-slsa
+gensbom verify git:https://github.com/mongo-express/mongo-express.git -i attest-slsa
 ```
 </details>
 
@@ -344,7 +344,7 @@ One can use `gensbom` to generate the `cyclonedx` attestation and attach it to O
 
 ```bash
 # Generate sbom attestation
-gensbom [image] -vv -o attest -f --oci
+gensbom [image] -o attest -f --oci
 
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
@@ -360,7 +360,7 @@ One can use `gensbom` to generate the `slsa` attestation and attach it to OCI re
 
 ```bash
 # Generate sbom attestation
-gensbom [image] -vv -o attest-slsa -f --oci
+gensbom [image] -o attest-slsa -f --oci
 
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
@@ -376,7 +376,7 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 ```bash
 # Generate sbom predicate
-gensbom [image] -vv -o predicate -f --output-file gensbom_predicate.json
+gensbom [image] -o predicate -f --output-file gensbom_predicate.json
 
 # Sign and OCI store using cosign
 COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex

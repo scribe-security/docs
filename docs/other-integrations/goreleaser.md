@@ -5,11 +5,11 @@ geometry: margin=2cm
 # Goreleaser integration 🛸
 Scribe tools can be integrated in to Goreleaser to generate and/or sign source,
 artifacts and images. \
-Integrations requires the Gensbom CLI installed.
-* Gensbom - gitHub Action for SBOM Generation (Scribe) 
+Integrations requires the Valint CLI installed.
+* Valint - gitHub Action for SBOM Generation (Scribe) 
 
-## Gensbom installation
-See details [CLI documentation - install ](../cli/gensbom/docs/installation.md)
+## Valint installation
+See details [CLI documentation - install ](../cli/valint/docs/installation.md)
 
 ### Supported targets
 * `checksum`: only checksum file(s)
@@ -20,15 +20,15 @@ See details [CLI documentation - install ](../cli/gensbom/docs/installation.md)
 
 # Goreleaser hooks
 Sboms and attestations can be created on the your source and application artifacts.
-Note gensbom is used by the goreleaser sign flow hooks.
+Note valint is used by the goreleaser sign flow hooks.
 
 # SBOMs
-Using gensbom to create cyclonedx sboms for your project.
+Using valint to create cyclonedx sboms for your project.
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
 [Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note gensbom Attestations include SBOM payload.
+Note valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an SBOM for all artifacts.
 ```YAML
@@ -36,8 +36,8 @@ signs:
   - id: sbom_all
     artifacts: all
     signature: "${artifact}.sbom"
-    cmd: gensbom
-    args: ["bom", "file:$artifact", "--output-file", "$signature", "-vv", "-f"]
+    cmd: valint
+    args: ["bom", "file:$artifact", "--output-file", "$signature", "-f"]
 ```
 
 ### Artifacts Options
@@ -57,21 +57,21 @@ Add the following to your goreleaser config to create an SBOM for all image tags
 ```YAML
 docker_signs:
   - id: sbom_image
-    cmd: gensbom
+    cmd: valint
     artifacts: images
     output: true
-    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom", "-vv", "-f"]
+    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom", "-f"]
 ```
 
 
 # Attestations
-Using gensbom to create In-toto attestations including a signed for your project artifacts.
+Using valint to create In-toto attestations including a signed for your project artifacts.
 
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
 [Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note gensbom Attestations include SBOM payload.
+Note valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an attestations for all artifacts.
 ```YAML
@@ -79,8 +79,8 @@ signs:
   - id: attest_all
     artifacts: all
     signature: "${artifact}.sbom.sig"
-    cmd: gensbom
-    args: ["bom", "file:$artifact", "--output-file", "$signature", "-vv", "-f", "--format", "attest"]
+    cmd: valint
+    args: ["bom", "file:$artifact", "--output-file", "$signature", "-f", "--format", "attest"]
 ```
 
 ## Image
@@ -92,21 +92,21 @@ Add the following to your goreleaser config to create an attestations for all im
 ```YAML
 docker_signs:
   - id: attest_image
-    cmd: gensbom
+    cmd: valint
     artifacts: images
     output: true
-    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom.sig", "-vv", "-f", "--format", "attest"]
+    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom.sig", "-f", "--format", "attest"]
 ```
 
 ## Verifying target
-Using gensbom you can verify any artifact attestations (source,binary,image etc..). \
+Using valint you can verify any artifact attestations (source,binary,image etc..). \
 For details signing and verification options see [cocosign](https://github.com/scribe-security/cocosign) 
 
 1) First download attestation for your target (Github releases). \
-2) Install gensbom (See CI or local installation options)
+2) Install valint (See CI or local installation options)
 3) Run verification command (default uses sigstore+rekor keyless verification)
 ```shell
-gensbom verify <target> -vv --external external:<attestations path>
+valint verify <target> --external external:<attestations path>
 ```
 
 # Integrations
@@ -114,12 +114,12 @@ gensbom verify <target> -vv --external external:<attestations path>
 Scribe provides a set of services to store,verify and manage the supply chain integrity. \
 Following are some integration examples.
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
+Scribe integrity flow - upload evidence using `valint` and download the integrity report using `valint`. \
 
 <details>
   <summary> Github action workflow - SBOMS </summary>
 
-Full workflow example of a workflow, upload sbom evidence on source,binaries and images using gensbom and download report using valint.
+Full workflow example of a workflow, upload sbom evidence on source,binaries and images using valint and download report using valint.
 
 `release.yaml`
 ```YAML
@@ -148,7 +148,7 @@ jobs:
 
       - uses: scribe-security/action-installer@master
         with:
-          tools: gensbom
+          tools: valint
 
       - uses: docker/login-action@v2 
         with:
@@ -163,24 +163,15 @@ jobs:
           args: release  --debug --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GENSBOM_SCRIBE_AUTH0_CLIENTID:  ${{ secrets.clientid }}
-          GENSBOM_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
-          GENSBOM_SCRIBE_ENABLE: true
-
-      - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           verbose: 3
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
+          VALINT_SCRIBE_AUTH0_CLIENTID:  ${{ secrets.clientid }}
+          VALINT_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
+          VALINT_SCRIBE_ENABLE: true
 
       - uses: actions/upload-artifact@v2
         with:
           name: scribe-evidence
           path: |
-            scribe/gensbom
+            scribe/valint
             ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
 
@@ -223,8 +214,8 @@ signs:
   - id: sbom_all
     artifacts: all
     signature: "${artifact}.sbom"
-    cmd: gensbom
-    args: ["bom", "file:$artifact", "--output-file", "$signature", "-vv", "-f"]
+    cmd: valint
+    args: ["bom", "file:$artifact", "--output-file", "$signature", "-f"]
 
 dockers:
 - image_templates:
@@ -241,10 +232,10 @@ dockers:
 
 docker_signs:
   - id: sbom_image
-    cmd: gensbom
+    cmd: valint
     artifacts: images
     output: true
-    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom", "-vv", "-f"]
+    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom", "-f"]
 ```
 </details>
 
@@ -254,7 +245,7 @@ docker_signs:
 <details>
   <summary> Github action workflow - Attestations (sigstore) </summary>
 
-Full workflow example of a workflow, upload attestations evidence on source,binaries and images using gensbom and download report using valint.
+Full workflow example of a workflow, upload attestations evidence on source,binaries and images using valint and download report using valint.
 Note attestations use on github the sigstore-github integration using the identity of the workflow and sigstore as a CA.
 
 `release.yaml`
@@ -285,7 +276,7 @@ jobs:
 
       - uses: scribe-security/action-installer@master
         with:
-          tools: gensbom
+          tools: valint
 
       - uses: docker/login-action@v2 
         with:
@@ -303,7 +294,7 @@ jobs:
         with:
           name: scribe-evidence
           path: |
-            scribe/gensbom
+            scribe/valint
             ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
 
@@ -346,8 +337,8 @@ signs:
   - id: attest_all
     artifacts: all
     signature: "${artifact}.sbom.sig"
-    cmd: gensbom
-    args: ["bom", "file:$artifact", "--output-file", "$signature", "-vv", "-f", "--format", "attest"]
+    cmd: valint
+    args: ["bom", "file:$artifact", "--output-file", "$signature", "-f", "--format", "attest"]
 
 dockers:
 - image_templates:
@@ -364,10 +355,10 @@ dockers:
 
 docker_signs:
   - id: attest_image
-    cmd: gensbom
+    cmd: valint
     artifacts: images
     output: true
-    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom.sig", "-vv", "-f", "--format", "attest"]
+    args: ["bom", "${artifact}", "--output-file", "dist/{{.ProjectName}}_{{ .Tag }}.image.sbom.sig", "-f", "--format", "attest"]
 ```
 </details>
 
@@ -379,7 +370,7 @@ docker_signs:
 Download your image attestations from your release page, verify the image against sigstore.
 
 ```shell
-gensbom verify scribesecuriy.jfrog.io/scribe-docker-public-local/goreleaser-example:v1.2.23 -vv --external external:goreleaser-example_v1.2.23.image.sbom.sig
+valint verify scribesecuriy.jfrog.io/scribe-docker-public-local/goreleaser-example:v1.2.23 --external external:goreleaser-example_v1.2.23.image.sbom.sig
 ```
 
 Output:
