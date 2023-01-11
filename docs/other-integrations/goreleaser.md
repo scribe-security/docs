@@ -8,7 +8,7 @@ artifacts and images. \
 Integrations requires the Gensbom CLI installed.
 * Gensbom - gitHub Action for SBOM Generation (Scribe) 
 
-## Gensbom installation
+## Valint installation
 See details [CLI documentation - install ](../cli/valint/docs/installation.md)
 
 ### Supported targets
