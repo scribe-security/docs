@@ -242,7 +242,7 @@ Create SBOM for remote `busybox:latest` image.
 <details>
   <summary>  Docker built image (SBOM) </summary>
 
-Create SBOM for image built by local docker `image_name:latest` image, overwrite cache.
+Create SBOM for image built by local docker `image_name:latest`.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
@@ -258,7 +258,7 @@ Create SBOM for image built by local docker `image_name:latest` image, overwrite
 <details>
   <summary>  Private registry image (SBOM) </summary>
 
-Custom private registry, output verbose (debug level) log output.
+Create SBOM for image hosted by a private registry.
 
 > `DOCKER_CONFIG` environment will allow the containerized action to access the private registry.
 
