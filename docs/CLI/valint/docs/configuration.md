@@ -23,54 +23,6 @@ scribe:
   enable: false
 context:
   context-type: local
-report:
-  retry:
-    backoff: 3s
-    timeout: 60s
-  sections:
-  - files
-  - packages
-  - packages-files
-  - summary
-  - metadata
-  integrity:
-  - Modified
-  - Not_Covered
-  - Validated
-  - Not_Validated
-diff:
-  scope:
-    package:
-    - apk
-    - gem
-    - deb
-    - rpm
-    - npm
-    - python
-    - php-composer
-    - java-archive
-    - jenkins-plugin
-    - go-module
-    - rust-crate
-    - msrc-kb
-    - dart-pub
-    - dotnet
-    - pod
-    - conan
-    - portage
-    - hackage
-    integrity:
-    - validated
-    - modified
-    - missing
-    - added
-    - renamed
-  paths:
-  - ':'
-  synopsis:
-    enable: true
-  metadata:
-    enable: true
 bom:
   normalizers:
     packagejson:
@@ -127,10 +79,4 @@ filter:
   - '**/.git/**'
   filter-purl: []
   filter-scope: []
-dev:
-  profile-cpu: false
-  profile-mem: false
-  backwards: false
-  insecure: true
-  failonerror: true
 ```
