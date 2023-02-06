@@ -168,7 +168,7 @@ Admission supports both verification flows for `attestations` (signed)  and `sta
 #### Command
 ```bash
 helm upgrade admission-controller scribe/admission-controller -n scribe \
-    --set config.verify.input-format=<format>
+    --set config.verify.input-format=[format]
 ```
 
 #### Configuration
@@ -177,7 +177,7 @@ helm upgrade admission-controller scribe/admission-controller -n scribe \
 config:
   verify:
     # -- Select required evidence type
-    input-format: <format>
+    input-format: [format]
 ```
 
 #### Supported format tables
