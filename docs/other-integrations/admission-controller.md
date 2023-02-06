@@ -24,8 +24,8 @@ helm repo update
 kubectl create namespace scribe
 ```
 
-> You can inspect the admission version by running the following command 
-> `helm search repo scribe/admission-controller`
+>You can inspect the admission version by running the following command 
+>`helm search repo scribe/admission-controller`
  
 2. Install the admission-controller:
 ```bash
@@ -40,7 +40,7 @@ Choose any of the following installation options:
   Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing Scribe Hub as evidence store.
 
   ## Before you begin
-  Integrating Scribe Hub requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to Home>Products>[$product]>Setup)
+  Integrating Scribe Hub requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
   * **product key**
   * **client id**
