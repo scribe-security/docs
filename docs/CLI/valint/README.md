@@ -18,7 +18,7 @@ Evidence collection will automatically collect information from the Supply chain
 Lastly, Valint allows you to sign and verify a target against the signer's identity and policy across the supply chain.
 
 ## Installing `valint`
-Choose any of the following command line interpreter (CLI) installation options:
+Choose any of the following command line interface (CLI) installation options:
 
 <details>
   <summary> Pull binary </summary>
