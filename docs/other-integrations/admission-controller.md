@@ -129,13 +129,13 @@ Regular expressions uses the perl regular expression format.
 
 #### Command
 ```bash
-  helm upgrade admission-controller scribe/admission-controller -n scribe \
+helm upgrade admission-controller scribe/admission-controller -n scribe \
     --set config.admission.glob={[list of regular expressions]} -n scribe
 ```
 > For example:
 > This will match images that have the string nginx or busybox in their name.
 ```bash
-  helm upgrade admission-controller scribe/admission-controller -n scribe \
+helm upgrade admission-controller scribe/admission-controller -n scribe \
     --set config.admission.glob={\.\*busybox:\.\*,\.\*nginx:\\.*} -n scribe
 ```
 > Note the escaping of `.` and `*` when using `Bash` shell.
@@ -165,39 +165,57 @@ Admission supports both verification flows for `attestations` (signed)  and `sta
 
 > By default, admission will require signed evidence (`config.verify.input-format=attest`).
 
-You may configure the evidence type using the following.
-
-Command:
+#### Command
 ```bash
-    helm upgrade admission-controller scribe/admission-controller -n scribe \
-    --set config.verify.input-format=[format]
+helm upgrade admission-controller scribe/admission-controller -n scribe \
+    --set config.verify.input-format=<format>
 ```
 
-> Input-format support [statement, attest, statement-slsa, attest-slsa]
-  Alias:
-  statement=statement-cyclonedx-json
-  attest=attest-cyclonedx-json
-
-Configuration:
+#### Configuration
 ```yaml
 ...
 config:
   verify:
-    # -- Select required evidence type (unsigned sbom)
-    input-format: statement
+    # -- Select required evidence type
+    input-format: <format>
 ```
+
+#### Supported format tables
+The following table lists the supported evidence types:
+
+| Format | alias | Description | signed
+| --- | --- | --- | --- |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
+
+Aliases:
+* statement=statement-cyclonedx-json
+* attest=attest-cyclonedx-json
 
 # Uploading evidence
-After installing the admission you you want to upload evidence.
+After installing the admission you you want to upload evidence .
 
-Command:
+## Upload to Scribe service
+```bash
+# Generating evidence, storing on [my_repo] OCI repo.
+valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] -E \
+  --product-key $PRODUCT_KEY \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
 ```
-valint bom <target_image> --oci
+
+## Upload to OCI registry
+```bash
+# Generating evidence, storing on [my_repo] OCI repo.
+valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
 ```
-Or 
-Command:
-```
-valint bom <target_image> --oci --oci-repo [oci-repo]
+
+> For image targets **only** you may attach the evidence in the same repo as the image.
+
+```bash
+valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
 ## Uninstall `admission-controller`
