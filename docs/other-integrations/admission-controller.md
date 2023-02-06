@@ -24,8 +24,8 @@ helm repo update
 kubectl create namespace scribe
 ```
 
->You can inspect the admission version by running the following command 
->`helm search repo scribe/admission-controller`
+>You can inspect the admission version by running the following command \
+`helm search repo scribe/admission-controller`
  
 2. Install the admission-controller:
 ```bash
@@ -56,7 +56,7 @@ Choose any of the following installation options:
       --set scribe.auth.client_secret=$(CLIENT_SECRET) \
       --set context.name=$(PRODUCT_KEY)
   ```
-  > Credentials will be stored as a secret named `admission-controller-scribe-cred`.
+  >Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
 </details>
 
@@ -84,8 +84,8 @@ Choose any of the following installation options:
       ```
       kubectl create secret docker-registry [secret_name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n scribe
       ```
-      > Note: The `oci-repo` must be hosted on the `oci-url` you're adding the secret to.
-      > Example: `oci-repo=my_org.jfrog.io/docker-public-local` while `oci-url=my_org.jfrog.io`
+      >Note: The `oci-repo` must be hosted on the `oci-url` you're adding the secret to. \
+      Example: `oci-repo=my_org.jfrog.io/docker-public-local` while `oci-url=my_org.jfrog.io`
         
   3. Install admission with an OCI registry as the evidence store:
       ```
@@ -131,13 +131,13 @@ Regular expressions uses the perl regular expression format.
 helm upgrade admission-controller scribe/admission-controller -n scribe \
     --set config.admission.glob={[list of regular expressions]} -n scribe
 ```
-> For example:
-> This will match images that have the string nginx or busybox in their name.
+>For example: \
+This will match images that have the string nginx or busybox in their name.
 ```bash
 helm upgrade admission-controller scribe/admission-controller -n scribe \
     --set config.admission.glob={\.\*busybox:\.\*,\.\*nginx:\\.*} -n scribe
 ```
-> Note the escaping of `.` and `*` when using `Bash` shell.
+>Note the escaping of `.` and `*` when using `Bash` shell.
 
 
 #### Configuration
@@ -147,8 +147,8 @@ config:
   admission:
     glob: [list of regular expressions]
 ```
-> For example:
-> This will match images that have the string nginx or busybox in their name.
+> For example: \
+This will match images that have the string nginx or busybox in their name.
 ```yaml
 ...
 config:
@@ -162,7 +162,7 @@ config:
 ### Evidence type
 Admission supports both verification flows for `attestations` (signed)  and `statement` (unsigned) objects utilizing OCI registry or Scribe service as an evidence store.
 
-> By default, admission will require signed evidence (`config.verify.input-format=attest`).
+>By default, admission will require signed evidence (`config.verify.input-format=attest`).
 
 #### Command
 ```bash
@@ -211,7 +211,7 @@ valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] -E \
 valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
 ```
 
-> For image targets **only** you may attach the evidence in the same repo as the image.
+>For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
 valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
