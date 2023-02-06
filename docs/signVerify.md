@@ -16,8 +16,7 @@ Following table includes the supported format.
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
 
-> Both Bom command output formnat `-o`,`--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats.
-   
+> Both Bom command output format `-o`,`--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats.
 
 ## Signing the result of the *Valint bom* command into an attestation
 
