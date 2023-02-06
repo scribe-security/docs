@@ -5,7 +5,7 @@ sidebar_position: 4
 
 ![Version: 0.1.3-8](https://img.shields.io/badge/Version-0.1.3--8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.3-8](https://img.shields.io/badge/AppVersion-0.1.3--8-informational?stylkubectl create namespace scribe
 e=flat-square)
-
+[homepage](https://scribesecurity.com)
 
 # Admission-controller
 The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain. It does this by checking resources that are being created in the cluster against admission rules, which determine if the resources are allowed. This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration. The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace.
@@ -13,7 +13,6 @@ The Scribe Admission Controller is a component in your Kubernetes cluster that e
 ## Evidence Collection and Signing
 The admission controller collects evidence of resources and uploads it to either Scribe service or OCI registry. This evidence can be either signed (`attestations`) or unsigned (`statements`). When resources are signed, the admission controller downloads the evidence and runs it through a validation flow that includes signature and identity checks as well as policies. If the evidence is unsigned, the signature and identity checks can be skipped, but the policies can still be run against the unsigned evidence.
 
-**Homepage:** <https://scribesecurity.com>
 
 ### Installing `admission-controller`
 The admission-controller is installed using Helm. Here are the steps to add the chart repository and install the admission-controller:
