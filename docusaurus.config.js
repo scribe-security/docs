@@ -138,12 +138,12 @@ const config = {
           position: 'left',
           label: 'Sample Project',
         },
-        {
-          type: 'doc',
-          docId: 'cves',
-          position: 'left',
-          label: 'Detecting CVEs',
-        },
+        // {
+        //   type: 'doc',
+        //   docId: 'cves',
+        //   position: 'left',
+        //   label: 'Detecting CVEs',
+        // },
         {
           type: 'doc',
           docId: 'readingoutput',
