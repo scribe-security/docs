@@ -80,6 +80,7 @@ const config = {
                 "faq.md",
                 "overview.md" ,
                 "slsapolicies.md",
+                "ssdfpolicies.md",
                 "glossary.md",
                 "README.md",
               ],
