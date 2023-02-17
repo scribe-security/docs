@@ -11,7 +11,7 @@ Valint generates and verifies evidence collected on targets and artifacts across
 Valint also allows you to store evidence locally on a remote OCI registry or using Scribe service. <br />
 
 Target support includes directories, files, images and git repositories. <br />
-While evidence types supported are CycloneDX SBOMS and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
+While evidence types supported are CycloneDX SBOMs and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
 
 Evidence collection will automatically collect information from the Supply chain environment which allows you to reference where in your supply chain the evidence was generated, see the `environment context` section below.
 
@@ -54,7 +54,7 @@ OS
 
 ## Target types
 ---
-Each target can be used to collect evidence on different parts of your supply chain.  <br />
+Each target type can be used to collect evidence on different parts of your supply chain.  <br />
 For example, you can collect SBOMs for images or binaries created by your supply chain.
 
 Target format `[scheme]:[name]:[tag]`
@@ -72,20 +72,20 @@ Target format `[scheme]:[name]:[tag]`
 
 ### Image Target
 Images are a very common artifact for many supply chains,
-From the actual application release to build/test environments run by supply chains.
+from the actual application release to build/test environments run by supply chains.
 
 Image formats supported are currently docker manifest v2 and OCI. <br />
 Image sources supported are docker-daemon, image archives and direct registry access.
 
-> By default scheme assumes Docker daemon but falls back to registry when not found.
+> By default the target search scheme assumes Docker daemon but falls back to registry when not found.
 
 ### Directory/File Target
 Directories and files are common artifacts created by supply chains, 
-From the actual application released, configurations or even internal build dependencies caches.
+from the actual application released, configurations or even internal build dependencies caches.
 
 ### Git Target
 Git repositories are a common part of most supply chains,
-Target allows you to collect evidence including sources, commits and packages found in your source targets.
+a Git target allows you to collect evidence including sources, commits and packages found in your source repositories.
 
 ## Evidence formats
 Valint supports the following evidence output formats and related `format` and `input-format` flags.
@@ -101,7 +101,7 @@ Valint supports the following evidence output formats and related `format` and `
 | attest-slsa |  | In-toto Attestations | yes |
 
 ## CycloneDX SBOM
-CycloneDX SBOM evidence includes a large amount of analyzed data depending on the target and user configuration.
+The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
 The following table describes the `group` types we currently support.
 
 | Component group | Description | targets | required |
@@ -140,7 +140,7 @@ Currently, we support the following dependencies relations.
 Following are some of the customizable features we support.
 * Include only specific component groups, use `--components` to select between the group types.
 * Include or exclude specific package types, use `--package-type` or `--package-exclude-type` to select a specific package type.
-* Include found installed packages (package group `install`) or refrenced by sources (package group `index`), use `--package-group` to select between options.
+* Include the installed packages found (package group `install`) or the packages refrenced by sources (package group `index`), use `--package-group` to select between options.
 * Exclude components, use `--filter-regex`, `--filter-scope` and `--filter-purl` to exclude any component.
 * Attach any file content, use `--attach-regex` to include the content of external files.
 * Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
@@ -153,8 +153,8 @@ See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
 ## Environment context
-`environment context` collects information from the underlining environments.
-Environment context is key to connecting the target and the actual point in your supply chain it was created in.
+`environment context` collects information from the underlining environments, in which Valint is run.
+Environment context is key to connecting the target evidence and the actual point in your supply chain it was created in.
 
 The following table includes the types of environments we currently support:
 | context-type | description |
@@ -174,7 +174,7 @@ For example, evidence created on `Github Actions` will include the workflow name
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
-The following table includes the supported format by the verification command.
+The following table includes the formats supported by the verification command.
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
@@ -183,15 +183,15 @@ The following table includes the supported format by the verification command.
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
 
-Select default configuration using `--attest.default` flag. <br />
+Select default the configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
-> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptography.
+> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 See details [In-toto spec](https://github.com/in-toto/attestation) <br />
 See details [attestations](docs/attestations.md)
 
-# CLI
+# CLI - Use Valint as a command line tool
 
 ## Evidence Generator - `bom` command
 `bom` command allows you to generate SBOMs and SLSA provenances in multiple flavors and targets. <br />
@@ -304,8 +304,8 @@ valint bom busybox:latest -vv -A **/some_report.json
 
 The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy based verification.
 
-Verification flow for `attestations` which re signed evidence formats includes PKI and identity verification as well as policy verification. <br />
-Verification flow for `statements` that are unsigned evidence includes policy verification. <br />
+Verification flow for `attestations` which are signed evidence formats includes PKI and identity verification as well as policy verification. <br />
+Verification flow for `statements` that are unsigned evidence includes policy verification only. <br />
 
 > Evidence must be available locally (on disc), remotly on a OCI registry or through Scribe service.
 
@@ -329,9 +329,9 @@ Using OCI registry as an evidence store allows you to upload and verify evidence
 
 ### Before you begin
 Evidence can be stored in any accusable registry,
-Write access is required for upload as well as Read access is for download.
+Write access is required for upload.Read access is required for download.
 
-You must first login with the required access to your registry before you calling Valint.
+You must first login with the required access privileges to your registry before calling Valint.
 
 ### Usage
 ```bash
@@ -351,13 +351,13 @@ valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
 
 ## Configuration
-Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
+Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
 See detailed [configuration](docs/configuration.md)
 
 # Cosign support 
-[Cosign](https://github.com/sigstore/cosign) is and awesome tool that  aims to make signatures invisible infrastructure.
-Valint supports integration with the awesome `cosign` cli tool and other `sigstore` verification process.
+[Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
+Valint supports integration with the awesome `cosign` cli tool and other parts of the `sigstore` verification process.
 
 <details>
   <summary> CycloneDX verification using cosign </summary>
@@ -415,13 +415,14 @@ Scribe provides a set of services to store, verify and manage the supply chain i
 Following are some integration examples.
 
 ## Before you begin
-Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Valint with the Scribe Service requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * **Product Key**
 * **Client ID**
 * **Client Secret**
 
 > Note that the product key is unique per product, while the client ID and secret are unique for your account.
+> Note that the Scribe Hub generated Product key is optional. You can generate your own string as a unique identification of the product.
 
 > Note the flag set:
 >* `-U`, `--scribe.client-id`
@@ -708,12 +709,12 @@ Valint uses some external tools, libraries, and packages to achieve its goal.
 
 ## Support
 
-If you'd like help with this pipe, or you have an issue or a feature request,
+If you'd like help with deploying or using Valint, or you have an issue or a feature request, please 
+[Contact-us](https://scribesecurity.com/contact-us/) By email or Slack.
+
 If you are reporting an issue, please include:
 
 - the version of the pipe
 - relevant logs and error messages
 - steps to reproduce
 
-By email or slack, 
-[Contact-us](https://scribesecurity.com/contact-us/).
