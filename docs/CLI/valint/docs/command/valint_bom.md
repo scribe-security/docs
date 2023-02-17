@@ -1,10 +1,10 @@
 ## valint bom
 
-Create SBOM for target
+Create an SBOM for target
 
 ### Synopsis
 
-Generate Software Bill Of Materials (SBOM) for container images, filesystems and git repositories
+Generate a Software Bill Of Materials (SBOM) for container images, filesystems and git repositories
 
 ```
 valint bom [TARGET] [flags]

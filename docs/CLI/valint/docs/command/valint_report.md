@@ -1,6 +1,6 @@
 ## valint report
 
-Download integrity report from Scribe service
+Download an integrity report from Scribe service
 
 ```
 valint report [flags]
