@@ -12,9 +12,6 @@ All CLIs are accessible via Docker and binary.
 
 Follow installation and usage instructions here:
 
-* Gensbom - Generates a Software Bill Of Materials (SBOM) from container images and filesystems. \
-  See [CLI documentation - Gensbom](gensbom/README.md)
-
 * Valint - Valint tool provides a tool to verify the integrity of a supply chain. \
   See [CLI documentation - Valint](valint/README.md)
 
