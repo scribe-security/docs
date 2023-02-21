@@ -123,27 +123,20 @@ jobs:
             ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
 ```
 
-## Generating SLSA provenance and enacting SLSA policy on your project
+## Connecting ScribeApp to Your Organizational GitHub Account
 
-To collect SLSA provenance from your GitHub pipeline you'll first need to install the Scribe GitHub app in your organizational GitHub account. You'll then need to add the relevant code snippet to your pipeline.
+To collect security policy information (SLSA and SSDF) from your GitHub pipeline you'll first need to install the Scribe GitHub app in your organizational GitHub account. You'll then need to add the relevant code snippet to your pipeline.
 
-### Connecting your GitHub account to ScribeApp
+### Where to start
 
-Start by visiting your **[Scribe Hub account](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. You'll see that the **SLSA compliance** column is empty for all your products.
+Before you connect to ScribeApp no security policy data will be included in your build version information. To start the integration visit your **[Scribe Hub account](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. On the left column go to the **integrations** option.
 
-![Empty SLSA Compliance column](../../../static/img/ci/products_slsa_empty.jpg "Empty SLSA Compliance column")
+<img src='../../../img/ci/scribe-beta-integrations.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
 
-To add the SLSA policies go to any of your product's pages and note the tab **policies**.
+Once you click on **integrations** you'll get to a page that includes links to all possible environments you could possibly integrate with Scribe Hub.
+If you scroll down a bit you'd get to the **Source Control** section:
 
-<img src='../../../img/ci/product_policies_tab.jpg' alt='Product policies tab' width='30%' min-width='300px'/> 
-
-Once you click on the **policies** tab you'll get to this page:
-
-<img src='../../../img/ci/policies_page.jpg' alt='Policies page' width='60%' min-width='600px'/> 
-
-The first step in activating the policies is connecting your organizational GitHub account to the Scribe GitHub app - ScribeApp. Once you press the link you'll get to the **integrations** page:
-
-<img src='../../../img/ci/integrations.jpg' alt='Integrations' width='70%' min-width='700px'/>
+<img src='../../../img/ci/scribe-beta-source-control-integrations.jpg' alt='Source Control' width='20%' min-width='150px'/> 
 
 To continue press the **connect** link designed to connect ScribeApp to your GitHub organization's account. That will lead you to a page like this:
 
@@ -170,9 +163,7 @@ As soon as you provide your password GitHub will handle everything else and redi
 
 <img src='../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/> 
 
-You can now go back to the product's **policies** tab and activate the policies by pressing the **Active** button.
-
-<img src='../../../img/ci/slsa_active.jpg' alt='Approve access' width='40%' min-width='400px'/> 
+Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build.
 
 You can turn the SLSA policy off or on for each project at any time, assuming that the project's repository is covered by ScribeApp. Note that even if you have turned on the policy you won't see any SLSA provenance results until you have integrated Scribe's code snippet into your pipeline and have run the action.
 

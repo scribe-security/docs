@@ -9,7 +9,7 @@ The Supply chain Levels for Software Artifacts or SLSA (pronounced Salsa) is a s
 
 You can read more about SLSA v0.2 [here](https://slsa.dev/provenance/v0.2 "SLSA Framework"). 
 
-The Scribe Hub allows producers to collect relevant SLSA information about their pipelines in the form of a series of policies. You can choose to enact these policies on your pipeline and check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SLSA level 3__. To learn about how to enact the SLSA policy on your product check out [this page](../docs/ci-integrations/github#generating-slsa-provenance).
+The Scribe Hub allows producers to collect relevant SLSA information about their pipelines in the form of a series of policies. You can choose to enact these policies on your pipeline and check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SLSA level 3__. To learn about how to enact the SLSA policy on your product check out [this page](../docs/ci-integrations/github#connecting-scribeapp-to-your-organizational-github-account).
 
 ### Build As Code 
 This policy checks that the build definition and configuration executed by the build service is verifiably derived from text file definitions stored in a version control system.
