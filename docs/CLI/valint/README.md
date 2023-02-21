@@ -157,6 +157,7 @@ See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 Environment context is key to connecting the target evidence and the actual point in your supply chain it was created in.
 
 The following table includes the types of environments we currently support:
+
 | context-type | description |
 | --- | --- |
 | local | local endpoints |
