@@ -69,6 +69,15 @@ Flags for all `valint` subcommands
   valint verify registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
   valint verify file:path/to/yourproject/file          read directly from a path on disk (any single file)
 
+  Example:
+  valint bom alpine:latest -o attest
+  valint verify alpine:latest -o attest
+
+  Format-aliases:
+  * json=attest-cyclonedx-json
+  * statement=statement-cyclonedx-json
+  * attest=attest-cyclonedx-json
+
 ```
 
 ### SEE ALSO

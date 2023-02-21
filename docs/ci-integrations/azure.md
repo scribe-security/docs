@@ -31,7 +31,6 @@ Install the Scribe `valint` CLI tool:
         command: bom
         target: busybox:latest
         outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-        verbose: 2
 ```
 
 ## Before you begin
@@ -113,7 +112,6 @@ Create SBOM for remote `busybox:latest` image.
     commandName: bom
     target: busybox:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 
@@ -131,7 +129,6 @@ Create SBOM for image built by local docker `image_name:latest` image.
     commandName: bom
     target: image_name:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 </details>
@@ -150,7 +147,6 @@ Create SBOM for image hosted on private registry.
     commandName: bom
     target: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 </details>
@@ -177,7 +173,6 @@ Custom metadata added to SBOM.
       commandName: bom
       target: 'busybox:latest'
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      verbose: 2
       force: true
       env: test_env
       label: test_label
@@ -199,7 +194,6 @@ Using input variable `outputDirectory` or `outputFile` to export evidence as an 
     target: busybox:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     outputFile: $(Build.ArtifactStagingDirectory)/my_sbom.json
-    verbose: 2
     force: true
 
 # Using `outputDirectory` evidence cache dir
@@ -228,7 +222,6 @@ Create SBOM from a local directory.
     command: bom
     target: dir:testdir
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 </details>
@@ -245,7 +238,6 @@ Create SBOM for `mongo-express` remote git repository.
     command: bom
     target: git:https://github.com/mongo-express/mongo-express.git 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 
@@ -262,7 +254,6 @@ Create SBOM for local git repository. <br />
     command: bom
     target: git:. 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    verbose: 2
     force: true
 ``` 
 </details>

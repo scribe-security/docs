@@ -70,11 +70,18 @@ Flags for all `gensbom` subcommands
   gensbom verify registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
   gensbom verify file:path/to/yourproject/file          read directly from a path on disk (any single file)
 
+  Example:
+  gensbom bom alpine:latest -o attest
+  gensbom verify alpine:latest -o attest
+
+  Format-aliases:
+  * json=attest-cyclonedx-json
+  * statement=statement-cyclonedx-json
+  * attest=attest-cyclonedx-json
+
 ```
 
 ### SEE ALSO
 
 * [gensbom](gensbom.md)	 - Create SBOM for target
-
-et
 

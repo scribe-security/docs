@@ -32,7 +32,7 @@ jobs:
           valint bom busybox:latest \
               --context-type travis \
               --output-directory ./scribe/valint \
-              -vv -f
+              -f
 ```
 
 ## Before you begin
@@ -76,15 +76,14 @@ script:
         --context-type travis \
         --output-directory ./scribe/valint \
         --product-key $PRODUCT_KEY \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        -vv
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+        
   - |
     valint bom mongo-express:1.0.0-alpha.4 \
         --context-type travis \
         --output-directory ./scribe/valint \
         --product-key $PRODUCT_KEY \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        -vv
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
 ```
 
 
@@ -99,7 +98,7 @@ Create SBOM for remote `busybox:latest` image.
   valint bom busybox:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ``` 
 
 </details>
@@ -114,7 +113,7 @@ Create SBOM for image built by local docker `image_name:latest` image.
   valint bom image_name:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ``` 
 </details>
 
@@ -130,7 +129,7 @@ Create SBOM for image hosted on private registry.
   valint bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ```
 </details>
 
@@ -147,7 +146,7 @@ Custom metadata added to SBOM.
           --context-type travis \
           --output-directory ./scribe/valint \
           --env test_env --label test_label \
-          -vv -f
+          -f
 ```
 </details>
 
@@ -184,7 +183,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
             --context-type travis \
             --output-directory ./scribe/valint \
             --output-file ./my_sbom.json \
-            -vv -f
+            -f
       
       addons:
       
@@ -210,7 +209,7 @@ Create SBOM for a local directory.
   valint bom dir:testdir \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ``` 
 </details>
 
@@ -225,7 +224,7 @@ Create SBOM for `mongo-express` remote git repository.
   valint bom git:https://github.com/mongo-express/mongo-express.git \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ``` 
 
 Create SBOM for local git repository. <br />
@@ -237,7 +236,7 @@ Create SBOM for local git repository. <br />
   valint bom git:. \
       --context-type travis \
       --output-directory ./scribe/valint \
-      -vv -f
+      -f
 ``` 
 </details>
 

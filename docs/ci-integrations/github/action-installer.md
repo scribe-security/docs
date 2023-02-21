@@ -33,11 +33,9 @@ Install the tool locally if you want to:
   tools:
     description: 'Select scribe tools <tool:version>'
     required: false
-    default: 'valint,valint'
 ```
 
 ## Supported tools
-* valint
 * valint
 
 ## OS - Arch support
@@ -62,45 +60,4 @@ Install the tool locally if you want to:
   with:
     tools: valint
 ``` 
-
-```YAML
-- name: valint install
-  id: valint_install
-  uses: scribe-security/action-installer@master
-  with:
-    tools: valint
-``` 
 </details>
-
-<details>
-  <summary> Install valint (tool) </summary>
-
-Install valint as a tool
-```YAML
-- name: install valint
-  uses: scribe-security/action-installer@master
-
-- name: valint run
-  run: |
-    valint --version
-    valint bom busybox:latest -vv
-``` 
-</details>
-
-<!-- <details>
-  <summary> Install gensbom (tool) </summary>
-
-Install Gensbom as a tool (backward compatible)
-
-```YAML
-- name: install gensbom
-  uses: scribe-security/action-installer@master
-  with:
-    tool: gensbom
-
-- name: gensbom run
-  run: |
-    gensbom --version
-    gensbom bom busybox:latest -vv
-``` 
-</details> -->

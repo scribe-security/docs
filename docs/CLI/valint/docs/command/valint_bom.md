@@ -82,7 +82,13 @@ Flags for all `valint` subcommands
   valint bom registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
   valint bom file:path/to/yourproject/file          read directly from a path on disk (any single file)
   valint bom git:path/to/yourrepository             read directly from a local repository on disk
-  valint bom git:path/to/yourrepository.git         read directly from a remote repository on git
+  valint bom git:https://github.com/yourrepository.git         read directly from a remote repository on git
+
+  Format-aliases:
+  * json=attest-cyclonedx-json
+  * predicate=predicate-cyclonedx-json
+  * statement=statement-cyclonedx-json
+  * attest=attest-cyclonedx-json
 
 ```
 
