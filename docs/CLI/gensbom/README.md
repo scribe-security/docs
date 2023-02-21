@@ -707,12 +707,11 @@ Gensbom uses some external tools, libraries, and packages to achieve its goal.
 
 ## Support
 
-If you'd like help with this pipe, or you have an issue or a feature request,
+If you'd like help with deploying or using Gensbom, or you have an issue or a feature request, 
+[Contact-us](https://scribesecurity.com/contact-us/) By email or Slack.
+
 If you are reporting an issue, please include:
 
-- the version of the pipe
-- relevant logs and error messages
+- the version of the Tool (`gensbom --version`)
+- relevant logs and error messages (`gensbom .. -vv`)
 - steps to reproduce
-
-By email or slack, 
-[Contact-us](https://scribesecurity.com/contact-us/).

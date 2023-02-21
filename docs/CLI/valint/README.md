@@ -709,12 +709,12 @@ Valint uses some external tools, libraries, and packages to achieve its goal.
 
 ## Support
 
-If you'd like help with deploying or using Valint, or you have an issue or a feature request, please 
+If you'd like help with deploying or using Valint, or you have an issue or a feature request, 
 [Contact-us](https://scribesecurity.com/contact-us/) By email or Slack.
 
 If you are reporting an issue, please include:
 
-- the version of the pipe
-- relevant logs and error messages
+- the version of the Tool (`valint --version`)
+- relevant logs and error messages (`valint .. -vv`)
 - steps to reproduce
 
