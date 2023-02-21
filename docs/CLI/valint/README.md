@@ -198,7 +198,9 @@ See details [attestations](docs/attestations.md)
 `bom` command allows you to generate SBOMs and SLSA provenances in multiple flavors and targets. <br />
 Evidence can be tailor-made to fit your supply chain policies and transparency needs.
 
-> By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `--output-directory` to customize the evidence output location. 
+> By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
+
+> To disable local cache, set an empty output directory - `valint bom [target] -d ""`.
 
 ### Usage
 ```shell
