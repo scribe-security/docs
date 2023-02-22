@@ -36,8 +36,6 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
   scribe-enable:
     description: 'Enable scribe client'
     default: false
-  scribe-client-id:
-    description: 'Scribe client id' 
   scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
@@ -67,8 +65,6 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
   uses: scribe-security/action-report@master
   with:
       scribe-enable: true
-      product-key: ${{ secrets.product-key }}
-      scribe-client-id: ${{ secrets.client-id }}
       scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
@@ -83,8 +79,6 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
   uses: scribe-security/action-report@master
   with:
       scribe-enable: true
-      product-key:  ${{ secrets.product-key }}
-      scribe-client-id: ${{ secrets.client-id }}
       scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
@@ -128,8 +122,6 @@ jobs:
            type: dir
            target: 'mongo-express-scm'
            scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Build and push remote
@@ -145,8 +137,6 @@ jobs:
         with:
            target: 'mongo-express:1.0.0-alpha.4'
            scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Valint - download report
@@ -154,8 +144,6 @@ jobs:
         uses: scribe-security/action-report@master
         with:
            scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - uses: actions/upload-artifact@v2
@@ -180,8 +168,6 @@ Valint downloading integrity report from scribe service
   uses: scribe-security/action-report@master
   with:
       scribe-enable: true
-      product-key:  ${{ secrets.product-key }}
-      scribe-client-id: ${{ secrets.client-id }}
       scribe-client-secret: ${{ secrets.client-secret }}
 ```
 </details>
@@ -197,8 +183,6 @@ Valint downloading integrity report from scribe service
     uses: scribe-security/action-report@master
     with:
         scribe-enable: true
-        product-key:  ${{ secrets.product-key }}
-        scribe-client-id: ${{ secrets.client-id }}
         scribe-client-secret: ${{ secrets.client-secret }}
         section: packages
 ```
@@ -217,6 +201,6 @@ Install Valint as a tool
 - name: valint run
   run: |
     valint --version
-    valint report --scribe.client-id $SCRIBE_CLIENT_ID $SCRIBE_CLIENT_SECRET
+    valint report $SCRIBE_CLIENT_SECRET
 ``` 
 </details>

@@ -34,13 +34,7 @@ Install the Scribe `valint` CLI tool:
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Azure DevOps requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
-
-* **Product Key**
-* **Client ID**
-* **Client Secret**
-
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+Integrating Scribe Hub with Azure DevOps requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 # Procedure
 
@@ -82,7 +76,6 @@ Here's what all the steps look like in a unified pipeline example:
               target: dir:mongo-express-scm
               outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
               scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
               scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
 
           - task: ValintCli@0
@@ -91,7 +84,6 @@ Here's what all the steps look like in a unified pipeline example:
               target: mongo-express:1.0.0-alpha.4
               outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
               scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
               scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
   ```
 </details>

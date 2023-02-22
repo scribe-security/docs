@@ -82,8 +82,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
   scribe-enable:
     description: 'Enable scribe client'
     default: false
-  scribe-client-id:
-    description: 'Scribe client id' 
   scribe-client-secret:
     description: 'Scribe access token' 
   context-dir:
@@ -150,8 +148,6 @@ Following are some integration examples.
   with:
     target: 'busybox:latest'
     scribe-enable: true
-    product-key:  ${{ secrets.product-key }}
-    scribe-client-id: ${{ secrets.client-id }}
     scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
@@ -193,8 +189,6 @@ jobs:
            type: dir
            target: 'mongo-express-scm'
            scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Build and push remote
@@ -210,8 +204,6 @@ jobs:
         with:
            target: 'mongo-express:1.0.0-alpha.4'
            scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - uses: actions/upload-artifact@v3

@@ -37,13 +37,7 @@ scribe-gitlab-job:
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Gitlab requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
-
-* **Product Key**
-* **Client ID**
-* **Client Secret**
-
-> Note that the product key is unique per product, while the client ID and secret are unique for your account.
+Integrating Scribe Hub with GitLab requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 ## Scribe service integration
 Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />

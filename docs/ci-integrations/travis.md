@@ -36,13 +36,7 @@ jobs:
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Travis CI requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
-
-* **Product Key**
-* **Client ID**
-* **Client Secret**
-
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+Integrating Scribe Hub with Travis CI requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 * Add the credentials (client id, client secret, and product key) to your Travis environment according to the [Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables") to avoid revealing secrets.
 

@@ -6,13 +6,7 @@ sidebar_label: Other CI systems
 # Integrating Scribe with Other CI Systems
 
 ## Before you begin
-Integrating Scribe Hub requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
-
-* **product key**
-* **client id**
-* **client secret**
-
->Note that the product key is unique per product, while the client id and secret are unique for your account.
+Integrating Scribe Hub requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
 ## Procedure
 1. Download `valint`  
@@ -24,11 +18,9 @@ Integrating Scribe Hub requires the following credentials that are found in the 
 2. Add the credentials to your CI system.
 Here is an example for setting your *client id* credential as an environment variable:  
    ```js
-   export CLIENT_ID=<client-id>
-   export PRODUCT_KEY=<product-key>
    export CLIENT_SECRET=<client-secret>
    ```
-   Replace <client_id> with the client id value you received from **Scribe Hub**. In the same way you can add the client secret and the product key as environment variables.
+   Replace <client_secret> with the client id value you received from **Scribe Hub**. 
 
 3. Call Scribe `valint` from your build script.
 <!--- Copy from illustration -->
@@ -36,13 +28,11 @@ These are the two points for adding Scribe Hub code:
 * **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
 
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --product-key=$PRODUCT_KEY --scribe.client-id=$CLIENT_ID \
---scribe.client-secret=$CLIENT_SECRET -E -f -v
+$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --product-key=$PRODUCT_KEY \
---scribe.client-id=$CLIENT_ID --scribe.client-secret=$CLIENT_SECRET -E -f -v
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-secret=$CLIENT_SECRET -E -f -v
 ```
 
