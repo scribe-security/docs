@@ -12,7 +12,10 @@ If you are using GitHub Actions as your Continuous Integration tool (CI), use th
 
 ## Before you begin
 ### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with GitHub actions requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with GitHub requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Client ID**
+* **Client Secret**
 
 ## Creating an SBOM and collecting evidence
 1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientsecret** for the **client-secret**.
@@ -30,6 +33,7 @@ Integrating Scribe Hub with GitHub actions requires the **Client Secret** creden
           type: dir
           target: <repo-name>
           scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
     ```
     * Call `valint` to generate an SBOM from the final Docker image.
@@ -41,6 +45,7 @@ Integrating Scribe Hub with GitHub actions requires the **Client Secret** creden
           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
           target: <image-name:tag>
           scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
     ```
     <!-- * Call `valint` to get the integrity report results.
@@ -88,6 +93,7 @@ jobs:
            type: dir
            target: 'mongo-express-scm'
            scribe-enable: true
+           scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
 
       # Build and push your image - this example skips this step as we're using the published mongo express.
@@ -99,6 +105,7 @@ jobs:
           type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
            target: 'mongo-express:1.0.0-alpha.4'
            scribe-enable: true
+           scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
 
       - uses: actions/upload-artifact@v2
@@ -165,7 +172,6 @@ If anything isn't clear you can check out the GitHub instruction page for <a hre
         with:
           target: <image-name:tag>
           format: statement-slsa
-          product-key: ${{ secrets.productkey }}
 
         -uses: actions/upload-artifact@v2
         with:
@@ -198,7 +204,6 @@ jobs:
         with:
           target: mongo-express:1.0.0-alpha.4
           format: statement-slsa
-          product-key: ${{ secrets.productkey }
 
       -uses: actions/upload-artifact@v2
       with:

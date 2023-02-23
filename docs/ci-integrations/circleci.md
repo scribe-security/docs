@@ -19,7 +19,10 @@ SBOM from a local directory) as well as several use cases of uploading the evide
 _For full usage guidelines, see the [orb registry listing](https://circleci.com/developer/orbs/orb/scribe-security/orbs)._
 
 ## Before you begin
-Integrating Scribe Hub with CircleCI requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with CircleCI requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Client ID**
+* **Client Secret**
 
 ## Scribe CircleCI Orbs
 

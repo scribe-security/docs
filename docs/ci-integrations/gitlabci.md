@@ -34,10 +34,15 @@ scribe-gitlab-job:
     script:
       - valint bom busybox:latest 
           --context-type gitlab
+          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          -f
 ```
 
 ## Before you begin
-Integrating Scribe Hub with GitLab requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with GitLab requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Client ID**
+* **Client Secret**
 
 ## Scribe service integration
 Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
@@ -102,13 +107,11 @@ Verifying the  target integrity on Scribe.
         - valint bom dir:mongo-express-scm
               --context-type gitlab
               --output-directory ./scribe/valint
-              --product-key $PRODUCT_KEY
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
               
         - valint bom mongo-express:1.0.0-alpha.4
               --context-type gitlab
               --output-directory ./scribe/valint
-              --product-key $PRODUCT_KEY
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
               
   ```

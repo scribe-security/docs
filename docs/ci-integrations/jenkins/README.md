@@ -8,23 +8,18 @@ If you are using Jenkins as your Continuous Integration tool (CI), use these ins
 
 ## Before you begin
 ### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with Jenkins requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Jenkins requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Client ID**
+* **Client Secret**
 
 ### Adding Credentials to Jenkins
 
 1. Go to your Jenkins Web Console.
 1. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
 1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
-1. To add global credentials, in the **Global credentials** area, click **+ Add Credentials**.
+1. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**.
 A new **Credentials** form opens.
-1. To add the Product Key, in the **Kind** field, select **Secret Text**.
-1. Copy the *Product Key* provided by Scribe to the **Secret** field.
-
-1. Set the **ID** as **scribe-product-key** (lowercase).
-1. Leave **Scope** as Global.
-1. Add a helpful **Description** to manage your secrets.
-1. Click **Create**. A New Global credential is created, as a **Secret Text** (Kind). A key sign on your new credential row indicates the secret **Kind**. 
-1. To add Client ID and Client Secret, click **+ Add Credentials** again.
 1. In the **Kind** field, select **Username with password**.
 
 1. Set **ID** to **`scribe-production-auth-id`** (lowercase).
@@ -87,9 +82,6 @@ The examples use a sample pipeline building a Mongo express project.
 ```javascript
 pipeline {
   agent any
-  environment {
-    SCRIBE_PRODUCT_KEY     = credentials('scribe-product-key')
-  }
   stages {
     stage('checkout') {
       steps {
@@ -112,7 +104,6 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            --product-key $SCRIBE_PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
           '''
         }
@@ -133,7 +124,6 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            --product-key $SCRIBE_PRODUCT_KEY \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
       }
@@ -172,9 +162,6 @@ pipeline {
       yamlFile 'jenkins/k8s/scribe-test/KubernetesPod.yaml'
     }
   }
-  environment {
-    SCRIBE_PRODUCT_KEY     = credentials('scribe-product-key')
-  }
   stages {
     stage('checkout-bom') {
       steps {        
@@ -188,8 +175,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PRODUCT_KEY'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
         }
       }
@@ -203,8 +189,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --product-key $SCRIBE_PRODUCT_KEY'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
         }
       }
@@ -257,7 +242,6 @@ spec:
 pipeline {
   agent any
   environment {
-    SCRIBE_PRODUCT_KEY     = credentials('scribe-product-key')
     PATH="./temp/bin:$PATH"
   }
   stages {
@@ -280,9 +264,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            --product-key $SCRIBE_PRODUCT_KEY \
-             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          '''
+             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
         }
       }
     }
@@ -293,8 +275,7 @@ pipeline {
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
-            --output-directory ./scribe/valint \
-            --product-key testing \
+            --output-directory ./scribe/valint testing \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
           }
       }

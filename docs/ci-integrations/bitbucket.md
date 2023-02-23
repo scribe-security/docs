@@ -22,7 +22,6 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # INPUT_FORMAT: '<string>' # Optional
     # OUTPUT_DIRECTORY: '<boolean>' # Optional
     # OUTPUT_FILE: '<string>' # Optional
-    # PRODUCT_KEY: '<string>' # Optional
     # LABEL: '<string>' # Optional
     # ENV: '<string>' # Optional
     # FILTER_REGEX: '<string>' # Optional
@@ -53,7 +52,6 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | INPUT_FORMAT | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | | verify |
 | OUTPUT_DIRECTORY | Output directory path |  scribe/valint | any |
 | OUTPUT_FILE | Output file name | | any |
-| PRODUCT_KEY | Custom/project product-key | | any |
 | LABEL |  Custom labels | | bom | 
 | ENV | Custom env | | bom |
 | FILTER_REGEX | Filter out files by regex | | bom |
@@ -84,7 +82,10 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Bitbucket Pipeline requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+
+* **Client ID**
+* **Client Secret**
 
 ## Scribe service integration
 Scribe provides a set of services to store, verify and manage the supply chain integrity.
@@ -108,7 +109,6 @@ pipelines:
             variables:
               COMMAND_NAME: bom
               TARGET: busybox:latest 
-              PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
@@ -131,7 +131,6 @@ pipelines:
             variables:
               COMMAND_NAME: bom
               TARGET: dir:mongo-express-scm
-              PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
           - pipe: scribe-security/valint-pipe:0.1.1
@@ -139,7 +138,6 @@ pipelines:
               COMMAND_NAME: bom
               TARGET: "mongo-express:1.0.0-alpha.4" 
               SCRIBE_ENABLE: "true"
-              PRODUCT_KEY: $PRODUCT_KEY
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
@@ -242,7 +240,6 @@ step:
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
-      PRODUCT_KEY: $PRODUCT_KEY
       SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
       VERBOSE: 2
