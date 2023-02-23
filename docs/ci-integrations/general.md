@@ -20,8 +20,8 @@ Integrating Scribe Hub requires the following credentials that are found in the 
 2. Add the credentials to your CI system.
 Here is an example for setting your *client id* and *client secret* credentials as environment variables:  
    ```js
-   export CLIENT_ID=<client_id>
-   export CLIENT_SECRET=<client_secret>
+   export CLIENT-ID=<client_id>
+   export CLIENT-SECRET=<client_secret>
    ```
    Replace <client_id> with the client id value you received from **Scribe Hub** and the same goes for the <client_secret> to set them up as environment variables. 
 
@@ -31,13 +31,13 @@ These are the two points for adding Scribe Hub code:
 * **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
 
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT_ID \
---scribe.client-secret=$CLIENT_SECRET -E -f -v
+$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
+--scribe.client-secret=$CLIENT-SECRET -E -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT_ID \
-   --scribe.client-secret=$CLIENT_SECRET -E -f -v
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
+   --scribe.client-secret=$CLIENT-SECRET -E -f -v
 ```
 

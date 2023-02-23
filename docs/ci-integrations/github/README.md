@@ -18,7 +18,8 @@ Integrating Scribe Hub with GitHub requires the following credentials that are f
 * **Client Secret**
 
 ## Creating an SBOM and collecting evidence
-1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientsecret** for the **client-secret**.
+1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
+
 2. Add Code snippets to your pipeline from your GitHub flow:   
     * Replace the `Mongo express` repo in the example with your repo name.
     ```YAML

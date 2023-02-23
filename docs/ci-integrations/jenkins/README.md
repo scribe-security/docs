@@ -124,7 +124,8 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+            '''
           }
       }
     }

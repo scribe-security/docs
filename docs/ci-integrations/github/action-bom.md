@@ -55,8 +55,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
     default: ./scribe/valint
   output-file:
     description: 'Output result to file'
-  product-key:
-    description: 'Custom/project product key'
   label:
     description: 'Custom label'
   env:
@@ -148,8 +146,8 @@ Following are some integration examples.
   with:
     target: 'busybox:latest'
     scribe-enable: true
-    scribe-client-id: ${{ secrets.client-id }}
-    scribe-client-secret: ${{ secrets.client-secret }}
+    scribe-client-id: ${{ secrets.client_id }}
+    scribe-client-secret: ${{ secrets.client_secret }}
 ```
 
 If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
@@ -190,8 +188,8 @@ jobs:
            type: dir
            target: 'mongo-express-scm'
            scribe-enable: true
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
+           scribe-client-id: ${{ secrets.client_id }}
+           scribe-client-secret: ${{ secrets.client_secret }}
 
       - name: Build and push remote
         uses: docker/build-push-action@v2
@@ -206,8 +204,8 @@ jobs:
         with:
            target: 'mongo-express:1.0.0-alpha.4'
            scribe-enable: true
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
+           scribe-client-id: ${{ secrets.client_id }}
+           scribe-client-secret: ${{ secrets.client_secret }}
 
       - uses: actions/upload-artifact@v3
         with:
