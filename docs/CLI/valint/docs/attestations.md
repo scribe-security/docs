@@ -106,7 +106,7 @@ verifier:
 
 
 ## Custom configuration
-Edit your main configuration, add the following subsection. \
+Edit your main configuration, add the following subsection. <br />
 For full configuration details see [configuration-format](#configuration-format).
 
 Usage:
