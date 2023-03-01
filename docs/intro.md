@@ -14,7 +14,7 @@ The following occurs once you have connected the Continuous Integration (CI) pip
 2. Running your pipeline will generate an SBOM and an integrity report.
 3. Scribe Hub enables you to share the SBOM and report with selected subscribers.
 
-Scribe allows you to connect to the Hub as many projects/pipelines as you want.
+Scribe allows you to connect an unlimited number of projects/pipelines to the Hub.
 
 ## Before you begin 
 

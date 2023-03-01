@@ -6,10 +6,13 @@ sidebar_label: Other CI systems
 # Integrating Scribe with Other CI Systems
 
 ## Before you begin
-Integrating Scribe Hub requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
+
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+
 ## Procedure
 1. Download `valint`  
    * Open your *Unix* based command line interface (CLI), such as *bash*.  

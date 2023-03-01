@@ -91,6 +91,7 @@ Supported outputs:
 
 Select default configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
 See details [attestations](docs/attestations.md)

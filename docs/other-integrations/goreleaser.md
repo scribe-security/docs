@@ -99,12 +99,12 @@ docker_signs:
 ```
 
 ## Verifying target
-Using valint you can verify any artifact attestations (source,binary,image etc..). \
+Using Valint you can verify any artifact attestations (source,binary,image etc..). \
 For details signing and verification options see [cocosign](https://github.com/scribe-security/cocosign) 
 
-1) First download attestation for your target (Github releases). \
-2) Install valint (See CI or local installation options)
-3) Run verification command (default uses sigstore+rekor keyless verification)
+1) First download attestation for your target (GitHub releases). \
+2) Install Valint (See CI or local installation options)
+3) Run verification command (default uses Sigstore + Rekor keyless verification)
 ```shell
 valint verify <target> --external external:<attestations path>
 ```

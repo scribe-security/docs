@@ -82,10 +82,12 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
+
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ## Scribe service integration
 Scribe provides a set of services to store, verify and manage the supply chain integrity.

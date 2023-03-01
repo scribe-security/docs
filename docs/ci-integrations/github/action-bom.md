@@ -2,12 +2,12 @@
 title: Bom
 sidebar_position: 2
 ---
-# Scribe Github Action for `valint bom`
-Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
+# Scribe GitHub Action for `valint bom`
+Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
-Use `valint bom` to collect evidence and generate an SBOM.
+`valint bom` is used to collect evidence and generate an SBOM.
 
-Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+Further documentation [GitHub integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 ## Other Actions
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
@@ -16,7 +16,7 @@ Further documentation [Github integration](https://scribe-security.netlify.app/d
 <!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Bom Action
-Action for `valint bom`. <br />
+Actions for `valint bom`. <br />
 The command allows users to generate and manage evidence collection process.
 - CycloneDX SBOM and SLSA provenance evidence support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
@@ -124,6 +124,7 @@ Supported outputs:
 
 Select default configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Scribe uses the **cocosign** library we developed to deal with digital signatures signing and verification.
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
 See details [attestations](docs/attestations.md)
