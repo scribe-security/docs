@@ -1,6 +1,6 @@
 ---
 title: GitLab CI/CD
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # GitLab CI/CD

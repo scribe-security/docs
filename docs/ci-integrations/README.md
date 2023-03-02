@@ -45,12 +45,12 @@ ___Note___ that if you do not collect evidence about your source code, you canno
 ## Supported CIs
 
 Currently, Scribe natively supports the following CI setups:
-* [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [GitHub Actions](../ci-integrations/github "GitHub Actions").
+* [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [GitLab CI/CD](../ci-integrations/gitlabci "GitLab CI/CD").
-* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
 * [Azure Pipelines](../ci-integrations/azure "Azure Pipelines").
 * [CircleCI](../ci-integrations/circleci "CircleCI").
 * [Travis CI](../ci-integrations/travis "Travis CI").
+* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
 
-If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions"). 
+If you have another CI, you can integrate it using these [Generic CI integration instructions](../ci-integrations/general "Generic CI integration instructions"). 

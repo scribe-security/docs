@@ -1,12 +1,12 @@
 ---
 sidebar_position: 8
-sidebar_label: Other CI systems
+sidebar_label: Generic CI integration
 ---
 
 # Integrating Scribe with Other CI Systems
 
 ## Before you begin
-Integrating Scribe Hub requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Integrating Scribe Hub with a generic CI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
