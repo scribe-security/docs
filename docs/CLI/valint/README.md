@@ -13,12 +13,13 @@ Valint also allows you to store evidence locally on a remote OCI registry or usi
 Target support includes directories, files, images and git repositories. <br />
 While evidence types supported are CycloneDX SBOMs and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
 
-Evidence collection will automatically collect information from the environment which allows you to reference where in your supply chain the `evidence` was generated, see the (`environment context`)[#environment-context] section below.
+Evidence collection will automatically collect information from the environment which allows you to reference where in your supply chain the `evidence` was generated
+> For details, see the [`environment context`](#environment-context) section.
 
 Lastly, Valint allows you to sign and verify a target against the signer's identity and policy across the supply chain.
 
 ## Policy engine
-Valint is a tool that manages the generation, consumption, and verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
+Valint is a tool that manages the generation, consumption, and verification of evidence using a policy engine. The policy engine uses different `evidence stores` )to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
 
 Each policy proposes to enforce a set of rules on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
@@ -61,7 +62,7 @@ This evidence can be either signed (`attestations`) or unsigned (`statements`). 
 
 > For details, see [attestations](#-attestations-).
 
-## Envrionment context
+## Evidence formats
 Evidence collection will automatically collect information from the Supply chain environment which allows you to reference where in your supply chain the `evidence` was generated.
 
 > For format details see [evidence formats](#evidence-formats) and [SBOM](#-cyclonedx-sbom), [SLSA](#-slsa-provenance) sections.
@@ -95,12 +96,12 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details see (evidence stores)[#-evidence-stores] section
+> For details, see [evidence stores](#-evidence-stores) section
 
 # Policies
 Policy configuration can be set under the main configuration `policies` section.
 
-See full detailed [configuration](docs/configuration.md)
+See configuration details, see [configuration](docs/configuration.md) section
 
 Usage
 ```yaml
@@ -109,7 +110,8 @@ attest:
     policies: [] # Set of policy configuration
 ``` 
 
-> When no policy configuration is found, the default policy is a single instance of the verifyTarget policy. The values for `allowed_emails`, `allowed_uris`, and `allowed_names` are obtained from the corresponding flag sets `--emails`, `--uri`, and `--common-name`.
+### Default policy
+When no policy configuration is found, the default policy is a single instance of the verifyTarget policy. The values for `allowed_emails`, `allowed_uris`, and `allowed_names` are obtained from the corresponding flag sets `--emails`, `--uri`, and `--common-name`.
 
 ## Verify target policy
 The Verify Target policy enforces rules on the targets in your supply chain to ensure their identity and origin are verified.
