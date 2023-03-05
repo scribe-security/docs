@@ -76,10 +76,12 @@ There are two evidence storer options for the admission-controller:
 Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing Scribe Hub as evidence store.
 
 ### Before you begin
-Integrating Scribe Hub requires the **Client Secret** credential that is found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **client id**
-* **client secret**
+* **Client ID**
+* **Client Secret**
+
+<img src='../../static/img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Procedure
 To install the admission-controller with Scribe service integration:

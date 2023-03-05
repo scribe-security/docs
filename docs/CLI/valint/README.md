@@ -326,12 +326,12 @@ Related Flags:
 >* `-E`, `--scribe.enable`
 
 ## Before you begin
-Integrating Valint with the Scribe Service requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
-> Note that the Scribe Hub generated Product key is optional. You can generate your own string as a unique identification of the product.
+<img src='../../../static/img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Usage
 ```bash
