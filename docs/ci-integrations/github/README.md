@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 sidebar_label: GitHub Actions
 ---
 
@@ -12,16 +12,16 @@ If you are using GitHub Actions as your Continuous Integration tool (CI), use th
 
 ## Before you begin
 ### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with GitHub actions requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with GitHub requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Product Key**
 * **Client ID**
 * **Client Secret**
 
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ## Creating an SBOM and collecting evidence
-1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client-id**, **clientsecret** for the           **client-secret** and **productkey** for the **product-key**.
+1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
+
 2. Add Code snippets to your pipeline from your GitHub flow:   
     * Replace the `Mongo express` repo in the example with your repo name.
     ```YAML
@@ -38,7 +38,6 @@ Integrating Scribe Hub with GitHub actions requires the following credentials th
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          product-key: ${{ secrets.productkey }}
     ```
     * Call `valint` to generate an SBOM from the final Docker image.
     ```YAML
@@ -51,7 +50,6 @@ Integrating Scribe Hub with GitHub actions requires the following credentials th
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          product-key: ${{ secrets.productkey }}
     ```
     <!-- * Call `valint` to get the integrity report results.
     ```YAML
@@ -100,7 +98,6 @@ jobs:
            scribe-enable: true
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
 
       # Build and push your image - this example skips this step as we're using the published mongo express.
 
@@ -113,7 +110,6 @@ jobs:
            scribe-enable: true
            scribe-client-id: ${{ secrets.clientid }}
            scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
 
       - uses: actions/upload-artifact@v2
         with:
@@ -163,9 +159,7 @@ As soon as you provide your password GitHub will handle everything else and redi
 
 <img src='../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/> 
 
-Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build.
-
-You can turn the SLSA policy off or on for each project at any time, assuming that the project's repository is covered by ScribeApp. Note that even if you have turned on the policy you won't see any SLSA provenance results until you have integrated Scribe's code snippet into your pipeline and have run the action.
+Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build. The SSDF policy does not require anything to run. To run the SLSA policy you'll need to add a code snippet to your pipeline and run the action.
 
 If anything isn't clear you can check out the GitHub instruction page for <a href='https://docs.github.com/en/developers/apps/managing-github-apps/installing-github-apps'>installing GitHub Apps</a>.
 
@@ -181,7 +175,6 @@ If anything isn't clear you can check out the GitHub instruction page for <a hre
         with:
           target: <image-name:tag>
           format: statement-slsa
-          product-key: ${{ secrets.productkey }}
 
         -uses: actions/upload-artifact@v2
         with:
@@ -214,7 +207,6 @@ jobs:
         with:
           target: mongo-express:1.0.0-alpha.4
           format: statement-slsa
-          product-key: ${{ secrets.productkey }
 
       -uses: actions/upload-artifact@v2
       with:
@@ -234,23 +226,33 @@ The provenance information is in <a href='../glossary.md#in-toto'>in-toto</a> fo
 
 <img src='../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format' width='70%' min-width='750px'/>
 
-### Checking the SLSA policy for your project
+### Checking policy compliance for your project
 
-To see the results of the SLSA policy you have enacted on your project you can look at the product build where you will now see some results in the SLSA compliance column:
+Assuming you have connected the ScribeApp with your organizational GitHub account and enacted the SLSA provenance generation code snippet as described above, you will be able to see the SLSA compliance breakdown in each of the future builds of the project where you added the code. 
+The SSDF compliance will be checked automatically for each project build run after you have connected the ScribeApp with your organizational GitHub account.
+The compliance icons can be seen in the product line:
 
-<img src='../../../img/ci/slsa_compliance.jpg' alt='SLSA Compliance Column'/>
+<img src='../../../img/ci/new-UI-project.jpg' alt='Project Description'/>
 
-When you click on a build to get to the full results you'll see a new option - **Policies Compliance**:
+When you click on a project you'll get the list of builds. The compliance icons do not appear here:
 
-<img src='../../../img/ci/policies_compliance.jpg' alt='Policies Compliance' width='40%' min-width='400px'/>
+<img src='../../../img/ci/new-UI-version-history.jpg' alt='Project Version History'/>
 
-clicking the **more** link will open the policies report where you can see each of the policies checked and whether they have passed or failed for this run of the workflow.
+To see the full compliance breakdown, click on a build-line. You'll get to this screen:
 
-<img src='../../../img/ci/policies_compliance_more.jpg' alt='Policies Compliance Full List'/>
+<img src='../../../img/ci/new-UI-version-details.jpg' alt='Project Version Details'/>
 
-There are 22 SLSA policies that Scribe checks and if all of them are checkout out (pass) that means that the build is approved for SLSA level 3.
+To see the full breakdown of policies - exactly which policies have passed or failed, click on the **Compliance** tab and you'll get to this screen:
+
+<img src='../../../img/ci/new-UI-version-compliance.jpg' alt='Project Version Compliance'/>
+
+There are 12 SLSA policies that Scribe checks and if all of them are checked out (pass) that means that the build is approved for SLSA level 3.
 
 To learn more about each policy you can either click on them or see the explanation page [here](../../slsapolicies.md).
+
+There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
+
+To learn more about each policy you can either click on them or see the explanation page [here](../../ssdfpolicies.md).
 
 
 

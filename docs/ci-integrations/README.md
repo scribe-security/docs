@@ -5,7 +5,7 @@ description: Setting up your Continuous Integration (CI)
 
 # Setting up Scribe protection in your CI pipeline
 
-Adding Scribe's code snippets to your Continuous Integration (CI) pipeline automates the process of generating SBOMs and analysis reports for your builds. You may also use Scribe's tool to generate SLSA provenance for your final artifact.
+Adding code snippets to your Continuous Integration (CI) pipeline that call Scribe's tool, **Valint**, automates the process of generating SBOMs and analysis reports for your builds. You may also use Scribe's tool to generate SLSA provenance for your final artifact. If you're using GitHub then integrating the ScribeApp with your organizational GitHub account will allow you to get SSDF and SLSA compliance reports about your build.
 
 The following scheme demonstrates the points on your CI pipeline to enter the code snippets calling Scribe's tool:
 
@@ -45,12 +45,12 @@ ___Note___ that if you do not collect evidence about your source code, you canno
 ## Supported CIs
 
 Currently, Scribe natively supports the following CI setups:
-* [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [GitHub Actions](../ci-integrations/github "GitHub Actions").
+* [Jenkins](../ci-integrations/jenkins "Jenkins"). 
 * [GitLab CI/CD](../ci-integrations/gitlabci "GitLab CI/CD").
-* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
 * [Azure Pipelines](../ci-integrations/azure "Azure Pipelines").
 * [CircleCI](../ci-integrations/circleci "CircleCI").
 * [Travis CI](../ci-integrations/travis "Travis CI").
+* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
 
-If you have another CI, you can integrate it using these [generic integration instructions](../ci-integrations/general "generic integration instructions"). 
+If you have another CI, you can integrate it using these [Generic CI integration instructions](../ci-integrations/general "Generic CI integration instructions"). 

@@ -184,7 +184,7 @@ The following table includes the supported format by the verification command.
 | attest-slsa |  | In-toto Attestations | yes |
 
 Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`. Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
 
 > Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptography.
 

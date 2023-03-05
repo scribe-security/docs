@@ -52,7 +52,7 @@ Following table includes the supported format.
    $HOME/.scribe/bin/valint bom busybox:latest -o attest-slsa -f
    ```
 
-   By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism so once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
+   By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism as imbedded in Scribe's **cocosign** library. This library deals with digital signatures for signing and verification. Once you apply the command you'll need to first approve you wish to sign the evidence with a `Y/[N]` option:
 
    ```
    [2023-01-10 09:35:35]  INFO target: collecting context, Type: local

@@ -4,9 +4,9 @@ sidebar_position: 4
 ---
 
 # Azure Pipeline
-Scribe offers users of Azure Pipelines to use Devops Tasks for embedding evidence collecting and integrity verification in their workflows.
+Scribe offers users of Azure Pipelines to use DevOps Tasks for embedding evidence collection and integrity verification in their workflows.
 
-Tasks provides several actions enabling generation of SBOMs from various sources.
+Task in Azure DevOps is a feature that enables users to create, schedule, and manage tasks from a central location. Task provides users with an easy way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
 The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
 
 ## Installation
@@ -34,13 +34,12 @@ Install the Scribe `valint` CLI tool:
 ```
 
 ## Before you begin
-Integrating Scribe Hub with Azure DevOps requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+Integrating Scribe Hub with Azure requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Product Key**
 * **Client ID**
 * **Client Secret**
 
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 # Procedure
 
@@ -81,9 +80,9 @@ Here's what all the steps look like in a unified pipeline example:
               commandName: bom
               target: dir:mongo-express-scm
               outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-              scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
-              scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+            scribeEnable: true
+            scribeClientId: $(SCRIBE-CLIENT-ID)
+            scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
 
           - task: ValintCli@0
             inputs:
