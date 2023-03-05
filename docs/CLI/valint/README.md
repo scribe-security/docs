@@ -19,7 +19,7 @@ Evidence collection will automatically collect information from the environment 
 Lastly, Valint allows you to sign and verify a target against the signer's identity and policy across the supply chain.
 
 ## Policy engine
-Valint is a tool that manages the generation, consumption, and verification of evidence using a policy engine. The policy engine uses different `evidence stores` )to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
+Valint is a tool that manages the generation, consumption, and verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
 
 Each policy proposes to enforce a set of rules on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
@@ -62,12 +62,25 @@ This evidence can be either signed (`attestations`) or unsigned (`statements`). 
 
 > For details, see [attestations](#-attestations-).
 
-## Evidence formats
-Evidence collection will automatically collect information from the Supply chain environment which allows you to reference where in your supply chain the `evidence` was generated.
+### Evidence formats
+The following table includes the supported evidence format.
 
-> For format details see [evidence formats](#evidence-formats) and [SBOM](#-cyclonedx-sbom), [SLSA](#-slsa-provenance) sections.
+| Format | alias | Description | signed |
+| --- | --- | --- | --- |
+| CycloneDX-json | json | CyclondeDX json format | no |
+| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
+| statement-CycloneDX-json | statement | In-toto Statement | no |
+| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| predicate-slsa |  | In-toto Predicate | no |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
 
-## Environment context
+> For format details [SBOM](#-cyclonedx-sbom), [SLSA](#-slsa-provenance) sections.
+
+> Select using [bom command](#evidence-generator---bom-command) `format` flag,
+Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
+
+### Environment context
 `environment context` collects information from the underlining environments, in which Valint is run.
 Environment context is key to connecting the target evidence and the actual point in your supply chain they where created by.
 
@@ -96,7 +109,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores](#-evidence-stores) section
+> For details, see [evidence stores integrations](#-evidence-stores-integration) section
 
 # Policies
 Policy configuration can be set under the main configuration `policies` section.
@@ -300,7 +313,7 @@ from the actual application released, configurations or even internal build depe
 Git repositories are a common part of most supply chains,
 a Git target allows you to collect evidence including sources, commits and packages found in your source repositories.
 
-# Evidence Stores
+# Evidence Stores Integration
 Each storer can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ## Scribe Evidence store
@@ -315,11 +328,9 @@ Related Flags:
 ## Before you begin
 Integrating Valint with the Scribe Service requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
 
-* **Product Key**
 * **Client ID**
 * **Client Secret**
 
-> Note that the product key is unique per product, while the client ID and secret are unique for your account.
 > Note that the Scribe Hub generated Product key is optional. You can generate your own string as a unique identification of the product.
 
 ### Usage
@@ -327,14 +338,12 @@ Integrating Valint with the Scribe Service requires the following credentials th
 # Generating evidence, storing in scribe service.
 valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] \
   -E \
-  --product-key [PRODUCT_KEY] \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
 valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
   -E \
-  --product-key [PRODUCT_KEY] \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 ```
@@ -394,23 +403,8 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --outp
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
 
-## Evidence formats
-Valint supports the following evidence output formats.
 
-> Format can be chosen using [bom command](#evidence-generator---bom-command) `format` flag,
-as well as [verify command](#evidence-verification---verify-command) `input-format` flags.
-
-| Format | alias | Description | signed
-| --- | --- | --- | --- |
-| CycloneDX-json | json | CyclondeDX json format | no |
-| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
-| predicate-slsa |  | In-toto Predicate | no |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
-
-## CycloneDX SBOM
+# CycloneDX SBOM
 The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
 The following table describes the `group` types we currently support.
 
