@@ -88,9 +88,8 @@ To install the admission-controller with Scribe service integration:
 ```bash
 helm install admission-controller -n scribe scribe/admission-controller \
     --set scribe.auth.client_id=$(CLIENT_ID) \
-    --set scribe.auth.client_secret=$(CLIENT_SECRET) \
-    --set context.name=$(PRODUCT_KEY)
-```
+    --set scribe.auth.client_secret=$(CLIENT_SECRET)
+    ```
 >Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
 ## OCI registry integration
@@ -227,7 +226,6 @@ After installing the admission you you want to upload evidence .
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] -E \
-  --product-key $PRODUCT_KEY \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```
