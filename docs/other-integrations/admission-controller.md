@@ -81,7 +81,7 @@ Integrating Scribe Hub with admission controller requires the following credenti
 * **Client ID**
 * **Client Secret**
 
-<img src='../../static/img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Procedure
 To install the admission-controller with Scribe service integration:

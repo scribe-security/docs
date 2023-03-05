@@ -331,7 +331,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../static/img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Usage
 ```bash
