@@ -448,7 +448,7 @@ Currently, we support the following dependencies relations.
 Following are some of the customizable features we support.
 * Include only specific component groups, use `--components` to select between the group types.
 * Include or exclude specific package types, use `--package-type` or `--package-exclude-type` to select a specific package type.
-* Include the installed packages found (package group `install`) or the packages refrenced by sources (package group `index`), use `--package-group` to select between options.
+* Include the installed packages found (package group `install`) or the packages referenced by sources (package group `index`), use `--package-group` to select between options.
 * Exclude components, use `--filter-regex`, `--filter-scope` and `--filter-purl` to exclude any component.
 * Attach any file content, use `--attach-regex` to include the content of external files.
 * Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
@@ -598,7 +598,7 @@ valint bom busybox:latest -vv -A **/some_report.json
 ## Evidence verification - `verify` command
 `verify` command allows one to verify the target and its respective evidence. 
 
-The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy based verification.
+The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
 
 Verification flow for `attestations` which are signed evidence formats includes PKI and identity verification as well as policy verification. <br />
 Verification flow for `statements` that are unsigned evidence includes policy verification only. <br />
@@ -651,6 +651,7 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
 ```
 </details>
 
+<details>
   <summary>  OCI store </summary>
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
