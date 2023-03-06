@@ -6,24 +6,13 @@ geometry: margin=2cm
 ---
 
 # Valint - Validate integrity of your supply chain
+Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
+It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
+ 
+By managing `evidence` generation, storage and validation, Valint ensures that your organization's `policies` are enforced throughout the supply chain. <br. />
+You can store evidence locally or in any OCI registry, as well as using the Scribe Service for storage.
 
-Valint generates and verifies evidence collected on targets and artifacts across your supply chain. <br />
-Valint also allows you to store evidence locally on a remote OCI registry or using Scribe service. <br />
-
-Target support includes directories, files, images and git repositories. <br />
-While evidence types supported are CycloneDX SBOMs and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
-
-Evidence collection will automatically collect information from the environment which allows you to reference where in your supply chain the `evidence` was generated
-> For details, see the [`environment context`](#environment-context) section.
-
-Lastly, Valint allows you to sign and verify a target against the signer's identity and policy across the supply chain.
-
-## Policy engine
-Valint is a tool that manages the generation, consumption, and verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
-
-Each policy proposes to enforce a set of rules on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
-
-> For policies details, please see the [polices](#-policies) section.
+In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify targets against their origin and signer identity in the supply chain.
 
 ## Installing `valint`
 Choose any of the following command line interface (CLI) installation options:
@@ -56,14 +45,22 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 | AMD64 (x86_64) | Linux, Windows, Mac |
 | ARM64 | Linux, Windows, Mac |
 
-### Evidence:
-Evidence can be any metadata collected from the supply chain.
-This evidence can be either signed (`attestations`) or unsigned (`statements`). <br />
+# Policy engine
+At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
 
-> For details, see [attestations](#-attestations-).
+> For more details on policies,see [polices](#policies) section.
 
-### Evidence formats
-The following table includes the supported evidence format.
+## Evidence:
+Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
+Evidence can be either signed (attestations) or unsigned (statements).
+
+> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+> For target details, see [targets](#targets) section.
+> For signing details, see [attestations](#attestations) section.
+
+## Evidence formats
+Valint supports the following evidence formats.
 
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
@@ -75,12 +72,10 @@ The following table includes the supported evidence format.
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
 
-> For format details [SBOM](#-cyclonedx-sbom), [SLSA](#-slsa-provenance) sections.
-
 > Select using [bom command](#evidence-generator---bom-command) `format` flag,
 Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
 
-### Environment context
+## Environment context
 `environment context` collects information from the underlining environments, in which Valint is run.
 Environment context is key to connecting the target evidence and the actual point in your supply chain they where created by.
 
@@ -100,7 +95,7 @@ The following table includes the types of environments we currently support:
 | travis | Travis CI workflows |
 | jenkins | Jenkins declarative pipelines |
 
-### Evidence Stores
+## Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
 
 | Type  | Description | requirement |
@@ -109,19 +104,19 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores integrations](#-evidence-stores-integration) section
+> For details, see [evidence stores integrations](#evidence-stores-integration) section
 
 # Policies
+Each `policy` proposes to enforce a set of rules your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
 
-See configuration details, see [configuration](docs/configuration.md) section
-
-Usage
+### Usage
 ```yaml
 attest:
   cocosign:
     policies: [] # Set of policy configuration
 ``` 
+> See configuration details, see [configuration](docs/configuration.md) section
 
 ### Default policy
 When no policy configuration is found, the default policy is a single instance of the verifyTarget policy. The values for `allowed_emails`, `allowed_uris`, and `allowed_names` are obtained from the corresponding flag sets `--emails`, `--uri`, and `--common-name`.
@@ -160,7 +155,16 @@ required the identity that signed the target.
 * `filter` any environment context flag to match on target before verification.
 Flag provides a way to define multiple policies each refereeing to a different set of targets.
 
-> `valint verify` will set the filter `content-type` implicitly for `-i`,`--input-format` flag.
+### Flags
+
+* `--input-format` in [verify command](#evidence-verification---verify-command)
+Verify target includes specified format.
+
+> For example, `valint verify busybox:latest -i statement-slsa` will force verifyTarget to look for evidence in the format of slsa statement.
+
+* `--email`, `--uri`, `--common-name` each flag set allows one to set the identity expected to sign the target. 
+
+> for signed evidence only.
 
 ### Examples
 Following are configuration examples. <br />
@@ -599,7 +603,7 @@ The verification flow includes two parts, the first is a PKI and identity verifi
 Verification flow for `attestations` which are signed evidence formats includes PKI and identity verification as well as policy verification. <br />
 Verification flow for `statements` that are unsigned evidence includes policy verification only. <br />
 
-> Evidence must be available locally (on disc), remotly on a OCI registry or through Scribe service.
+> Evidence must be available locall on a remote OCI registry or using Scribe service.
 
 > By default, the evidence is read from `~/.cache/valint/`, use `--output-file` or `--output-directory` to customize the evidence output location.
 

@@ -20,16 +20,20 @@ Valint `admission controller` manages verification of evidence using a policy en
 
 Each policy proposes to enforce a set of rules on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
-> For policies details, please see the [polices](#-policies) section.
+# Policy engine
+At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
 
-### Evidence:
-Evidence can be any metadata collected from the supply chain.
-This evidence can be either signed (`attestations`) or unsigned (`statements`). <br />
+## Evidence:
+Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
+Evidence can be either signed (attestations) or unsigned (statements).
 
-> For details, see [attestations](#-attestations-).
+## Evidence:
+Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
+Evidence can be either signed (attestations) or unsigned (statements).
 
 ### Evidence formats
-The following table includes the supported evidence format.
+`admission controller` supports following evidence formats.
 
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
@@ -37,6 +41,8 @@ The following table includes the supported evidence format.
 | attest-CycloneDX-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
+
+> Note using pure `cyclonedx-json` format is currently supported by the admission.
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
