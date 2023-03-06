@@ -38,7 +38,7 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 ```
 </details>
 
-### Supported architecture and operating systems (OS)
+#### Supported architecture and operating systems (OS)
 
 | CPU Architecture  | OS | 
 | --- | --- |
@@ -285,7 +285,7 @@ But the `last` commit must be authored by the `owner`.
 * Tagged git repo must include only signed commits.
 * What workflow is allowed to add commits in to the code base. -->
 
-# Targets
+## Targets
 ---
 Each target type can be used to collect evidence on different parts of your supply chain.  <br />
 For example, you can collect SBOMs for images or binaries created by your supply chain.
