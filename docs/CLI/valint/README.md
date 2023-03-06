@@ -49,14 +49,14 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
 
-> For more details on policies,see [polices](#policies) section.
+> For more details on policies, see [polices](policies) section.
 
 ## Evidence:
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
-> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
-> For target details, see [targets](#targets) section.
+> For evidence details, see [SBOM](cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+> For target details, see [targets](targets) section.
 > For signing details, see [attestations](#attestations) section.
 
 ## Evidence formats
