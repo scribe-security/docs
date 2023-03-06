@@ -52,7 +52,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores integrations](#-evidence-stores-integration) section
+> For details, see [evidence stores integrations](#evidence-stores-integration) section
 
 ## Installing `admission-controller`
 The admission-controller is installed using Helm. <br />

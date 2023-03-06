@@ -104,7 +104,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores integrations](#evidence-stores-integration) section
+> For details, see [evidence stores integrations](evidence-stores-integration) section
 
 # Policies
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
@@ -329,7 +329,7 @@ Related Flags:
 >* `-P`, `--scribe.client-secret`
 >* `-E`, `--scribe.enable`
 
-## Before you begin
+### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
