@@ -38,7 +38,7 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 ```
 </details>
 
-## Supported architecture and operating systems (OS)
+### Supported architecture and operating systems (OS)
 
 | CPU Architecture  | OS | 
 | --- | --- |
@@ -51,13 +51,15 @@ Each `policy` proposes to enforce a set of rules your supply chain must comply w
 
 > For more details on policies, see [polices](#policies) section.
 
-## Evidence:
+## Evidence
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
 > For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+
 > For target details, see [targets](#targets) section.
-> For signing details, see [attestations](attestations) section.
+
+> For signing details, see [attestations](#attestations) section.
 
 ## Evidence formats
 Valint supports the following evidence formats.
@@ -408,9 +410,7 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --outp
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
 
-# Evidence detail
 ## CycloneDX SBOM
----
 The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
 The following table describes the `group` types we currently support.
 
@@ -456,17 +456,15 @@ Following are some of the customizable features we support.
 * Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
 
 ## SLSA Provenance
----
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
 It is required for SLSA compliance level 2 and above.
 
 See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
-
 For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
 
-# Attestations 
+## Attestations
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
