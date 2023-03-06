@@ -49,15 +49,15 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
 
-> For more details on policies, see [polices](policies) section.
+> For more details on policies, see [polices](#policies) section.
 
 ## Evidence:
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
-> For evidence details, see [SBOM](cyclonedx-sbom), [SLSA](#slsa-provenance) section.
-> For target details, see [targets](targets) section.
-> For signing details, see [attestations](#attestations) section.
+> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+> For target details, see [targets](#targets) section.
+> For signing details, see [attestations](attestations) section.
 
 ## Evidence formats
 Valint supports the following evidence formats.
@@ -104,9 +104,10 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores integrations](evidence-stores-integration) section
+> For details, see [evidence stores integrations](#evidence-stores-integration) section
 
-# Policies
+## Policies
+---
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
 
@@ -116,7 +117,7 @@ attest:
   cocosign:
     policies: [] # Set of policy configuration
 ``` 
-> See configuration details, see [configuration](docs/configuration.md) section
+> For configuration details, see [configuration](docs/configuration.md) section.
 
 ### Default policy
 When no policy configuration is found, the default policy is a single instance of the verifyTarget policy. The values for `allowed_emails`, `allowed_uris`, and `allowed_names` are obtained from the corresponding flag sets `--emails`, `--uri`, and `--common-name`.
@@ -146,7 +147,7 @@ Given any target, the policy engine enforces the following:
   filter: {envrionment-context}
 ```
 
-#### Details
+### Details
 * `allowed_emails`, `allowed_uris` and `allowed_names` default the identity
 required the identity that signed the target.
 
@@ -407,8 +408,9 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --outp
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
 
-
-# CycloneDX SBOM
+# Evidence detail
+## CycloneDX SBOM
+---
 The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
 The following table describes the `group` types we currently support.
 
@@ -454,6 +456,7 @@ Following are some of the customizable features we support.
 * Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
 
 ## SLSA Provenance
+---
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
 It is required for SLSA compliance level 2 and above.
 
@@ -463,27 +466,24 @@ See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
 For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
 
-## Attestations 
+# Attestations 
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
-The following table includes the formats supported by the verification command.
+Default settings are available using `--attest.default` flag. <br />
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
+The following table includes the formats supported by the verification command.
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
 | statement-CycloneDX-json | statement | In-toto Statement | no |
 | attest-CycloneDX-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
+> Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
-Select default the configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
-Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
-
-> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
-
-See details [In-toto spec](https://github.com/in-toto/attestation) <br />
-See details [attestations](docs/attestations.md)
+> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
+> See signing details, see [attestations](docs/attestations.md)
 
 # CLI - Use Valint as a command line tool
 

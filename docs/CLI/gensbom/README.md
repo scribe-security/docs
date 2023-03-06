@@ -174,22 +174,20 @@ For example, evidence created on `Github Actions` will include the workflow name
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
-The following table includes the supported format by the verification command.
+Default settings are available using `--attest.default` flag. <br />
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
+The following table includes the formats supported by the verification command.
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
 | statement-CycloneDX-json | statement | In-toto Statement | no |
 | attest-CycloneDX-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
+> Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
-Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`. Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
-
-> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptography.
-
-See details [In-toto spec](https://github.com/in-toto/attestation) <br />
-See details [attestations](docs/attestations.md)
+> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
+> See signing details, see [attestations](docs/attestations.md)
 
 # CLI
 
