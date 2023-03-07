@@ -86,8 +86,8 @@ Or using [verify command](#evidence-verification---verify-command) `input-format
 `environment context` collects information from the underlining environments, in which Valint is run.
 Environment context is key to connecting the target evidence and the actual point in your supply chain they where created by.
 
-Futher more they policy verifier is provided its own `environment context`, which allows it to refer to evidence relative to its own.
-For example, a verification done on a specific CI can refer to its own build identitifers and request evidence collected by it.
+Futhermore policies are provided their own `environment context`, which allows them to refer to evidence relatively.
+For example, a verification done on Github CI can refer to evidence produced only by its own build run.
 
 The following table includes the types of environments we currently support:
 
