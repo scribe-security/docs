@@ -45,6 +45,11 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 | AMD64 (x86_64) | Linux, Windows, Mac |
 | ARM64 | Linux, Windows, Mac |
 
+# High level digram 
+<img src='docs/assets/valint_high_level.jpg' alt='Valint high level' width='70%' min-width='400px'/>
+
+<img src='docs/assets/valint_support_table.jpg' alt='Valint support table' width='70%' min-width='400px'/>
+
 # Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
@@ -338,7 +343,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='docs/assets/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Usage
 ```bash
