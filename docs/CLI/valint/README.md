@@ -46,9 +46,9 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 | ARM64 | Linux, Windows, Mac |
 
 # High level digram 
-<img src='./docs/assets/valint_high_level.jpg' alt='Valint high level' width='70%' min-width='400px'/>
+<img src='../../../img/cli//valint_high_level.jpg' alt='Valint high level' width='70%' min-width='400px'/>
 
-<img src='docs/assets/valint_support_table.jpg' alt='Valint support table' width='70%' min-width='400px'/>
+<img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='70%' min-width='400px'/>
 
 # Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
