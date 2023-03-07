@@ -46,7 +46,7 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 | ARM64 | Linux, Windows, Mac |
 
 # High level digram 
-<img src='docs/assets/valint_high_level.jpg' alt='Valint high level' width='70%' min-width='400px'/>
+<img src='./docs/assets/valint_high_level.jpg' alt='Valint high level' width='70%' min-width='400px'/>
 
 <img src='docs/assets/valint_support_table.jpg' alt='Valint support table' width='70%' min-width='400px'/>
 
@@ -343,7 +343,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='docs/assets/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Usage
 ```bash
