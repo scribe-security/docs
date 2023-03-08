@@ -73,7 +73,7 @@ kubectl create namespace scribe
 helm install admission-controller -n scribe scribe/admission-controller
 ```
 
-# Evidence Stores Integration
+## Evidence Stores Integration
 There are two evidence storer options for the admission-controller:
 - Scribe service store
 - OCI registry store
