@@ -273,7 +273,7 @@ import_azure-tasks() {
 title: Azure Pipelines
 sidebar_position: 4
 ---
-" > "${dst_dir}/azure.md"
+" > ${dst_dir}/azure.md
     cat ${repo_dir}/README.md >>  "${dst_dir}/azure.md"
     # import_file_rename ${repo} "" "${dst_dir}/azure.md"
 }
@@ -283,7 +283,7 @@ export_azure-tasks() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/ci-integrations/"
 
-    sed -n '/^# Azure DevOps pipeline/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
+    sed -n '/^# Azure Pipeline/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
 
 import_cli() {
@@ -327,10 +327,11 @@ usage() {
   this=$1
   cat <<EOF
 $this: Sync docs with submodules
-Usage: $this [-b] bindir [-d] [-t tool]
+Usage: $this [-b] bindir [-d] [-r repo]
   -I import docs from submodules
   -E export docs to submodules
   -S status of submodules"
+  -r repo to import or export
 EOF
   exit 2
 }
