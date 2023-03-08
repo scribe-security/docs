@@ -11,7 +11,7 @@ Integrating Scribe Hub with a generic CI requires the following credentials that
 * **Client ID**
 * **Client Secret**
 
-<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ## Procedure
 1. Download `valint`  

@@ -13,7 +13,6 @@ scribe utilizes both attestations (signed) and statement (unsigned) to validate 
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
 
-
 ## Default configuration
 You can select from a set of prefilled default configuration.
 
