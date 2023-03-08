@@ -92,11 +92,12 @@ Integrating Scribe Hub with admission controller requires the following credenti
 ### Procedure
 To install the admission-controller with Scribe service integration:
 ```bash
-helm install admission-controller -n scribe scribe/admission-controller \
+  helm install admission-controller -n scribe scribe/admission-controller \
     --set scribe.auth.client_id=$(CLIENT_ID) \
     --set scribe.auth.client_secret=$(CLIENT_SECRET)
-    ```
->Credentials will be stored as a secret named `admission-controller-scribe-cred`.
+```
+
+> Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
 ## OCI registry integration
 Admission supports both storage and verification flows for `attestations` and `statement` objects using an OCI registry as an evidence store. <br />
@@ -115,14 +116,14 @@ Using OCI registry as an evidence store allows you to upload and verify evidence
      
 2. If [oci-repo] is a private registry, attach permissions to the admission with the following steps:
     1. Create a secret:
-    ```
+    ```bash
     kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n scribe
     ```
     > Note: The `oci-repo` must be hosted on the `oci-url` you're adding the secret to.
     Example: `oci-repo=my_org.jfrog.io/docker-public-local` while `oci-url=my_org.jfrog.io`
      
 3. Install admission with an OCI registry as the evidence store:
-    ```
+    ```bash
     helm install admission-controller scribe/admission-controller -n scribe \
     --set config.attest.cocosign.storer.OCI.enable=true \
     --set config.attest.cocosign.storer.OCI.repo=[oci-repo] \

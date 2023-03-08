@@ -575,6 +575,7 @@ Default settings are available using `--attest.default` flag. <br />
 Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
 The following table includes the formats supported by the verification command.
+
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
 | statement-CycloneDX-json | statement | In-toto Statement | no |
