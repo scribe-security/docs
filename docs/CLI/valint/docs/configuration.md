@@ -12,7 +12,9 @@ For a custom configuration location use `--config` flag with any command.
 Configuration format and default values.
 
 ```yaml
-output_directory: ${XDG_CACHE_HOME}/valint
+cache:
+  enable: true
+  output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
     login-url: https://scribesecurity-production.us.auth0.com
@@ -21,6 +23,9 @@ scribe:
     audience: api.production.scribesecurity.com
   url: https://api.production.scribesecurity.com
   enable: false
+  retry:
+    backoff: 15s
+    timeout: 120s
 context:
   context-type: local
 bom:
@@ -61,9 +66,6 @@ bom:
     branch: ""
     commit: ""
   final-artifact: false
-  retry:
-    backoff: 15s
-    timeout: 120s
 attest:
   config: ""
   default: sigstore

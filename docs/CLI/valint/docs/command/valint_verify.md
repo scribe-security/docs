@@ -17,9 +17,12 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -a | --attestation | Attestation for target | |
+| | --common-name | Default policy allowed common names | |
+| | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
 | -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json] | "attest-cyclonedx-json" |
+| | --uri | Default policy allowed uris | |
 
 
 ### Global options flags
@@ -30,6 +33,8 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
+| | --backoff | Backoff duration | "15s" |
+| | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
@@ -47,6 +52,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
@@ -71,10 +77,9 @@ Flags for all `valint` subcommands
 
   Example:
   valint bom alpine:latest -o attest
-  valint verify alpine:latest -o attest
+  valint verify alpine:latest -i attest
 
   Format-aliases:
-  * json=attest-cyclonedx-json
   * statement=statement-cyclonedx-json
   * attest=attest-cyclonedx-json
 
