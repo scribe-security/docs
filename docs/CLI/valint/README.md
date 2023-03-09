@@ -458,14 +458,29 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
   -P [SCRIBE_CLIENT_SECRET]
 ```
 
+
 ## OCI Evidence store
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
-* `--oci`
-* `--oci-repo`
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+### Dockerhub limitation
+Dockerhub does not support the subpath format for images 
+
+### OCI Repo flag
+`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+It must be a dedicated location in a OCI registry.
+for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
+
+### Dockerhub limitation
+Dockerhub does not support the subpath format, `oci-repo` should be set to your account name.
+For example, scribe-security`
+
+> Some registries allow multi layer format for repo names.
 
 ### Before you begin
 Evidence can be stored in any accusable registry.
@@ -473,6 +488,7 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
 
 ### Usage
 ```bash
@@ -490,6 +506,9 @@ valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
 
 valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
+
+> For related Cosign support, see [cosign ](#-cosign-support) section.
+
 
 ## Cache Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing Local directory as an evidence store.

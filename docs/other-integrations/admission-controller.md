@@ -99,28 +99,52 @@ To install the admission-controller with Scribe service integration:
 
 > Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
-## OCI registry integration
-Admission supports both storage and verification flows for `attestations` and `statement` objects using an OCI registry as an evidence store. <br />
-Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
+## OCI Evidence integration
+Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+### Dockerhub limitation
+Dockerhub does not support the subpath format for images 
+
+### OCI Repo flag
+`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+It must be a dedicated location in a OCI registry.
+for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
+
+> Full value path `config.attest.cocosign.storer.OCI.repo`.
+
+### Dockerhub limitation
+Dockerhub does not support the subpath format, `oci-repo` should be set to your account name.
+For example, `scribesecurity`
+
+> Some registries allow multi layer format for repo names.
 
 ### Before you begin
-- Write access to upload evidence using the `valint` tool
-- Read access to download evidence for the admission controller
-- Evidence can be stored in any accessible registry
+
+Evidence can be stored in any accusable registry.
+* Valint tool - Write access is required for upload (generate).
+* Admission controller - Read access is required for download (verify).
+
+You must setup a secret with the required access for the admission to use (`imagePullSecret`).
 
 ### Procedure
 1. Install admission with evidence store [oci-repo].
     - [oci-repo] is the URL of the OCI repository where all evidence will be uploaded.
     - For image targets only: Attach the evidence to the same repo as the uploaded image.
       Example: If you upload an image `example/my_image:latest`, read access is required for `example/my_image` (oci-repo).
-     
+ 
 2. If [oci-repo] is a private registry, attach permissions to the admission with the following steps:
     1. Create a secret:
     ```bash
     kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n scribe
     ```
     > Note: The `oci-repo` must be hosted on the `oci-url` you're adding the secret to.
-    Example: `oci-repo=my_org.jfrog.io/docker-public-local` while `oci-url=my_org.jfrog.io`
+    Example: `oci-repo=my_dockerhub_org` while `oci-url=my_dockerhub_org`
      
 3. Install admission with an OCI registry as the evidence store:
     ```bash
@@ -162,16 +186,17 @@ Regular expressions uses the perl regular expression format.
 
 #### Command
 ```bash
-helm upgrade admission-controller scribe/admission-controller -n scribe \
-    --set config.admission.glob={[list of regular expressions]} -n scribe
+helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
+    --set config.admission.glob={[list of regular expressions]} 
 ```
 > For example:
 This will match images that have the string nginx or busybox in their name.
 ```bash
-helm upgrade admission-controller scribe/admission-controller -n scribe \
+helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
     --set config.admission.glob={\.\*busybox:\.\*,\.\*nginx:\.\*} -n scribe
 ```
-Note the escaping of `.` and `*` when using `Bash` shell.
+> Note the escaping of `.` and `*` when using `Bash` shell.
+> `--reuse-values` so that the values are not reset.
 
 #### Configuration
 ```yaml
@@ -195,13 +220,14 @@ config:
 # Setting Evidence type
 Admission supports both verification flows for `attestations` (signed)  and `statement` (unsigned) objects utilizing OCI registry or Scribe service as an evidence store.
 
->By default, admission will require signed evidence (`config.verify.input-format=attest`).
+> By default, admission will require signed evidence (`config.verify.input-format=attest`).
 
 #### Command
 ```bash
-helm upgrade admission-controller scribe/admission-controller -n scribe \
+helm upgrade admission-controller scribe/admission-controller  --reuse-values -n scribe \
     --set config.verify.input-format=[format]
 ```
+> `--reuse-values` so that the values are not reset.
 
 #### Configuration
 ```yaml
