@@ -193,6 +193,7 @@ Given any target, the policy engine enforces the following:
 ### Configuration
 ```yaml
 - type: verifyTarget # Policy name
+  enable: true/false # Policy enable (default false) 
   name: "" # Any user provided name
   allowed_emails: [] # Signed email identities 
   allowed_uris: [] # Signed URIs identities 
@@ -237,6 +238,7 @@ attest:
   cocosign:
     policies:
     - type: verifyTarget
+      enable: true
       name: image_policy
       allowed_names:
         - mycompany.com
@@ -274,6 +276,7 @@ attest:
   cocosign:
     policies:
     - type: verifyTarget
+      enable: true
       name: git_policy
       allowed_emails:
         - john.doe@mycompany.com
@@ -312,6 +315,7 @@ attest:
   cocosign:
     policies:
     - type: verifyTarget
+      enable: true
       name: binary_policy
       filter:
         context_type: azure
@@ -345,8 +349,8 @@ attest:
   cocosign:
     policies:
 
-      - enable: true
-        type: VerifyTarget
+      - type: VerifyTarget
+        enable: true
         name: git_policy
         input:
           allowed_emails:
@@ -356,8 +360,8 @@ attest:
             input_scheme: git # Match on git targets
             git_branch: main # Match only on main branch
 
-      - enable: true
-        type: VerifyTarget
+      - type: VerifyTarget
+        enable: true
         name: docker_policy
         input:
           allowed_emails:
