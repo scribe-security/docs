@@ -259,8 +259,7 @@ In other words, the Signed Artifact policy allows you to verify signature compli
 
 <details>
   <summary> Default Policy Evaluation </summary>
-
-Default policy can also be evaluated as the following policy configuration:
+The default policy can also be evaluated as the following policy configuration:
 
 ```yaml
 attest:
@@ -307,9 +306,9 @@ The Verify Target Rule can be used to enforce compliance with specific supply ch
   enable: true/false # Policy enable (default false) 
   name: "" # Any user provided name
   identity:
-    allowed_emails: [] # Signed email identities 
-    allowed_uris: [] # Signed URIs identities 
-    allowed_names: [] # Signed common name identities 
+    emails: [] # Signed email identities 
+    uris: [] # Signed URIs identities 
+    common-names: [] # Signed common name identities 
   signed: <true|false> # Should target be signed
   format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
   match: {envrionment-context} # Any origin or subject fields used by
