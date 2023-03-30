@@ -21,9 +21,6 @@ Flags for `bom` subcommand
 | -e | --env | Environment keys to include in sbom | |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
-| | --git-branch | Git branch in the repository | |
-| | --git-commit | Git commit hash in the repository | |
-| | --git-tag | Git tag in the repository | |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
@@ -45,6 +42,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --oci | Enable OCI store | |

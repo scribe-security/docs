@@ -60,11 +60,6 @@ bom:
     - sbom
     exclude-type: []
   attach-regex: []
-  git:
-    auth: ""
-    tag: ""
-    branch: ""
-    commit: ""
   final-artifact: false
 attest:
   config: ""

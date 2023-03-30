@@ -40,6 +40,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --oci | Enable OCI store | |

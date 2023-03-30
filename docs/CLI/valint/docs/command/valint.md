@@ -21,6 +21,9 @@ Flags for `valint`
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
 | -h | --help | help for valint | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -42,6 +45,4 @@ Flags for `valint`
 
 * [valint bom](valint_bom.md)	 - Create SBOM for target
 * [valint verify](valint_verify.md)	 - Verify target evidence
-
-s
 

@@ -71,10 +71,10 @@ Valint supports the following evidence formats.
 
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
-| cyclonedx-json | json | CyclondeDX json format | no |
-| predicate-cyclonedx-json | predicate | In-toto Predicate | no |
-| statement-cyclonedx-json | statement | In-toto Statement | no |
-| attest-cyclonedx-json | attest | In-toto Attestation | yes |
+| CycloneDX-json | json | CyclondeDX json format | no |
+| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
+| statement-CycloneDX-json | statement | In-toto Statement | no |
+| attest-CycloneDX-json | attest | In-toto Attestation | yes |
 | predicate-slsa |  | In-toto Predicate | no |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
@@ -84,17 +84,11 @@ Or using [verify command](#evidence-verification---verify-command) `input-format
 
 ## Environment context
 `environment context` collects information from the underlining environments, in which Valint is run.
+Environment context is key to connecting the target evidence and the actual point in your supply chain they where created by.
 
-Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
-Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `envrionment context`.
+Futhermore policies are provided their own `environment context`, which allows them to refer to evidence relatively.
+For example, a verification done on Github CI can refer to evidence produced only by its own build run.
 
-On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative compliance rules between different points in the supply chain.
-
-For example, verification done in Github Actions can refer to rules that apply to the current run number.
-Another example, verification done on a binary can refer to rules that apply to the hash of the binary.
-
-
-### Origin context
 The following table includes the types of environments we currently support:
 
 | context-type | description |
@@ -108,10 +102,9 @@ The following table includes the types of environments we currently support:
 | travis | Travis CI workflows |
 | jenkins | Jenkins declarative pipelines |
 
-
 The following fields are collected from any supported environment.
 
-| Field | Description | 
+ | Field | Description | 
 | --- | --- | 
 | context_type | Environment type | 
 | git_url | Environment provided git url |
@@ -124,22 +117,20 @@ The following fields are collected from any supported environment.
 | actor | Environment provided actor |
 | build_num | Environment build num |
 
+The following fields are collected from any supported target.
 
-### Subject context
-The following fields are collected from any supported artifact ()`target`).
-
-| Field | Description | Target | values |
-| --- | --- | --- | --- |
-| content_type | Target Evidence Format (CLI) value of flags`--format`, `--input-format` | All | 
-| name | Product key (CLI) - value of flag `--product-key` | All |
+ | Field | Description | Target
+| --- | --- | --- |
+| content_type | Target Evidence type (CLI) - `-i`, `-o` | All |
+| name | Product key (CLI) - `--product-key` | All |
 | sbomgroup | Target SBOM group - `image, directory, file, git` | All |
 | sbomname |  Target SBOM name | All |
 | sbomversion | Target SBOM name  | All |
 | sbompurl |  Target SBOM name  | All |
 | sbomhashs |  Target SBOM hashs (list of hashs)  |  All |
-| input_scheme | User input scheme (CLI) - value from target `scheme:target:tag` | All |
-| input_name | User input name (CLI) - value from target `scheme:target:tag` | All |
-| input_tag | User input tag (CLI) - value from target `scheme:target:tag` | All |
+| input_scheme | User input scheme (CLI) - `scheme:target:tag` | All |
+| input_name | User input name (CLI) - `scheme:target:tag` | All |
+| input_tag | User input tag (CLI) - `scheme:target:tag` | All |
 | imageID | Target image ID | image |
 | repoDigest | Target repo digest (list) | image |
 | imageTag | Target image tags (list) | image |
@@ -153,19 +144,6 @@ The following fields are collected from any supported artifact ()`target`).
 | target_git_commit | Target provided git commit | git |
 | target_git_tag | Target provided git tag | git |
 | target_git_ref | Target provided git ref | git |
-
-
-`content type` is set by the `--format` or `--input-format` flag it supports the following types.
-| content_type | 
-| --- |
-| cyclonedx-json |
-| predicate-cyclonedx-json |
-| statement-cyclonedx-json | 
-| attest-cyclonedx-json | 
-| predicate-slsa |
-| statement-slsa |
-| attest-slsa |  |
-
 
 ## Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -183,163 +161,88 @@ Each storer can be used to store, find and download evidence, unifying all the s
 Each `policy` proposes to enforce a set of rules your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
 
-Each `policy` consists of a set of `rules` that your supply chain must comply with. Policy reports include valuations, compliance details, verdicts, as well as references to provided evidence. You can set policy configuration under the main configuration `policies` section.
-
-A `policy` is verified if ALL required `rules` in a `policy` are evaluated and verified. A rule is verified if ANY `evidence` is found that complies with the rules configuration and setting.
-
 ### Usage
 ```yaml
 attest:
   cocosign:
-    policies:  # Set of policies - grouping rules
-      - name: <policy_name>
-        enable: true      
-        rules: Set of rule settings/configuration and input
-          - name: <rule_name>
-            type: <verifyTarget> # Currently supporting the following types
-            enable: true
-            input: {} # Rule input, depending on the rule type
+    policies: [] # Set of policy configuration
 ``` 
-
 > For configuration details, see [configuration](docs/configuration.md) section.
 
-> For PKI setting, see [attestations](#attestations) section.
+### Default policy
+When no policy configuration is found, the default policy is a single instance of the verifyTarget policy. The values for `allowed_emails`, `allowed_uris`, and `allowed_names` are obtained from the corresponding flag sets `--emails`, `--uri`, and `--common-name`.
 
-### Global 
-All policies include the following global fields:
-All rules support the following fields.
-* `enable`, enable rule (default false). 
-* `name`, policy name (**required**). 
+## Verify target policy
+The Verify Target policy enforces rules on the targets in your supply chain to ensure their identity and origin are verified.
 
-While all rules include the following global fields:
-* `enable`, enable rule (default false). 
-* `name`, rule name (**required**). 
-* `type`, set the rule type, currently we only support `verify-target`. 
+The Verify Target policy is designed to ensure that the identity and origin of artifacts (`targets`) in your supply chain are verified by enforcing specific rules.
 
-# Rules
-Rules are a set of compliance checks that you can configure to your specific compliance requirements.
-
-## Global Match field
-`match` field is a set of labels supported by all rules. 
-These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
-
-Using these fields allows you to set different compliance rules for different layers of your supply chain.
-
-> For full label fields list see [environment-context](#environment-context) section.
-
-<details>
-  <summary> Usage </summary>
-
-Here's an example of usage: 
-If you want to evaluate images named `myorg/myimage:latest`, you may set a rule with the following labels:
-```
-match:
-    sbomgroup: image
-    sbomname: myorg/myimage:latest
-```
-
-> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
-
-> If you also add `git_url: github.com/my_org/myimage.git`, it will require the evidence to be collected from a pipeline on a specific repo.
-
-</details>
-
-### Default policy - Signed artifact
-When no policy configuration is found, the signed artifact policy is used.
-
-By default, the following command runs a signature and identity verification on the target provided:
-```bash
-valint verify [target] --input-format [attest, attest-slsa] \
-   --email [email] --common-name <common name> --uri [uri]
-```
-
-In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.
-
-> For full command details, see [valint verify](#evidence-verification---verify-command) section.
-
-<details>
-  <summary> Default Policy Evaluation </summary>
-The default policy can also be evaluated as the following policy configuration:
-
-```yaml
-attest:
-  cocosign:
-  policies:
-  - name: default-policy
-    rules:
-    - type: verifyTarget
-      enable: true
-      name: "default-rule"
-      identity: # Populated by `--email`, `--uri` and `--common-name flags sets
-      signed: true
-      format: ${current.content_type} # Populated by --input-format flag.
-      match:
-        sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
-```
-
-> For rule details, see [verify target rule](#verify-target-rule) section.
-
-</details>
-
-## Verify target rule
-The Verify Target rule enforces a set of rules on who produced artifacts across your supply chain but also what information should be collected on each artifact.
-In other words, it ensures produced artifacts (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
-
-* Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the rule.
-* Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the rule (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) in the format field of the rule.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
-For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
+Given any target, the policy engine enforces the following:
+* Should the target include signed/unsigned evidence.
+* What identity must sign the target (for signed evidence).
+* Where was the target expected to originate from.
+* What format(s) should the evidence follow.
 
 ### Use cases
-The Verify Target Rule can be used to enforce compliance with specific supply chain requirements, such as:
+* An image release must provide signed CycloneDX SBOM attestation.
+* An image release must be produced by a CircleCI workflow and must provide a signed SLSA provenance attestation (`valint bom my_image:latest -o attest-slsa`).
+* Any git repository release tag must produce a signed SBOM in CycloneDX format, and only certain individuals within the organization should be able to produce this version.
+* A binary release must be produced by a specific Azure workflow run from your specific git repository and must provide an unsigned SLSA provenance statement.
 
-* Images must be signed using and produced signed CycloneDX SBOM.
-* Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
-* Tagged sources must be signed and verified by a set of individuals or processes.
-* Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
 
 ### Configuration
 ```yaml
 - type: verifyTarget # Policy name
-  enable: true/false # Policy enable (default false) 
   name: "" # Any user provided name
-  identity:
-    emails: [] # Signed email identities 
-    uris: [] # Signed URIs identities 
-    common-names: [] # Signed common name identities 
-  signed: <true|false> # Should target be signed
-  format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
-  match: {envrionment-context} # Any origin or subject fields used by
-``` 
+  allowed_emails: [] # Signed email identities 
+  allowed_uris: [] # Signed URIs identities 
+  allowed_names: [] # Signed common name identities 
+  filter: {envrionment-context}
+```
+
+### Details
+* `allowed_emails`, `allowed_uris` and `allowed_names` default the identity
+required the identity that signed the target.
+
+> Important to note, empty fields seen as `accept all`. 
+
+* `filter` any environment context flag to match on target before verification.
+Flag provides a way to define multiple policies each refereeing to a different set of targets.
+
+### Flags
+
+* `--input-format` in [verify command](#evidence-verification---verify-command)
+Verify target includes specified format.
+
+> For example, `valint verify busybox:latest -i statement-slsa` will force verifyTarget to look for evidence in the format of slsa statement.
+
+* `--email`, `--uri`, `--common-name` each flag set allows one to set the identity expected to sign the target. 
+
+> for signed evidence only.
 
 ### Examples
-Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
-
-> For configuration details, see [configuration](docs/configuration.md) section.
+Following are configuration examples. <br />
+Create a file name `.valint.yaml` with the following content.
 
 <details>
-  <summary> Signed Images rule </summary>
-In this example, the rule named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
+  <summary> Image policy verification </summary>
+In this example, the policy, named "image_policy," enforces rules on any image produced and verified by a specific identity.
+
+Specifically, the policy requires that:
+* Image target must be signed by `mycompany.com`.
+* CI or developer will produce an signed CycloneDX SBOM (`attest-cyclonedx-json`).
 
 ```yaml
 attest:
   cocosign:
     policies:
-      - name: my_policy
-        enable: true
-          rules:
-            - name: signed_image
-              type: verifyTarget
-              enable: true
-              signed: true
-              format: attest-slsa
-              identity:
-                allowed_names:
-                  - mycompany.com
-              match:
-                target_type: image
+    - type: verifyTarget
+      name: image_policy
+      allowed_names:
+        - mycompany.com
+      filter:
+        sbomgroup: image
+        content_type: attest-cyclonedx-json
 ```
 
 ### Command
@@ -350,33 +253,35 @@ Run the command on the required supply chain location.
 valint bom busybox:latest -o attest
 
 # Verify policy (cache store)
-valint verify busybox:latest
+valint verify busybox:latest -i attest
 ```
 
 </details>
 
 <details>
-  <summary> Image SLSA provenance rule </summary>
-In this example, the rule named `slsa_prov_rule` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
+  <summary> Source policy verification </summary>
+In this example, the policy, named "git_policy," enforces rules on the source code hosted by `your_org/your_repo` are verified by specific identities. 
+
+Specifically, the policy requires that:
+* Source code required for `main` branch only.
+* Source code target must be signed `john.doe@mycompany.com`.
+* CI or developer will produce an SLSA provenance.
+
+> The policy requires only the **HEAD** of the `main` to comply to the policy not the entire history.
 
 ```yaml
 attest:
   cocosign:
     policies:
-      - name: my_policy
-        enable: true
-        rules:
-          - name: slsa_prov_rule
-            type: verifyTarget
-            enable: true
-            signed: true
-            format: attest-slsa
-            identity:
-              allowed_emails:
-                - bob@mycompany.com
-                - alice@mycompany.com
-            match:
-              target_type: image
+    - type: verifyTarget
+      name: git_policy
+      allowed_emails:
+        - john.doe@mycompany.com
+      filter:
+        input_scheme: git
+        target_git_url: git@github.com:your_org/your_repo.git # Git url of the target.
+        branch: main
+
 ```
 
 ### Command
@@ -384,75 +289,37 @@ Run the command on the required supply chain location.
 
 ```bash
 # Generate required evidence, requires signing capabilities.
-valint bom busybox:latest -o attest-slsa
+valint bom git:github.com:your_org/your_repo.git --branch main -o attest-slsa
 
 # Verify policy (cache store)
-valint verify busybox:latest
+valint verify git:github.com:your_org/your_repo.git --branch main -i statement-slsa
 ```
 
-</details>
 
-<details>
-  <summary> Signed tagged sourced rule </summary>
-In this example, the rule named "tagged_git_rule," will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
-
-> The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
-
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        enable: true  
-        rules:
-          - name: tagged_git_rule
-            type: verifyTarget
-            enable: true
-            signed: true
-            format: attest-slsa
-            identity:
-              allowed_emails:
-              - bob@mycompany.com`
-            match:
-              target_type: git
-              target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
-              branch: main
-```
-
-### Command
-Run the command on the required supply chain location.
-
-```bash
-# Generate required evidence, requires signing capabilities.
-valint bom git:github.com:your_org/your_repo.git --tag 0.1.3 -o attest-slsa
-
-# Verify policy (cache store)
-valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-slsa
-```
 </details>
 
 <details>
   <summary> Binary verification </summary>
-In this example, the policy, named "binary_rule" enforces rules on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
-The rule also enforces an unsigned SLSA provenance statement is produced as evidence.
+In this example, the policy, named "binary_policy," enforces rules on the binary `my_binary.exe` to ensure that its identity and origin are verified. 
+
+Specifically, the policy requires that:
+* The binary file is produced by an Azure-hosted git repository `your_org/your_repo`.
+* The binary file is built using the `azure_workflow.yaml` workflow.
+* CI will produce an SLSA provenance.
 
 ```yaml
 attest:
   cocosign:
     policies:
-      - name: my_policy
-        enable: true  
-        rules:
-          - name: binary_policy
-            type: verifyTarget
-            enable: true
-            signed: false
-            format: statement-slsa
-            match:
-              target_type: file
-              context_type: azure
-              git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
-              input_name: my_binary.exe
+    - type: verifyTarget
+      name: binary_policy
+      filter:
+        context_type: azure
+        content_type: statement-slsa
+        git_url: https://dev.azure.com/your_org/your_repo # Git url of the environment.
+        workflow: azure_workflow.yaml
+        input_scheme: file
+        input_name: my_binary.exe
 ```
 
 ### Command
@@ -463,12 +330,12 @@ Run the command on the required supply chain location.
 valint bom file:my_binary.exe -o statement-slsa
 
 # Verify policy (cache store)
-valint verify file:my_binary.exe
+valint verify file:my_binary.exe -i statement-slsa
 ```
 
 </details>
 
-<!-- <details>
+<details>
   <summary> Multiple policy verification </summary>
 This example defines two policies: one for image targets and one for Git repositories. 
 Each policy uses the `filter` option to select the appropriate targets to verify.
@@ -477,53 +344,69 @@ Each policy uses the `filter` option to select the appropriate targets to verify
 attest:
   cocosign:
     policies:
-      - name: my_policy
-        enable: true  
-      rules:
-        - name: git_policy
-          type: VerifyTarget
-          enable: true
-          input:
-            allowed_emails:
-            - john.doe@mycompany.com
-            allowed_names: []
-            filter:
-              input_scheme: git # Match on git targets
-              git_branch: main # Match only on main branch
 
-        - type: VerifyTarget
-          enable: true
-          name: docker_policy
-          input:
-            allowed_emails:
-            - second@example.com
-            allowed_names: []
-            filter:
-              input_scheme: docker # Match on image targets
+      - enable: true
+        type: VerifyTarget
+        name: git_policy
+        input:
+          allowed_emails:
+          - john.doe@mycompany.com
+          allowed_names: []
+          filter:
+            input_scheme: git # Match on git targets
+            git_branch: main # Match only on main branch
+
+      - enable: true
+        type: VerifyTarget
+        name: docker_policy
+        input:
+          allowed_emails:
+          - second@example.com
+          allowed_names: []
+          filter:
+            input_scheme: docker # Match on image targets
 ```
-</details> -->
+</details>
 
-## Target  types
+
+<!-- ## Verify Git owner
+Policy porpuse is to inforce who or what should be change what files in your code base.
+A `owner` of a file is defined by the `author` of the last commit changing this file.
+> Author is the identity used by git layer when a commit is created.
+
+Given a Git repository target the policy enforces the following,
+* Who must be the owner of each file.
+* Do commits must include GPG signatures.
+
+> We only file enforce `owner` using the last commit that modified the file.
+This in turn means that the target can include commits that change any file,
+But the `last` commit must be authored by the `owner`.
+
+### Use cases
+* What developer should be able to modify the CI workflows.
+* What developer should approve changes to what sub-project in the mono repo.
+* Tagged git repo must include only signed commits.
+* What workflow is allowed to add commits in to the code base. -->
+
+## Targets
 ---
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+Each target type can be used to collect evidence on different parts of your supply chain.  <br />
+For example, you can collect SBOMs for images or binaries created by your supply chain.
 
-### Format
+Target format `[scheme]:[name]:[tag]`
 
-`[scheme]:[name]:[tag]` 
+| Sources | scheme | Description | example
+| --- | --- | --- | --- |
+| Docker Daemon | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | docker-archive | use a tarball from disk for archives created from "docker save" | docker-archive:path/to/yourimage.tar |
+| OCI archive | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file path on disk | file:path/to/yourproject/file | 
 
-| Sources | target-type | scheme | Description | example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
-### Image type
+### Image Target
 Images are a very common artifact for many supply chains,
 from the actual application release to build/test environments run by supply chains.
 
@@ -532,20 +415,16 @@ Image sources supported are docker-daemon, image archives and direct registry ac
 
 > By default the target search scheme assumes Docker daemon but falls back to registry when not found.
 
-### Directory type
-Directories are common artifacts created by supply chains, 
-from the actual application releases, configurations or even internal build dependencies caches.
+### Directory/File Target
+Directories and files are common artifacts created by supply chains, 
+from the actual application released, configurations or even internal build dependencies caches.
 
-### File type
-File are common artifacts created by supply chains, 
-from the actual application releases, configurations or binaries.
-
-### Git type
+### Git Target
 Git repositories are a common part of most supply chains,
 a Git target allows you to collect evidence including sources, commits and packages found in your source repositories.
 
 # Evidence Stores Integration
-Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
+Each storer can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ## Scribe Evidence store
 OCI evidence store allows you store evidence using scribe Service.
@@ -579,29 +458,14 @@ valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
   -P [SCRIBE_CLIENT_SECRET]
 ```
 
-
 ## OCI Evidence store
-Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-### Dockerhub limitation
-Dockerhub does not support the subpath format for images 
-
-### OCI Repo flag
-`oci-repo` setting indicates the location in a registry under which the evidence are stored.
-It must be a dedicated location in a OCI registry.
-for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
-
-### Dockerhub limitation
-Dockerhub does not support the subpath format, `oci-repo` should be set to your account name.
-For example, scribe-security`
-
-> Some registries allow multi layer format for repo names.
+* `--oci`
+* `--oci-repo`
 
 ### Before you begin
 Evidence can be stored in any accusable registry.
@@ -609,7 +473,6 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command.
 
 ### Usage
 ```bash
@@ -627,8 +490,6 @@ valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
 
 valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
 ```
-
-> For related Cosign support, see [cosign ](#-cosign-support) section.
 
 ## Cache Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing Local directory as an evidence store.
@@ -837,24 +698,20 @@ valint bom busybox:latest -vv -A **/some_report.json
 </details>
 
 ## Evidence verification - `verify` command
-`verify` command evaluates and verifies the compliance of your supply chain against your requirements.
-By default the command verifies a artifact signature against the required identities.
+`verify` command allows one to verify the target and its respective evidence. 
 
-Evidence verification  verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
+The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
 
-> For flag details, see [CLI documentation - verify](docs/command/valint_verify.md).
+Verification flow for `attestations` which are signed evidence formats includes PKI and identity verification as well as policy verification. <br />
+Verification flow for `statements` that are unsigned evidence includes policy verification only. <br />
 
-> For policy verification details, see [policies](#policies) section.
+> Evidence must be available locall on a remote OCI registry or using Scribe service.
 
-### Usage
+> By default, the evidence is read from `~/.cache/valint/`, use `--output-file` or `--output-directory` to customize the evidence output location.
 
-```bash
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
-  --email [email] --uri [uri] --common-name [common name]
-```
-> Note: multiple `email`, `uri` and `common-name` can be included in command
+For details, see [CLI documentation - verify](docs/command/valint_verify.md).
 
-### Examples
+### Usage examples
 <details>
   <summary>  Cache store </summary>
 
@@ -866,7 +723,6 @@ valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-s
 valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
 ```
 </details>
-
 <details>
   <summary>  OCI store </summary>
 
@@ -875,8 +731,7 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
 
 # Use `verify` command to verify the target against the evidence
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
-    --email [email] --uri [uri] --common-name [common name]
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
 ```
 </details>
 
@@ -892,12 +747,31 @@ valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] \
 
 # Verifying evidence, pulling attestation from scribe service.
 valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
-  --email [email] --uri [uri] --common-name [common name] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 ```
 </details>
+
+<details>
+  <summary>  OCI store </summary>
+```bash
+# Generating evidence, storing on [my_repo] OCI repo.
+valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+
+# Verifying evidence, pulling attestation from [my_repo] OCI repo.
+valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+```
+
+> For image targets **only** you may attach the evidence in the same repo as the image.
+
+```bash
+valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+
+valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
+```
+</details>
+
 
 ## Configuration
 Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
