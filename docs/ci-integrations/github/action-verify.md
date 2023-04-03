@@ -28,40 +28,86 @@ The command allows users to verify any target against its evidence.
 
 ### Input arguments
 ```yaml
- type:
+  type:
     description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
-    default: registry
   target:
-    description: 'Target object name format=[<image:tag>, <dir path>, <git url>]'
+    description:
     required: true
-  verbose:
-    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
-    default: 1
-  config:
-    description: 'Application config file'
+  attestation:
+    description: Attestation for target
+  common-name:
+    description: Default policy allowed common names
+  email:
+    description: Default policy allowed emails
+  force:
+    description: Force skip cache
   input-format:
-    description: 'Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json]'
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json]
     default: attest-cyclonedx-json
+  uri:
+    description: Default policy allowed uris
+  attest-config:
+    description: Attestation config path
+  attest-default:
+    description: Attestation default config, options=[sigstore sigstore-github x509]
+    default: sigstore
+  backoff:
+    description: Backoff duration
+    default: 15s
+  cache-enable:
+    description: Enable local cache
+    default: true
+  config:
+    description: Configuration file path
+  context-dir:
+    description: Context dir
+  filter-regex:
+    description: Filter out files by regex
+    default: '**/*.pyc,**/.git/**'
+  filter-scope:
+    description: Filter packages by scope
+  git-branch:
+    description: Git branch in the repository
+  git-commit:
+    description: Git commit hash in the repository
+  git-tag:
+    description: Git tag in the repository
+  label:
+    description: Add Custom labels
+  level:
+    description: Log depth level, options=[panic fatal error warning info debug trace]
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
   output-directory:
-    description: 'Output directory path'
+    description: Output directory path
     default: ./scribe/valint
   output-file:
-    description: 'Output result to file'
-  filter-regex:
-    description: 'Filter out files by regex'
-    default: .*\.pyc,\.git/.*
-  attest-config:
-    description: 'Attestation config map'
-  attest-default:
-    description: 'Attestation default config, options=[sigstore sigstore-github x509]'
-    default: sigstore-github
-  attestation:
-    description: 'Attestation for target'
-  oci:
-    description: 'Enable OCI store'
-    default: false
-  oci-repo:
-    description: 'Select OCI custom attestation repo'
+    description: Output file name
+  product-key:
+    description: Scribe Project Key
+  scribe-audience:
+    description: Scribe auth audience
+    default: api.production.scribesecurity.com
+  scribe-client-id:
+    description: Scribe Client ID
+  scribe-client-secret:
+    description: Scribe Client Secret
+  scribe-enable:
+    description: Enable scribe client
+  scribe-login-url:
+    description: Scribe login url
+    default: https://scribesecurity-production.us.auth0.com
+  scribe-url:
+    description: Scribe API Url
+    default: https://api.production.scribesecurity.com
+  timeout:
+    description: Timeout duration
+    default: 120s
+  verbose:
+    description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
+    default: 1
 
 ```
 

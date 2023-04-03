@@ -39,58 +39,90 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ```yaml
   type:
     description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
-    default: registry
   target:
-    description: 'Target object name format=[<image:tag>, dir:<dir_path>, <git_path>]'
+    description:
     required: true
-  verbose:
-    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
-    default: 1
-  config:
-    description: 'Application config file'
+  attach-regex:
+    description: Attach files content by regex
+  components:
+    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
+    default: metadata,layers,packages,syft,files,dep,commits
+  env:
+    description: Environment keys to include in sbom
+  force:
+    description: Force overwrite cache
   format:
-    description: 'Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]
+    default: cyclonedx-json
+  package-exclude-type:
+    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
+  package-group:
+    description: Select package group, options=[index install all]
+  package-type:
+    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
+    default: ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,rust,binary,sbom
+  attest-config:
+    description: Attestation config path
+  attest-default:
+    description: Attestation default config, options=[sigstore sigstore-github x509]
+    default: sigstore
+  backoff:
+    description: Backoff duration
+    default: 15s
+  cache-enable:
+    description: Enable local cache
+    default: true
+  config:
+    description: Configuration file path
+  context-dir:
+    description: Context dir
+  filter-regex:
+    description: Filter out files by regex
+    default: '**/*.pyc,**/.git/**'
+  filter-scope:
+    description: Filter packages by scope
+  git-branch:
+    description: Git branch in the repository
+  git-commit:
+    description: Git commit hash in the repository
+  git-tag:
+    description: Git tag in the repository
+  label:
+    description: Add Custom labels
+  level:
+    description: Log depth level, options=[panic fatal error warning info debug trace]
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
   output-directory:
-    description: 'Output directory path'
+    description: Output directory path
     default: ./scribe/valint
   output-file:
-    description: 'Output result to file'
-  label:
-    description: 'Custom label'
-  env:
-    description: 'Custom env'
-  filter-regex:
-    description: 'Filter out files by regex'
-  filter-scope:
-    description: 'Filter packages by scope'
-  package-type:
-    description: 'Select package type'
-  package-group:
-    description: 'Select package group'
-  attach-regex:
-    description: 'Attach files content by regex'
-  force:
-    description: 'Force overwrite cache'
-    default: false
-  attest-config:
-    description: 'Attestation config map'
-  attest-default:
-    description: 'Attestation default config, options=[sigstore sigstore-github x509]'
-    default: sigstore-github
-  scribe-enable:
-    description: 'Enable scribe client'
-    default: false
+    description: Output file name
+  product-key:
+    description: Scribe Project Key
+  scribe-audience:
+    description: Scribe auth audience
+    default: api.production.scribesecurity.com
+  scribe-client-id:
+    description: Scribe Client ID
   scribe-client-secret:
-    description: 'Scribe access token' 
-  context-dir:
-    description: 'Context dir' 
-  components:
-    description: 'Select sbom components groups, options=[metadata layers packages syft files dep commits]'
-  oci:
-    description: 'Enable OCI store'
-    default: false
-  oci-repo:
-    description: 'Select OCI custom attestation repo'
+    description: Scribe Client Secret
+  scribe-enable:
+    description: Enable scribe client
+  scribe-login-url:
+    description: Scribe login url
+    default: https://scribesecurity-production.us.auth0.com
+  scribe-url:
+    description: Scribe API Url
+    default: https://api.production.scribesecurity.com
+  timeout:
+    description: Timeout duration
+    default: 120s
+  verbose:
+    description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
+    default: 1
 ```
 
 ### Output arguments

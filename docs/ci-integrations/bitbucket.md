@@ -29,6 +29,9 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # PACKAGE_TYPE: '<string>' # Optional
     # PACKAGE_GROUP: '<string>' # Optional
     # FORCE: '<boolean>' # Optional
+    # GIT_BRANCH: '<string>' # Optional
+    # GIT_COMMIT: '<string>' # Optional
+    # GIT_TAG: '<string>' # Optional
     # ATTEST_CONFIG: '<string>' # Optional
     # ATTEST_DEFAULT: '<string>' # Optional
     # SCRIBE_ENABLE: '<string>' # Optional
@@ -60,6 +63,9 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | PACKAGE_GROUP | Select package group | | bom |
 | ATTACH_REGEX | Attach files content by regex| | bom |
 | FORCE | Force overwrite cache | | bom |
+| GIT_BRANCH | Git branch in the repository | | any |
+| GIT_TAG | Git tag in the repository | | any |
+| GIT_COMMIT | Git commit hash in the repository | | any |
 | ATTEST_CONFIG | Attestation config path | | any |
 | ATTEST_DEFAULT | Attestation default config, options=[sigstore sigstore-github x509 kms] | | any |
 | SCRIBE_ENABLE |  Enable scribe client | | any |

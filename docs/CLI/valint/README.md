@@ -1101,7 +1101,7 @@ Generating and verifying CycloneDX SBOM `attestation` for image target `busybox:
 # Create CycloneDX SBOM attestations
 valint bom busybox:latest -o attest
 
-# Verify CycloneDX Provenance attestations
+# Verify CycloneDX SBOM attestations
 valint verify busybox:latest
 ```
 </details>
@@ -1157,10 +1157,10 @@ Or for a local repository
 git clone https://github.com/mongo-express/mongo-express.git
 
 # Create CycloneDX SBOM attestations
-valint bom git:https://github.com/mongo-express/mongo-express.git -o attest
+valint bom git:./mongo-express -o attest
 
 # Verify CycloneDX SBOM attestations
-valint verify git:https://github.com/mongo-express/mongo-express.git
+valint verify git:./mongo-express
 ```
 </details>
 

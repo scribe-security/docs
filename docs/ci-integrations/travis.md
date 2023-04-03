@@ -35,8 +35,27 @@ jobs:
               -f
 ```
 
-## Before you begin
-Integrating Scribe Hub with Travis CI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+
+
+## Scribe Evidence store
+OCI evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
@@ -53,8 +72,8 @@ The code in the following examples of a workflow running on the mongo-express im
 curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
 ```
 
-As an example update it to contain the following steps:
 
+### Usage
 ```yaml
 language: go
 go:
@@ -69,20 +88,70 @@ install:
 name: "scribe-travis-job"
 
 script:
-  - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
   - |
-    valint bom dir:mongo-express-scm \
+    valint bom [target] \
+        --format [attest, statement, attest-slsa,statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
         
   - |
-    valint bom mongo-express:1.0.0-alpha.4 \
+    valint verify [target] \
+        --format [attest, statement, attest-slsa,statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
 ```
 
+## OCI Evidence store
+Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+```yaml
+language: go
+go:
+ - 1.18.x
+
+install:
+  - mkdir ./bin
+  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+  - export PATH=$PATH:$PWD/bin/
+
+
+name: "scribe-travis-job"
+
+script:
+  # Generating evidence, storing on [my_repo] OCI repo.
+  - |
+    valint bom [target] \
+        --format [attest, statement, attest-slsa,statement-slsa] \
+        --context-type travis \
+        --output-directory ./scribe/valint \
+        --oci --oci-repo=[my_repo]
+
+  # Verifying evidence, pulling attestation from [my_repo] OCI repo.
+  - |
+    valint verify [target] \
+        --format [attest, statement, attest-slsa,statement-slsa] \
+        --context-type travis \
+        --output-directory ./scribe/valint \
+        --oci --oci-repo=[my_repo]
+```
 
 ## Basic examples
 <details>
@@ -236,6 +305,120 @@ Create SBOM for local git repository. <br />
       -f
 ``` 
 </details>
+
+<details>
+  <summary> Verify Policy flow - verify image target (SBOM) </summary>
+
+Generating and verifying CycloneDX SBOM `statement` for image target `busybox:latest`.
+
+```YAML
+# Create CycloneDX SBOM statement
+- |
+  valint bom busybox:latest \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+
+# Verify CycloneDX SBOM statement
+- |
+  valint verify busybox:latest \
+    -i statement \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
+
+<details>
+  <summary> Verify Policy flow - verify image target (SLSA) </summary>
+
+Generating and verifying SLSA Provenance `statement` for image target `busybox:latest`.
+
+```YAML
+# Create SLSA Provenance statement
+- |
+  valint bom busybox:latest \
+    -o statement-slsa \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+# Verify SLSA Provenance statement
+- |
+  valint verify busybox:latest \
+    -i statement-slsa \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
+
+<details>
+  <summary> Verify Policy flow - directory target (SBOM) </summary>
+
+Generating and verifying SLSA Provenance `statement` for directory target.
+
+```YAML
+- |
+  mkdir testdir
+  echo "test" > testdir/test.txt
+
+# Create CycloneDX SBOM statement
+- |
+  valint bom dir:testdir \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+# Verify CycloneDX SBOM statement
+- |
+  valint verify dir:testdir \
+    -i statement \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
+
+<details>
+  <summary> Verify Policy flow - Git repository target (SBOM) </summary>
+
+Generating and verifying `statements` for remote git repo target `https://github.com/mongo-express/mongo-express.git`.
+
+```yaml
+- |
+  valint bom git:https://github.com/mongo-express/mongo-express.git \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+
+- |
+  valint verify git:https://github.com/mongo-express/mongo-express.git \
+    -i statement \
+    --context-type travis \
+    --output-directory ./scribe/valint
+``` 
+
+Or for a local repository
+```yaml
+- |
+  valint bom git:. \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+
+- |
+  valint verify git:. \
+    -i statement \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
+
 
 ## Resources
 If you're new to Travis this link should help you get started:
