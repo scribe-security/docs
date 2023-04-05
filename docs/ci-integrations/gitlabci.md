@@ -32,25 +32,36 @@ stages:
 scribe-gitlab-job:
     stage: scribe-gitlab-job
     script:
-      - valint bom busybox:latest 
+      - valint bom busybox:latest
           --context-type gitlab
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          --output-directory ./scribe/valint
           -f
 ```
 
-## Before you begin
-Integrating Scribe Hub with GitLab requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+
+## Scribe Evidence store
+OCI evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
-Following are some integration examples.
-
-## Procedure
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 * Store credentials using [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project) 
 
@@ -61,8 +72,7 @@ Following are some integration examples.
 curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
 
-As an example update it to contain the following steps:
-
+### Usage
 ```yaml
 image: ubuntu:latest
 before_script:
@@ -71,53 +81,82 @@ before_script:
   - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
-    - scribe-gitlab-simple-test
+    - scribe-gitlab-stage
 
 scribe-gitlab-job:
-    stage: scribe-gitlab-job
+    stage: scribe-gitlab-stage
     script:
-      - valint bom busybox:latest 
+      - valint bom [target]
+          -o [attest, statement, attest-slsa,statement-slsa]
           --context-type gitlab
-          --product-key $PRODUCT_KEY
+          --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
            -f
+
+      - valint verify [target]
+          -i [attest, statement, attest-slsa,statement-slsa]
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
 ```
 
 > Use `gitlab` as context-type.
 
-<details>
-  <summary>  Scribe integrity </summary>
+## OCI Evidence store
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
-Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
-Verifying the  target integrity on Scribe.
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
-  ```yaml
-  image: ubuntu:latest
-  before_script:
-    - apt update
-    - apt install git curl -y
-    - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
 
-  stages:
-      - scribe-gitlab-job
 
-  scribe-gitlab-job:
-      tags: [ saas-linux-large-amd64 ]
-      stage: scribe-gitlab-job
-      script:
-        - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-        - valint bom dir:mongo-express-scm
-              --context-type gitlab
-              --output-directory ./scribe/valint
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-              
-        - valint bom mongo-express:1.0.0-alpha.4
-              --context-type gitlab
-              --output-directory ./scribe/valint
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-              
-  ```
-</details>
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example using `docker login` command or [DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry).
+
+### Usage
+```yaml
+image: docker:latest
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+services:
+  - docker:dind
+
+before_script:
+  - apt update
+  - apt install git curl -y
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+
+stages:
+    - scribe-gitlab-oci-stage
+
+scribe-gitlab-job:
+    stage: scribe-gitlab-oci-stage
+    script:
+      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+
+      - valint bom [target]
+          -o [attest, statement, attest-slsa,statement-slsa]
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          --oci --oci-repo=[my_repo]
+
+      - valint verify [target]
+          -i [attest, statement, attest-slsa,statement-slsa]
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          --oci --oci-repo=[my_repo]
+```
+
+> Use `gitlab` as context-type.
 
 ## Basic examples
 <details>

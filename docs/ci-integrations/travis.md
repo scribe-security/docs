@@ -41,9 +41,8 @@ Each storer can be used to store, find and download evidence, unifying all the s
 
 | Type  | Description | requirement |
 | --- | --- | --- |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
-
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
 ## Scribe Evidence store
 OCI evidence store allows you store evidence using scribe Service.
@@ -75,10 +74,6 @@ curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
 
 ### Usage
 ```yaml
-language: go
-go:
- - 1.18.x
-
 install:
   - mkdir ./bin
   - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
@@ -104,7 +99,7 @@ script:
 ```
 
 ## OCI Evidence store
-Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
@@ -123,19 +118,20 @@ For example, using `docker login` command.
 
 ### Usage
 ```yaml
-language: go
-go:
- - 1.18.x
+services:
+  - docker
 
 install:
   - mkdir ./bin
   - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 
-
-name: "scribe-travis-job"
+name: "scribe-travis-oci-job"
 
 script:
+  - |
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+    
   # Generating evidence, storing on [my_repo] OCI repo.
   - |
     valint bom [target] \
