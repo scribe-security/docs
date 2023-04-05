@@ -33,69 +33,121 @@ Install the Scribe `valint` CLI tool:
         outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
 ```
 
-## Before you begin
-Integrating Scribe Hub with Azure requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+
+## Scribe Evidence store
+OCI evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
 <img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-# Procedure
 
 * Add the credentials to your Azure environment according to the [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables"). 
 
 * Open your Azure DevOps project and make sure you have a YAML file named `azure-pipelines.yml`.  
 
-Here's what all the steps look like in a unified pipeline example:
+* Use the Scribe custom task as shown in the example bellow
 
-<details>
-  <summary>  <b> Sample integration code </b> </summary>
+### Usage
+```yaml
+- job: scribe_azure_job
+  pool:
+    vmImage: 'ubuntu-latest'
 
-  ```YAML
-  resources:
-    repositories:
-    - repository: mongo-express
-      type: github
-      ref: 'refs/tags/v1.0.0-alpha.4'
-      name: mongo-express/mongo-express
+  variables:
+    imageName: 'pipelines-javascript-docker'
 
-  trigger:
-          - main
+  steps:
+  - task: scribeInstall@0
 
-          pool:
-            vmImage: 'ubuntu-latest'
+  - task: ValintCli@0
+    inputs:
+      commandName: bom
+      target: [target]
+      format: [attest, statement, attest-slsa,statement-slsa]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      scribeEnable: true
+      scribeClientId: $(SCRIBE-CLIENT-ID)
+      scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
 
-          variables:
-            imageName: 'pipelines-javascript-docker'
+  - task: ValintCli@0
+    inputs:
+      commandName: verify
+      target: [target]
+      inputFormat: [attest, statement, attest-slsa,statement-slsa]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      scribeEnable: true
+      scribeClientId: $(SCRIBE-CLIENT-ID)
+      scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+```
 
-          steps:
-          - task: scribeInstall@0
+## OCI Evidence store
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
-          - checkout: mongo-express
-            path: mongo-express-scm
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
-          - task: ValintCli@0
-            inputs:
-              commandName: bom
-              target: dir:mongo-express-scm
-              outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-            scribeEnable: true
-            scribeClientId: $(SCRIBE-CLIENT-ID)
-            scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+Related flags:
+* `OCI` Enable OCI store.
+* `OCI_REPO` - Evidence store location.
 
-          - task: ValintCli@0
-            inputs:
-              commandName: bom
-              target: mongo-express:1.0.0-alpha.4
-              outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-              scribeEnable: true
-              scribeClientId: $(SCRIBE-CLIENT-ID)
-              scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
-  ```
-</details>
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
 
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
 
+### Usage
+```yaml
+- job: scribe_azure_job
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  variables:
+    imageName: 'pipelines-javascript-docker'
+
+  steps:
+  - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+
+  - task: scribeInstall@0
+
+  - task: ValintCli@0
+    inputs:
+      commandName: bom
+      target: [target]
+      format: [attest, statement, attest-slsa,statement-slsa]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+
+  - task: ValintCli@0
+    inputs:
+      commandName: verify
+      target: [target]
+      inputFormat: [attest, statement, attest-slsa,statement-slsa]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+```
 
 ## Basic examples
 

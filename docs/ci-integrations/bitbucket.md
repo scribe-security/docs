@@ -12,7 +12,7 @@ Scribe support evidence collecting and integrity verification for Bitbucket pipe
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-- pipe: scribe-security/valint-pipe:0.1.1
+- pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND_NAME: "<string>"
     TARGET: "<string>"
@@ -79,7 +79,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 
 ## Usage
 ```yaml
- - pipe: scribe-security/valint-pipe:0.1.1
+ - pipe: scribe-security/valint-pipe:0.1.6
    variables:
     COMMAND_NAME: bom
     TARGET: busybox:latest
@@ -87,25 +87,36 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     FORCE: "true"
 ```
 
-## Before you begin
-Integrating Scribe Hub with Bitbucket Pipeline requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+
+## Scribe Evidence store
+OCI evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
 <img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity.
-Following are some integration examples.
-
-## Procedure
-
 * Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
 
 * Use the Scribe custom pipe as shown in the example bellow
 
-* As an example update it to contain the following steps:
+### Usage
 
 ```yaml
 pipelines:
@@ -113,41 +124,63 @@ pipelines:
     - step:
         name: scribe-bitbucket-pipeline
         script:      
-          - pipe: scribe-security/valint-pipe:0.1.1
+          - pipe: scribe-security/valint-pipe:0.1.6
             variables:
               COMMAND_NAME: bom
-              TARGET: busybox:latest 
+              TARGET:  [target]
+              FORMAT: [attest, statement, attest-slsa,statement-slsa]
+              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+
+          - pipe: scribe-security/valint-pipe:0.1.6
+            variables:
+              COMMAND_NAME: verify
+              TARGET:  [target]
+              INPUT_FORMAT: [attest, statement, attest-slsa,statement-slsa]
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 
-## Scribe integrity
+## OCI Evidence store
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
-A full working example of a workflow - upload evidence on source code and on the final built image to Scribe.
-Verifying the target integrity on Scribe.
-This example workflow uses the public repository of the mongo-express project to demonstrate Scribe's capability to verify the integrity of a build product.
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
+Related flags:
+* `OCI` Enable OCI store.
+* `OCI_REPO` - Evidence store location.
 
-```YAML
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+```yaml
 pipelines:
   default:
     - step:
-        name: scribe-bitbucket-simple-test
+        name: scribe-bitbucket-oci-pipeline
         script:      
-          - git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-          - pipe: scribe-security/valint-pipe:0.1.1
+          - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD [my_registry]
+          - pipe: scribe-security/valint-pipe:0.1.6
             variables:
               COMMAND_NAME: bom
-              TARGET: dir:mongo-express-scm
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-          - pipe: scribe-security/valint-pipe:0.1.1
+              TARGET:  [target]
+              FORMAT: [attest, statement, attest-slsa,statement-slsa]
+              OCI: true
+              OCI_REPO: [oci_repo]
+
+          - pipe: scribe-security/valint-pipe:0.1.6
             variables:
-              COMMAND_NAME: bom
-              TARGET: "mongo-express:1.0.0-alpha.4" 
-              SCRIBE_ENABLE: "true"
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+              COMMAND_NAME: verify
+              TARGET:  [target]
+              INPUT_FORMAT: [attest, statement, attest-slsa,statement-slsa]
+              OCI: true
+              OCI_REPO: [oci_repo]
 ```
 
 ## Basic examples
@@ -157,7 +190,7 @@ pipelines:
 Create SBOM from remote `busybox:latest` image.
 
 ```YAML
-  - pipe: scribe-security/valint-pipe:0.1.1
+  - pipe: scribe-security/valint-pipe:0.1.6
       variables:
         COMMAND: bom
         TARGET: busybox:latest
@@ -170,7 +203,7 @@ Create SBOM from remote `busybox:latest` image.
 Create SBOM for image built by local docker `image_name:latest` image.
 
 ```YAML
-- pipe: scribe-security/valint-pipe:0.1.1
+- pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: bom
     TARGET: image_name:latest
@@ -185,7 +218,7 @@ Create SBOM for image hosted on private registry.
 > Use `docker login` to add access.
 
 ```YAML
-- pipe: scribe-security/valint-pipe:0.1.1
+- pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: bom
     TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
@@ -244,7 +277,7 @@ step:
   script:
   - mkdir testdir
   - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:0.1.1
+  - pipe: scribe-security/valint-pipe:0.1.6
     variables:
       COMMAND: bom
       TARGET: dir:./testdir

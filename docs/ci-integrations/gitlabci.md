@@ -118,7 +118,7 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example using `docker login` command or [DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry).
+For example, using `docker login` command or [DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry).
 
 ### Usage
 ```yaml
