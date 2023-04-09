@@ -503,12 +503,10 @@ attest:
 ```
 </details> -->
 
-## Evidence `target`
+## Target types
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
-
-> Fields specified as [target] support the following format.
 
 ### Format
 
@@ -524,7 +522,6 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 | Local git | git | git | local repository git | git:path/to/yourrepository | 
 | Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
 | File | file | file | file path on disk | file:path/to/yourproject/file | 
-
 
 ### Image type
 Images are a very common artifact for many supply chains,
@@ -551,7 +548,7 @@ a Git target allows you to collect evidence including sources, commits and packa
 Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ## Scribe Evidence store
-OCI evidence store allows you store evidence using scribe Service.
+Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
 > Note the flag set:

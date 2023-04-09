@@ -118,7 +118,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
 ## Scribe Evidence store
-OCI evidence store allows you store evidence using scribe Service.
+Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
 > Note the flag set:
