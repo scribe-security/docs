@@ -336,18 +336,18 @@ You must first login with the required access to your registry before you callin
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-gensbom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-gensbom verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-gensbom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+gensbom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
 
-gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
+gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
 ```
 
 ## Configuration

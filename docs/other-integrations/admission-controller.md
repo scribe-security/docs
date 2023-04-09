@@ -258,7 +258,7 @@ After installing the admission you you want to upload evidence .
 ## Upload to Scribe service
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] -E \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] -E \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```
@@ -266,13 +266,13 @@ valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] -E \
 ## Upload to OCI registry
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
 ```
 
 ## Uninstall `admission-controller`

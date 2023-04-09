@@ -10,64 +10,63 @@ If you are using GitHub Actions as your Continuous Integration tool (CI), use th
 * [Verify](action-verify.md)
 * [Installer](action-installer.md)
 
-## Before you begin
-### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with GitHub requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+## Target types - `[target]`
+---
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+
+> Fields specified as [target] support the following format.
+
+### Format
+
+`[scheme]:[name]:[tag]` 
+
+> Backwards compatibility: It is still possible to use the `type: [scheme]`, `target: [name]:[tag]` format.
+
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
+
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+
+## Scribe Evidence store
+OCI evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `scribe-client-id`
+>* `scribe-client-secret`
+>* `scribe-enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-## Creating an SBOM and collecting evidence
-1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
+* Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
 
-2. Add Code snippets to your pipeline from your GitHub flow:   
-    * Replace the `Mongo express` repo in the example with your repo name.
-    ```YAML
-      target: <repo-name>
-    ```
-    * Call `valint` right after checkout to collect hash value evidence of the source code files.
-    ```YAML
-      - name: Scm generate bom, upload to scribe
-        id: valint_bom_scm
-        uses: scribe-security/action-bom@master
-        with:
-          type: dir
-          target: <repo-name>
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-    ```
-    * Call `valint` to generate an SBOM from the final Docker image.
-    ```YAML
-        - name: Image generate bom, upload to scribe
-        id: valint_bom_image
-        uses: scribe-security/action-bom@master
-        with:
-          type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
-          target: <image-name:tag>
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-    ```
-    <!-- * Call `valint` to get the integrity report results.
-    ```YAML
-        - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
-    ```
-    Note that the `valint` report will be downloaded to where you have determined in the `valint_report.outputs.OUTPUT_PATH` in the `scribe-reports` step (the last step in the example pipeline).  -->
+* Use the Scribe custom pipe as shown in the example bellow
 
-Here's the full example pipeline:
+### Usage
 
-```YAML
-name: example workflow
+```yaml
+name:  scribe_github_workflow
 
 on: 
   push:
@@ -79,44 +78,76 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - uses: actions/checkout@v3
-        with:
-          repository: mongo-express/mongo-express
-          ref: refs/tags/v1.0.0-alpha.4
-          path: mongo-express-scm
-
-      - name: Scm generate bom, upload to scribe
-        id: valint_bom_scm
         uses: scribe-security/action-bom@master
         with:
-           type: dir
-           target: 'mongo-express-scm'
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
 
-      # Build and push your image - this example skips this step as we're using the published mongo express.
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
+```
 
-      - name: Image generate bom, upload to scribe
-        id: valint_bom_image
+## OCI Evidence store
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-report-test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
         uses: scribe-security/action-bom@master
         with:
-          type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
-           target: 'mongo-express:1.0.0-alpha.4'
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          oci: true
+          oci-repo: [oci_repo]
 
-      - uses: actions/upload-artifact@v2
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
         with:
-          name: scribe-reports
-          path: |
-            ${{ steps.valint_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          oci: true
+          oci-repo: [oci_repo]
 ```
 
 ## Connecting ScribeApp to Your Organizational GitHub Account

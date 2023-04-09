@@ -18,6 +18,28 @@ SBOM from a local directory) as well as several use cases of uploading the evide
 
 _For full usage guidelines, see the [orb registry listing](https://circleci.com/developer/orbs/orb/scribe-security/orbs)._
 
+## Target types - `[target]`
+---
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+
+> Fields specified as [target] support the following format.
+
+### Format
+
+`[scheme]:[name]:[tag]` 
+
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
+
 ## Before you begin
 Integrating Scribe Hub with CircleCI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 

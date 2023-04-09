@@ -62,7 +62,7 @@ Evidence can be either signed (attestations) or unsigned (statements).
 
 > For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
 
-> For target details, see [targets](#targets) section.
+> For target details, see [targets](#target-types) section.
 
 > For signing details, see [attestations](#attestations) section.
 
@@ -503,10 +503,12 @@ attest:
 ```
 </details> -->
 
-## Target  types
+## Evidence `target`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+
+> Fields specified as [target] support the following format.
 
 ### Format
 
@@ -522,6 +524,7 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 | Local git | git | git | local repository git | git:path/to/yourrepository | 
 | Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
 | File | file | file | file path on disk | file:path/to/yourproject/file | 
+
 
 ### Image type
 Images are a very common artifact for many supply chains,
@@ -567,13 +570,13 @@ Integrating Scribe Hub with your environment requires the following credentials 
 ### Usage
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
@@ -614,18 +617,18 @@ For example, using `docker login` command.
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
 
-valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
+valint verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
 ```
 
 > For related Cosign support, see [cosign ](#-cosign-support) section.
@@ -644,10 +647,10 @@ Related flags:
 ### Usage
 ```bash
 # Generating evidence, storing on [my_dir] local directory.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --output-directory=[my_dir]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
 Supply chain environment
 # Verifying evidence, pulling attestation from [my_dir] local directory.
-valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --output-directory=[my_dir]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
 ```
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
@@ -885,13 +888,13 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
   --email [email] --uri [uri] --common-name [common name] \
   -E \
   -U [SCRIBE_CLIENT_ID] \

@@ -35,6 +35,27 @@ jobs:
               -f
 ```
 
+## Target types - `[target]`
+---
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+
+> Fields specified as [target] support the following format.
+
+### Format
+
+`[scheme]:[name]:[tag]` 
+
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -85,14 +106,14 @@ name: "scribe-travis-job"
 script:
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa,statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
         
   - |
     valint verify [target] \
-        --format [attest, statement, attest-slsa,statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
@@ -135,7 +156,7 @@ script:
   # Generating evidence, storing on [my_repo] OCI repo.
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa,statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]
@@ -143,7 +164,7 @@ script:
   # Verifying evidence, pulling attestation from [my_repo] OCI repo.
   - |
     valint verify [target] \
-        --format [attest, statement, attest-slsa,statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]

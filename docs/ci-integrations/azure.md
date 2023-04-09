@@ -33,6 +33,26 @@ Install the Scribe `valint` CLI tool:
         outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
 ```
 
+## Target types - `[target]`
+---
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+
+### Format
+
+`[scheme]:[name]:[tag]` 
+
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
+
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -47,9 +67,9 @@ OCI evidence store allows you store evidence using scribe Service.
 
 Related Flags:
 > Note the flag set:
->* `-U`, `--scribe.client-id`
->* `-P`, `--scribe.client-secret`
->* `-E`, `--scribe.enable`
+>* `scribeClientId`
+>* `scribeClientSecret`
+>* `scribeEnable`
 
 ### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
@@ -82,7 +102,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa,statement-slsa]
+      format: [attest, statement, attest-slsa, statement-slsa]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
@@ -92,7 +112,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
     inputs:
       commandName: verify
       target: [target]
-      inputFormat: [attest, statement, attest-slsa,statement-slsa]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
@@ -105,8 +125,8 @@ Valint supports both storage and verification flows for `attestations`  and `sta
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
-* `OCI` Enable OCI store.
-* `OCI_REPO` - Evidence store location.
+* `oci` Enable OCI store.
+* `ociRepo` - Evidence store location.
 
 ### Before you begin
 Evidence can be stored in any accusable registry.
@@ -134,7 +154,7 @@ For example, using `docker login` command.
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa,statement-slsa]
+      format: [attest, statement, attest-slsa, statement-slsa]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
@@ -143,7 +163,7 @@ For example, using `docker login` command.
     inputs:
       commandName: verify
       target: [target]
-      inputFormat: [attest, statement, attest-slsa,statement-slsa]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
