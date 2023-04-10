@@ -1,10 +1,10 @@
 ## valint bom
 
-Create SBOM for target
+Create evidence command
 
 ### Synopsis
 
-Generate Software Bill Of Materials (SBOM) for container images, filesystems and git repositories
+Collect, Create and Store evidence for artifacts (SBOMs,SLSA provenance) or any third-party tools.
 
 ```
 valint bom [TARGET] [flags]
@@ -21,9 +21,6 @@ Flags for `bom` subcommand
 | -e | --env | Environment keys to include in sbom | |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
-| | --git-branch | Git branch in the repository | |
-| | --git-commit | Git commit hash in the repository | |
-| | --git-tag | Git tag in the repository | |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
@@ -45,6 +42,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --oci | Enable OCI store | |
@@ -65,6 +65,9 @@ Flags for all `valint` subcommands
 
 ```
   valint bom <target>
+  
+  <target> Target object name format=[<image:tag>, <dir path>, <git url>]
+
   valint bom alpine:latest                         create default (cyclonedxjson) sbom
   valint bom alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
   valint bom alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
@@ -95,5 +98,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [valint](valint.md)	 - Validate integrity of supply chain
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 
