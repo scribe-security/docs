@@ -270,11 +270,12 @@ attest:
     - type: verifyTarget
       enable: true
       name: "default-rule"
-      identity: # Populated by `--email`, `--uri` and `--common-name flags sets
-      signed: true
-      format: ${current.content_type} # Populated by --input-format flag.
-      match:
-        sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+      input:
+        identity: # Populated by `--email`, `--uri` and `--common-name flags sets
+        signed: true
+        format: ${current.content_type} # Populated by --input-format flag.
+        match:
+          sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
 ```
 
 > For rule details, see [verify target rule](#verify-target-rule) section.
@@ -305,13 +306,14 @@ The Verify Target Rule can be used to enforce compliance with specific supply ch
 - type: verifyTarget # Policy name
   enable: true/false # Policy enable (default false) 
   name: "" # Any user provided name
-  identity:
-    emails: [] # Signed email identities 
-    uris: [] # Signed URIs identities 
-    common-names: [] # Signed common name identities 
-  signed: <true|false> # Should target be signed
-  format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
-  match: {envrionment-context} # Any origin or subject fields used by
+  input:
+    identity:
+      emails: [] # Signed email identities 
+      uris: [] # Signed URIs identities 
+      common-names: [] # Signed common name identities 
+    signed: <true|false> # Should target be signed
+    format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
+    match: {envrionment-context} # Any origin or subject fields used by
 ``` 
 
 ### Examples
@@ -329,14 +331,15 @@ attest:
     policies:
       - name: my_policy
         enable: true
-          rules:
-            - name: signed_image
-              type: verifyTarget
-              enable: true
+        rules:
+          - name: signed_image
+            type: verifyTarget
+            enable: true
+            input:
               signed: true
               format: attest-slsa
               identity:
-                allowed_names:
+                common_names:
                   - mycompany.com
               match:
                 target_type: image
@@ -369,14 +372,15 @@ attest:
           - name: slsa_prov_rule
             type: verifyTarget
             enable: true
-            signed: true
-            format: attest-slsa
-            identity:
-              allowed_emails:
-                - bob@mycompany.com
-                - alice@mycompany.com
-            match:
-              target_type: image
+            input:
+              signed: true
+              format: attest-slsa
+              identity:
+                emails:
+                  - bob@mycompany.com
+                  - alice@mycompany.com
+              match:
+                target_type: image
 ```
 
 ### Command
@@ -408,15 +412,16 @@ attest:
           - name: tagged_git_rule
             type: verifyTarget
             enable: true
-            signed: true
-            format: attest-slsa
-            identity:
-              allowed_emails:
-              - bob@mycompany.com`
-            match:
-              target_type: git
-              target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
-              branch: main
+            input:
+              signed: true
+              format: attest-slsa
+              identity:
+                emails:
+                - bob@mycompany.com`
+              match:
+                target_type: git
+                target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
+                branch: main
 ```
 
 ### Command
@@ -446,13 +451,14 @@ attest:
           - name: binary_policy
             type: verifyTarget
             enable: true
-            signed: false
-            format: statement-slsa
-            match:
-              target_type: file
-              context_type: azure
-              git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
-              input_name: my_binary.exe
+            input:
+              signed: false
+              format: statement-slsa
+              match:
+                target_type: file
+                context_type: azure
+                git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
+                input_name: my_binary.exe
 ```
 
 ### Command
@@ -484,9 +490,9 @@ attest:
           type: VerifyTarget
           enable: true
           input:
-            allowed_emails:
+            emails:
             - john.doe@mycompany.com
-            allowed_names: []
+            common_names: []
             filter:
               input_scheme: git # Match on git targets
               git_branch: main # Match only on main branch
@@ -495,9 +501,9 @@ attest:
           enable: true
           name: docker_policy
           input:
-            allowed_emails:
+            emails:
             - second@example.com
-            allowed_names: []
+            common_names: []
             filter:
               input_scheme: docker # Match on image targets
 ```
