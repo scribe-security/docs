@@ -92,10 +92,10 @@ Gensbom supports the following evidence output formats and related `format` and 
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| CycloneDX-json | json | CyclondeDX json format | no |
-| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| cyclonedx-json | json | CyclondeDX json format | no |
+| predicate-cyclonedx-json | predicate | In-toto Predicate | no |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | predicate-slsa |  | In-toto Predicate | no |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
@@ -181,8 +181,8 @@ The following table includes the formats supported by the verification command.
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.

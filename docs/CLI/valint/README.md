@@ -5,7 +5,7 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-# Valint - Validate integrity of your supply chain
+# Valint - Valint: Validate Supply Chain Integrity
 Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
 It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
  
@@ -717,8 +717,8 @@ The following table includes the formats supported by the verification command.
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
