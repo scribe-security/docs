@@ -12,7 +12,7 @@ It also provides a mechanism for compliance and transparency, both within the or
 By managing `evidence` generation, storage and validation, Valint ensures that your organization's `policies` are enforced throughout the supply chain. <br />
 You can store evidence locally or in any OCI registry, as well as using the Scribe Service for storage.
 
-In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify targets against their origin and signer identity in the supply chain.
+In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify artifacts against their origin and signer identity in the supply chain.
 
 ## Installing `valint`
 Choose any of the following command line interface (CLI) installation options:
@@ -51,8 +51,8 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 <img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
 
 # Policy engine
-At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
-Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
+At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
 > For more details on policies, see [polices](#policies) section.
 
@@ -88,10 +88,10 @@ Or using [verify command](#evidence-verification---verify-command) `input-format
 Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
 Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `envrionment context`.
 
-On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative compliance rules between different points in the supply chain.
+On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
 
-For example, verification done in Github Actions can refer to rules that apply to the current run number.
-Another example, verification done on a binary can refer to rules that apply to the hash of the binary.
+For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
+Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
 
 
 ### Origin context
@@ -126,7 +126,7 @@ The following fields are collected from any supported environment.
 
 
 ### Subject context
-The following fields are collected from any supported artifact ()`target`).
+The following fields are collected from any supported artifact (`target`).
 
 | Field | Description | Target | values |
 | --- | --- | --- | --- |
@@ -180,25 +180,24 @@ Each storer can be used to store, find and download evidence, unifying all the s
 
 ## Policies
 ---
-Each `policy` proposes to enforce a set of rules your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
+Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
 
-Each `policy` consists of a set of `rules` that your supply chain must comply with. Policy reports include valuations, compliance details, verdicts, as well as references to provided evidence. You can set policy configuration under the main configuration `policies` section.
-
-A `policy` is verified if ALL required `rules` in a `policy` are evaluated and verified. A rule is verified if ANY `evidence` is found that complies with the rules configuration and setting.
+Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
+A `policy` is verified if ALL required `modules` in are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
 
 ### Usage
 ```yaml
 attest:
   cocosign:
-    policies:  # Set of policies - grouping rules
+    policies:  # Set of policies - grouping modules
       - name: <policy_name>
         enable: true      
-        rules: Set of rule settings/configuration and input
-          - name: <rule_name>
-            type: <verifyTarget> # Currently supporting the following types
+        modules: Set of module settings/configuration and input
+          - name: <module_name>
+            type: <verify-artifact> # Currently supporting the following types
             enable: true
-            input: {} # Rule input, depending on the rule type
+            input: {} # Module input, depending on the module type
 ``` 
 
 > For configuration details, see [configuration](docs/configuration.md) section.
@@ -207,23 +206,23 @@ attest:
 
 ### Global 
 All policies include the following global fields:
-All rules support the following fields.
-* `enable`, enable rule (default false). 
+All modules support the following fields.
+* `enable`, enable module (default false). 
 * `name`, policy name (**required**). 
 
-While all rules include the following global fields:
-* `enable`, enable rule (default false). 
-* `name`, rule name (**required**). 
-* `type`, set the rule type, currently we only support `verify-target`. 
+While all modules include the following global fields:
+* `enable`, enable module (default false). 
+* `name`, module name (**required**). 
+* `type`, set the module type, currently we only support `verify-artifact`. 
 
-# Rules
-Rules are a set of compliance checks that you can configure to your specific compliance requirements.
+# Policy modules
+Module are a set of compliance checks that you can configure to your specific compliance requirements.
 
 ## Global Match field
-`match` field is a set of labels supported by all rules. 
+`match` field is a set of labels supported by all modules. 
 These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
 
-Using these fields allows you to set different compliance rules for different layers of your supply chain.
+Using these fields allows you to set different compliance requirements for different layers of your supply chain.
 
 > For full label fields list see [environment-context](#environment-context) section.
 
@@ -231,7 +230,7 @@ Using these fields allows you to set different compliance rules for different la
   <summary> Usage </summary>
 
 Here's an example of usage: 
-If you want to evaluate images named `myorg/myimage:latest`, you may set a rule with the following labels:
+If you want to evaluate images named `myorg/myimage:latest`, you may set the module with the following labels:
 ```
 match:
     sbomgroup: image
@@ -266,10 +265,10 @@ attest:
   cocosign:
   policies:
   - name: default-policy
-    rules:
-    - type: verifyTarget
+    modules:
+    - type: verify-artifact
       enable: true
-      name: "default-rule"
+      name: "default-module"
       input:
         identity: # Populated by `--email`, `--uri` and `--common-name flags sets
         signed: true
@@ -278,23 +277,23 @@ attest:
           sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
 ```
 
-> For rule details, see [verify target rule](#verify-target-rule) section.
+> For module details, see [verify artifact module](#verify-artifact-module) section.
 
 </details>
 
-## Verify target rule
-The Verify Target rule enforces a set of rules on who produced artifacts across your supply chain but also what information should be collected on each artifact.
+## Verify Artifact module
+The Verify Artifact module enforces a set of requirements on who produced artifacts across your supply chain but also what information should be collected on each artifact.
 In other words, it ensures produced artifacts (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
 
-* Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the rule.
-* Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the rule (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) in the format field of the rule.
+* Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the module input.
+* Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the module input (for signed evidence).
+* Evidence Format: The evidence format should follow the specified format(s) in the format field of the module input.
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
+* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
 
 ### Use cases
-The Verify Target Rule can be used to enforce compliance with specific supply chain requirements, such as:
+The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
 
 * Images must be signed using and produced signed CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
@@ -303,7 +302,7 @@ The Verify Target Rule can be used to enforce compliance with specific supply ch
 
 ### Configuration
 ```yaml
-- type: verifyTarget # Policy name
+- type: verify-artifact # Policy name
   enable: true/false # Policy enable (default false) 
   name: "" # Any user provided name
   input:
@@ -322,8 +321,8 @@ Copy the Examples into file name `.valint.yaml` in the same directory as running
 > For configuration details, see [configuration](docs/configuration.md) section.
 
 <details>
-  <summary> Signed Images rule </summary>
-In this example, the rule named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
+  <summary> Signed Images policy </summary>
+In this example, the policy module named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
 
 ```yaml
 attest:
@@ -331,9 +330,9 @@ attest:
     policies:
       - name: my_policy
         enable: true
-        rules:
+        modules:
           - name: signed_image
-            type: verifyTarget
+            type: verify-artifact
             enable: true
             input:
               signed: true
@@ -359,8 +358,8 @@ valint verify busybox:latest
 </details>
 
 <details>
-  <summary> Image SLSA provenance rule </summary>
-In this example, the rule named `slsa_prov_rule` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
+  <summary> Image SLSA provenance policy </summary>
+In this example, the policy module named `slsa_prov_module` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
 
 ```yaml
 attest:
@@ -368,9 +367,9 @@ attest:
     policies:
       - name: my_policy
         enable: true
-        rules:
-          - name: slsa_prov_rule
-            type: verifyTarget
+        modules:
+          - name: slsa_prov_module
+            type: verify-artifact
             enable: true
             input:
               signed: true
@@ -397,8 +396,8 @@ valint verify busybox:latest
 </details>
 
 <details>
-  <summary> Signed tagged sourced rule </summary>
-In this example, the rule named "tagged_git_rule," will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
+  <summary> Signed tagged sourced module </summary>
+In this example, the policy module named "tagged_git_module," will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
 
 > The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
 
@@ -408,9 +407,9 @@ attest:
     policies:
       - name: my_policy
         enable: true  
-        rules:
-          - name: tagged_git_rule
-            type: verifyTarget
+        modules:
+          - name: tagged_git_module
+            type: verify-artifact
             enable: true
             input:
               signed: true
@@ -438,8 +437,8 @@ valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-sls
 
 <details>
   <summary> Binary verification </summary>
-In this example, the policy, named "binary_rule" enforces rules on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
-The rule also enforces an unsigned SLSA provenance statement is produced as evidence.
+In this example, the policy, named "binary_module" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
+The policy module also enforces an unsigned SLSA provenance statement is produced as evidence.
 
 ```yaml
 attest:
@@ -447,9 +446,9 @@ attest:
     policies:
       - name: my_policy
         enable: true  
-        rules:
-          - name: binary_policy
-            type: verifyTarget
+        modules:
+          - name: binary_module
+            type: verify-artifact
             enable: true
             input:
               signed: false
@@ -485,9 +484,9 @@ attest:
     policies:
       - name: my_policy
         enable: true  
-      rules:
+      modules:
         - name: git_policy
-          type: VerifyTarget
+          type: verify-artifact
           enable: true
           input:
             emails:
@@ -497,7 +496,7 @@ attest:
               input_scheme: git # Match on git targets
               git_branch: main # Match only on main branch
 
-        - type: VerifyTarget
+        - type: verify-artifact
           enable: true
           name: docker_policy
           input:
@@ -550,7 +549,7 @@ from the actual application releases, configurations or binaries.
 Git repositories are a common part of most supply chains,
 a Git target allows you to collect evidence including sources, commits and packages found in your source repositories.
 
-# Evidence Stores Integration
+# Evidence Stores
 Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ## Scribe Evidence store
@@ -595,19 +594,16 @@ Related flags:
 * `--oci` Enable OCI store.
 * `--oci-repo` - Evidence store location.
 
+
 ### Dockerhub limitation
-Dockerhub does not support the subpath format for images 
+Dockerhub does not support the subpath format, `oci-repo` should be set to your Dockerhub Username.
+
+> Some registries like Jfrog allow multi layer format for repo names such as , `my_org.jfrog.io/policies/attestations`.
 
 ### OCI Repo flag
 `oci-repo` setting indicates the location in a registry under which the evidence are stored.
 It must be a dedicated location in a OCI registry.
 for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
-
-### Dockerhub limitation
-Dockerhub does not support the subpath format, `oci-repo` should be set to your account name.
-For example, scribe-security`
-
-> Some registries allow multi layer format for repo names.
 
 ### Before you begin
 Evidence can be stored in any accusable registry.

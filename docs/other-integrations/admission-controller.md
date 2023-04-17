@@ -11,18 +11,31 @@ sidebar_position: 4
 
 # Admission Controller
 The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain. <br />
-It does this by checking resources that are being created in the cluster against admission rules, which determine if the resources are allowed. <br />
+It does this by checking resources that are being created in the cluster against admission compliance requirements, which determine if the resources are allowed. <br />
 This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration. <br />
 The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace. <br />
+
+## Installing `admission-controller`
+The admission-controller is installed using Helm. <br />
+Here are the steps to add the chart repository and install the admission-controller/
+
+1. Add the chart repository:
+```bash
+helm repo add scribe https://scribe-security.github.io/helm-charts
+helm repo update
+kubectl create namespace scribe
+helm install admission-controller scribe/admission-controller -n scribe
+```
+> For detailed integration option, see [evidence stores](#evidence-stores) section.
 
 ## Policy engine
 Valint `admission controller` manages verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
 
-Each policy proposes to enforce a set of rules on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
+Each policy proposes to enforce a set of policies on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
 # Policy engine
-At the heart of Valint lies the `policy engine`, which enforces a set of rules on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
-Each `policy` proposes to enforce a set of rules your supply chain must comply with. 
+At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
 ## Evidence:
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
@@ -49,37 +62,17 @@ Each storer can be used to store, find and download evidence, unifying all the s
 
 | Type  | Description | requirement |
 | --- | --- | --- |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-> For details, see [evidence stores integrations](#evidence-stores-integration) section
+## Scribe Evidence store
+Scribe evidence store allows you store evidence using scribe Service.
 
-## Installing `admission-controller`
-The admission-controller is installed using Helm. <br />
-Here are the steps to add the chart repository and install the admission-controller/
-
-1. Add the chart repository:
-```bash
-helm repo add scribe https://scribe-security.github.io/helm-charts
-helm repo update
-kubectl create namespace scribe
-```
-
->You can inspect the admission version by running the following command
- `helm search repo scribe/admission-controller`
-
-2. Install the admission-controller:
-```bash
-helm install admission-controller -n scribe scribe/admission-controller
-```
-
-## Evidence Stores Integration
-There are two evidence storer options for the admission-controller:
-- Scribe service store
-- OCI registry store
-
-## Scribe service store
-Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing Scribe Hub as evidence store.
+Related values:
+> Note the values set:
+>* `scribe.auth.client_id`
+>* `scribe.auth.client_secret`
+>* `scribe.service.enable`
 
 ### Before you begin
 Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
@@ -89,62 +82,45 @@ Integrating Scribe Hub with admission controller requires the following credenti
 
 <img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-### Procedure
-To install the admission-controller with Scribe service integration:
+* To install the admission-controller with Scribe service integration:
 ```bash
   helm install admission-controller -n scribe scribe/admission-controller \
+    --set scribe.service.enable=true \
     --set scribe.auth.client_id=$(CLIENT_ID) \
     --set scribe.auth.client_secret=$(CLIENT_SECRET)
 ```
 
 > Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
-## OCI Evidence integration
-Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+## OCI Evidence store
+Admission supports both storage and verification flows for `attestations` and `statement` objects using an OCI registry as an evidence store. <br />
+Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
+>* `config.attest.cocosign.storer.OCI.enable` - Enable OCI store.
+>* `config.attest.cocosign.storer.OCI.repo` - Evidence store location.
+>* `imagePullSecrets` - Secret name for private registry.
 
 ### Dockerhub limitation
-Dockerhub does not support the subpath format for images 
+Dockerhub does not support the subpath format, `oci-repo` should be set to your Dockerhub Username.
 
-### OCI Repo flag
-`oci-repo` setting indicates the location in a registry under which the evidence are stored.
-It must be a dedicated location in a OCI registry.
-for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
-
-> Full value path `config.attest.cocosign.storer.OCI.repo`.
-
-### Dockerhub limitation
-Dockerhub does not support the subpath format, `oci-repo` should be set to your account name.
-For example, `scribesecurity`
-
-> Some registries allow multi layer format for repo names.
+> Some registries like Jfrog allow multi layer format for repo names such as , `my_org.jfrog.io/policies/attestations`.
 
 ### Before you begin
+- Write access to upload evidence using the `valint` tool.
+- Read access to download evidence for the admission controller.
+- Evidence can be stored in any accessible OCI registry.
 
-Evidence can be stored in any accusable registry.
-* Valint tool - Write access is required for upload (generate).
-* Admission controller - Read access is required for download (verify).
-
-You must setup a secret with the required access for the admission to use (`imagePullSecret`).
-
-### Procedure
 1. Install admission with evidence store [oci-repo].
     - [oci-repo] is the URL of the OCI repository where all evidence will be uploaded.
     - For image targets only: Attach the evidence to the same repo as the uploaded image.
       Example: If you upload an image `example/my_image:latest`, read access is required for `example/my_image` (oci-repo).
- 
+     
 2. If [oci-repo] is a private registry, attach permissions to the admission with the following steps:
     1. Create a secret:
     ```bash
     kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n scribe
     ```
-    > Note: The `oci-repo` must be hosted on the `oci-url` you're adding the secret to.
-    Example: `oci-repo=my_dockerhub_org` while `oci-url=my_dockerhub_org`
      
 3. Install admission with an OCI registry as the evidence store:
     ```bash
@@ -187,7 +163,7 @@ Regular expressions uses the perl regular expression format.
 #### Command
 ```bash
 helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
-    --set config.admission.glob={[list of regular expressions]} 
+    --set config.admission.glob={[list of regular expressions]}
 ```
 > For example:
 This will match images that have the string nginx or busybox in their name.
@@ -195,7 +171,9 @@ This will match images that have the string nginx or busybox in their name.
 helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
     --set config.admission.glob={\.\*busybox:\.\*,\.\*nginx:\.\*} -n scribe
 ```
+
 > Note the escaping of `.` and `*` when using `Bash` shell.
+
 > `--reuse-values` so that the values are not reset.
 
 #### Configuration
@@ -224,9 +202,10 @@ Admission supports both verification flows for `attestations` (signed)  and `sta
 
 #### Command
 ```bash
-helm upgrade admission-controller scribe/admission-controller  --reuse-values -n scribe \
+helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
     --set config.verify.input-format=[format]
 ```
+
 > `--reuse-values` so that the values are not reset.
 
 #### Configuration
