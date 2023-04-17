@@ -155,7 +155,8 @@ The following fields are collected from any supported artifact (`target`).
 | target_git_ref | Target provided git ref | git |
 
 
-`content type` is set by the `--format` or `--input-format` flag it supports the following types.
+> `content type` is set by the `--format` or `--input-format` flag it supports the following types.
+
 | content_type | 
 | --- |
 | cyclonedx-json |
