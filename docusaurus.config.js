@@ -59,6 +59,7 @@ const config = {
                 "ci-integrations/circleci.md",
                 "ci-integrations/gitlabci.md",
                 "ci-integrations/travis.md",
+                "other-integrations/admission-controller.md",
                 "CLI/README.md",
                 "CLI/valint/README.md",
                 "CLI/valint/docs/command/valint.md",
