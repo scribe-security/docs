@@ -168,7 +168,7 @@ The following fields are collected from any supported artifact (`target`).
 | attest-slsa |  |
 
 
-## Evidence Stores
+## Evidence Stores table
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
 
 | Type  | Description | requirement |
@@ -177,7 +177,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores integrations](#evidence-stores-integration) section
+> For details, see [evidence stores](#evidence-stores) section
 
 ## Policies
 ---
