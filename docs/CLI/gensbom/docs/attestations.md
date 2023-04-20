@@ -165,8 +165,12 @@ File based key management library, go library abstracting the key type from appl
 
  > PEM formatted files 
 
+
+## Storer Configuration details
+Cocosign library is the provider of the OCI storer, the following are the flag details.
+
 ### OCI storer
-Storer uploads evidence to your OCI registry.
+OCI Storer uploads evidence to your OCI registry.
 Evidence can be attached to a specific image or uploaded to a general repo location.
 
 OCI store capability allows your evidence collection to span across your supply chain.

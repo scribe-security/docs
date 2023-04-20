@@ -337,9 +337,9 @@ attest:
             enable: true
             input:
               signed: true
-              format: attest-slsa
+              format: attest-cyclonedx-json
               identity:
-                common_names:
+                common-names:
                   - mycompany.com
               match:
                 target_type: image
@@ -492,7 +492,7 @@ attest:
           input:
             emails:
             - john.doe@mycompany.com
-            common_names: []
+            common-names: []
             filter:
               input_scheme: git # Match on git targets
               git_branch: main # Match only on main branch
@@ -503,7 +503,7 @@ attest:
           input:
             emails:
             - second@example.com
-            common_names: []
+            common-names: []
             filter:
               input_scheme: docker # Match on image targets
 ```

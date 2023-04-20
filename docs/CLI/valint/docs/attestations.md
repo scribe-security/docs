@@ -166,12 +166,18 @@ File based key management library, go library abstracting the key type from appl
  > PEM formatted files 
 
 ### OCI storer
+Cocosign embeds the oc storer 
 Storer uploads evidence to your OCI registry.
 Evidence can be attached to a specific image or uploaded to a general repo location.
 
 OCI store capability allows your evidence collection to span across your supply chain.
 
 > Use flag `--oci` and `--oci-repo` to enable.
+
+### OCI Repo flag
+`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+It must be a dedicated location in a OCI registry.
+for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
 
 Default config, 
 ``` 

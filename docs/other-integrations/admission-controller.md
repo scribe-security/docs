@@ -41,10 +41,6 @@ Each `policy` proposes to enforce a set of policy modules your supply chain must
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
-## Evidence:
-Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
-Evidence can be either signed (attestations) or unsigned (statements).
-
 ### Evidence formats
 `admission controller` supports following evidence formats.
 
