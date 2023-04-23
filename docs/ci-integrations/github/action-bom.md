@@ -214,7 +214,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 * Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
 
-* Use the Scribe custom pipe as shown in the example bellow
+* Use the Scribe custom actions as shown in the example bellow
 
 ### Usage
 
