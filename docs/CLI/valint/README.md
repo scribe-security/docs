@@ -50,6 +50,12 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 
 <img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
 
+# Platform digram 
+<img src='../../../img/cli//module_digram.jpg
+' alt='Platform Digram' width='80%' min-width='600px'/>
+
+<img src='../../../img/cli/platform_table.jpg' alt='Platform table' width='80%' min-width='600px'/>
+
 # Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
@@ -518,7 +524,6 @@ Verify SCM module requires a CycloneDX SBOM as evidence.
 The SLSA Framework module enforces Level 1 to 3 of SLSA Specification.
 For example, Branch Protection and Build Provenance requirements.
 SLSA Framework module requires SLSA provenance as well as Security Posture evidence.
-
 
 ## Third-Party module - Coming Soon!
 The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
