@@ -509,6 +509,21 @@ attest:
 ```
 </details> -->
 
+## Verify SCM module - Coming Soon!
+The Verify SCM module enforces a set of requirements on the Source controller management.
+For example, Signed commit, Code Owner Requirements.
+Verify SCM module requires a CycloneDX SBOM as evidence.
+
+## SLSA Framework module - Coming Soon!
+The SLSA Framework module enforces Level 1 to 3 of SLSA Specification.
+For example, Branch Protection and Build Provenance requirements.
+SLSA Framework module requires SLSA provenance as well as Security Posture evidence.
+
+
+## Third-Party module - Coming Soon!
+The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
+For example, the NPM Audit result, Synk or Sonarqube scan, not only should pass but also be exposed as compliance evidence.
+
 ## Target types
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
