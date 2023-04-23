@@ -92,10 +92,10 @@ Gensbom supports the following evidence output formats and related `format` and 
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| CycloneDX-json | json | CyclondeDX json format | no |
-| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| cyclonedx-json | json | CyclondeDX json format | no |
+| predicate-cyclonedx-json | predicate | In-toto Predicate | no |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | predicate-slsa |  | In-toto Predicate | no |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
@@ -174,22 +174,21 @@ For example, evidence created on `Github Actions` will include the workflow name
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
-The following table includes the supported format by the verification command.
+Default settings are available using `--attest.default` flag. <br />
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+
+The following table includes the formats supported by the verification command.
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
+> Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
-Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
-
-> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptography.
-
-See details [In-toto spec](https://github.com/in-toto/attestation) <br />
-See details [attestations](docs/attestations.md)
+> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
+> See signing details, see [attestations](docs/attestations.md)
 
 # CLI
 
@@ -337,18 +336,18 @@ You must first login with the required access to your registry before you callin
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-gensbom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-gensbom verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
+gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-gensbom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+gensbom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
 
-gensbom verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
+gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
 ```
 
 ## Configuration

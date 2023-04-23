@@ -4,7 +4,7 @@ title: Attestations
 
 # Attestations
 Attestations represents authenticated metadata about a set of software artifacts (evidence). <br /> 
-scribe utilizes both attestations (signed) and statement (unsigned) to validate the integrity and policy compliance of your supply chain.
+scribe utilizes both attestations (signed) and statement (unsigned) to validate the integrity and policy compliance of your supply chain. Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
 
 ## Evidence 
 `cocosign` supports both signed and unsigned evidence.
@@ -12,7 +12,6 @@ scribe utilizes both attestations (signed) and statement (unsigned) to validate 
 * InToto attestation - signed evidence
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
-
 
 ## Default configuration
 You can select from a set of prefilled default configuration.
@@ -106,7 +105,7 @@ verifier:
 
 
 ## Custom configuration
-Edit your main configuration, add the following subsection. \
+Edit your main configuration, add the following subsection. <br />
 For full configuration details see [configuration-format](#configuration-format).
 
 Usage:
@@ -167,12 +166,18 @@ File based key management library, go library abstracting the key type from appl
  > PEM formatted files 
 
 ### OCI storer
+Cocosign embeds the oc storer 
 Storer uploads evidence to your OCI registry.
 Evidence can be attached to a specific image or uploaded to a general repo location.
 
 OCI store capability allows your evidence collection to span across your supply chain.
 
 > Use flag `--oci` and `--oci-repo` to enable.
+
+### OCI Repo flag
+`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+It must be a dedicated location in a OCI registry.
+for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
 
 Default config, 
 ``` 

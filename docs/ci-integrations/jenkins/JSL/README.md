@@ -157,7 +157,6 @@ def report(Map conf)
 ```YAML
  report(target: "busybox:latest",
       scribe_enable: true,
-      scribe_client_id: ${{ inputs.client-id }}
       scribe_client_secret: ${{ inputs.client-secret }}
       )
 ```
@@ -248,10 +247,9 @@ pipeline {
         }
         
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             bom(target: "dir:mongo-express-scm",
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
                 )
           }
@@ -264,10 +262,9 @@ pipeline {
     stage('image-bom') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             bom(target: "mongo-express:1.0.0-alpha.4",
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
                 )
           }
@@ -278,10 +275,9 @@ pipeline {
     stage('download-report') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             report(
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
             )
           }
@@ -347,11 +343,10 @@ pipeline {
             }
         }
         steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             bom(target: "dir:mongo-express-scm",
                 product_key: "testing",
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
                 scribe_url: "https://api.staging.scribesecurity.com",
                 scribe_login_url: "https://scribesecurity-staging.us.auth0.com",
@@ -370,11 +365,10 @@ pipeline {
             }
         }
         steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             bom(target: "mongo-express:1.0.0-alpha.4",
                 product_key: "testing",
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
                 scribe_url: "https://api.staging.scribesecurity.com",
                 scribe_login_url: "https://scribesecurity-staging.us.auth0.com",
@@ -392,10 +386,9 @@ pipeline {
             }
         }
         steps {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             report(
                 scribe_enable: true,
-                scribe_client_id: "$SCRIBE_CLIENT_ID",
                 scribe_client_secret: "$SCRIBE_CLIENT_SECRET",
                 scribe_url: "https://api.staging.scribesecurity.com",
                 scribe_login_url: "https://scribesecurity-staging.us.auth0.com",

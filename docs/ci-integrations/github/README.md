@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 sidebar_label: GitHub Actions
 ---
 
@@ -10,66 +10,63 @@ If you are using GitHub Actions as your Continuous Integration tool (CI), use th
 * [Verify](action-verify.md)
 * [Installer](action-installer.md)
 
-## Before you begin
-### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with GitHub actions requires the following credentials that are found in the product setup dialog. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
+## Target types - `[target]`
+---
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
 
-* **Product Key**
+> Fields specified as [target] support the following format.
+
+### Format
+
+`[scheme]:[name]:[tag]` 
+
+> Backwards compatibility: It is still possible to use the `type: [scheme]`, `target: [name]:[tag]` format.
+
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
+
+### Evidence Stores
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+
+## Scribe Evidence store
+Scribe evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `scribe-client-id`
+>* `scribe-client-secret`
+>* `scribe-enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+
 * **Client ID**
 * **Client Secret**
 
->Note that the product key is unique per product, while the client ID and secret are unique for your account.
+<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-## Creating an SBOM and collecting evidence
-1. Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client-id**, **clientsecret** for the           **client-secret** and **productkey** for the **product-key**.
-2. Add Code snippets to your pipeline from your GitHub flow:   
-    * Replace the `Mongo express` repo in the example with your repo name.
-    ```YAML
-      target: <repo-name>
-    ```
-    * Call `valint` right after checkout to collect hash value evidence of the source code files.
-    ```YAML
-      - name: Scm generate bom, upload to scribe
-        id: valint_bom_scm
-        uses: scribe-security/action-bom@master
-        with:
-          type: dir
-          target: <repo-name>
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-          product-key: ${{ secrets.productkey }}
-    ```
-    * Call `valint` to generate an SBOM from the final Docker image.
-    ```YAML
-        - name: Image generate bom, upload to scribe
-        id: valint_bom_image
-        uses: scribe-security/action-bom@master
-        with:
-          type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
-          target: <image-name:tag>
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-          product-key: ${{ secrets.productkey }}
-    ```
-    <!-- * Call `valint` to get the integrity report results.
-    ```YAML
-        - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
-    ```
-    Note that the `valint` report will be downloaded to where you have determined in the `valint_report.outputs.OUTPUT_PATH` in the `scribe-reports` step (the last step in the example pipeline).  -->
+* Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
 
-Here's the full example pipeline:
+* Use the Scribe custom pipe as shown in the example bellow
 
-```YAML
-name: example workflow
+### Usage
+
+```yaml
+name:  scribe_github_workflow
 
 on: 
   push:
@@ -81,46 +78,76 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - uses: actions/checkout@v3
-        with:
-          repository: mongo-express/mongo-express
-          ref: refs/tags/v1.0.0-alpha.4
-          path: mongo-express-scm
-
-      - name: Scm generate bom, upload to scribe
-        id: valint_bom_scm
         uses: scribe-security/action-bom@master
         with:
-           type: dir
-           target: 'mongo-express-scm'
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
 
-      # Build and push your image - this example skips this step as we're using the published mongo express.
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
+```
 
-      - name: Image generate bom, upload to scribe
-        id: valint_bom_image
+## OCI Evidence store
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-report-test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
         uses: scribe-security/action-bom@master
         with:
-          type: docker # To be included only if you want to to use docker daemon to access the image (for example, creating your docker image locally)
-           target: 'mongo-express:1.0.0-alpha.4'
-           scribe-enable: true
-           scribe-client-id: ${{ secrets.clientid }}
-           scribe-client-secret: ${{ secrets.clientsecret }}
-           product-key: ${{ secrets.productkey }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          oci: true
+          oci-repo: [oci_repo]
 
-      - uses: actions/upload-artifact@v2
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
         with:
-          name: scribe-reports
-          path: |
-            ${{ steps.valint_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
+          target: [target]
+          format: [attest, statement, attest-slsa, statement-slsa]
+          oci: true
+          oci-repo: [oci_repo]
 ```
 
 ## Connecting ScribeApp to Your Organizational GitHub Account
@@ -163,9 +190,7 @@ As soon as you provide your password GitHub will handle everything else and redi
 
 <img src='../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/> 
 
-Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build.
-
-You can turn the SLSA policy off or on for each project at any time, assuming that the project's repository is covered by ScribeApp. Note that even if you have turned on the policy you won't see any SLSA provenance results until you have integrated Scribe's code snippet into your pipeline and have run the action.
+Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build. The SSDF policy does not require anything to run. To run the SLSA policy you'll need to add a code snippet to your pipeline and run the action.
 
 If anything isn't clear you can check out the GitHub instruction page for <a href='https://docs.github.com/en/developers/apps/managing-github-apps/installing-github-apps'>installing GitHub Apps</a>.
 
@@ -181,7 +206,6 @@ If anything isn't clear you can check out the GitHub instruction page for <a hre
         with:
           target: <image-name:tag>
           format: statement-slsa
-          product-key: ${{ secrets.productkey }}
 
         -uses: actions/upload-artifact@v2
         with:
@@ -214,7 +238,6 @@ jobs:
         with:
           target: mongo-express:1.0.0-alpha.4
           format: statement-slsa
-          product-key: ${{ secrets.productkey }
 
       -uses: actions/upload-artifact@v2
       with:
@@ -234,23 +257,33 @@ The provenance information is in <a href='../glossary.md#in-toto'>in-toto</a> fo
 
 <img src='../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format' width='70%' min-width='750px'/>
 
-### Checking the SLSA policy for your project
+### Checking policy compliance for your project
 
-To see the results of the SLSA policy you have enacted on your project you can look at the product build where you will now see some results in the SLSA compliance column:
+Assuming you have connected the ScribeApp with your organizational GitHub account and enacted the SLSA provenance generation code snippet as described above, you will be able to see the SLSA compliance breakdown in each of the future builds of the project where you added the code. 
+The SSDF compliance will be checked automatically for each project build run after you have connected the ScribeApp with your organizational GitHub account.
+The compliance icons can be seen in the product line:
 
-<img src='../../../img/ci/slsa_compliance.jpg' alt='SLSA Compliance Column'/>
+<img src='../../../img/ci/new-UI-project.jpg' alt='Project Description'/>
 
-When you click on a build to get to the full results you'll see a new option - **Policies Compliance**:
+When you click on a project you'll get the list of builds. The compliance icons do not appear here:
 
-<img src='../../../img/ci/policies_compliance.jpg' alt='Policies Compliance' width='40%' min-width='400px'/>
+<img src='../../../img/ci/new-UI-version-history.jpg' alt='Project Version History'/>
 
-clicking the **more** link will open the policies report where you can see each of the policies checked and whether they have passed or failed for this run of the workflow.
+To see the full compliance breakdown, click on a build-line. You'll get to this screen:
 
-<img src='../../../img/ci/policies_compliance_more.jpg' alt='Policies Compliance Full List'/>
+<img src='../../../img/ci/new-UI-version-details.jpg' alt='Project Version Details'/>
 
-There are 22 SLSA policies that Scribe checks and if all of them are checkout out (pass) that means that the build is approved for SLSA level 3.
+To see the full breakdown of policies - exactly which policies have passed or failed, click on the **Compliance** tab and you'll get to this screen:
+
+<img src='../../../img/ci/new-UI-version-compliance.jpg' alt='Project Version Compliance'/>
+
+There are 12 SLSA policies that Scribe checks and if all of them are checked out (pass) that means that the build is approved for SLSA level 3.
 
 To learn more about each policy you can either click on them or see the explanation page [here](../../slsapolicies.md).
+
+There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
+
+To learn more about each policy you can either click on them or see the explanation page [here](../../ssdfpolicies.md).
 
 
 

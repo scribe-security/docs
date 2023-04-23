@@ -13,7 +13,6 @@ scribe utilizes both attestations (signed) and statement (unsigned) to validate 
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
 
-
 ## Default configuration
 You can select from a set of prefilled default configuration.
 
@@ -106,7 +105,7 @@ verifier:
 
 
 ## Custom configuration
-Edit your main configuration, add the following subsection. \
+Edit your main configuration, add the following subsection. <br />
 For full configuration details see [configuration-format](#configuration-format).
 
 Usage:
@@ -166,8 +165,12 @@ File based key management library, go library abstracting the key type from appl
 
  > PEM formatted files 
 
+
+## Storer Configuration details
+Cocosign library is the provider of the OCI storer, the following are the flag details.
+
 ### OCI storer
-Storer uploads evidence to your OCI registry.
+OCI Storer uploads evidence to your OCI registry.
 Evidence can be attached to a specific image or uploaded to a general repo location.
 
 OCI store capability allows your evidence collection to span across your supply chain.

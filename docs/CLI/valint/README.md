@@ -5,17 +5,14 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-# Valint - Validate integrity of your supply chain
+# Valint - Valint: Validate Supply Chain Integrity
+Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
+It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
+ 
+By managing `evidence` generation, storage and validation, Valint ensures that your organization's `policies` are enforced throughout the supply chain. <br />
+You can store evidence locally or in any OCI registry, as well as using the Scribe Service for storage.
 
-Valint generates and verifies evidence collected on targets and artifacts across your supply chain. <br />
-Valint also allows you to store evidence locally on a remote OCI registry or using Scribe service. <br />
-
-Target support includes directories, files, images and git repositories. <br />
-While evidence types supported are CycloneDX SBOMs and SLSA provenance in both CycloneDX JSON, In-toto statement and attestation formats.
-
-Evidence collection will automatically collect information from the Supply chain environment which allows you to reference where in your supply chain the evidence was generated, see the `environment context` section below.
-
-Lastly, Valint allows you to sign and verify a target against the signer's identity and policy across the supply chain.
+In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify artifacts against their origin and signer identity in the supply chain.
 
 ## Installing `valint`
 Choose any of the following command line interface (CLI) installation options:
@@ -41,36 +38,518 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 ```
 </details>
 
+#### Supported architecture and operating systems (OS)
 
-## Supported architecture and operating systems (OS) 
-CPU Architecture 
-* AMD64 (x86_64) 
-* ARM64  
+| CPU Architecture  | OS | 
+| --- | --- |
+| AMD64 (x86_64) | Linux, Windows, Mac |
+| ARM64 | Linux, Windows, Mac |
 
-OS 
-* Linux
-* macOS 
-* Windows 
+# High level digram 
+<img src='../../../img/cli//valint_high_level.jpg' alt='Valint high level' width='80%' min-width='600px'/>
+
+<img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
+
+# Platform digram 
+<img src='../../../img/cli//module_digram.jpg
+' alt='Platform Digram' width='80%' min-width='600px'/>
+
+<img src='../../../img/cli/platform_table.jpg' alt='Platform table' width='80%' min-width='600px'/>
+
+# Policy engine
+At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
+
+> For more details on policies, see [polices](#policies) section.
+
+## Evidence
+Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
+Evidence can be either signed (attestations) or unsigned (statements).
+
+> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+
+> For target details, see [targets](#target-types) section.
+
+> For signing details, see [attestations](#attestations) section.
+
+## Evidence formats
+Valint supports the following evidence formats.
+
+| Format | alias | Description | signed |
+| --- | --- | --- | --- |
+| cyclonedx-json | json | CyclondeDX json format | no |
+| predicate-cyclonedx-json | predicate | In-toto Predicate | no |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
+| predicate-slsa |  | In-toto Predicate | no |
+| statement-slsa |  | In-toto Statement | no |
+| attest-slsa |  | In-toto Attestations | yes |
+
+> Select using [bom command](#evidence-generator---bom-command) `format` flag,
+Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
+
+## Environment context
+`environment context` collects information from the underlining environments, in which Valint is run.
+
+Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
+Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `envrionment context`.
+
+On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
+
+For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
+Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
+
+
+### Origin context
+The following table includes the types of environments we currently support:
+
+| context-type | description |
+| --- | --- |
+| local | local endpoints |
+| github | Github Actions |
+| gitlab | GitLab CI/CD |
+| azure | Azure Pipelines |
+| bitbucket | Bitbucket pipelines |
+| circle | CircleCI workflows |
+| travis | Travis CI workflows |
+| jenkins | Jenkins declarative pipelines |
+
+
+The following fields are collected from any supported environment.
+
+| Field | Description | 
+| --- | --- | 
+| context_type | Environment type | 
+| git_url | Environment provided git url |
+| git_branch | Environment provided git branch |
+| git_commit | Environment provided git commit |
+| git_tag | Environment provided git tag |
+| git_ref | Environment provided git ref |
+| workflow | Environment workflow |
+| job_name | Environment Job name |
+| actor | Environment provided actor |
+| build_num | Environment build num |
+
+
+### Subject context
+The following fields are collected from any supported artifact (`target`).
+
+| Field | Description | Target | values |
+| --- | --- | --- | --- |
+| content_type | Target Evidence Format (CLI) value of flags`--format`, `--input-format` | All | 
+| name | Product key (CLI) - value of flag `--product-key` | All |
+| sbomgroup | Target SBOM group - `image, directory, file, git` | All |
+| sbomname |  Target SBOM name | All |
+| sbomversion | Target SBOM name  | All |
+| sbompurl |  Target SBOM name  | All |
+| sbomhashs |  Target SBOM hashs (list of hashs)  |  All |
+| input_scheme | User input scheme (CLI) - value from target `scheme:target:tag` | All |
+| input_name | User input name (CLI) - value from target `scheme:target:tag` | All |
+| input_tag | User input tag (CLI) - value from target `scheme:target:tag` | All |
+| imageID | Target image ID | image |
+| repoDigest | Target repo digest (list) | image |
+| imageTag | Target image tags (list) | image |
+| image_name | Target image name | image |
+| dir_id | Target sha256 hash | directory
+| dir_path | Target path | directory |
+| file_id | Target sha256 hash | file |
+| file_path | Target path | file | 
+| target_git_url | Target provided git url | git |
+| target_git_branch | Target provided git branch | git |
+| target_git_commit | Target provided git commit | git |
+| target_git_tag | Target provided git tag | git |
+| target_git_ref | Target provided git ref | git |
+
+
+> `content type` is set by the `--format` or `--input-format` flag it supports the following types.
+
+| content_type | 
+| --- |
+| cyclonedx-json |
+| predicate-cyclonedx-json |
+| statement-cyclonedx-json | 
+| attest-cyclonedx-json | 
+| predicate-slsa |
+| statement-slsa |
+| attest-slsa |  |
+
+
+## Evidence Stores table
+Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+
+| Type  | Description | requirement |
+| --- | --- | --- |
+| cache | Evidence is stored locally | access to a directory |
+| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
+| scribe | Evidence is stored on scribe service | scribe credentials |
+
+> For details, see [evidence stores](#evidence-stores) section
+
+## Policies
+---
+Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
+Policy configuration can be set under the main configuration `policies` section.
+
+Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
+A `policy` is verified if ALL required `modules` in are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
+
+### Usage
+```yaml
+attest:
+  cocosign:
+    policies:  # Set of policies - grouping modules
+      - name: <policy_name>
+        enable: true      
+        modules: Set of module settings/configuration and input
+          - name: <module_name>
+            type: <verify-artifact> # Currently supporting the following types
+            enable: true
+            input: {} # Module input, depending on the module type
+``` 
+
+> For configuration details, see [configuration](docs/configuration.md) section.
+
+> For PKI setting, see [attestations](#attestations) section.
+
+### Global 
+All policies include the following global fields:
+All modules support the following fields.
+* `enable`, enable module (default false). 
+* `name`, policy name (**required**). 
+
+While all modules include the following global fields:
+* `enable`, enable module (default false). 
+* `name`, module name (**required**). 
+* `type`, set the module type, currently we only support `verify-artifact`. 
+
+# Policy modules
+Module are a set of compliance checks that you can configure to your specific compliance requirements.
+
+## Global Match field
+`match` field is a set of labels supported by all modules. 
+These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
+
+Using these fields allows you to set different compliance requirements for different layers of your supply chain.
+
+> For full label fields list see [environment-context](#environment-context) section.
+
+<details>
+  <summary> Usage </summary>
+
+Here's an example of usage: 
+If you want to evaluate images named `myorg/myimage:latest`, you may set the module with the following labels:
+```
+match:
+    sbomgroup: image
+    sbomname: myorg/myimage:latest
+```
+
+> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
+
+> If you also add `git_url: github.com/my_org/myimage.git`, it will require the evidence to be collected from a pipeline on a specific repo.
+
+</details>
+
+### Default policy - Signed artifact
+When no policy configuration is found, the signed artifact policy is used.
+
+By default, the following command runs a signature and identity verification on the target provided:
+```bash
+valint verify [target] --input-format [attest, attest-slsa] \
+   --email [email] --common-name <common name> --uri [uri]
+```
+
+In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.
+
+> For full command details, see [valint verify](#evidence-verification---verify-command) section.
+
+<details>
+  <summary> Default Policy Evaluation </summary>
+The default policy can also be evaluated as the following policy configuration:
+
+```yaml
+attest:
+  cocosign:
+  policies:
+  - name: default-policy
+    modules:
+    - type: verify-artifact
+      enable: true
+      name: "default-module"
+      input:
+        identity: # Populated by `--email`, `--uri` and `--common-name flags sets
+        signed: true
+        format: ${current.content_type} # Populated by --input-format flag.
+        match:
+          sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+```
+
+> For module details, see [verify artifact module](#verify-artifact-module) section.
+
+</details>
+
+## Verify Artifact module
+The Verify Artifact module enforces a set of requirements on who produced artifacts across your supply chain but also what information should be collected on each artifact.
+In other words, it ensures produced artifacts (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
+
+* Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the module input.
+* Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the module input (for signed evidence).
+* Evidence Format: The evidence format should follow the specified format(s) in the format field of the module input.
+* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
+For instance, you can verify that an artifact is generated from a particular pipeline or repository.
+* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
+
+### Use cases
+The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
+
+* Images must be signed using and produced signed CycloneDX SBOM.
+* Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
+* Tagged sources must be signed and verified by a set of individuals or processes.
+* Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
+
+### Configuration
+```yaml
+- type: verify-artifact # Policy name
+  enable: true/false # Policy enable (default false) 
+  name: "" # Any user provided name
+  input:
+    identity:
+      emails: [] # Signed email identities 
+      uris: [] # Signed URIs identities 
+      common-names: [] # Signed common name identities 
+    signed: <true|false> # Should target be signed
+    format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
+    match: {envrionment-context} # Any origin or subject fields used by
+``` 
+
+### Examples
+Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
+
+> For configuration details, see [configuration](docs/configuration.md) section.
+
+<details>
+  <summary> Signed Images policy </summary>
+In this example, the policy module named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true
+        modules:
+          - name: signed_image
+            type: verify-artifact
+            enable: true
+            input:
+              signed: true
+              format: attest-cyclonedx-json
+              identity:
+                common-names:
+                  - mycompany.com
+              match:
+                target_type: image
+```
+
+### Command
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence, requires signing capabilities.
+valint bom busybox:latest -o attest
+
+# Verify policy (cache store)
+valint verify busybox:latest
+```
+
+</details>
+
+<details>
+  <summary> Image SLSA provenance policy </summary>
+In this example, the policy module named `slsa_prov_module` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true
+        modules:
+          - name: slsa_prov_module
+            type: verify-artifact
+            enable: true
+            input:
+              signed: true
+              format: attest-slsa
+              identity:
+                emails:
+                  - bob@mycompany.com
+                  - alice@mycompany.com
+              match:
+                target_type: image
+```
+
+### Command
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence, requires signing capabilities.
+valint bom busybox:latest -o attest-slsa
+
+# Verify policy (cache store)
+valint verify busybox:latest
+```
+
+</details>
+
+<details>
+  <summary> Signed tagged sourced module </summary>
+In this example, the policy module named "tagged_git_module," will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
+
+> The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true  
+        modules:
+          - name: tagged_git_module
+            type: verify-artifact
+            enable: true
+            input:
+              signed: true
+              format: attest-slsa
+              identity:
+                emails:
+                - bob@mycompany.com`
+              match:
+                target_type: git
+                target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
+                branch: main
+```
+
+### Command
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence, requires signing capabilities.
+valint bom git:github.com:your_org/your_repo.git --tag 0.1.3 -o attest-slsa
+
+# Verify policy (cache store)
+valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-slsa
+```
+</details>
+
+<details>
+  <summary> Binary verification </summary>
+In this example, the policy, named "binary_module" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
+The policy module also enforces an unsigned SLSA provenance statement is produced as evidence.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true  
+        modules:
+          - name: binary_module
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: statement-slsa
+              match:
+                target_type: file
+                context_type: azure
+                git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
+                input_name: my_binary.exe
+```
+
+### Command
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence
+valint bom file:my_binary.exe -o statement-slsa
+
+# Verify policy (cache store)
+valint verify file:my_binary.exe
+```
+
+</details>
+
+<!-- <details>
+  <summary> Multiple policy verification </summary>
+This example defines two policies: one for image targets and one for Git repositories. 
+Each policy uses the `filter` option to select the appropriate targets to verify.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true  
+      modules:
+        - name: git_policy
+          type: verify-artifact
+          enable: true
+          input:
+            emails:
+            - john.doe@mycompany.com
+            common-names: []
+            filter:
+              input_scheme: git # Match on git targets
+              git_branch: main # Match only on main branch
+
+        - type: verify-artifact
+          enable: true
+          name: docker_policy
+          input:
+            emails:
+            - second@example.com
+            common-names: []
+            filter:
+              input_scheme: docker # Match on image targets
+```
+</details> -->
+
+## Verify SCM module - Coming Soon!
+The Verify SCM module enforces a set of requirements on the Source controller management.
+For example, Signed commit, Code Owner Requirements.
+Verify SCM module requires a CycloneDX SBOM as evidence.
+
+## SLSA Framework module - Coming Soon!
+The SLSA Framework module enforces Level 1 to 3 of SLSA Specification.
+For example, Branch Protection and Build Provenance requirements.
+SLSA Framework module requires SLSA provenance as well as Security Posture evidence.
+
+## Third-Party module - Coming Soon!
+The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
+For example, the NPM Audit result, Synk or Sonarqube scan, not only should pass but also be exposed as compliance evidence.
 
 ## Target types
 ---
-Each target type can be used to collect evidence on different parts of your supply chain.  <br />
-For example, you can collect SBOMs for images or binaries created by your supply chain.
+Target types are types of artifacts produced and consumed by your supply chain.
+Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
 
-Target format `[scheme]:[name]:[tag]`
+### Format
 
-| Sources | scheme | Description | example
-| --- | --- | --- | --- |
-| Docker Daemon | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | docker-archive | use a tarball from disk for archives created from "docker save" | docker-archive:path/to/yourimage.tar |
-| OCI archive | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file path on disk | file:path/to/yourproject/file | 
+`[scheme]:[name]:[tag]` 
 
-### Image Target
+| Sources | target-type | scheme | Description | example
+| --- | --- | --- | --- | --- |
+| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
+| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
+| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
+| Local git | git | git | local repository git | git:path/to/yourrepository | 
+| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
+| File | file | file | file path on disk | file:path/to/yourproject/file | 
+
+### Image type
 Images are a very common artifact for many supply chains,
 from the actual application release to build/test environments run by supply chains.
 
@@ -79,26 +558,122 @@ Image sources supported are docker-daemon, image archives and direct registry ac
 
 > By default the target search scheme assumes Docker daemon but falls back to registry when not found.
 
-### Directory/File Target
-Directories and files are common artifacts created by supply chains, 
-from the actual application released, configurations or even internal build dependencies caches.
+### Directory type
+Directories are common artifacts created by supply chains, 
+from the actual application releases, configurations or even internal build dependencies caches.
 
-### Git Target
+### File type
+File are common artifacts created by supply chains, 
+from the actual application releases, configurations or binaries.
+
+### Git type
 Git repositories are a common part of most supply chains,
 a Git target allows you to collect evidence including sources, commits and packages found in your source repositories.
 
-## Evidence formats
-Valint supports the following evidence output formats and related `format` and `input-format` flags.
+# Evidence Stores
+Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
-| Format | alias | Description | signed
-| --- | --- | --- | --- |
-| CycloneDX-json | json | CyclondeDX json format | no |
-| predicate-CycloneDX-json | predicate | In-toto Predicate | no |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
-| predicate-slsa |  | In-toto Predicate | no |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+## Scribe Evidence store
+Scribe evidence store allows you store evidence using scribe Service.
+
+Related Flags:
+> Note the flag set:
+>* `-U`, `--scribe.client-id`
+>* `-P`, `--scribe.client-secret`
+>* `-E`, `--scribe.enable`
+
+### Before you begin
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+
+* **Client ID**
+* **Client Secret**
+
+<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+
+### Usage
+```bash
+# Generating evidence, storing in scribe service.
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
+
+# Verifying evidence, pulling attestation from scribe service.
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
+```
+
+
+## OCI Evidence store
+Admission supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Dockerhub limitation
+Dockerhub does not support the subpath format, `oci-repo` should be set to your Dockerhub Username.
+
+> Some registries like Jfrog allow multi layer format for repo names such as , `my_org.jfrog.io/policies/attestations`.
+
+### OCI Repo flag
+`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+It must be a dedicated location in a OCI registry.
+for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+```bash
+# Generating evidence, storing on [my_repo] OCI repo.
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+
+# Verifying evidence, pulling attestation from [my_repo] OCI repo.
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+```
+
+> For image targets **only** you may attach the evidence in the same repo as the image.
+
+```bash
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
+
+valint verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
+```
+
+> For related Cosign support, see [cosign ](#-cosign-support) section.
+
+## Cache Evidence store
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing Local directory as an evidence store.
+Basically, this is the simplest form and is mainly used to cache previous evidence creation. 
+
+Related flags:
+* `--cache-enable`
+* `--output-directory`
+* `--force`
+
+> By default, this cache store enabled, disable by using `--cache-enable=false`
+
+### Usage
+```bash
+# Generating evidence, storing on [my_dir] local directory.
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
+Supply chain environment
+# Verifying evidence, pulling attestation from [my_dir] local directory.
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
+```
+
+> By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
 
 ## CycloneDX SBOM
 The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
@@ -140,7 +715,7 @@ Currently, we support the following dependencies relations.
 Following are some of the customizable features we support.
 * Include only specific component groups, use `--components` to select between the group types.
 * Include or exclude specific package types, use `--package-type` or `--package-exclude-type` to select a specific package type.
-* Include the installed packages found (package group `install`) or the packages refrenced by sources (package group `index`), use `--package-group` to select between options.
+* Include the installed packages found (package group `install`) or the packages referenced by sources (package group `index`), use `--package-group` to select between options.
 * Exclude components, use `--filter-regex`, `--filter-scope` and `--filter-purl` to exclude any component.
 * Attach any file content, use `--attach-regex` to include the content of external files.
 * Include custom environments and labels, use `--env` and `--label` to attach your custom fields.
@@ -152,45 +727,27 @@ It is required for SLSA compliance level 2 and above.
 See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
-## Environment context
-`environment context` collects information from the underlining environments, in which Valint is run.
-Environment context is key to connecting the target evidence and the actual point in your supply chain it was created in.
-
-The following table includes the types of environments we currently support:
-
-| context-type | description |
-| --- | --- |
-| local | local endpoints |
-| github | Github Actions |
-| gitlab | GitLab CI/CD |
-| azure | Azure Pipelines |
-| bitbucket | Bitbucket pipelines |
-| circle | CircleCI workflows |
-| travis | Travis CI workflows |
-| jenkins | Jenkins declarative pipelines |
-
 For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
 
-## Attestations 
+## Attestations
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
+
+Default settings are available using `--attest.default` flag. <br />
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
 
 The following table includes the formats supported by the verification command.
 
 | Format | alias | Description | signed
 | --- | --- | --- | --- |
-| statement-CycloneDX-json | statement | In-toto Statement | no |
-| attest-CycloneDX-json | attest | In-toto Attestation | yes |
+| statement-cyclonedx-json | statement | In-toto Statement | no |
+| attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | statement-slsa |  | In-toto Statement | no |
 | attest-slsa |  | In-toto Attestations | yes |
+> Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
-Select default the configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
-
-> Note the unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
-
-See details [In-toto spec](https://github.com/in-toto/attestation) <br />
-See details [attestations](docs/attestations.md)
+> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
+> See signing details, see [attestations](docs/attestations.md)
 
 # CLI - Use Valint as a command line tool
 
@@ -303,18 +860,27 @@ valint bom busybox:latest -vv -A **/some_report.json
 </details>
 
 ## Evidence verification - `verify` command
-`verify` command allows one to verify the target and its respective evidence. 
+`verify` command evaluates and verifies the compliance of your supply chain against your requirements.
+By default the command verifies a artifact signature against the required identities.
 
-The verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy based verification.
+Evidence verification  verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
 
-Verification flow for `attestations` which are signed evidence formats includes PKI and identity verification as well as policy verification. <br />
-Verification flow for `statements` that are unsigned evidence includes policy verification only. <br />
+> For flag details, see [CLI documentation - verify](docs/command/valint_verify.md).
 
-> Evidence must be available locally (on disc), remotly on a OCI registry or through Scribe service.
-
-> By default, the evidence is read from `~/.cache/valint/`, use `--output-file` or `--output-directory` to customize the evidence output location.
+> For policy verification details, see [policies](#policies) section.
 
 ### Usage
+
+```bash
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
+  --email [email] --uri [uri] --common-name [common name]
+```
+> Note: multiple `email`, `uri` and `common-name` can be included in command
+
+### Examples
+<details>
+  <summary>  Cache store </summary>
+
 ```bash
 # Use `bom` command to generate one of the supported formats.
 valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
@@ -322,36 +888,39 @@ valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-s
 # Use `verify` command to verify the target against the evidence
 valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
 ```
+</details>
 
-See details [CLI documentation - verify](docs/command/gensbom_verify.md)
-
-## OCI storage
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
-
-### Before you begin
-Evidence can be stored in any accusable registry,
-Write access is required for upload.Read access is required for download.
-
-You must first login with the required access privileges to your registry before calling Valint.
-
-### Usage
-```bash
-# Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
-
-# Verifying evidence, pulling attestation from [my_repo] OCI repo.
-valint verify [target] -i [attest, statement, attest-slsa,statement-slsa] --oci --oci-repo=[my_repo]
-```
-
-> For image targets **only** you may attach the evidence in the same repo as the image.
+<details>
+  <summary>  OCI store </summary>
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa,statement-slsa] --oci
+# Use `bom` command to generate one of the supported formats.
+valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
 
-valint verify [image] -i [attest, statement, attest-slsa,statement-slsa] --oci
+# Use `verify` command to verify the target against the evidence
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
+    --email [email] --uri [uri] --common-name [common name]
 ```
+</details>
+
+<details>
+  <summary>  Scribe store </summary>
+
+```bash
+# Generating evidence, storing in scribe service.
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
+
+# Verifying evidence, pulling attestation from scribe service.
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
+  --email [email] --uri [uri] --common-name [common name] \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
+```
+</details>
 
 ## Configuration
 Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
@@ -412,63 +981,6 @@ COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] -
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 ```
 </details>
-
-## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. <br />
-Following are some integration examples.
-
-## Before you begin
-Integrating Valint with the Scribe Service requires the following credentials that are found in the product setup dialog (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **Home>Products>[$product]>Setup**)
-
-* **Product Key**
-* **Client ID**
-* **Client Secret**
-
-> Note that the product key is unique per product, while the client ID and secret are unique for your account.
-> Note that the Scribe Hub generated Product key is optional. You can generate your own string as a unique identification of the product.
-
-> Note the flag set:
->* `-U`, `--scribe.client-id`
->* `-P`, `--scribe.client-secret`
->* `-E`, `--scribe.enable`
-
-## Procedure
-
-* Install `valint` tool using the following command
-```bash
-curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -t valint
-```
-
-As an example use the following commands
-
-```bash
-valint bom busybox:latest -E \
-  --product-key $PRODUCT_KEY \
-  -U $SCRIBE_CLIENT_ID \
-  -P $SCRIBE_CLIENT_SECRET
-```
-
-<details>
-  <summary>  Scribe integrity </summary>
-
-Full command examples, upload evidence on source and image to Scribe. <br />
-Verifying the target integrity on Scribe.
-
-```bash
-git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm
-
-valint bom dir:mongo-express-scm -E \
-  --product-key $PRODUCT_KEY \
-  -U $SCRIBE_CLIENT_ID \
-  -P $SCRIBE_CLIENT_SECRET
-
-valint bom mongo-express:1.0.0-alpha.4 -E \
-  --product-key $PRODUCT_KEY \
-  -U $SCRIBE_CLIENT_ID \
-  -P $SCRIBE_CLIENT_SECRET
-```
-</details>
-
 
 ## Basic examples
 <details>
@@ -612,7 +1124,7 @@ Generating and verifying CycloneDX SBOM `attestation` for image target `busybox:
 # Create CycloneDX SBOM attestations
 valint bom busybox:latest -o attest
 
-# Verify CycloneDX Provenance attestations
+# Verify CycloneDX SBOM attestations
 valint verify busybox:latest
 ```
 </details>
@@ -668,10 +1180,10 @@ Or for a local repository
 git clone https://github.com/mongo-express/mongo-express.git
 
 # Create CycloneDX SBOM attestations
-valint bom git:https://github.com/mongo-express/mongo-express.git -o attest
+valint bom git:./mongo-express -o attest
 
 # Verify CycloneDX SBOM attestations
-valint verify git:https://github.com/mongo-express/mongo-express.git
+valint verify git:./mongo-express
 ```
 </details>
 
@@ -695,6 +1207,36 @@ valint bom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --
 # Pull and validate evidence from registry
 valint verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
 ```
+> Note `-f` in the verification command, which skips the local cache evidence lookup.
+
+</details>
+
+<details>
+  <summary> Store evidence on Scribe service (SBOM,SLSA) </summary>
+
+Store any evidence on any Scribe service. <br />
+Support storage for all targets and both SBOM and SLSA evidence formats.
+
+> Use `-o`, `format` to select between supported formats. <br />
+> Credentials for Scribe API is required. 
+
+```bash
+
+# Set Scribe credentials
+export SCRIBE_CLIENT_ID=**
+export SCRIBE_CLIENT_SECRET=**
+
+# Generate and push evidence to registry
+valint bom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --f -E \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
+
+# Pull and validate evidence from registry
+valint verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] -f -E \
+  -U $SCRIBE_CLIENT_ID \
+  -P $SCRIBE_CLIENT_SECRET
+```
+
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
 </details>

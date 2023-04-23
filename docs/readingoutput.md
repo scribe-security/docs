@@ -5,7 +5,7 @@ sidebar_label: Reading Analysis
 
 # Understanding the Integrity Analysis
 
->Note: In this release, the Integrity Analysis applies only to Node.js projects
+>**Note: In this release, the Integrity Analysis applies only to Node.js projects**
 
 ## Validating Source Code
 
