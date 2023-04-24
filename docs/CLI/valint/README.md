@@ -351,7 +351,7 @@ attest:
                 target_type: image
 ```
 
-### Command
+**Command:**<br />
 Run the command on the required supply chain location.
 
 ```bash
@@ -389,7 +389,7 @@ attest:
                 target_type: image
 ```
 
-### Command
+**Command:**<br />
 Run the command on the required supply chain location.
 
 ```bash
@@ -430,7 +430,7 @@ attest:
                 branch: main
 ```
 
-### Command
+**Command:**<br />
 Run the command on the required supply chain location.
 
 ```bash
@@ -467,7 +467,7 @@ attest:
                 input_name: my_binary.exe
 ```
 
-### Command
+**Command:**<br />
 Run the command on the required supply chain location.
 
 ```bash
