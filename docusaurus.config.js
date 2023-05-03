@@ -72,6 +72,8 @@ const config = {
                 //"CLI/valint/command/valint.md",
                 //"CLI/valint/command/valint_report.md",
                 // "cves.md",
+                "Help/README.md",
+                "Help/search-help.md",
                 "cveReports.md",
                 "signVerify.md",
                 "intro.md",
