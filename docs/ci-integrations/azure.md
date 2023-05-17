@@ -10,8 +10,8 @@ Task in Azure DevOps is a feature that enables users to create, schedule, and ma
 The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
 
 ## Installation
-[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) Can be found in Azure marketplace. </br>
-Follow [install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension) to add the extention to your organzation. </br>
+[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) Can be found in Azure marketplace.  <br />
+Follow [install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension) to add the extention to your organzation.  <br />
 Once you have the extention installed you can use the task in your pipeline.
 
 ### Usage
