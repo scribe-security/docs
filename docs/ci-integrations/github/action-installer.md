@@ -13,7 +13,6 @@ For Further documentation [Github integration](https://scribe-security.netlify.a
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
 * [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)
-<!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Tool installer Action
 You can use the `installer` Action to install any scribe tool in to your workflow allowing full access to all the CLI options in your workflows. 

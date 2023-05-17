@@ -13,7 +13,6 @@ Further documentation [GitHub integration](https://scribe-security.netlify.app/d
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
 * [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)
-<!-- * [integrity report - action](https://github.com/scribe-security/action-report/README.md) -->
 
 ## Bom Action
 Actions for `valint bom`. <br />
