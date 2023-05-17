@@ -3,7 +3,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-report" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
+supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
 
 pull_submodules() {
     repos=$1
@@ -155,9 +155,7 @@ import_action-verify() {
     repo="action-verify"
     import_action  ${repo}
 }
-import_action-report() {
-    import_action "action-report"
-}
+
 import_action-installer() {
     import_action "action-installer"
 }
@@ -170,9 +168,6 @@ export_action-verify() {
     repo="action-verify"
     export_action ${repo}
     export_action_extra ${repo}
-}
-export_action-report() {
-    export_action "action-report"
 }
 
 export_action-installer() {
