@@ -97,8 +97,10 @@ Gensbom supports the following evidence output formats and related `format` and 
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | predicate-slsa |  | In-toto Predicate | no |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 ## CycloneDX SBOM
 CycloneDX SBOM evidence includes a large amount of analyzed data depending on the target and user configuration.
@@ -183,8 +185,10 @@ The following table includes the formats supported by the verification command.
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />

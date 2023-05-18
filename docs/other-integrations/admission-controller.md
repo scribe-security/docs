@@ -48,8 +48,10 @@ Evidence can be either signed (attestations) or unsigned (statements).
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 > Note using pure `cyclonedx-json` format is currently supported by the admission.
 
@@ -220,8 +222,10 @@ The following table lists the supported evidence types:
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 Aliases:
 * statement=statement-cyclonedx-json

@@ -78,12 +78,14 @@ Valint supports the following evidence formats.
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
 | cyclonedx-json | json | CyclondeDX json format | no |
-| predicate-cyclonedx-json | predicate | In-toto Predicate | no |
-| statement-cyclonedx-json | statement | In-toto Statement | no |
-| attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| predicate-slsa |  | In-toto Predicate | no |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| predicate-cyclonedx-json | predicate | In-toto CyclondeDX Predicate | no |
+| statement-cyclonedx-json | statement | In-toto CyclondeDX Statement | no |
+| attest-cyclonedx-json | attest | In-toto CyclondeDX Attestation | yes |
+| predicate-slsa |  | In-toto SLSA Predicate | no |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations| yes |
 
 > Select using [bom command](#evidence-generator---bom-command) `format` flag,
 Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
@@ -160,7 +162,6 @@ The following fields are collected from any supported artifact (`target`).
 | target_git_tag | Target provided git tag | git |
 | target_git_ref | Target provided git ref | git |
 
-
 > `content type` is set by the `--format` or `--input-format` flag it supports the following types.
 
 | content_type | 
@@ -171,8 +172,9 @@ The following fields are collected from any supported artifact (`target`).
 | attest-cyclonedx-json | 
 | predicate-slsa |
 | statement-slsa |
-| attest-slsa |  |
-
+| attest-slsa |
+| statement-generic |
+| attest-generic |
 
 ## Evidence Stores table
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -742,8 +744,10 @@ The following table includes the formats supported by the verification command.
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
