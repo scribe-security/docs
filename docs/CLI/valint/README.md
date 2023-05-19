@@ -51,8 +51,7 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 <img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
 
 # Platform digram 
-<img src='../../../img/cli//module_digram.jpg
-' alt='Platform Digram' width='80%' min-width='600px'/>
+<img src='../../../img/cli//module_digram.jpg' alt='Platform Digram' width='80%' min-width='600px'/>
 
 <img src='../../../img/cli/platform_table.jpg' alt='Platform table' width='80%' min-width='600px'/>
 
@@ -987,6 +986,44 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 </details>
 
 ## Basic examples
+<details>
+  <summary> Statement Generic File Target (SBOM) </summary>
+
+Create SBOM for `sbom` file repository.
+
+```bash
+valint bom temp.log -o statement-generic
+``` 
+
+you can have `statement-generic` for any file that does not fall into any one of the file.
+
+You can compress the `statement-generic` evidence using `--compress` flag.
+This would use gzip to compress the evidence
+
+```bash
+valint bom temp.log -o statement-generic --compress
+```
+
+</details>
+
+<details>
+  <summary> Attest Generic File Target (SBOM) </summary>
+
+Create SBOM for `sbom` file repository.
+
+```bash
+valint bom temp.log -o attest-generic
+``` 
+
+you can have `attest-generic` for any file that does not fall into any one of the file.
+
+You can compress the `attest-generic` evidence using `--compress` flag.
+This would use gzip to compress the evidence
+
+```bash
+valint bom temp.log -o attest-generic --compress
+```
+</details>
 <details>
   <summary>  Public registry image (SBOM) </summary>
 
