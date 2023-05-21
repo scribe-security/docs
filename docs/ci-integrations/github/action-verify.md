@@ -212,7 +212,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -220,7 +220,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -268,7 +268,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
           oci: true
           oci-repo: [oci_repo]
 
@@ -276,7 +276,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
           oci: true
           oci-repo: [oci_repo]
 ```

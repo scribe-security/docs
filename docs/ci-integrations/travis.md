@@ -106,14 +106,14 @@ name: "scribe-travis-job"
 script:
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
         
   - |
     valint verify [target] \
-        --format [attest, statement, attest-slsa, statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
@@ -156,7 +156,7 @@ script:
   # Generating evidence, storing on [my_repo] OCI repo.
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]
@@ -164,7 +164,7 @@ script:
   # Verifying evidence, pulling attestation from [my_repo] OCI repo.
   - |
     valint verify [target] \
-        --format [attest, statement, attest-slsa, statement-slsa] \
+        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]

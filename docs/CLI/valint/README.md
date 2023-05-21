@@ -14,6 +14,8 @@ You can store evidence locally or in any OCI registry, as well as using the Scri
 
 In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify artifacts against their origin and signer identity in the supply chain.
 
+Valint also enables you to **generate** any 3rd party report, scan or configuration (any file) into evidence using the **Generic evidence** subtype. Enabling compliance requirements to refer and attest to your custom needs.
+
 ## Installing `valint`
 Choose any of the following command line interface (CLI) installation options:
 
@@ -405,7 +407,7 @@ valint verify busybox:latest
 
 <details>
   <summary> Signed tagged sourced module </summary>
-In this example, the policy module named "tagged_git_module," will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
+In this example, the policy module named "tagged_git_module" will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
 
 > The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
 
@@ -480,6 +482,48 @@ valint verify file:my_binary.exe
 ```
 
 </details>
+
+<details>
+  <summary> 3rd party verification </summary>
+In this example, the policy module named "3rd-party-scan" will evaluate scanned `3rd-party-scan.json` file, Originated from Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` and signed by `bob@mycompany.com`.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true  
+        modules:
+          - name: 3rd-party-rule
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: attest-generic
+              identity:
+                emails:
+                - bob@mycompany.com`
+              match:
+                target_type: generic
+                context_type: azure
+                git_url: https://dev.azure.com/mycompany/somerepo
+                git_branch: main
+                input_name: 3rd-party-scan.json
+```
+
+**Command:**<br />
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence
+valint bom 3rd-party-scan.json -o attest-generic --predicate-type https:scanner.com/scan_format
+
+# Verify policy (cache store)
+valint verify 3rd-party-scan.json -i attest-generic --predicate-type https:scanner.com/scan_format
+```
+
+</details>
+
 
 <!-- <details>
   <summary> Multiple policy verification </summary>
@@ -594,13 +638,13 @@ Integrating Scribe Hub with your environment requires the following credentials 
 ### Usage
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
@@ -638,18 +682,18 @@ For example, using `docker login` command.
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
 
-valint verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
+valint verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
 ```
 
 > For related Cosign support, see [cosign ](#-cosign-support) section.
@@ -668,10 +712,10 @@ Related flags:
 ### Usage
 ```bash
 # Generating evidence, storing on [my_dir] local directory.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --output-directory=[my_dir]
 Supply chain environment
 # Verifying evidence, pulling attestation from [my_dir] local directory.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] --output-directory=[my_dir]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --output-directory=[my_dir]
 ```
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
@@ -729,6 +773,37 @@ See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
 For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
+
+## Generic evidence
+Generic evidence includes custom 3rd party verifiable information containing any required compliance requirements.
+Generic evidence allows users to include any file as evidence or attestation (signed) hooking in 3rd party tools.
+Allowing more robust and customizable policies to fit your needs.
+
+For example, Attesting to your current License scanner report can enable you to verify your licensing requirements as part of your build pipeline.
+
+<!-- See details [Generic evidence spec](http://scribesecurity.com/generic/v0.1) -->
+
+### Format
+```
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  
+  // Can also include any custom user defined url.
+  "predicateType": "http://scribesecurity.com/evidence/generic/v0.1" 
+  "subject": [{ ... }],
+  "predicate": {
+    "environment": {
+      <Evidence context object>
+    },
+
+    //Content Mimetype
+    "mimeType": <string>,
+  
+    // File target content
+    "content": <BASE64 content>
+  }
+}
+```
 
 ## Attestations
 In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
@@ -805,6 +880,10 @@ valint bom git:https://github.com/mongo-express/mongo-express.git -o statement
 
 # Create a SLSA Provenance statement for mongo remote git repository.
 valint bom git:https://github.com/mongo-express/mongo-express.git -o statement-slsa
+
+# Create a Generic evidence statement for any_file.txt.
+valint bom any_file.txt -o statement-generic
+
 ``` 
 </details>
 
@@ -828,6 +907,9 @@ valint bom git:https://github.com/mongo-express/mongo-express.git -o attest
 
 # Create a SLSA Provenance attestation for mongo remote git repository.
 valint bom git:https://github.com/mongo-express/mongo-express.git -o attest-slsa
+
+# Create a Generic evidence attestation for any_file.txt.
+valint bom any_file.txt -o attest-generic
 ``` 
 </details>
 
@@ -875,7 +957,7 @@ Evidence verification  verification flow includes two parts, the first is a PKI 
 ### Usage
 
 ```bash
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
   --email [email] --uri [uri] --common-name [common name]
 ```
 > Note: multiple `email`, `uri` and `common-name` can be included in command
@@ -886,10 +968,10 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Use `bom` command to generate one of the supported formats.
-valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
+valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
 
 # Use `verify` command to verify the target against the evidence
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
 ```
 </details>
 
@@ -898,10 +980,10 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Use `bom` command to generate one of the supported formats.
-valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
+valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
 
 # Use `verify` command to verify the target against the evidence
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa] \
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
     --email [email] --uri [uri] --common-name [common name]
 ```
 </details>
@@ -911,13 +993,13 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
   --email [email] --uri [uri] --common-name [common name] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
@@ -987,55 +1069,6 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 
 ## Basic examples
 <details>
-  <summary> Statement Generic File Target (SBOM) </summary>
-
-Create SBOM for `sbom` file repository.
-
-```bash
-valint bom temp.log -o statement-generic
-``` 
-
-you can have `statement-generic` for any file that does not fall into any one of the file.
-
-You can compress the `statement-generic` evidence using `--compress` flag.
-This would use gzip to compress the evidence
-
-```bash
-valint bom temp.log -o statement-generic --compress
-```
-
-</details>
-
-<details>
-  <summary> Attest Generic File Target (SBOM) </summary>
-
-Create SBOM for `sbom` file repository.
-
-```bash
-valint bom temp.log -o attest-generic
-``` 
-
-you can have `attest-generic` for any file that does not fall into any one of the file.
-
-You can compress the `attest-generic` evidence using `--compress` flag.
-This would use gzip to compress the evidence
-
-```bash
-valint bom temp.log -o attest-generic --compress
-```
-</details>
-<details>
-  <summary>  Public registry image (SBOM) </summary>
-
-Create SBOM for remote `busybox:latest` image.
-
-```bash
-valint bom busybox:latest
-``` 
-
-</details>
-
-<details>
   <summary>  Docker built image (SBOM) </summary>
 
 Create SBOM for image built by local docker `image_name:latest` image.
@@ -1072,7 +1105,7 @@ valint bom busybox:latest --env test_env --label test_label
 
 
 <details>
-  <summary> Custom evidence location (SBOM, SLSA) </summary>
+  <summary> Custom evidence location </summary>
 
 Use flags `--output-directory` or `--output-file` flags to set the default location.
 
@@ -1131,6 +1164,17 @@ valint bom git:yourrepository
 </details>
 
 <details>
+  <summary>  Public registry image (SBOM) </summary>
+
+Create SBOM for remote `busybox:latest` image.
+
+```bash
+valint bom busybox:latest
+``` 
+
+</details>
+
+<details>
   <summary> Attest target (SBOM) </summary>
 
 Create and sign SBOM targets. <br />
@@ -1152,6 +1196,64 @@ Create and sign SLSA targets. <br />
 ```bash
 valint bom busybox:latest -o attest-slsa
 ``` 
+</details>
+
+<details>
+  <summary> Generic Evidence from file </summary>
+
+Create Generic evidence out of `temp.log`.
+
+```bash
+valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs
+``` 
+
+Compress the content by adding `--compress`
+```bash
+valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs --compress
+``` 
+
+</details>
+
+<details>
+  <summary> Generic Evidence from file </summary>
+
+Create Generic evidence out of `temp.log`.
+
+```bash
+valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs
+``` 
+</details>
+
+<details>
+  <summary> Generic Evidence from file </summary>
+
+Create and sign Generic evidence out of `temp.log`.
+
+```bash
+valint bom temp.log -o attest-generic --predicate-type https:/third_party.com/logs
+``` 
+
+> Compress content in evidence using `--compress` flag.
+
+</details>
+
+<details>
+  <summary> Attest Generic File Target (SBOM) </summary>
+
+Create SBOM for `sbom` file repository.
+
+```bash
+valint bom temp.log -o attest-generic
+``` 
+
+you can have `attest-generic` for any file that does not fall into any one of the file.
+
+You can compress the `attest-generic` evidence using `--compress` flag.
+This would use gzip to compress the evidence
+
+```bash
+valint bom temp.log -o attest-generic --compress
+```
 </details>
 
 <details>
@@ -1195,10 +1297,10 @@ Generating and verifying SLSA Provenance `attestation` for directory target.
 
 ```bash
 mkdir testdir
-echo "test" > testdir/test.txt
+echo "important evidence data" > test.txt
 
-# Create CycloneDX SBOM attestations
-valint bom dir:testdir -vv -o attest
+# Create Generic attestations from test.txt
+valint bom test.txt -vv -o attest-generic --predicate-type https:/thrid
 
 # Verify CycloneDX SBOM attestations
 valint verify dir:testdir
@@ -1228,9 +1330,27 @@ valint verify git:./mongo-express
 ```
 </details>
 
+<details>
+  <summary> Attest and verify generic evidence </summary>
+
+Generating and verifying Generic evidence `attestation` for directory target.
+
+> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+
+```bash
+mkdir testdir
+echo "test" > testdir/test.txt
+
+# Create Generic attestation from target file
+valint bom test.txt -o attest-generic --predicate-type https:/sometool.com/some_format
+
+# Verify Generic attestation from target file
+valint verify test.txt -i attest-geenric --predicate-type https:/sometool.com/some_format
+```
+</details>
 
 <details>
-  <summary> Store evidence on OCI (SBOM,SLSA) </summary>
+  <summary> Store evidence on OCI </summary>
 
 Store any evidence on any OCI registry. <br />
 Support storage for all targets and both SBOM and SLSA evidence formats.
@@ -1243,17 +1363,17 @@ Support storage for all targets and both SBOM and SLSA evidence formats.
 docker login $
 
 # Generate and push evidence to registry
-valint bom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-valint verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
+valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
 </details>
 
 <details>
-  <summary> Store evidence on Scribe service (SBOM,SLSA) </summary>
+  <summary> Store evidence on Scribe service </summary>
 
 Store any evidence on any Scribe service. <br />
 Support storage for all targets and both SBOM and SLSA evidence formats.
@@ -1268,12 +1388,12 @@ export SCRIBE_CLIENT_ID=**
 export SCRIBE_CLIENT_SECRET=**
 
 # Generate and push evidence to registry
-valint bom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --f -E \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --f -E \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 
 # Pull and validate evidence from registry
-valint verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] -f -E \
+valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -f -E \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```

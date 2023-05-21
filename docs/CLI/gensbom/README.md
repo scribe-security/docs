@@ -318,10 +318,10 @@ Verification flow for `statements` that are unsigned evidence includes policy ve
 ### Usage
 ```bash
 # Use `bom` command to generate one of the supported formats.
-gensbom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
+gensbom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
 
 # Use `verify` command to verify the target against the evidence
-gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
+gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
 ```
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
@@ -340,18 +340,18 @@ You must first login with the required access to your registry before you callin
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-gensbom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-gensbom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
+gensbom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
 
-gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
+gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
 ```
 
 ## Configuration
@@ -688,10 +688,10 @@ Support storage for all targets and both SBOM and SLSA evidence formats.
 docker login $
 
 # Generate and push evidence to registry
-gensbom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-gensbom verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
+gensbom verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
