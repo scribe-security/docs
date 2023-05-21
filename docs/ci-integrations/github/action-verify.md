@@ -41,7 +41,7 @@ The command allows users to verify any target against its evidence.
   force:
     description: Force skip cache
   input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json]
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic]
     default: attest-cyclonedx-json
   uri:
     description: Default policy allowed uris
@@ -313,6 +313,24 @@ valint will look for both a bom or slsa attestation to verify against. <br />
   with:
     target: 'busybox:latest'
     input-format: attest-slsa
+``` 
+
+</details>
+
+<details>
+  <summary> Verify target (Gernic) </summary>
+
+Verify targets against a signed attestation. <br />
+Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
+valint will look for both a bom or slsa attestation to verify against. <br />
+
+
+```YAML
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: 'busybox:latest'
+    input-format: attest-generic
 ``` 
 
 </details>
