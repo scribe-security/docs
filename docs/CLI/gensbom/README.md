@@ -97,8 +97,10 @@ Gensbom supports the following evidence output formats and related `format` and 
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
 | predicate-slsa |  | In-toto Predicate | no |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 ## CycloneDX SBOM
 CycloneDX SBOM evidence includes a large amount of analyzed data depending on the target and user configuration.
@@ -183,8 +185,10 @@ The following table includes the formats supported by the verification command.
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
@@ -314,10 +318,10 @@ Verification flow for `statements` that are unsigned evidence includes policy ve
 ### Usage
 ```bash
 # Use `bom` command to generate one of the supported formats.
-gensbom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa]
+gensbom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 
 # Use `verify` command to verify the target against the evidence
-gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa]
+gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 ```
 
 See details [CLI documentation - verify](docs/command/gensbom_verify.md)
@@ -336,18 +340,18 @@ You must first login with the required access to your registry before you callin
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-gensbom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+gensbom verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-gensbom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
+gensbom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 
-gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa] --oci
+gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 ```
 
 ## Configuration
@@ -684,10 +688,10 @@ Support storage for all targets and both SBOM and SLSA evidence formats.
 docker login $
 
 # Generate and push evidence to registry
-gensbom busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL
+gensbom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-gensbom verify busybox:latest -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
+gensbom verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 

@@ -48,8 +48,10 @@ Evidence can be either signed (attestations) or unsigned (statements).
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 > Note using pure `cyclonedx-json` format is currently supported by the admission.
 
@@ -220,8 +222,10 @@ The following table lists the supported evidence types:
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
 
 Aliases:
 * statement=statement-cyclonedx-json
@@ -233,7 +237,7 @@ After installing the admission you you want to upload evidence .
 ## Upload to Scribe service
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] -E \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -E \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```
@@ -241,13 +245,13 @@ valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] -E \
 ## Upload to OCI registry
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa, statement-slsa] --oci
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 ```
 
 ## Uninstall `admission-controller`

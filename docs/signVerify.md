@@ -13,8 +13,11 @@ Following table includes the supported format.
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto Statement | no |
-| attest-slsa |  | In-toto Attestations | yes |
+| statement-slsa |  | In-toto SLSA Predicate Statement | no |
+| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
+| statement-generic |  | In-toto Generic Statement | no |
+| attest-generic |  | In-toto Generic Attestations | yes |
+
 
 > Both Bom command output format `-o`,`--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats.
 

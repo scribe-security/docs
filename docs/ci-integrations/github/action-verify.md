@@ -41,7 +41,7 @@ The command allows users to verify any target against its evidence.
   force:
     description: Force skip cache
   input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json]
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic]
     default: attest-cyclonedx-json
   uri:
     description: Default policy allowed uris
@@ -141,6 +141,71 @@ Scribe uses the **cocosign** library we developed to deal with digital signature
 See details [In-toto spec](https://github.com/in-toto/attestation)
 See details [attestations](docs/attestations.md)
 
+### Storing Keys in Secret Vault
+
+Github exposes secrets from its vault using envrionment varuables, you may provide these envrionments as secret to valint.
+
+> Paths names prefixed with `env://[NAME]` are read from the envrionment matching the name.
+
+<details>
+  <summary> Github Secret Vault </summary>
+
+X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
+
+>  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
+
+
+For example the following configuration and Job.
+
+Configuraiton File, `.valint.yaml`
+```yaml
+attest:
+  cocosign:
+    signer:
+        x509:
+            enable: true
+            private: env://SIGNER_KEY
+            cert: env://SIGNER_CERT
+            ca: env://COMPANY_CA
+    verifier:
+        x509:
+            enable: true
+            cert: env://SIGNER_CERT
+            ca: env://COMPANY_CA
+```
+Job example
+```yaml
+name:  github_vault_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify
+    runs-on: ubuntu-latest
+    steps:
+        uses: scribe-security/action-bom@master
+        with:
+          target: busybox:latest
+          format: attest
+        env:
+          SIGNER_KEY: ${{ secrets.SIGNER_KEY }}
+          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          COMPANY_CA:  ${{ secrets.COMPANY_CA }}
+
+        uses: scribe-security/action-verify@master
+        with:
+          target: busybox:latest
+          input-format: attest
+        env:
+          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          COMPANY_CA:  ${{ secrets.COMPANY_CA }}
+```
+</details>
+
+
 ## Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
@@ -205,14 +270,14 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-sign-verify
     runs-on: ubuntu-latest
     steps:
 
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -220,7 +285,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -253,7 +318,7 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-sign-verify
     runs-on: ubuntu-latest
     steps:
 
@@ -268,7 +333,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 
@@ -276,7 +341,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 ```
@@ -313,6 +378,24 @@ valint will look for both a bom or slsa attestation to verify against. <br />
   with:
     target: 'busybox:latest'
     input-format: attest-slsa
+``` 
+
+</details>
+
+<details>
+  <summary> Verify target (Gernic) </summary>
+
+Verify targets against a signed attestation. <br />
+Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
+valint will look for both a bom or slsa attestation to verify against. <br />
+
+
+```YAML
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: 'busybox:latest'
+    input-format: attest-generic
 ``` 
 
 </details>
