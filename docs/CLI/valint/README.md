@@ -788,9 +788,10 @@ Attach a generic evidence
 Verify a generic evidence artifact
 `valint verify <file_path> -i [statement-generic, attest-generic] [FLAGS]`
 
-Using the following flags
-* `--predicate-type`: Customize the predicate type of the evidence, must be a valid URI (optional).
-Default value is `http://scribesecurity.com/evidence/generic/v0.1`.
+Using the following flags, <br />
+* `--predicate-type`: Customize the predicate type of the evidence, must be a valid URI (optional) <br />
+Default value is `http://scribesecurity.com/evidence/generic/v0.1`. 
+
 * `--compress`: Compress content (optional)
 
 For Example using codeql report as evidence.
