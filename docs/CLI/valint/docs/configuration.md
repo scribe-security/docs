@@ -27,6 +27,7 @@ scribe:
     backoff: 15s
     timeout: 120s
 context:
+  predicate-type: http://scribesecurity.com/evidence/generic/v0.1
   context-type: local
 bom:
   normalizers:
@@ -61,6 +62,7 @@ bom:
     exclude-type: []
   attach-regex: []
   final-artifact: false
+  compress: false
 attest:
   config: ""
   default: sigstore

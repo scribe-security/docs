@@ -12,6 +12,8 @@ Flags for `valint`
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --app-name | Logical application name | |
+| | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
@@ -19,6 +21,7 @@ Flags for `valint`
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -31,7 +34,10 @@ Flags for `valint`
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
-| -n | --product-key | Scribe Project Key | |
+| -p | --pipeline-name | Pipeline name | |
+| | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
+| -n | --product-key | Product Key | |
+| -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |

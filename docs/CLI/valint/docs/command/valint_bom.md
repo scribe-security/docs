@@ -18,9 +18,9 @@ Flags for `bom` subcommand
 | --- | --- | --- | --- |
 | -A | --attach-regex | Attach files content by regex | |
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,files,dep,commits] |
-| -e | --env | Environment keys to include in sbom | |
+| | --compress | Compress content (generic evidence) | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa] | [cyclonedx-json] |
+| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
@@ -33,6 +33,8 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --app-name | Logical application name | |
+| | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
@@ -40,6 +42,7 @@ Flags for all `valint` subcommands
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -51,7 +54,10 @@ Flags for all `valint` subcommands
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
-| -n | --product-key | Scribe Project Key | |
+| -p | --pipeline-name | Pipeline name | |
+| | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
+| -n | --product-key | Product Key | |
+| -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
