@@ -77,14 +77,14 @@ verifier:
 <details>
   <summary> X509 local keys </summary>
 
-X509 flows allow you to use local keys, cert and CA file to sign and verify you sboms.
+X509 signer allow you to use local keys, cert and CA file to sign and verify you attestations.
 You may can use the default x509 `cocosign` configuration flag.
 
 > Use flag `--attest.default=x509`.
 
 ```bash
-valint bom busybox:latest -o attest --attest.default x509 -v
-valint verify busybox:latest --attest.default x509 -v
+valint bom busybox:latest -o attest --attest.default x509
+valint verify busybox:latest --attest.default x509
 ```
 
 Default config
@@ -103,6 +103,37 @@ verifier:
 ```
 </details>
 
+<details>
+  <summary> X509 envrionment keys </summary>
+
+X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
+
+>  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
+
+```bash
+export SIGNER_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
+export COMPANY_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export SIGNER_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+
+valint bom busybox:latest -o attest
+valint verify busybox:latest
+```
+
+Config example
+```yaml
+signer:
+    x509:
+        enable: true
+        private: env://SIGNER_KEY
+        cert: env://SIGNER_CERT
+        ca: env://COMPANY_CA
+verifier:
+    x509:
+        enable: true
+        cert: env://SIGNER_CERT
+        ca: env://COMPANY_CA
+```
+</details>
 
 ## Custom configuration
 Edit your main configuration, add the following subsection. <br />

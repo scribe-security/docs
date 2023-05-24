@@ -150,7 +150,7 @@ pipelines:
             variables:
               COMMAND_NAME: bom
               TARGET:  [target]
-              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
@@ -159,7 +159,7 @@ pipelines:
             variables:
               COMMAND_NAME: verify
               TARGET:  [target]
-              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
@@ -194,7 +194,7 @@ pipelines:
             variables:
               COMMAND_NAME: bom
               TARGET:  [target]
-              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               OCI: true
               OCI_REPO: [oci_repo]
 
@@ -202,7 +202,7 @@ pipelines:
             variables:
               COMMAND_NAME: verify
               TARGET:  [target]
-              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               OCI: true
               OCI_REPO: [oci_repo]
 ```

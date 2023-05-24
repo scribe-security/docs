@@ -101,7 +101,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
@@ -111,7 +111,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
     inputs:
       commandName: verify
       target: [target]
-      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
@@ -153,7 +153,7 @@ For example, using `docker login` command.
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
@@ -162,7 +162,7 @@ For example, using `docker login` command.
     inputs:
       commandName: verify
       target: [target]
-      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]

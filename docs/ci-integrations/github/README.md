@@ -74,14 +74,14 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-sign-verify
     runs-on: ubuntu-latest
     steps:
 
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -89,7 +89,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -122,7 +122,7 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-sign-verify
     runs-on: ubuntu-latest
     steps:
 
@@ -137,7 +137,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 
@@ -145,7 +145,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 ```
@@ -224,7 +224,7 @@ on:
       - "*"
 
 jobs:
-  scribe-report-test:
+  scribe-sign-verify
     runs-on: ubuntu-latest
     steps:
 

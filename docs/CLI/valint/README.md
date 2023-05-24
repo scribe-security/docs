@@ -638,13 +638,13 @@ Integrating Scribe Hub with your environment requires the following credentials 
 ### Usage
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
@@ -682,18 +682,18 @@ For example, using `docker login` command.
 ### Usage
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
 
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo=[my_repo]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
 ```
 
 > For image targets **only** you may attach the evidence in the same repo as the image.
 
 ```bash
-valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
+valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 
-valint verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci
+valint verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 ```
 
 > For related Cosign support, see [cosign ](#-cosign-support) section.
@@ -712,10 +712,10 @@ Related flags:
 ### Usage
 ```bash
 # Generating evidence, storing on [my_dir] local directory.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --output-directory=[my_dir]
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --output-directory=[my_dir]
 Supply chain environment
 # Verifying evidence, pulling attestation from [my_dir] local directory.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --output-directory=[my_dir]
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --output-directory=[my_dir]
 ```
 
 > By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
@@ -779,18 +779,36 @@ Generic evidence includes custom 3rd party verifiable information containing any
 Generic evidence allows users to include any file as evidence or attestation (signed) hooking in 3rd party tools.
 Allowing more robust and customizable policies to fit your needs.
 
-For example, Attesting to your current License scanner report can enable you to verify your licensing requirements as part of your build pipeline.
+For example, Attesting to License scanner report can enable you to enforce licensing requirements as part of your build pipeline.
 
-<!-- See details [Generic evidence spec](http://scribesecurity.com/generic/v0.1) -->
+## Usage: 
+Attach a generic evidence
+`valint bom <file_path> -o [statement-generic, attest-generic] [FLAGS]`
+
+Verify a generic evidence artifact
+`valint verify <file_path> -i [statement-generic, attest-generic] [FLAGS]`
+
+Using the following flags
+* `--predicate-type`: Customize the predicate type of the evidence, must be a valid URI (optional).
+Default value is `http://scribesecurity.com/evidence/generic/v0.1`.
+* `--compress`: Compress content (optional)
+
+For Example using codeql report as evidence.
+```bash
+valint bom codeql_report.sarif -o attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
+valint verify codeql_report.sarif -i attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
+```
 
 ### Format
 ```
 {
   "_type": "https://in-toto.io/Statement/v0.1",
   
-  // Can also include any custom user defined url.
-  "predicateType": "http://scribesecurity.com/evidence/generic/v0.1" 
   "subject": [{ ... }],
+  
+  // Can also include any custom user defined url.
+  "predicateType": <predicate-type>
+
   "predicate": {
     "environment": {
       <Evidence context object>
@@ -822,6 +840,7 @@ The following table includes the formats supported by the verification command.
 | attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
 | statement-generic |  | In-toto Generic Statement | no |
 | attest-generic |  | In-toto Generic Attestations | yes |
+
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
@@ -957,7 +976,7 @@ Evidence verification  verification flow includes two parts, the first is a PKI 
 ### Usage
 
 ```bash
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
   --email [email] --uri [uri] --common-name [common name]
 ```
 > Note: multiple `email`, `uri` and `common-name` can be included in command
@@ -968,10 +987,10 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Use `bom` command to generate one of the supported formats.
-valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 
 # Use `verify` command to verify the target against the evidence
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 ```
 </details>
 
@@ -980,10 +999,10 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Use `bom` command to generate one of the supported formats.
-valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric]
+valint bom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 
 # Use `verify` command to verify the target against the evidence
-valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
     --email [email] --uri [uri] --common-name [common name]
 ```
 </details>
@@ -993,13 +1012,13 @@ valint verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statemen
 
 ```bash
 # Generating evidence, storing in scribe service.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 
 # Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
   --email [email] --uri [uri] --common-name [common name] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
@@ -1363,10 +1382,10 @@ Support storage for all targets and both SBOM and SLSA evidence formats.
 docker login $
 
 # Generate and push evidence to registry
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-genric] --oci --oci-repo $REGISTRY_URL -f
+valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
