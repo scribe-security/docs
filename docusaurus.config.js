@@ -12,6 +12,8 @@ var isPullRequest = process.env.PULL_REQUEST === "true";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  plugins: [require.resolve('docusaurus-lunr-search')],
+
   title: 'The Scribe Documentation Site',
   tagline: 'Four legs good. Two legs bad.',
   url: 'https://profound-wisp-8a86b9.netlify.app/',
