@@ -516,10 +516,10 @@ Run the command on the required supply chain location.
 
 ```bash
 # Generate required evidence
-valint bom 3rd-party-scan.json -o attest-generic --predicate-type https:scanner.com/scan_format
+valint bom 3rd-party-scan.json -o attest-generic --predicate-type https://scanner.com/scan_format
 
 # Verify policy (cache store)
-valint verify 3rd-party-scan.json -i attest-generic --predicate-type https:scanner.com/scan_format
+valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://scanner.com/scan_format
 ```
 
 </details>
@@ -1224,12 +1224,12 @@ valint bom busybox:latest -o attest-slsa
 Create Generic evidence out of `temp.log`.
 
 ```bash
-valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs
+valint bom temp.log -o statement-generic --predicate-type https://third_party.com/logs
 ``` 
 
 Compress the content by adding `--compress`
 ```bash
-valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs --compress
+valint bom temp.log -o statement-generic --predicate-type https://third_party.com/logs --compress
 ``` 
 
 </details>
@@ -1240,7 +1240,7 @@ valint bom temp.log -o statement-generic --predicate-type https:/third_party.com
 Create Generic evidence out of `temp.log`.
 
 ```bash
-valint bom temp.log -o statement-generic --predicate-type https:/third_party.com/logs
+valint bom temp.log -o statement-generic --predicate-type https://third_party.com/logs
 ``` 
 </details>
 
@@ -1250,7 +1250,7 @@ valint bom temp.log -o statement-generic --predicate-type https:/third_party.com
 Create and sign Generic evidence out of `temp.log`.
 
 ```bash
-valint bom temp.log -o attest-generic --predicate-type https:/third_party.com/logs
+valint bom temp.log -o attest-generic --predicate-type https://third_party.com/logs
 ``` 
 
 > Compress content in evidence using `--compress` flag.
@@ -1320,7 +1320,7 @@ mkdir testdir
 echo "important evidence data" > test.txt
 
 # Create Generic attestations from test.txt
-valint bom test.txt -vv -o attest-generic --predicate-type https:/thrid
+valint bom test.txt -vv -o attest-generic --predicate-type https://thrid
 
 # Verify CycloneDX SBOM attestations
 valint verify dir:testdir
@@ -1362,10 +1362,10 @@ mkdir testdir
 echo "test" > testdir/test.txt
 
 # Create Generic attestation from target file
-valint bom test.txt -o attest-generic --predicate-type https:/sometool.com/some_format
+valint bom test.txt -o attest-generic --predicate-type https://sometool.com/some_format
 
 # Verify Generic attestation from target file
-valint verify test.txt -i attest-geenric --predicate-type https:/sometool.com/some_format
+valint verify test.txt -i attest-geenric --predicate-type https://sometool.com/some_format
 ```
 </details>
 
