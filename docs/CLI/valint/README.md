@@ -305,7 +305,7 @@ For instance, you can verify that an artifact is generated from a particular pip
 ### Use cases
 The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
 
-* Images must be signed using and produced signed CycloneDX SBOM.
+* Images must be signed and produce a CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
 * Tagged sources must be signed and verified by a set of individuals or processes.
 * Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
@@ -560,10 +560,179 @@ attest:
 ```
 </details> -->
 
-## Verify SCM module - Coming Soon!
-The Verify SCM module enforces a set of requirements on the Source controller management.
-For example, Signed commit, Code Owner Requirements.
-Verify SCM module requires a CycloneDX SBOM as evidence.
+## Git Owner module
+The Git Owner module enforces a set of requirements of the identity editing files on git repositories.
+
+* Veriferiable owners: enforce Commit signature for a set of files, as specified by the `signed` field in the module input.
+* File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
+
+> NOTICE: We currently do not verify the commit signature as it requires the public of all the signatures keys.
+
+> NOTICE: Module only enforeces file requirement on the LATEST commit not the entire chain.
+
+### Evidence requirements
+Module requires a populated CycloneDX SBOM with commit, file and relations.
+Module supports both signed and unsigned forms of CylconeDX evidence.
+
+* `--components` must include the following groups `commits`,`files`, `dep` (Optinal include, `packages`).
+* `-o`, `--format` must be eather `statement-cyclonedx-json` or `attest-cyclonedx-json`.
+* Optinal use `--git-tag`, `--git-branch` and `--git-commit-` to target the specfic 
+
+```bash
+valint bom git:<repo>
+  --components commits,files,dep
+  -o [statement,attest]
+  --git-tag [tag] # OPTIONAL
+  --git-branch [branch] # OPTIONAL
+  --git-commit [commit] # OPTIONAL
+```
+
+```bash
+valint verify git:<repo>
+  -i [statement,attest]
+  --git-tag [tag] # OPTIONAL
+  --git-branch [branch] # OPTIONAL
+  --git-commit [commit] # OPTIONAL
+```
+
+### Use cases
+The Git Owner module can be used to enforce compliance with specific supply chain requirements, such as:
+
+* Only primitted Committer identities can update the `package.json` file.
+* Commits must be signed for all files excluding the tests related files.
+* Only primitted signed Committer identitied can update the CircleCI workflows.
+
+### Configuration
+```yaml
+- type: git-owner # Policy name
+  enable: true/false # Policy enable (default false) 
+  name: "" # Any user provided name
+  input:
+    default: # Default files requirements
+      signed: <true|false> # Should commits be signed
+      users: [] # Commiter identities
+    specific: # List of Specific files requirements
+      - path: <regex> # Match to specific files
+        signed: <true|false> # Should commits be signed
+        users: [] # Commiter identities
+    match: {envrionment-context} # Any origin or subject fields used by
+``` 
+
+> Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.
+
+### Examples
+Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
+
+> For configuration details, see [configuration](docs/configuration.md) section.
+
+<details>
+  <summary> Package git owners </summary>
+In this example, the policy module named "package-git-owner" enforces `package.json` commiter identity.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: package-git-owner
+        enable: true  
+        modules:
+          - name: npm-owner-rule
+            type: git-owner
+            enable: true
+            input:
+              specific:
+                - path: package.json
+                  users:
+                    - alice@email.com
+                    - bob@email.com
+                - path: package-lock.json
+                  users:
+                    - alice@email.com
+                    - bob@email.com
+```
+
+**Command:**<br />
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence
+valint bom git:https://github.com/myorg/my_npm_pkg.git -o attest --components commits,files,dep
+
+# Verify policy (cache store)
+valint verify git:https://github.com/myorg/my_npm_pkg.git -i attest
+```
+</details>
+
+<details>
+  <summary> Signed Commit history </summary>
+In this example, the policy module named " signed-commits-policy" enforces Commits are signed excluding files used for testing.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: signed-commits-policy
+        enable: true  
+        modules:
+          - name: signed-commits-js-rule
+            type: git-owner
+            enable: true
+            input:
+              default:
+                signed: true
+              specific:
+                - path: test/.*
+                  signed: false
+```
+
+**Command:**<br />
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence
+valint bom git:https://github.com/myorg/some_repo.git -o attest  --components commits,files,dep
+
+# Verify policy (cache store)
+valint verify git:https://github.com/myorg/some_repo.git -i attest
+```
+</details>
+
+<details>
+  <summary> Workflows owners </summary>
+In this example, the policy module named "workflow-owners-policy" enforces only primitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: workflow-owners-policy
+        enable: true  
+        modules:
+          - name: cirlce-workflow-rule
+            type: git-owner
+            enable: true
+            input:
+              specific:
+                - path: \.circle/.*
+                  signed: true
+                  users:
+                    - alice@email.com
+                    - bob@email.com
+              match:
+                context_type: circle
+```
+
+**Command:**<br />
+Run the command on the required supply chain location.
+
+```bash
+# Generate required evidence (triggered by a Circle CI)
+valint bom git:https://github.com/myorg/some_repo.git -o attest  --components commits,files,dep --context circle
+
+# Verify policy (cache store)
+valint verify git:https://github.com/myorg/some_repo.git -i attest
+```
+</details>
 
 ## SLSA Framework module - Coming Soon!
 The SLSA Framework module enforces Level 1 to 3 of SLSA Specification.
@@ -587,8 +756,10 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 | --- | --- | --- | --- | --- |
 | Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
 | OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
+| Docker archive | image | docker-archive  | use a tarball from disk for archives created from "docker save"| docker-archive:path/to/yourimage.tar |
+| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/
+yourimage.tar |
+| Podman daemon | image | podman | Use the Podman daemon | podman:busybox:latest |
 | Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
 | Local git | git | git | local repository git | git:path/to/yourrepository | 
 | Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
@@ -1375,7 +1546,7 @@ valint verify test.txt -i attest-geenric --predicate-type https://sometool.com/s
 Store any evidence on any OCI registry. <br />
 Support storage for all targets and both SBOM and SLSA evidence formats.
 
-> Use `-o`, `format` to select between supported formats. <br />
+> Use `-o`, `--format` to select between supported formats. <br />
 > Write permission to `--oci-repo` value is required. 
 
 ```bash
@@ -1398,7 +1569,7 @@ valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attes
 Store any evidence on any Scribe service. <br />
 Support storage for all targets and both SBOM and SLSA evidence formats.
 
-> Use `-o`, `format` to select between supported formats. <br />
+> Use `-o`, `--format` to select between supported formats. <br />
 > Credentials for Scribe API is required. 
 
 ```bash
