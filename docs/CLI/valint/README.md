@@ -563,7 +563,7 @@ attest:
 ## Git Owner module
 The Git Owner module enforces a set of requirements of the identity editing files on git repositories.
 
-* Veriferiable owners: enforce Commit signature for a set of files, as specified by the `signed` field in the module input.
+* Veriferiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
 * File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
 
 > NOTICE: We currently do not verify the commit signature as it requires the public of all the signatures keys.
@@ -598,9 +598,9 @@ valint verify git:<repo>
 ### Use cases
 The Git Owner module can be used to enforce compliance with specific supply chain requirements, such as:
 
-* Only primitted Committer identities can update the `package.json` file.
+* Only permitted Committer identities can update the `package.json` file.
 * Commits must be signed for all files excluding the tests related files.
-* Only primitted signed Committer identitied can update the CircleCI workflows.
+* Only permitted signed Committer identitied can update the CircleCI workflows.
 
 ### Configuration
 ```yaml
@@ -609,11 +609,11 @@ The Git Owner module can be used to enforce compliance with specific supply chai
   name: "" # Any user provided name
   input:
     default: # Default files requirements
-      signed: <true|false> # Should commits be signed
+      signed-commit: <true|false> # Should commits be signed
       users: [] # Commiter identities
     specific: # List of Specific files requirements
       - path: <regex> # Match to specific files
-        signed: <true|false> # Should commits be signed
+        signed-commit: <true|false> # Should commits be signed
         users: [] # Commiter identities
     match: {envrionment-context} # Any origin or subject fields used by
 ``` 
@@ -679,10 +679,10 @@ attest:
             enable: true
             input:
               default:
-                signed: true
+                signed-commit: true
               specific:
                 - path: test/.*
-                  signed: false
+                  signed-commit: false
 ```
 
 **Command:**<br />
@@ -699,7 +699,7 @@ valint verify git:https://github.com/myorg/some_repo.git -i attest
 
 <details>
   <summary> Workflows owners </summary>
-In this example, the policy module named "workflow-owners-policy" enforces only primitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
+In this example, the policy module named "workflow-owners-policy" enforces only permitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
 
 ```yaml
 attest:
@@ -714,7 +714,7 @@ attest:
             input:
               specific:
                 - path: \.circle/.*
-                  signed: true
+                  signed-commit: true
                   users:
                     - alice@email.com
                     - bob@email.com
