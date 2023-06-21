@@ -426,7 +426,7 @@ attest:
               format: attest-slsa
               identity:
                 emails:
-                - bob@mycompany.com`
+                - bob@mycompany.com
               match:
                 target_type: git
                 target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
@@ -502,7 +502,7 @@ attest:
               format: attest-generic
               identity:
                 emails:
-                - bob@mycompany.com`
+                - bob@mycompany.com
               match:
                 target_type: generic
                 context_type: azure
