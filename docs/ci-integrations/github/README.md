@@ -74,7 +74,7 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
 
@@ -122,7 +122,7 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
 
@@ -224,7 +224,7 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
 

@@ -205,10 +205,10 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
-        
+        uses: scribe-security/action-bom@master
         with:
           target: busybox:latest
           format: attest
@@ -292,7 +292,7 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
 
@@ -340,7 +340,7 @@ on:
       - "*"
 
 jobs:
-  scribe-sign-verify
+  scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
 
