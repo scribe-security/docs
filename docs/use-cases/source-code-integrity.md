@@ -47,7 +47,7 @@ jobs:
         format: attest
 ```
 
-> Example showcases the signing using `sigstore-github `, for details see doc ---
+To learn more about how *Valint* is used to sign evidence and about `sigstore-github `, check out *Valint*'s sign-verify [page](../../docs/signVerify "Signing And Verifying Evidence").
 
 You can run this workflow manually or make it automatic by removing the commenting on the *'push:'* section.
 
