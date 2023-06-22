@@ -22,21 +22,15 @@ name: Create signed git commit sbom
 
 on:
   workflow_dispatch:
-#   push:
-#     branches: [ "main" ]
-
-env:
-  IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
+  # push:
+    # branches:
+    #   - master
 
 jobs:
-
-  build:
+  -bom:
     runs-on: ubuntu-latest
-
     permissions:
-      contents: read
-      packages: write
-      id-token: write
+      id-token: write # workload identity access needed for signing using sigstore-github 
 
     steps:
     - uses: actions/checkout@v3
@@ -52,6 +46,8 @@ jobs:
         label: is_git_commit
         format: attest
 ```
+
+> Example showcases the signing using `sigstore-github `, for details see doc ---
 
 You can run this workflow manually or make it automatic by removing the commenting on the *'push:'* section.
 
