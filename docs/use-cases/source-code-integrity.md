@@ -80,6 +80,6 @@ The result would appear as part of your project icon:
 
 In this example the project's integrity has been validated. If there is a problem you'll see a large red <span style={{"color": "red"}}><b>'X'</b></span>.
 
-Pressing on the icon would show you the break down of the integrity analysis.
+Clicking on the icon displays the breakdown of the integrity analysis.
 
 
