@@ -46,9 +46,6 @@ jobs:
       with:
         target: 'git:.'
         scribe-enable: true
-        scribe-login-url: https://$AUTH0_DOMAIN
-        scribe-audience: $AUTH0_SCRIBE_SERVICE_AUDIENCE
-        scribe-url: $SCRIBE_API_BASE_URI
         product-key: ${{ github.repository }}
         scribe-client-id: ${{ secrets.CLIENT_ID }}
         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
