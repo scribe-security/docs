@@ -74,7 +74,7 @@ The result would appear as part of your project icon:
 
 <img src='../../../img/ci/integrity.jpg' alt='Project integrity example'/>
 
-In this example the project's integrity has been validated. If there is a problem you'll see a large red <span style={{"color": "red"}}><b>'X'</b></span>.
+In this example the project's source code integrity has been validated. If there is a problem you'll see a large red <span style={{"color": "red"}}><b>'X'</b></span>.
 
 Clicking on the icon displays the breakdown of the integrity analysis.
 
