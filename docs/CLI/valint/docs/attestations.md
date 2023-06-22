@@ -35,7 +35,7 @@ signer:
         oidc:
             auth: interactive
             issuer: https://oauth2.sigstore.dev/auth
-            client-id: sigstore
+            clientid: sigstore
 verifier:
     fulcio:
         enable: true
@@ -233,7 +233,7 @@ signer:
 	    url: <sigstore_url>
 	    oidc:
 	        issuer: <sigstore_issuer_url>
-	        client-id: <sigstore_client_id>
+	        clientid: <sigstore_client_id>
 	        client-secret: <sigstore_client_secret>
 	        token:<external_token> - for auth=token, enter the OIDC identity token
 	kms:
