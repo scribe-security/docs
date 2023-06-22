@@ -27,7 +27,7 @@ on:
     #   - master
 
 jobs:
-  -bom:
+  checkout-sign:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # workload identity access needed for signing using sigstore-github 
