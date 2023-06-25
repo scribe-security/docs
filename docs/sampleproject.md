@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 sidebar_label: Sample Project
 ---
 
@@ -12,7 +12,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
 
 ## Run Valint on a Sample Project
 
