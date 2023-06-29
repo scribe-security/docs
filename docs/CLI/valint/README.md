@@ -965,10 +965,36 @@ Default value is `http://scribesecurity.com/evidence/generic/v0.1`.
 
 * `--compress`: Compress content (optional)
 
-For Example using codeql report as evidence.
+For Example, using trivy Sarif report as evidence.
 ```bash
-valint bom codeql_report.sarif -o attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
-valint verify codeql_report.sarif -i attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
+valint bom report.sarif -o attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
+```
+
+### Scribe Predicate types
+KNOWN predicates types allow the generic evidence to be further analyzed by Scribe service.
+
+The following table are the KNOWN predicate types we recommend using,
+
+| predicate-type | file-format | tool |
+| --- | --- | --- |
+|  http://docs.oasis-open.org/sarif/sarif/v2.1.0 | sarif | trivy |
+|  https://cyclonedx.org/bom | CycloneDX | Syft | 
+|  https://slsa.dev/provenance/v0.2 | Intoto-predicate, Intoto-Statement | Cosign | 
+
+#### Trivy integration
+Install trivy latest version.
+
+Run the following command to export a Sarif report.
+```bash
+trivy image --format sarif -o report.sarif  golang:1.12-alpine
+```
+
+Run the following Valint command to add the report as evidence to the Scribe Service.
+```bash
+valint bom report.sarif --predicate-type http://docs.oasis-open.org/sarif/sarif/v2.1.0 -o  [attest-generic, statement-generic] \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
 ```
 
 ### Format
