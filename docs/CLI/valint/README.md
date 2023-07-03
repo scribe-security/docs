@@ -967,7 +967,7 @@ Default value is `http://scribesecurity.com/evidence/generic/v0.1`.
 
 For Example, using trivy Sarif report as evidence.
 ```bash
-valint bom report.sarif -o attest-generic -p http://docs.oasis-open.org/sarif/sarif/v2.1.0
+valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
 ```
 
 ### Scribe Predicate types
@@ -977,7 +977,8 @@ The following table are the KNOWN predicate types we recommend using,
 
 | predicate-type | file-format | tool |
 | --- | --- | --- |
-|  http://docs.oasis-open.org/sarif/sarif/v2.1.0 | sarif | trivy |
+|  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br> json | trivy |
+|  http://docs.oasis-open.org/sarif/sarif/v2.1.0 | sarif | CodeQL |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 |  https://slsa.dev/provenance/v0.2 | Intoto-predicate, Intoto-Statement | Cosign | 
 
@@ -1274,10 +1275,10 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 ```bash
 # Generate sbom predicate
-valint bom [image] -vv -o predicate -f --output-file gensbom_predicate.json
+valint bom [image] -vv -o predicate -f --output-file valint_predicate.json
 
 # Sign and OCI store using cosign
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate gensbom_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
+COSIGN_EXPERIMENTAL=1 cosign attest --predicate valint_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
 
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
