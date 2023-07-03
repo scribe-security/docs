@@ -323,7 +323,47 @@ The verify artifact module can be used to enforce compliance with specific suppl
     signed: <true|false> # Should target be signed
     format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
     match: {envrionment-context} # Any origin or subject fields used by
+    rego: |
+       # Policy as code - Custom rego script
 ``` 
+
+### Policy As Code - Custom rego script
+You can define custom policies for artifacts verified by the module by attaching them as code. After the module enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
+
+For example:
+```yaml
+- name: signed_image_custom_policy
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    identity:
+      common-names:
+        - mycompany.com
+    match:
+      target_type: image
+    rego: | 
+        default allow = false
+        verify = {
+          allow: allow
+        }
+
+
+        allow = {
+          input.evidence.predicate-type == "https://cyclonedx.org/bom"
+        }
+```
+
+#### Input format
+Custom rego script is provided the following inputs.
+```yaml
+input:
+  evidence: {Intoto-statment}
+  verifier: {verifier-context}
+```
+
+> Note: When using Signed Attestations, the Custom Rego script receives the raw intoto statement along with the identity of the signer.
 
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
