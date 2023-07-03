@@ -914,6 +914,7 @@ The following list includes the packages types we currently support:
 * Rpm
 * Java
 * Rust
+* R
 
 ### Dependencies graph
 Currently, we support the following dependencies relations.
