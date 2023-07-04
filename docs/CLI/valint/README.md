@@ -325,6 +325,13 @@ The verify artifact module can be used to enforce compliance with specific suppl
     match: {envrionment-context} # Any origin or subject fields used by
     rego: |
        # Policy as code - Custom rego script
+       package verify
+
+       verify = v {
+          v := {
+            "allow": {Custom policy validation}
+          }
+       }
 ``` 
 
 ### Policy As Code - Custom rego script
@@ -346,7 +353,7 @@ For example:
     rego: | 
         default allow = false
         verify = {
-          allow: allow
+           "allow": allow
         }
 
 
@@ -355,15 +362,26 @@ For example:
         }
 ```
 
-#### Input format
+#### Custom script - Input format
 Custom rego script is provided the following inputs.
 ```yaml
 input:
   evidence: {Intoto-statment}
   verifier: {verifier-context}
+  custom: {custom user defined input}
 ```
 
 > Note: When using Signed Attestations, the Custom Rego script receives the raw intoto statement along with the identity of the signer.
+
+
+#### Custom script - Verify output format
+Custom rego script provided the following output.
+```json
+{
+  "allow": <true | false>
+}
+```
+
 
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
@@ -1018,7 +1036,7 @@ The following table are the KNOWN predicate types we recommend using,
 
 | predicate-type | file-format | tool |
 | --- | --- | --- |
-|  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br> json | trivy |
+|  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  http://docs.oasis-open.org/sarif/sarif/v2.1.0 | sarif | CodeQL |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 |  https://slsa.dev/provenance/v0.2 | Intoto-predicate, Intoto-Statement | Cosign | 
@@ -1040,7 +1058,7 @@ valint bom report.sarif --predicate-type http://docs.oasis-open.org/sarif/sarif/
 ```
 
 ### Format
-```
+```json
 {
   "_type": "https://in-toto.io/Statement/v0.1",
   
