@@ -356,7 +356,6 @@ For example:
            "allow": allow
         }
 
-
         allow = {
           input.evidence.predicate-type == "https://cyclonedx.org/bom"
         }
@@ -381,7 +380,6 @@ Custom rego script provided the following output.
   "allow": <true | false>
 }
 ```
-
 
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
