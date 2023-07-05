@@ -42,7 +42,7 @@ Flags for `valint`
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
-| -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |

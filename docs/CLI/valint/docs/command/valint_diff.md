@@ -56,7 +56,7 @@ global flag for all commands
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
-| -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
 | -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
 
 
