@@ -15,16 +15,18 @@ There are multiple ways in which Scribe can assist you in verifying the integrit
 
 # How does it work
 
-Here's an example yaml workflow for creating a signed SBOM using *Valint* after each commit. Notice the label flag with "*is_git_commit*".
+Source code integrity requires three SBOMs that share the same commit hash and are produced inside two different workflows, in this sequence: 
+
+1. The first workflow produces git_commit SBOM and is automatically triggered on push (only once per commit and should never be triggered manually). Here's an example yaml workflow for creating a signed SBOM using *Valint* upon commit. Notice the label flag with "*is_git_commit*".
 
 ```yaml
 name: Create signed git commit sbom
 
 on:
   workflow_dispatch:
-  # push:
-    # branches:
-    #   - master
+  push:
+    branches:
+      - master
 
 jobs:
   checkout-sign:
@@ -49,9 +51,11 @@ jobs:
 
 To learn more about how *Valint* is used to sign evidence and about `sigstore-github`, check out *Valint*'s sign-verify [page](../../docs/signVerify "Signing And Verifying Evidence").
 
-You can run this workflow manually or make it automatic by removing the commenting on the *'push:'* section. Obviously running it automatically on every commit is preferable.
+The git_commit SBOM is "guaranteed to be valid", is produced once per commit, in a dedicated and highly protected workflow that requires elevated permission to be modified. It is labeled using "*is_git_commit*" to denote that git_clone SBOMs sharing the same commit hash should be validated against this git_commit.
 
-To create an SBOM of your checkout repo you need to use *Valint* again right after your CI/CD checkout. As this step is dependent on your CI/CD platform I encourage you to go to our [CI Integrations page](../../docs/ci-integrations "CI Integrations") to see what we can offer.
+2. The second workflow produces *git_clone* and *image* in a sequence (inside the same pipeline run). To create an SBOM of your checkout repo you need to use *Valint* again right after your CI/CD checkout (the *git_clone*). As this step is dependent on your CI/CD platform I encourage you to go to our [CI Integrations page](../../docs/ci-integrations "CI Integrations") to see what we can offer.
+
+The *git_clone* SBOM should be produced immediately after checkout and before the image was built. It shares the commit hash of the *git_commit* SBOM but isn't labeled with *is_git_commit*.
 
 As an example, here's what you need to do in a general pipeline where you use CLI commands:
 
@@ -68,7 +72,8 @@ $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
    --scribe.client-secret=$CLIENT-SECRET -E -f -v
 ```
 
-After the image is built and the evidence collected is sent to the Scribe platform our backend will compare the checkout SBOM with the SBOM from the relevant commit. Scribe matches the checkout SBOM to the commit SBOM by comparing the commit id (also known as a commit hash) that is present in each SBOM we create. Another important point is that the commit SBOM and the checkout SBOM should be from different pipeline runs. If any of these SBOMs isn't found Scribe would simply skip this integrity check.
+At the end of the second workflow an *image* SBOM is created. It shares the commit hash of the *git_clone* and *git_commit* which preceded it and is produced in the same pipeline and immediately after the *git_clone*.
+After the image is built and the evidence collected is sent to the Scribe platform our backend will compare the checkout SBOM with the SBOM from the relevant commit. If any of these SBOMs isn't found Scribe would simply skip this integrity check.
 
 The result would appear as part of your project icon:
 
