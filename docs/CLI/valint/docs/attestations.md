@@ -35,7 +35,7 @@ signer:
         oidc:
             auth: interactive
             issuer: https://oauth2.sigstore.dev/auth
-            clientid: sigstore
+            client-id: sigstore
 verifier:
     fulcio:
         enable: true
@@ -111,9 +111,9 @@ X509 Signer enables the utilization of environments for supplying key, certifica
 >  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
 
 ```bash
-export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
-export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
-export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+export SIGNER_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
+export COMPANY_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export SIGNER_KEY=$(cat /etc/cocosign/keys/private/default.pem)
 
 valint bom busybox:latest -o attest
 valint verify busybox:latest
@@ -124,14 +124,14 @@ Config example
 signer:
     x509:
         enable: true
-        private: env://ATTEST_KEY
-        cert: env://ATTEST_CERT
-        ca: env://ATTEST_CA
+        private: env://SIGNER_KEY
+        cert: env://SIGNER_CERT
+        ca: env://COMPANY_CA
 verifier:
     x509:
         enable: true
-        cert: env://ATTEST_CERT
-        ca: env://ATTEST_CA
+        cert: env://SIGNER_CERT
+        ca: env://COMPANY_CA
 ```
 </details>
 
@@ -233,7 +233,7 @@ signer:
 	    url: <sigstore_url>
 	    oidc:
 	        issuer: <sigstore_issuer_url>
-	        clientid: <sigstore_client_id>
+	        client-id: <sigstore_client_id>
 	        client-secret: <sigstore_client_secret>
 	        token:<external_token> - for auth=token, enter the OIDC identity token
 	kms:
