@@ -1380,6 +1380,24 @@ valint bom busybox:latest --env test_env --label test_label
 
 
 <details>
+  <summary>  NTIA Custom metadata (SBOM) </summary>
+
+Custom NTIA metadata added to SBOM.
+
+```bash
+valint bom busybox:latest \
+      --author-name=bob \
+      --author-email=bob@company.com \
+      --author-phone=000 \
+      --supplier-name=alice \
+      --supplier-url=company2.com \
+      --supplier-email=alice@company2.com \
+      --supplier-phone=001
+```
+</details>
+
+
+<details>
   <summary> Custom evidence location </summary>
 
 Use flags `--output-directory` or `--output-file` flags to set the default location.
