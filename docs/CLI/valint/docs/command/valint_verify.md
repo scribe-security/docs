@@ -34,7 +34,7 @@ Flags for all `valint` subcommands
 | | --app-name | Logical application name | |
 | | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
@@ -61,6 +61,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
@@ -74,6 +75,7 @@ Flags for all `valint` subcommands
 
   valint verify alpine:latest                         verify target against signed attestation of sbom
   valint verify alpine:latest -i attest-slsa          verify target against signed attestation of SLSA provenance
+  valint verify file.json -i attest-generic 	  	  verify file as evidence
   valint verify alpine:latest -vv                     show verbose debug information
 
   Supports the following image sources:
@@ -87,11 +89,19 @@ Flags for all `valint` subcommands
   valint verify registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
   valint verify file:path/to/yourproject/file          read directly from a path on disk (any single file)
 
-  Example:
+  SBOM-Example:
   valint bom alpine:latest -o attest
   valint verify alpine:latest -i attest
 
-  Format-aliases:
+  SLSA-Example:
+  valint bom alpine:latest -o attest-slsa
+  valint verify alpine:latest -i attest-slsa
+
+  Generic-Example:
+  valint bom file.json -o attest-generic
+  valint verify file.sjon -i attest-generic
+
+  Input-Format-aliases:
   * statement=statement-cyclonedx-json
   * attest=attest-cyclonedx-json
 

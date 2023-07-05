@@ -15,7 +15,7 @@ Flags for `valint`
 | | --app-name | Logical application name | |
 | | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509] | "sigstore" |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
@@ -43,6 +43,7 @@ Flags for `valint`
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.production.scribesecurity.com" |
+| | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
