@@ -447,6 +447,29 @@ Custom metadata added to SBOM.
 ```
 </details>
 
+<details>
+  <summary>  NTIA Custom metadata (SBOM) </summary>
+
+Custom NTIA metadata added to SBOM.
+
+```YAML
+- name: Generate cyclonedx json SBOM - add NTIA metadata
+  id: valint_ntia
+  uses: scribe-security/action-bom@master
+  with:
+      target: 'busybox:latest'
+      format: json
+      force: true
+      author-name: bob
+      author-email: bob@company.com
+      author-phone: 000
+      supplier-name: alice
+      supplier-url: company2.com
+      supplier-email: alice@company2.com
+      supplier-phone: 001
+```
+</details>
+
 
 <details>
   <summary> Save as artifact (SBOM, SLSA) </summary>
