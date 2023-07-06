@@ -24,7 +24,7 @@ To run the demo you need to:
 
 1. login to your GitHub account.
 
-2. clone the **[demo repo](https://github.com/Scribe-public-demos "demo repo")** (the repo contains a simple ‘Hello-World’ app - an NPM based web server).  
+2. clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (the repo contains a simple ‘Hello-World’ app - an NPM based web server).  
 
 3. Define two new secret variables to be used with the workflows: a `Client ID` and a `Client secret`.  To do that go to settings→ Secrets and variables → Actions→ New repository secret.
 
