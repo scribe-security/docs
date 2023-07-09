@@ -235,8 +235,8 @@ signer:
             auth: <interactive|provider|password>
 	        issuer: <sigstore_issuer_url>
 	        clientid: <sigstore_client_id>
-	        client-secret: <sigstore_client_secret>
-	        token:<external_token> - for auth=token, enter the OIDC identity token
+	        clientsecret: <sigstore_client_secret>
+	        token: <external_token> - for auth=token, enter the OIDC identity token
 	kms:
 	    enable: <true|false>
 	    ref: <kms_ref>
