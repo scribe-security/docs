@@ -232,6 +232,7 @@ signer:
 	    enable: <true|false>
 	    url: <sigstore_url>
 	    oidc:
+            auth: <interactive|provider|password>
 	        issuer: <sigstore_issuer_url>
 	        clientid: <sigstore_client_id>
 	        client-secret: <sigstore_client_secret>
