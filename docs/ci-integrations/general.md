@@ -28,19 +28,40 @@ Here is an example for setting your *client id* and *client secret* credentials 
    ```
    Replace <client_id> with the client id value you received from **Scribe Hub** and the same goes for the <client_secret> to set them up as environment variables. 
 
-3. Call Scribe `valint` from your build script.
+3. Add the other information needed like the app-logical-name, the app-version and other SBOM meta data:
+   ```js
+   export LOGICAL-APP-NAME=<demo-project>
+   export APP-VERSION=<1.0.1>
+   export AUTHOR-NAME=<John-Smith>
+   export AUTHOR-EMAIL=<jhon@thiscompany.com>
+   export AUTHOR-PHONE=<555-8426157>
+   export SUPPLIER-NAME=<Scribe-Security>
+   export SUPPLIER-URL=<www.scribesecurity.com>
+   export SUPPLIER-EMAIL=<info@scribesecurity.com>
+   export SUPPLIER-PHONE=<001-001-0011>
+   ```
+
+4. Call Scribe `valint` from your build script.
 <!--- Copy from illustration -->
 These are the two points for adding Scribe Hub code:
 * **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v
+--scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
+--logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+--author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
+--supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+--supplier-phone $SUPPLIER-PHONE
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
    $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f -v
+   --scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
+   --logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+   --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
+   --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+   --supplier-phone $SUPPLIER-PHONE
 ```
 

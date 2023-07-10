@@ -102,6 +102,19 @@ before_script:
   - apt install git curl -y
   - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
+variables:
+  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+  APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
+  # SBOM Author meta data
+  AUTHOR_NAME: John-Smith 
+  AUTHOR_EMAIL: jhon@thiscompany.com 
+  AUTHOR_PHONE: 555-8426157 
+  # SBOM Supplier meta data
+  SUPPLIER_NAME: Scribe-Security 
+  SUPPLIER_URL: www.scribesecurity.com 
+  SUPPLIER_EMAIL: info@scribesecurity.com
+  SUPPLIER_PHONE: 001-001-0011  
+
 stages:
     - scribe-gitlab-stage
 
@@ -113,13 +126,21 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-           -f
+          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
+          --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
+          --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
+          --supplier-phone $SUPPLIER_PHONE 
+          -f
 
       - valint verify [target]
           -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
+          --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
+          --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
+          --supplier-phone $SUPPLIER_PHONE
 ```
 
 > Use `gitlab` as context-type.
@@ -148,6 +169,7 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: "/certs"
+
 services:
   - docker:dind
 

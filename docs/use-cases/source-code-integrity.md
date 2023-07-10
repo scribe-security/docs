@@ -59,23 +59,42 @@ As an example, here's what you need to do in a general pipeline where you use CL
 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v
+--scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
+--logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+--author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
+--supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+--supplier-phone $SUPPLIER-PHONE
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
    $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f -v
+   --scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
+   --logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+   --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
+   --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+   --supplier-phone $SUPPLIER-PHONE   
 ```
 
 After the image is built and the evidence collected is sent to the Scribe platform our backend will compare the checkout SBOM with the SBOM from the relevant commit. Scribe matches the checkout SBOM to the commit SBOM by comparing the commit id (also known as a commit hash) that is present in each SBOM we create. Another important point is that the commit SBOM and the checkout SBOM should be from different pipeline runs. If any of these SBOMs isn't found Scribe would simply skip this integrity check.
 
 The result would appear as part of your project icon:
 
-<img src='../../../img/ci/integrity.jpg' alt='Project integrity example'/>
+<!-- <img src='../../../img/ci/integrity.jpg' alt='Project integrity example'/> -->
+<img src='../../../img/ci/integrity-validated-1.jpg' alt='Project integrity example'/>
 
-In this example the project's source code integrity has been validated. If there is a problem you'll see a large red <span style={{"color": "red"}}><b>'X'</b></span>.
+This is how a specific validated build run would look:
 
-Clicking on the icon displays the breakdown of the integrity analysis.
+<img src='../../../img/ci/integrity-validated-3.jpg' alt='build integrity example'/>
+
+In this example the project's source code integrity has been validated. If there is a problem you'll see this result:
+
+<img src='../../../img/ci/integrity-modified-1.jpg' alt='Project integrity modified example'/>
+
+And this is how a specific modified build run would look:
+
+<img src='../../../img/ci/integrity-modified-2.jpg' alt='build integrity modified example'/>
+
+Clicking on the build run displays the breakdown of the integrity analysis.
 
 

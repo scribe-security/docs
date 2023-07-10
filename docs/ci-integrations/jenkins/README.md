@@ -84,6 +84,17 @@ The examples use a sample pipeline building a Mongo express project.
 ```javascript
 pipeline {
   agent any
+  environment {
+    LOGICAL_APP_NAME="demo-project"
+    APP_VERSION=1.0.1
+    AUTHOR_NAME="John-Smith" 
+    AUTHOR_EMAIL="jhon@thiscompany.com" 
+    AUTHOR_PHONE="555-8426157" 
+    SUPPLIER_NAME="Scribe-Security" 
+    SUPPLIER_URL="www.scribesecurity.com" 
+    SUPPLIER_EMAIL="info@scribesecurity.com"
+    SUPPLIER_PHONE="001-001-0011"
+  }
   stages {
     stage('checkout') {
       steps {
@@ -106,8 +117,11 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
         }
       }
     }
@@ -126,8 +140,11 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-            '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
           }
       }
     }
@@ -165,6 +182,17 @@ pipeline {
       yamlFile 'jenkins/k8s/scribe-test/KubernetesPod.yaml'
     }
   }
+  environment {
+    LOGICAL_APP_NAME="demo-project"
+    APP_VERSION=1.0.1
+    AUTHOR_NAME="John-Smith" 
+    AUTHOR_EMAIL="jhon@thiscompany.com" 
+    AUTHOR_PHONE="555-8426157" 
+    SUPPLIER_NAME="Scribe-Security" 
+    SUPPLIER_URL="www.scribesecurity.com" 
+    SUPPLIER_EMAIL="info@scribesecurity.com"
+    SUPPLIER_PHONE="001-001-0011"
+  }
   stages {
     stage('checkout-bom') {
       steps {        
@@ -178,7 +206,11 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
           }
         }
       }
@@ -192,7 +224,11 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
           }
         }
       }
@@ -246,6 +282,15 @@ pipeline {
   agent any
   environment {
     PATH="./temp/bin:$PATH"
+    LOGICAL_APP_NAME="demo-project"
+    APP_VERSION=1.0.1
+    AUTHOR_NAME="John-Smith" 
+    AUTHOR_EMAIL="jhon@thiscompany.com" 
+    AUTHOR_PHONE="555-8426157" 
+    SUPPLIER_NAME="Scribe-Security" 
+    SUPPLIER_URL="www.scribesecurity.com" 
+    SUPPLIER_EMAIL="info@scribesecurity.com"
+    SUPPLIER_PHONE="001-001-0011"
   }
   stages {
     stage('install') {
@@ -267,7 +312,11 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
         }
       }
     }
@@ -279,7 +328,11 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET'''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
           }
       }
     }
