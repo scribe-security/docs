@@ -28,14 +28,7 @@ After creating your SBOM, Scribe uses the SBOM to analyze and validate your soft
 \>\> [Read more about SBOM](https://scribesecurity.com/sbom/)
 ### Integrity Validation and Open Source Authentication 
 
- Scribe validates the integrity of your software build by tracking the hash value of every file from its origin to the built artifact.
-
-
-The origin of the files can be internal (from your organization), or from an external third party. For example: 
-
-  - A code repo
-  - A package manager
-  - A container registry
+Scribe can validate the integrity of your source code by tracking the hash value of every file from its commit to the build pipeline.
 
 Scribe flags suspicious modifications while accounting for legitimate changes such as linting and compilation in the validation process.
 
@@ -50,4 +43,3 @@ Scribe enriches SBOMs with validation information and creates integrity reports 
 ### Signing critical files 
 
 Throughout the software development lifecycle (SDLC), advanced users can cryptographically [sign and validate](signVerify.md "sign and validate") critical evidence using Sigstore keys by default or by employing customer keys. Cryptographically signing and validating provides resistance against tampering. It extends software signing to the SDLC.
-

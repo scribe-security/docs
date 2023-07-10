@@ -24,14 +24,14 @@ Scribe allows you to connect an unlimited number of projects/pipelines to the Hu
 
 ## Procedure 
 1. In your browser, go to **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. If you have not yet registered, do so now.
-2. Once you have logged in to the **Scribe Hub** go to Home>Products>[$product]>Setup. Even if this is your first time visiting the **Scribe Hub** you'll already have a Demo Product you can interact with. [$product] can be the Demo Product or a new product that you choose to integrate with the **Scribe Hub**.
+2. Once you have logged in to the **Scribe Hub** go to Products>add product. Even if this is your first time visiting the **Scribe Hub** you'll already have a Demo Product you can interact with. 
 
 3. Once you have a project you want to connect to Scribe Hub, follow these [instructions to set up your CI pipeline](/docs/ci-integrations "instructions to set up your CI pipeline").
 
 ## Trying out Scribe
 
 You can try Scribe by downloading a small [sample project](/docs/sampleproject  "sample project").
-The Instructions will walk you through the process of setting up the sample node.js project, downloading the Scribe tool, `valint`, and running it in your Command Line Interpreter (CLI) to create an SBOM and an integrity report.
+The Instructions will walk you through the process of setting up the sample GitHub project, and running the proper workflows in sequence to demonstrate Scribe's capabilities such as a product SBOM and source code integrity.
 
 
 

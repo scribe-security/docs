@@ -68,6 +68,17 @@ Integrating Scribe Hub with your environment requires the following credentials 
 ```yaml
 name:  scribe_github_workflow
 
+env:
+  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+  AUTHOR_NAME: John-Smith # The Author Name that would appear in the SBOM
+  AUTHOR_EMAIL: jhon@thiscompany.com # The Author Email that would appear in the SBOM
+  AUTHOR_PHONE: 555-8426157 # The Author Phone that would appear in the SBOM
+  # The Supplier information that would appear in the SBOM
+  SUPPLIER_NAME: Scribe-Security 
+  SUPPLIER_URL: www.scribesecurity.com 
+  SUPPLIER_EMAIL: info@scribesecurity.com
+  SUPPLIER_PHONE: 001-001-0011
+
 on: 
   push:
     tags:
@@ -85,6 +96,15 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
+          app-name: $LOGICAL_APP_NAME
+          app-version: ${{github.run_number}}
+          author-name: $AUTHOR_NAME
+          author-email: $AUTHOR_EMAIL
+          author-phone: $AUTHOR_PHONE
+          supplier-name: $SUPPLIER_NAME
+          supplier-url: $SUPPLIER_URL
+          supplier-email: $SUPPLIER_EMAIL 
+          supplier-phone: $SUPPLIER_PHONE
 
         uses: scribe-security/action-verify@master
         with:
@@ -93,6 +113,15 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
+          app-name: $LOGICAL_APP_NAME
+          app-version: ${{github.run_number}}
+          author-name: $AUTHOR_NAME
+          author-email: $AUTHOR_EMAIL
+          author-phone: $AUTHOR_PHONE
+          supplier-name: $SUPPLIER_NAME
+          supplier-url: $SUPPLIER_URL
+          supplier-email: $SUPPLIER_EMAIL 
+          supplier-phone: $SUPPLIER_PHONE
 ```
 
 ## OCI Evidence store
@@ -115,6 +144,17 @@ For example, using `docker login` command or `docker/login-action` action.
 ### Usage
 ```yaml
 name:  scribe_github_workflow
+
+env:
+  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+  AUTHOR_NAME: John-Smith # The Author Name that would appear in the SBOM
+  AUTHOR_EMAIL: jhon@thiscompany.com # The Author Email that would appear in the SBOM
+  AUTHOR_PHONE: 555-8426157 # The Author Phone that would appear in the SBOM
+  # The Supplier information that would appear in the SBOM
+  SUPPLIER_NAME: Scribe-Security 
+  SUPPLIER_URL: www.scribesecurity.com 
+  SUPPLIER_EMAIL: info@scribesecurity.com
+  SUPPLIER_PHONE: 001-001-0011
 
 on: 
   push:
@@ -140,6 +180,15 @@ jobs:
           format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
+          app-name: $LOGICAL_APP_NAME
+          app-version: ${{github.run_number}}
+          author-name: $AUTHOR_NAME
+          author-email: $AUTHOR_EMAIL
+          author-phone: $AUTHOR_PHONE
+          supplier-name: $SUPPLIER_NAME
+          supplier-url: $SUPPLIER_URL
+          supplier-email: $SUPPLIER_EMAIL 
+          supplier-phone: $SUPPLIER_PHONE
 
       - name:  Verify policy step
         uses: scribe-security/action-verify@master
@@ -148,6 +197,15 @@ jobs:
           format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
+          app-name: $LOGICAL_APP_NAME
+          app-version: ${{github.run_number}}
+          author-name: $AUTHOR_NAME
+          author-email: $AUTHOR_EMAIL
+          author-phone: $AUTHOR_PHONE
+          supplier-name: $SUPPLIER_NAME
+          supplier-url: $SUPPLIER_URL
+          supplier-email: $SUPPLIER_EMAIL 
+          supplier-phone: $SUPPLIER_PHONE
 ```
 
 ## Connecting ScribeApp to Your Organizational GitHub Account

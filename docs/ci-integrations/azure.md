@@ -93,6 +93,16 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
   variables:
     imageName: 'pipelines-javascript-docker'
+    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+    AUTHOR_NAME: John-Smith # The Author Name that would appear in the SBOM
+    AUTHOR_EMAIL: jhon@thiscompany.com # The Author Email that would appear in the SBOM
+    AUTHOR_PHONE: 555-8426157 # The Author Phone that would appear in the SBOM
+    # The Supplier information that would appear in the SBOM
+    SUPPLIER_NAME: Scribe-Security 
+    SUPPLIER_URL: www.scribesecurity.com 
+    SUPPLIER_EMAIL: info@scribesecurity.com
+    SUPPLIER_PHONE: 001-001-0011
+
 
   steps:
   - task: scribeInstall@0
@@ -105,7 +115,16 @@ Integrating Scribe Hub with your environment requires the following credentials 
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
-      scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: ${{github.run_number}}
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-phone: $(SUPPLIER_PHONE)
 
   - task: ValintCli@0
     inputs:
@@ -115,7 +134,16 @@ Integrating Scribe Hub with your environment requires the following credentials 
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
-      scribeClientSecret:  $(SCRIBE-CLIENT-SECRET)
+      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: ${{github.run_number}}
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-phone: $(SUPPLIER_PHONE)
 ```
 
 ## OCI Evidence store
@@ -143,6 +171,15 @@ For example, using `docker login` command.
 
   variables:
     imageName: 'pipelines-javascript-docker'
+    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+    AUTHOR_NAME: John-Smith # The Author Name that would appear in the SBOM
+    AUTHOR_EMAIL: jhon@thiscompany.com # The Author Email that would appear in the SBOM
+    AUTHOR_PHONE: 555-8426157 # The Author Phone that would appear in the SBOM
+    # The Supplier information that would appear in the SBOM
+    SUPPLIER_NAME: Scribe-Security 
+    SUPPLIER_URL: www.scribesecurity.com 
+    SUPPLIER_EMAIL: info@scribesecurity.com
+    SUPPLIER_PHONE: 001-001-0011
 
   steps:
   - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
@@ -157,6 +194,15 @@ For example, using `docker login` command.
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: ${{github.run_number}}
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-phone: $(SUPPLIER_PHONE)
 
   - task: ValintCli@0
     inputs:
@@ -166,6 +212,15 @@ For example, using `docker login` command.
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: ${{github.run_number}}
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-phone: $(SUPPLIER_PHONE)
 ```
 
 ## Basic examples

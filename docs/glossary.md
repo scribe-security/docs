@@ -70,6 +70,7 @@ The software supply chain refers to everything involved in the development of an
 
 You can read more about it [here](https://scribesecurity.com/software-supply-chain-security/ "Read more about Software Supply Chain").
 
+<!---
 ### Verbose
 Verbose mode is an option that provides additional details as to what the command used is doing. Usually, the higher the verbose value, the more details the command will provide. A higher verbose value is often used in debugging mode.
-
+--->
