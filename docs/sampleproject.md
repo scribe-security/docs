@@ -47,7 +47,7 @@ To run the demo you need to:
 4. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
 Click ‘I understand my workflows, go ahead and enable them’.
 
-   <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='90%'/>
+   <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
 
 This would lead you to your 'Actions' tab:   
 
