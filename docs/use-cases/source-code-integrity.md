@@ -20,22 +20,31 @@ Here's an example yaml workflow for creating a signed SBOM using *Valint* after 
 ```yaml
 name: Create signed git commit sbom
 
-on:
-  workflow_dispatch:
-  # push:
-    # branches:
-    #   - master
+on: push
 
-jobs:
-  checkout-sign:
+env:
+  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
+  APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
+  # SBOM Author meta data - Optional
+  AUTHOR_NAME: John-Smith 
+  AUTHOR_EMAIL: jhon@thiscompany.com 
+  AUTHOR_PHONE: 555-8426157 
+  # SBOM Supplier meta data - Optional
+  SUPPLIER_NAME: Scribe-Security 
+  SUPPLIER_URL: www.scribesecurity.com 
+  SUPPLIER_EMAIL: info@scribesecurity.com
+  SUPPLIER_PHONE: 001-001-0011
+
+build:
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write # workload identity access needed for signing using sigstore-github 
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Generate signed SBOM for repo content
+    - name: Generate signed git SBOM
       uses: scribe-security/action-bom@master
       with:
         target: 'git:.'
@@ -43,13 +52,20 @@ jobs:
         product-key: ${{ github.repository }}
         scribe-client-id: ${{ secrets.CLIENT_ID }}
         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
+        app-name: $LOGICAL_APP_NAME
+        app-version: $APP_VERSION
+        author-name: $AUTHOR_NAME
+        author-email: $AUTHOR_EMAIL
+        author-phone: $AUTHOR_PHONE
+        supplier-name: $SUPPLIER_NAME
+        supplier-url: $SUPPLIER_URL
+        supplier-email: $SUPPLIER_EMAIL 
+        supplier-phone: $SUPPLIER_PHONE
         label: is_git_commit
         format: attest
 ```
 
 To learn more about how *Valint* is used to sign evidence and about `sigstore-github`, check out *Valint*'s sign-verify [page](../../docs/signVerify "Signing And Verifying Evidence").
-
-You can run this workflow manually or make it automatic by removing the commenting on the *'push:'* section. Obviously running it automatically on every commit is preferable.
 
 To create an SBOM of your checkout repo you need to use *Valint* again right after your CI/CD checkout. As this step is dependent on your CI/CD platform I encourage you to go to our [CI Integrations page](../../docs/ci-integrations "CI Integrations") to see what we can offer.
 

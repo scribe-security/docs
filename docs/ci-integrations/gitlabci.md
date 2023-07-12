@@ -105,11 +105,11 @@ before_script:
 variables:
   LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
   APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
-  # SBOM Author meta data
+  # SBOM Author meta data - Optional
   AUTHOR_NAME: John-Smith 
   AUTHOR_EMAIL: jhon@thiscompany.com 
   AUTHOR_PHONE: 555-8426157 
-  # SBOM Supplier meta data
+  # SBOM Supplier meta data - Optional
   SUPPLIER_NAME: Scribe-Security 
   SUPPLIER_URL: www.scribesecurity.com 
   SUPPLIER_EMAIL: info@scribesecurity.com
