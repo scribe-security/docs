@@ -1102,6 +1102,19 @@ The following table includes the formats supported by the verification command.
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
 > See signing details, see [attestations](docs/attestations.md)
 
+### Extracting the predicate from attestation
+You may use the following command to extract evidence from a encoded attestation file.
+```bash
+valint bom [target] -o [attest, attest-slsa, attest-generic] -o my_attestation.sig
+
+cat my_attesataion.sig | jq -r '.payload' | base64 -d | jq -r '.payload' | base64 --decode | jq '.predicate' > predicate.json
+```
+
+You can further extract specific predicate field, for example for SBOM evidence (`attest`) use the following command.
+```bash 
+cat my_attesataion.sig | jq -r '.payload' | base64 -d | jq -r '.payload' | base64 --decode | jq '.predicate' | jq '.bom' > bom.json
+```
+
 # CLI - Use Valint as a command line tool
 
 ## Evidence Generator - `bom` command
