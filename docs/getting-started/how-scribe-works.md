@@ -24,8 +24,8 @@ There are two types of optional sensors: connecting Scribe Hub to your SCM or Co
 
 ## Trying out Scribe
 
-You can try Scribe by downloading a small [sample project](/docs/how-to-run-scribe/sampleproject  "sample project").
-The Instructions will walk you through the process of setting up the sample GitHub project, and running the proper workflows in sequence to demonstrate Scribe's capabilities such as a product SBOM and source code integrity.
+You can try Scribe by trying out our [sample project](quick-start  "sample project").
+The Instructions will walk you through the process of setting up the sample GitHub project, running the proper workflows in sequence to demonstrate Scribe's capabilities such as a product SBOM and source code integrity, and viewing the results in the Scribe Hub.
 
 
 
