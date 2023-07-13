@@ -7,7 +7,7 @@ Scribe offers GitHub Actions for embedding evidence collecting and validated int
 
 Use `valint verify` to verify evidence (attestations) and policies.
 
-Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+Further documentation [Github integration](../github/)
 
 
 ## Other Actions

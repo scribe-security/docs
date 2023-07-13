@@ -7,7 +7,7 @@ Scribe offers GitHub Actions for embedding evidence collecting and validated int
 
 Use `installer` to install Scribe tools in your workflow.
 
-For Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+For Further documentation [Github integration](../github/)
 
 ## Other Actions
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)

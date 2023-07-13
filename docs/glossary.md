@@ -30,7 +30,7 @@ Scribe knows how to collect evidence from several entities:
 
 Targeting one of these entities with the Scribe tool allows you to collect evidence about that target. That evidence might be slightly different depending on the selected target. The evidence collected could include an SBOM in the OWASP CycloneDX format and SLSA Provenance. The evidence might be standalone or packaged as either an in-toto attestation or an in-toto statement. The evidence collected includes context information - what is the environment in which the evidence collection took place, which process called the collector etc. Environment context is key to connecting evidence not only to the target but to its origin in your supply chain (provenance).
 
-You can view which environments are supported by Scribe's tool [here](../docs/ci-integrations "integrating Scribe into a pipeline").
+You can view which environments are supported by Scribe's tool [here](how-to-run-scribe/ci-integrations/ "integrating Scribe into a pipeline").
 
 ### Hash Value
 A hash value is a numeric value of a fixed length that uniquely identifies data. Hash values represent large amounts of data as much smaller numeric values. Since each piece of data generates a unique hash value these strings can be used in algorithms comparing data pieces or files. 
@@ -41,7 +41,7 @@ In-toto is a framework built to secure the integrity of software supply chains. 
 You can read more about in-toto [here](https://in-toto.io/ "in-toto framework"). 
 
 ### In-toto Attestation 
-An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. An [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link") is authenticated (cryptographically signed) metadata about one or more software artifacts, as per the [SLSA Attestation Model](https://github.com/slsa-framework/slsa/blob/main/controls/attestations "SLSA Attestation Model GitHub link").
+An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. An [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link") is authenticated (cryptographically signed) metadata about one or more software artifacts, as per the [SLSA Attestation Model](https://github.com/slsa-framework/slsa/blob/main/docs/attestation-model.md "SLSA Attestation Model GitHub link").
 
 ### In-toto Statement  
 An in-toto Statement is almost identical to an in-toto attestation. The only difference is that the in-toto Statement is not cryptographically signed. Other than that it's packaged in exactly the same way as an  [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link").
