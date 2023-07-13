@@ -8,7 +8,7 @@ Validate Supply Chain Integrity
 
 ### Synopsis
 
-Command Line Interpreter (CLI) tool,that empowers supply chain stakeholders to ensure supply chain integrity, verify compliance, and generate and manage evidence.
+Command Line Interpreter (CLI) tool, that empowers supply chain stakeholders to ensure supply chain integrity, verify compliance, and generate and manage evidence.
 
 ### Optional flags 
 Flags for `valint`
