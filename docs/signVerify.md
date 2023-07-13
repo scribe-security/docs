@@ -4,7 +4,7 @@ sidebar_label: "Attest And Verify"
 ---
 
 # Signing And Verifying Evidence 
-An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. Scribe's tool *Valint* allows you to not only create various pieces of evidence based on different forms of an SBOM, but also to sign them into an attestation. Once signed, you can later verify that the file or folder or image you have signed is indeed intact and trustworthy. You can read more about an in-toto attestation [here](https://github.com/in-toto/attestation "in-toto attestation GitHub link") and about the SLSA Attestation Model [here](https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md "SLSA Attestation Model GitHub link").
+An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. Scribe's tool *Valint* allows you to not only create various pieces of evidence based on different forms of an SBOM, but also to sign them into an attestation. Once signed, you can later verify that the file or folder or image you have signed is indeed intact and trustworthy. You can read more about an in-toto attestation [here](https://github.com/in-toto/attestation "in-toto attestation GitHub link") and about the SLSA Attestation Model [here](https://github.com/slsa-framework/slsa/blob/main/controls/attestations "SLSA Attestation Model GitHub link").
 
 ## Supported format tables
 Following table includes the supported format.
@@ -74,7 +74,7 @@ Following table includes the supported format.
    Are you sure you want to continue? (y/[N]):
    ```   
 
-   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, x509 (public key certificates) or KMS (key management system). You can check out the configuration file [here](ci-integrations/github/docs/configuration.md "Configuration file").
+   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-github, x509 (public key certificates) or KMS (key management system). You can check out the configuration file [here](ci-integrations/github/docs/configuration "Configuration file").
 
    Assuming you approve, you'll be directed to *Sigstore* in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 

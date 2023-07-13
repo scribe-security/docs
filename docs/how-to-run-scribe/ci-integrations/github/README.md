@@ -315,7 +315,7 @@ There you can examine the workflows and actions you have run on this GutHub repo
 
 <img src='../../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' width='70%' min-width='750px'/>
 
-The provenance information is in <a href='../glossary.md#in-toto'>in-toto</a> format and looks like this:
+The provenance information is in <a href='../glossary#in-toto'>in-toto</a> format and looks like this:
 
 <img src='../../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format' width='70%' min-width='750px'/>
 
@@ -341,11 +341,11 @@ To see the full breakdown of policies - exactly which policies have passed or fa
 
 There are 12 SLSA policies that Scribe checks and if all of them are checked out (pass) that means that the build is approved for SLSA level 3.
 
-To learn more about each policy you can either click on them or see the explanation page [here](../../slsapolicies.md).
+To learn more about each policy you can either click on them or see the explanation page [here](../../../slsapolicies).
 
 There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
 
-To learn more about each policy you can either click on them or see the explanation page [here](../../ssdfpolicies.md).
+To learn more about each policy you can either click on them or see the explanation page [here](../../../ssdfpolicies).
 
 
 

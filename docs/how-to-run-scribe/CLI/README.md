@@ -13,6 +13,6 @@ All CLIs are accessible via Docker and binary.
 Follow installation and usage instructions here:
 
 * Valint - Valint tool provides a tool to verify the integrity of a supply chain. \
-  See [CLI documentation - Valint](valint/README.md)
+  See [CLI documentation - Valint](valint/README)
 
 * Fs-tracker - TBD

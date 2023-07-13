@@ -177,7 +177,7 @@ In-toto Attestations are a standard that defines a way to authenticate metadata 
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
 Default settings are available using `--attest.default` flag. <br />
-Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
 
 The following table includes the formats supported by the verification command.
 
@@ -192,7 +192,7 @@ The following table includes the formats supported by the verification command.
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
-> See signing details, see [attestations](docs/attestations.md)
+> See signing details, see [attestations](docs/attestations)
 
 # CLI
 
@@ -207,7 +207,7 @@ Evidence can be tailor-made to fit your supply chain policies and transparency n
 gensbom [scheme]:[name]:[tag]
 ```
 
-See details [CLI documentation - gensbom](docs/command/gensbom.md)
+See details [CLI documentation - gensbom](docs/command/gensbom)
 
 ### Examples
 <details>
@@ -324,7 +324,7 @@ gensbom [scheme]:[name]:[tag] -o [attest, statement, attest-slsa, statement-slsa
 gensbom verify [scheme]:[name]:[tag] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
 ```
 
-See details [CLI documentation - verify](docs/command/gensbom_verify.md)
+See details [CLI documentation - verify](docs/command/gensbom_verify)
 
 ## OCI storage
 Gensbom supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
@@ -357,7 +357,7 @@ gensbom verify [image] -i [attest, statement, attest-slsa, statement-slsa, attes
 ## Configuration
 Use default configuration path `.gensbom.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [configuration](docs/configuration.md)
+See detailed [configuration](docs/configuration)
 
 # Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is and awesome tool that  aims to make signatures invisible infrastructure.

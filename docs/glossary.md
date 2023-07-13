@@ -41,7 +41,7 @@ In-toto is a framework built to secure the integrity of software supply chains. 
 You can read more about in-toto [here](https://in-toto.io/ "in-toto framework"). 
 
 ### In-toto Attestation 
-An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. An [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link") is authenticated (cryptographically signed) metadata about one or more software artifacts, as per the [SLSA Attestation Model](https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md "SLSA Attestation Model GitHub link").
+An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. An [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link") is authenticated (cryptographically signed) metadata about one or more software artifacts, as per the [SLSA Attestation Model](https://github.com/slsa-framework/slsa/blob/main/controls/attestations "SLSA Attestation Model GitHub link").
 
 ### In-toto Statement  
 An in-toto Statement is almost identical to an in-toto attestation. The only difference is that the in-toto Statement is not cryptographically signed. Other than that it's packaged in exactly the same way as an  [in-toto attestation](https://github.com/in-toto/attestation "in-toto attestation GitHub link").

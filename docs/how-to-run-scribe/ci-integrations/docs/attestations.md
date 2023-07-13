@@ -130,7 +130,7 @@ attest:
 
 ### **KMS**
 Sigstore based KMS signer allows users to sign via kms.
-[doc](https://github.com/sigstore/cosign/blob/main/KMS.md) for Ref details.
+[doc](https://github.com/sigstore/cosign/blob/main/KMS) for Ref details.
     - Support `KMSREF` environment variable (when configuration field is empty).
     - Support static ref set by configuration or env.
     - Support in-band ref verification flow by using the `REF` signature option.

@@ -210,7 +210,7 @@ attest:
             input: {} # Module input, depending on the module type
 ``` 
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see [configuration](docs/configuration) section.
 
 > For PKI setting, see [attestations](#attestations) section.
 
@@ -384,7 +384,7 @@ Custom rego script provided the following output.
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see [configuration](docs/configuration) section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -679,7 +679,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see [configuration](docs/configuration) section.
 
 <details>
   <summary> Package git owners </summary>
@@ -1084,7 +1084,7 @@ In-toto Attestations are a standard that defines a way to authenticate metadata 
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
 Default settings are available using `--attest.default` flag. <br />
-Custom configuration by providing `cocosign` field in the [configuration](docs/configuration.md) or custom path using `--attest.config`.
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
 
 The following table includes the formats supported by the verification command.
 
@@ -1100,7 +1100,7 @@ The following table includes the formats supported by the verification command.
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 > For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
-> See signing details, see [attestations](docs/attestations.md)
+> See signing details, see [attestations](docs/attestations)
 
 # CLI - Use Valint as a command line tool
 
@@ -1117,7 +1117,7 @@ Evidence can be tailor-made to fit your supply chain policies and transparency n
 valint bom [scheme]:[name]:[tag]
 ```
 
-See details [CLI documentation - valint](docs/command/valint.md)
+See details [CLI documentation - valint](docs/command/valint)
 
 ### Examples
 <details>
@@ -1225,7 +1225,7 @@ By default the command verifies a artifact signature against the required identi
 
 Evidence verification  verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
 
-> For flag details, see [CLI documentation - verify](docs/command/valint_verify.md).
+> For flag details, see [CLI documentation - verify](docs/command/valint_verify).
 
 > For policy verification details, see [policies](#policies) section.
 
@@ -1285,7 +1285,7 @@ valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attes
 ## Configuration
 Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [configuration](docs/configuration.md)
+See detailed [configuration](docs/configuration)
 
 # Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.

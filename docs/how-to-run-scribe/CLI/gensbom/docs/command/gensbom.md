@@ -87,5 +87,5 @@ Flags for `gensbom`
 
 ### SEE ALSO
 
-* [gensbom verify](gensbom_verify.md)	 - Verify target evidence
+* [gensbom verify](gensbom_verify)	 - Verify target evidence
 

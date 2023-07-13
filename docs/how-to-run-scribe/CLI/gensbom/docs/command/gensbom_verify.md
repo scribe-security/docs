@@ -83,5 +83,5 @@ Flags for all `gensbom` subcommands
 
 ### SEE ALSO
 
-* [gensbom](gensbom.md)	 - Create SBOM for target
+* [gensbom](gensbom)	 - Create SBOM for target
 
