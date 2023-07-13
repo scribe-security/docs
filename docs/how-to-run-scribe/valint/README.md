@@ -197,7 +197,6 @@ Policy configuration can be set under the main configuration `policies` section.
 Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
 A `policy` is verified if ALL required `modules` in are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
 
-For furhter details see, [Policies](./policies.md) section.
 > For details, see [Policies](./policies.md) section
 
 > For configuration details, see [configuration](docs/configuration) section.

@@ -33,13 +33,13 @@ attest:
 > For PKI setting, see [attestations](#docs/attestations) section.
 
 ### Policy 
-Policy sectino include support the following fields:
+Policy support the following fields:
 * `enable`, enable module (default false). 
 * `name`, policy name (**required**). 
 * `modules`, list of policy module configuration.
 
 # Policy modules
-Module is a compliance checks that you can configure to your specific orgonzation requirements.
+Module is a compliance checks that you can configure to your specific organization requirements.
 * `enable`, enable module (default false). 
 * `name`, policy module name (**required**). 
 * `type`, type of the module, currently supporting `veirfy-arifact` and `git-owner`.
@@ -60,7 +60,7 @@ In other words, it ensures produced artifacts (`targets`) integrity by checking 
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
 * Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
-* Policy as code: The module allows extention of the verfication using custom scripts, as specified by the `script` input.
+* Policy as code: The module allows extension of the verfication using custom scripts, as specified by the `script` input.
 
 ### Use cases
 The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
@@ -358,7 +358,7 @@ stores:
     scribe: {Scribe store configuration}
 ```
 
-> When using Signed Attestations, the Custom Rego script receives the raw intoto statement along with the identity of the signer.
+> When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
 
 #### Output structure 
 Script output must provide the following structure.
@@ -460,7 +460,7 @@ valint verify busybox:latest
 ## Git Owner module
 The Git Owner module enforces a set of requirements of the identity editing files on git repositories.
 
-* Veriferiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
+* Verifiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
 * File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
 
 > NOTICE: We currently do not verify the commit signature as it requires the public of all the signatures keys.
@@ -471,9 +471,9 @@ The Git Owner module enforces a set of requirements of the identity editing file
 Module requires a populated CycloneDX SBOM with commit, file and relations.
 Module supports both signed and unsigned forms of CylconeDX evidence.
 
-* `--components` must include the following groups `commits`,`files`, `dep` (Optinal include, `packages`).
-* `-o`, `--format` must be eather `statement-cyclonedx-json` or `attest-cyclonedx-json`.
-* Optinal use `--git-tag`, `--git-branch` and `--git-commit-` to target the specfic 
+* `--components` must include the following groups `commits`,`files`, `dep` (Optical include, `packages`).
+* `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
+* Optical use `--git-tag`, `--git-branch` and `--git-commit-` to target the specific 
 
 ```bash
 valint bom git:<repo>
