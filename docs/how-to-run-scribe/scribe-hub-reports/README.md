@@ -1,9 +1,8 @@
 ---
 sidebar_position: 1
 sidebar_label: "Scribe Hub Reports"
+title: Scribe Hub Reports
 ---
-
-# Scribe Hub Reports
 
 The first page you see when you log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
 

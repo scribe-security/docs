@@ -1,13 +1,12 @@
 ---
-title: Bitbucket
+sidebar_label: "Bitbucket"
+title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
 sidebar_position: 7
 ---
 
-# Bitbucket Pipelines Pipe: Scribe evidence generator
-
 Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
 
-## YAML Definition
+### YAML Definition
 
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
@@ -43,7 +42,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # OCI_REPO: '<string>' # Optional
 ```
 
-##  Variables
+###  Variables
 
 | Variable              | Usage                                                       | Default | COMMAND |
 | --------------------- | ----------------------------------------------------------- | ------- | ------- |
@@ -77,7 +76,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | OCI_REPO | Select OCI custom attestation repo  | | any |
 (*) = required variable.
 
-## Usage
+### Usage
 ```yaml
  - pipe: scribe-security/valint-pipe:0.1.6
    variables:
@@ -87,7 +86,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     FORCE: "true"
 ```
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -117,7 +116,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -183,7 +182,7 @@ pipelines:
               SUPPLIER_PHONE: $SUPPLIER_PHONE
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -368,12 +367,12 @@ Create SBOM for local git repository.
               FORCE: "true"
 ``` 
 
-## Resources
+### Resources
 If you're new to Bitbucket pipelines this link should help you get started:
 
 [Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
 
-## Support
+### Support
 
 If you'd like help with this pipe, or you have an issue or a feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
 
@@ -386,7 +385,7 @@ If you are reporting an issue, please include:
 By email or slack, 
 [Contact-us](https://scribesecurity.com/contact-us/).
 
-## License
+### License
 
 Copyright (c) 2019 Atlassian and others.
 Apache 2.0 licensed, see [LICENSE](LICENSE.txt) file.

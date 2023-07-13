@@ -150,6 +150,10 @@ const config = {
     //   textColor: '#091E42',
     //   isCloseable: false,
     // },
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+    },
     navbar: {
       // title: 'My Site',
       logo: {

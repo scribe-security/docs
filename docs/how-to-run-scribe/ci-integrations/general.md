@@ -1,11 +1,10 @@
 ---
+sidebar_label: "Generic CI integration"
+title: Integrating Scribe with Other CI Systems
 sidebar_position: 8
-sidebar_label: Generic CI integration
 ---
 
-# Integrating Scribe with Other CI Systems
-
-## Before you begin
+### Before you begin
 Integrating Scribe Hub with a generic CI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
@@ -13,7 +12,7 @@ Integrating Scribe Hub with a generic CI requires the following credentials that
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-## Procedure
+### Procedure
 1. Download `valint`  
    * Open your *Unix* based command line interface (CLI), such as *bash*.  
    * Download the Scribe *valint* CLI tool   

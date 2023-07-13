@@ -1,9 +1,8 @@
 ---
+sidebar_label: "Importing SBOMs"
 title: Importing SBOMs
 sidebar_position: 3
 ---
-
-# Importing SBOMs
 
 In some cases you might prefer using specific commercial or open-source tools to generate SBOMS of your software artifacts. For example, in a case you wish to reverse a complicated binary artifact. In other cases, you might require manage in Scribe SBOMs your received from 3rd parties.  
 

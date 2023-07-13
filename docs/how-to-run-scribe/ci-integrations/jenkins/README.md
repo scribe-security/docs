@@ -1,12 +1,12 @@
 ---
 sidebar_position: 2
-sidebar_label: Jenkins
+sidebar_label: "Jenkins"
+title: Integrating Scribe in your Jenkins pipeline
 ---
-# Integrating Scribe in your Jenkins pipeline 
 
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
 
-## Before you begin
+<!-- ## Before you begin -->
 ### Acquiring credentials from Scribe Hub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
@@ -47,7 +47,7 @@ Use JSL to ease your integration.
 Read [Scribe JSL Documentation](./JSL/) for instructions.
 -->
 
-## Procedure
+### Procedure
 Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following a CLI tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance.  
 
 Every integration pipeline is unique. 

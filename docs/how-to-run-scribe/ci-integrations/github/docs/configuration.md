@@ -1,9 +1,8 @@
 ---
+sidebar_label: "Configuration"
 title: Configuration
-sidebar_position: 3
+sidebar_position: 2
 ---
-
-# Configuration 
 
 Configuration search paths:
 

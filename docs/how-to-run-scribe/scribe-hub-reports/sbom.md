@@ -1,9 +1,9 @@
 ---
 sidebar_label: "SBOM"
+title: SBOM
 sidebar_position: 3
 ---
 
-# SBOM
 
 A product's build SBOM report shows you all the components of the build built at the end of the pipeline. 
 
@@ -17,7 +17,7 @@ The SBOM would download as a JSON in a CycloneDX format. It looks like this:
 
 <img src='../../../../img/start/sbom-json-start.jpg' alt='Your SBOM JSON'/>
 
-# Explanation
+### Explanation
 
 * **Package** - The package (library) name 
 

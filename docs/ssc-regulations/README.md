@@ -1,9 +1,8 @@
 ---
 sidebar_position: 4
 sidebar_label: "SSC Regulations"
+title: SSC Regulations
 ---
-
-# SSC Regulations
 
 Following the famous SolarWinds attack the US has created several frameworks of best practices and regulations to improve software supply chain security.
 

@@ -1,8 +1,9 @@
 ---
-title: Verify
+sidebar_label: "Verify"
+title: Scribe Github Action for `valint verify`
 sidebar_position: 2
 ---
-# Scribe Github Action for `valint bom`
+
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
 
 Use `valint verify` to verify evidence (attestations) and policies.
@@ -10,13 +11,13 @@ Use `valint verify` to verify evidence (attestations) and policies.
 Further documentation [Github integration](../github/)
 
 
-## Other Actions
+### Other Actions
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
 
-## Verify Action
+### Verify Action
 Action for `valint verify`.
 The command allows users to verify any target against its evidence.
 - Verify image, directory, file or git targets.
@@ -119,13 +120,13 @@ The command allows users to verify any target against its evidence.
       target: 'busybox:latest'
 ```
 
-## Configuration
+### Configuration
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
 See detailed [configuration](docs/configuration)
 
 
-## Attestations 
+### Attestations 
 Attestations allow you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 
@@ -206,7 +207,7 @@ jobs:
 </details>
 
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -238,7 +239,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -291,7 +292,7 @@ jobs:
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -347,7 +348,7 @@ jobs:
 ```
 
 
-## Verify SBOMs examples
+### Verify SBOMs examples
 <details>
   <summary> Verify target (SBOM) </summary>
 
@@ -642,6 +643,6 @@ Install valint as a tool
 ``` 
 </details>
 
-## .gitignore
+### .gitignore
 Recommended to add output directory value to your .gitignore file.
 By default add `**/scribe` to your `.gitignore`.

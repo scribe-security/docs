@@ -1,20 +1,21 @@
 ---
-title: Installer
-sidebar_position: 2
+sidebar_label: "Installer"
+title: Scribe GitHub Actions - `installer`
+sidebar_position: 3
+
 ---
-# Scribe GitHub Actions - `installer`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain. 
 
 Use `installer` to install Scribe tools in your workflow.
 
 For Further documentation [Github integration](../github/)
 
-## Other Actions
+### Other Actions
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
-## Tool installer Action
+### Tool installer Action
 You can use the `installer` Action to install any scribe tool in to your workflow allowing full access to all the CLI options in your workflows. 
 
 Install the tool locally if you want to:
@@ -34,10 +35,10 @@ Install the tool locally if you want to:
     required: false
 ```
 
-## Supported tools
+### Supported tools
 * valint
 
-## OS - Arch support
+### OS - Arch support
 * Linux - arm64, amd64.
 
 ### Usage
@@ -47,7 +48,7 @@ Install the tool locally if you want to:
   uses: scribe-security/action-installer@master
 ```
 
-## Installer action examples
+### Installer action examples
 
 <details>
   <summary> Select tool </summary>

@@ -1,9 +1,8 @@
 ---
-title: Search
+sidebar_label: "Search"
+title: Search Help
 sidebar_position: 1
 ---
-
-# Search Help
 
 In various places on our platform you'll find the very familiar search bar.
 

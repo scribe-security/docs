@@ -1,9 +1,8 @@
 ---
 sidebar_position: 13
 sidebar_label: Scribe Hub SLSA Policies
+title: Scribe Hub SLSA Policies
 ---
-
-# Scribe Hub SLSA Policies
 
 The Supply chain Levels for Software Artifacts or SLSA (pronounced Salsa) is a security framework created by Google. It is a list of standards and controls meant to prevent tampering, improve file integrity, and secure packages and infrastructure in your projects, businesses, or enterprises. SLSA consists of common-sense security measures intended for embedding security throughout the development lifecycle. SLSA is meant to make it easier for the implementing organization to get information about its software source, build, and artifacts. At the same time, it’s meant to make it much harder for any malicious or threat actor, either within or outside of the organization, to make any unauthorized changes to files, processes, or artifacts.
 

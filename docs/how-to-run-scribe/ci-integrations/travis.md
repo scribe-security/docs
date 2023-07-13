@@ -1,12 +1,12 @@
 ---
+sidebar_label: "Travis CI"
 title: Travis CI
 sidebar_position: 6
 ---
 
-# Travis CI
 If you are using Travis CI as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. 
 
-## Installation
+### Installation
 Install the Scribe `valint` CLI tool:
 ```yaml
 install:
@@ -35,7 +35,7 @@ jobs:
               -f
 ```
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -65,7 +65,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -139,7 +139,7 @@ script:
         --supplier-phone $SUPPLIER_PHONE
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -190,7 +190,7 @@ script:
         --oci --oci-repo=[my_repo]
 ```
 
-## Basic examples
+### Basic examples
 <details>
   <summary>  Public registry image (SBOM) </summary>
 

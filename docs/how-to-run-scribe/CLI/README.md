@@ -1,10 +1,9 @@
 ---
 sidebar_position: 3
 sidebar_label: "Scribe's CLI"
+title: "Scribe's CLI"
 description: Scribe CLI
 ---
-
-# CLI
 
 Scribe Command Line Interface (CLI) commands allow you to manage the integrity of your supply chain. You can run all CLIs locally or in your CI/CD pipeline.
 

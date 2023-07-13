@@ -1,9 +1,8 @@
 ---
 sidebar_label: "Evidence"
+title: Evidence
 sidebar_position: 6
 ---
-
-# Evidence
 
 The evidence report shows all the evidence you have collected over all your pipelines and projects. 
 

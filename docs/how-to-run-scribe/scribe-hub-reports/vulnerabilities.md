@@ -1,9 +1,8 @@
 ---
 sidebar_label: "Vulnerabilities"
+title: Vulnerabilities
 sidebar_position: 2
 ---
-
-# Vulnerabilities
 
 A product's build vulnerabilities report shows you all the vulnerabilities discovered in the build built at the end of the pipeline.
 
@@ -11,7 +10,7 @@ To reach the vulnerabilities report go to **Products > {Your Product} > {Version
 
 <img src='../../../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
 
-# Explanation
+### Explanation
 
 * **Severity** - severity assigned by the CVE Numbering Authority (CNA)
 
@@ -27,7 +26,7 @@ To reach the vulnerabilities report go to **Products > {Your Product} > {Version
 
 * **Fix Version** - a newer version that fixes the vulnerability if exists
 
-# Adding your advisories to reported vulnerabilities
+### Adding your advisories to reported vulnerabilities
 
 When sharing an SBOM with your stakeholders you might often require to include relevant advisories to the reported CVEs that explain why the vulnerability doesn’t affect the overall product or otherwise, how the consumer of your software should mitigate this vulnerability.
 

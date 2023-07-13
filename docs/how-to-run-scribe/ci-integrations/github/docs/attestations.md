@@ -1,19 +1,20 @@
 ---
+sidebar_label: "Attestations"
 title: Attestations
+sidebar_position: 1
 ---
 
-# Attestations
 Attestations represents authenticated metadata about a set of software artifacts (evidence). <br /> 
 scribe utilizes both attestations (signed) and statement (unsigned) to validate the integrity and policy compliance of your supply chain. Scribe uses the **cocosign** library we developed to deal with digital signatures signing and verification.
 
-## Evidence 
+### Evidence 
 `cocosign` supports both signed and unsigned evidence.
 * InToto statement - unsigned evidence
 * InToto attestation - signed evidence
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
 
-## Default configuration
+### Default configuration
 You can select from a set of prefilled default configuration.
 
 > Use flag `--attest.default`, supported values are `sigstore,sigstore-github,x509`.
@@ -104,7 +105,7 @@ verifier:
 </details>
 
 
-## Custom configuration
+### Custom configuration
 Edit your main configuration, add the following subsection. <br />
 For full configuration details see [configuration-format](#configuration-format).
 
@@ -143,7 +144,7 @@ Simply put you can utilize a OIDC connection to gain a short living certificate 
 [keyless](https://github.com/sigstore/cosign/blob/main/KEYLESS)
 [fulcio_doc](https://github.com/sigstore/fulcio)
 
-#### Support
+### Support
 - Interactive - User must authorize the signature via browser, device or security code url.
 - Token - Static OIDC identity token provided provided by an external tool.
 - Built-in identity providers flows
@@ -183,7 +184,7 @@ storer:
 
 > Supports cosign verification
 
-## Configuration format
+### Configuration format
 ```yaml
 signer:
 	x509:

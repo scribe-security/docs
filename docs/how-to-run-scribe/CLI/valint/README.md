@@ -1,11 +1,11 @@
 ---
-title: Valint
+sidebar_label: "Valint"
+title: "Valint: Validate Supply Chain Integrity"
 author: mikey strauss - Scribe
 date: April 5, 2021
 geometry: margin=2cm
 ---
 
-# Valint - Valint: Validate Supply Chain Integrity
 Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
 It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
  
@@ -16,7 +16,7 @@ In addition to evidence management, Valint also **generates** evidence for a ran
 
 Valint also enables you to **generate** any 3rd party report, scan or configuration (any file) into evidence using the **Generic evidence** subtype. Enabling compliance requirements to refer and attest to your custom needs.
 
-## Installing `valint`
+### Installing `valint`
 Choose any of the following command line interface (CLI) installation options:
 
 <details>
@@ -47,23 +47,23 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 | AMD64 (x86_64) | Linux, Windows, Mac |
 | ARM64 | Linux, Windows, Mac |
 
-# High level digram 
+### High level digram 
 <img src='../../../img/cli//valint_high_level.jpg' alt='Valint high level' width='80%' min-width='600px'/>
 
 <img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
 
-# Platform digram 
+### Platform digram 
 <img src='../../../img/cli//module_digram.jpg' alt='Platform Digram' width='80%' min-width='600px'/>
 
 <img src='../../../img/cli/platform_table.jpg' alt='Platform table' width='80%' min-width='600px'/>
 
-# Policy engine
+### Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
 > For more details on policies, see [polices](#policies) section.
 
-## Evidence
+### Evidence
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
@@ -73,7 +73,7 @@ Evidence can be either signed (attestations) or unsigned (statements).
 
 > For signing details, see [attestations](#attestations) section.
 
-## Evidence formats
+### Evidence formats
 Valint supports the following evidence formats.
 
 | Format | alias | Description | signed |
@@ -91,7 +91,7 @@ Valint supports the following evidence formats.
 > Select using [bom command](#evidence-generator---bom-command) `format` flag,
 Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
 
-## Environment context
+### Environment context
 `environment context` collects information from the underlining environments, in which Valint is run.
 
 Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
@@ -177,7 +177,7 @@ The following fields are collected from any supported artifact (`target`).
 | statement-generic |
 | attest-generic |
 
-## Evidence Stores table
+### Evidence Stores table
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
 
 | Type  | Description | requirement |
@@ -188,7 +188,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 
 > For details, see [evidence stores](#evidence-stores) section
 
-## Policies
+### Policies
 ---
 Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
@@ -225,10 +225,10 @@ While all modules include the following global fields:
 * `name`, module name (**required**). 
 * `type`, set the module type, currently we only support `verify-artifact`. 
 
-# Policy modules
+### Policy modules
 Module are a set of compliance checks that you can configure to your specific compliance requirements.
 
-## Global Match field
+### Global Match field
 `match` field is a set of labels supported by all modules. 
 These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
 
@@ -291,7 +291,7 @@ attest:
 
 </details>
 
-## Verify Artifact module
+### Verify Artifact module
 The Verify Artifact module enforces a set of requirements on who produced artifacts across your supply chain but also what information should be collected on each artifact.
 In other words, it ensures produced artifacts (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
 
@@ -1695,7 +1695,7 @@ valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attes
 
 </details>
 
-# External frameworks
+### External frameworks
 Valint uses some external tools, libraries, and packages to achieve its goal.
 
 - Syft - CLI tool for generating a Software Bill of Materials (SBOM) from container images and filesystem.
@@ -1706,7 +1706,7 @@ Valint uses some external tools, libraries, and packages to achieve its goal.
   - [cosign](https://github.com/sigstore/cosign) <br />
   - [sigstore](https://github.com/sigstore)
 
-## Support
+### Support
 
 If you'd like help with deploying or using Valint, or you have an issue or a feature request, 
 [Contact-us](https://scribesecurity.com/contact-us/) By email or Slack.

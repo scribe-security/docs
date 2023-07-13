@@ -1,21 +1,20 @@
 ---
-title: Admission Controller 
+sidebar_label: "Admission controller"
+title: Admission controller - Coming Soon! 
 sidebar_position: 4
 ---
-
-# admission-controller - Coming Soon!
 
 ![Version: 0.1.4-1](https://img.shields.io/badge/Version-0.1.4--1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4-1](https://img.shields.io/badge/AppVersion-0.1.4--1-informational?style=flat-square)
 
 **Homepage:** <https://scribesecurity.com>
 
-# Admission Controller
+### Admission Controller
 The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain. <br />
 It does this by checking resources that are being created in the cluster against admission compliance requirements, which determine if the resources are allowed. <br />
 This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration. <br />
 The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace. <br />
 
-## Installing `admission-controller`
+### Installing `admission-controller`
 The admission-controller is installed using Helm. <br />
 Here are the steps to add the chart repository and install the admission-controller/
 
@@ -28,16 +27,16 @@ helm install admission-controller scribe/admission-controller -n scribe
 ```
 > For detailed integration option, see [evidence stores](#evidence-stores) section.
 
-## Policy engine
+### Policy engine
 Valint `admission controller` manages verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
 
 Each policy proposes to enforce a set of policies on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
-# Policy engine
+### Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
-## Evidence:
+### Evidence:
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
@@ -63,7 +62,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related values:
@@ -90,7 +89,7 @@ Integrating Scribe Hub with admission controller requires the following credenti
 
 > Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
-## OCI Evidence store
+### OCI Evidence store
 Admission supports both storage and verification flows for `attestations` and `statement` objects using an OCI registry as an evidence store. <br />
 Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
 
@@ -129,14 +128,14 @@ Dockerhub does not support the subpath format, `oci-repo` should be set to your 
     ```
   > Note `oci-repo` and `secret-name` need to be replaced with values.
 
-# Enabling Scribe Admission
+### Enabling Scribe Admission
 To enable Scribe admission in a namespace, add the label `admission.scribe.dev/include` to the namespace.
 Scribe admission logic will be triggered on all resources within the namespace that match any of the regular expressions specified by the `glob` field.
 
 In order to enable admission on a namespace you must add `admission.scribe.dev/include` label to it.
 Namespaces will trigger Scribe admission logic on all its resources **matching* any regular expression specified by the `glob` fields.
 
-## Adding the admission label to a namespace
+### Adding the admission label to a namespace
 Use the following command to add the `admission.scribe.dev/include` label to a namespace:
 
 #### Command
@@ -154,7 +153,7 @@ metadata:
   name: my-namespace
 ```
 
-## Adding image `glob`
+### Adding image `glob`
 To enable admission for a specific set of images, add regular expressions to match the image names.
 Regular expressions uses the perl regular expression format.
 
@@ -193,7 +192,7 @@ config:
       - .*busybox:.*
 ```
 
-# Setting Evidence type
+### Setting Evidence type
 Admission supports both verification flows for `attestations` (signed)  and `statement` (unsigned) objects utilizing OCI registry or Scribe service as an evidence store.
 
 > By default, admission will require signed evidence (`config.verify.input-format=attest`).
@@ -231,10 +230,10 @@ Aliases:
 * statement=statement-cyclonedx-json
 * attest=attest-cyclonedx-json
 
-# Uploading evidence
+### Uploading evidence
 After installing the admission you you want to upload evidence .
 
-## Upload to Scribe service
+### Upload to Scribe service
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -E \
@@ -242,7 +241,7 @@ valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-g
   -P $SCRIBE_CLIENT_SECRET
 ```
 
-## Upload to OCI registry
+### Upload to OCI registry
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
@@ -254,14 +253,14 @@ valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-g
 valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 ```
 
-## Uninstall `admission-controller`
+### Uninstall `admission-controller`
 Uninstall the chart by running
 
 ```bash
 helm uninstall -n scribe admission-controller
 ```
 
-## Configuration values
+### Configuration values
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | config.admission.glob | list | `[]` | Select admitted images by regex |
@@ -277,7 +276,7 @@ helm uninstall -n scribe admission-controller
 
 For the full list of available values see the following section.
 
-## Values
+### Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

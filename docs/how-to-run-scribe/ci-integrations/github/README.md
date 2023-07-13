@@ -1,16 +1,15 @@
 ---
+sidebar_label: "GitHub Actions"
+title: Integrating Scribe with your GitHub Actions
 sidebar_position: 1
-sidebar_label: GitHub Actions
 ---
-
-# Integrating Scribe with your GitHub Actions 
 
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
 * [Bom](action-bom)
 * [Verify](action-verify)
 * [Installer](action-installer)
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -42,7 +41,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -126,7 +125,7 @@ jobs:
           supplier-phone: $SUPPLIER_PHONE
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -212,7 +211,7 @@ jobs:
           supplier-phone: $SUPPLIER_PHONE
 ```
 
-## Connecting ScribeApp to Your Organizational GitHub Account
+### Connecting ScribeApp to Your Organizational GitHub Account
 
 To collect security policy information (SLSA and SSDF) from your GitHub pipeline you'll first need to install the Scribe GitHub app in your organizational GitHub account. You'll then need to add the relevant code snippet to your pipeline.
 

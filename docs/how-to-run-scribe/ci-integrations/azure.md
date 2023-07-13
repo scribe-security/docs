@@ -1,15 +1,15 @@
 ---
+sidebar_label: "Azure Pipelines"
 title: Azure Pipelines
 sidebar_position: 4
 ---
 
-# Azure Pipeline
 Scribe offers users of Azure Pipelines to use DevOps Tasks for embedding evidence collection and integrity verification in their workflows.
 
 Task in Azure DevOps is a feature that enables users to create, schedule, and manage tasks from a central location. Task provides users with an easy way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
 The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
 
-## Installation
+### Installation
 [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) Can be found in Azure marketplace.  <br />
 Follow [install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension) to add the extention to your organzation.  <br />
 Once you have the extention installed you can use the task in your pipeline.
@@ -32,7 +32,7 @@ Once you have the extention installed you can use the task in your pipeline.
         outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
 ```
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -61,7 +61,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -148,7 +148,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
       supplier-phone: $(SUPPLIER_PHONE)
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -227,7 +227,7 @@ For example, using `docker login` command.
       supplier-phone: $(SUPPLIER_PHONE)
 ```
 
-## Basic examples
+### Basic examples
 
 <details>
   <summary>  Public registry image (SBOM) </summary>
@@ -387,7 +387,7 @@ Create SBOM for local git repository. <br />
 ``` 
 </details>
 
-## Resources
+### Resources
 If you're new to Azure pipelines these links should help you get started:
 
 * [What is an Azure Pipelines?](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops "What is an Azure Pipelines?")

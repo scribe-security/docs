@@ -1,9 +1,8 @@
 ---
 sidebar_position: 14
 sidebar_label: Scribe Hub SSDF Policies
+title: Scribe Hub SSDF Policies
 ---
-
-# Scribe Hub SSDF Policies
 
 The Secure Software Development Framework (SSDF) outlines some of the fundamental practices you should follow to ensure the security of the software you’re building. The SSDF is based on standard software development security practices established by the National Institute of Standards and Technology (NIST) and explicitly addresses security issues in software development. The SSDF version 1.1 is defined in [NIST SP 800-218](https://scribesecurity.com/blog/ssdf-nist-800-218-final-version-differences-from-the-draft-and-their-implications-for-you/ "SSDF (SP 800-218) final version – differences from the draft and their implications for you") publication. The framework was initially published in September of 2021 as a draft version. On March 22, 2021, NIST released the final version of the SSDF 1.1. All the high-level practices and tasks remained the same with a lot of the differences centered around the various examples provided. In deciding which practices to implement, NIST recommends balancing risk against cost, feasibility, and applicability. 
 

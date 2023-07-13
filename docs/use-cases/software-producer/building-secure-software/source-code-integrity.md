@@ -1,9 +1,8 @@
 ---
+sidebar_label: "Insuring source code integrity"
 title: Insuring source code integrity
 sidebar_position: 1
 ---
-
-# Insuring source code integrity
 
 The integrity of your source code files is of utmost importance. If your source code files are modified without your knowledge, it can indicate potential foul play, as exemplified by the infamous [SolarWinds hack](https://www.techtarget.com/whatis/feature/SolarWinds-hack-explained-Everything-you-need-to-know "SolarWinds hack explained"). 
 
@@ -13,7 +12,7 @@ There are multiple ways in which Scribe can assist you in verifying the integrit
 
 2. Establish a workflow that employs Valint to generate SBOM evidence after each commit. Additionally, create another SBOM evidence once you initiate your source code checkout during the CI/CD pipeline. Once the build is complete, Scribe will compare the checkout SBOM to the SBOM of the relevant commit. If they match, all the files will be displayed as matching. However, if any mismatches occur, you will receive an alert indicating the files that don't match. If there is no commit SBOM or there is no checkout SBOM Scribe simply doesn't preform an integrity check as there is nothing to compare. 
 
-# How does it work
+### How does it work
 
 Here's an example yaml workflow for creating a signed SBOM using *Valint* after each commit. Notice the label flag with "*is_git_commit*".
 

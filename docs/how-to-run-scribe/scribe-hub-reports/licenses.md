@@ -1,9 +1,8 @@
 ---
 sidebar_label: "Licenses"
+title: Licenses
 sidebar_position: 4
 ---
-
-# Licenses
 
 A product's build license report shows you all the licenses used by packages in the build built at the end of the pipeline. 
 

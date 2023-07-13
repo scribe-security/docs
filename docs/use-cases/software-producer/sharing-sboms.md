@@ -1,9 +1,8 @@
 ---
-title: Sharing SBOMs
+sidebar_label: "Sharing SBOMs"
+title: Sharing SBOMs with your software consumers
 sidebar_position: 4
 ---
-
-# Sharing SBOMs with your software consumers
 
 You can share SBOMs of versions that you publish with stakeholders such as consumers of the software you build.
 Go to **Products** catalog and find the relevant product card click ‘Invite Subscribers’ and input the email addresses of the stakeholders. 

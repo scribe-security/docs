@@ -1,9 +1,8 @@
 ---
 sidebar_label: "Context"
+title: Context
 sidebar_position: 5
 ---
-
-# Context
 
 A product's build context report shows you the context/metadata associated with the build built at the end of the pipeline. 
 

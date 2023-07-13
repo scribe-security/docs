@@ -1,12 +1,12 @@
 ---
 sidebar_position: 5
 sidebar_label: "Attest And Verify"
+title: Signing And Verifying Evidence
 ---
 
-# Signing And Verifying Evidence 
 An attestation is cryptographically signed piece of evidence. It's a mechanism for software to prove its identity and authenticity. The goal of attestation is to prove to a third party that the signed evidence is intact and trustworthy. Scribe's tool *Valint* allows you to not only create various pieces of evidence based on different forms of an SBOM, but also to sign them into an attestation. Once signed, you can later verify that the file or folder or image you have signed is indeed intact and trustworthy. You can read more about an in-toto attestation [here](https://github.com/in-toto/attestation "in-toto attestation GitHub link") and about the SLSA Attestation Model [here](https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md "SLSA Attestation Model GitHub link").
 
-## Supported format tables
+### Supported format tables
 Following table includes the supported format.
 
 | Format | alias | Description | signed
@@ -21,7 +21,7 @@ Following table includes the supported format.
 
 > Both Bom command output format `-o`,`--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats.
 
-## Signing the result of the *Valint bom* command into an attestation
+### Signing the result of the *Valint bom* command into an attestation
 
 1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
@@ -102,7 +102,7 @@ Following table includes the supported format.
 
    Note in the logs that the signed attestation is now saved on your machine in the default location. The path is specified in the result. In the example above it's saved in: `$HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json`.
 
-## Verify the result of *Valint bom* 
+### Verify the result of *Valint bom* 
 
 Once you have signed something into an attestation you can later verify that the object you're checking is identical to the one you have signed. For example, if we signed the `busybox:latest` image I can later compare that image to the signed attestation we have saved.
 
@@ -145,5 +145,5 @@ The `verify` command's default value of the `-i` flag is `attest` so you can omi
    Note the `verify: success, Type: attest-cyclonedx-json` at the end - that's what we're looking to see.
    
    
-## GitHub Actions
+### GitHub Actions
    Scribe has added all these options of our *Valint* tool to GitHub as actions. To learn more about it and to see how you may use them you can go to [this link](how-to-run-scribe/ci-integrations/github "GitHub"). 

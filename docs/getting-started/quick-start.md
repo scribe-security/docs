@@ -1,11 +1,13 @@
 ---
 title: Quick Start
 sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
-# Try Scribe on a sample Git Project
+<!-- ## Try Scribe on a sample Git Project -->
 
-## Before you begin
+### Before you begin
 
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
@@ -14,7 +16,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
 
-## Using Scribe on a Sample Project
+### Using Scribe on a Sample Project
 
 This is a demo deployment of Scribe on a sample git project consisting of a source code repository and a simple CI pipeline implemented using Git workflows. Running the provided workflow will demonstrate how to use Scribe’s tools to generate signed evidence (AKA attestations) from 3 stages of the CI pipeline.
 
@@ -59,7 +61,7 @@ This would lead you to your 'Actions' tab:
 
    Both attestations will be uploaded to your Scribe Hub account. Now you can view the project details on the **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **products** page of your Scribe Hub account.
 
-## Quick tour of the Scribe Hub
+### Quick tour of the Scribe Hub
 
 The first page you see when you log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
 

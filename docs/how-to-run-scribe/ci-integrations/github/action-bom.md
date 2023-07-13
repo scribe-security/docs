@@ -1,20 +1,20 @@
 ---
-title: Bom
-sidebar_position: 2
+sidebar_label: "Bom"
+title: Scribe GitHub Action for `valint bom`
+sidebar_position: 1
 ---
-# Scribe GitHub Action for `valint bom`
 Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
 `valint bom` is used to collect evidence and generate an SBOM.
 
 Further documentation [GitHub integration](../github/)
 
-## Other Actions
+### Other Actions
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
-## Bom Action
+### Bom Action
 Actions for `valint bom`. <br />
 The command allows users to generate and manage evidence collection process.
 - CycloneDX SBOM and SLSA provenance evidence support. 
@@ -138,13 +138,13 @@ To overcome the limitation install tool directly - [installer](https://github.co
     target: 'busybox:latest'
 ```
 
-## Configuration
+### Configuration
 
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
 See detailed [configuration](docs/configuration)
 
-## Attestations 
+### Attestations 
 Attestations allow you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 
@@ -228,7 +228,7 @@ jobs:
 
 </details>
 
-## Target types - `[target]`
+### Target types - `[target]`
 ---
 Target types are types of artifacts produced and consumed by your supply chain.
 Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
@@ -260,7 +260,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | scribe | Evidence is stored on scribe service | scribe credentials |
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
-## Scribe Evidence store
+### Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
@@ -313,7 +313,7 @@ jobs:
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
 
-## OCI Evidence store
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -369,7 +369,7 @@ jobs:
 ```
 
 
-## Basic examples
+### Basic examples
 <details>
   <summary>  Public registry image (SBOM) </summary>
 

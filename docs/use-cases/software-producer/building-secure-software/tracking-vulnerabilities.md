@@ -1,15 +1,14 @@
 ---
 sidebar_label: "Tracking and managing vulnerabilities"
+title: Tracking and managing vulnerabilities
 sidebar_position: 3
 ---
-
-# Tracking and managing vulnerabilities
 
 Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To review these vulnerabilities go to **Products > {Your Product} > {Version} > Vulnerabilities**.
 
 <img src='../../../../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
 
-# Explanation
+### Explanation
 
 * **Severity** - severity assigned by the CVE Numbering Authority (CNA)
 
@@ -25,7 +24,7 @@ Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To 
 
 * **Fix Version** - a newer version that fixes the vulnerability if exists
 
-# Adding your advisories to reported vulnerabilities
+### Adding your advisories to reported vulnerabilities
 
 When sharing an SBOM with your stakeholders you might often require to include relevant advisories to the reported CVEs that explain why the vulnerability doesn’t affect the overall product or otherwise, how the consumer of your software should mitigate this vulnerability.
 

@@ -1,9 +1,8 @@
 ---
 sidebar_label: "Compliance"
+title: Compliance
 sidebar_position: 1
 ---
-
-# Compliance
 
 A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe for each of these frameworks [here](../../ssc-regulations/).
 
