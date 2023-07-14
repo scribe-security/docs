@@ -126,4 +126,4 @@ docker bom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
 </details>
 
 # Dev
-See details [CLI documentation - dev](docs/dev.md)
+See details [CLI documentation - dev](docs/dev)

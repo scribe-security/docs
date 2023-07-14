@@ -285,17 +285,17 @@ import_cli() {
     set -x
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "${repo_dir}/README.md" "docs/CLI/${repo}"
-    cp -r "${repo_dir}/docs" "docs/CLI/${repo}/"
+    cp "${repo_dir}/README.md" "docs/how-to-run-scribe/${repo}"
+    cp -r "${repo_dir}/docs" "docs/how-to-run-scribe/${repo}/"
 }
 
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/CLI/${repo}"
+    dst_dir="docs/how-to-run-scribe/${repo}"
     cp -r "${dst_dir}/docs" "${repo_dir}"
-    # mv "docs/CLI/${repo}/README.md" "${repo_dir}/README.md" 
+    # mv "docs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
     export_file ${repo} "" "${dst_dir}"
 
 }
