@@ -60,7 +60,7 @@ In other words, it ensures produced artifacts (`targets`) integrity by checking 
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
 * Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
-* Policy as code: The module allows extension of the verfication using custom scripts, as specified by the `script` input.
+* Policy as code: The module allows extension of the verfication using custom scripts, as specified by the `rego` input.
 
 ### Use cases
 The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
@@ -86,15 +86,16 @@ The verify artifact module can be used to enforce compliance with specific suppl
     script:
       args: {custom script input} 
       path: <path to policy script>
-      rego: | 
-       # embedded policy script
-       package verify
+      rego:
+        script: | 
+          # embedded policy script
+          package verify
 
-       verify = v {
-          v := {
-            "allow": {Custom policy validation}
+          verify = v {
+              v := {
+                "allow": {Custom policy validation}
+              }
           }
-       }
 ``` 
 
 ### Examples
@@ -313,7 +314,8 @@ Usage example, the following module verifies the predicate of the evidence in a 
         - mycompany.com
     match:
       target_type: image
-    rego: | 
+    rego:
+      script: | 
         package verify
         default allow = false
         verify = {
@@ -413,8 +415,8 @@ attest:
               format: attest-cyclonedx-json
               match:
                 target_type: image
-              script:
-                rego: |
+              rego:
+                script: |
                   package verify
                   import data.policies.sbom_parser as parser
                   default allow = false
