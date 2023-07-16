@@ -473,9 +473,9 @@ The Git Owner module enforces a set of requirements on the identity editing file
 Module requires a populated CycloneDX SBOM with commit, file and relations.
 Module supports both signed and unsigned forms of CylconeDX evidence.
 
-* `--components` must include the following groups `commits`,`files`, `dep` (Optical include, `packages`).
+* `--components` must include the following groups `commits`,`files`, `dep` (optionally include, `packages`).
 * `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
-* Optical use `--git-tag`, `--git-branch` and `--git-commit-` to target the specific 
+* Optional use `--git-tag`, `--git-branch` and `--git-commit-` to target the specific 
 
 ```bash
 valint bom git:<repo>
