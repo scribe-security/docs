@@ -329,7 +329,7 @@ Usage example - the following module verifies the predicate of the evidence in a
 
 #### Rego script
 In order to add a verification script you must provide a `verify` rule in your script.
-Rego script can be provided embedded in the `rego` or a dedicated file using the `path` field.
+Rego script can be provided in two forms: as embeded code snippets in the `rego` section or as a dedicated file using the `path` field.
 
 > By default `valint` looks for ``.valint.rego` file.
 
