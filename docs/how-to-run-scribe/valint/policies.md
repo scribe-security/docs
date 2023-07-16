@@ -460,7 +460,7 @@ valint verify busybox:latest
 </details>
 
 ## Git Owner module
-The Git Owner module enforces a set of requirements of the identity editing files on git repositories.
+The Git Owner module enforces a set of requirements on the identity editing files on git repositories.
 
 * Verifiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
 * File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
