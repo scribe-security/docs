@@ -465,7 +465,7 @@ The Git Owner module enforces a set of requirements on the identity editing file
 * Verifiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
 * File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
 
-> NOTICE: We currently do not verify the commit signature as it requires the public of all the signatures keys.
+> NOTICE: We currently do not verify the commit signature as it requires the public key of all the signatures keys.
 
 > NOTICE: Module only enforeces file requirement on the LATEST commit not the entire chain.
 
