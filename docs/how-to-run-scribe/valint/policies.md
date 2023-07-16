@@ -392,7 +392,7 @@ Copy the Examples configuration into file name `.valint.yaml` and Copy Examples 
 Files should be in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](docs/configuration.md) section.
-> You may also use `path` field to set a custom path your script
+> You may also use `path` field to set a custom path for your script.
 
 
 <details>
