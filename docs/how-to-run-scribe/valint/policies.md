@@ -13,7 +13,7 @@ Each `policy` consists of a set of `policy modules` that your supply chain must 
 A `policy` is verified if ALL required `modules` imcluded in it are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
 
 ### Usage
-Policies are configured as part of Valint configuration file, under the `policies` section
+Policies are configured as part of Valint configuration file, under the `policies` section:
 
 ```yaml
 attest:
