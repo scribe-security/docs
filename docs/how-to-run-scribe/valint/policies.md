@@ -99,7 +99,7 @@ The verify artifact module can be used to enforce compliance with specific suppl
 ``` 
 
 ### Examples
-Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
+Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](docs/configuration.md) section.
 
@@ -520,7 +520,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 > Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.
 
 ### Examples
-Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
+Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](docs/configuration.md) section.
 
