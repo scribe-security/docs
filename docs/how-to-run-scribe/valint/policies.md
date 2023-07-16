@@ -301,7 +301,7 @@ valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://sca
 ### Policy As Code
 You can define custom policies for artifacts verified by the module by attaching them as code. After the module enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
 
-Usage example, the following module verifies the predicate of the evidence in a custom rego script embedded in the policy.
+Usage example - the following module verifies the predicate of the evidence in a custom rego script embedded in the policy.
 ```yaml
 - name: signed_image_custom_policy
   type: verify-artifact
