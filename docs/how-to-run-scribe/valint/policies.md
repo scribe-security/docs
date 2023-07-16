@@ -640,7 +640,7 @@ SLSA Framework module requires a SLSA provenance object as well as Security Post
 
 ## Third-Party module - Coming Soon!
 The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
-For example, the NPM Audit result, Synk or Sonarqube scan, not only should pass but also be exposed as compliance evidence.
+For example, the NPM Audit result, Synk or Sonarqube scans, not only should pass but also be exposed as compliance evidence.
 
 ## Default policy
 When no policy configuration is found, the signed artifact policy is used.
