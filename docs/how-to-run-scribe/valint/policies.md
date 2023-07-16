@@ -499,7 +499,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 
 * Only permitted Committer identities can update the `package.json` file.
 * Commits must be signed for all files excluding the tests related files.
-* Only permitted signed Committer identitied can update the CircleCI workflows.
+* Only permitted signed Committer identities can update the CircleCI workflows.
 
 ### Configuration
 ```yaml
