@@ -52,7 +52,7 @@ Module is a compliance checks that you can configure to your specific organizati
 ## Verify Artifact module
 ---
 The Verify Artifact module enforces a set of requirements on who produced artifacts across your supply chain as well as what information should be collected on each artifact.
-In other words, it ensures produced artifacts (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
+In other words, it ensures produced artifacts' (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
