@@ -634,9 +634,9 @@ valint verify git:https://github.com/myorg/some_repo.git -i attest
 </details>
 
 ## SLSA Framework module - Coming Soon!
-The SLSA Framework module enforces Level 1 to 3 of SLSA Specification.
-For example, Branch Protection and Build Provenance requirements.
-SLSA Framework module requires SLSA provenance as well as Security Posture evidence.
+The SLSA Framework module enforces Levels 1 to 3 of SLSA Specifications.
+For example, Branch Protection and Build Provenance requirements can be enforced.
+SLSA Framework module requires a SLSA provenance object as well as Security Posture evidence.
 
 ## Third-Party module - Coming Soon!
 The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
