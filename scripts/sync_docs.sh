@@ -3,7 +3,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "gensbom" "valint" "action-bom" "action-verify" "action-installer" "JSL" "misc" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
+supported_repos=( "valint" "action-bom" "action-verify" "action-installer" "JSL" "" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
 
 pull_submodules() {
     repos=$1
@@ -278,7 +278,7 @@ export_azure-tasks() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/how-to-run-scribe/ci-integrations/"
 
-    sed -n '/^# Azure Pipeline/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
+    sed -n '/^# Azure Pipelines/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
 
 import_cli() {
