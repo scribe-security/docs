@@ -1,8 +1,4 @@
----
-sidebar_label: "Configuration"
-title: Configuration
-sidebar_position: 2
----
+# Configuration 
 
 Configuration search paths:
 
@@ -46,7 +42,6 @@ bom:
   - layers
   - packages
   - syft
-  - files
   - dep
   - commits
   package:
@@ -60,6 +55,8 @@ bom:
     - apkdb
     - rpm
     - go-mod
+    - dotnet
+    - r-package
     - rust
     - binary
     - sbom
@@ -82,4 +79,14 @@ filter:
   - '**/.git/**'
   filter-purl: []
   filter-scope: []
+list:
+  columns:
+  - timestamp
+  - store
+  - ref
+  - sbomname
+  - product-key
+  - git_url
+  filters: {}
+  current: false
 ```
