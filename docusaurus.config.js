@@ -85,6 +85,7 @@ const config = {
                 "how-to-run-scribe/valint/docs/attestations.md",
                 "how-to-run-scribe/valint/docs/configuration.md",
                 "how-to-run-scribe/valint/report.md",
+                "how-to-run-scribe/valint/policies.md",
                 "how-to-run-scribe/valint/command/valint.md",
                 "how-to-run-scribe/valint/command/valint_report.md",
                 // "how-to-run-scribe/gensbom/gensbomcli.md",
