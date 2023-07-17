@@ -118,14 +118,14 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/ci-integrations/github/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 import_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
     cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
@@ -134,14 +134,14 @@ import_action_extra() {
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/github/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
@@ -178,7 +178,7 @@ export_action-installer() {
 import_JSL() {
     repo="JSL"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/jenkins/JSL"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/jenkins/JSL"
     import_file ${repo} "" "${dst_dir}"
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
@@ -186,7 +186,7 @@ import_JSL() {
 export_JSL() {
     repo="JSL"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/jenkins/JSL"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/jenkins/JSL"
     export_file ${repo} "" "${dst_dir}"
     cp -r "${repo_dir}/imgs" "${dst_dir}"
 }
@@ -208,7 +208,7 @@ export_misc() {
 import_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
 
     # Hack to remove header not supported by bitbucket
     echo "---
@@ -223,7 +223,7 @@ sidebar_position: 4
 export_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
     
     # Hack to remove header not supported by bitbucket
     sed -n '/^# Bitbucket Pipelines Pipe:/,$p' ${dst_dir}/bitbucket.md > ${repo_dir}/README.md    
@@ -233,14 +233,14 @@ export_valint-pipe() {
 import_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
     import_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
 export_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
@@ -261,7 +261,7 @@ export_helm-charts() {
 import_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
 
     # Hack to remove header not supported by bitbucket
     echo "---
@@ -276,7 +276,7 @@ sidebar_position: 4
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/ci-integrations/"
+    dst_dir="docs/how-to-run-scribe/ci-integrations/"
 
     sed -n '/^# Azure Pipeline/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
