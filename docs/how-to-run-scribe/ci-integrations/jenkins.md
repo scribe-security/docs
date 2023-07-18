@@ -131,7 +131,7 @@ A new **Credentials** form opens.
 1. Another Global credential is created as a **Username with Password** (Kind)
 
 The final state of the secrets definition should be as shown in the following screenshot:
-![Jenkins Credentials](../../../../static/img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
+![Jenkins Credentials](../../../../img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
 
 ### Avoiding costly commits
 To avoid potentially costly commits, we recommended adding the Scribe output directory to your .gitignore file.
