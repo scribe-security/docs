@@ -33,7 +33,7 @@ A new **Credentials** form opens.
 
 
 The final state of the secrets definition should be as shown in the following screenshot:
-![Jenkins Credentials](../../../../static/img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
+![Jenkins Credentials](../../../../img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
  
 
 ### Avoiding costly commits
