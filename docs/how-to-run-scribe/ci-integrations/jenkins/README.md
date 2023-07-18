@@ -13,7 +13,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../../static/img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Adding Credentials to Jenkins
 
@@ -60,9 +60,10 @@ The code in these examples of a workflow executes these steps:
 2. Calls `valint` to generate an SBOM from the final Docker image and upload the evidence.
  
 The examples use a sample pipeline building a Mongo express project. 
-
-## Jenkins over Docker
-### Prerequisites
+<details>
+  <summary> <b> Jenkins over Docker </b>
+  </summary>
+<h3>  Prerequisites </h3>
 
 * Jenkins extensions installed:
    1. [Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")
@@ -78,9 +79,6 @@ The examples use a sample pipeline building a Mongo express project.
 <details>
   <summary>  <b> Sample integration code </b> </summary>
 
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--Declarative-->
 ```javascript
 pipeline {
   agent any
@@ -118,7 +116,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -141,7 +139,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -151,15 +149,22 @@ pipeline {
   }
 }
 ```
-<!--END_DOCUSAURUS_CODE_TABS-->
 
 </details>
 
+
 ### See Also
 [Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
+</details>
 
-## Jenkins over Kubernetes (K8s)
-### Prerequisites </h3>
+
+
+
+<details>
+  <summary> <b> Jenkins over Kubernetes (K8s) </b>
+  </summary>
+
+  <h3>  Prerequisites </h3>
 
 [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
 ### Procedure
@@ -200,7 +205,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -218,7 +223,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -256,17 +261,19 @@ spec:
 ### See Also
 [Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)
 
+</details>
 
-## Jenkins Vanilla (No Agent)
-### Prerequisites
+
+<details>
+  <summary> <b> Jenkins Vanilla (No Agent) </b>
+  </summary>
+<h3>  Prerequisites </h3>
+
  `curl` installed on your build node in jenkins.
-
 ### Procedure
 
 <details>
   <summary>  <b> Sample integration code </b> </summary>
-
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline.
 
 ```javascript
 pipeline {
@@ -287,7 +294,7 @@ pipeline {
     stage('install') {
         steps {
           cleanWs()
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
         }
     }
     stage('checkout') {
@@ -304,7 +311,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -320,7 +327,7 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -332,60 +339,7 @@ pipeline {
 
 ```
 
-<!--Scripted-->
-Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
-
-```groovy
-node {
-  withEnv([
-    "PATH=./temp/bin:$PATH",
-    "SCRIBE_PRODUCT_KEY=${credentials('scribe-product-key')}",
-    "SCRIBE_URL=https://airflow.staging.scribesecurity.com",
-    "SCRIBE_LOGIN_URL=https://scribe-hub-staging.us.auth0.com",
-    "SCRIBE_AUDIENCE=api.staging.scribesecurity.com"
-  ]) {
-    stage('install') {
-      cleanWs()
-      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
-    }
-
-    stage('checkout') {
-      sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-    }
-
-    stage('sbom') {
-      withCredentials([
-        usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
-      ]) {
-        sh '''
-          valint bom dir:mongo-express-scm \
-          --context-type jenkins \
-          --output-directory ./scribe/valint \
-          --product-key $SCRIBE_PRODUCT_KEY \
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-          --scribe.login-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
-          -vv
-        '''
-      }
-    }
-
-    stage('image-bom') {
-      withCredentials([
-        usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
-      ]) {
-        sh '''
-          valint bom mongo-express:1.0.0-alpha.4 \
-          --context-type jenkins \
-          --output-directory ./scribe/valint \
-          --product-key $SCRIBE_PRODUCT_KEY \
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-          --scribe.login-url=$SCRIBE_LOGIN_URL --scribe.auth.audience=$SCRIBE_AUDIENCE --scribe.url $SCRIBE_URL \
-          -vv
-        '''
-      }
-    }
-  }
-}
-```
 </details>
+</details>
+
 
