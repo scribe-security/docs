@@ -6,6 +6,40 @@ title: Integrating Scribe in your Jenkins pipeline
 
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
 
+<!--DOCUSAURUS_CODE_TABS-->
+<!--JavaScript-->
+
+```js
+console.log('Hello, world!');
+```
+<!--Python-->
+
+```py
+print('Hello, world!')
+```
+
+<!--C-->
+
+```C
+#include <stdio.h>
+
+int main() {
+   printf("Hello World!");
+   return 0;
+}
+```
+
+<!--Pascal-->
+
+```Pascal
+program HelloWorld;
+begin
+  WriteLn('Hello, world!');
+end.
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
 ### Installation
 Install the Scribe `valint` CLI tool:
 ```javascript
@@ -20,8 +54,7 @@ Install the Scribe `valint` CLI tool:
 
 <!--DOCUSAURUS_CODE_TABS-->
 <!--Declarative-->
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline.
-
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
 ```javascript
 pipeline {
   agent any
@@ -141,7 +174,7 @@ By default, add `**/scribe` to your .gitignore.
 
 <!--DOCUSAURUS_CODE_TABS-->
 <!--Declarative-->
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline.
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
 ```javascript
 pipeline {
   agent any
@@ -288,7 +321,7 @@ For example, using `docker login` command or [Docker Pipeline custom registry](h
 ### Usage
 <!--DOCUSAURUS_CODE_TABS-->
 <!--Declarative-->
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline.
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
 
 ```javascript
 pipeline {
