@@ -116,7 +116,7 @@ The following table includes the types of environments we currently support:
 | bitbucket | Bitbucket pipelines |
 | circle | CircleCI workflows |
 | travis | Travis CI workflows |
-| jenkins | Jenkins declarative pipelines |
+| jenkins | Jenkins declarative or scripted pipelines |
 
 
 The following fields are collected from any supported environment.
