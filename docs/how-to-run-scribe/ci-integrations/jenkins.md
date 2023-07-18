@@ -208,10 +208,6 @@ Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pip
 node {
   withEnv([
     "PATH=./temp/bin:$PATH",
-    "SCRIBE_PRODUCT_KEY=${credentials('scribe-product-key')}",
-    "SCRIBE_URL=https://airflow.staging.scribesecurity.com",
-    "SCRIBE_LOGIN_URL=https://scribe-hub-staging.us.auth0.com",
-    "SCRIBE_AUDIENCE=api.staging.scribesecurity.com",
     "LOGICAL_APP_NAME=demo-project",
     "APP_VERSION=1.0.1",
     "AUTHOR_NAME=John-Smith", 
@@ -225,7 +221,7 @@ node {
     stage('install') {
       sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
     }
-    stage('sbom') {
+    stage('bom') {
       withCredentials([
         usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
       ]) {
@@ -342,7 +338,7 @@ node {
     stage('install') {
       sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
     }
-    stage('sbom') {
+    stage('bom') {
       withCredentials([
         usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
       ]) {
@@ -391,7 +387,7 @@ pipeline {
     stage('bom') {
       steps {                
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
             valint bom busybox:latest \
               --context-type jenkins \
