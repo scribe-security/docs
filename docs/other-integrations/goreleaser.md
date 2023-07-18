@@ -9,7 +9,7 @@ Integrations requires the Valint CLI installed.
 * Valint - gitHub Action for SBOM Generation (Scribe) 
 
 ## Valint installation
-See details [CLI documentation - install ](../cli/valint/docs/installation.md)
+See details [CLI documentation - install ](../how-to-run-scribe/valint/README.md)
 
 ### Supported targets
 * `checksum`: only checksum file(s)

@@ -126,7 +126,7 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
+          --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
           --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
           --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
           --supplier-phone $SUPPLIER_PHONE 
@@ -137,7 +137,7 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
+          --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION 
           --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
           --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
           --supplier-phone $SUPPLIER_PHONE
