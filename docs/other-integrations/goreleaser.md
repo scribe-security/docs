@@ -20,15 +20,15 @@ See details [CLI documentation - install ](../cli/valint/docs/installation.md)
 
 # Goreleaser hooks
 Sboms and attestations can be created on the your source and application artifacts.
-Note valint is used by the goreleaser sign flow hooks.
+Note Valint is used by the goreleaser sign flow hooks.
 
 # SBOMs
-Using valint to create cyclonedx sboms for your project.
+Using Valint to create cyclonedx sboms for your project.
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
 [Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note valint Attestations include SBOM payload.
+Note Valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an SBOM for all artifacts.
 ```YAML
@@ -65,13 +65,13 @@ docker_signs:
 
 
 # Attestations
-Using valint to create In-toto attestations including a signed for your project artifacts.
+Using [install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)alint to create In-toto attestations including a signed for your project artifacts.
 
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
 [Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note valint Attestations include SBOM payload.
+Note Valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an attestations for all artifacts.
 ```YAML
@@ -119,7 +119,7 @@ Scribe integrity flow - upload evidence using `valint` and download the integrit
 <details>
   <summary> Github action workflow - SBOMS </summary>
 
-Full workflow example of a workflow, upload sbom evidence on source,binaries and images using valint and download report using valint.
+Full workflow example of a workflow, upload sbom evidence on source,binaries and images using Valint and download report using Valint.
 
 `release.yaml`
 ```YAML
