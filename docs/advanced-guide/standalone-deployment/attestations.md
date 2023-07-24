@@ -1,7 +1,9 @@
 ---
 sidebar_label: "Attestations"
 title: Attestations
-sidebar_position: 1
+sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 Attestations represents authenticated metadata about a set of software artifacts (evidence). <br /> 

@@ -1,6 +1,6 @@
 ---
-sidebar_label: "valint verify"
-title: valint verify
+sidebar_label: "Valint Verify"
+title: Valint Verify
 sidebar_position: 3
 ---
 

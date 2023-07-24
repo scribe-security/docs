@@ -2,6 +2,8 @@
 sidebar_label: "Generic CI integration"
 title: Integrating Scribe with Other CI Systems
 sidebar_position: 8
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 ### Before you begin

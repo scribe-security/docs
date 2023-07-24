@@ -1,18 +1,21 @@
 ---
 sidebar_label: "Bom"
 title: Scribe GitHub Action for `valint bom`
-sidebar_position: 1
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
+
 Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
 `valint bom` is used to collect evidence and generate an SBOM.
 
-Further documentation **[GitHub integration](../github/)**.
+Further documentation **[GitHub integration](../../../integrating-scribe/ci-integrations/github)**.
 
 ### Other Actions
+* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 * **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
 * **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
-* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 
 ### Bom Action
 Actions for `valint bom`. <br />
@@ -142,7 +145,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed **[configuration](docs/configuration)**.
+See detailed **[configuration](../configuration)**.
 
 ### Attestations 
 Attestations allow you to sign and verify your targets. <br />
@@ -154,11 +157,11 @@ Supported outputs:
 - In-toto attestations -CycloneDX SBOM, SLSA Provenance (signed evidence).
 
 Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the **[configuration](docs/configuration)** or custom path using `--attest.config`.
+Select a custom configuration by providing `cocosign` field in the **[configuration](../configuration)** or custom path using `--attest.config`.
 Scribe uses the **cocosign** library we developed to deal with digital signatures signing and verification.
 
-See details **[in-toto spec](https://github.com/in-toto/attestation)**.
-See details **[attestations](docs/attestations)**.
+* See details of in-toto spec **[here](https://github.com/in-toto/attestation)**.
+* See details of what attestations are and how to use them **[here](../attestations)**.
 
 >By default GitHub actions use `sigstore-github` flow, GitHub provided workload identities, this will allow using the workflow identity (`token-id` permissions is required).
 

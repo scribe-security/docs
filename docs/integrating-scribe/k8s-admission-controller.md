@@ -52,9 +52,9 @@ Evidence can refer to metadata collected about artifacts, reports, events or set
 Evidence can be either signed (attestations) or unsigned (statements).
 
 ### Evidence formats
-`admission controller` supports following evidence formats.
+`admission controller` supports the following evidence formats.
 
-| Format | alias | Description | signed |
+| Evidence format | Alias | Description | Can be signed |
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |
@@ -228,7 +228,7 @@ config:
 ### Supported format tables
 The following table lists the supported evidence types:
 
-| Format | alias | Description | signed
+| Evidence format | Alias | Description | Can be signed |
 | --- | --- | --- | --- |
 | statement-cyclonedx-json | statement | In-toto Statement | no |
 | attest-cyclonedx-json | attest | In-toto Attestation | yes |

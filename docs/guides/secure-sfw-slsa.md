@@ -215,7 +215,7 @@ Following are the currently supported predicate types:
 |  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
-You can read more about Trivy integration **[here](../integrating-scribe/ci-integrations/github/docs/attestations/#default-configuration)**.
+You can read more about Trivy integration **[here](../advanced-guide/standalone-deployment/attestations/#default-configuration)**.
 
 ## Signing & verifying attestations
 
@@ -228,7 +228,7 @@ valint verify busybox:latest --attest.default x509
 
 Where ``--attest.default`` defines the singing method.  
 
-For more options, you can read **[here](../advanced-guide/signVerify)**.
+For more options, you can read **[here](../advanced-guide/standalone-deployment/signVerify)**.
 
 ## Storing Evidence
 

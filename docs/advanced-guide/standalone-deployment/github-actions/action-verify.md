@@ -1,20 +1,22 @@
 ---
 sidebar_label: "Verify"
-title: Scribe Github Action for `valint verify`
-sidebar_position: 2
+title: Scribe GitHub Action for `valint verify`
+sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
 
 Use `valint verify` to verify evidence (attestations) and policies.
 
-Further documentation **[GitHub integration](../github/)**.
+Further documentation **[GitHub integration](../../../integrating-scribe/ci-integrations/github)**.
 
 
 ### Other Actions
+* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 * **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
 * **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
-* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 
 ### Verify Action
 Action for `valint verify`.
@@ -122,7 +124,7 @@ The command allows users to verify any target against its evidence.
 ### Configuration
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed **[configuration](docs/configuration)**.
+See detailed **[configuration](../configuration)**.
 
 
 ### Attestations 
@@ -135,20 +137,20 @@ Supported outputs:
 - In-toto attestations -CycloneDX SBOM, SLSA Provenance (signed evidence)
 
 Select default configuration using `--attest.default` flag. <br />
-Select a custom configuration by providing `cocosign` field in the **[configuration](docs/configuration)** or custom path using `--attest.config`.
+Select a custom configuration by providing `cocosign` field in the **[configuration](../configuration)** or custom path using `--attest.config`.
 Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
 
-* See details **[in-toto spec](https://github.com/in-toto/attestation)**.
-* See details **[attestations](docs/attestations)**.
+* See details of in-toto spec **[here](https://github.com/in-toto/attestation)**.
+* See details of what attestations are and how to use them **[here](../attestations)**.
 
 ### Storing Keys in Secret Vault
 
-Github exposes secrets from its vault using envrionment varuables, you may provide these envrionments as secret to valint.
+GitHub exposes secrets from its vault using environment variables, you may provide these environments as secret to Valint.
 
-> Paths names prefixed with `env://[NAME]` are read from the envrionment matching the name.
+> Paths names prefixed with `env://[NAME]` are read from the environment matching the name.
 
 <details>
-  <summary> Github Secret Vault </summary>
+  <summary> GitHub Secret Vault </summary>
 
 X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
 
@@ -157,7 +159,7 @@ X509 Signer enables the utilization of environments for supplying key, certifica
 
 For example the following configuration and Job.
 
-Configuraiton File, `.valint.yaml`
+configuration File, `.valint.yaml`
 ```yaml
 attest:
   cocosign:
@@ -351,11 +353,11 @@ jobs:
 <details>
   <summary> Verify target (SBOM) </summary>
 
-Verify targets against a signed attestation.
-Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
-Valint will look for either an SBOM or SLSA attestation to verify against. <br />
+Verify targets against a signed attestation.  
+Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor).  
+Valint will look for either an SBOM or SLSA attestation to verify against.  
 
-```YAML
+```yaml
 - name: valint verify
   uses: scribe-security/action-verify@master
   with:
@@ -372,7 +374,7 @@ Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
 Valint will look for either an SBOM or SLSA attestation to verify against. <br />
 
 
-```YAML
+```yaml
 - name: valint verify
   uses: scribe-security/action-verify@master
   with:
@@ -383,14 +385,14 @@ Valint will look for either an SBOM or SLSA attestation to verify against. <br /
 </details>
 
 <details>
-  <summary> Verify target (Gernic) </summary>
+  <summary> Verify target (Generic) </summary>
 
 Verify targets against a signed attestation. <br />
 Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
 Valint will look for either an SBOM or SLSA attestation to verify against. <br />
 
 
-```YAML
+```yaml
 - name: valint verify
   uses: scribe-security/action-verify@master
   with:
