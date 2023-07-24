@@ -12,7 +12,23 @@ var isPullRequest = process.env.PULL_REQUEST === "true";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  plugins: [require.resolve('docusaurus-lunr-search')],
+  plugins: [
+    require.resolve('docusaurus-lunr-search'),
+    // [
+    //   "@docusaurus/plugin-client-redirects",
+    //     {
+    //       createRedirects(existingPath) {
+    //         if (existingPath.includes('docs/advanced-guide/ssc-regulations')) {
+    //           // Redirect from /docs/team/X to /community/X and /docs/support/X to /community/X
+    //           return [
+    //             existingPath.replace('/advanced-guide/ssc-regulations/ssdfpolicies', '/ssdfpolicies'),
+    //             existingPath.replace('/advanced-guide/ssc-regulations/slsapolicies', '/slsapolicies'),
+    //           ];
+    //         }  
+    //       }
+    //     }
+    // ]
+  ],
 
   title: 'The Scribe Documentation Site',
   tagline: 'Four legs good. Two legs bad.',
@@ -236,20 +252,4 @@ const config = {
     }),
 };
 
-module.exports = {
-  plugins: [
-    [
-      "@docusaurus/plugin-client-redirects",
-      {
-      createRedirects: path => {
-        if (path === "docs/advanced-guide/ssc-regulations/ssdfpolicies") {
-          return ["/docs/ssdfpolicies", "legacySSDFPoliciesPath"];
-          }
-        if (path === "docs/advanced-guide/ssc-regulations/slsapolicies") {
-            return ["/docs/slsapolicies", "legacySLSAPoliciesPath"];
-          }
-        }
-      }
-    ]
-  ]
-};
+module.exports = config;
