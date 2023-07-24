@@ -1,7 +1,7 @@
 ---
-sidebar_label: "Jenkins"
-title: Jenkins
 sidebar_position: 2
+sidebar_label: "Jenkins"
+title: Integrating Scribe in your Jenkins pipeline
 ---
 
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
