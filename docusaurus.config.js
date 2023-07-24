@@ -236,4 +236,20 @@ const config = {
     }),
 };
 
-module.exports = config;
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+      createRedirects: path => {
+        if (path === "docs/advanced-guide/ssc-regulations/ssdfpolicies") {
+          return ["/docs/ssdfpolicies", "legacySSDFPoliciesPath"];
+          }
+        if (path === "docs/advanced-guide/ssc-regulations/slsapolicies") {
+            return ["/docs/slsapolicies", "legacySLSAPoliciesPath"];
+          }
+        }
+      }
+    ]
+  ]
+};
