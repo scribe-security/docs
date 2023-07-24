@@ -17,9 +17,9 @@ Valint sends the evidence it collects to the Scribe Hub. Additionally, Valint ca
 
 Simply put, Valint is a tool that generates a bill of your software components, collects evidence about how secure your software is, and ensures your software meets set rules. It sends this information to Scribe Hub and can also act as a guardrail to make sure these rules are followed at key stages of your software building and deployment process.
 
-You can start using Scribe Hub by opening a free account [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+You can start using Scribe Hub by opening a free account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
 
-Start here with the [Quickstart](../getting-started/quick-start "Quickstart") guide.
+Start here with the *[Quickstart](../getting-started/quick-start "Quickstart")** guide.
 
 <img src='../../img/start/how-scribe-works.jpg' alt='Scribe Security high-level deployment architecture'/>
 

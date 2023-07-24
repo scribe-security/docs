@@ -5,9 +5,9 @@ sidebar_position: 1
 ---
 
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
-* [Bom](action-bom)
-* [Verify](action-verify)
-* [Installer](action-installer)
+* **[Bom](action-bom)**
+* **[Verify](action-verify)**
+* **[Installer](action-installer)**
 
 ### Target types - `[target]`
 ---
@@ -42,7 +42,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 
 ### Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
+Scribe evidence store allows you to store evidence using scribe Service.
 
 Related Flags:
 > Note the flag set:
@@ -51,14 +51,14 @@ Related Flags:
 >* `scribe-enable`
 
 ### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Integrating Scribe Hub with your environment requires the following credentials that are found on the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Add the credentials according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
+* Add the credentials according to the **[GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")**. Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
 
 * Use the Scribe custom pipe as shown in the example bellow
 
@@ -139,7 +139,7 @@ Evidence can be stored in any accusable registry.
 * Write access is required for upload (generate).
 * Read access is required for download (verify).
 
-You must first login with the required access privileges to your registry before calling Valint.
+You must first log in with the required access privileges to your registry before calling Valint.
 For example, using `docker login` command or `docker/login-action` action.
 
 ### Usage
@@ -221,7 +221,7 @@ Before you connect to ScribeApp no security policy data will be included in your
 
 <img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
 
-Once you click on **integrations** you'll get to a page that includes links to all possible environments you could possibly integrate with Scribe Hub.
+Once you click on **integrations** you'll get to a page that includes links to all possible environments you could integrate with Scribe Hub.
 If you scroll down a bit you'd get to the **Source Control** section:
 
 <img src='../../../../img/ci/scribe-beta-source-control-integrations.jpg' alt='Source Control' width='20%' min-width='150px'/> 
@@ -253,11 +253,11 @@ As soon as you provide your password GitHub will handle everything else and redi
 
 Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build. The SSDF policy does not require anything to run. To run the SLSA policy you'll need to add a code snippet to your pipeline and run the action.
 
-If anything isn't clear you can check out the GitHub instruction page for <a href='https://docs.github.com/en/developers/apps/managing-github-apps/installing-github-apps'>installing GitHub Apps</a>.
+If anything isn't clear you can check out the GitHub instruction page for **<a href='https://docs.github.com/en/developers/apps/managing-github-apps/installing-github-apps'>installing GitHub Apps</a>**.
 
 ### Generating the SLSA provenance in your pipeline
 
-1. Add the project credential according to the [GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions"). Based on the code example below, be sure to call the secret **productkey** for the **product-key**.
+1. Add the project credential according to the **[GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")**. Based on the code example below, be sure to call the secret **productkey** for the **product-key**.
 2. Add the Code snippet to your pipeline from your GitHub flow:   
     * Call `valint` to generate SLSA provenance from the final Docker image.
     ```YAML
@@ -310,7 +310,7 @@ This code snippet generates a SLSA provenance file for the artifact it is run on
 
 <img src='../../../../img/ci/actions_tab.jpg' alt='Actions tab' width='70%' min-width='750px'/> 
 
-There you can examine the workflows and actions you have run on this GutHub repository. Once you have run a workflow that includes the SLSA provenance generation you'll be able to find the resulting file at the bottom of the page:
+There you can examine the workflows and actions you have run on this GitHub repository. Once you have run a workflow that includes the SLSA provenance generation you'll be able to find the resulting file at the bottom of the page:
 
 <img src='../../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' width='70%' min-width='750px'/>
 
@@ -340,11 +340,11 @@ To see the full breakdown of policies - exactly which policies have passed or fa
 
 There are 12 SLSA policies that Scribe checks and if all of them are checked out (pass) that means that the build is approved for SLSA level 3.
 
-To learn more about each policy you can either click on them or see the explanation page [here](../../../slsapolicies).
+To learn more about each policy you can either click on them or see the explanation page **[here](../../../slsapolicies)**.
 
 There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
 
-To learn more about each policy you can either click on them or see the explanation page [here](../../../ssdfpolicies).
+To learn more about each policy you can either click on them or see the explanation page **[here](../../../ssdfpolicies)**.
 
 
 

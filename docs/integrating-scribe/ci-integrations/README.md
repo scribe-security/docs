@@ -28,7 +28,7 @@ While *Valint* does have other capabilities and CLI options, we will focus on it
 
 ### Generating SLSA provenance
 
-At this time Scribe's tool can be used to collect SLSA provenance only from a GitHub pipeline. To collect this provenance you'll need to connect the Scribe GitHub app to your GitHub organizational account and add the appropriate code snippet to your GitHub repositories' pipeline. You can find more details on the [Github](../ci-integrations/github "GitHub") integration quick-start page.
+At this time Scribe's tool can be used to collect SLSA provenance only from a GitHub pipeline. To collect this provenance you'll need to connect the Scribe GitHub app to your GitHub organizational account and add the appropriate code snippet to your GitHub repositories' pipeline. You can find more details on the **[GitHub](../ci-integrations/github "GitHub")** integration quick-start page.
 
 ### Where to place Scribe's Code in your pipeline 
 For the SBOM generation, these are the three points for adding the code snippet:
@@ -47,12 +47,12 @@ ___Note___ that if you do not collect evidence about your commits and source cod
 ### Supported CIs
 
 Currently, Scribe natively supports the following CI setups:
-* [GitHub Actions](../ci-integrations/github "GitHub Actions").
-* [Jenkins](../ci-integrations/jenkins "Jenkins"). 
-* [GitLab CI/CD](../ci-integrations/gitlabci "GitLab CI/CD").
-* [Azure Pipelines](../ci-integrations/azure "Azure Pipelines").
-* [CircleCI](../ci-integrations/circleci "CircleCI").
-* [Travis CI](../ci-integrations/travis "Travis CI").
-* [Bitbucket](../ci-integrations/bitbucket "Bitbucket").
+* **[GitHub Actions](../ci-integrations/github "GitHub Actions")**.
+* **[Jenkins](../ci-integrations/jenkins "Jenkins")**. 
+* **[GitLab CI/CD](../ci-integrations/gitlabci "GitLab CI/CD")**.
+* **[Azure Pipelines](../ci-integrations/azure "Azure Pipelines")**.
+* **[CircleCI](../ci-integrations/circleci "CircleCI")**.
+* **[Travis CI](../ci-integrations/travis "Travis CI")**.
+* **[Bitbucket](../ci-integrations/bitbucket "Bitbucket")**.
 
-If you have another CI, you can integrate it using these [Generic CI integration instructions](../ci-integrations/general "Generic CI integration instructions"). 
+If you have another CI, you can integrate it using these **[Generic CI integration instructions](../ci-integrations/general "Generic CI integration instructions")**. 

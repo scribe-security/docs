@@ -62,17 +62,17 @@ docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
 At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
 Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
-> For more details on policies, see [polices](#policies) section.
+> For more details on policies, see **[polices](#policies)** section.
 
 ### Evidence
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
-> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+> For evidence details, see **[SBOM](#cyclonedx-sbom)**, **[SLSA](#slsa-provenance)** section.
 
-> For target details, see [targets](#target-types) section.
+> For target details, see **[targets](#target-types)** section.
 
-> For signing details, see [attestations](#attestations) section.
+> For signing details, see **[attestations](#attestations)** section.
 
 ### Evidence formats
 Valint supports the following evidence formats.
@@ -100,7 +100,7 @@ Given an artifact to the Valint assumes the context of the artifact (`target`) i
 
 On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
 
-For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
+For example, verification done in GitHub Actions can refer to policy requirements that apply to the current run number.
 Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
 
 
@@ -110,13 +110,13 @@ The following table includes the types of environments we currently support:
 | context-type | description |
 | --- | --- |
 | local | local endpoints |
-| github | Github Actions |
-| gitlab | GitLab CI/CD |
-| azure | Azure Pipelines |
-| bitbucket | Bitbucket pipelines |
-| circle | CircleCI workflows |
-| travis | Travis CI workflows |
-| jenkins | Jenkins declarative pipelines |
+| GitHub | GitHub Actions |
+| GitLab | GitLab CI/CD |
+| Azure | Azure Pipelines |
+| Bitbucket | Bitbucket pipelines |
+| CircleCI | CircleCI workflows |
+| Travis | Travis CI workflows |
+| Jenkins | Jenkins declarative pipelines |
 
 
 The following fields are collected from any supported environment.
@@ -124,7 +124,7 @@ The following fields are collected from any supported environment.
 | Field | Description | 
 | --- | --- | 
 | context_type | Environment type | 
-| git_url | Environment provided git url |
+| git_url | Environment provided git URL |
 | git_branch | Environment provided git branch |
 | git_commit | Environment provided git commit |
 | git_tag | Environment provided git tag |
@@ -187,7 +187,7 @@ Each storer can be used to store, find and download evidence, unifying all the s
 | OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
 | scribe | Evidence is stored on scribe service | scribe credentials |
 
-> For details, see [evidence stores](#evidence-stores) section
+> For details, see **[evidence stores](#evidence-stores)** section
 
 ### Policies
 ---
@@ -195,13 +195,13 @@ Each `policy` proposes to enforce a set of requirements your supply chain must c
 Policy configuration can be set under the main configuration `policies` section.
 
 Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
-A `policy` is verified if ALL required `modules` in are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
+A `policy` is verified if ALL required `modules` are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
 
-> For details, see [Policies](./policies.md) section
+> For details, see **[Policies](./policies)** section
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
-> For PKI setting, see [attestations](#attestations) section.
+> For PKI setting, see **[attestations](#attestations)** section.
 
 ### Global 
 All policies include the following global fields:
@@ -211,11 +211,11 @@ All modules support the following fields.
 
 While all modules include the following global fields:
 * `enable`, enable module (default false). 
-* `name`, module name (**required**). 
-* `type`, set the module type, currently we only support `verify-artifact`. 
+* `name`, the module name (**required**). 
+* `type`, set the module type. Currently, we only support `verify-artifact`. 
 
 ### Policy modules
-Module are a set of compliance checks that you can configure to your specific compliance requirements.
+Module is a set of compliance checks that you can configure to your specific compliance requirements.
 
 ### Global Match field
 `match` field is a set of labels supported by all modules. 
@@ -223,7 +223,7 @@ These labels add requirements on the origin or the subject of the provided evide
 
 Using these fields allows you to set different compliance requirements for different layers of your supply chain.
 
-> For full label fields list see [environment-context](#environment-context) section.
+> For full label fields list see **[environment-context](#environment-context)** section.
 
 <details>
   <summary> Usage </summary>
@@ -236,7 +236,7 @@ match:
     sbomname: myorg/myimage:latest
 ```
 
-> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
+> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a GitHub.
 
 > If you also add `git_url: github.com/my_org/myimage.git`, it will require the evidence to be collected from a pipeline on a specific repo.
 
@@ -251,9 +251,9 @@ valint verify [target] --input-format [attest, attest-slsa] \
    --email [email] --common-name <common name> --uri [uri]
 ```
 
-In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.
+In other words, the Signed Artifact policy allows you to verify signature compliance and the format of artifacts in your supply chain.
 
-> For full command details, see [valint verify](#evidence-verification---verify-command) section.
+> For full command details, see **[valint verify](#evidence-verification---verify-command)** section.
 
 <details>
   <summary> Default Policy Evaluation </summary>
@@ -276,7 +276,7 @@ attest:
           sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
 ```
 
-> For module details, see [verify artifact module](#verify-artifact-module) section.
+> For module details, see **[verify artifact module](#verify-artifact-module)** section.
 
 </details>
 
@@ -287,9 +287,9 @@ In other words, it ensures produced artifacts (`targets`) integrity by checking 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the module input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the module input (for signed evidence).
 * Evidence Format: The evidence format should follow the specified format(s) in the format field of the module input.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
+* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` **[origin labels](##origin-context)**. 
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
+* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` **[subject labels](##subject-context)**.
 
 ### Use cases
 The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
@@ -323,7 +323,7 @@ The verify artifact module can be used to enforce compliance with specific suppl
        }
 ``` 
 
-### Policy As Code - Custom rego script
+### Policy As Code - Custom Rego script
 You can define custom policies for artifacts verified by the module by attaching them as code. After the module enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
 
 For example:
@@ -351,7 +351,7 @@ For example:
 ```
 
 #### Custom script - Input format
-Custom rego script is provided the following inputs.
+Custom Rego script is provided with the following inputs.
 ```yaml
 input:
   evidence: {Intoto-statment}
@@ -359,11 +359,11 @@ input:
   custom: {custom user defined input}
 ```
 
-> Note: When using Signed Attestations, the Custom Rego script receives the raw intoto statement along with the identity of the signer.
+> Note: When using Signed Attestations, the Custom Rego script receives the raw in-toto statement along with the identity of the signer.
 
 
 #### Custom script - Verify output format
-Custom rego script provided the following output.
+Custom Rego script provided the following output.
 ```json
 {
   "allow": <true | false>
@@ -373,7 +373,7 @@ Custom rego script provided the following output.
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -617,7 +617,7 @@ The Git Owner module enforces a set of requirements for the identity editing fil
 
 ### Evidence requirements
 The module requires a populated CycloneDX SBOM with commit, file and relations.
-The module supports both signed and unsigned forms of CylconeDX evidence.
+The module supports both signed and unsigned forms of CycloneDX evidence.
 
 * `--components` must include the following groups `commits`, `files`, `dep` (Optional include, `packages`).
 * `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
@@ -668,7 +668,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
 <details>
   <summary> Package git owners </summary>
@@ -786,7 +786,7 @@ SLSA Framework module requires SLSA provenance as well as Security Posture evide
 
 ### Third-Party module - Coming Soon!
 The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
-For example, the NPM Audit result, Synk or SonarQube scan, not only should pass but also be exposed as compliance evidence.
+For example, the NPM Audit result, Snyk or SonarQube scan, not only should pass but also be exposed as compliance evidence.
 
 ### Target types
 ---
@@ -883,7 +883,7 @@ Docker hub does not support the subpath format, `oci-repo` should be set to your
 > Some registries like Jfrog allow multi layer format for repo names such as , `my_org.jfrog.io/policies/attestations`.
 
 ### OCI Repo flag
-`oci-repo` setting indicates the location in a registry under which the evidence are stored.
+`oci-repo` setting indicates the location in a registry under which the evidence is stored.
 It must be a dedicated location in an OCI registry.
 for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
 
@@ -912,7 +912,7 @@ valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-ge
 valint verify [image] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
 ```
 
-> For related Cosign support, see [cosign ](#-cosign-support) section.
+> For related Cosign support, see **[cosign](#-cosign-support)** section.
 
 ### Cache Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing a local directory as an evidence store.
@@ -986,10 +986,10 @@ Following are some of the customizable features we support.
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
 It is required for SLSA compliance level 2 and above.
 
-See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
-See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
+* See details **[SLSA provenance spec](http://slsa.dev/provenance/v0.2)**
+* See details **[SLSA requirements](http://slsa.dev/spec/v0.1/requirements)**
 
-For example, evidence created on `Github Actions` will include the workflow name, run id, event head commit and so on.
+For example, evidence created on `GitHub Actions` will include the workflow name, run id, event head commit and so on.
 
 ### Generic evidence
 Generic evidence includes custom 3rd party verifiable information containing any required compliance requirements.
@@ -1088,11 +1088,11 @@ The following table includes the formats supported by the verification command.
 
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
-> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
-> See signing details, see [attestations](docs/attestations)
+> For spec details, see **[in-toto spec](https://github.com/in-toto/attestation)** <br />
+> See signing details, see **[attestations](docs/attestations)**
 
-### Extracting the predicate from attestation
-You may use the following command to extract evidence from a encoded attestation file.
+### Extracting the predicate from the attestation
+You may use the following command to extract evidence from an encoded attestation file.
 ```bash
 valint bom [target] -o [attest, attest-slsa, attest-generic] -o my_attestation.sig
 
@@ -1119,7 +1119,7 @@ Evidence can be tailor-made to fit your supply chain policies and transparency n
 valint bom [scheme]:[name]:[tag]
 ```
 
-See details [CLI documentation - Valint](docs/command/valint)
+See details **[CLI documentation - Valint](docs/command/valint)**
 
 ### Examples
 <details>
@@ -1170,7 +1170,7 @@ valint bom any_file.txt -o statement-generic
 Creates In-toto Attestation evidence.
  n output.
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 # Create a CycloneDX SBOM attestation for busybox image.
@@ -1227,9 +1227,9 @@ By default, the command verifies an artifact signature against the required iden
 
 The evidence verification flow includes two parts, the first is a PKI and identity verification on the evidence the second is a policy-based verification.
 
-> For flag details, see [CLI documentation - verify](docs/command/valint_verify).
+> For flag details, see **[CLI documentation - verify](docs/command/valint_verify)**.
 
-> For policy verification details, see [policies](#policies) section.
+> For policy verification details, see **[policies](#policies)** section.
 
 ### Usage
 
@@ -1287,10 +1287,10 @@ valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attes
 ## Configuration
 Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed [configuration](docs/configuration)
+See detailed **[configuration](docs/configuration)**
 
 # Cosign support 
-[Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
+**[Cosign](https://github.com/sigstore/cosign)** is an innovative tool that aims to make signatures an invisible infrastructure.
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
 <details>
@@ -1474,7 +1474,7 @@ valint bom busybox:latest
 
 Create and sign SBOM targets. <br />
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 valint bom busybox:latest -o attest
@@ -1486,7 +1486,7 @@ valint bom busybox:latest -o attest
 
 Create and sign SLSA targets. <br />
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 valint bom busybox:latest -o attest-slsa
@@ -1556,7 +1556,7 @@ valint bom temp.log -o attest-generic --compress
 
 Generating and verifying CycloneDX SBOM `attestation` for image target `busybox:latest`.
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 # Create CycloneDX SBOM attestations
@@ -1572,7 +1572,7 @@ valint verify busybox:latest
 
 Generating and verifying SLSA Provenance `attestation` for image target `busybox:latest`.
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 # Create SLSA Provenance attestations
@@ -1588,7 +1588,7 @@ valint verify busybox:latest -i attest-slsa
 
 Generating and verifying SLSA Provenance `attestation` for directory target.
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 mkdir testdir
@@ -1630,7 +1630,7 @@ valint verify git:./mongo-express
 
 Generating and verifying Generic evidence `attestation` for directory targets.
 
-> By default, *Valint* is using [Sigstore](https://www.sigstore.dev/ "Sigstore") interactive flow as the engine behind the signing mechanism.
+> By default, *Valint* is using **[Sigstore](https://www.sigstore.dev/ "Sigstore")** interactive flow as the engine behind the signing mechanism.
 
 ```bash
 mkdir testdir
@@ -1701,17 +1701,17 @@ valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attes
 Valint uses some external tools, libraries, and packages to achieve its goal.
 
 - Syft - CLI tool for generating a Software Bill of Materials (SBOM) from container images and filesystem.
-  - [Syft](https://github.com/anchore/syft)
+  - **[Syft](https://github.com/anchore/syft)**
 - CycloneDX-go - CycloneDX module for Go creates a valid CycloneDX bill-of-material document.
-  - [CycloneDX](https://github.com/ozonru/CycloneDX-go)
-- Cocosign - uses the awesome **sigstore** framework and specificly **sigstore/cosign** libraries for signing and verifying attestations. <br />
-  - [cosign](https://github.com/sigstore/cosign) <br />
-  - [sigstore](https://github.com/sigstore)
+  - **[CycloneDX](https://github.com/ozonru/CycloneDX-go)**
+- Cocosign - uses the awesome **sigstore** framework and specifically **sigstore/**cosign** libraries for signing and verifying attestations. <br />
+  - **[cosign](https://github.com/sigstore/cosign)** <br />
+  - **[sigstore](https://github.com/sigstore)**
 
 ### Support
 
 If you'd like help with deploying or using Valint, or you have an issue or a feature request, 
-[Contact-us](https://scribesecurity.com/contact-us/) By email or Slack.
+**[Contact-us](https://scribesecurity.com/contact-us/)** By email or Slack.
 
 If you are reporting an issue, please include:
 

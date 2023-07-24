@@ -11,7 +11,7 @@ Scribe utilizes both attestations (signed) and statement (unsigned) to validate 
 * InToto statement - unsigned evidence
 * InToto attestation - signed evidence
 
-See details [In-toto spec](https://github.com/in-toto/attestation)
+See details **[in-toto spec](https://github.com/in-toto/attestation)**
 
 ## Default configuration
 You can select from a set of prefilled default configuration.
@@ -21,8 +21,8 @@ You can select from a set of prefilled default configuration.
 <details>
   <summary> Sigstore public instance </summary>
 
-Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
-Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
+Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (Google, Microsoft, GitHub).
+Sigstore will also provide a transparency log for any one to verify your signatures against (`rekor`).
 
 > Use flag `--attest.default=sigstore`.
 
@@ -49,10 +49,10 @@ storer:
 </details>
 
 <details>
-  <summary> Sigstore public instance - Github workfload identity </summary>
+  <summary> Sigstore public instance - GitHub workload identity </summary>
 
-Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
-Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
+Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (Google, Microsoft, GitHub).
+Sigstore will also provide a transparency log for any one to verify your signatures against (`rekor`)
 
 > Select by using `--attest.default=sigstore-github`
 
@@ -77,7 +77,7 @@ verifier:
 <details>
   <summary> X509 local keys </summary>
 
-X509 flows allow you to use local keys, cert and CA file to sign and verify you sboms.
+X509 flows allow you to use local keys, cert and CA file to sign and verify you SBOMs.
 You may can use the default x509 `cocosign` configuration flag.
 
 > Use flag `--attest.default=x509`.
@@ -106,7 +106,7 @@ verifier:
 
 ## Custom configuration
 Edit your main configuration, add the following subsection. <br />
-For full configuration details see [configuration-format](#configuration-format).
+For full configuration details see **[configuration-format](#configuration-format)**.
 
 Usage:
 ```yaml
@@ -140,13 +140,13 @@ Sigstore based fulcio signer allows users to sign InToto statement using fulcio 
 
 Simply put you can utilize a OIDC connection to gain a short living certificate signed to your identity.
 
-[keyless](https://docs.sigstore.dev/cosign/openid_signing/)
-[fulcio_doc](https://github.com/sigstore/fulcio.md)
+**[keyless](https://docs.sigstore.dev/cosign/openid_signing/)**.
+**[fulcio_doc](https://github.com/sigstore/fulcio.md)**.
 
 #### Support
-- Interactive - User must authorize the signature via browser, device or security code url.
+- Interactive - User must authorize the signature via browser, device or security code URL.
 - Token - Static OIDC identity token provided provided by an external tool.
-- Built-in identity providers flows
+- Built-in identity providers flows:
     - google-workload-identity
     - google-impersonate
     - github-workload-identity

@@ -28,9 +28,9 @@ attest:
             input: {} # Module input, depending on the module type
 ``` 
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
-> For PKI setting, see [attestations](#docs/attestations) section.
+> For PKI setting, see **[attestations](#docs/attestations)** section.
 
 ### Policy 
 Policy support the following fields:
@@ -46,7 +46,7 @@ Module is a compliance checks that you can configure to your specific organizati
 * `match`, match on evidence with a specific context.
 * `input`, module specific configuration.
 
-> For `match` details, see [Policies](#match-field) section
+> For `match` details, see **[Policies](#match-field)** section
 > For `input` details, see related module section
 
 ## Verify Artifact module
@@ -57,10 +57,10 @@ In other words, it ensures produced artifacts (`targets`) integrity by checking 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
 * Evidence Format: The evidence format should follow the specified format(s) in the format field of the input.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
+* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` **[origin labels](##origin-context)**. 
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
-* Policy as code: The module allows extension of the verfication using custom scripts, as specified by the `rego` input.
+* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` **[subject labels](##subject-context)**.
+* Policy as code: The module allows extension of the verification using custom scripts, as specified by the `rego` input.
 
 ### Use cases
 The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
@@ -101,7 +101,7 @@ The verify artifact module can be used to enforce compliance with specific suppl
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -301,7 +301,7 @@ valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://sca
 ### Policy As Code
 You can define custom policies for artifacts verified by the module by attaching them as code. After the module enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
 
-Usage example, the following module verifies the predicate of the evidence in a custom rego script embedded in the policy.
+Usage example, the following module verifies the predicate of the evidence in a custom Rego script embedded in the policy.
 ```yaml
 - name: signed_image_custom_policy
   type: verify-artifact
@@ -391,7 +391,7 @@ Script output must provide the following structure.
 Copy the Examples configuration into file name `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 > You may also use `path` field to set a custom path your script
 
 
@@ -467,11 +467,11 @@ The Git Owner module enforces a set of requirements of the identity editing file
 
 > NOTICE: We currently do not verify the commit signature as it requires the public of all the signatures keys.
 
-> NOTICE: Module only enforeces file requirement on the LATEST commit not the entire chain.
+> NOTICE: Module only enforces file requirement on the LATEST commit not the entire chain.
 
 ### Evidence requirements
 Module requires a populated CycloneDX SBOM with commit, file and relations.
-Module supports both signed and unsigned forms of CylconeDX evidence.
+Module supports both signed and unsigned forms of CycloneDX evidence.
 
 * `--components` must include the following groups `commits`,`files`, `dep` (Optical include, `packages`).
 * `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
@@ -499,7 +499,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 
 * Only permitted Committer identities can update the `package.json` file.
 * Commits must be signed for all files excluding the tests related files.
-* Only permitted signed Committer identitied can update the CircleCI workflows.
+* Only permitted signed Committer identified can update the CircleCI workflows.
 
 ### Configuration
 ```yaml
@@ -522,11 +522,11 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration.md) section.
+> For configuration details, see **[configuration](docs/configuration)** section.
 
 <details>
   <summary> Package git owners </summary>
-In this example, the policy module named "package-git-owner" enforces `package.json` commiter identity.
+In this example, the policy module named "package-git-owner" enforces `package.json` committer identity.
 
 ```yaml
 attest:
@@ -598,7 +598,7 @@ valint verify git:https://github.com/myorg/some_repo.git -i attest
 
 <details>
   <summary> Workflows owners </summary>
-In this example, the policy module named "workflow-owners-policy" enforces only permitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
+In this example, the policy module named "workflow-owners-policy" enforces only permitted signed Committer identified can update CircleCI workflows under `.circle` subdirectory.
 
 ```yaml
 attest:
@@ -640,7 +640,7 @@ SLSA Framework module requires SLSA provenance as well as Security Posture evide
 
 ## Third-Party module - Coming Soon!
 The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
-For example, the NPM Audit result, Synk or Sonarqube scan, not only should pass but also be exposed as compliance evidence.
+For example, the NPM Audit result, Snyk or Sonarqube scan, not only should pass but also be exposed as compliance evidence.
 
 ## Default policy
 When no policy configuration is found, the signed artifact policy is used.
@@ -653,7 +653,7 @@ valint verify [target] --input-format [attest, attest-slsa] \
 
 In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.
 
-> For full command details, see [valint verify](#evidence-verification---verify-command) section.
+> For full command details, see **[valint verify](#evidence-verification---verify-command)** section.
 
 <details>
   <summary> Default Policy Evaluation </summary>
@@ -676,7 +676,7 @@ attest:
           sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
 ```
 
-> For module details, see [verify artifact module](#verify-artifact-module) section.
+> For module details, see **[verify artifact module](#verify-artifact-module)** section.
 
 </details>
 
@@ -686,7 +686,7 @@ These labels add requirements on the origin or the subject of the provided evide
 
 Using these fields allows you to set different compliance requirements for different layers of your supply chain.
 
-> For full label fields list see [environment-context](#environment-context) section.
+> For full label fields list see **[environment-context](#environment-context)** section.
 
 <details>
   <summary> Usage </summary>
@@ -699,7 +699,7 @@ match:
     sbomname: myorg/myimage:latest
 ```
 
-> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
+> If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a GitHub.
 
 > If you also add `git_url: github.com/my_org/myimage.git`, it will require the evidence to be collected from a pipeline on a specific repo.
 

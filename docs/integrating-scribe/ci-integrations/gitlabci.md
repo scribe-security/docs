@@ -85,11 +85,11 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Store credentials using [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project) 
+* Store credentials using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**. 
 
-* Open your GitLab project and make sure you have a yaml file named `.gitlab-ci.yml`
+* Open your GitLab project and make sure you have a yaml file named `.gitlab-ci.yml`.
 
-* Install `valint` tool using the following command
+* Install `valint` tool using the following command:
 ```bash
 curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
@@ -161,7 +161,7 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or [DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry).
+For example, using `docker login` command or **[DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry)**.
 
 ### Usage
 ```yaml
@@ -356,7 +356,7 @@ git-remote-job:
 
 Create SBOM for local git repository. <br />
 
-> When using implicit checkout note the Gitlab-CI [git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+> When using implicit checkout note the GitLab-CI **[git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy)** will effect the commits collected by the SBOM.
 
 ```YAML
 git-remote-job:
@@ -370,4 +370,4 @@ git-remote-job:
 
 ## Resources
 
-[Gitlab CI Jobs Page](https://docs.gitlab.com/ee/ci/) - Github CI docs.
+**[GitLab CI Jobs Page](https://docs.gitlab.com/ee/ci/)** - GitLab CI docs.

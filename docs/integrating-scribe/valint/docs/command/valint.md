@@ -54,6 +54,6 @@ Flags for `valint`
 
 ### SEE ALSO
 
-* [valint bom](valint_bom.md)	 - Create evidence command
-* [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
+* **[valint bom](valint_bom)** - Create evidence command
+* **[valint verify](valint_verify)** - Verify compliance policies against evidence to ensure the integrity of supply chain.
 

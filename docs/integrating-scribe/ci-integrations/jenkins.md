@@ -66,11 +66,11 @@ The examples use a sample pipeline building a Mongo express project.
 <h3>  Prerequisites </h3>
 
 * Jenkins extensions installed:
-   1. [Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")
-   1. [Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")
-   1. [Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )
-   1. [Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")
-   1. [Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension") (optional)
+   1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**.
+   2. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**.
+   3. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**.
+   4. **[Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")**.
+   5. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional).
 
 * A `docker` is installed on your build node in Jenkins.
 
@@ -154,7 +154,7 @@ pipeline {
 
 
 ### See Also
-[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
+**[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
 </details>
 
 
@@ -166,7 +166,7 @@ pipeline {
 
   <h3>  Prerequisites </h3>
 
-[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
+**[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
 ### Procedure
 
 <details>
@@ -259,7 +259,7 @@ spec:
 </details>
 
 ### See Also
-[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)
+**[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)**
 
 </details>
 
@@ -269,7 +269,7 @@ spec:
   </summary>
 <h3>  Prerequisites </h3>
 
- `curl` installed on your build node in jenkins.
+ `curl` installed on your build node in Jenkins.
 ### Procedure
 
 <details>

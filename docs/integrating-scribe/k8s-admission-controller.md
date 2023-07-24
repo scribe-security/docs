@@ -29,7 +29,7 @@ helm repo update
 kubectl create namespace scribe
 helm install admission-controller scribe/admission-controller -n scribe
 ```
-> For detailed integration option, see [evidence stores](#evidence-stores) section.
+> For detailed integration option, see **[evidence stores](#evidence-stores)** section.
 
 ## Policy engine
 Valint `admission controller` manages verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.

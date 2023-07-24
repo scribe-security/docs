@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 :::note
-If you are planning to deploy in this mode, you should [reach out to us](https://scribesecurity.com/contact-us/ "Contact Us") to discuss a custom license.
+If you are planning to deploy in this mode, you should **[reach out to us](https://scribesecurity.com/contact-us/ "Contact Us")** to discuss a custom license.
 :::
 
 In a local deployment, Valint generates SBOMs, collects additional evidence, and uses a filesystem folder or an OCI registry that you provide as a storage place for this evidence. When evaluating a policy, Valint retrieves the necessary evidence from this designated evidence store.

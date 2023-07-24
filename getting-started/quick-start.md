@@ -82,6 +82,6 @@ for more information click on any of the builds and you'll get to the build dash
 
 <img src='../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
 
-The dashboard is your main access to see this build's [reports](../how-to-run-scribe/scribe-hub-reports/). You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
+The dashboard is your main access to see this build's reports. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
 
-To learn more about what you can see, learn, and access about your build and your product check out the [reports](../how-to-run-scribe/scribe-hub-reports/) section.
+<!-- To learn more about what you can see, learn, and access about your build and your product check out the [reports](../how-to-run-scribe/scribe-hub-reports/) section. -->

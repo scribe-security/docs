@@ -6,10 +6,10 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-[SLSA](https://slsa.dev/) (Supply Chain Levels for Software Artifacts) is a security framework to prevent tampering, improve integrity, and secure packages and infrastructure. SLSA is organized into levels, with each level representing incremental progress over the previous one.
+**[SLSA](https://slsa.dev/)** (Supply Chain Levels for Software Artifacts) is a security framework to prevent tampering, improve integrity, and secure packages and infrastructure. SLSA is organized into levels, with each level representing incremental progress over the previous one.
 
 **Level 1 Requirements:**
-* Fully script or automate your build process: Automate your build process using tools like makefile or GitHub Actions to ensure consistent and repeatable builds.
+* Fully script or automate your build process: Automate your build process using tools like ``makefile`` or GitHub Actions to ensure consistent and repeatable builds.
 * Generate provenance documentation: Create provenance documentation that includes information about the "who," "where," and "when" of a piece of software.
 
 **Level 2 Requirements:**
@@ -27,11 +27,11 @@ By integrating a trusted builder into GitHub Actions workflows and generating no
 ### Configuration
 
 In order to enable SLSA evaluation configure the following:
-1. [Generate a Provenance Attestation](../integrating-scribe/ci-integrations/github/#generating-the-slsa-provenance-in-your-pipeline).
+1. **[Generate a Provenance Attestation](../integrating-scribe/ci-integrations/github/#generating-the-slsa-provenance-in-your-pipeline)**.
 2. Generate an attestation of the security posture of the Source Code Manager related to your build.
-3. Scribe Hub generates a [compliance report](http//tbd) you can review. 
+3. Scribe Hub generates a **[compliance report](http//tbd)** you can review. 
 
-Read about how you can evaluate your posture against SLSA [here](http//tbd).
+Read about how you can evaluate your posture against SLSA **[here](http//tbd)**.
 
 The normative process of assuring and attesting that your software was built securely comprises the following steps:
 1. Gather evidence continuously from every software build.
@@ -43,7 +43,7 @@ The normative process of assuring and attesting that your software was built sec
 A provenance attestation, provides evidence that your software artifact originated from the authorized build agent and code repository. This is a critical component in fulfilling SLSA level 3 requirements.
 
 **Step 1:** Plugin Installation
-If you haven’t installed the CI plugin, [Install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/).
+If you haven’t installed the CI plugin, **[Install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**.
 
 **Step 2:** Generating Provenance
 The snippet below demonstrates how to generate provenance in a GitHub workflow:  
@@ -64,7 +64,7 @@ Use action output-file: ``<my_custom_path>`` input argument to set a custom outp
    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
 ```
 
-This command creates provenance in compliance with the [SLSA v1 specification](https://slsa.dev/provenance/v1). 
+This command creates provenance in compliance with the **[SLSA v1 specification](https://slsa.dev/provenance/v1)**. 
 You can generate SLSA provenance on any other CI platform that Scribe supports. The process is similar to SBOM generation, except you need to use ``-o attest-slsa`` for the type.
 
 <details>
@@ -156,13 +156,13 @@ In order to meet full SLSA requirements, it's necessary to evaluate the security
 
 **Step 5:** Review Compliance Report To access these reports, navigate to "Products" in Scribe Hub, select the relevant product, choose the specific version, and click on the "Compliance" tab.
 
-For details on how to interpret the compliance report, you can read our guide [here](http://tbd).
+For details on how to interpret the compliance report, you can read our guide **[here](http://tbd)**.
 </details>
 
 <details>
   <summary>  <b> Gathering your GitHub posture during the pipeline run: </b> </summary>
 
-Scribe's [GitGat](https://github.com/scribe-public/gitgat#readme) is an open-source tool based on [OPA](https://www.openpolicyagent.org/docs/latest/) (Open Policy Agent) and leverages policies written in the Rego language, that evaluate the security posture of your GitHub account. This utility generates a report on your SCM account's security settings.
+Scribe's **[GitGat](https://github.com/scribe-public/gitgat#readme)** is an open-source tool based on **[OPA](https://www.openpolicyagent.org/docs/latest/)** (Open Policy Agent) and leverages policies written in the Rego language, that evaluate the security posture of your GitHub account. This utility generates a report on your SCM account's security settings.
 
 :::note
 currently GitGat evaluates posture against the CIS software supply chain benchmark only.
@@ -182,7 +182,7 @@ $HOME/.scribe/bin/valint bom report.md --scribe.client-id=$CLIENT-ID \
 
 <img src='../../../../img/start/gitgat-1.jpg' alt='GitGat run'/>
 
-You can read more about [here](https://github.com/scribe-public/gitgat#readme) the GitGat full documentation here or view the [free course](https://training.linuxfoundation.org/training/github-supply-chain-security-using-gitgat-lfd122x/).
+You can read more about **[here](https://github.com/scribe-public/gitgat#readme)** the GitGat full documentation here or view the **[free course](https://training.linuxfoundation.org/training/github-supply-chain-security-using-gitgat-lfd122x/)**.
 
 </details>
 
@@ -215,7 +215,7 @@ Following are the currently supported predicate types:
 |  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
-You can read more about Trivy integration [here](http://tbd).
+You can read more about Trivy integration **[here](http://tbd)**.
 
 ## Signing & verifying attestations
 
@@ -228,7 +228,7 @@ valint verify busybox:latest --attest.default x509
 
 Where ``--attest.default`` defines the singing method.  
 
-For more options, you can read [here](http://tbd).
+For more options, you can read **[here](http://tbd)**.
 
 ## Storing Evidence
 
@@ -243,7 +243,7 @@ Go to Scribe Hub left navigation page > Integrations and copy the client id and 
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-You can configure the secrets as flags as in the following example, or in Valint’s [configuration](../integrating-scribe/valint/configuration)
+You can configure the secrets as flags as in the following example, or in Valint’s **[configuration](../integrating-scribe/valint/configuration)**.
 
 ```
 # Generate and push evidence to registry
@@ -285,7 +285,7 @@ valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-g
 ## Applying a policy to evidence
 
 You can apply canned policies or custom policies as code:
-1. Scribe offers several sample Rego policies in this [repo](https://github.com/scribe-public/sample-policies "Sample Policies") that you can fork and use in your deployment.
+1. Scribe offers several sample Rego policies in this **[repo](https://github.com/scribe-public/sample-policies "Sample Policies")** that you can fork and use in your deployment.
 2. Verifying Image has a verified signature.
 
 When signing an image SBOM the effect is singing the image hash as well as including it in the image’s SBOM.
@@ -301,7 +301,7 @@ Verify
 $HOME/.scribe/bin/valint verify busybox:latest -i attest
 ```
 
-You can learn more about signing and verification [here](http://tbd).
+You can learn more about signing and verification **[here](http://tbd)**.
 
 You can verify an image in a policy by configuring the ``image-policy.yaml`` file as in the following example:
 ```yaml
@@ -321,5 +321,5 @@ attest:
                 Context_type: github #the image must have arrived from github
 ```
 
-Check out this [video](https://www.youtube.com/watch?v=BXD21zhgkMM) on Valint to learn more about policies.
+Check out this **[video](https://www.youtube.com/watch?v=BXD21zhgkMM)** on Valint to learn more about policies.
 

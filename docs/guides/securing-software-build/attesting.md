@@ -6,12 +6,12 @@ sidebar_position: 1
 
 ### Collecting evidence
 
-You can collect the following types of evidence from your software-building process. The evidence is formatted as an [in-toto](https://in-toto.io/ "in-toto") attestation and can be cryptographically signed.
+You can collect the following types of evidence from your software-building process. The evidence is formatted as an **[in-toto](https://in-toto.io/ "in-toto")** attestation and can be cryptographically signed.
 
 ### 1. SBOM
 
 **Step 1:** Install the Valint Plugin
-If you haven’t installed the CI plugin yet, [Install the Scribe Valint plugin in your CI system](../../reference-guide/ci-integrations/ "CI Integrations"). 
+If you haven’t installed the CI plugin yet, **[Install the Scribe Valint plugin in your CI system](../../reference-guide/ci-integrations/ "CI Integrations")**. 
 
 **Step 2:** Basic Integration for SBOM Generation
 As a basic integration step, generate an SBOM from the final built artifact such as a docker image. Use the following command either from the command line or in your build script immediately after the artifact is built: 
@@ -38,7 +38,7 @@ For more detailed information about SBOM generation, please consult the provided
 A provenance attestation, provides evidence that your software artifact originated from the authorized build agent and code repository. This is a critical component in fulfilling SLSA level 3 requirements.
 
 **Step 1: Plugin Installation**
-If you haven’t installed the CI plugin, [Install the Scribe Valint plugin in your CI system](../../reference-guide/ci-integrations/ "CI Integrations").
+If you haven’t installed the CI plugin, **[Install the Scribe Valint plugin in your CI system](../../reference-guide/ci-integrations/ "CI Integrations")**.
 
 **Step 2: Generating Provenance**
 The snippet below demonstrates how to generate provenance in a GitHub workflow:
@@ -89,7 +89,7 @@ jobs:
         path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
 ```
 
-This command creates provenance in compliance with the [SLSA v1 specification](https://slsa.dev/provenance/v1 "SLSA v1"). 
+This command creates provenance in compliance with the **[SLSA v1 specification](https://slsa.dev/provenance/v1 "SLSA v1")**. 
 
 You can generate SLSA provenance on any other CI platform that Scribe supports. The process is similar to SBOM generation, except you need to use `-o attest-slsa` for the type.
 
@@ -207,7 +207,7 @@ name: scribe-bitbucket-pipeline
 
 :::note 
 Full compliance with SLSA requires an evaluation of the security posture of both your Source Control Management (SCM) system and your CI system.
-Currently, Scribe Hub provides support for GitHub. Details on this integration can be found in our official documentation [here](../../reference-guide/ci-integrations/github/#generating-the-slsa-provenance-in-your-pipeline). Support for Azure DevOps is in the pipeline and will be available soon.
+Currently, Scribe Hub provides support for GitHub. Details on this integration can be found in our official documentation **[here](../../reference-guide/ci-integrations/github/#generating-the-slsa-provenance-in-your-pipeline)**. Support for Azure DevOps is in the pipeline and will be available soon.
 :::
 
 ### 3. Security posture of the Source Code Manager
@@ -225,11 +225,11 @@ In order to meet full SLSA requirements, it's necessary to evaluate the security
         
         <img src='../../../../img/ci/install_scribeapp_github.jpg' alt='Install ScribeApp Integration' width='50%' min-width='500px'/>
     4. Once done, you will be redirected back to Scribe Hub. From this point onwards, Scribe will automatically generate a SLSA and Software Supply Chain Assurance Framework (SSDF) compliance report for every build.
-    5. Review Compliance Report To access these reports, navigate to "Products" in Scribe Hub, select the relevant product, choose the specific version, and click on the "Compliance" tab. For details on how to interpret the compliance report, you can read our guide [here](../../reference-guide/ci-integrations/github/#where-to-start).
+    5. Review Compliance Report To access these reports, navigate to "Products" in Scribe Hub, select the relevant product, choose the specific version, and click on the "Compliance" tab. For details on how to interpret the compliance report, you can read our guide **[here](../../reference-guide/ci-integrations/github/#where-to-start)**.
 
 2. **Gathering your GitHub posture during the pipeline run** 
 
-    Scribe's GitGat is a tool based on [OPA](https://www.openpolicyagent.org/docs/latest/ "OPA") (Open Policy Agent) and leverages policies written in the Rego language, that evaluate the security posture of your GitHub account. This utility generates a report on your SCM account's security settings.
+    Scribe's GitGat is a tool based on **[OPA](https://www.openpolicyagent.org/docs/latest/ "OPA")** (Open Policy Agent) and leverages policies written in the Rego language, that evaluate the security posture of your GitHub account. This utility generates a report on your SCM account's security settings.
 
     :::note 
     currently GitGat evaluates posture against the CIS software supply chain benchmark only.
@@ -248,7 +248,7 @@ In order to meet full SLSA requirements, it's necessary to evaluate the security
     
     <img src='../../../../img/start/gitgat-2.jpg' alt='GitGat report' width='70%' min-width='600px'/>
 
-    You can learn how to read the GitGat report in this [free course](https://training.linuxfoundation.org/training/github-supply-chain-security-using-gitgat-lfd122x/ "GitGat Linux Foundation Course").
+    You can learn how to read the GitGat report in this **[free course](https://training.linuxfoundation.org/training/github-supply-chain-security-using-gitgat-lfd122x/ "GitGat Linux Foundation Course")**.
 
 3. **Gathering your Azure Devops posture during the pipeline run**
 
@@ -269,7 +269,7 @@ For example, gathering evidence of a Trivy output
 valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
 ```
 
-You can read more about Trivy integration [here](../../reference-guide/valint/command/valint#trivy-integration).
+You can read more about Trivy integration **[here](../../reference-guide/valint/command/valint#trivy-integration)**.
 
 If you want Scribe's backend to be able to gather more information from your 3rd party attestation use 1 of the 2 recommended predicate types:
 
@@ -278,7 +278,7 @@ If you want Scribe's backend to be able to gather more information from your 3rd
 |  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
-For any other predicate you use you can use it yourself to verify your 3rd party attestations using our [sign/verify](../../use-cases/securing-software-build/sign-verify) workflow.
+For any other predicate you use you can use it yourself to verify your 3rd party attestations using our **[sign/verify](../../use-cases/securing-software-build/sign-verify)** workflow.
     
 
 

@@ -133,7 +133,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Set your Scribe credentials as environment variables according to [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
+* Set your Scribe credentials as environment variables according to **[Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions")**.
 
 * Use the Scribe custom pipe as shown in the example bellow
 
@@ -370,11 +370,11 @@ Create SBOM for local git repository.
 ### Resources
 If you're new to Bitbucket pipelines this link should help you get started:
 
-[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
+**[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines")** - Get started with Bitbucket Pipelines.
 
 ### Support
 
-If you'd like help with this pipe, or you have an issue or a feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
+If you'd like help with this pipe, or you have an issue or a feature request, **[let us know](https://github.com/scribe-security/valint-pipe/issues)**.
 
 If you are reporting an issue, please include:
 
@@ -383,9 +383,9 @@ If you are reporting an issue, please include:
 - steps to reproduce
 
 By email or slack, 
-[Contact-us](https://scribesecurity.com/contact-us/).
+**[Contact-us](https://scribesecurity.com/contact-us/)**.
 
-### License
+<!-- ### License
 
 Copyright (c) 2019 Atlassian and others.
-Apache 2.0 licensed, see [LICENSE](LICENSE.txt) file.
+Apache 2.0 licensed, see **[LICENSE](LICENSE.txt)** file. -->

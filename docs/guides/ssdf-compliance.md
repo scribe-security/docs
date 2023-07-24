@@ -6,7 +6,7 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-The [Secure Software Development Framework (SSDF) version 1.1](https://csrc.nist.gov/pubs/sp/800/218/final) provides recommendations for mitigating the risk of software vulnerabilities. The SSDF practices are organized into four groups. 
+The **[Secure Software Development Framework (SSDF) version 1.1](https://csrc.nist.gov/pubs/sp/800/218/final)** provides recommendations for mitigating the risk of software vulnerabilities. The SSDF practices are organized into four groups. 
 
 Scribe can help achieve two of them:
 
@@ -14,4 +14,4 @@ Scribe can help achieve two of them:
 
 **Produce Well-Secured Software (PW):** Produce well-secured software with minimal security vulnerabilities in its releases - relevant to Scribe’s evidence enrichment and analytics.
 
-Read about how you can evaluate your posture against SSDF [here](http://tbd).
+Read about how you can evaluate your posture against SSDF **[here](http://tbd)**.

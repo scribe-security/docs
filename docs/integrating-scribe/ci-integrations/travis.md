@@ -82,7 +82,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Add the credentials (client id, client secret, and product key) to your Travis environment according to the [Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables") to avoid revealing secrets.
+* Add the credentials (client id, client secret, and product key) to your Travis environment according to the **[Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables")** to avoid revealing secrets.
 
 * Open your Travis project and make sure you have a YAML file named `.travis-ci.yml`.
 The code in the following examples of a workflow running on the mongo-express image 
@@ -267,7 +267,7 @@ ARTIFACTS_KEY=(AWS access key id)
 ARTIFACTS_SECRET=(AWS secret access key)
 ARTIFACTS_BUCKET=(S3 bucket name)
 ```
-For more details see [Artifact documentation](https://docs.travis-ci.com/user/uploading-artifacts/)
+For more details see **[Artifact documentation](https://docs.travis-ci.com/user/uploading-artifacts/)**.
 
 ```YAML
 - name: 'save-artifact'
@@ -332,7 +332,7 @@ Create SBOM for `mongo-express` remote git repository.
 
 Create SBOM for local git repository. <br />
 
-> When using implicit checkout note the travis-CI [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+> When using implicit checkout note the Travis-CI **[git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy)** will effect the commits collected by the SBOM.
 
 ```YAML
 - |
@@ -459,4 +459,4 @@ Or for a local repository
 
 ## Resources
 If you're new to Travis this link should help you get started:
-* [Travis CI](https://docs.travis-ci.com/user/tutorial/ "Travis tutorial") - Travis CI Tutorial.
+* **[Travis CI](https://docs.travis-ci.com/user/tutorial/ "Travis tutorial")** - Travis CI Tutorial.

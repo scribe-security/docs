@@ -113,5 +113,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [valint](valint.md)	 - Validate Supply Chain Integrity
+* **[valint](valint)**	 - Validate Supply Chain Integrity
 

@@ -18,7 +18,7 @@ Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To 
 
 * **CVSS** - CVE’s CVSS version 3.2 score
 
-* **EPSS** - Exploitability probability score as predicted by [https://www.first.org/epss/](https://www.first.org/epss/)
+* **EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss/)**
 
 * **Package & version** - the package name and version as reported in the SBOM
 
@@ -28,7 +28,7 @@ Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To 
 
 When sharing an SBOM with your stakeholders you might often require to include relevant advisories to the reported CVEs that explain why the vulnerability doesn’t affect the overall product or otherwise, how the consumer of your software should mitigate this vulnerability.
 
-Your team and your stakeholders can download these advisories in a [VEX format](https://cyclonedx.org/capabilities/vex/) which is machine readable and can be used by Scribe’s policy agent.
+Your team and your stakeholders can download these advisories in a **[VEX format](https://cyclonedx.org/capabilities/vex/)** which is machine readable and can be used by Scribe’s policy agent.
 
 To add an advisory to a vulnerability reported go to **Products > {Your Product} > {Version} > Vulnerabilities**.
 

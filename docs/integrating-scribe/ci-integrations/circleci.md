@@ -16,7 +16,7 @@ SBOM from a local directory) as well as several use cases of uploading the evide
 
 ### Usage
 
-_For full usage guidelines, see the [orb registry listing](https://circleci.com/developer/orbs/orb/scribe-security/orbs)._
+_For full usage guidelines, see the **[orb registry listing](https://circleci.com/developer/orbs/orb/scribe-security/orbs)**._
 
 ### Target types - `[target]`
 ---
@@ -67,8 +67,8 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Set your Scribe credentials as environment variables according to [CircleCI environment variables instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project "CircleCI embedding environment variables instructions").
-* Follow instructions and examples on the CircleCI [ScribeHub Orb page](https://circleci.com/developer/orbs/orb/scribe-security/orbs "Instructions for using ScribeHub Orb")
+* Set your Scribe credentials as environment variables according to **[CircleCI environment variables instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project "CircleCI embedding environment variables instructions")**.
+* Follow instructions and examples on the CircleCI **[ScribeHub Orb page](https://circleci.com/developer/orbs/orb/scribe-security/orbs "Instructions for using ScribeHub Orb")**.
 
 ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
@@ -85,16 +85,16 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or [circle orbs](https://circleci.com/docs/building-docker-images/).
+For example, using `docker login` command or **[circle orbs](https://circleci.com/docs/building-docker-images/)**.
 
 ### Scribe CircleCI Orbs
 
-[CircleCI 'Orbs'](https://circleci.com/developer/orbs "Circle CI Orbs") are shareable packages of CircleCI configuration code snippets. They are often shared in a registry and used to simplify configuration of builds on CircleCI.
+**[CircleCI 'Orbs'](https://circleci.com/developer/orbs "Circle CI Orbs")** are shareable packages of CircleCI configuration code snippets. They are often shared in a registry and used to simplify configuration of builds on CircleCI.
 Scribe offers custom CircleCI Orbs for easier integration of CircleCI workflows with Scribe Hub. The custom Orbs are used for evidence collection and integrity verification in your workflows.
 
 ---
 
 ### Resources
 
-* [CircleCI ScribeHub Orb Registry Page](https://circleci.com/orbs/registry/orb/scribe-security/orbs) - The official registry page of the ScribeHub orb for all versions, executors, commands, and jobs described.
-* [CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using, creating, and publishing CircleCI Orbs.
+* **[CircleCI ScribeHub Orb Registry Page](https://circleci.com/orbs/registry/orb/scribe-security/orbs)** - The official registry page of the ScribeHub orb for all versions, executors, commands, and jobs described.
+* **[CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration)** - Docs for using, creating, and publishing CircleCI Orbs.
