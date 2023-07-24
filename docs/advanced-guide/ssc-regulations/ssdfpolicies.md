@@ -1,12 +1,14 @@
 ---
-sidebar_position: 14
 sidebar_label: Scribe Hub SSDF Policies
 title: Scribe Hub SSDF Policies
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 The Secure Software Development Framework (SSDF) outlines some of the fundamental practices you should follow to ensure the security of the software you’re building. The SSDF is based on standard software development security practices established by the National Institute of Standards and Technology (NIST) and explicitly addresses security issues in software development. The SSDF version 1.1 is defined in **[NIST SP 800-218](https://scribesecurity.com/blog/ssdf-nist-800-218-final-version-differences-from-the-draft-and-their-implications-for-you/ "SSDF (SP 800-218) final version – differences from the draft and their implications for you")** publication. The framework was initially published in September of 2021 as a draft version. On March 22, 2021, NIST released the final version of the SSDF 1.1. All the high-level practices and tasks remained the same with a lot of the differences centered around the various examples provided. In deciding which practices to implement, NIST recommends balancing risk against cost, feasibility, and applicability. 
 
-The Scribe Hub allows producers to collect relevant SSDF information about their pipelines in the form of a series of policies. Once you connect the ScribeApp to your organizational GitHub account you'll get the SSDF policies checked for each of your builds automatically. You'll be able to check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SSDF__. To learn about how to connect the ScribeApp to your organizational GitHub account check out **[this page](../how-to-run-scribe/ci-integrations/github#connecting-scribeapp-to-your-organizational-github-account)**. To learn more about the policies we chose to check you can check out **[this page](https://www.cisecurity.org/insights/white-papers/cis-software-supply-chain-security-guide "CIS Software Supply Chain Security Guide")**.
+The Scribe Hub allows producers to collect relevant SSDF information about their pipelines in the form of a series of policies. Once you connect the ScribeApp to your organizational GitHub account you'll get the SSDF policies checked for each of your builds automatically. You'll be able to check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SSDF__. To learn about how to connect the ScribeApp to your organizational GitHub account check out **[this page](../../integrating-scribe/ci-integrations/github#connecting-scribeapp-to-your-organizational-github-account)**. To learn more about the policies we chose to check you can check out **[this page](https://www.cisecurity.org/insights/white-papers/cis-software-supply-chain-security-guide "CIS Software Supply Chain Security Guide")**.
 
 ### Ensure any change to code receives approval of two strongly authenticated users 
 According to this policy, each code change must be approved by two strong authenticated authorized contributors from the team that will be affected by the change.

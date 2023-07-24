@@ -1,19 +1,21 @@
 ---
 sidebar_label: "Generating SBOMs"
 title: Generating SBOMs
-sidebar_position: 2
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 ### Generating SBOMs from CI pipeline runs
 
-In order to generate an SBOM out of a build pipeline you must first **[install the Scribe Valint plugin in your CI system](../../how-to-run-scribe/ci-integrations/)**. After that, Valint will generate an SBOM and upload it to the Scribe Hub upon every pipeline run. Valint generates an SBOM for build artifacts you specify as targets. 
+In order to generate an SBOM out of a build pipeline you must first **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**. After that, Valint will generate an SBOM and upload it to the Scribe Hub upon every pipeline run. Valint generates an SBOM for build artifacts you specify as targets. 
 
 In your build script call `valint bom <target> <flags>`.
 
 `<target>` is a build artifact of either type of container image, file or file directory, or a git repo formatted as  
 `[<image:tag>, <dir path>, <git url>]`.  
 
-You can label several different build artifacts in one or more pipelines as belonging to the same logical application and its version. To this end use the special flags `--app-name` and `--app-version`. You can read about other optional flags **[here](../../how-to-run-scribe/cli/valint/docs/command/valint_bom/#optional-flags)**.
+You can label several different build artifacts in one or more pipelines as belonging to the same logical application and its version. To this end use the special flags `--app-name` and `--app-version`. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom/#optional-flags)**.
 
 ### Example
 

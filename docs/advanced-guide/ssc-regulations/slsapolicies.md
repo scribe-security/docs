@@ -1,14 +1,16 @@
 ---
-sidebar_position: 13
 sidebar_label: Scribe Hub SLSA Policies
 title: Scribe Hub SLSA Policies
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 The Supply chain Levels for Software Artifacts or SLSA (pronounced Salsa) is a security framework created by Google. It is a list of standards and controls meant to prevent tampering, improve file integrity, and secure packages and infrastructure in your projects, businesses, or enterprises. SLSA consists of common-sense security measures intended for embedding security throughout the development lifecycle. SLSA is meant to make it easier for the implementing organization to get information about its software source, build, and artifacts. At the same time, it’s meant to make it much harder for any malicious or threat actor, either within or outside of the organization, to make any unauthorized changes to files, processes, or artifacts.
 
 You can read more about SLSA v0.2 **[here](https://slsa.dev/provenance/v0.2 "SLSA Framework")**. 
 
-The Scribe Hub allows producers to collect relevant SLSA information about their pipelines in the form of a series of policies. You can choose to enact these policies on your pipeline and check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SLSA level 3__. To learn about how to enact the SLSA policy on your product check out **[this page](../how-to-run-scribe/ci-integrations/github#connecting-scribeapp-to-your-organizational-github-account)**.
+The Scribe Hub allows producers to collect relevant SLSA information about their pipelines in the form of a series of policies. You can choose to enact these policies on your pipeline and check whether the policy has passed or failed. If you see that all policies have passed that is equivalent to conforming to __SLSA level 3__. To learn about how to enact the SLSA policy on your product check out **[this page](../../integrating-scribe/ci-integrations/github#connecting-scribeapp-to-your-organizational-github-account)**.
 
 ### Build As Code 
 This policy checks that the build definition and configuration executed by the build service is verifiably derived from text file definitions stored in a version control system.

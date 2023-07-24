@@ -5,9 +5,9 @@ sidebar_position: 1
 ---
 
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
-* **[Bom](action-bom)**
-* **[Verify](action-verify)**
-* **[Installer](action-installer)**
+* **[Bom](../../../../docs/integrating-scribe/ci-integrations/github/action-bom)**
+* **[Verify](../../../../docs/integrating-scribe/ci-integrations/github/action-verify)**
+* **[Installer](../../../../docs/integrating-scribe/ci-integrations/github/action-installer)**
 
 ### Target types - `[target]`
 ---
@@ -219,7 +219,7 @@ To collect security policy information (SLSA and SSDF) from your GitHub pipeline
 
 Before you connect to ScribeApp no security policy data will be included in your build version information. To start the integration visit your **[Scribe Hub account](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. On the left column go to the **integrations** option.
 
-<img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
+<!-- <img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
 
 Once you click on **integrations** you'll get to a page that includes links to all possible environments you could integrate with Scribe Hub.
 If you scroll down a bit you'd get to the **Source Control** section:
@@ -249,7 +249,19 @@ Next, you'll be directed to GitHub to approve your access by inputting your pass
 
 As soon as you provide your password GitHub will handle everything else and redirect you back to the **integrations** page. Note that now there is a green checkmark next to the GitHub icon:
 
-<img src='../../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/> 
+<img src='../../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/>  -->
+
+**Step 1:** Access Integrations Log in to Scribe Hub. Navigate to the left pane and click on "Integrations".
+
+<img src='../../../../img/start/integrations-start.jpg' alt='Scribe Integrations'/>
+
+**Step 2:** Scroll down to find GitHub among the listed services. Select GitHub and click "Connect". 
+        
+**Step 3:** You will be redirected to GitHub. Sign in to your GitHub account, select the relevant GitHub organization account, and choose the appropriate repositories.
+
+**Step 4:** Once done, you will be redirected back to Scribe Hub. From this point onwards, Scribe will automatically generate a SLSA and Software Supply Chain Assurance Framework (SSDF) compliance report for every build.
+
+**Step 5:** Review Compliance Report To access these reports, navigate to "Products" in Scribe Hub, select the relevant product, choose the specific version, and click on the "Compliance" tab.
 
 Once you integrated the ScribeApp with your organizational GitHub account all available security policies (SLSA, SSDF) will be running automatically every time you run a build. The SSDF policy does not require anything to run. To run the SLSA policy you'll need to add a code snippet to your pipeline and run the action.
 
@@ -340,11 +352,11 @@ To see the full breakdown of policies - exactly which policies have passed or fa
 
 There are 12 SLSA policies that Scribe checks and if all of them are checked out (pass) that means that the build is approved for SLSA level 3.
 
-To learn more about each policy you can either click on them or see the explanation page **[here](../../../slsapolicies)**.
+To learn more about each policy you can either click on them or see the explanation page **[here](../../../../docs/advanced-guide/ssc-regulations/slsapolicies)**.
 
 There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
 
-To learn more about each policy you can either click on them or see the explanation page **[here](../../../ssdfpolicies)**.
+To learn more about each policy you can either click on them or see the explanation page **[here](../../../../docs/advanced-guide/ssc-regulations/ssdfpolicies)**.
 
 
 

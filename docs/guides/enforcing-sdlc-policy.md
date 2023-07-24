@@ -34,6 +34,6 @@ valint bom my_image:my_tag
 **Step 3:** Advanced SBOM Generation
 For a more detailed SBOM, you can generate additional SBOMs from the source code or from the package manager installation process during the build process. These additional SBOMs can be combined to create a more comprehensive and accurate SBOM.
 
-For more detailed information about SBOM generation, read **[here](http://tbd)**.
+For more detailed information about SBOM generation, read **[here](../advanced-guide/generating-sboms)**.
 
 

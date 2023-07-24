@@ -16,7 +16,7 @@ valint bom <target> <flags>
 ```
 
 ```<target>``` is a build artifact of either type of container image, file or file directory, or a git repo formatted as ```[<image:tag>, <dir path>, <git url>]```
-You can label several different build artifacts in one or more pipelines as belonging to the same logical application and its version. To this end use the special flags ```--app-name``` and ```--app-version```. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom#optional-flags)**.
+You can label several different build artifacts in one or more pipelines as belonging to the same **[logical application](../advanced-guide/generating-sboms/#generating-sboms-from-ci-pipeline-runs)** and its version. To this end use the special flags ```--app-name``` and ```--app-version```. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom#optional-flags)**.
 
 **Example**
 
@@ -24,7 +24,7 @@ You can label several different build artifacts in one or more pipelines as belo
 valint bom my_image:my_tag --app-name my_app --app-version 1.0.1
 ```
 
-It is possible to call Valint more than one step in a build run in order to add necessary information to render an accurate SBOM. At each point, Valint analyzes the data available in that context. The number of calling points depends on the source code language, the package manager type, and the method of building the final artifact. See **[advanced SBOM generation](http://tbd)**. However, generally speaking, it suffices to call valiant at the end of the build pointing its target to the final built artifact such as a container image.
+It is possible to call Valint more than one step in a build run in order to add necessary information to render an accurate SBOM. At each point, Valint analyzes the data available in that context. The number of calling points depends on the source code language, the package manager type, and the method of building the final artifact. See **[advanced SBOM generation](../advanced-guide/generating-sboms/#generating-sboms-from-ci-pipeline-runs)**. However, generally speaking, it suffices to call valiant at the end of the build pointing its target to the final built artifact such as a container image.
 
 ### Managing SBOMs of product trees
 

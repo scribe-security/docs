@@ -29,9 +29,9 @@ By integrating a trusted builder into GitHub Actions workflows and generating no
 In order to enable SLSA evaluation configure the following:
 1. **[Generate a Provenance Attestation](../integrating-scribe/ci-integrations/github/#generating-the-slsa-provenance-in-your-pipeline)**.
 2. Generate an attestation of the security posture of the Source Code Manager related to your build.
-3. Scribe Hub generates a **[compliance report](http//tbd)** you can review. 
+3. Scribe Hub generates a **[compliance report](../advanced-guide/scribe-hub-reports/compliance)** you can review. 
 
-Read about how you can evaluate your posture against SLSA **[here](http//tbd)**.
+Read about how you can evaluate your posture against SLSA **[here](../advanced-guide/ssc-regulations/slsapolicies)**.
 
 The normative process of assuring and attesting that your software was built securely comprises the following steps:
 1. Gather evidence continuously from every software build.
@@ -156,7 +156,7 @@ In order to meet full SLSA requirements, it's necessary to evaluate the security
 
 **Step 5:** Review Compliance Report To access these reports, navigate to "Products" in Scribe Hub, select the relevant product, choose the specific version, and click on the "Compliance" tab.
 
-For details on how to interpret the compliance report, you can read our guide **[here](http://tbd)**.
+For details on how to interpret the compliance report, you can read our guide **[here](../advanced-guide/scribe-hub-reports/compliance)**.
 </details>
 
 <details>
@@ -215,7 +215,7 @@ Following are the currently supported predicate types:
 |  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
-You can read more about Trivy integration **[here](http://tbd)**.
+You can read more about Trivy integration **[here](../integrating-scribe/ci-integrations/github/docs/attestations/#default-configuration)**.
 
 ## Signing & verifying attestations
 
@@ -228,7 +228,7 @@ valint verify busybox:latest --attest.default x509
 
 Where ``--attest.default`` defines the singing method.  
 
-For more options, you can read **[here](http://tbd)**.
+For more options, you can read **[here](../advanced-guide/signVerify)**.
 
 ## Storing Evidence
 
@@ -301,7 +301,7 @@ Verify
 $HOME/.scribe/bin/valint verify busybox:latest -i attest
 ```
 
-You can learn more about signing and verification **[here](http://tbd)**.
+You can learn more about signing and verification **[here](../advanced-guide/signVerify)**.
 
 You can verify an image in a policy by configuring the ``image-policy.yaml`` file as in the following example:
 ```yaml

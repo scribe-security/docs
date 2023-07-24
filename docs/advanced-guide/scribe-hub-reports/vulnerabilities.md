@@ -1,12 +1,16 @@
 ---
-sidebar_label: "Tracking and managing vulnerabilities"
-title: Tracking and managing vulnerabilities
-sidebar_position: 3
+sidebar_label: "Vulnerabilities"
+title: Vulnerabilities
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
-Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To review these vulnerabilities go to **Products > {Your Product} > {Version} > Vulnerabilities**.
+A product's build vulnerabilities report shows you all the vulnerabilities discovered in the build built at the end of the pipeline.
 
-<img src='../../../../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
+To reach the vulnerabilities report go to **Products > {Your Product} > {Version} > Vulnerabilities**.
+
+<img src='../../../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
 
 ### Explanation
 
@@ -36,13 +40,13 @@ Find the vulnerability according to it ID and click **‘+Add’** in its line i
 
 A dialog appears:
 
-<img src='../../../../../img/start/vex-start.jpg' alt='VEX Advisories dialog'/>
+<img src='../../../../img/start/vex-start.jpg' alt='VEX Advisories dialog'/>
 
 Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be canceled and the vulnerability line would be pushed to the end of the report.
 
 To export the VEX report click the Export button at the top right and select VEX document.
 
-<img src='../../../../../img/start/export-start.jpg' alt='Export dialog'/>
+<img src='../../../../img/start/export-start.jpg' alt='Export dialog'/>
 
 
 

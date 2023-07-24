@@ -14,4 +14,4 @@ Scribe can help achieve two of them:
 
 **Produce Well-Secured Software (PW):** Produce well-secured software with minimal security vulnerabilities in its releases - relevant to Scribe’s evidence enrichment and analytics.
 
-Read about how you can evaluate your posture against SSDF **[here](http://tbd)**.
+Read about how you can evaluate your posture against SSDF **[here](../advanced-guide/ssc-regulations/ssdfpolicies)**.

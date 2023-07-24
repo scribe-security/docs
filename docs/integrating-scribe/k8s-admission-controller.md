@@ -1,25 +1,31 @@
 ---
 sidebar_label: "K8s Admission Controller"
-title: K8s Admission Controller
+title: K8s Admission Controller - Coming Soon!
 sidebar_position: 5
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-# admission-controller - Coming Soon!
+<!-- # K8s Admission Controller - Coming Soon! -->
+<img src='../../../img/help/coming-soon.jpg' alt='Coming Soon'/>
+
 
 ![Version: 0.1.4-1](https://img.shields.io/badge/Version-0.1.4--1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4-1](https://img.shields.io/badge/AppVersion-0.1.4--1-informational?style=flat-square)
 
 **Homepage:** <https://scribesecurity.com>
 
 # Admission Controller
-The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain. <br />
-It does this by checking resources that are being created in the cluster against admission compliance requirements, which determine if the resources are allowed. <br />
-This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration. <br />
-The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace. <br />
+The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain.  
+
+It does this by checking resources that are being created in the cluster against admission compliance requirements, which determine if the resources are allowed.  
+
+This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration.  
+
+The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace.  
 
 ## Installing `admission-controller`
-The admission-controller is installed using Helm. <br />
+The admission-controller is installed using Helm.  
+
 Here are the steps to add the chart repository and install the admission-controller/
 
 1. Add the chart repository:
@@ -37,7 +43,8 @@ Valint `admission controller` manages verification of evidence using a policy en
 Each policy proposes to enforce a set of policies on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
 
 # Policy engine
-At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
+At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain.  
+
 Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
 
 ## Evidence:
