@@ -370,8 +370,8 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 ## Background
 SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
-2. The Provenance documend should be trustworthy and verified downstream (L2).
-3. The build system should be trustworth (L3).
+2. The Provenance document should be trustworthy and verified downstream (L2).
+3. The build system should be trustworthy (L3).
 ​
 The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
 ​
@@ -388,6 +388,14 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l1) for SLSA L1 inclu
 Checklist for achieving SLSA L1:
 - Build your software using a CI system. Preferably use a build script that is source-controlled.
 - Activate the `valint slsa` command as part of your build script to create a Provenance docuement. Notice that the `valint slsa` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
+
+#### using `valint slsa`​
+To achieve SLSA Level 1 using `valint slsa`:
+
+```
+# Run the valint slsa command on your target
+valint slsa <target>
+```
 ​
 ## SLSA L2
 The [requirements](https://slsa.dev/spec/v1.0/levels#build-l2) for SLSA L2 include:
@@ -396,27 +404,39 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l2) for SLSA L2 inclu
 - Downstream verification of provenance includes validating the authenticity of the provenance.
 ​
 Checklist for achieving SLSA L2:
+
 - The SLSA L1 checklist.
 - Use a hosted build service (as opposed to performing a build on the developer machine).
-- Create a signed Provenance document (instead of the unsigned that is enough for SLSA L1) This can be achieved by running ```valint slsa ... -o attest```. Regarding signing key management see [here](**** MIkey Please fill in TBDTBDTBD *****)
+- Create a signed Provenance document (instead of the unsigned that is enough for SLSA L1) This can be achieved by running ```valint slsa ... -o attest```. 
 - Verify the authenticity of the Provenance document downstream using the ```valint verify``` command.
-​
-## SLSA L3
-### SLSA L3 Requirements
+
+#### using `valint slsa`​
+To achieve SLSA Level 2 using `valint slsa`:
+
+```
+# Create an attestation of SLSA provenance
+valint slsa <target> -o attest
+```
+
+# SLSA L3
+## Requirements
 The [requirements](https://slsa.dev/spec/v1.0/levels#build-l3) for SLSA L3 include:
 - The SLSA L2 requirements.
 - Build platform implements strong controls to:
     - prevent runs from influencing one another, even within the same project.
     - prevent secret material used to sign the provenance from being accessible to the user-defined build steps.
 ​
-In addition, in order to trust the build platform, one needs to [verify the build platform](https://slsa.dev/spec/v1.0/verifying-systems). The build platform should be trusted in the sense that the Provenance document will be [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) and the build will be [isolated](https://slsa.dev/spec/v1.0/requirements#isolated). Such verification derives the following requirements:
+In addition, in order to trust the build platform, one needs to [verify the build platform](https://slsa.dev/spec/v1.0/verifying-systems). The build platform should be trusted in the sense that the Provenance document will be [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) and the build will be [isolated](https://slsa.dev/spec/v1.0/requirements#isolated). 
+
+
+Such verification derives the following requirements:
 - Verify the trustworthyness of the build platform itself. 
     - Such a verification should be done with the build platform vendor for SaaS CIs. In cases that the software producer is responsible for the deployment of the build system, a combination of vendor-self-attestation, and performing an analysis of the deployment aspects is recommended.
     - For example; When deploying a self-hosted CI, the vendor attestation should declare how builds are isolated from each other, and the deployment analysis should verify the access-permissions and log-auditing of the CI system. 
 - Verify that the use of platform does not break the unforgability and isolation requirements.
 ​
 ​
-Checklist for achieving SLSA L3:
+### Checklist for achieving SLSA L3
 - The SLSA L2 checklist.
 - Assess the CI system. The goal is to answer the following questions:
     - in what conditions can a unauthorized entity evade the build system
@@ -436,11 +456,14 @@ Checklist for achieving SLSA L3:
         - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a containter that is created for each build), or by verifying that build-runners start each time from a predefined state.
 ​
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
+
+### Build service trusted builder
+> When build service supports a trusted builder
+
+use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
 ​
-To achieve SLSA L3 with Scribe tools we recommend the following:
-- If the build service supports a trusted builder - use it, and use the `valint slsa` command to create the Provenance document.
-​
-Otherwise,
+### Self attestation trusted builder
+> When build service does supports a trusted builder
 ​
 - Instrument the build pipeline for generating all attestations that will be needed to populate the Provenance document. For example, you may decide you want a list of the dependencies installed during the build. This list can be generated by a ```valint bom dir:``` command. In addition, create a Provenance attestation in the pipeline using the `valint slsa` command.
 - Create a separete trusted-provenance-generation pipeline that will perform the following
@@ -454,131 +477,3 @@ Otherwise,
 In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
 ​
 Please contact us for designing and implementing such a deployment.
-
-
-# Reaching SLSA Levels with Valint SLSA
-
-## Introduction
-
-This section provides examples of how to use the `valint slsa` command with the Scribe tool to achieve different SLSA levels (Supply-chain Levels for Software Artifacts). The SLSA framework aims to ensure the integrity and security of software artifacts throughout the supply chain. There are three SLSA levels: L1, L2, and L3, each having specific requirements for compliance.
-
-In the examples below, we will demonstrate how to achieve each SLSA level using the `valint slsa` command and Scribe tools. Please note that reaching SLSA L3 requires additional verification and trustworthiness of the build platform, which may involve assessing the CI system and isolation mechanisms.
-
-### SLSA Level 1
-
-SLSA Level 1 requires the following:
-
-- Consistent build process.
-- Provenance document describing how the artifact was built.
-- Distributing provenance to consumers.
-
-To achieve SLSA Level 1 using `valint slsa`:
-
-```
-# Run the valint slsa command on your target
-valint slsa <target>
-```
-
-Where `<target>` is the name of the target object in one of the supported formats (e.g., `<image:tag>`, `<dir path>`, or `<git url>`).
-
-### SLSA Level 2
-
-SLSA Level 2 includes all Level 1 requirements and adds:
-
-- The build platform generates and signs the provenance.
-- Downstream verification of provenance includes validating its authenticity.
-
-To achieve SLSA Level 2 using `valint slsa`:
-
-```
-# Create an attestation of SLSA provenance
-valint slsa <target> -o attest
-```
-
-
-## Setting up keys for SLSA levels
-
-### Level 2
-Using x509 you can setup keys to meet the SLSA levels as following.
-
-* Keys should be generated for each pipeline or application using `openssl` or other CA management systems.
-
-* Place keys in a secure vault on used by your **build** pipeline, expose the proper access for each build pipeline.
-* Run the following
-```bash
-valint slsa <target> -o attest --attest-default <x509, x509-env>`.
-```
-
-> If your using the `cache` store, store the evidence generated in your preferred storage service.
-
-### Level 3 - coming soon
-
-
-## Setting up Sigstore keys for SLSA levels
-
-### Level 2
-Using x509 you can setup keys to meet the SLSA levels as following.
-
-* Platform or enverionment supporting the Sigstore IDPs can authticate using the 
-```bash
-valint slsa <target> -o attest --attest-default sigstore
-```
-
-### Level 3 - coming soon
-
-
-### Attestations
-In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
-Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
-
-Default signer settings are available using `--attest.default` flag. <br />
-Custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
-
-The following table includes the supported signer types.
-
-| Signer | default | Description | Default Description |
-| --- | --- | --- | --- |
-| x509 | x509 | x509 PEM file based signer | Default configuration reads keys from /etc/ |
-| x509 | x509-env | x509 PEM env based signer | Default configuration reads keys from environment |
-| sigstore | sigstore, sigstore-github | Sigstore signer | Default configuration refers the Sigstore public instance |
-| kms | | Key management services | |
-
->  Using KMS is NOT recommended for SLSA, this is because KMS based signing do not includes a CA issuing certificates but rather a simpler public/private PKI, This will in turn will disable the policy to prove the identities across the supply chain.
-
-> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
-> See signing details, see [attestations](docs/attestations)
-
-### SLSA Level 3
-
-SLSA Level 3 includes all Level 2 requirements and adds:
-
-- The build platform implements strong controls to prevent unauthorized influence between builds.
-
-To achieve SLSA Level 3 using `valint slsa`, it is recommended to:
-
-- Use a trusted builder in the build pipeline (if available) or
-- Instrument the build pipeline to generate attestations needed for the Provenance document.
-- Create a separate trusted-provenance-generation pipeline to verify and update the Provenance document.
-
-
-### Signers and Verifiers Support
-
-#### Sigstore
-Sigstore based Sigstore signer allows users to sign InToto statements using Sigstore project. It leverages OIDC connections to gain a short-lived certificate signed to your identity.
-
-Usage example::
-```
-valint bom busybox:latest -o attest --attest-default=sigstore
-valint verify busybox:latest --attest-default=sigstore
-```
-
-#### x509
-File-based key management library, supports TPM and various key types like RSA (pss), ECDSA (p256), and ED25519.
-
-Usage example:
-```
-valint bom busybox:latest -o attest --attest-default=x509
-valint verify busybox:latest --attest-default=x509
-```
-
-Remember to replace <key_path>, <cert_path>, and <ca_path> with appropriate file paths for your keys and certificates.
