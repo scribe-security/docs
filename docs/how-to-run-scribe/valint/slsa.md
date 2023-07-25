@@ -364,3 +364,93 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
 </details>
+
+# Reaching SLSA Levels with ```valint slsa```
+​
+## Background
+SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
+1. The artifact should have a Provenance document, describing it's origin and build process (L1).
+2. The Provenance documend should be trustworthy and verified downstream (L2).
+3. The build system should be trustworth (L3).
+​
+The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
+​
+Scribe's ```valint slsa``` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool.
+​
+Note: We refer here to the SLSA V1.0 framework.
+​
+## SLSA L1
+The [requirements](https://slsa.dev/spec/v1.0/levels#build-l1) for SLSA L1 include:
+- Software producer follows a consistent build process.
+- Build platform automatically generates provenance describing how the artifact was built.
+- Software producer distributes provenance to consumers.
+​
+Checklist for achieving SLSA L1:
+- Build your software using a CI system. Preferably use a build script that is source-controlled.
+- Activate the ```valint slsa``` command as part of your build script to create a Provenance docuement. Notice that the ```valint slsa``` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
+​
+## SLSA L2
+The [requirements](https://slsa.dev/spec/v1.0/levels#build-l2) for SLSA L2 include:
+- The SLSA L1 requirements.
+- The build runs on a hosted build platform that generates and signs the provenance itself. 
+- Downstream verification of provenance includes validating the authenticity of the provenance.
+​
+Checklist for achieving SLSA L2:
+- The SLSA L1 checklist.
+- Use a hosted build service (as opposed to performing a build on the developer machine).
+- Create a signed Provenance document (instead of the unsigned that is enough for SLSA L1) This can be achieved by running ```valint slsa ... -o attest```. Regarding signing key management see [here](**** MIkey Please fill in TBDTBDTBD *****)
+- Verify the authenticity of the Provenance document downstream using the ```valint verify``` command.
+​
+## SLSA L3
+### SLSA L3 Requirements
+The [requirements](https://slsa.dev/spec/v1.0/levels#build-l3) for SLSA L3 include:
+- The SLSA L2 requirements.
+- Build platform implements strong controls to:
+    - prevent runs from influencing one another, even within the same project.
+    - prevent secret material used to sign the provenance from being accessible to the user-defined build steps.
+​
+In addition, in order to trust the build platform, one needs to [verify the build platform](https://slsa.dev/spec/v1.0/verifying-systems). The build platform should be trusted in the sense that the Provenance document will be [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) and the build will be [isolated](https://slsa.dev/spec/v1.0/requirements#isolated). Such verification derives the following requirements:
+- Verify the trustworthyness of the build platform itself. 
+    - Such a verification should be done with the build platform vendor for SaaS CIs. In cases that the software producer is responsible for the deployment of the build system, a combination of vendor-self-attestation, and performing an analysis of the deployment aspects is recommended.
+    - For example; When deploying a self-hosted CI, the vendor attestation should declare how builds are isolated from each other, and the deployment analysis should verify the access-permissions and log-auditing of the CI system. 
+- Verify that the use of platform does not break the unforgability and isolation requirements.
+​
+​
+Checklist for achieving SLSA L3:
+- The SLSA L2 checklist.
+- Assess the CI system. The goal is to answer the following questions:
+    - in what conditions can a unauthorized entity evade the build system
+    - in what conditions can build affect each other.
+- Isolate the generation of the Provenance document:
+    - If the build systems supports secure build runners - use a secure runner (example: [GitHub](TBD LINK ***)), 
+​
+    or
+​
+    - Separate the creation of the Provenance document to a different pipeline, preferably on a separate build service. 
+        - Expose to this pipeline only the secret materials used for siging the Provenance document.
+        - Either create or verify the Provenance document content on this pipeline. In the case of verifying, verify all possible fields of an in-pipeline-generated Provenance document with data collected directly from the build platform, or from other trusted sources. 
+- Isolate, and verify the isolation of the build pipeline from other pipeline runs:
+    - Verify not using caches, volumes shared with other pipeline runs.
+    - Verify that secrets shared with other pipelines cannot allow for pipelines to affect each other.
+    - Verify that pipeline runs cannot affect each other
+        - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a containter that is created for each build), or by verifying that build-runners start each time from a predefined state.
+​
+These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
+​
+To achieve SLSA L3 with Scribe tools we recommend the following:
+- If the build service supports a trusted builder - use it, and use the ```valint slsa``` command to create the Provenance document.
+​
+Otherwise,
+​
+- Instrument the build pipeline for generating all attestations that will be needed to populate the Provenance document. For example, you may decide you want a list of the dependencies installed during the build. This list can be generated by a ```valint bom dir:``` command. In addition, create a Provenance attestation in the pipeline using the ```valint slsa``` command.
+- Create a separete trusted-provenance-generation pipeline that will perform the following
+    - Generate a trusted Proveance document, based on the one created in the build pipeline;
+        - Collect data from the build service and use it to verify and update the Provenance document.
+        - verify the content of attestations created in the build-pipeline. For example, verify the content of the build-runner by comparing an SBOM attastation from the build-pipeline with an SBOM attastation that was sampled separately.
+        - Use attestations collected from the build pipeline to update the Provenance document.
+        - Updating the Provenance document can be done using ```valint slsa``` command.
+    - Verify that the build was isolated, by evaluating data collected from the build service. For example - verfy the use of caches an secrets.
+​
+In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
+​
+Please contact us for designing and implementing such a deployment.
