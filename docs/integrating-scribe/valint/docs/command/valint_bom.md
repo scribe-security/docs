@@ -1,8 +1,4 @@
----
-sidebar_label: "valint bom"
-title: valint bom
-sidebar_position: 2
----
+## valint bom
 
 Create evidence command
 
