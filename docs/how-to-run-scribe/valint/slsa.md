@@ -302,7 +302,7 @@ valint verify git:https://github.com/mongo-express/mongo-express.git
 Or for a local repository
 ```bash
 # Cloned a local repository
-git clone https://github.com/mongo-express/mongo-express.git
+git clone https://github.com/mongo-express/mongo-expressvalint ver.git
 
 # Create CycloneDX SLSA Provenance attestations
 valint slsa git:./mongo-express -o attest
@@ -329,7 +329,7 @@ docker login $
 valint slsa [target] -o [attest, statement] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-valint verify [target] -o [attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
+valint verify [target] -i [attest-slsa, statement-slsa] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
