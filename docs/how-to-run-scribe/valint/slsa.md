@@ -393,7 +393,7 @@ Checklist for achieving SLSA L1:
 To achieve SLSA Level 1 using `valint slsa`:
 
 ```
-# Run the valint slsa command on your target
+# Create unsigned SLSA Provenance
 valint slsa <target>
 ```
 ​
@@ -414,7 +414,7 @@ Checklist for achieving SLSA L2:
 To achieve SLSA Level 2 using `valint slsa`:
 
 ```
-# Create an attestation of SLSA provenance
+# Create signed SLSA Provenance
 valint slsa <target> -o attest
 ```
 
@@ -447,7 +447,7 @@ Such verification derives the following requirements:
     or
 ​
     - Separate the creation of the Provenance document to a different pipeline, preferably on a separate build service. 
-        - Expose to this pipeline only the secret materials used for siging the Provenance document.
+        - Expose to this pipeline only the secret materials used for signing the Provenance document.
         - Either create or verify the Provenance document content on this pipeline. In the case of verifying, verify all possible fields of an in-pipeline-generated Provenance document with data collected directly from the build platform, or from other trusted sources. 
 - Isolate, and verify the isolation of the build pipeline from other pipeline runs:
     - Verify not using caches, volumes shared with other pipeline runs.
@@ -456,6 +456,22 @@ Such verification derives the following requirements:
         - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a containter that is created for each build), or by verifying that build-runners start each time from a predefined state.
 ​
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
+
+#### using `valint slsa`​
+To achieve SLSA Level 3 using `valint slsa`:
+
+* In trusted builder,run the following to attach any number of external evidence on the trustiness of the build system.
+```
+# create `evidence_path` file using any third party tool
+
+valint bom <evidence_path> -o generic-attest --predicate-type <third-party-custom-predicate> --label builder_slsa_evidence
+```
+
+* In trusted builder run the following,
+```
+# Create signed SLSA Provenance
+valint slsa <target> -o attest --label builder_slsa_evidence
+```
 
 ### Build service trusted builder
 > When build service supports a trusted builder
