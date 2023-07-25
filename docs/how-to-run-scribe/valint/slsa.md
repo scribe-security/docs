@@ -454,3 +454,218 @@ Otherwise,
 In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
 ​
 Please contact us for designing and implementing such a deployment.
+
+
+# Reaching SLSA Levels with Valint SLSA
+
+## Introduction
+
+This section provides examples of how to use the `valint slsa` command with the Scribe tool to achieve different SLSA levels (Supply-chain Levels for Software Artifacts). The SLSA framework aims to ensure the integrity and security of software artifacts throughout the supply chain. There are three SLSA levels: L1, L2, and L3, each having specific requirements for compliance.
+
+In the examples below, we will demonstrate how to achieve each SLSA level using the `valint slsa` command and Scribe tools. Please note that reaching SLSA L3 requires additional verification and trustworthiness of the build platform, which may involve assessing the CI system and isolation mechanisms.
+
+### SLSA Level 1
+
+SLSA Level 1 requires the following:
+
+- Consistent build process.
+- Provenance document describing how the artifact was built.
+- Distributing provenance to consumers.
+
+To achieve SLSA Level 1 using `valint slsa`:
+
+```
+# Run the valint slsa command on your target
+valint slsa <target>
+```
+
+Where `<target>` is the name of the target object in one of the supported formats (e.g., `<image:tag>`, `<dir path>`, or `<git url>`).
+
+### SLSA Level 2
+
+SLSA Level 2 includes all Level 1 requirements and adds:
+
+- The build platform generates and signs the provenance.
+- Downstream verification of provenance includes validating its authenticity.
+
+To achieve SLSA Level 2 using `valint slsa`:
+
+```
+# Create an attestation of SLSA provenance
+valint slsa <target> -o attest
+```
+
+
+## Setting up keys for SLSA levels
+
+### Level 2
+Using x509 you can setup keys to meet the SLSA levels as following.
+
+* Keys should be generated for each pipeline or application using `openssl` or other CA management systems.
+
+* Place keys in a secure vault on used by your **build** pipeline, expose the proper access for each build pipeline.
+* Run the following
+```bash
+valint slsa <target> -o attest --attest-default <x509, x509-env>`.
+```
+
+> If your using the `cache` store, store the evidence generated in your preferred storage service.
+
+### Level 3 - coming soon
+
+
+## Setting up Sigstore keys for SLSA levels
+
+### Level 2
+Using x509 you can setup keys to meet the SLSA levels as following.
+
+* Platform or enverionment supporting the Sigstore IDPs can authticate using the 
+```bash
+valint slsa <target> -o attest --attest-default sigstore
+```
+
+### Level 3 - coming soon
+
+
+### Attestations
+In-toto Attestations are a standard that defines a way to authenticate metadata describing a set of software artifacts.
+Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
+
+Default signer settings are available using `--attest.default` flag. <br />
+Custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
+
+The following table includes the supported signer types.
+
+| Signer | default | Description | Default Description |
+| --- | --- | --- | --- |
+| x509 | x509 | x509 PEM file based signer | Default configuration reads keys from /etc/ |
+| x509 | x509-env | x509 PEM env based signer | Default configuration reads keys from environment |
+| sigstore | sigstore, sigstore-github | Sigstore signer | Default configuration refers the Sigstore public instance |
+| kms | | Key management services | |
+
+>  Using KMS is NOT recommended for SLSA, this is because KMS based signing do not includes a CA issuing certificates but rather a simpler public/private PKI, This will in turn will disable the policy to prove the identities across the supply chain.
+
+> For spec details, see [In-toto spec](https://github.com/in-toto/attestation) <br />
+> See signing details, see [attestations](docs/attestations)
+
+#### X509 configuration 
+
+<details>
+  <summary> X509 local keys </summary>
+
+X509 signer allow you to use local keys, cert and CA file to sign and verify you attestations.
+You may can use the default x509 `cocosign` configuration flag.
+
+> Use flag `--attest.default=x509`.
+
+```bash
+valint bom busybox:latest -o attest --attest.default x509
+valint verify busybox:latest --attest.default x509
+```
+
+Default config
+```yaml
+signer:
+    x509:
+        enable: true
+        private: /etc/cocosign/keys/private/default.pem
+        cert: /etc/cocosign/keys/public/cert.pem
+        ca: /etc/cocosign/keys/public/ca.pem
+verifier:
+    x509:
+        enable: true
+        cert: /etc/cocosign/keys/public/cert.pem
+        ca: /etc/cocosign/keys/public/ca.pem
+```
+</details>
+
+<details>
+  <summary> X509 environment keys </summary>
+
+X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
+
+>  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
+
+```bash
+export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
+export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+
+valint bom busybox:latest -o attest
+valint verify busybox:latest
+```
+
+Config example
+```yaml
+signer:
+    x509:
+        enable: true
+        private: env://ATTEST_KEY
+        cert: env://ATTEST_CERT
+        ca: env://ATTEST_CA
+verifier:
+    x509:
+        enable: true
+        cert: env://ATTEST_CERT
+        ca: env://ATTEST_CA
+```
+</details>
+
+
+#### Custom configuration
+Edit your main configuration, add the following subsection. <br />
+For full configuration details see [configuration-format](#configuration-format).
+
+Usage:
+```yaml
+attest:
+    default: ""
+    cocosign: #Custom cocosign configuration
+        signer:
+            x509:
+                enable: true
+                private: ./private/key.pem
+        verifier:
+            x509:
+                enable: true
+                cert: ./public/cert.pem
+                ca: ./public/ca.pem
+```
+> Use flag `--attest.config` to provide a external cocosign config.
+
+
+
+### SLSA Level 3
+
+SLSA Level 3 includes all Level 2 requirements and adds:
+
+- The build platform implements strong controls to prevent unauthorized influence between builds.
+
+To achieve SLSA Level 3 using `valint slsa`, it is recommended to:
+
+- Use a trusted builder in the build pipeline (if available) or
+- Instrument the build pipeline to generate attestations needed for the Provenance document.
+- Create a separate trusted-provenance-generation pipeline to verify and update the Provenance document.
+
+
+### Signers and Verifiers Support
+
+#### Sigstore
+Sigstore based Sigstore signer allows users to sign InToto statements using Sigstore project. It leverages OIDC connections to gain a short-lived certificate signed to your identity.
+
+Usage example::
+```
+valint bom busybox:latest -o attest --attest-default=sigstore
+valint verify busybox:latest --attest-default=sigstore
+```
+
+#### x509
+File-based key management library, supports TPM and various key types like RSA (pss), ECDSA (p256), and ED25519.
+
+Usage example:
+```
+valint bom busybox:latest -o attest --attest-default=x509
+valint verify busybox:latest --attest-default=x509
+```
+
+Remember to replace <key_path>, <cert_path>, and <ca_path> with appropriate file paths for your keys and certificates.
