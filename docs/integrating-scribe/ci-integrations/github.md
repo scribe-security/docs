@@ -330,7 +330,7 @@ There you can examine the workflows and actions you have run on this GitHub repo
 
 <img src='../../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' width='70%' min-width='750px'/>
 
-The provenance information is in <a href='../glossary#in-toto'>in-toto</a> format and looks like this:
+The provenance information is in in-toto format and looks like this:
 
 <img src='../../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format' width='70%' min-width='750px'/>
 

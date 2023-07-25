@@ -29,7 +29,7 @@ To run the demo you need to:
 
 2. clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (the repo contains a simple ‘Hello-World’ app - an NPM based web server).  
 
-3. Define two new secret variables for the cloned repository to be used with the workflows: a `Client ID` and a `Client secret`.  To do that, go to settings → Secrets and variables → Actions → New repository secret.
+3. Define two new secret variables for the cloned repository to be used with the workflows: a `Client ID` and a `Client secret`. To do that, go to settings → Secrets and variables → Actions → New repository secret.
 
    - On GitHub.com, navigate to the main page of the repository.
 
@@ -43,7 +43,7 @@ To run the demo you need to:
 
    - Type a name for your secret in the `Name` input box. you need to add 2 secrets, `CLIENT_ID` and `CLIENT_SECRET`.
 
-   - Enter the value for your secret. In both cases the secret value was the one you get from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
+   - Enter the value for your secret. In both cases the secret value is the one you get from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
 
    - Click `Add secret`.
 

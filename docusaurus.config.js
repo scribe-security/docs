@@ -66,6 +66,7 @@ const config = {
                 "introducing-scribe/scribe-hub.md",
                 "introducing-scribe/stand-alone.md",
                 "getting-started/quick-start.md",
+                "getting-started/set-up-integration/set-up-github.md",
                 "guides/manag-sbom-and-vul.md",
                 "guides/secure-sfw-slsa.md",
                 "guides/enforcing-sdlc-policy.md",
