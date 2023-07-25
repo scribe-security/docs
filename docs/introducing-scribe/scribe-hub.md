@@ -19,7 +19,7 @@ Simply put, Valint is a tool that generates a bill of your software components, 
 
 You can start using Scribe Hub by opening a free account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
 
-Start here with the **[Quickstart](../getting-started/quick-start "Quickstart")** guide.
+Start here with the **[Quickstart](../getting-started/quick-start/demo "Quickstart - Demo project")** guide.
 
 <img src='../../../img/start/how-scribe-works.jpg' alt='Scribe Security high-level deployment architecture'/>
 
