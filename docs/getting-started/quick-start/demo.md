@@ -1,6 +1,6 @@
 ---
-sidebar_label: "Quickstart"
-title: Quickstart
+sidebar_label: "Demo Project"
+title: Demo Project
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 5

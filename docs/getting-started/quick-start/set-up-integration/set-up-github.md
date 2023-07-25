@@ -21,24 +21,24 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
    - Under your repository name, click `Settings`. If you cannot see the `Settings` tab, select the dropdown menu, then click `Settings`.
 
-      <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
+      <img src='../../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
 
    - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Codespaces`.
 
-      <img src='../../../img/start/secrets-and-variables.jpg' alt='Secrets and variables'/><br/>  
-      <img src='../../../img/start/codespaces.jpg' alt='Codespaces'/>
+      <img src='../../../../img/start/secrets-and-variables.jpg' alt='Secrets and variables'/><br/>  
+      <img src='../../../../img/start/codespaces.jpg' alt='Codespaces'/>
 
    - At the top of the new page, click the green `New repository secret` button.
 
-      <img src='../../../img/start/new-repository-secret.jpg' alt='New repository secret'/>
+      <img src='../../../../img/start/new-repository-secret.jpg' alt='New repository secret'/>
 
    - Type a name for your secret in the `Name` input box. you need to add each secret in turn, first `CLIENT_ID` and then `CLIENT_SECRET`. Enter the value for your secret. In both cases the secret value is the one you get from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
 
-      <img src='../../../img/start/new-secret.jpg' alt='New secret'/>
+      <img src='../../../../img/start/new-secret.jpg' alt='New secret'/>
 
    - Click `Add secret`.
 
-      <img src='../../../img/start/add-secret.jpg' alt='Add secret'/>
+      <img src='../../../../img/start/add-secret.jpg' alt='Add secret'/>
 
 5. Now that you have added the `CLIENT_ID` and `CLIENT_SECRET` variables to your repository you can add the Scribe code snippets into your YAML workflows. This guide assumes you're adding all possible evidence collection points.
 
@@ -47,7 +47,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         Create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
 
-        <img src='../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
+        <img src='../../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
 
         If the folder dosn't exist, create it.
 
@@ -103,7 +103,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         The `on: push` segment of this workflow means that whenever there is a `push` into this repository, a new signed SBOM of the repository will be sent to the evidence store of your Scribe hub.
 
-        Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your [evidence report](../../advanced-guide/scribe-hub-reports/evidence).
+        Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your [evidence report](../../../advanced-guide/scribe-hub-reports/evidence).
 
         </details>
 
@@ -112,7 +112,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         Create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
 
-        <img src='../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
+        <img src='../../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
 
         This new file is going to be your GitHub pipeline to create the final image from your repository.  
         You need to add Scribe code snippets in 2 main locations:  
@@ -203,15 +203,15 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         supplier-phone: $SUPPLIER_PHONE
         ```
 
-        Every time you run the workflow the evidence will be generated and uploaded to your Scribe Hub automatically. You'd be able to see the evidence on your [evidence report](../../advanced-guide/scribe-hub-reports/evidence).
+        Every time you run the workflow the evidence will be generated and uploaded to your Scribe Hub automatically. You'd be able to see the evidence on your [evidence report](../../../advanced-guide/scribe-hub-reports/evidence).
 
         You'll also see a new build version added to the appropriate project:
 
-        <img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
+        <img src='../../../../img/start/builds-start.jpg' alt='Product builds page'/>
 
-        Clicking on the latest added build will allow you to explore all it's relevent information, [reports](../../advanced-guide/scribe-hub-reports), and insights through the build dashboard:
+        Clicking on the latest added build will allow you to explore all it's relevent information, [reports](../../../advanced-guide/scribe-hub-reports), and insights through the build dashboard:
 
-        <img src='../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+        <img src='../../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
 
         </details>
 
@@ -225,33 +225,33 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
         <ol>
             <li>
                 To start the integration go to your <b>[Scribe Hub account](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")</b>. On the left options column go to the <b>integrations</b> option.<br/>
-                <img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='150px'/>
+                <img src='../../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='150px'/>
             </li>
             <li>
                 On the <b>integrations</b> page scroll down to the <b>Source Control</b> section:<br/>
-                <img src='../../../../img/ci/scribe-beta-source-control-integrations.jpg' alt='Source Control' width='150px'/>
+                <img src='../../../../../img/ci/scribe-beta-source-control-integrations.jpg' alt='Source Control' width='150px'/>
             </li>
             <li>
                 Press the <b>connect</b> button. That will lead you to a page like this:<br/>
-                <img src='../../../../img/ci/install_scribeapp.jpg' alt='Install ScribeApp' width='400px'/>
+                <img src='../../../../../img/ci/install_scribeapp.jpg' alt='Install ScribeApp' width='400px'/>
             </li>
             <li>
                 Choose the GitHub account you want to integrate the ScribeApp with. Make sure you have owner access to the account to allow the app integration. Make sure the account is organizational - the integration won't work with a private account.<br/><br/>
                 Once you have chosen the account you wish to integrate with ScribeApp GitHub you will get the following window:<br/>
-                <img src='../../../../img/ci/install_scribeapp_github.jpg' alt='Install ScribeApp Integration' width='400px'/>
+                <img src='../../../../../img/ci/install_scribeapp_github.jpg' alt='Install ScribeApp Integration' width='400px'/>
             </li>
             <li>
                 Choose the access level you wish to grant ScribeApp. You can choose to allow it access to all repositories or just select repositories. Note that repositories that are not covered by the ScribeApp will not be able to produce the SLSA provenance.<br/><br/> 
                 After reviewing the access granted to ScribeApp go ahead and approve it by pressing the big green button.<br/>
-                <img src='../../../../img/ci/green_button.jpg' alt='Green button' width='150px'/>
+                <img src='../../../../../img/ci/green_button.jpg' alt='Green button' width='150px'/>
             </li>
             <li>
                 Next, you'll be directed to GitHub to approve your access by inputting your password.<br/>  
-                <img src='../../../../img/ci/approve_access.jpg' alt='Approve access' width='250px'/>
+                <img src='../../../../../img/ci/approve_access.jpg' alt='Approve access' width='250px'/>
             </li>
             <li>
                 You get redirected to the <b>integrations</b> page. There is now a green checkmark next to the GitHub icon in the <b>Source Control</b> section:<br/>
-                <img src='../../../../img/ci/github_integrated.jpg' alt='Approve access' width='150px'/> 
+                <img src='../../../../../img/ci/github_integrated.jpg' alt='Approve access' width='150px'/> 
             </li>
         </ol><br/>    
 
@@ -367,19 +367,19 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         To see that provenance information you need to go to the **Actions** tab in your GitHub repository.
 
-        <img src='../../../../img/ci/actions_tab.jpg' alt='Actions tab'/> 
+        <img src='../../../../../img/ci/actions_tab.jpg' alt='Actions tab'/> 
 
         There you can examine the workflows and actions you have run on this GitHub repository. Once you have run a workflow that includes the SLSA provenance generation you'll be able to find the resulting file at the bottom of the page:
 
-        <img src='../../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' />
+        <img src='../../../../../img/ci/slsa_provenance.jpg' alt='SLSA provenance file' />
 
         The provenance information is in in-toto format and looks like this:
 
-        <img src='../../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format'/>
+        <img src='../../../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format'/>
 
-        In your Scribe hub, having a SLSA provenance added can be seen in your [compliance report](../../advanced-guide/scribe-hub-reports/compliance):
+        In your Scribe hub, having a SLSA provenance added can be seen in your [compliance report](../../../advanced-guide/scribe-hub-reports/compliance):
 
-        <img src='../../../../img/start/slsa-provenance.jpg' alt='SLSA provenance available'/> 
+        <img src='../../../../../img/start/slsa-provenance.jpg' alt='SLSA provenance available'/> 
 
         </details>
 
