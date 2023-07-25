@@ -83,6 +83,7 @@ const config = {
                 "integrating-scribe/git-repositories.md",
                 "integrating-scribe/package-repositories.md",
                 "integrating-scribe/valint/README.md",
+                "integrating-scribe/valint/policies.md",
                 "integrating-scribe/valint/getting-started-valint.md",
                 "integrating-scribe/valint/valint-command-summary.md",
                 "integrating-scribe/valint/configuration.md",
