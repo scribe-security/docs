@@ -215,7 +215,7 @@ Following are the currently supported predicate types:
 |  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
 |  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
-You can read more about Trivy integration **[here](../advanced-guide/standalone-deployment/attestations/#default-configuration)**.
+You can read more about Trivy integration **[here](../integrating-scribe/valint/docs/attestations/#default-configuration)**.
 
 ## Signing & verifying attestations
 
@@ -243,7 +243,7 @@ Go to Scribe Hub left navigation page > Integrations and copy the client id and 
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-You can configure the secrets as flags as in the following example, or in Valint’s **[configuration](../integrating-scribe/valint/configuration)**.
+You can configure the secrets as flags as in the following example, or in Valint’s **[configuration](../integrating-scribe/valint/docs/configuration)**.
 
 ```
 # Generate and push evidence to registry

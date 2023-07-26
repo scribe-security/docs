@@ -76,7 +76,7 @@ Following table includes the supported format.
    Are you sure you want to continue? (y/[N]):
    ```   
 
-   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-GitHub, x509 (public key certificates) or KMS (key management system). You can check out the configuration file **[here](../standalone-deployment/configuration "Configuration file")**.
+   If you want to change this default, for example, in order to use your own key management system, you can use the configuration file. Currently, the options for signing attestations are Sigstore, Sigstore-GitHub, x509 (public key certificates) or KMS (key management system). You can check out the configuration file **[here](../../integrating-scribe/valint/docs/configuration "Configuration file")**.
 
    Assuming you approve, you'll be directed to *Sigstore* in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 

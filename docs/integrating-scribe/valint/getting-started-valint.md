@@ -72,7 +72,7 @@ Evidence can be either signed (attestations) or unsigned (statements).
 
 * For evidence details, see **[SBOM](#cyclonedx-sbom)**, **[SLSA](#slsa-provenance)** section.
 * For target details, see **[targets](#target-types)** section.
-* For signing details, see the **[attestations](#attestations)** section or see the full guide **[here](../../advanced-guide/standalone-deployment/attestations)**.
+* For signing details, see the **[attestations](#attestations)** section or see the full guide **[here](../../integrating-scribe/valint/docs/attestations)**.
 
 ### Evidence formats
 Valint supports the following evidence formats.
@@ -198,8 +198,8 @@ Each `policy` consists of a set of `policy modules` that your supply chain must 
 A `policy` is verified if ALL required `modules` are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
 
 * For details, see **[Policies](#policies)** section.
-* For configuration details, see **[configuration](../valint/configuration)** section.
-* For PKI setting, see the **[attestations](#attestations)** section or see the full guide **[here](../../advanced-guide/standalone-deployment/attestations)**.
+* For configuration details, see **[configuration](../valint/docs/configuration)** section.
+* For PKI setting, see the **[attestations](#attestations)** section or see the full guide **[here](../../integrating-scribe/valint/docs/attestations)**.
 
 ### Global 
 All policies include the following global fields:
@@ -371,7 +371,7 @@ Custom Rego script provided the following output.
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see **[configuration](../valint/configuration)** section.
+> For configuration details, see **[configuration](../valint/docs/configuration)** section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -666,7 +666,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
 ### Examples
 Copy the Examples into file name `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see **[configuration](../valint/configuration)** section.
+> For configuration details, see **[configuration](../valint/docs/configuration)** section.
 
 <details>
   <summary> Package git owners </summary>
@@ -1072,7 +1072,7 @@ In-toto Attestations are a standard that defines a way to authenticate metadata 
 Attestations standard formalizes signing but also are intended for consumption by automated policy engines.
 
 Default settings are available using `--attest.default` flag. <br />
-Custom configuration by providing `cocosign` field in the **[configuration](../valint/configuration)** or custom path using `--attest.config`.
+Custom configuration by providing `cocosign` field in the **[configuration](../valint/docs/configuration)** or custom path using `--attest.config`.
 
 The following table includes the formats supported by the verification command.
 
@@ -1088,7 +1088,7 @@ The following table includes the formats supported by the verification command.
 > Unsigned evidence are still valuable for policy consumption regardless of them not being signed cryptographically.
 
 * For spec details, see **[in-toto spec](https://github.com/in-toto/attestation)**. 
-* For signing details, see the **[attestations](#attestations)** section or see the full guide **[here](../../advanced-guide/standalone-deployment/attestations)**.
+* For signing details, see the **[attestations](#attestations)** section or see the full guide **[here](../../integrating-scribe/valint/docs/attestations)**.
 
 ### Extracting the predicate from the attestation
 You may use the following command to extract evidence from an encoded attestation file.
@@ -1286,7 +1286,7 @@ valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attes
 ## Configuration
 Use the default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
-See detailed **[configuration](../valint/configuration)**
+See detailed **[configuration](../valint/docs/configuration)**
 
 # Cosign support 
 **[Cosign](https://github.com/sigstore/cosign)** is an innovative tool that aims to make signatures an invisible infrastructure.
