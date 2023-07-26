@@ -5,16 +5,9 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
-It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
- 
-By managing `evidence` generation, storage and validation, Valint ensures that your organization's `policies` are enforced throughout the supply chain. <br />
-You can store evidence locally or in any OCI registry, as well as using the Scribe Service for storage.
+## SLSA
 
-In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SLSA Provenances** and **SLSA provenance**. With Valint, you can sign and verify artifacts against their origin and signer identity in the supply chain.
-
-Valint also enables you to **generate** any 3rd party report, scan or configuration (any file) into evidence using the **Generic evidence** subtype. Enabling compliance requirements to refer and attest to your custom needs.
-
+**Supported version:** v1.0
 
 ### Evidence formats
 Valint supports the following evidence formats.
@@ -27,14 +20,518 @@ Valint supports the following evidence formats.
 
 ### SLSA Provenance
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
-It is required for SLSA compliance level 2 and above.
+It is required for SLSA compliance levels.
 
 See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
 
+#### Predicate default format
+Following describes provenance format created by default by valint.
 
-### Evidence Stores
+> We are currently expanding default and custom capabilities.
+
+
+```json
+{
+    "_type": "https://in-toto.io/Statement/v0.1",
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "subject": [
+       // Target subject 
+    ],
+    "predicate": {
+       "buildDefinition": {
+          "buildType": { context type }, // jenkins github circleci azure gitlab travis bitbucket local
+          "externalParameters": {
+            "pipeline": {
+              // Pipeline details
+            },
+             "source": {
+                "digest": {
+                   "sha1": { git commit },
+                },
+                "uri": { git url },
+             }
+          },
+          "internalParameters": {
+             // Full context fields
+          },
+          "resolvedDependencies": [
+             {
+                // Resolved source dependency
+             },
+             {
+                // Resolved build artifact dependency
+             },
+            ]
+       },
+       "runDetails": {
+          "builder": {
+             "id": { context type },
+             "builderDependencies": [
+                {
+                   // Valint tool dependency
+                }
+             ]
+          },
+          "metadata": {
+            "invocationID": { run id }
+          },
+          "byproducts": [
+             {
+                // Target layer byproducts
+             }
+          ]
+       }
+    }
+ }
+```
+
+<details>
+  <summary>  Default Github Provenance </summary>
+
+Following example shows a provenance created by a Github.
+
+```json
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "name": "index.docker.io/library/alpine:latest",
+      "digest": {
+        "sha256": "c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67"
+      }
+    }
+  ],
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://github.com/Attestations/GitHubActionsWorkflow@v1",
+      "externalParameters": {
+        "pipeline": {
+          "actor": "houdini91",
+          "build_num": "138",
+          "job": "slsa-install",
+          "run_id": "5667830803",
+          "type": "github",
+          "workflow": "pre-release/staging tests"
+        },
+        "source": {
+          "digest": {
+            "sha1": "2ca865f8a87b11926fff8183e64cba3420ae5d44"
+          },
+          "uri": "https://github.com/scribe-security/integrations.git@refs/heads/master"
+        }
+      },
+      "internalParameters": {
+        "actor": "houdini91",
+        "build_num": "138",
+        "content_type": "statement-slsa",
+        "context_type": "github",
+        "event_name": "workflow_dispatch",
+        "git_branch": "master",
+        "git_commit": "2ca865f8a87b11926fff8183e64cba3420ae5d44",
+        "git_ref": "refs/heads/master",
+        "git_url": "https://github.com/scribe-security/integrations.git",
+        "hostname": "fv-az442-47",
+        "imageID": "sha256:c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67",
+        "input_name": "alpine",
+        "input_scheme": "docker",
+        "input_tag": "latest",
+        "job_name": "slsa-install",
+        "repository": "scribe-security/integrations",
+        "run_attempt": "1",
+        "run_id": "5667830803",
+        "sbomgroup": "image",
+        "sbomhashs": [
+          "sha256-82d1e9d7ed48a7523bdebc18cf6290bdb97b82302a8a9c27d4fe885949ea94d1",
+          "sha256-c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67"
+        ],
+        "sbomname": "index.docker.io/library/alpine:latest",
+        "sbompurl": "pkg:docker/index.docker.io/library/alpine:latest@sha256:c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67?arch=amd64",
+        "sbomversion": "sha256:c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67",
+        "target_type": "image",
+        "timestamp": "2023-07-26T10:49:26Z",
+        "user": "runner",
+        "workflow": "pre-release/staging tests"
+      },
+      "resolvedDependencies": [
+        {
+          "uri": "https://github.com/scribe-security/integrations.git@refs/heads/master",
+          "digest": {
+            "sha1": "2ca865f8a87b11926fff8183e64cba3420ae5d44"
+          },
+          "name": "refs/heads/master",
+          "annotations": {
+            "branch": "master",
+            "tag": ""
+          }
+        },
+        {
+          "name": "index.docker.io/library/alpine:latest",
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "annotations": {
+            "OS": "linux",
+            "actor": "houdini91",
+            "architecture": "amd64",
+            "build_num": "138",
+            "context_type": "github",
+            "event_name": "workflow_dispatch",
+            "git_branch": "master",
+            "git_commit": "2ca865f8a87b11926fff8183e64cba3420ae5d44",
+            "git_ref": "refs/heads/master",
+            "git_url": "https://github.com/scribe-security/integrations.git",
+            "hostname": "fv-az442-47",
+            "imageID": "sha256:c1aabb73d2339c5ebaa3681de2e9d9c18d57485045a4e311d9f8004bec208d67",
+            "input_name": "alpine",
+            "input_scheme": "docker",
+            "input_tag": "latest",
+            "job_name": "slsa-install",
+            "manifest-digest": "sha256:9135edbf29612ccdc83f27e06feee3abf48d47abfcd16e0b61c7dd431f88b7b2",
+            "media-type": "application/vnd.docker.distribution.manifest.v2+json",
+            "repoDigest_0": "alpine@sha256:82d1e9d7ed48a7523bdebc18cf6290bdb97b82302a8a9c27d4fe885949ea94d1",
+            "repository": "scribe-security/integrations",
+            "run_attempt": "1",
+            "run_id": "5667830803",
+            "tag_0": "latest",
+            "tag_1": "3.18",
+            "tag_2": "latest",
+            "timestamp": "2023-07-26T10:49:26Z",
+            "user": "runner",
+            "workflow": "pre-release/staging tests"
+          }
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://github.com/Attestations/GitHubHostedActions@v1",
+        "builderDependencies": [
+          {
+            "uri": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.3.0-3",
+            "name": "valint",
+            "annotations": {
+              "vendor": "Scribe security, Inc",
+              "version": "0.3.0-3"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "invocationID": "5667830803"
+      },
+      "byproducts": [
+        {
+          "uri": "pkg:layer/index.docker.io/library/alpine:latest@sha256:78a822fe2a2d2c84f3de4a403188c45f623017d6a4521d23047c9fbb0801794c?index=0",
+          "digest": {
+            "sha256": "78a822fe2a2d2c84f3de4a403188c45f623017d6a4521d23047c9fbb0801794c"
+          },
+          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+          "annotations": {
+            "CreatedBy": "#(nop) ADD file:1da756d12551a0e3e793e02ef87432d69d4968937bd11bed0af215db19dd94cd in / ",
+            "index": "0",
+            "size": "7326745"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+</details>
+
+<details>
+  <summary>  Default Jenkins Provenance </summary>
+
+Following example shows a provenance created by a Jenkins pipeline.
+
+```json
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "name": "index.docker.io/library/busybox:latest",
+      "digest": {
+        "sha256": "5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78"
+      }
+    }
+  ],
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "Jenkins_workflow",
+      "externalParameters": {
+        "pipeline": {
+          "actor": "",
+          "build_num": "3",
+          "job": "slsa",
+          "run_id": "3",
+          "type": "jenkins",
+          "workflow": "integrations/vanilla/scribe-test-scripted"
+        }
+      },
+      "internalParameters": {
+        "build_num": "3",
+        "content_type": "statement-slsa",
+        "context_type": "jenkins",
+        "hostname": "ip-10-0-37-198",
+        "imageID": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
+        "input_name": "busybox",
+        "input_scheme": "docker",
+        "input_tag": "latest",
+        "job_name": "slsa",
+        "name": "jenkins.scripted.slsa.basic",
+        "node_name": "built-in",
+        "run_id": "3",
+        "sbomgroup": "image",
+        "sbomhashs": [
+          "sha256-2376a0c12759aa1214ba83e771ff252c7b1663216b192fbe5e0fb364e952f85c",
+          "sha256-5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78"
+        ],
+        "sbomname": "index.docker.io/library/busybox:latest",
+        "sbompurl": "pkg:docker/index.docker.io/library/busybox:latest@sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78?arch=amd64",
+        "sbomversion": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
+        "target_type": "image",
+        "timestamp": "2023-07-26T11:00:31Z",
+        "user": "jenkins",
+        "workflow": "integrations/vanilla/scribe-test-scripted",
+        "workspace": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted"
+      },
+      "resolvedDependencies": [
+        {
+          "name": "index.docker.io/library/busybox:latest",
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "annotations": {
+            "OS": "linux",
+            "architecture": "amd64",
+            "build_num": "3",
+            "context_type": "jenkins",
+            "hostname": "ip-10-0-37-198",
+            "imageID": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
+            "input_name": "busybox",
+            "input_scheme": "docker",
+            "input_tag": "latest",
+            "job_name": "slsa",
+            "manifest-digest": "sha256:f06e6c2ae878663b396244411f9f485805308a0fdaaa4600c0f532576e21e842",
+            "media-type": "application/vnd.docker.distribution.manifest.v2+json",
+            "name": "jenkins.scripted.slsa.basic",
+            "node_name": "built-in",
+            "repoDigest_0": "busybox@sha256:2376a0c12759aa1214ba83e771ff252c7b1663216b192fbe5e0fb364e952f85c",
+            "run_id": "3",
+            "tag_0": "latest",
+            "tag_1": "latest",
+            "timestamp": "2023-07-26T11:00:31Z",
+            "user": "jenkins",
+            "workflow": "integrations/vanilla/scribe-test-scripted",
+            "workspace": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted"
+          }
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "JenkinsCI",
+        "builderDependencies": [
+          {
+            "uri": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.3.0-3",
+            "name": "valint",
+            "annotations": {
+              "vendor": "Scribe security, Inc",
+              "version": "0.3.0-3"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "invocationID": "3"
+      },
+      "byproducts": [
+        {
+          "uri": "pkg:layer/index.docker.io/library/busybox:latest@sha256:feb4513d4fb7052bcff38021fc9ef82fd409f4e016f3dff5c20ff5645cde4c02?index=0",
+          "digest": {
+            "sha256": "feb4513d4fb7052bcff38021fc9ef82fd409f4e016f3dff5c20ff5645cde4c02"
+          },
+          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+          "annotations": {
+            "CreatedBy": "#(nop) ADD file:d33bc235bde0698458927440e9b8ac70686d1c73b31817351525ed122f1cffe9 in / ",
+            "index": "0",
+            "size": "4261550"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+</details>
+
+### Customizing
+Following are some of the customizable features we support.
+* Attach a external file **Content included** as a byProduct, use `--by-product` flag.
+* Automatically expand `byProducts` with detailed target components, use `--components` to select between the group types.
+* Set any one of specific provenance field, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
+* Attach environment variables to `internalParameters`, use `--env` or `--all-env` flags.
+* Provide custom predicate, use `--predicate` with partial or full SLSA provenance predicate.
+* Provide custom statement, use `--statement` with partial or full SLSA provenance statement.
+
+<details>
+  <summary>  Attach an External File as a ByProduct </summary>
+
+You can attach an external file as a byProduct using the `--by-product`t flag. This file and its **content** will be included as part of the SLSA provenance evidence.
+
+```bash
+valint slsa busybox:latest --by-product /path/to/my_file.txt
+```
+</details>
+
+<details>
+  <summary>  Automatically Expand byProducts </summary>
+
+You can automatically expand the byProducts with detailed target components using the `--components` flag to select between group types.
+
+```bash
+valint slsa busybox:latest --components layers,packages,files
+```
+</details>
+
+<details>
+  <summary>  Set Specific Provenance Fields </summary>
+
+You can set specific provenance fields using the following flags:
+
+* `--invocation`: Set metadata invocation ID.
+* `--build-type`: Set build type.
+* `--builder-id`: Set builder ID.
+* `--started-on`: Set metadata started time.
+* `--finished-on`: Set metadata finished time.
+
+```bash
+valint slsa busybox:latest --invocation my_invocation --build-type docker --builder-id 12345 --started-on 2023-07-25T15:30:00Z --finished-on 2023-07-25T16:00:00Z
+```
+</details>
+
+
+<details>
+  <summary>  Set Specific External parameter </summary>
+
+You can attach environment variables to internalParameters using the `--external` flags.
+
+> Flag only supports key value parameters
+
+```bash
+valint slsa busybox:latest --external my_custom_param=my_custom_value
+```
+</details>
+
+<details>
+  <summary>  Attach Environment Variables </summary>
+
+You can attach environment variables to internalParameters using the `--env` or `--all-env` flags.
+
+```bash
+# Attach all environment variables
+valint slsa busybox:latest --all-env
+
+# Attach a specific environment variable
+valint slsa busybox:latest --env MY_ENV
+```
+
+<details>
+  <summary>  Provide Custom Provenance Predicate </summary>
+
+You can provide a custom SLSA provenance predicate using the `--predicate` flag, specifying the path to the predicate file.
+
+> Custom predicate will be merged in to the `valint slsa` output evidence.)
+
+```bash
+valint slsa busybox:latest --predicate custom.predicate.json
+```
+
+For example the following `custom.predicate.json` defines custom `externalParameters`, `builderDependencies` and `metadata`.
+```json
+{
+  "buildDefinition": {
+    "externalParameters": {
+      "custom_external": {
+        "digest": {
+          "sha1": "910b17c3bc81ca8c791aaa394d508219e03879f8"
+        },
+        "name": "build-environment",
+        "value": "production",
+        "uri": "https://company.com/my_repo/event"
+      }
+    }
+  },
+  "runDetails": {
+    "builder": {
+      "builderDependencies": [
+        {
+          "uri": "https://github.com/.github/reusable_build.yaml",
+          "name": "my_tool",
+          "annotations": {
+            "vendor": "My company Inc",
+            "version": "1.0"
+          }
+        }
+      ]
+    },
+    "metadata": {
+        "invocationID": "https://company.com/my_repo/build.sh",
+        "startedOn": "2023-07-25T15:30:00Z",
+        "finishedOn": "2023-07-25T16:00:00Z"
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+  <summary>  Provide Custom Provenance Statement </summary>
+
+You can provide a custom SLSA provenance statement using the `--statement` flag, specifying the path to the statement file.
+
+> Note the custom statement will be merged in to the `valint slsa` output evidence.
+
+```bash
+valint slsa busybox:latest --statement custom.statement.json
+```
+
+For example the following `custom.statement.json` wil include custom `subject` and `byproducts`,
+```json
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "name": "index.docker.io/my_image",
+      "digest": {
+        "sha256": "62aedd01bd8520c43d06b09f7a0f67ba9720bdc04631a8242c65ea995f3ecac8"
+      }
+    }
+  ],
+  "predicate": { 
+    "runDetails": {
+      "byproducts": [
+        {
+           "uri": "pkg:docker/index.docker.io/my_image:latest@sha256:7ad00cd55506625f2afad262de6002c8cef20d214b353e51d1025e40e8646e18?index=0",
+           "digest": {
+              "sha256": "7ad00cd55506625f2afad262de6002c8cef20d214b353e51d1025e40e8646e18"
+           },
+           "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+           "annotations": {
+              "tag": "v0.0.1"
+           }
+        }
+     ]
+    }
+  }
+}
+```
+</details>
+
+
+## Evidence Stores
 Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ### Scribe Evidence store
@@ -68,7 +565,6 @@ valint verify [target] -i [attest-slsa, statement-slsa] \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
 ```
-
 
 ### OCI Evidence store
 Admission supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
@@ -371,7 +867,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
 2. The Provenance document should be trustworthy and verified downstream (L2).
-3. The build system should be trustworthy (L3).
+3. The build platform should be trustworthy (L3).
 ​
 The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
 ​
@@ -387,14 +883,23 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l1) for SLSA L1 inclu
 ​
 Checklist for achieving SLSA L1:
 - Build your software using a CI system. Preferably use a build script that is source-controlled.
-- Activate the `valint slsa` command as part of your build script to create a Provenance docuement. Notice that the `valint slsa` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
+- Activate the `valint slsa` command as part of your build script to create a Provenance document. Notice that the `valint slsa` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
 
-#### using `valint slsa`​
+### Create Provenance using `valint slsa`​
 To achieve SLSA Level 1 using `valint slsa`:
 
-```
+```bash
 # Create unsigned SLSA Provenance
-valint slsa <target>
+valint slsa [target]
+```
+
+### Verify Provenance using `valint verify`
+To verify SLSA Level 2 using `valint slsa` 
+run the following.
+
+```bash 
+# Create signed SLSA Provenance
+valint verify [target] -i statement-slsa --email [build-platform-identity]
 ```
 ​
 ## SLSA L2
@@ -410,16 +915,31 @@ Checklist for achieving SLSA L2:
 - Create a signed Provenance document (instead of the unsigned that is enough for SLSA L1) This can be achieved by running ```valint slsa ... -o attest```. 
 - Verify the authenticity of the Provenance document downstream using the ```valint verify``` command.
 
-#### using `valint slsa`​
-To achieve SLSA Level 2 using `valint slsa`:
+### Key management
+Keys or access tokens should be stored on the build platform or preferred secret management system.
+Make sure to expose access only to the provenance creation step or workflow.
 
-```
+> See signing configuration details, see [attestations](docs/attestations)
+
+### Create Provenance using `valint slsa`​
+To achieve SLSA Level 2 using `valint slsa` 
+run the following on the build platform.
+
+```bash 
 # Create signed SLSA Provenance
-valint slsa <target> -o attest
+valint slsa [target] -o attest --context-type [jenkins github circleci azure gitlab travis bitbucket]
 ```
 
-# SLSA L3
-## Requirements
+### Verify Provenance using `valint verify`
+To verify SLSA Level 2 using `valint slsa` 
+run the following.
+
+```bash 
+# Create signed SLSA Provenance
+valint verify [target] -i attest-slsa --email [build-platform-identity]
+```
+
+## SLSA L3
 The [requirements](https://slsa.dev/spec/v1.0/levels#build-l3) for SLSA L3 include:
 - The SLSA L2 requirements.
 - Build platform implements strong controls to:
@@ -430,19 +950,19 @@ In addition, in order to trust the build platform, one needs to [verify the buil
 
 
 Such verification derives the following requirements:
-- Verify the trustworthyness of the build platform itself. 
-    - Such a verification should be done with the build platform vendor for SaaS CIs. In cases that the software producer is responsible for the deployment of the build system, a combination of vendor-self-attestation, and performing an analysis of the deployment aspects is recommended.
-    - For example; When deploying a self-hosted CI, the vendor attestation should declare how builds are isolated from each other, and the deployment analysis should verify the access-permissions and log-auditing of the CI system. 
-- Verify that the use of platform does not break the unforgability and isolation requirements.
+- Verify the trustworthiness of the build platform itself. 
+    - Such a verification should be done with the build platform vendor for SaaS CIs. In cases that the software producer is responsible for the deployment of the build platform, a combination of vendor-self-attestation, and performing an analysis of the deployment aspects is recommended.
+    - For example; When deploying a self-hosted CI, the vendor attestation should declare how builds are [isolated](https://slsa.dev/spec/v1.0/requirements#isolated) from each other, and the deployment analysis should verify the access-permissions and log-auditing of the CI system. 
+- Verify that the use of platform does not break the [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) or [isolated](https://slsa.dev/spec/v1.0/requirements#isolated) requirements.
 ​
 ​
-### Checklist for achieving SLSA L3
+### SLSA L3 - Checklist 
 - The SLSA L2 checklist.
 - Assess the CI system. The goal is to answer the following questions:
-    - in what conditions can a unauthorized entity evade the build system
+    - in what conditions can a unauthorized entity evade the build platform
     - in what conditions can build affect each other.
 - Isolate the generation of the Provenance document:
-    - If the build systems supports secure build runners - use a secure runner (example: [GitHub](TBD LINK ***)), 
+    - If the build platform supports secure build runners - use a secure runner (example: [GitHub](TBD LINK ***)), 
 ​
     or
 ​
@@ -453,34 +973,29 @@ Such verification derives the following requirements:
     - Verify not using caches, volumes shared with other pipeline runs.
     - Verify that secrets shared with other pipelines cannot allow for pipelines to affect each other.
     - Verify that pipeline runs cannot affect each other
-        - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a containter that is created for each build), or by verifying that build-runners start each time from a predefined state.
+        - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a container that is created for each build), or by verifying that build-runners start each time from a predefined state.
 ​
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
-
-#### using `valint slsa`​
-To achieve SLSA Level 3 using `valint slsa`:
-
-* In trusted builder,run the following to attach any number of external evidence on the trustiness of the build system.
-```
-# create `evidence_path` file using any third party tool
-
-valint bom <evidence_path> -o generic-attest --predicate-type <third-party-custom-predicate> --label builder_slsa_evidence
-```
-
-* In trusted builder run the following,
-```
-# Create signed SLSA Provenance
-valint slsa <target> -o attest --label builder_slsa_evidence
-```
 
 ### Build service trusted builder
 > When build service supports a trusted builder
 
+
 use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
+
+### Create Provenance using `valint slsa`​
+To achieve SLSA Level 3 using `valint slsa` 
+run the following in trusted builder.
+
+```
+# Create signed SLSA Provenance
+valint slsa [target] -o attest --label builder_slsa_evidence
+```
 ​
 ### Self attestation trusted builder
 > When build service does supports a trusted builder
 ​
+
 Instrument the build pipeline for generating all attestations that will be needed to populate the Provenance document. For example, you may decide you want a list of the dependencies installed during the build. This list can be generated by a ```valint bom dir:``` command. In addition, create a Provenance attestation in the pipeline using the `valint slsa` command.
 - Create a separete trusted-provenance-generation pipeline that will perform the following
     - Generate a trusted Proveance document, based on the one created in the build pipeline;
@@ -493,3 +1008,61 @@ Instrument the build pipeline for generating all attestations that will be neede
 In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
 ​
 Please contact us for designing and implementing such a deployment.
+
+
+### Create Provenance using `valint slsa` - Coming soon​
+To achieve SLSA Level 3 using `valint slsa`:
+
+* Run the following in trusted builder, to attach any number of external evidence on the trustiness of the build platform.
+
+```bash
+# Use third party tool to review the build service security requirements
+some_scanner -o [report_path]
+
+# Attach file as generic evidence
+valint bom [report_path] -o generic-attest \
+  --predicate-type [custom-predicate] \
+  --context-type [jenkins github circleci azure gitlab travis bitbucket] \
+  --label [builderDependencies,resolvedDependencies,byproducts]
+
+# Attach SBOM evidence
+valint bom [target] -o attest  \
+  --context-type [jenkins github circleci azure gitlab travis bitbucket] \
+  --label [builderDependencies,resolvedDependencies,byproducts]
+```
+
+* Generate SLSA Provenance by running the following in trusted builder.
+```bash
+valint slsa [target] -o attest \
+  --context-type [jenkins github circleci azure gitlab travis bitbucket]
+```
+
+### Recommended SLSA L3 Evidence
+<details>
+  <summary> Trusted Builder dependency SBOM </summary>
+
+In trusted builder run the following,
+```bash
+valint bom git:. -o attest  --label builderDependencies
+``` 
+
+</details>
+
+<details>
+  <summary> Build directory resolved dependency SBOM </summary>
+
+Build resolved dependencies SBOM attached as a resolvedDependencies.
+```bash
+valint bom dir:<build_working_dir> -o attest --label resolvedDependencies
+``` 
+
+</details>
+
+<details>
+  <summary> Build Artifact SBOM </summary>
+  
+```bash
+valint bom [target] -o attest  --label [builderDependencies]
+``` 
+
+</details>

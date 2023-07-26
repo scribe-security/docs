@@ -105,7 +105,7 @@ verifier:
 </details>
 
 <details>
-  <summary> X509 envrionment keys </summary>
+  <summary> X509 environment keys </summary>
 
 X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
 

@@ -104,9 +104,9 @@ Valint supports the following evidence formats.
 `environment context` collects information from the underlining environments, in which Valint is run.
 
 Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
-Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `envrionment context`.
+Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `environment context`.
 
-On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
+On the verification flow the current `environment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
 
 For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
 Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
