@@ -95,6 +95,7 @@ const config = {
                 "integrating-scribe/valint/docs/command/valint_verify.md",
                 "integrating-scribe/k8s-admission-controller.md",
                 "advanced-guide/generating-sboms.md",
+                "advanced-guide/source-code-integrity.md",
                 "advanced-guide/standalone-deployment/signVerify.md",
                 "advanced-guide/standalone-deployment/github-actions/action-bom.md",
                 "advanced-guide/standalone-deployment/github-actions/action-verify.md",
