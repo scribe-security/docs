@@ -62,6 +62,8 @@ To learn more about each policy you can either click on them or see the explanat
 
 There are 36 SSDF policies that Scribe checks and if all of them are checked out (pass) that means that the build is compliant with the SSDF requirements.
 
+To learn more about each policy you can either click on them or see the explanation page **[here](../guides/ssdf-compliance/ssdfpolicies)**.
+
 <!--
 To learn more about each policy you can either click on them or see the explanation page **[here](../guides/ssdf-compliance/ssdfpolicies)**.
 
