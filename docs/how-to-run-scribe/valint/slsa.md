@@ -1054,7 +1054,6 @@ Such verification derives the following requirements:
     - For example; When deploying a self-hosted CI, the vendor attestation should declare how builds are [isolated](https://slsa.dev/spec/v1.0/requirements#isolated) from each other, and the deployment analysis should verify the access-permissions and log-auditing of the CI system. 
 - Verify that the use of platform does not break the [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) or [isolated](https://slsa.dev/spec/v1.0/requirements#isolated) requirements.
 ​
-​
 ### SLSA L3 - Checklist 
 - The SLSA L2 checklist.
 - Assess the CI system. The goal is to answer the following questions:
@@ -1090,7 +1089,7 @@ run the following in trusted builder.
 # Create signed SLSA Provenance
 valint slsa [target] -o attest --label builder_slsa_evidence
 ```
-​
+
 ### Self attestation trusted builder
 > When build service does supports a trusted builder
 ​
