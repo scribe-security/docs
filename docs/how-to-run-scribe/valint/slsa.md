@@ -89,7 +89,7 @@ Following describes provenance format created by default by valint.
     }
  }
 ```
-<!-- 
+
 <details>
   <summary>  Default Github Provenance </summary>
 
@@ -241,9 +241,9 @@ Following example shows a provenance created by a Github.
   }
 }
 ```
-</details> -->
+</details>
 
-<!-- <details>
+<details>
   <summary>  Default Jenkins Provenance </summary>
 
 Following example shows a provenance created by a Jenkins pipeline.
@@ -459,7 +459,7 @@ stage('slsa-full-env') {
   }
 }
 ```
-</details> -->
+</details>
 
 ### Customizing
 Following are some of the customizable features we support.
@@ -1016,7 +1016,7 @@ Checklist for achieving SLSA L2:
 Keys or access tokens should be stored on the build platform or preferred secret management system.
 Make sure to expose access only to the provenance creation step or workflow.
 
-> See signing configuration details, see [attestations](docs/attestations)
+> For signing configuration details, see [attestations](docs/attestations)
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 2 using `valint slsa` 
