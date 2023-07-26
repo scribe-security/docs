@@ -52,5 +52,6 @@ Flags for `valint`
 
 * [valint bom](valint_bom.md)	 - Create evidence command
 * [valint list](valint_list.md)	 - List evidence command
+* [valint slsa](valint_slsa.md)	 - Create SLSA provenance evidence command
 * [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
 

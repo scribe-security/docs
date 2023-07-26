@@ -48,7 +48,7 @@ These are the two points for adding Scribe Hub code:
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
 --scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
---logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+--app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
 --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
 --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
 --supplier-phone $SUPPLIER-PHONE
@@ -58,7 +58,7 @@ $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
 ```
    $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
    --scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
-   --logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
+   --app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
    --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
    --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
    --supplier-phone $SUPPLIER-PHONE

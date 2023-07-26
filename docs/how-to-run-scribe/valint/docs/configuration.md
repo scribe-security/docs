@@ -35,7 +35,6 @@ bom:
       enable: true
   formats:
   - cyclonedx-json
-  env: []
   force: false
   components:
   - metadata
@@ -64,6 +63,12 @@ bom:
   attach-regex: []
   final-artifact: false
   compress: false
+slsa:
+  formats:
+  - statement
+  components:
+  - metadata
+  - layers
 attest:
   config: ""
   default: sigstore

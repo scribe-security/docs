@@ -165,9 +165,9 @@ See details [attestations](docs/attestations)
 
 ### Storing Keys in Secret Vault
 
-Github exposes secrets from its vault using envrionment varuables, you may provide these envrionments as secret to valint.
+Github exposes secrets from its vault using environment varuables, you may provide these environments as secret to valint.
 
-> Paths names prefixed with `env://[NAME]` are read from the envrionment matching the name.
+> Paths names prefixed with `env://[NAME]` are read from the environment matching the name.
 
 <details>
   <summary> Github Secret Vault </summary>

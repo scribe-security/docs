@@ -23,7 +23,7 @@ Flags for `bom` subcommand
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,dep,commits] |
 | | --compress | Compress content (generic evidence) | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa statement-generic attest-generic] | [cyclonedx-json] |
+| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
