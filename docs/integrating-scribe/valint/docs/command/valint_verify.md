@@ -1,8 +1,4 @@
----
-sidebar_label: "valint verify"
-title: valint verify
-sidebar_position: 3
----
+## valint verify
 
 Verify compliance policies against evidence to ensure the integrity of supply chain.
 
@@ -113,5 +109,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* **[valint](valint)** - Validate Supply Chain Integrity
+* [valint](valint)	 - Validate Supply Chain Integrity
 

@@ -62,4 +62,4 @@ global flag for all commands
 
 ### SEE ALSO
 
-* **[valint](valint)**	 - supply chain integrity tool
+* [valint](valint)	 - supply chain integrity tool

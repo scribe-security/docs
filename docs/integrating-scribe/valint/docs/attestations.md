@@ -12,7 +12,7 @@ scribe utilizes both attestations (signed) and statement (unsigned) to validate 
 * InToto statement - unsigned evidence
 * InToto attestation - signed evidence
 
-See details **[in-toto spec](https://github.com/in-toto/attestation)**
+See details [In-toto spec](https://github.com/in-toto/attestation)
 
 ### Default configuration
 You can select from a set of prefilled default configuration.
@@ -22,8 +22,8 @@ You can select from a set of prefilled default configuration.
 <details>
   <summary> Sigstore public instance </summary>
 
-Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (Google, Microsoft, GitHub).
-Sigstore will also provide a transparency log for any one to verify your signatures against (`rekor`)
+Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
+Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
 
 > Use flag `--attest.default=sigstore`.
 
@@ -50,10 +50,10 @@ storer:
 </details>
 
 <details>
-  <summary> Sigstore public instance - GitHub workload identity </summary>
+  <summary> Sigstore public instance - Github workfload identity </summary>
 
-Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (Google, Microsoft, GitHub).
-Sigstore will also provide a transparency log for any one to verify your signatures against (`rekor`)
+Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
+Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
 
 > Select by using `--attest.default=sigstore-github`
 
@@ -105,7 +105,7 @@ verifier:
 </details>
 
 <details>
-  <summary> X509 environment keys </summary>
+  <summary> X509 envrionment keys </summary>
 
 X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
 
@@ -138,7 +138,7 @@ verifier:
 
 ## Custom configuration
 Edit your main configuration, add the following subsection. <br />
-For full configuration details see **[configuration-format](#configuration-format)**.
+For full configuration details see [configuration-format](#configuration-format).
 
 Usage:
 ```yaml
@@ -155,14 +155,14 @@ attest:
                 cert: ./public/cert.pem
                 ca: ./public/ca.pem
 ```
-> Use flag `--attest.config` to provide a external Cocosign config.
+> Use flag `--attest.config` to provide a external cocosign config.
 
 
 ## Signers and verifiers support
 
 ### **KMS**
 Sigstore based KMS signer allows users to sign via kms. <br />
-**[doc](https://github.com/sigstore/cosign/blob/main/KMS)** for Ref details.
+[doc](https://github.com/sigstore/cosign/blob/main/KMS) for Ref details.
 - Support `KMSREF` environment variable (when configuration field is empty).
 - Support static ref set by configuration or env.
 - Support in-band ref verification flow by using the `REF` signature option.
@@ -172,11 +172,11 @@ Sigstore based fulcio signer allows users to sign InToto statement using fulcio 
 
 Simply put you can utilize a OIDC connection to gain a short living certificate signed to your identity.
 
-* **[keyless](https://github.com/sigstore/cosign/blob/main/KEYLESS)**
-* **[fulcio_doc](https://github.com/sigstore/fulcio)**
+[keyless](https://github.com/sigstore/cosign/blob/main/KEYLESS)
+[fulcio_doc](https://github.com/sigstore/fulcio)
 
 #### Support
-- Interactive - User must authorize the signature via browser, device or security code URL.
+- Interactive - User must authorize the signature via browser, device or security code url.
 - Token - Static OIDC identity token provided provided by an external tool.
 - Built-in identity providers flows
     - google-workload-identity
@@ -188,7 +188,7 @@ Simply put you can utilize a OIDC connection to gain a short living certificate 
 ### **x509** 
 File based key management library, go library abstracting the key type from applications (Supports TPM).
 
-> See **[KML](https://github.com/scribe-security/KML)** for details.
+> See [KML](https://github.com/scribe-security/KML) for details.
 
 | Media type | TPM | RSA (pss)| ECDSA (p256) | ED25519 |
 | --- | --- | --- | --- | --- |
@@ -198,7 +198,7 @@ File based key management library, go library abstracting the key type from appl
  > PEM formatted files 
 
 ### OCI storer
-Cocosign embeds the OC storer 
+Cocosign embeds the oc storer 
 Storer uploads evidence to your OCI registry.
 Evidence can be attached to a specific image or uploaded to a general repo location.
 

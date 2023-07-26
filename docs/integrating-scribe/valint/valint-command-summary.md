@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Valint Command Summary"
 title: Valint Command Summary
-sidebar_position: 3
+sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---

@@ -1,8 +1,4 @@
----
-sidebar_label: "valint bom"
-title: valint bom
-sidebar_position: 2
----
+## valint bom
 
 Create evidence command
 
@@ -130,5 +126,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* **[valint](valint)**	 - Validate Supply Chain Integrity
+* [valint](valint)	 - Validate Supply Chain Integrity
 
