@@ -15,6 +15,10 @@ SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming
 
 Valint supports generation and validation of the SLSA Provenance document.
 
+> See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
+
+> See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
+
 ### Provenance formats
 Valint supports the following provenance formats.
 
@@ -27,8 +31,6 @@ Valint supports the following provenance formats.
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
 It is required for SLSA compliance levels.
 
-See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
-See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
 #### Predicate default format
 Following describes provenance format created by default by valint.
