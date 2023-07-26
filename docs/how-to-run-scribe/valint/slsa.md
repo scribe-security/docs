@@ -5,32 +5,35 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-## SLSA
+# SLSA
+> **Supported version** v1.0
 
-**Supported version:** v1.0
+SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
+1. The artifact should have a Provenance document, describing it's origin and build process (L1).
+2. The Provenance document should be trustworthy and verified downstream (L2).
+3. The build platform should be trustworthy (L3).
 
-### Evidence formats
-Valint supports the following evidence formats.
+Valint supports generation and validation of the SLSA Provenance document.
+
+### Provenance formats
+Valint supports the following provenance formats.
 
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
 | statement-slsa | statement | In-toto SLSA Provenance Statement | no |
 | attest-slsa | attest | In-toto SLSA Provenance Attestation | yes |
 
-
-### SLSA Provenance
+### SLSA Provenance specification overview
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
 It is required for SLSA compliance levels.
 
 See details [SLSA provenance spec](http://slsa.dev/provenance/v0.2)
 See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 
-
 #### Predicate default format
 Following describes provenance format created by default by valint.
 
 > We are currently expanding our default and custom capabilities.
-
 
 ```json
 {
@@ -43,9 +46,9 @@ Following describes provenance format created by default by valint.
        "buildDefinition": {
           "buildType": { context type }, // jenkins github circleci azure gitlab travis bitbucket local
           "externalParameters": {
-            "pipeline": {
-              // Pipeline details
-            },
+             "pipeline": {
+               // Pipeline details
+             },
              "source": {
                 "digest": {
                    "sha1": { git commit },
@@ -245,6 +248,19 @@ Following example shows a provenance created by a Github.
 
 Following example shows a provenance created by a Jenkins pipeline.
 
+Running the following step,
+
+```javascript
+stage('slsa-full-env') {
+    sh ''' valint slsa busybox:latest \
+          -o statement \
+          --context-type jenkins \
+          --output-directory ./scribe/valint \
+          --all-env '''
+}
+```
+> Note we use `all-env` to expand the `internalParameters`.
+
 ```json
 {
   "_type": "https://in-toto.io/Statement/v0.1",
@@ -263,26 +279,67 @@ Following example shows a provenance created by a Jenkins pipeline.
       "externalParameters": {
         "pipeline": {
           "actor": "",
-          "build_num": "3",
-          "job": "slsa",
-          "run_id": "3",
+          "build_num": "4",
+          "job": "slsa-full-env",
+          "run_id": "4",
           "type": "jenkins",
           "workflow": "integrations/vanilla/scribe-test-scripted"
         }
       },
       "internalParameters": {
-        "build_num": "3",
+        "build_num": "4",
         "content_type": "statement-slsa",
         "context_type": "jenkins",
+        "env": {
+          "BUILD_DISPLAY_NAME": "#4",
+          "BUILD_ID": "4",
+          "BUILD_NUMBER": "4",
+          "BUILD_TAG": "jenkins-integrations-vanilla-scribe-test-scripted-4",
+          "BUILD_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/",
+          "CI": "true",
+          "EXECUTOR_NUMBER": "0",
+          "HOME": "/var/lib/jenkins",
+          "HUDSON_COOKIE": "f1108901-9650-426e-89e8-b40aeba4c784",
+          "HUDSON_HOME": "/var/lib/jenkins",
+          "HUDSON_SERVER_COOKIE": "e28a37828ffba010",
+          "HUDSON_URL": "https://jenkins.dev.scribesecurity.com/",
+          "INVOCATION_ID": "117f6dba640f430aaa798f6418280840",
+          "JENKINS_HOME": "/var/lib/jenkins",
+          "JENKINS_NODE_COOKIE": "53d0ec43-b3e1-4f6a-9b23-3957eaf8a8b8",
+          "JENKINS_SERVER_COOKIE": "durable-d259f7f23dec0511b1c137a667d297e312e0d6f8e742f4355c4b20f80f6492cf",
+          "JENKINS_URL": "https://jenkins.dev.scribesecurity.com/",
+          "JOB_BASE_NAME": "scribe-test-scripted",
+          "JOB_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/display/redirect",
+          "JOB_NAME": "integrations/vanilla/scribe-test-scripted",
+          "JOB_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/",
+          "JOURNAL_STREAM": "8:35218",
+          "LANG": "C.UTF-8",
+          "LOGNAME": "jenkins",
+          "NODE_LABELS": "built-in",
+          "NODE_NAME": "built-in",
+          "NOTIFY_SOCKET": "/run/systemd/notify",
+          "PATH": "./temp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin",
+          "PWD": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted",
+          "RUN_ARTIFACTS_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=artifacts",
+          "RUN_CHANGES_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=changes",
+          "RUN_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect",
+          "RUN_TESTS_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=tests",
+          "SHELL": "/bin/bash",
+          "STAGE_NAME": "slsa-full-env",
+          "USER": "jenkins",
+          "VERIFY_TARGET_SCRIPT_PATH": ".valint.rego",
+          "WORKSPACE": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted",
+          "WORKSPACE_TMP": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted@tmp"
+        },
         "hostname": "ip-10-0-37-198",
         "imageID": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
         "input_name": "busybox",
         "input_scheme": "docker",
         "input_tag": "latest",
-        "job_name": "slsa",
-        "name": "jenkins.scripted.slsa.basic",
+        "job_name": "slsa-full-env",
+        "name": "jenkins.scripted.slsa-full-env.basic",
         "node_name": "built-in",
-        "run_id": "3",
+        "run_id": "4",
         "sbomgroup": "image",
         "sbomhashs": [
           "sha256-2376a0c12759aa1214ba83e771ff252c7b1663216b192fbe5e0fb364e952f85c",
@@ -292,7 +349,7 @@ Following example shows a provenance created by a Jenkins pipeline.
         "sbompurl": "pkg:docker/index.docker.io/library/busybox:latest@sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78?arch=amd64",
         "sbomversion": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
         "target_type": "image",
-        "timestamp": "2023-07-26T11:00:31Z",
+        "timestamp": "2023-07-26T11:18:28Z",
         "user": "jenkins",
         "workflow": "integrations/vanilla/scribe-test-scripted",
         "workspace": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted"
@@ -302,25 +359,64 @@ Following example shows a provenance created by a Jenkins pipeline.
           "name": "index.docker.io/library/busybox:latest",
           "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
           "annotations": {
+            "BUILD_DISPLAY_NAME": "#4",
+            "BUILD_ID": "4",
+            "BUILD_NUMBER": "4",
+            "BUILD_TAG": "jenkins-integrations-vanilla-scribe-test-scripted-4",
+            "BUILD_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/",
+            "CI": "true",
+            "EXECUTOR_NUMBER": "0",
+            "HOME": "/var/lib/jenkins",
+            "HUDSON_COOKIE": "f1108901-9650-426e-89e8-b40aeba4c784",
+            "HUDSON_HOME": "/var/lib/jenkins",
+            "HUDSON_SERVER_COOKIE": "e28a37828ffba010",
+            "HUDSON_URL": "https://jenkins.dev.scribesecurity.com/",
+            "INVOCATION_ID": "117f6dba640f430aaa798f6418280840",
+            "JENKINS_HOME": "/var/lib/jenkins",
+            "JENKINS_NODE_COOKIE": "53d0ec43-b3e1-4f6a-9b23-3957eaf8a8b8",
+            "JENKINS_SERVER_COOKIE": "durable-d259f7f23dec0511b1c137a667d297e312e0d6f8e742f4355c4b20f80f6492cf",
+            "JENKINS_URL": "https://jenkins.dev.scribesecurity.com/",
+            "JOB_BASE_NAME": "scribe-test-scripted",
+            "JOB_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/display/redirect",
+            "JOB_NAME": "integrations/vanilla/scribe-test-scripted",
+            "JOB_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/",
+            "JOURNAL_STREAM": "8:35218",
+            "LANG": "C.UTF-8",
+            "LOGNAME": "jenkins",
+            "NODE_LABELS": "built-in",
+            "NODE_NAME": "built-in",
+            "NOTIFY_SOCKET": "/run/systemd/notify",
             "OS": "linux",
+            "PATH": "./temp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin",
+            "PWD": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted",
+            "RUN_ARTIFACTS_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=artifacts",
+            "RUN_CHANGES_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=changes",
+            "RUN_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect",
+            "RUN_TESTS_DISPLAY_URL": "https://jenkins.dev.scribesecurity.com/job/integrations/job/vanilla/job/scribe-test-scripted/4/display/redirect?page=tests",
+            "SHELL": "/bin/bash",
+            "STAGE_NAME": "slsa-full-env",
+            "USER": "jenkins",
+            "VERIFY_TARGET_SCRIPT_PATH": ".valint.rego",
+            "WORKSPACE": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted",
+            "WORKSPACE_TMP": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted@tmp",
             "architecture": "amd64",
-            "build_num": "3",
+            "build_num": "4",
             "context_type": "jenkins",
             "hostname": "ip-10-0-37-198",
             "imageID": "sha256:5242710cbd55829f6c44b34ff249913bb7cee748889e7e6925285a29f126aa78",
             "input_name": "busybox",
             "input_scheme": "docker",
             "input_tag": "latest",
-            "job_name": "slsa",
+            "job_name": "slsa-full-env",
             "manifest-digest": "sha256:f06e6c2ae878663b396244411f9f485805308a0fdaaa4600c0f532576e21e842",
             "media-type": "application/vnd.docker.distribution.manifest.v2+json",
-            "name": "jenkins.scripted.slsa.basic",
+            "name": "jenkins.scripted.slsa-full-env.basic",
             "node_name": "built-in",
             "repoDigest_0": "busybox@sha256:2376a0c12759aa1214ba83e771ff252c7b1663216b192fbe5e0fb364e952f85c",
-            "run_id": "3",
+            "run_id": "4",
             "tag_0": "latest",
             "tag_1": "latest",
-            "timestamp": "2023-07-26T11:00:31Z",
+            "timestamp": "2023-07-26T11:18:28Z",
             "user": "jenkins",
             "workflow": "integrations/vanilla/scribe-test-scripted",
             "workspace": "/var/lib/jenkins/workspace/integrations/vanilla/scribe-test-scripted"
@@ -343,7 +439,7 @@ Following example shows a provenance created by a Jenkins pipeline.
         ]
       },
       "metadata": {
-        "invocationID": "3"
+        "invocationID": "4"
       },
       "byproducts": [
         {
