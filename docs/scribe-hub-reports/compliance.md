@@ -12,7 +12,7 @@ To reach the compliance report go to **Products > {Your Product} > {Version} > C
 
 This is what the report looks like:
 
-<img src='../../../../img/start/compliance-start.jpg' alt='Compliance Report'/> 
+<img src='../../img/start/compliance-start.jpg' alt='Compliance Report'/> 
 
 As you can see, if the policy was checked successfully you'll see a green checkmark next to it. If the check failed you'll see a red exclamation point. 
 

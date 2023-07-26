@@ -12,18 +12,22 @@ toc_max_heading_level: 5
 
 ![Version: 0.1.4-1](https://img.shields.io/badge/Version-0.1.4--1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4-1](https://img.shields.io/badge/AppVersion-0.1.4--1-informational?style=flat-square)
 
-**Homepage:** <https://scribesecurity.com>
+### Introduction to K8s Admission Controller
 
-# Admission Controller
 The Scribe Admission Controller is a component in your Kubernetes cluster that enforces policy decisions to validate the integrity of your supply chain.  
 
 It does this by checking resources that are being created in the cluster against admission compliance requirements, which determine if the resources are allowed.  
 
 This document provides instructions for installing and integrating the admission controller in your cluster, including options for both Scribe service and OCI registry integration.  
 
-The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace.  
+The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace. 
 
-## Installing `admission-controller`
+### Supported K8s platforms
+
+### Prerequisites
+
+### Installing the K8s Admission Controller
+
 The admission-controller is installed using Helm.  
 
 Here are the steps to add the chart repository and install the admission-controller/
@@ -37,7 +41,8 @@ helm install admission-controller scribe/admission-controller -n scribe
 ```
 > For detailed integration option, see **[evidence stores](#evidence-stores)** section.
 
-## Policy engine
+### How the Admission Controller works
+
 Valint `admission controller` manages verification of evidence using a policy engine. The policy engine uses different `evidence stores` to store and provide `evidence` for the policy engine to query on any required `evidence` required to comply with across your supply chain.
 
 Each policy proposes to enforce a set of policies on the targets produced by your supply chain. Policies produce a result, including compliance results as well as `evidence` referenced in the verification.
@@ -82,14 +87,6 @@ Related values:
 >* `scribe.auth.client_secret`
 >* `scribe.service.enable`
 
-### Before you begin
-Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client ID**
-* **Client Secret**
-
-<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
 * To install the admission-controller with Scribe service integration:
 ```bash
   helm install admission-controller -n scribe scribe/admission-controller \
@@ -97,7 +94,6 @@ Integrating Scribe Hub with admission controller requires the following credenti
     --set scribe.auth.client_id=$(CLIENT_ID) \
     --set scribe.auth.client_secret=$(CLIENT_SECRET)
 ```
-
 > Credentials will be stored as a secret named `admission-controller-scribe-cred`.
 
 ## OCI Evidence store
@@ -109,185 +105,8 @@ Related flags:
 >* `config.attest.cocosign.storer.OCI.repo` - Evidence store location.
 >* `imagePullSecrets` - Secret name for private registry.
 
-### Dockerhub limitation
-Dockerhub does not support the subpath format, `oci-repo` should be set to your Dockerhub Username.
 
-> Some registries like Jfrog allow multi layer format for repo names such as , `my_org.jfrog.io/policies/attestations`.
-
-### Before you begin
-- Write access to upload evidence using the `valint` tool.
-- Read access to download evidence for the admission controller.
-- Evidence can be stored in any accessible OCI registry.
-
-1. Install admission with evidence store [oci-repo].
-    - [oci-repo] is the URL of the OCI repository where all evidence will be uploaded.
-    - For image targets only: Attach the evidence to the same repo as the uploaded image.
-      Example: If you upload an image `example/my_image:latest`, read access is required for `example/my_image` (oci-repo).
-     
-2. If [oci-repo] is a private registry, attach permissions to the admission with the following steps:
-    1. Create a secret:
-    ```bash
-    kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n scribe
-    ```
-     
-3. Install admission with an OCI registry as the evidence store:
-    ```bash
-    helm install admission-controller scribe/admission-controller -n scribe \
-    --set config.attest.cocosign.storer.OCI.enable=true \
-    --set config.attest.cocosign.storer.OCI.repo=[oci-repo] \
-    --set imagePullSecrets=[secret-name]
-    ```
-  > Note `oci-repo` and `secret-name` need to be replaced with values.
-
-# Enabling Scribe Admission
-To enable Scribe admission in a namespace, add the label `admission.scribe.dev/include` to the namespace.
-Scribe admission logic will be triggered on all resources within the namespace that match any of the regular expressions specified by the `glob` field.
-
-In order to enable admission on a namespace you must add `admission.scribe.dev/include` label to it.
-Namespaces will trigger Scribe admission logic on all its resources **matching* any regular expression specified by the `glob` fields.
-
-## Adding the admission label to a namespace
-Use the following command to add the `admission.scribe.dev/include` label to a namespace:
-
-#### Command
-```bash
-kubectl label namespace my-namespace admission.scribe.dev/include=true
-```
-
-#### Configuration
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    admission.scribe.dev/include: "true"
-  name: my-namespace
-```
-
-## Adding image `glob`
-To enable admission for a specific set of images, add regular expressions to match the image names.
-Regular expressions uses the perl regular expression format.
-
-#### Command
-```bash
-helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
-    --set config.admission.glob={[list of regular expressions]}
-```
-> For example:
-This will match images that have the string nginx or busybox in their name.
-```bash
-helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
-    --set config.admission.glob={\.\*busybox:\.\*,\.\*nginx:\.\*} -n scribe
-```
-
-> Note the escaping of `.` and `*` when using `Bash` shell.
-
-> `--reuse-values` so that the values are not reset.
-
-#### Configuration
-```yaml
-...
-config:
-  admission:
-    glob: [list of regular expressions]
-```
-> For example:
-> This will match images that have the string nginx or busybox in their name.
-```yaml
-...
-config:
-  admission:
-    # -- Select admitted images by regex
-    glob:
-      - .*nginx:.*
-      - .*busybox:.*
-```
-
-# Setting Evidence type
-Admission supports both verification flows for `attestations` (signed)  and `statement` (unsigned) objects utilizing OCI registry or Scribe service as an evidence store.
-
-> By default, admission will require signed evidence (`config.verify.input-format=attest`).
-
-#### Command
-```bash
-helm upgrade admission-controller scribe/admission-controller --reuse-values -n scribe \
-    --set config.verify.input-format=[format]
-```
-
-> `--reuse-values` so that the values are not reset.
-
-#### Configuration
-```yaml
-...
-config:
-  verify:
-    # -- Select required evidence type
-    input-format: [format]
-```
-
-### Supported format tables
-The following table lists the supported evidence types:
-
-| Evidence format | Alias | Description | Can be signed |
-| --- | --- | --- | --- |
-| statement-cyclonedx-json | statement | In-toto Statement | no |
-| attest-cyclonedx-json | attest | In-toto Attestation | yes |
-| statement-slsa |  | In-toto SLSA Predicate Statement | no |
-| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
-| statement-generic |  | In-toto Generic Statement | no |
-| attest-generic |  | In-toto Generic Attestations | yes |
-
-Aliases:
-* statement=statement-cyclonedx-json
-* attest=attest-cyclonedx-json
-
-# Uploading evidence
-After installing the admission you you want to upload evidence .
-
-## Upload to Scribe service
-```bash
-# Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -E \
-  -U $SCRIBE_CLIENT_ID \
-  -P $SCRIBE_CLIENT_SECRET
-```
-
-## Upload to OCI registry
-```bash
-# Generating evidence, storing on [my_repo] OCI repo.
-valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo=[my_repo]
-```
-
-> For image targets **only** you may attach the evidence in the same repo as the image.
-
-```bash
-valint bom [image] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci
-```
-
-## Uninstall `admission-controller`
-Uninstall the chart by running
-
-```bash
-helm uninstall -n scribe admission-controller
-```
-
-## Configuration values
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| config.admission.glob | list | `[]` | Select admitted images by regex |
-| config.attest.cocosign.storer.OCI.enable | bool | `true` | OCI evidence enable |
-| config.attest.cocosign.storer.OCI.repo | string | `""` | OCI evidence repo location  |
-| config.attest.default | string | `"sigstore"` | Signature verification type |
-| config.context.name | string | `""` | Scribe Project Key |
-| config.verify.input-format | string | `"attest"` | Evidence format |
-| imagePullSecrets | list | `[]` | OCI evidence store secret name |
-| scribe.auth.client_id | string | `""` | Scribe Client ID |
-| scribe.auth.client_secret | string | `""` | Scribe Client Secret |
-| scribe.service.enable | bool | `false` | Scribe Client Enable |
-
-For the full list of available values see the following section.
-
-## Values
+### Admission Controller Optional Flags
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -325,3 +144,5 @@ For the full list of available values see the following section.
 | webhook.service.type | string | `"ClusterIP"` |  |
 | webhook.serviceAccount.annotations | object | `{}` |  |
 | webhook.webhookName | string | `"admission.scribe.dev"` |  |
+
+### Troubleshooting 
