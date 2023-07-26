@@ -960,10 +960,9 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 
 </details>
 
-# Reaching SLSA Levels with `valint slsa`
-​
-## Background
-SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
+## Reaching SLSA Levels with `valint slsa`
+---
+​SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
 2. The Provenance document should be trustworthy and verified downstream (L2).
 3. The build platform should be trustworthy (L3).
