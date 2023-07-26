@@ -324,7 +324,7 @@ Verify
 $HOME/.scribe/bin/valint verify busybox:latest -i attest
 ```
 
-You can learn more about signing and verification **[here](../advanced-guide/signVerify)**.
+You can learn more about signing and verification **[here](../../integrating-scribe/valint/getting-started-valint/##using-valint-to-generate-and-sign-an-sbom)**.
 
 You can verify an image in a policy by configuring the ``image-policy.yaml`` file as in the following example:
 ```yaml
