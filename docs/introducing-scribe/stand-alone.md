@@ -13,3 +13,5 @@ If you are planning to deploy in this mode, you should **[reach out to us](https
 In a local deployment, Valint generates SBOMs, collects additional evidence, and uses a filesystem folder or an OCI registry that you provide as a storage place for this evidence. When evaluating a policy, Valint retrieves the necessary evidence from this designated evidence store.
 
 However, it's important to note that when operating in stand-alone mode, some features of Scribe Hub, such as its supply chain intelligence and analytics and SBOM management services, are not accessible.
+
+To learn more about a stand-alone deployment option check out this **[guide](../advanced-guide/standalone-deployment/)**.

@@ -139,7 +139,7 @@ Related flags:
 * `oci-repo` - Evidence store location.
 
 ### Before you begin
-Evidence can be stored in any accusable registry.
+Evidence can be stored in any accessible registry.
 * Write access is required for upload (generate).
 * Read access is required for download (verify).
 
