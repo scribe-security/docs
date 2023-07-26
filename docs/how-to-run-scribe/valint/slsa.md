@@ -89,7 +89,7 @@ Following describes provenance format created by default by valint.
     }
  }
 ```
-
+<!-- 
 <details>
   <summary>  Default Github Provenance </summary>
 
@@ -241,9 +241,9 @@ Following example shows a provenance created by a Github.
   }
 }
 ```
-</details>
+</details> -->
 
-<details>
+<!-- <details>
   <summary>  Default Jenkins Provenance </summary>
 
 Following example shows a provenance created by a Jenkins pipeline.
@@ -459,7 +459,7 @@ stage('slsa-full-env') {
   }
 }
 ```
-</details>
+</details> -->
 
 ### Customizing
 Following are some of the customizable features we support.
@@ -531,6 +531,7 @@ valint slsa busybox:latest --all-env
 # Attach a specific environment variable
 valint slsa busybox:latest --env MY_ENV
 ```
+</details>
 
 <details>
   <summary>  Provide Custom Provenance Predicate </summary>
@@ -645,7 +646,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 ### Usage
 ```bash
@@ -995,7 +996,7 @@ run the following.
 
 ```bash 
 # Create signed SLSA Provenance
-valint verify [target] -i statement-slsa --email [build-platform-identity]
+valint verify [target] -i statement-slsa
 ```
 ​
 ## SLSA L2
@@ -1106,7 +1107,7 @@ In order to perform such data collection and evaluation, Scribe provides tools t
 Please contact us for designing and implementing such a deployment.
 
 
-### Create Provenance using `valint slsa` - Coming soon​
+<!-- ### Create Provenance using `valint slsa` - Coming soon​
 To achieve SLSA Level 3 using `valint slsa`:
 
 * Run the following in trusted builder, to attach any number of external evidence on the trustiness of the build platform.
@@ -1131,9 +1132,9 @@ valint bom [target] -o attest  \
 ```bash
 valint slsa [target] -o attest \
   --context-type [jenkins github circleci azure gitlab travis bitbucket]
-```
+``` -->
 
-### Recommended SLSA L3 Evidence
+<!-- ### Recommended SLSA L3 Evidence
 <details>
   <summary> Trusted Builder dependency SBOM </summary>
 
@@ -1158,7 +1159,7 @@ valint bom dir:<build_working_dir> -o attest --label resolvedDependencies
   <summary> Build Artifact SBOM </summary>
   
 ```bash
-valint bom [target] -o attest  --label [builderDependencies]
+valint bom [target] -o attest  --label builderDependencies
 ``` 
 
-</details>
+</details> -->
