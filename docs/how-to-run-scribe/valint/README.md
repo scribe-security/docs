@@ -68,7 +68,8 @@ Each `policy` proposes to enforce a set of policy modules your supply chain must
 Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
 Evidence can be either signed (attestations) or unsigned (statements).
 
-> For evidence details, see [SBOM](#cyclonedx-sbom), [SLSA](#slsa-provenance) section.
+> For SBOM evidence details, see [SBOM](#cyclonedx-sbom)
+> FOr SLSA Provenance, See [SLSA](./slsa.md) documentation.
 
 > For target details, see [targets](#target-types) section.
 
@@ -77,28 +78,35 @@ Evidence can be either signed (attestations) or unsigned (statements).
 ### Evidence formats
 Valint supports the following evidence formats.
 
+
+#### `valint bom` format support
 | Format | alias | Description | signed |
 | --- | --- | --- | --- |
 | cyclonedx-json | json | CyclondeDX json format | no |
-| predicate-cyclonedx-json | predicate | In-toto CyclondeDX Predicate | no |
 | statement-cyclonedx-json | statement | In-toto CyclondeDX Statement | no |
 | attest-cyclonedx-json | attest | In-toto CyclondeDX Attestation | yes |
-| predicate-slsa |  | In-toto SLSA Predicate | no |
-| statement-slsa |  | In-toto SLSA Predicate Statement | no |
-| attest-slsa |  | In-toto SLSA Predicate Attestation | yes |
 | statement-generic |  | In-toto Generic Statement | no |
 | attest-generic |  | In-toto Generic Attestations| yes |
+| statement-slsa |  | ** DEPRECATED ** In-toto SLSA Provenance Statement | no |
+| attest-slsa |  | ** DEPRECATED **  In-toto SLSA Provenance Attestation | yes |
 
-> Select using [bom command](#evidence-generator---bom-command) `format` flag,
-Or using [verify command](#evidence-verification---verify-command) `input-format` flags.
+> Select using `bom` command `-o`, `--format` flag.
+
+#### `valint slsa` format support
+| Format | alias | Description | signed |
+| --- | --- | --- | --- |
+| statement-slsa | statement | In-toto SLSA Provenance Statement | no |
+| attest-slsa | attest |  In-toto SLSA Provenance Attestation | yes |
+
+> Select using `slsa` command `-o`, `--format` flag.
 
 ### Environment context
 `environment context` collects information from the underlining environments, in which Valint is run.
 
 Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
-Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `envrionment context`.
+Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `environment context`.
 
-On the verification flow the current `envrionment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
+On the verification flow the current `environment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
 
 For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
 Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
@@ -169,10 +177,8 @@ The following fields are collected from any supported artifact (`target`).
 | content_type | 
 | --- |
 | cyclonedx-json |
-| predicate-cyclonedx-json |
 | statement-cyclonedx-json | 
 | attest-cyclonedx-json | 
-| predicate-slsa |
 | statement-slsa |
 | attest-slsa |
 | statement-generic |
@@ -344,7 +350,7 @@ Related flags:
 ```bash
 # Generating evidence, storing on [my_dir] local directory.
 valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --output-directory=[my_dir]
-Supply chain environment
+
 # Verifying evidence, pulling attestation from [my_dir] local directory.
 valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --output-directory=[my_dir]
 ```
@@ -748,15 +754,21 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 > Example uses keyless (Sigstore) flow, you may use any `cosign` signer/verifier supported.
 
 ```bash
-# Generate sbom predicate
-valint bom [image] -vv -o predicate -f --output-file valint_predicate.json
+# Generate SBOM evidence statement
+valint bom [image] -vv -o statement -f --output-file valint_statement.json
+
+# Extract predicate
+cat valint_predicate.json | jq '.predicate' > valint_predicate.json
 
 # Sign and OCI store using cosign
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate valint_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
+COSIGN_EXPERIMENTAL=1 cosign attest --predicate  valint_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
 
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 ```
+
+Or for example 
+
 </details>
 
 ## Basic examples
@@ -1007,10 +1019,10 @@ Generating and verifying SLSA Provenance `attestation` for directory target.
 
 ```bash
 mkdir testdir
-echo "important evidence data" > test.txt
+echo "important evidence data" > testdir/test.txt
 
 # Create Generic attestations from test.txt
-valint bom test.txt -vv -o attest-generic --predicate-type https://thrid
+valint bom dir:testdir -vv -o attest
 
 # Verify CycloneDX SBOM attestations
 valint verify dir:testdir
@@ -1076,7 +1088,7 @@ docker login $
 valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL
 
 # Pull and validate evidence from registry
-valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL -f
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL -f
 ```
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
@@ -1103,7 +1115,7 @@ valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-g
   -P $SCRIBE_CLIENT_SECRET
 
 # Pull and validate evidence from registry
-valint verify [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -f -E \
+valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] -f -E \
   -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```
