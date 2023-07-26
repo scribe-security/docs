@@ -29,7 +29,7 @@ See details [SLSA requirements](http://slsa.dev/spec/v0.1/requirements)
 #### Predicate default format
 Following describes provenance format created by default by valint.
 
-> We are currently expanding default and custom capabilities.
+> We are currently expanding our default and custom capabilities.
 
 
 ```json
