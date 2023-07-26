@@ -21,13 +21,13 @@ Flags for `slsa` subcommand
 | | --builder-id | Set builder id | |
 | | --components | Select by products components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers] |
 | | --external | Add build external parameters | [] |
-| | --finished-on | Set metadata finished time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z) | |
+| | --finished-on | Set metadata finished time (YYYY-MM-DDThh:mm:ssZ) | |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[statement attest predicate] | [statement] |
 | -h | --help | help for slsa | |
 | | --invocation | Set metadata invocation ID | |
 | | --predicate | Import predicate path | |
-| | --started-on | Set metadata started time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z) | |
+| | --started-on | Set metadata started time (YYYY-MM-DDThh:mm:ssZ) | |
 | | --statement | Import statement path | |
 
 
