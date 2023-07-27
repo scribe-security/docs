@@ -63,6 +63,49 @@ valint bom [TARGET] [flags]
 
 ```
 
+### SLSA
+
+This is the create SLSA provenance evidence command. It allows you to collect, Create and Store SLSA provenance evidence.
+
+```
+valint slsa [TARGET] [flags]
+```
+
+### Examples for running `valint slsa`
+
+```
+  valint slsa <target>
+  
+  <target> Target object name format=[<image:tag>, <dir path>, <git url>]
+
+  valint slsa alpine:latest                                               create In-toto statement of SLSA provenance (default)
+  valint slsa alpine:latest -o statement                                  create In-toto statement of SLSA provenance
+  valint slsa alpine:latest -o attest                                     create In-toto attestation of SLSA provenance
+  valint slsa alpine:latest --predicate custom.predicate.json             use custom SLSA provenance predicate
+  valint slsa alpine:latest --statement custom.statement.json             use custom SLSA provenance statement
+  valint slsa alpine:latest --by-product build.log.txt                    attach build products
+  valint slsa alpine:latest --components layers,packages,files            attach target components by products
+  valint slsa alpine:latest --all-env                                     attach all environment
+  valint slsa alpine:latest --env MY_ENV                                  attach specific environment
+  valint slsa alpine:latest --invocation my_invocation                    set invocation id
+  valint slsa alpine:latest --started-on 2023-07-25T15:30:00Z             set started on
+
+  Supports the following image sources:
+  valint slsa yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+
+  You can also explicitly specify the scheme to use:
+  valint slsa docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+  valint slsa podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
+  valint slsa docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+  valint slsa oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+  valint slsa dir:path/to/yourproject                read directly from a path on disk (any directory)
+  valint slsa registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+  valint slsa file:path/to/yourproject/file          read directly from a path on disk (any single file)
+  valint slsa git:path/to/yourrepository             read directly from a local repository on disk
+  valint slsa git:https://github.com/yourrepository.git         read directly from a remote repository on git
+
+```
+
 ### Verify
 
 Verify compliance policies against evidence to ensure the integrity of supply chain.

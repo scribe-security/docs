@@ -8,15 +8,18 @@ toc_max_heading_level: 5
 
 ### The steps to take to integrate a GitHub repository with Scribe Hub
 
-1. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
+1. If you haven't yet done so, open a free Scribe Hub account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
+
+
+2. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-2. login to your **[GitHub](https://github.com)** account.
+3. login to your **[GitHub](https://github.com)** account.
 
-3. Go to the repository you wish to integrate with Scribe.
+4. Go to the repository you wish to integrate with Scribe.
 
-4. Define two new `Secret` variables for your repository.  
+5. Define two new `Secret` variables for your repository.  
 To do that, go to settings → Secrets and variables → Actions → New repository secret.
 
    - Under your repository name, click `Settings`. If you cannot see the `Settings` tab, select the dropdown menu, then click `Settings`.
@@ -40,7 +43,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
       <img src='../../../../img/start/add-secret.jpg' alt='Add secret'/>
 
-5. Now that you have added the `CLIENT_ID` and `CLIENT_SECRET` variables to your repository you can add the Scribe code snippets into your YAML workflows. This guide assumes you're adding all possible evidence collection points.
+6. Now that you have added the `CLIENT_ID` and `CLIENT_SECRET` variables to your repository you can add the Scribe code snippets into your YAML workflows. This guide assumes you're adding all possible evidence collection points.
 
    - <details>
         <summary> To add automatic evidence collection (a signed SBOM) after each commit </summary>
@@ -383,3 +386,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         </details>
 
+7. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#enforcing-your-own-policies)**.
+
+8. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#importing-evidence-generated-by-other-tools)**.
