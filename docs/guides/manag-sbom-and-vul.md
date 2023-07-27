@@ -28,7 +28,11 @@ It is possible to call Valint more than one step in a build run in order to add 
 
 #### Managing SBOMs of product trees
 
-You can manage security-related evidence, such as SBOMs, of software products you build or from 3rd party through the Products catalog. Take a minute to explore the Demo Product in your Scribe account to review the different reports available for your products’ vulnerabilities, compliance with supply chain security standards, SBOMs, and contextual metadata.
+You can manage security-related evidence, such as SBOMs, of software products you build or from 3rd party through the Products catalog. You can label several different build artifacts in one or more pipelines as belonging to the same **logical application** and its version. To this end use the special Valint call flags `--app-name` and `--app-version`. Any evidence linked by its app-name and version can be filtered in the various Scribe hub reports such as the **[investigation report](../scribe-hub-reports/investigation)**.
+
+<img src='../../img/start/BI-start-1.jpg' alt='Investigation page, Aggregate SBOM'/>
+
+Take a minute to explore the Demo Product in your Scribe account to review the different **[reports](../scribe-hub-reports)** available for your products’ vulnerabilities, compliance with supply chain security standards, SBOMs, and contextual metadata.
 
 <img src='../../../img/start/products-start.jpg' alt='Scribe Hub Products Page'/>
 
