@@ -710,7 +710,7 @@ Use the default configuration path `.valint.yaml`, or provide a custom path usin
 
 See detailed [configuration](docs/configuration)
 
-# Cosign support 
+## Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 

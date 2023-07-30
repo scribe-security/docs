@@ -961,7 +961,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 </details>
 
 
-# Cosign support 
+## Cosign support 
 [Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
@@ -1030,7 +1030,6 @@ spec:
 ```
 
 </details>
-
 
 <details>
   <summary> Signing and verification using cosign </summary>
