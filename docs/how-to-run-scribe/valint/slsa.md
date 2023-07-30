@@ -960,6 +960,104 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 
 </details>
 
+
+# Cosign support 
+[Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
+Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
+
+<details>
+  <summary> verification using cosign </summary>
+
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+
+> Attestations are pushed to OCI by Valint for cosign to consume.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+
+
+```bash
+# Generate sbom attestation
+valint slsa [image] -vv -o attest -f --oci
+
+# Verify attestation using cosign 
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]--type https://slsa.dev/provenance/v1 \
+  --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com
+``` 
+</details>
+
+
+<details>
+  <summary> verification using Kyverno </summary>
+
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+
+> Attestations are pushed to OCI by Valint for kyverno to consume.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+
+```bash
+# Generate SBOM evidence statement
+valint slsa my_account/my_image:latest -vv -o attest -f --oci
+```
+
+```yaml 
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-keyless
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-slsa-image-keyless
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences:
+        - "my_account/my_image*"
+        attestations:
+          - predicateType: https://slsa.dev/provenance/v1
+            attestors:
+            - entries:
+              - keyless:
+                  subject: name@example.com
+                  issuer: https://accounts.example.com
+                  rekor: 
+                    url: https://rekor.sigstore.dev
+```
+
+</details>
+
+
+<details>
+  <summary> Signing and verification using cosign </summary>
+
+One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
+
+> Example uses keyless (Sigstore) flow, you may use any `cosign` signing capability supported.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+
+```bash
+# Generate SBOM evidence statement
+valint slsa [image] -vv -o statement -f --output-file valint_statement.json
+
+# Extract predicate
+cat valint_predicate.json | jq '.predicate' > valint_predicate.json
+
+# Sign and OCI store using cosign
+COSIGN_EXPERIMENTAL=1 cosign attest --predicate  valint_predicate.json [image] --type hhttps://slsa.dev/provenance/v1
+
+# Verify attestation using cosign 
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
+  --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com
+```
+</details>
+
+
 ## Reaching SLSA Levels with `valint slsa`
 ---
 ​SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:

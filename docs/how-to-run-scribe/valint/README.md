@@ -715,43 +715,80 @@ See detailed [configuration](docs/configuration)
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
 <details>
-  <summary> CycloneDX verification using cosign </summary>
+  <summary> verification using cosign </summary>
 
 One can use `valint` to generate the `CycloneDX` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
-> Attestations are pushed to OCI for cosign to consume.
+> Attestations are pushed to OCI by Valint for cosign to consume.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
 
 ```bash
 # Generate sbom attestation
 valint bom [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type CycloneDX
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
 ```
 </details>
 
+
 <details>
-  <summary> SLSA verification using cosign </summary>
+  <summary> verification using Kyverno </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
-> Attestations are pushed to OCI for cosign to consume.
+> Attestations are pushed to OCI by Valint for kyverno to consume.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
 
 ```bash
-# Generate sbom attestation
-valint bom [image] -vv -o attest-slsa -f --oci
-
-# Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type slsaprovenance
+# Generate SBOM evidence statement
+valint bom my_account/my_image:latest -vv -o attest -f --oci
 ```
+
+```yaml 
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-keyless
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-slsa-image-keyless
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences:
+        - "my_account/my_image*"
+        attestations:
+          - predicateType: https://cyclonedx.org/bom
+            attestors:
+            - entries:
+              - keyless:
+                  subject: name@example.com
+                  issuer: https://accounts.example.com
+                  rekor: 
+                    url: https://rekor.sigstore.dev
+```
+
+<!-- Change to issuer: https://github.com/login/oauth when signer is github -->
+
 </details>
+
 
 <details>
   <summary> Signing and verification using cosign </summary>
 
 One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
 
-> Example uses keyless (Sigstore) flow, you may use any `cosign` signer/verifier supported.
+> Example uses keyless (Sigstore) flow, you may use any `cosign` signing capability supported.
+
+> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
 
 ```bash
 # Generate SBOM evidence statement
@@ -766,8 +803,6 @@ COSIGN_EXPERIMENTAL=1 cosign attest --predicate  valint_predicate.json [image] -
 # Verify attestation using cosign 
 COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
 ```
-
-Or for example 
 
 </details>
 
