@@ -972,7 +972,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 > Attestations are pushed to OCI by Valint for cosign to consume.
 
-> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+> For further details see [cosign verify-attestation](https://docs.sigstore.dev/cosign/verify/)
 
 
 ```bash
@@ -993,7 +993,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 > Attestations are pushed to OCI by Valint for kyverno to consume.
 
-> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+> For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
 
 ```bash
 # Generate SBOM evidence statement

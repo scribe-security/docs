@@ -721,7 +721,7 @@ One can use `valint` to generate the `CycloneDX` attestation and attach it to OC
 
 > Attestations are pushed to OCI by Valint for cosign to consume.
 
-> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+> For further details see [cosign verify-attestation](https://docs.sigstore.dev/cosign/verify/)
 
 ```bash
 # Generate sbom attestation
@@ -740,7 +740,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 > Attestations are pushed to OCI by Valint for kyverno to consume.
 
-> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+> For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
 
 ```bash
 # Generate SBOM evidence statement
@@ -788,7 +788,7 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 > Example uses keyless (Sigstore) flow, you may use any `cosign` signing capability supported.
 
-> For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
+> For further details see [cosign verify-attestation](https://docs.sigstore.dev/cosign/verify/)
 
 ```bash
 # Generate SBOM evidence statement
