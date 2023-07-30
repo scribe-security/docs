@@ -710,7 +710,7 @@ valint slsa [image] -o [attest, statement] --oci
 valint verify [image] -i [attest-slsa, statement-slsa] --oci
 ```
 
-> For related Cosign support, see [cosign](#cosign-support) section.
+> For related Cosign support, see [cosign-support](#cosign-support) section.
 
 ### Cache Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing a local directory as an evidence store.
@@ -966,7 +966,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
 <details>
-  <summary> verification using cosign </summary>
+  <summary> verifying using cosign </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
@@ -987,7 +987,7 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]--type https://slsa.dev/p
 
 
 <details>
-  <summary> verification using Kyverno </summary>
+  <summary> verifying using Kyverno </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
@@ -1032,7 +1032,7 @@ spec:
 </details>
 
 <details>
-  <summary> Signing and verification using cosign </summary>
+  <summary> Signing and verifying using cosign </summary>
 
 One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
 
