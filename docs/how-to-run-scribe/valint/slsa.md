@@ -710,7 +710,7 @@ valint slsa [image] -o [attest, statement] --oci
 valint verify [image] -i [attest-slsa, statement-slsa] --oci
 ```
 
-> For related Cosign support, see [cosign](#-cosign-support) section.
+> For related Cosign support, see [cosign](#cosign-support) section.
 
 ### Cache Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing a local directory as an evidence store.
@@ -961,7 +961,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 </details>
 
 
-## Cosign support 
+## Cosign support
 [Cosign](https://github.com/sigstore/cosign) is an innovative tool that aims to make signatures an invisible infrastructure.
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
