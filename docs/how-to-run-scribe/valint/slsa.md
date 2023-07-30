@@ -966,7 +966,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
 <details>
-  <summary> verifying using cosign </summary>
+  <summary> Verifying using cosign </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
@@ -987,7 +987,7 @@ COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]--type https://slsa.dev/p
 
 
 <details>
-  <summary> verifying using Kyverno </summary>
+  <summary> Verifying using Kyverno </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
