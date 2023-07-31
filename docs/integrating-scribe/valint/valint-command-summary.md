@@ -14,7 +14,7 @@ Collect, Create and Store evidence for artifacts (SBOMs, SLSA provenance) or any
 valint bom [TARGET] [flags]
 ```
 
-### Examples for running `valint bom`
+#### Examples for running `valint bom`
 
 ```
   valint bom <target>
@@ -71,7 +71,7 @@ This is the create SLSA provenance evidence command. It allows you to collect, C
 valint slsa [TARGET] [flags]
 ```
 
-### Examples for running `valint slsa`
+#### Examples for running `valint slsa`
 
 ```
   valint slsa <target>
@@ -114,7 +114,7 @@ Verify compliance policies against evidence to ensure the integrity of supply ch
 valint verify [TARGET] [flags]
 ```
 
-### Examples for running `valint verify`
+#### Examples for running `valint verify`
 
 ```
   valint verify <target>

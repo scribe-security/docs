@@ -96,6 +96,7 @@ const config = {
                 "integrating-scribe/valint/help/valint.md",
                 "integrating-scribe/valint/help/valint_bom.md",
                 "integrating-scribe/valint/help/valint_verify.md",
+                "integrating-scribe/valint/help/valint_slsa.md",
                 // "integrating-scribe/valint/docs/attestations.md",
                 // "integrating-scribe/valint/docs/configuration.md",
                 // "integrating-scribe/valint/docs/command/valint.md",
