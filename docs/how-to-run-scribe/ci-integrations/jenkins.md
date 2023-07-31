@@ -368,8 +368,6 @@ node {
 
 > Use `jenkins` as context-type.
 
-
-
 ### Using custom x509 keys
 x509 signer allows you store utilize keys for signing.
 
@@ -420,7 +418,7 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
 
             valint verify [target] \
               --context-type jenkins \
-              -o attest-slsa \
+              -i attest-slsa \
               --attest.default x509-env \
               --output-directory ./scribe/valint \
               -f '''
@@ -429,6 +427,7 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
 
 > Next release: `--ca`, `--cert`, `--key` argument to replace environments setup.
 Refrain from using `--all-env` after exporting secret in to `ATTEST_KEY`. 
+
 
 ## Jenkins over Kubernetes plugin
 Make sure [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
