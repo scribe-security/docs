@@ -84,7 +84,7 @@ pipeline {
   agent any
   environment {
     LOGICAL_APP_NAME="demo-project"
-    APP_VERSION=1.0.1
+    APP_VERSION="1.0.1"
     AUTHOR_NAME="John-Smith" 
     AUTHOR_EMAIL="jhon@thiscompany.com" 
     AUTHOR_PHONE="555-8426157" 
@@ -182,7 +182,7 @@ pipeline {
   }
   environment {
     LOGICAL_APP_NAME="demo-project"
-    APP_VERSION=1.0.1
+    APP_VERSION="1.0.1"
     AUTHOR_NAME="John-Smith" 
     AUTHOR_EMAIL="jhon@thiscompany.com" 
     AUTHOR_PHONE="555-8426157" 
@@ -269,7 +269,7 @@ spec:
   </summary>
 <h3>  Prerequisites </h3>
 
- `curl` installed on your build node in Jenkins.
+ `curl` installed on your build node in JAPP_VERSION=1.0.1enkins.
 ### Procedure
 
 <details>
@@ -281,7 +281,7 @@ pipeline {
   environment {
     PATH="./temp/bin:$PATH"
     LOGICAL_APP_NAME="demo-project"
-    APP_VERSION=1.0.1
+    APP_VERSION="1.0.1"
     AUTHOR_NAME="John-Smith" 
     AUTHOR_EMAIL="jhon@thiscompany.com" 
     AUTHOR_PHONE="555-8426157" 

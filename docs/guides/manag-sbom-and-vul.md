@@ -44,7 +44,7 @@ Once evidence is collected you can drill down to the reports by selecting the re
 In some cases you might prefer using specific commercial or open-source tools to generate SBOMS of your software artifacts. For example, in a case you wish to reverse a complicated binary artifact. In other cases, you might require to manage in Scribe SBOMs you received from 3rd parties. 
 You can import these SBOMs to Scribe Hub and it is also possible to merge these SBOMs with the SBOMs created by Scribe to increase overall accuracy.
 
-To import such an external SBOM call Valint as follows
+To import such an external SBOM call Valint as follows:
 
 ```
 valint bom <filename> -o generic-attest --predicate-type cycloneDX
@@ -70,7 +70,7 @@ Default value is `http://scribesecurity.com/evidence/generic/v0.1`.
 
 * `--compress`: Compress content (optional)
 
-For Example, using Trivy SARIF report as evidence.
+For Example, using Trivy SARIF report as evidence:
 ```bash
 valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
 ```

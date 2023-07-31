@@ -167,5 +167,1112 @@ The `verify` command's default value of the `-i` flag is `attest` so you can omi
 
 ### Reading Valint output
 
-<img src='../../../img/help/coming-soon.jpg' alt='Coming Soon'/>
+The Valint CLI provides valuable log information to determine success or failure.
+
+#### Log Format Template
+```
+[<Timestamp>] <Log_Level> <Log_Message> 
+```
+#### Evidence Storage, Valint [bom, slsa]
+```
+INFO storer: [cache, oci, scribe] upload success
+```
+Description: Success/failure of evidence storage
+
+#### Evidence verification, Valint verify
+```
+[TRUSTED] verify success, CA: fulcio-verifier, CN: sigstore-intermediate, Emails: [someuser@gmail.com], URIs: [] 
+```
+Description: Success/failure of evidence verification  
+
+Using `-vv` in the initial Valint command offers detailed analysis for debugging. In case of failure, the CLI returns a non-zero error status code. You can learn more by using the `valint --help` command.  
+
+#### how to understand a Valint SBOM
+
+The default evidence created by Valint is a **CycloneDX SBOM**. CycloneDX SBOM generally looks like this:
+```json
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
+  "version": 1,
+  "components": [
+    {
+      "type": "library",
+      "name": "acme-library",
+      "version": "1.0.0"
+    }
+  ]
+}
+```
+As a more complete example, here's the SBOM for Alpine:
+<details>
+  <summary> Alpine SBOM </summary>
+
+```json
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2023-07-27T15:25:47+03:00",
+    "tools": [
+      {
+        "vendor": "Scribe security, Inc",
+        "name": "valint",
+        "version": "0.3.1",
+        "externalReferences": [
+          {
+            "url": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.3.1",
+            "type": "other"
+          }
+        ]
+      }
+    ],
+    "authors": [
+      {}
+    ],
+    "component": {
+      "bom-ref": "pkg:docker/index.docker.io/library/alpine:latest@sha256:9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5?arch=amd64\u0026ID=c57b7ae692c9670d",
+      "mime-type": "application/vnd.docker.distribution.manifest.v2+json",
+      "type": "container",
+      "group": "image",
+      "name": "index.docker.io/library/alpine:latest",
+      "version": "sha256:9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bc41182d7ef5ffc53a40b044e725193bc10142a1243f395ee852a8d9730fc2ad"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5"
+        }
+      ],
+      "purl": "pkg:docker/index.docker.io/library/alpine:latest@sha256:9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5?arch=amd64",
+      "properties": [
+        {
+          "name": "repoDigest_0",
+          "value": "alpine@sha256:bc41182d7ef5ffc53a40b044e725193bc10142a1243f395ee852a8d9730fc2ad"
+        },
+        {
+          "name": "imageID",
+          "value": "sha256:9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5"
+        },
+        {
+          "name": "git_branch",
+          "value": "main"
+        },
+        {
+          "name": "timestamp",
+          "value": "2023-07-27T15:25:44+03:00"
+        },
+        {
+          "name": "input_scheme",
+          "value": "docker"
+        },
+        {
+          "name": "input_tag",
+          "value": "latest"
+        },
+        {
+          "name": "context_type",
+          "value": "local"
+        },
+        {
+          "name": "user",
+          "value": "eitan"
+        },
+        {
+          "name": "input_name",
+          "value": "alpine"
+        },
+        {
+          "name": "git_url",
+          "value": "https://github.com/scribe-security/valint.git"
+        },
+        {
+          "name": "git_commit",
+          "value": "cdd3c0ee5354aa961e0d967c22e1d9189883dc97"
+        },
+        {
+          "name": "git_tag",
+          "value": "v0.3.0-4"
+        },
+        {
+          "name": "git_ref",
+          "value": "refs/heads/main"
+        },
+        {
+          "name": "hostname",
+          "value": "eitan"
+        },
+        {
+          "name": "architecture",
+          "value": "amd64"
+        },
+        {
+          "name": "OS",
+          "value": "linux"
+        },
+        {
+          "name": "manifest-digest",
+          "value": "sha256:cbaa390ec61abd889dfa5146a411c11717c19ef9e5e18458dbdc06439076ffe7"
+        },
+        {
+          "name": "media-type",
+          "value": "application/vnd.docker.distribution.manifest.v2+json"
+        },
+        {
+          "name": "tag_0",
+          "value": "latest"
+        },
+        {
+          "name": "tag_1",
+          "value": "latest"
+        }
+      ],
+      "components": [
+        {
+          "type": "operating-system",
+          "name": "alpine",
+          "version": "3.16.2",
+          "description": "Alpine Linux v3.16",
+          "swid": {
+            "tagId": "alpine",
+            "name": "alpine",
+            "version": "3.16.2"
+          },
+          "externalReferences": [
+            {
+              "url": "https://gitlab.alpinelinux.org/alpine/aports/-/issues",
+              "type": "issue-tracker"
+            },
+            {
+              "url": "https://alpinelinux.org/",
+              "type": "website"
+            }
+          ],
+          "properties": [
+            {
+              "name": "PrettyName",
+              "value": "Alpine Linux v3.16"
+            },
+            {
+              "name": "Name",
+              "value": "Alpine Linux"
+            },
+            {
+              "name": "VersionID",
+              "value": "3.16.2"
+            },
+            {
+              "name": "HomeURL",
+              "value": "https://alpinelinux.org/"
+            },
+            {
+              "name": "BugReportURL",
+              "value": "https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+            },
+            {
+              "name": "ID",
+              "value": "alpine"
+            }
+          ]
+        }
+      ]
+    },
+    "supplier": {
+      "name": "",
+      "url": [],
+      "contact": [
+        {}
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3",
+      "mime-type": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+      "type": "container",
+      "group": "layer",
+      "name": "sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7",
+      "version": "sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7"
+        }
+      ],
+      "purl": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0",
+      "properties": [
+        {
+          "name": "size",
+          "value": "5539349"
+        },
+        {
+          "name": "CreatedBy",
+          "value": "#(nop) ADD file:2a949686d9886ac7c10582a6c29116fd29d3077d02755e87e111870d63607725 in / "
+        },
+        {
+          "name": "index",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/busybox@1.35.0-r17?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=eca3681c141c29be",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Sören Tempel ",
+            "email": "soeren+alpine@soeren-tempel.net"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "busybox",
+      "version": "1.35.0-r17",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:busybox:busybox:1.35.0-r17:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/busybox@1.35.0-r17?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/musl-utils@1.2.3-r0?arch=x86_64\u0026upstream=musl\u0026distro=alpine-3.16.2\u0026ID=b02623053dd80d55",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Timo Teräs ",
+            "email": "timo.teras@iki.fi"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "musl-utils",
+      "version": "1.2.3-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "BSD"
+          }
+        },
+        {
+          "license": {
+            "name": "GPL2+"
+          }
+        },
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:musl-utils:musl-utils:1.2.3-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/musl-utils@1.2.3-r0?arch=x86_64\u0026upstream=musl\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl-utils:musl_utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl_utils:musl-utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl_utils:musl_utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl-libc:musl-utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl-libc:musl_utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl:musl-utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl:musl_utils:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/zlib@1.2.12-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=75c2792d8b1e3fc4",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "zlib",
+      "version": "1.2.12-r3",
+      "licenses": [
+        {
+          "license": {
+            "name": "Zlib"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:zlib:zlib:1.2.12-r3:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/zlib@1.2.12-r3?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/musl@1.2.3-r0?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=b4a85102bd31a48e",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Timo Teräs ",
+            "email": "timo.teras@iki.fi"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "musl",
+      "version": "1.2.3-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:musl-libc:musl:1.2.3-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/musl@1.2.3-r0?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl_libc:musl:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:musl:musl:1.2.3-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/alpine-keys@2.4-r1?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=b20d9e4d5a96d34f",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "alpine-keys",
+      "version": "2.4-r1",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:alpine-keys:alpine-keys:2.4-r1:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/alpine-keys@2.4-r1?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine-keys:alpine_keys:2.4-r1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_keys:alpine-keys:2.4-r1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_keys:alpine_keys:2.4-r1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine-keys:2.4-r1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine_keys:2.4-r1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "apk-tools",
+      "version": "2.12.9-r3",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:apk-tools:apk-tools:2.12.9-r3:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:apk-tools:apk_tools:2.12.9-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:apk_tools:apk-tools:2.12.9-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:apk_tools:apk_tools:2.12.9-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:apk:apk-tools:2.12.9-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:apk:apk_tools:2.12.9-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:binary//bin/busybox@1.35.0?ID=8d89af874b2f09f4",
+      "type": "library",
+      "group": "binary",
+      "name": "busybox",
+      "version": "1.35.0",
+      "licenses": null,
+      "cpe": "cpe:2.3:a:busybox:busybox:1.35.0:*:*:*:*:*:*:*",
+      "purl": "pkg:binary//bin/busybox@1.35.0",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:busybox:busybox:1.35.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/bin/busybox"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/ca-certificates-bundle@20220614-r0?arch=x86_64\u0026upstream=ca-certificates\u0026distro=alpine-3.16.2\u0026ID=b64b590b42ed458d",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "ca-certificates-bundle",
+      "version": "20220614-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MPL-2.0 AND MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:ca-certificates-bundle:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/ca-certificates-bundle@20220614-r0?arch=x86_64\u0026upstream=ca-certificates\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca-certificates-bundle:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca_certificates_bundle:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca_certificates_bundle:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca-certificates:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca-certificates:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca_certificates:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca_certificates:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:mozilla:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:mozilla:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca:ca-certificates-bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ca:ca_certificates_bundle:20220614-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/alpine-baselayout-data@3.2.0-r22?arch=x86_64\u0026upstream=alpine-baselayout\u0026distro=alpine-3.16.2\u0026ID=dc7d3308780225f6",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "alpine-baselayout-data",
+      "version": "3.2.0-r22",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:alpine-baselayout-data:alpine-baselayout-data:3.2.0-r22:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/alpine-baselayout-data@3.2.0-r22?arch=x86_64\u0026upstream=alpine-baselayout\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine-baselayout-data:alpine_baselayout_data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout_data:alpine-baselayout-data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout_data:alpine_baselayout_data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine-baselayout:alpine-baselayout-data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine-baselayout:alpine_baselayout_data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout:alpine-baselayout-data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout:alpine_baselayout_data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine-baselayout-data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine_baselayout_data:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/libssl1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=0f80243a85bcb9be",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Timo Teras ",
+            "email": "timo.teras@iki.fi"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "libssl1.1",
+      "version": "1.1.1q-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "OpenSSL"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:libssl1.1:libssl1.1:1.1.1q-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/libssl1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libssl1.1:libssl:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libssl:libssl1.1:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libssl:libssl:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/scanelf@1.3.4-r0?arch=x86_64\u0026upstream=pax-utils\u0026distro=alpine-3.16.2\u0026ID=aa4b25b439128c22",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "scanelf",
+      "version": "1.3.4-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:scanelf:scanelf:1.3.4-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/scanelf@1.3.4-r0?arch=x86_64\u0026upstream=pax-utils\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/alpine-baselayout@3.2.0-r22?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=be78e148be2ed73b",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "alpine-baselayout",
+      "version": "3.2.0-r22",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:alpine-baselayout:alpine-baselayout:3.2.0-r22:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/alpine-baselayout@3.2.0-r22?arch=x86_64\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine-baselayout:alpine_baselayout:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout:alpine-baselayout:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine_baselayout:alpine_baselayout:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine-baselayout:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:alpine:alpine_baselayout:3.2.0-r22:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/libc-utils@0.7.2-r3?arch=x86_64\u0026upstream=libc-dev\u0026distro=alpine-3.16.2\u0026ID=24be4e1570d3395b",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Natanael Copa ",
+            "email": "ncopa@alpinelinux.org"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "libc-utils",
+      "version": "0.7.2-r3",
+      "licenses": [
+        {
+          "license": {
+            "name": "BSD-2-Clause AND BSD-3-Clause"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:libc-utils:libc-utils:0.7.2-r3:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/libc-utils@0.7.2-r3?arch=x86_64\u0026upstream=libc-dev\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libc-utils:libc_utils:0.7.2-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libc_utils:libc-utils:0.7.2-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libc_utils:libc_utils:0.7.2-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libc:libc-utils:0.7.2-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libc:libc_utils:0.7.2-r3:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/libcrypto1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=3018931edd18d695",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Timo Teras ",
+            "email": "timo.teras@iki.fi"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "libcrypto1.1",
+      "version": "1.1.1q-r0",
+      "licenses": [
+        {
+          "license": {
+            "name": "OpenSSL"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:libcrypto1.1:libcrypto1.1:1.1.1q-r0:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/libcrypto1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libcrypto1.1:libcrypto:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libcrypto:libcrypto1.1:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:libcrypto:libcrypto:1.1.1q-r0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:apk/alpine/ssl_client@1.35.0-r17?arch=x86_64\u0026upstream=busybox\u0026distro=alpine-3.16.2\u0026ID=92a6bae1f2f5325f",
+      "type": "library",
+      "supplier": {
+        "name": "",
+        "contact": [
+          {
+            "name": "Sören Tempel ",
+            "email": "soeren+alpine@soeren-tempel.net"
+          }
+        ]
+      },
+      "group": "apk",
+      "name": "ssl_client",
+      "version": "1.35.0-r17",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:ssl-client:ssl-client:1.35.0-r17:*:*:*:*:*:*:*",
+      "purl": "pkg:apk/alpine/ssl_client@1.35.0-r17?arch=x86_64\u0026upstream=busybox\u0026distro=alpine-3.16.2",
+      "properties": [
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ssl-client:ssl_client:1.35.0-r17:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ssl_client:ssl-client:1.35.0-r17:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ssl_client:ssl_client:1.35.0-r17:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ssl:ssl-client:1.35.0-r17:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "cpe",
+          "value": "cpe:2.3:a:ssl:ssl_client:1.35.0-r17:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "importer-path",
+          "value": "/lib/apk/db/installed"
+        },
+        {
+          "name": "layer_ref",
+          "value": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:apk/alpine/ca-certificates-bundle@20220614-r0?arch=x86_64\u0026upstream=ca-certificates\u0026distro=alpine-3.16.2\u0026ID=b64b590b42ed458d",
+      "dependsOn": [
+        "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/libcrypto1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=3018931edd18d695",
+      "dependsOn": [
+        "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683",
+        "pkg:apk/alpine/libssl1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=0f80243a85bcb9be",
+        "pkg:apk/alpine/ssl_client@1.35.0-r17?arch=x86_64\u0026upstream=busybox\u0026distro=alpine-3.16.2\u0026ID=92a6bae1f2f5325f"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/libssl1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=0f80243a85bcb9be",
+      "dependsOn": [
+        "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683",
+        "pkg:apk/alpine/ssl_client@1.35.0-r17?arch=x86_64\u0026upstream=busybox\u0026distro=alpine-3.16.2\u0026ID=92a6bae1f2f5325f"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/musl-utils@1.2.3-r0?arch=x86_64\u0026upstream=musl\u0026distro=alpine-3.16.2\u0026ID=b02623053dd80d55",
+      "dependsOn": [
+        "pkg:apk/alpine/libc-utils@0.7.2-r3?arch=x86_64\u0026upstream=libc-dev\u0026distro=alpine-3.16.2\u0026ID=24be4e1570d3395b"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/busybox@1.35.0-r17?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=eca3681c141c29be",
+      "dependsOn": [
+        "pkg:apk/alpine/alpine-baselayout@3.2.0-r22?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=be78e148be2ed73b"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/musl@1.2.3-r0?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=b4a85102bd31a48e",
+      "dependsOn": [
+        "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683",
+        "pkg:apk/alpine/libssl1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=0f80243a85bcb9be",
+        "pkg:apk/alpine/scanelf@1.3.4-r0?arch=x86_64\u0026upstream=pax-utils\u0026distro=alpine-3.16.2\u0026ID=aa4b25b439128c22",
+        "pkg:apk/alpine/libcrypto1.1@1.1.1q-r0?arch=x86_64\u0026upstream=openssl\u0026distro=alpine-3.16.2\u0026ID=3018931edd18d695",
+        "pkg:apk/alpine/musl-utils@1.2.3-r0?arch=x86_64\u0026upstream=musl\u0026distro=alpine-3.16.2\u0026ID=b02623053dd80d55",
+        "pkg:apk/alpine/alpine-baselayout@3.2.0-r22?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=be78e148be2ed73b",
+        "pkg:apk/alpine/busybox@1.35.0-r17?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=eca3681c141c29be",
+        "pkg:apk/alpine/ssl_client@1.35.0-r17?arch=x86_64\u0026upstream=busybox\u0026distro=alpine-3.16.2\u0026ID=92a6bae1f2f5325f",
+        "pkg:apk/alpine/zlib@1.2.12-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=75c2792d8b1e3fc4"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/zlib@1.2.12-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=75c2792d8b1e3fc4",
+      "dependsOn": [
+        "pkg:apk/alpine/apk-tools@2.12.9-r3?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=bdf4018994a3d683"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/scanelf@1.3.4-r0?arch=x86_64\u0026upstream=pax-utils\u0026distro=alpine-3.16.2\u0026ID=aa4b25b439128c22",
+      "dependsOn": [
+        "pkg:apk/alpine/musl-utils@1.2.3-r0?arch=x86_64\u0026upstream=musl\u0026distro=alpine-3.16.2\u0026ID=b02623053dd80d55"
+      ]
+    },
+    {
+      "ref": "pkg:docker/index.docker.io/library/alpine:latest@sha256:9c6f0724472873bb50a2ae67a9e7adcb57673a183cea8b06eb778dca859181b5?arch=amd64\u0026ID=c57b7ae692c9670d",
+      "dependsOn": [
+        "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3"
+      ]
+    },
+    {
+      "ref": "pkg:apk/alpine/alpine-baselayout-data@3.2.0-r22?arch=x86_64\u0026upstream=alpine-baselayout\u0026distro=alpine-3.16.2\u0026ID=dc7d3308780225f6",
+      "dependsOn": [
+        "pkg:apk/alpine/alpine-baselayout@3.2.0-r22?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=be78e148be2ed73b"
+      ]
+    },
+    {
+      "ref": "pkg:layer/index.docker.io/library/alpine:latest@sha256:994393dc58e7931862558d06e46aa2bb17487044f670f310dffe1d24e4d1eec7?index=0\u0026ID=b4d979c6480aa7d3",
+      "dependsOn": [
+        "pkg:apk/alpine/alpine-keys@2.4-r1?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=b20d9e4d5a96d34f",
+        "pkg:binary//bin/busybox@1.35.0?ID=8d89af874b2f09f4",
+        "pkg:apk/alpine/musl@1.2.3-r0?arch=x86_64\u0026distro=alpine-3.16.2\u0026ID=b4a85102bd31a48e",
+        "pkg:apk/alpine/alpine-baselayout-data@3.2.0-r22?arch=x86_64\u0026upstream=alpine-baselayout\u0026distro=alpine-3.16.2\u0026ID=dc7d3308780225f6",
+        "pkg:apk/alpine/ca-certificates-bundle@20220614-r0?arch=x86_64\u0026upstream=ca-certificates\u0026distro=alpine-3.16.2\u0026ID=b64b590b42ed458d"
+      ]
+    }
+  ]
+}
+```
+</details>
+
+You can find multiple examples in **[this link](https://github.com/CycloneDX/bom-examples/tree/master/SBOM)** and you can learn more about the different parts of the SBOM **[here](https://cyclonedx.org/use-cases/)**.
+
 
