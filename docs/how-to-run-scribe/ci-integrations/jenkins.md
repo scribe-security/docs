@@ -101,7 +101,6 @@ Each storer can be used to store, find and download evidence, unifying all the s
 Scribe evidence store allows you store evidence using scribe Service.
 
 Related Flags:
-> Note the flag set:
 >* `-U`, `--scribe.client-id`
 >* `-P`, `--scribe.client-secret`
 >* `-E`, `--scribe.enable`
@@ -116,18 +115,17 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 #### Adding Credentials to Jenkins
 1. Go to your Jenkins Web Console.
-1. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
-1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
-1. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**.
+2. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+3. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
+4. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**.
 A new **Credentials** form opens.
-1. In the **Kind** field, select **Username with password**.
-
-1. Set **ID** to **`scribe-auth-id`** (lowercase).
-1. Copy the *Client ID* provided by Scribe to the **Username**.
-1. Copy the *Client Secret* provided by Scribe to the **Password**.
-1. Leave **Scope** as **Global**.
-1. Click **Create**.
-1. Another Global credential is created as a **Username with Password** (Kind)
+5. In the **Kind** field, select **Username with password**.
+6. Set **ID** to **`scribe-auth-id`** (lowercase).
+7. Copy the *Client ID* provided by Scribe to the **Username**.
+8. Copy the *Client Secret* provided by Scribe to the **Password**.
+9. Leave **Scope** as **Global**.
+10. Click **Create**.
+11. Another Global credential is created as a **Username with Password** (Kind)
 
 The final state of the secrets definition should be as shown in the following screenshot:
 <img src='../../../../img/ci/JenkinsCredentials.png' alt='"Scribe Credentials integrated as Global Jenkins credentials' width='70%' min-width='400px'/>
@@ -369,6 +367,46 @@ node {
 <!--END_DOCUSAURUS_CODE_TABS-->
 
 > Use `jenkins` as context-type.
+
+
+
+### Using custom x509 keys
+x509 signer allows you store utilize keys for signing.
+
+#### Adding Credentials to Jenkins
+1. Go to your Jenkins Web Console.
+2. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+3. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
+4. To add Attestation key, cert and CA, in the **Global credentials** area, click **+ Add Credentials**.
+A new **Credentials** form opens.
+
+Repeat the following to attach secrets for your local `key`, `cert` and `ca` files
+1. In the **Kind** field, select **Secret File**.
+2. Set related **ID** **`attest-key`**, **`attest-cert`** and **`attest-ca`** (lowercase).
+3. Choose related local file.
+4. Click **Create**.
+
+3 new Global credential are created with **Secret File** (Kind)
+
+### Usage
+```javascript
+withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
+        file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
+        file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
+   {
+            sh '''
+            export ATTEST_CERT=$(cat $ATTEST_CERT_PATH)
+            export ATTEST_CA=$(cat  $ATTEST_CA_PATH)
+            export ATTEST_KEY=$(cat $ATTEST_KEY_PATH)
+
+            valint [bom,slsa] [target] \
+              --context-type jenkins \
+              -o attest \
+              --attest.default x509-env \
+              --output-directory ./scribe/valint \
+              -f '''
+    }
+```
 
 ## Jenkins over Kubernetes plugin
 Make sure [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.

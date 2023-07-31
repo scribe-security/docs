@@ -512,7 +512,7 @@ valint slsa busybox:latest --invocation my_invocation --build-type docker --buil
 <details>
   <summary>  Set Specific External parameter </summary>
 
-You can attach environment variables to internalParameters using the `--external` flags.
+You can attach environment variables to externalParameters using the `--external` flags.
 
 > Flag only supports key value parameters
 
@@ -980,7 +980,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 valint slsa [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]--type https://slsa.dev/provenance/v1 \
+COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
   --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com
 ``` 
 </details>
