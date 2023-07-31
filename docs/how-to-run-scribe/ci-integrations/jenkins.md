@@ -388,7 +388,8 @@ Repeat the following to attach secrets for your local `key`, `cert` and `ca` fil
 
 3 new Global credential are created with **Secret File** (Kind)
 
-### Usage
+### Usage example
+As an example a SLSA attest command can be issued using the following snippet.
 ```javascript
 withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
         file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
@@ -399,9 +400,27 @@ withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
             export ATTEST_CA=$(cat  $ATTEST_CA_PATH)
             export ATTEST_KEY=$(cat $ATTEST_KEY_PATH)
 
-            valint [bom,slsa] [target] \
+            valint slsa [target] \
               --context-type jenkins \
               -o attest \
+              --attest.default x509-env \
+              --output-directory ./scribe/valint \
+              -f '''
+    }
+```
+
+And as an example a SLSA verify command can be issued using the following snippet.
+```javascript
+withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
+        file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
+   {
+            sh '''
+            export ATTEST_CERT=$(cat $ATTEST_CERT_PATH)
+            export ATTEST_CA=$(cat  $ATTEST_CA_PATH)
+
+            valint verify [target] \
+              --context-type jenkins \
+              -o attest-slsa \
               --attest.default x509-env \
               --output-directory ./scribe/valint \
               -f '''
