@@ -408,6 +408,9 @@ withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
     }
 ```
 
+> Next release: `--ca`, `--cert`, `--key` argument to replace environments setup.
+Refrain from using `--all-env` after exporting secret in to `ATTEST_KEY`. 
+
 ## Jenkins over Kubernetes plugin
 Make sure [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
 
