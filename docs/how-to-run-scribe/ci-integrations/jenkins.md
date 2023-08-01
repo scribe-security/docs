@@ -371,6 +371,23 @@ node {
 ### Using custom x509 keys
 x509 signer allows you store utilize keys for signing.
 
+Related flags:
+* `--key` x509 Private key path.
+* `--cert` - x509 Cert Chain path
+* `--ca` - x509 CA Chain path
+
+> While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
+
+Related environment:
+* `ATTEST_KEY` x509 Private key pem content.
+* `ATTEST_CERT` - x509 Cert pem content/
+* `ATTEST_CA` - x509 CA Chain pem content.
+
+> While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
+
+> While using `x509-env` Refrain from using `slsa` command `--all-env`.
+
+
 #### Adding Credentials to Jenkins
 1. Go to your Jenkins Web Console.
 2. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
@@ -394,14 +411,13 @@ withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
         file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
    {
             sh '''
-            export ATTEST_CERT=$(cat $ATTEST_CERT_PATH)
-            export ATTEST_CA=$(cat  $ATTEST_CA_PATH)
-            export ATTEST_KEY=$(cat $ATTEST_KEY_PATH)
-
             valint slsa [target] \
+              --key $ATTEST_KEY_PATH \
+              --cert $ATTEST_CERT_PATH \
+              --ca $ATTEST_CA_PATH \
               --context-type jenkins \
               -o attest \
-              --attest.default x509-env \
+              --attest.default x509 \
               --output-directory ./scribe/valint \
               -f '''
     }
@@ -413,20 +429,17 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
         file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
    {
             sh '''
-            export ATTEST_CERT=$(cat $ATTEST_CERT_PATH)
-            export ATTEST_CA=$(cat  $ATTEST_CA_PATH)
-
             valint verify [target] \
+              --cert $ATTEST_CERT_PATH \
+              --ca $ATTEST_CA_PATH \
               --context-type jenkins \
               -i attest-slsa \
-              --attest.default x509-env \
+              --attest.default x509 \
               --output-directory ./scribe/valint \
               -f '''
     }
 ```
 
-> Next release: `--ca`, `--cert`, `--key` argument to replace environments setup.
-Refrain from using `--all-env` after exporting key in to `ATTEST_KEY`.
 
 ## Jenkins over Kubernetes plugin
 Make sure [Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension") installed.
