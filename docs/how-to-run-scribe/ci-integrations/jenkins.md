@@ -373,19 +373,19 @@ x509 signer allows you store utilize keys for signing.
 
 Related flags:
 * `--key` x509 Private key path.
-* `--cert` - x509 Cert Chain path
-* `--ca` - x509 CA Chain path
+* `--cert` - x509 Cert Chain path.
+* `--ca` - x509 CA Chain path.
 
 > While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
 
 Related environment:
 * `ATTEST_KEY` x509 Private key pem content.
-* `ATTEST_CERT` - x509 Cert pem content/
+* `ATTEST_CERT` - x509 Cert pem content.
 * `ATTEST_CA` - x509 CA Chain pem content.
 
 > While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
 
-> While using `x509-env` Refrain from using `slsa` command `--all-env`.
+> While using `x509-env` Refrain from using `slsa` command `--all-env`
 
 
 #### Adding Credentials to Jenkins
