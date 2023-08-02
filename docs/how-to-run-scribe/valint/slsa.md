@@ -998,6 +998,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 ```bash
 # Generate SLSA Provenance attestation
 valint slsa [image] -vv -o attest -f --oci \
+  --attest.default x509 \
   --cert cert.pem \
   --ca ca-chain.cert.pem \
   --key key.pem
