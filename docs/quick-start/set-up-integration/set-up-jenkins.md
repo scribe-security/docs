@@ -15,7 +15,10 @@ toc_max_heading_level: 5
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-3. login to your **[Jenkins Web Console](https://www.jenkins.io/)**.
+3. login to your Jenkins Web Console.
+
+<img src='../../../../img/start/jenkins-login.png' alt='Jenkins login' width='30%' min-width='200px'/>
+
 4. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
 
 <img src='../../../../img/start/jenkins-1.jpg' alt='Jenkins Dashboard - Manage credentials'/>

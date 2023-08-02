@@ -17,28 +17,35 @@ toc_max_heading_level: 5
 
 3. login to your **[Azure](https://portal.azure.com/#home)** account.
 
-4. Add the credentials to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**: 
-    * Go to the **Pipelines** page, select the appropriate pipeline, and then select **Edit**.
-    * Locate the **Variables** for this pipeline.
-    * Add or update the variable.
-    * Select the **Secret** lock icon to store the variable in an encrypted manner.
-    * **Save** the pipeline.
+4. Follow the **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** instructions to install our **[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** from the Azure marketplace.
 
-5. Follow the **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** instructions to install our **[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** from the Azure marketplace.
+<img src='../../../../img/start/azure-4.1.jpeg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-2.png' alt='Azure marketplace'/>
+<img src='../../../../img/start/azure-5.1.jpeg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-3.png' alt='Azure marketplace'/>
+<img src='../../../../img/start/azure-6.jpeg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-4.png' alt='Azure marketplace'/>
+<img src='../../../../img/start/azure-7.jpeg' alt='Azure marketplace'/><br/>  
 
-6. Create a new repository if you don't already have one you want to use Valint on 
+<img src='../../../../img/start/azure-8.jpeg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-5.png' alt='Azure marketplace'/>
+<img src='../../../../img/start/azure-9.jpeg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-6.png' alt='Azure marketplace'/>
+<img src='../../../../img/start/azure-10.jpeg' alt='Azure marketplace'/>
 
-6. Open your Azure DevOps project and make sure you have a YAML file named `azure-pipelines.yml`. 
+4. Create a new project or go to an existing project
+
+<img src='../../../../img/start/azure-1.1.jpg' alt='Azure project' width='70%' min-width='400px'/>
+
+5. Inside the project create a new repository (repo) if you don't already have one you want to use Valint with an Azure pipeline on 
+
+<img src='../../../../img/start/azure-1.jpeg' alt='Azure repos' width='70%' min-width='400px'/>
+
+<img src='../../../../img/start/azure-6.png' alt='New Azure repository'/>
+
+6. Open your Azure DevOps project repository and make sure you have a YAML file named `azure-pipelines.yml` Or just click on `Create a new pipeline`.
+
+<img src='../../../../img/start/azure-11.jpg' alt='New Azure pipeline' width='70%' min-width='400px'/>
 
 <img src='../../../../img/start/azure-7.png' alt='azure-pipelines.yml'/>
 
@@ -60,7 +67,7 @@ jobs:
   variables:
     imageName: 'pipelines-javascript-docker'
     LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
-    APP_VERSION: 1.0.1 # The app version all these SBOMs will be associated with
+    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith
     AUTHOR_EMAIL: john@thiscompany.com
@@ -114,8 +121,28 @@ jobs:
 ```
 <img src='../../../../img/start/azure-8.png' alt='azure-pipelines.yml'/>
 
-8. You can now run the pipeline you created for your repository.
+8. Add the credentials to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**: 
+    * Go to the **Pipelines** page, select the appropriate pipeline, and then select **Edit**.
+    * Locate the **Variables** for this pipeline.
 
-<img src='../../../../img/start/azure-13.png' alt='azure-pipelines.yml'/>
+      <img src='../../../../img/start/azure-12.jpeg' alt='Azure Pipeline Variables'/>
 
-<img src='../../../../img/start/azure-19.png' alt='azure-pipelines.yml'/>
+    * Add or update the variable.
+
+      <img src='../../../../img/start/azure-13.jpeg' alt='Azure Pipeline Variables'/>
+
+      <img src='../../../../img/start/azure-14.jpeg' alt='Azure Pipeline Variables'/>
+
+    * Select the **Secret** lock icon to store the variable in an encrypted manner.
+
+      <img src='../../../../img/start/azure-15.jpeg' alt='Azure Pipeline Variables'/>
+
+    * **Save** the pipeline.
+
+      <img src='../../../../img/start/azure-16.jpeg' alt='Azure Pipeline Variables'/>
+
+9. You can now run the pipeline you created for your repository.
+
+<img src='../../../../img/start/azure-18.jpeg' alt='Save and Run Azure Pipeline'/>
+
+<img src='../../../../img/start/azure-32.jpeg' alt='Azure Pipeline Run'/>
