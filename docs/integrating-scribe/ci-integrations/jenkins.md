@@ -269,7 +269,7 @@ spec:
   </summary>
 <h3>  Prerequisites </h3>
 
- `curl` installed on your build node in JAPP_VERSION=1.0.1enkins.
+ `curl` installed on your build node in Jenkins.
 ### Procedure
 
 <details>
