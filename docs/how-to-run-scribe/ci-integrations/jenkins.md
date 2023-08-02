@@ -403,6 +403,8 @@ Repeat the following to attach secrets for your local `key`, `cert` and `ca` fil
 
 3 new Global credential are created with **Secret File** (Kind)
 
+> Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
+
 ### Usage example
 As an example a SLSA attest command can be issued using the following snippet.
 ```javascript
