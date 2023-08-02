@@ -966,9 +966,9 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 Valint supports integration with the awesome `cosign` CLI tool and other parts of the `sigstore` verification process.
 
 <details>
-  <summary> Verifying using cosign </summary>
+  <summary> Verifying using cosign (Keyless) </summary>
 
-One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` Keyless flow to verify the attestation.
 
 > Attestations are pushed to OCI by Valint for cosign to consume.
 
@@ -980,14 +980,57 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 valint slsa [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
-  --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com
+cosign verify-attestation --type https://slsa.dev/provenance/v1 \
+  --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com \
+  [image]
 ``` 
 </details>
 
+<details>
+  <summary> Verifying using cosign (X509) </summary>
+
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` x509 CA flow to verify the attestation.
+
+> Attestations are pushed to OCI by Valint for cosign to consume.
+
+> For further details see [cosign verify-attestation](https://docs.sigstore.dev/cosign/verify/)
+
+```bash
+# Generate sbom attestation
+valint slsa [image] -vv -o attest -f --oci \
+  --cert cert.pem \
+  --ca ca-chain.cert.pem \
+  --key key.pem
+
+# Verify attestation using cosign 
+cosign verify-attestation --type https://slsa.dev/provenance/v1 \
+   --certificate-identity=name@example.com \
+   --certificate cert.pem \
+   --certificate-chain ca-chain.cert.pem \
+   --certificate-oidc-issuer-regexp='.*' \
+   --insecure-ignore-tlog=true \
+   [image]
+``` 
+* `--insecure-ignore-tlog`, skipping Rekor Transparency log.
+* `--certificate-oidc-issuer-regexp='.*`, Ignore the [Keyless specific](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md) OIDC extension.
+
+### x509 Constraints
+* Certificate must include a [Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6) extension.
+  * URI,Email SAN identity
+* Certificate must include a [Extended Key Usage](https://datatracker.ietf.org/doc/html/rfc9336) extension 
+  * Code Signing OID [1.3.6.1.5.5.7.3.3](https://oidref.com/1.3.6.1.5.5.7.3.3)
+* Certificate is't expired.
+
+You can make sure certificate includes these values using the following command
+```bash
+openssl req -noout -text -in cert.pem
+```
+> Note the `X509v3 extensions` includes the required fields.
+
+</details>
 
 <details>
-  <summary> Verifying using Kyverno </summary>
+  <summary> Verifying using Kyverno (Keyless) </summary>
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
 
@@ -1048,10 +1091,10 @@ valint slsa [image] -vv -o statement -f --output-file valint_statement.json
 cat valint_predicate.json | jq '.predicate' > valint_predicate.json
 
 # Sign and OCI store using cosign
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate  valint_predicate.json [image] --type hhttps://slsa.dev/provenance/v1
+cosign attest --predicate  valint_predicate.json [image] --type hhttps://slsa.dev/provenance/v1
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
+cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
   --certificate-identity=name@example.com  --certificate-oidc-issuer=https://accounts.example.com
 ```
 </details>

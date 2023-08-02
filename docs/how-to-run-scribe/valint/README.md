@@ -728,7 +728,7 @@ One can use `valint` to generate the `CycloneDX` attestation and attach it to OC
 valint bom [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image] --type cyclonedx
+cosign verify-attestation [image] --type cyclonedx
 ```
 </details>
 
@@ -798,10 +798,10 @@ valint bom [image] -vv -o statement -f --output-file valint_statement.json
 cat valint_predicate.json | jq '.predicate' > valint_predicate.json
 
 # Sign and OCI store using cosign
-COSIGN_EXPERIMENTAL=1 cosign attest --predicate  valint_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
+cosign attest --predicate  valint_predicate.json [image] --type https://scribesecurity.com/predicate/cyclondex
 
 # Verify attestation using cosign 
-COSIGN_EXPERIMENTAL=1 cosign verify-attestation [image]
+cosign verify-attestation [image]
 ```
 
 </details>
