@@ -976,7 +976,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 
 ```bash
-# Generate sbom attestation
+# Generate SLSA Provenance attestation
 valint slsa [image] -vv -o attest -f --oci
 
 # Verify attestation using cosign 
@@ -996,7 +996,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 > For further details see [cosign verify-attestation](https://docs.sigstore.dev/cosign/verify/)
 
 ```bash
-# Generate sbom attestation
+# Generate SLSA Provenance attestation
 valint slsa [image] -vv -o attest -f --oci \
   --cert cert.pem \
   --ca ca-chain.cert.pem \
@@ -1039,7 +1039,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 > For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
 
 ```bash
-# Generate SBOM evidence statement
+# Generate SLSA Provenance statement
 valint slsa my_account/my_image:latest -vv -o attest -f --oci
 ```
 
@@ -1084,7 +1084,7 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 > For further details see (cosign verify-attestation)[https://docs.sigstore.dev/cosign/verify/]
 
 ```bash
-# Generate SBOM evidence statement
+# Generate SLSA Provenance statement
 valint slsa [image] -vv -o statement -f --output-file valint_statement.json
 
 # Extract predicate
