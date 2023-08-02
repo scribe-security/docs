@@ -87,37 +87,44 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 ### Usage
 ```yaml
+trigger:
+  branches:
+    include:
+    - main
+
+jobs:
 - job: scribe_azure_job
+  displayName: 'Scribe Azure Job'
   pool:
-    vmImage: 'ubuntu-latest'
+    name: Mikey
+    agent: azure-runner-ubuntu
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-    APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
+    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
+    APP_VERSION: 1.0.1 # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
-    AUTHOR_NAME: John-Smith 
-    AUTHOR_EMAIL: jhon@thiscompany.com 
-    AUTHOR_PHONE: 555-8426157 
+    AUTHOR_NAME: John-Smith
+    AUTHOR_EMAIL: john@thiscompany.com
+    AUTHOR_PHONE: 555-8426157
     # SBOM Supplier meta data - Optional
-    SUPPLIER_NAME: Scribe-Security 
-    SUPPLIER_URL: www.scribesecurity.com 
+    SUPPLIER_NAME: Scribe-Security
+    SUPPLIER_URL: www.scribesecurity.com
     SUPPLIER_EMAIL: info@scribesecurity.com
     SUPPLIER_PHONE: 001-001-0011
-
 
   steps:
   - task: scribeInstall@0
 
   - task: ValintCli@0
     inputs:
-      commandName: bom
-      target: [target]
-      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+      command: bom
+      target: nginx
+      format: statement
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
-      scribeClientId: $(SCRIBE-CLIENT-ID)
-      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
+      scribeClientId: $(CLIENTID)
+      scribeClientSecret: $(CLIENTSECRET)
       app-name: $(LOGICAL_APP_NAME)
       app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
@@ -125,18 +132,18 @@ Integrating Scribe Hub with your environment requires the following credentials 
       author-phone: $(AUTHOR_PHONE)
       supplier-name: $(SUPPLIER_NAME)
       supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-email: $(SUPPLIER_EMAIL)
       supplier-phone: $(SUPPLIER_PHONE)
 
   - task: ValintCli@0
     inputs:
-      commandName: verify
-      target: [target]
-      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+      command: verify
+      target: nginx
+      inputFormat: statement
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
-      scribeClientId: $(SCRIBE-CLIENT-ID)
-      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
+      scribeClientId: $(CLIENTID)
+      scribeClientSecret: $(CLIENTSECRET)
       app-name: $(LOGICAL_APP_NAME)
       app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
@@ -144,7 +151,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
       author-phone: $(AUTHOR_PHONE)
       supplier-name: $(SUPPLIER_NAME)
       supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-email: $(SUPPLIER_EMAIL)
       supplier-phone: $(SUPPLIER_PHONE)
 ```
 
