@@ -1015,19 +1015,6 @@ cosign verify-attestation --type https://slsa.dev/provenance/v1 \
 * `--insecure-ignore-tlog`, skipping Rekor Transparency log.
 * `--certificate-oidc-issuer-regexp='.*`, Ignore the [Keyless specific](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md) OIDC extension.
 
-### x509 Constraints
-* Certificate must include a [Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6) extension.
-  * URI,Email SAN identity
-* Certificate must include a [Extended Key Usage](https://datatracker.ietf.org/doc/html/rfc9336) extension 
-  * Code Signing OID [1.3.6.1.5.5.7.3.3](https://oidref.com/1.3.6.1.5.5.7.3.3)
-* Certificate is't expired.
-
-You can make sure certificate includes these values using the following command
-```bash
-openssl req -noout -text -in cert.pem
-```
-> Note the `X509v3 extensions` includes the required fields.
-
 </details>
 
 <details>
@@ -1255,6 +1242,27 @@ cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
 ```
 </details>
 
+### x509 Certificate Constraints
+* Certificate must include a [Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6) extension.
+  * URI or Email SAN identity.
+* Certificate must include a [Extended Key Usage](https://datatracker.ietf.org/doc/html/rfc9336) extension 
+  * Code Signing OID [1.3.6.1.5.5.7.3.3](https://oidref.com/1.3.6.1.5.5.7.3.3)
+* Certificate is't expired.
+
+You can make sure certificate includes these values using the following command
+```bash
+openssl req -noout -text -in cert.pem
+```
+
+Note the `X509v3 extensions`, For example
+```yaml
+X509v3 extensions:
+    X509v3 Extended Key Usage: 
+        Code Signing
+    X509v3 Subject Alternative Name: critical
+        email:name@example.com
+    ...
+```
 
 ## Reaching SLSA Levels with `valint slsa`
 ---
