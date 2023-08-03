@@ -759,9 +759,11 @@ cosign verify-attestation --type https://cyclonedx.org/bom \
    --certificate-chain ca-chain.cert.pem \
    --certificate-oidc-issuer-regexp='.*' \
    --insecure-ignore-tlog=true \
+   --insecure-ignore-sct=true \
    [image]
 ``` 
 * `--insecure-ignore-tlog`, skipping Rekor Transparency log.
+* `--insecure-ignore-sct`, skipping Rekor Transparency log Signed Certificate Timestamp. 
 * `--certificate-oidc-issuer-regexp='.*`, Ignore the [Keyless specific](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md) OIDC extension.
 
 </details>
