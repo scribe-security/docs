@@ -95,7 +95,7 @@ Following describes provenance format created by default by valint.
 <details>
   <summary>  Default Github Provenance </summary>
 
-Following example shows a provenance created by a Github.
+Following example shows a provenance created by a Github Workflow.
 
 ```json
 {
