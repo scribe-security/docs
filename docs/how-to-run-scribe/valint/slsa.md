@@ -1022,12 +1022,12 @@ cosign verify-attestation --type https://slsa.dev/provenance/v1 \
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use Kyverno keyless to verify the attestation.
 
-> Attestations are pushed to OCI by Valint for kyverno to consume.
+> Attestations are pushed to OCI by Valint for Kyverno to consume.
 
 > For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
 
 ```bash
-# Generate SLSA Provenance statement
+# Generate SLSA Provenance attestation
 valint slsa my_account/my_image:latest -o attest -f --oci
 ```
 
@@ -1068,12 +1068,12 @@ spec:
 
 One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use Kyverno x509 CA flow to verify the attestation.
 
-> Attestations are pushed to OCI by Valint for kyverno to consume.
+> Attestations are pushed to OCI by Valint for Kyverno to consume.
 
 > For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
 
 ```bash
-# Generate SLSA Provenance statement
+# Generate SLSA Provenance attestation
 valint slsa my_account/my_image:latest -o attest -f --oci \
   --attest.default x509 \
   --cert cert.pem \
@@ -1085,12 +1085,12 @@ valint slsa my_account/my_image:latest -o attest -f --oci \
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: check-image-keyless
+  name: check-image-x509
 spec:
   validationFailureAction: Enforce
   webhookTimeoutSeconds: 30
   rules:
-    - name: check-slsa-image-keyless
+    - name: check-slsa-image-x509
       match:
         any:
         - resources:
@@ -1234,7 +1234,7 @@ valint slsa [image] -o statement -f --output-file valint_statement.json
 cat valint_predicate.json | jq '.predicate' > valint_predicate.json
 
 # Sign and OCI store using cosign
-cosign attest --predicate  valint_predicate.json [image] --type hhttps://slsa.dev/provenance/v1
+cosign attest --predicate  valint_predicate.json [image] --type https://slsa.dev/provenance/v1
 
 # Verify attestation using cosign 
 cosign verify-attestation [image] --type https://slsa.dev/provenance/v1 \
