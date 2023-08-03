@@ -15,19 +15,15 @@ To reach the vulnerabilities report go to **Products > {Your Product} > {Version
 ### Explanation
 
 * **Severity** - Severity assigned by the CVE Numbering Authority (CNA)
-
 * **CVE ID** - The published CVE identifier
-
+* **Component** - The image, repository, or file scanned to produce this SBOM
 * **Database** - The name of the the CVE Numbering Authority (CNA)
-
-* **CVSS** - CVE’s CVSS version 3.2 score
-
-* **EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss/)**
-
+* **CVSS Score** - CVE’s CVSS version 3.2 score
+* **EPSS Score** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss/)**
 * **Package & version** - The package name and version as reported in the SBOM
-
 * **Fix Version** - A newer version that fixes the vulnerability if one exists
-
+* **Last modified (local time)** - The last time this package was updated
+* **Advisory (VEX)** - The advisory you have included for this vulnerability if there is any 
 ### Adding your advisories to reported vulnerabilities
 
 When sharing an SBOM with your stakeholders you might often require to include relevant advisories to the reported CVEs that explain why the vulnerability doesn’t affect the overall product or otherwise, how the consumer of your software should mitigate this vulnerability.

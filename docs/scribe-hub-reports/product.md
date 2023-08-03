@@ -1,10 +1,12 @@
 ---
 sidebar_label: "Products"
-title: Products and Builds
+# title: Products and Builds
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
+
+### Products and Builds
 
 This is the main page of the Scribe Hub. All of your products managed by the platform are presented here for easy access. 
 

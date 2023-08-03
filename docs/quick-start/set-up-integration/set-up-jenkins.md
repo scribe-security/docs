@@ -59,30 +59,86 @@ toc_max_heading_level: 5
 
 17. Scroll down till you reach a 'pipeline' section and add the following script:
   <img src='../../../../img/start/jenkins-pipeline-1.jpg' alt='Jenkins Job' width='70%' min-width='600px'/>
+  
+### Jenkins pipeline JavaScript code example
+
 ```javascript
 pipeline {
   agent any
   environment {
-    PATH="./temp/bin:$PATH"
+    LOGICAL_APP_NAME="demo-project"
+    APP_VERSION="1.0.1"
+    AUTHOR_NAME="John-Smith" 
+    AUTHOR_EMAIL="jhon@thiscompany.com" 
+    AUTHOR_PHONE="555-8426157" 
+    SUPPLIER_NAME="Scribe-Security" 
+    SUPPLIER_URL="www.scribesecurity.com" 
+    SUPPLIER_EMAIL="info@scribesecurity.com"
+    SUPPLIER_PHONE="001-001-0011"
   }
   stages {
-    stage('install-valint') {
-        steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
-        }
+    stage('checkout') {
+      steps {
+          cleanWs()
+          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
     }
     
-    stage('bom') {
+    stage('sbom') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
+        }
+      }
       steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
-            valint bom busybox:latest \
-              --context-type jenkins \
-              --output-directory ./scribe/valint -f '''
+            valint bom dir:mongo-express-scm \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
+        }
+      }
+    }
+
+    stage('image-bom') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
+        }
+      }
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            valint bom mongo-express:1.0.0-alpha.4 \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+            --supplier-phone $SUPPLIER_PHONE '''
+          }
       }
     }
   }
 }
 ```  
+:::note
+The above pipeline script is an example. It connects to the GitHub repository [https://github.com/mongo-express/mongo-express.git](https://github.com/mongo-express/mongo-express.git), clones it and creates an image for it. 
+
+An SBOM is created after the clone is done and after the image has been created. 
+
+The above example was created under the assumption that you're using **Jenkins over Docker**. If you have a different version of Jenkins like **Jenkins over Kubernetes (K8s)** or **Jenkins Vanilla (No Agent)** you can find the needed JavaScript needed to create your pipeline in our full **[Jenkins Documentation](../../integrating-scribe/ci-integrations/jenkins#procedure)**.   
+:::
 
 18. Click 'Apply' and then 'Save'.<br/>
   <img src='../../../../img/start/jenkins-apply-2.jpg' alt='Jenkins Apply' width='60%' min-width='500px'/>

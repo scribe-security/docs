@@ -60,118 +60,114 @@ The code in these examples of a workflow executes these steps:
 2. Calls `valint` to generate an SBOM from the final Docker image and upload the evidence.
  
 The examples use a sample pipeline building a Mongo express project. 
+
+#### Jenkins over Docker
 <details>
-  <summary> <b> Jenkins over Docker </b>
-  </summary>
-<h3>  Prerequisites </h3>
+  <summary> <b> Jenkins over Docker </b></summary>
+  <h3>  Prerequisites </h3>
 
-* Jenkins extensions installed:
-   1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**
-   1. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**
-   1. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**
-   1. **[Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")**
-   1. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional)
+  * Jenkins extensions installed:
+    1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**
+    1. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**
+    1. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**
+    1. **[Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")**
+    1. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional)
 
-* A `docker` is installed on your build node in Jenkins.
+  * A `docker` is installed on your build node in Jenkins.
 
-### Procedure
+  **Procedure**
 
-<details>
-  <summary>  <b> Sample integration code </b> </summary>
+  <details>
+    <summary>  <b> Sample integration code </b> </summary>
 
-```javascript
-pipeline {
-  agent any
-  environment {
-    LOGICAL_APP_NAME="demo-project"
-    APP_VERSION="1.0.1"
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
-  }
-  stages {
-    stage('checkout') {
-      steps {
-          cleanWs()
-          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-      }
+  ```javascript
+  pipeline {
+    agent any
+    environment {
+      LOGICAL_APP_NAME="demo-project"
+      APP_VERSION="1.0.1"
+      AUTHOR_NAME="John-Smith" 
+      AUTHOR_EMAIL="jhon@thiscompany.com" 
+      AUTHOR_PHONE="555-8426157" 
+      SUPPLIER_NAME="Scribe-Security" 
+      SUPPLIER_URL="www.scribesecurity.com" 
+      SUPPLIER_EMAIL="info@scribesecurity.com"
+      SUPPLIER_PHONE="001-001-0011"
     }
-    
-    stage('sbom') {
-      agent {
-        docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-          reuseNode true
-          args "--entrypoint="
+    stages {
+      stage('checkout') {
+        steps {
+            cleanWs()
+            sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
         }
       }
-      steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
-        sh '''
-            valint bom dir:mongo-express-scm \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-        }
-      }
-    }
-
-    stage('image-bom') {
-      agent {
-        docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-          reuseNode true
-          args "--entrypoint="
-        }
-      }
-      steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint bom mongo-express:1.0.0-alpha.4 \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+      
+      stage('sbom') {
+        agent {
+          docker {
+            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+            reuseNode true
+            args "--entrypoint="
           }
+        }
+        steps {        
+          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          sh '''
+              valint bom dir:mongo-express-scm \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+              --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+              --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+              --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+              --supplier-phone $SUPPLIER_PHONE '''
+          }
+        }
+      }
+
+      stage('image-bom') {
+        agent {
+          docker {
+            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+            reuseNode true
+            args "--entrypoint="
+          }
+        }
+        steps {
+              withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+              sh '''
+              valint bom mongo-express:1.0.0-alpha.4 \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+              --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+              --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
+              --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
+              --supplier-phone $SUPPLIER_PHONE '''
+            }
+        }
       }
     }
   }
-}
-```
+  ```
 
+  </details>
+
+
+  **See Also**
+  **[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
 </details>
 
-
-### See Also
-**[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
-</details>
-
-
-
-
+#### Jenkins over Kubernetes (K8s)
 <details>
-  <summary> <b> Jenkins over Kubernetes (K8s) </b>
-  </summary>
-
+  <summary> <b> Jenkins over Kubernetes (K8s) </b></summary>
   <h3>  Prerequisites </h3>
 
 **[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
-### Procedure
 
+**Procedure**
 <details>
   <summary>  <b> Sample integration code </b> </summary>
-
 
 ```javascript
 pipeline {
@@ -258,19 +254,19 @@ spec:
 ```
 </details>
 
-### See Also
+**See Also**
 **[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)**
 
 </details>
 
-
+#### Jenkins over Vanilla (No Agent)
 <details>
-  <summary> <b> Jenkins Vanilla (No Agent) </b>
-  </summary>
-<h3>  Prerequisites </h3>
+  <summary> <b> Jenkins Vanilla (No Agent) </b></summary>
+  <h3>  Prerequisites </h3>
 
  `curl` installed on your build node in Jenkins.
-### Procedure
+
+**Procedure**
 
 <details>
   <summary>  <b> Sample integration code </b> </summary>
