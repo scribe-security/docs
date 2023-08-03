@@ -19,9 +19,9 @@ toc_max_heading_level: 5
 
 4. Follow the **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** instructions to install our **[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** from the Azure marketplace.
 
-<img src='../../../../img/start/azure-4.1.jpeg' alt='Azure marketplace'/><br/>  
+<img src='../../../../img/start/azure-4.1.jpg' alt='Azure marketplace'/><br/>  
 
-<img src='../../../../img/start/azure-5.1.jpeg' alt='Azure marketplace'/><br/>  
+<img src='../../../../img/start/azure-5.1.jpg' alt='Azure marketplace'/><br/>  
 
 <img src='../../../../img/start/azure-6.jpeg' alt='Azure marketplace'/><br/>  
 
