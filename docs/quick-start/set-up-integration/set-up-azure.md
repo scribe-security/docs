@@ -51,19 +51,21 @@ toc_max_heading_level: 5
 
 7. Add the Scribe code example shown below to your `azure-pipelines.yml` file.
 
+:::note
+***[Refer to this Azure document to configure runners.](https://learn.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops#:~:text=Manage%20agents%20%26%20self%2Dhosted%20agents)***
+:::
+
 ```yaml
 trigger:
   branches:
     include:
     - main
-
 jobs:
 - job: scribe_azure_job
   displayName: 'Scribe Azure Job'
   pool:
-    name: Mikey
-    agent: azure-runner-ubuntu
-
+    name: {Update pool name here}       # Example: Mikey
+    agent: {Update agent name here}     # Example: azure-runner-ubuntu
   variables:
     imageName: 'pipelines-javascript-docker'
     LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
@@ -77,10 +79,8 @@ jobs:
     SUPPLIER_URL: www.scribesecurity.com
     SUPPLIER_EMAIL: info@scribesecurity.com
     SUPPLIER_PHONE: 001-001-0011
-
   steps:
   - task: scribeInstall@0
-
   - task: ValintCli@0
     inputs:
       command: bom
@@ -99,7 +99,6 @@ jobs:
       supplier-url: $(SUPPLIER_URL)
       supplier-email: $(SUPPLIER_EMAIL)
       supplier-phone: $(SUPPLIER_PHONE)
-
   - task: ValintCli@0
     inputs:
       command: verify
