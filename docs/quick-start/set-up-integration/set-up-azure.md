@@ -45,7 +45,7 @@ toc_max_heading_level: 5
 
 6. Open your Azure DevOps project repository and make sure you have a YAML file named `azure-pipelines.yml` Or just click on `Create a new pipeline`.
 
-<img src='../../../../img/start/azure-11.jpg' alt='New Azure pipeline' width='70%' min-width='400px'/>
+<img src='../../../../img/start/azure-11.jpeg' alt='New Azure pipeline' width='70%' min-width='400px'/>
 
 <img src='../../../../img/start/azure-7.png' alt='azure-pipelines.yml'/>
 
