@@ -16,307 +16,96 @@ toc_max_heading_level: 5
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 3. login to your Jenkins Web Console.
-
-<img src='../../../../img/start/jenkins-login.png' alt='Jenkins login' width='30%' min-width='200px'/>
+  <img src='../../../../img/start/jenkins-login.png' alt='Jenkins login' width='30%' min-width='200px'/>
 
 4. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+  <img src='../../../../img/start/jenkins-1.jpg' alt='Jenkins Dashboard - Manage credentials'/>
 
-<img src='../../../../img/start/jenkins-1.jpg' alt='Jenkins Dashboard - Manage credentials'/>
+5. Select 'Global' in the list of domains:
+  <img src='../../../../img/start/jenkins-global.jpg' alt='Jenkins Global domain' width='40%' min-width='300px'/>
 
-5. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
+6. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
+  <img src='../../../../img/start/jenkins-add-credentials.jpg' alt='Jenkins Add Credentials'/>
 
-<img src='../../../../img/start/jenkins-2.jpg' alt='Jenkins Dashboard - Domain column'/>
+7. Apply the **Client ID** provided by Scribe to the **Username** and the **Client Secret** to the **Password**.
+  <img src='../../../../img/start/jenkins-username.jpg' alt='Jenkins Credentials Username/Password' width='70%' min-width='600px'/>
 
-6. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**.
-A new **Credentials** form opens.
-7. In the **Kind** field, select **Username with password**.
-8. Set **ID** to **`scribe-production-auth-id`** (lowercase).
-9. Copy the *Client ID* provided by Scribe to the **Username**.
-10. Copy the *Client Secret* provided by Scribe to the **Password**.
-11. Leave **Scope** as **Global**.
-12. Click **Create**.
-13. Another Global credential is created as a **Username with Password** (Kind)
-14. Add the Scribe default output directory `**/scribe` to your .gitignore file.
-15. Now that you have added the `SCRIBE_CLIENT_ID` and `SCRIBE_CLIENT_SECRET` variables as global Jenkins variables you can add the Scribe code snippets into your CI/CD pipeline JavaScript file. 
-16. Since every integration pipeline is unique, this guide will include 3 separate examples that differ in what plugins you have installed and added to your Jenkins installation.  
+8. Set **ID** to **`scribe-auth-id`** (lowercase).
+  <img src='../../../../img/start/jenkins-auth-id.jpg' alt='Jenkins Credentials ID' width='40%' min-width='300px'/>
 
-<details>
-  <summary> <b> Jenkins over Docker </b></summary>
-  <h3>  Prerequisites </h3>
+9. Click **Create**.
+  <img src='../../../../img/start/jenkins-cred-create.jpg' alt='Jenkins Credentials Create' width='40%' min-width='300px'/>
 
-* Jenkins extensions installed:
-   1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**
-   1. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**
-   1. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**
-   1. **[Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")**
-   1. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional)
+10. Click on 'Dashboard' to go to the main dashboard 
+  <img src='../../../../img/start/jenkins-dashboard.jpg' alt='Manage Jenkins' width='40%' min-width='300px'/>
 
-* A `docker` is installed on your build node in Jenkins.
+11. Click on 'New Item'
+  <img src='../../../../img/start/jenkins-new.jpg' alt='Jenkins New Item' width='50%' min-width='300px'/>
 
-### Procedure
+12. Create a new folder such as 'integration-scribe-in-jenkins'. Click on 'New Folder' to create it once you enter the name and then click 'ok'.
+  <img src='../../../../img/start/jenkins-folder.jpg' alt='Jenkins New Item' width='50%' min-width='500px'/>
 
-<details>
-  <summary>  <b> Sample integration code </b> </summary>
+13. Click 'Apply' and then 'Save'.
+  <img src='../../../../img/start/jenkins-apply.jpg' alt='Jenkins Apply' width='20%' min-width='200px'/>
 
-```javascript
-pipeline {
-  agent any
-  environment {
-    LOGICAL_APP_NAME="demo-project"
-    APP_VERSION="1.0.1"
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
-  }
-  stages {
-    stage('checkout') {
-      steps {
-          cleanWs()
-          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-      }
-    }
-    
-    stage('sbom') {
-      agent {
-        docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-          reuseNode true
-          args "--entrypoint="
-        }
-      }
-      steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
-        sh '''
-            valint bom dir:mongo-express-scm \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-        }
-      }
-    }
+14. Now to create the pipeline, click on 'New Item'
+  <img src='../../../../img/start/jenkins-new-2.jpg' alt='Jenkins New Item' width='70%' min-width='600px'/>
 
-    stage('image-bom') {
-      agent {
-        docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-          reuseNode true
-          args "--entrypoint="
-        }
-      }
-      steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint bom mongo-express:1.0.0-alpha.4 \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-          }
-      }
-    }
-  }
-}
-```
+15. Name it 'install-valint-pipeline'. Click on 'New Pipeline' to create it once you enter the name and then click 'ok'. 
+  <img src='../../../../img/start/jenkins-pipeline.jpg' alt='Jenkins New Pipeline' width='50%' min-width='400px'/>
 
-</details>
+16. Once you created a pipeline a new job is created. Click on the job:
+  <img src='../../../../img/start/jenkins-job.jpg' alt='Jenkins Job' width='70%' min-width='600px'/>
 
-
-### See Also
-**[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
-</details>
-
-
-
-
-<details>
-  <summary> <b> Jenkins over Kubernetes (K8s) </b>
-  </summary>
-
-  <h3>  Prerequisites </h3>
-
-**[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
-### Procedure
-
-<details>
-  <summary>  <b> Sample integration code </b> </summary>
-
-
-```javascript
-pipeline {
-  agent {
-    kubernetes {
-      yamlFile 'jenkins/k8s/scribe-test/KubernetesPod.yaml'
-    }
-  }
-  environment {
-    LOGICAL_APP_NAME="demo-project"
-    APP_VERSION="1.0.1"
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
-  }
-  stages {
-    stage('checkout-bom') {
-      steps {        
-        container('git') {
-          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-        }
-        
-        container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
-            sh '''
-            valint bom dir:mongo-express-scm \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-          }
-        }
-      }
-    }
-
-    stage('image-bom') {
-      steps {
-        container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint bom mongo-express:1.0.0-alpha.4 \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-          }
-        }
-      }
-    }
-  }
-}
-```
-This example uses Jenkins over k8s plugin with the Pod template defined like this:
-```YAML
-metadata:
-  labels:
-    some-label: jsl-scribe-test
-spec:
-  containers:
-  - name: jnlp
-    env:
-    - name: CONTAINER_ENV_VAR
-      value: jnlp
-  - name: valint
-    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
-    command:
-    - cat
-    tty: true
-  - name: git
-    image: alpine/git
-    command:
-      - cat
-    tty: true
-```
-</details>
-
-### See Also
-**[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)**
-
-</details>
-
-
-<details>
-  <summary> <b> Jenkins Vanilla (No Agent) </b>
-  </summary>
-<h3>  Prerequisites </h3>
-
- `curl` installed on your build node in JAPP_VERSION=1.0.1enkins.
-### Procedure
-
-<details>
-  <summary>  <b> Sample integration code </b> </summary>
-
+17. Scroll down till you reach a 'pipeline' section and add the following script:
+  <img src='../../../../img/start/jenkins-pipeline-1.jpg' alt='Jenkins Job' width='70%' min-width='600px'/>
 ```javascript
 pipeline {
   agent any
   environment {
     PATH="./temp/bin:$PATH"
-    LOGICAL_APP_NAME="demo-project"
-    APP_VERSION="1.0.1"
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
   }
   stages {
-    stage('install') {
+    stage('install-valint') {
         steps {
-          cleanWs()
-          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
         }
-    }
-    stage('checkout') {
-      steps {
-          sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-      }
     }
     
-    stage('sbom') {
+    stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
-            valint bom dir:mongo-express-scm \
-            --context-type jenkins \
-            --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-        }
-      }
-    }
-
-    stage('image-bom') {
-      steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-            sh '''
-            valint bom mongo-express:1.0.0-alpha.4 \
-            --context-type jenkins \
-            --output-directory ./scribe/valint testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
-          }
+            valint bom busybox:latest \
+              --context-type jenkins \
+              --output-directory ./scribe/valint -f '''
       }
     }
   }
 }
+```  
 
-```
+18. Click 'Apply' and then 'Save'.<br/>
+  <img src='../../../../img/start/jenkins-apply-2.jpg' alt='Jenkins Apply' width='60%' min-width='500px'/>
 
-</details>
-</details>
+19. Click on 'Build now' to run the pipeline:
+  <img src='../../../../img/start/jenkins-build-now.jpg' alt='Jenkins Build' width='60%' min-width='500px'/>
+
+20. Click on the '#' to see the pipeline log output
+  <img src='../../../../img/start/jenkins-log-1.jpg' alt='Jenkins Log' width='60%' min-width='500px'/>  
+  <img src='../../../../img/start/jenkins-log-2.jpg' alt='Jenkins Log' width='60%' min-width='500px'/>
+
+21. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#enforcing-your-own-policies)**.
+
+22. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#importing-evidence-generated-by-other-tools)**.
+
+### Where to go on Scribe Hub
+
+Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
+
+The first place you can look into to make sure your evidence has been uploaded properly is the **[Evidence report](../../scribe-hub-reports/evidence)**. The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects.
+
+To see more details on your pipeline you can check out the **[Product page](../../scribe-hub-reports/product)**.
+
+<img src='../../../../img/start/products-start.jpg' alt='Products page'/>
+
+The **products** page shows you your products along with some basic information: How many subscribers have you added to this product, when the latest version of it was created (the last pipeline run), how many components were identified in the project, if the source code integrity was verified or not, how many high (or higher) vulnerabilities were identified, and how the project stands in terms of compliance to the SSDF and SLSA frameworks.

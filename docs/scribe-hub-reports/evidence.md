@@ -1,12 +1,12 @@
 ---
 sidebar_label: "Evidence"
 title: Evidence
-sidebar_position: 6
+sidebar_position: 7
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-The evidence report shows all the evidence you have collected and uploaded from all your pipelines and projects. 
+The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects. 
 
 To reach the evidence report go to the **Evidence** tag on the left.
 

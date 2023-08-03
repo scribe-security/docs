@@ -106,6 +106,7 @@ const config = {
                 // "integrating-scribe/valint/docs/command/valint_verify.md",
                 "integrating-scribe/k8s-admission-controller.md",
                 "scribe-hub-reports/README.md",
+                "scribe-hub-reports/product.md",
                 "scribe-hub-reports/compliance.md",
                 "scribe-hub-reports/context.md",
                 "scribe-hub-reports/evidence.md",

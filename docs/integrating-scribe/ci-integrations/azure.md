@@ -85,6 +85,10 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 * Use the Scribe custom task as shown in the example bellow
 
+:::note
+***[Refer to this Azure document to configure runners.](https://learn.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops#:~:text=Manage%20agents%20%26%20self%2Dhosted%20agents)***
+:::
+
 ### Usage
 ```yaml
 trigger:
@@ -96,13 +100,13 @@ jobs:
 - job: scribe_azure_job
   displayName: 'Scribe Azure Job'
   pool:
-    name: Mikey
-    agent: azure-runner-ubuntu
+    name: {Update pool name here}		# Example: Mikey
+    agent: {Update agent name here}		# Example: azure-runner-ubuntu
 
   variables:
     imageName: 'pipelines-javascript-docker'
     LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
-    APP_VERSION: 1.0.1 # The app version all these SBOMs will be associated with
+    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith
     AUTHOR_EMAIL: john@thiscompany.com

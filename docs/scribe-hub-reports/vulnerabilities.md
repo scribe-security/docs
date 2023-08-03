@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Vulnerabilities"
 title: Vulnerabilities
-sidebar_position: 2
+sidebar_position: 3
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
@@ -14,19 +14,19 @@ To reach the vulnerabilities report go to **Products > {Your Product} > {Version
 
 ### Explanation
 
-* **Severity** - severity assigned by the CVE Numbering Authority (CNA)
+* **Severity** - Severity assigned by the CVE Numbering Authority (CNA)
 
-* **CVE ID** - the published CVE identifier
+* **CVE ID** - The published CVE identifier
 
-* **Database** - the name of the the CVE Numbering Authority (CNA)
+* **Database** - The name of the the CVE Numbering Authority (CNA)
 
 * **CVSS** - CVE’s CVSS version 3.2 score
 
 * **EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss/)**
 
-* **Package & version** - the package name and version as reported in the SBOM
+* **Package & version** - The package name and version as reported in the SBOM
 
-* **Fix Version** - a newer version that fixes the vulnerability if exists
+* **Fix Version** - A newer version that fixes the vulnerability if one exists
 
 ### Adding your advisories to reported vulnerabilities
 
@@ -42,11 +42,21 @@ A dialog appears:
 
 <img src='../../img/start/vex-start.jpg' alt='VEX Advisories dialog'/>
 
-Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be canceled and the vulnerability line would be pushed to the end of the report.
+Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be modified to 'low' and the vulnerability line would be pushed to the end of the report.
+
+If a vulnerability already has an advisory attached to it you'll see the following icon at the end of the vulnerability line:
+
+<img src='../../img/start/advisory-icon.jpg' alt='VEX Advisory icon' width='30%' min-width='300px'/>
+
+Clicking on the advisory icon allows you to update the advisory, for example from a status of 'under investigation' to a status of 'not affected'.
 
 To export the VEX report click the Export button at the top right and select VEX document.
 
-<img src='../../img/start/export-start.jpg' alt='Export dialog'/>
+<img src='../../img/start/export-start.jpg' alt='Export dialog' width='20%' min-width='200px'/>
+
+:::note
+Once a build is published all of the product's subscribers are exposed to all its information including this vulnerabilities report. Any advisory you add to this report will likewise be exposed to the product's subscribers so you do not have to export and send vulnerability advisories to stake holders separately.
+:::
 
 
 

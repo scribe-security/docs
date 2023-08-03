@@ -12,8 +12,9 @@ Clicking on a product would lead you to the Builds page for the product and clic
 
 The dashboard is your main access to see this build's reports. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
 
-Here are the reports you can access about your build, your project, and all your projects combined:
+Here are the reports you can access about your build, your product, and all your products combined:
 
+* [Products Page](product)
 * [Compliance Report](compliance)
 * [Vulnerabilities Report](vulnerabilities)
 * [SBOM Report](sbom)
