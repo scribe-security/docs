@@ -877,7 +877,7 @@ Generating and verifying SLSA Provenance `attestation` for image target `busybox
 
 ```bash
 # Create SLSA Provenance attestations
-valint slsa busybox:latest -vv -o attest
+valint slsa busybox:latest -o attest
 
 # Verify SLSA Provenance attestations
 valint verify busybox:latest -i attest-slsa
@@ -977,7 +977,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 ```bash
 # Generate SLSA Provenance attestation
-valint slsa [image] -vv -o attest -f --oci
+valint slsa [image] -o attest -f --oci
 
 # Verify attestation using cosign 
 cosign verify-attestation --type https://slsa.dev/provenance/v1 \
@@ -997,7 +997,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 ```bash
 # Generate SLSA Provenance attestation
-valint slsa [image] -vv -o attest -f --oci \
+valint slsa [image] -o attest -f --oci \
   --attest.default x509 \
   --cert cert.pem \
   --ca ca-chain.cert.pem \
@@ -1033,7 +1033,7 @@ openssl req -noout -text -in cert.pem
 <details>
   <summary> Verifying using Kyverno (Keyless) </summary>
 
-One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use `cosign` to verify the attestation.
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use Kyverno keyless to verify the attestation.
 
 > Attestations are pushed to OCI by Valint for kyverno to consume.
 
@@ -1041,7 +1041,7 @@ One can use `valint` to generate the `slsa` attestation and attach it to OCI reg
 
 ```bash
 # Generate SLSA Provenance statement
-valint slsa my_account/my_image:latest -vv -o attest -f --oci
+valint slsa my_account/my_image:latest -o attest -f --oci
 ```
 
 ```yaml 
@@ -1075,8 +1075,163 @@ spec:
 
 </details>
 
+
 <details>
-  <summary> Signing and verifying using cosign </summary>
+  <summary> Verifying using Kyverno (X509) </summary>
+
+One can use `valint` to generate the `slsa` attestation and attach it to OCI registry, you can then use Kyverno x509 CA flow to verify the attestation.
+
+> Attestations are pushed to OCI by Valint for kyverno to consume.
+
+> For further details see [kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)
+
+```bash
+# Generate SLSA Provenance statement
+valint slsa my_account/my_image:latest -o attest -f --oci \
+  --attest.default x509 \
+  --cert cert.pem \
+  --ca ca-chain.cert.pem \
+  --key key.pem
+```
+
+```yaml 
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-keyless
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-slsa-image-keyless
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences:
+        - "my_account/my_image*"
+        attestations:
+          - predicateType: https://slsa.dev/provenance/v1
+            attestors:
+            - entries:
+              - certificates:
+                  cert: |-
+                    -----BEGIN CERTIFICATE-----
+                    MIIGmjCCBIKgAwIBAgICEAEwDQYJKoZIhvcNAQELBQAwgYExCzAJBgNVBAYTAklM
+                    MQ8wDQYDVQQIDAZDZW50ZXIxGDAWBgNVBAoMD1NjcmliZSBTZWN1cml0eTEbMBkG
+                    A1UECwwSU2NyaWJlIFNlY3VyaXR5IENBMSowKAYDVQQDDCFpbnRlcm1pZGF0ZS5j
+                    YS5zY3JpYmVzZWN1cml0eS5jb20wHhcNMjMwODAyMTI1NDM2WhcNMjQwODAxMTI1
+                    NDM2WjCBozELMAkGA1UEBhMCSUwxDzANBgNVBAgMBkNlbnRlcjERMA8GA1UEBwwI
+                    TE9DQVRJT04xGDAWBgNVBAoMD1NjcmliZSBTZWN1cml0eTEbMBkGA1UECwwSU2Ny
+                    aWJlIFNlY3VyaXR5IENBMTkwNwYDVQQDDDBmaWxlX2tleS5jbGllbnQudGVzdF9j
+                    bGllbnRfMS5zY3JpYmVzZWN1cml0eS5jb20wggIiMA0GCSqGSIb3DQEBAQUAA4IC
+                    DwAwggIKAoICAQCxVwM7faKMEvVc2V4k7Q79z6DzX0ihsB5ScU23ASptnrgQ/tMc
+                    nd0Ei9TJamBfzpizBYBCL5NEKvsk/94liLcWBonAKDZXyI5ER9UKXsAGu4OVVuih
+                    e4LOIWryQ+RqfQf0kxhkKyXx0xQO+rKPuld7YDbmFywR74CES/E9ld1tbPpnWCQE
+                    EuAdQmsCAjX1l/z1wrVawHA6lLn+/7/xpVm4h7nn/c8nBVcOIv7kE1DfqCXzU76A
+                    d1oZ7wV4MKqS3edydSODjLZ4h9zCC6sN4YM1QvYjlAnosuRItyWQIUXvCTQOSzGH
+                    S+vBSuz2M9xUs56l9syuQGKFCxfwJuMQ/Razs/Jh7wp/orxKwURUiiZ6oJKRosdq
+                    Aj0zUDNHgkW+R6kp+oF6heIIGl/etV7F6m9bG+gwnZrlVQ2L3a50W7bceOc5+IO9
+                    eGNDULdqcLI0SXu4nUSvKxfv5qprhJjqCa6Ivfd8pg+DetEsrOiNMwgV0LM9+pao
+                    ARj9MyOJRr78xEOIE2OR1GHb/hZfg1WMdDX8GrO6V85kLebyg5F2tPyE7ukUejIj
+                    2R/QMBbSwi024qGV7eEcKZlgtzxO3xDt4/nRlKYhiUAs0W8jKhLCihbIqJSfVo7H
+                    0/1BxCIwK7sFo9DhpzwsitDG0UEBtxA5Bkwb7tsRkOQ8M9KEU0i7G7XQfwIDAQAB
+                    o4H3MIH0MAkGA1UdEwQCMAAwEQYJYIZIAYb4QgEBBAQDAgbAMDMGCWCGSAGG+EIB
+                    DQQmFiRPcGVuU1NMIEdlbmVyYXRlZCBDbGllbnQgQ2VydGlmaWNhdGUwHQYDVR0O
+                    BBYEFPNxIjWxsavX8gsErCDNr+QwwcohMB8GA1UdIwQYMBaAFB5qDzP7vz4OYsEf
+                    xME3sZmTPRIhMA4GA1UdDwEB/wQEAwIF4DAnBgNVHSUEIDAeBggrBgEFBQcDAgYI
+                    KwYBBQUHAwEGCCsGAQUFBwMDMCYGA1UdEQEB/wQcMBqBGG1pa2V5QHNjcmliZXNl
+                    Y3VyaXR5LmNvbTANBgkqhkiG9w0BAQsFAAOCAgEALP/ekgoZTZSUhPn9ULPSMyp3
+                    kfomql5m8kXfzhfJbx0n4zqcQIAm2PnYwu/4SKhrWwuvcbL7xXJ1PBgM7dzN/bJO
+                    +ggmAoHHWtfaobXV1iG5OUI9Ov6qRpLjmE1+MdLFp7eeegjFuWGjEDXOufjOt+Sx
+                    ZiqyfpJS1gfdzuBo/sNFKeaAEJDY2aOVT2w19dfebPTwJhHMDfGuKCdmRR1fGN5M
+                    BlenbgxFZ3caaGlOQ636n2gSZI2KnwQTLFnlSt/cwNpS3Pz6n8SLqBBdji/4lqtB
+                    ZZLAZuUEckJJCWWVBVzbG+/L2/VLiNS8REWjYNg3wS/xlDno3+yfsxIVk78TYyoG
+                    gzhHGr/DGcVUfDKq8xxMBC9UnDa9iLXLIFpfl2SxvxiPs0UFFqSSZMvbKu8NsZjY
+                    6nP5Rpe0IqxbJuV3oJjElcda6WS1EgMQJh0z0zahl4b8O6UBFc0J4z9GM7LVRL/r
+                    fRNBz2c3/pgMF0A2WNygueVpJrAe2U7qn/O6ny11u6NqvSpkvuN0noMwfzQuEc7R
+                    wnBk1E4qUjn8pWJXWRRW7aie8rqs/lNcxL4DVA9284wvDlKNHecuNTmHboaDzLBI
+                    Fhmpi9Yh/TjG7URATfphO9OTaZrcyk3Fk2lPyyizJWpdQutLuszwQ7obA3nUFcaY
+                    BmMJflFQDkF8nueSr/Y=
+                    -----END CERTIFICATE-----                
+                  certChain: |-
+                    -----BEGIN CERTIFICATE-----
+                    MIIF8jCCA9qgAwIBAgICEjQwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNVBAYTAklM
+                    MQ8wDQYDVQQIDAZDZW50ZXIxETAPBgNVBAcMCExPQ0FUSU9OMRgwFgYDVQQKDA9T
+                    Y3JpYmUgU2VjdXJpdHkxGzAZBgNVBAsMElNjcmliZSBTZWN1cml0eSBDQTEjMCEG
+                    A1UEAwwacm9vdC5jYS5zY3JpYmVzZWN1cml0eS5jb20wHhcNMjMwODAyMTI1NDM1
+                    WhcNMzMwNzMwMTI1NDM1WjCBgTELMAkGA1UEBhMCSUwxDzANBgNVBAgMBkNlbnRl
+                    cjEYMBYGA1UECgwPU2NyaWJlIFNlY3VyaXR5MRswGQYDVQQLDBJTY3JpYmUgU2Vj
+                    dXJpdHkgQ0ExKjAoBgNVBAMMIWludGVybWlkYXRlLmNhLnNjcmliZXNlY3VyaXR5
+                    LmNvbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALcV47Jjsy5Cf9Nt
+                    0SY3ZgN1bM/ulIfF9Ercl78JvDEz5kBgB4mVQcwnjCX5itk375EWYMFiTbyzFBSH
+                    f9hC2IMdgbgcMHgZMPA4Hn6i7PezjJdFZNY6tGGiyzR4+HkXFp+sW+OqX6ks4l++
+                    FomJpT1WcJ5A86oL0h46MzHpO7Xo3d/KIl2TS3VWhXcTjlb4oJu4RTrHj4Yl80i8
+                    XVIOGFSx6j9kZ1+eDSdojg2jkt8RJOS2p8ZY3SrTZ0WAQ1PvYbfC1WrIhbPtbysD
+                    +5tJSSlr0leCbLciwrQYvnhIeQBNu2iMoeeM/EMpJI5W02+v1izfC1zPt/V4vxxS
+                    oregCiDBiIuOc+dMJN5/uIs/T+H+xX+k4rI3HmFGr4++QXSj5BudIIuEhqUF26D9
+                    AKaaiwxkmrI25XN3oKlBSTLIjyD6kM9FGX6LT/mTpAokklAbrDL6F91HOGJ9rS/i
+                    fdZ8n3Or83fEiCO7LUJYXoqnM+dR8aQgU7FrcTYmiCErfOpLkgmaBIR+Dc+awp7g
+                    ZCUqhg424lgdAo/9tsLzhqgz1gGCzdiF2jNexm5T0XItXvQYeDu03Lbe0hRoF0v3
+                    Bik4v2W30z4xutO8Qxcqs+zG/rWp1hk93rb/IBuRJt4JGeYqIqkVYjp84ut5cfd3
+                    opatZvnYK0rEZRb20roRVwFHMYtxAgMBAAGjZjBkMB0GA1UdDgQWBBQeag8z+78+
+                    DmLBH8TBN7GZkz0SITAfBgNVHSMEGDAWgBRiD2MrfZfEToAtcetr89Z9eEx2xzAS
+                    BgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjANBgkqhkiG9w0BAQsF
+                    AAOCAgEAZlplI7OrzRZnCd0oZoHLMveFpxM/4eYlAyn/7swKjqjW4W/aV7C221WO
+                    dw8mCNp/atslAetKMz+zlMaMGDQeuhDe6E32XOZOfrjKWrXTzArTz/BTcYF6G3+0
+                    /2Dszui05N4VWzFkmlD+5h2kp1D1icLiheTR6LgMtJUAcA3x42KvhBc2tFbDgY6W
+                    /QIuQ2yZZEQAVf0ZAgZqFwE4kdSMVfF1cZuftr1LSC1xEmNo33f7MAPP6yNwkGfB
+                    4knOgUesW9kkvT+FUHMb9UHVMIM9770zF0nMWo7S4K/IhlL3FXzfg3L1KCvDQOHp
+                    RAhff1caX2DnOaJq6XHT3ZQx2MT94RSKLcldEcRB5SDHaxJBVy20/8XVJAWiaLn0
+                    7XhOq72OIc3oPAd05A7BGOgiWwPjbf06qG0ySAcgrThr5xvPzen+6w9SamsjTf2N
+                    riwvuZ/xHM9CzgeNUhvuyaDjQYFvbaNBUjmRYu333XxMH3qlMq/bIKVVxXHTi7sm
+                    AJmGTjI2XuBMrbUAIYvYdFFV+VXqG+NCQdlNh2EXpdM5w57WCUD7XzaIJgXuXob8
+                    Gcm0zWJoBMZdT5Kxd47TtFbpdz+Rzn4tXfYMRgZFzqMxLaY8AGNNrl/e+R9MeujT
+                    gZNa7wxZAxJL8zRMZAh6wKYm3BRqKEls5rwlpt0tpfrkloq/Rso=
+                    -----END CERTIFICATE-----
+                    -----BEGIN CERTIFICATE-----
+                    MIIGDTCCA/WgAwIBAgIUZBDxk3O+s3osHk9A+muJTOuEk/8wDQYJKoZIhvcNAQEL
+                    BQAwgY0xCzAJBgNVBAYTAklMMQ8wDQYDVQQIDAZDZW50ZXIxETAPBgNVBAcMCExP
+                    Q0FUSU9OMRgwFgYDVQQKDA9TY3JpYmUgU2VjdXJpdHkxGzAZBgNVBAsMElNjcmli
+                    ZSBTZWN1cml0eSBDQTEjMCEGA1UEAwwacm9vdC5jYS5zY3JpYmVzZWN1cml0eS5j
+                    b20wHhcNMjMwODAyMTI1NDMzWhcNNDMwNzI4MTI1NDMzWjCBjTELMAkGA1UEBhMC
+                    SUwxDzANBgNVBAgMBkNlbnRlcjERMA8GA1UEBwwITE9DQVRJT04xGDAWBgNVBAoM
+                    D1NjcmliZSBTZWN1cml0eTEbMBkGA1UECwwSU2NyaWJlIFNlY3VyaXR5IENBMSMw
+                    IQYDVQQDDBpyb290LmNhLnNjcmliZXNlY3VyaXR5LmNvbTCCAiIwDQYJKoZIhvcN
+                    AQEBBQADggIPADCCAgoCggIBAKDvab1yS4djojSCjlVkj57GX24p3Uf8uGAggByI
+                    ueG2LwqMQGYtR4jXOodaR8OO0j/dxYR8c3mAvVg/6J7T9bnozzlNg6mLBWhHeLBP
+                    e6krpB14yJnUXDJeFfQXNWM6rLeTWSbH/G8CqEHn+sRr72pPaVbGG0s4M2jpJGJd
+                    UatD9csTE/l6xw8iRcpA5SfhCpb7U0to8aluwQpNYfLgPPvtDl+4YzgbHweWuNcr
+                    TMtjNXhRJITKOJ2+xfzhUdQUWpqIYZHQbRx88KG1X+8EvWQ2HowpdCiqmda7kqFu
+                    voX7cnZqfllemhG4/eay7Rn6UJnEuXfZd9OrfyX8ygBD63MPUT0EDS0qNDjL+ET7
+                    vczoWmUDFQ7G02FDY5X8Yintc1O+bQhHdpAJzDi61tGWxXCmoWo/1zXfT8FfNQDR
+                    ZyWgw2jPgfJ1kzGCwKXtgLIspibIZilIG76oNX2DePKHEYg+HK3rAFY4mdL/bSdy
+                    rzFJtdn/r/YBA6G2DLIMg7PWWGDl/WrISDc/qZTzTiJixkwJgHI06nRyUacZmtn7
+                    xYifbeLqyWhZcOP0x9XQ0N0OT2nWQuOFdU7AHxqBiNPdRCltQ5S/i6a3NiVdACmi
+                    mmRFkJg8vBEdxJZpU+XtkBQmUNxYp/Nf2KftsxD/Nq4T8AIAdMsKb2uFiEFRPRUp
+                    NLlpAgMBAAGjYzBhMB0GA1UdDgQWBBRiD2MrfZfEToAtcetr89Z9eEx2xzAfBgNV
+                    HSMEGDAWgBRiD2MrfZfEToAtcetr89Z9eEx2xzAPBgNVHRMBAf8EBTADAQH/MA4G
+                    A1UdDwEB/wQEAwIBhjANBgkqhkiG9w0BAQsFAAOCAgEAFL/QeqHhuu35NRz9GbVL
+                    n44xAFYFRn1uu1N4paC4Erum2Oww0oFGajLHpYRoB/151XQVUtzBV3YsIs9PLWCC
+                    RAXRnBUvkndjAZpD//YGcZmzvVbQvkvbsEkSg1TuMl8AheNja2JCEZ/hZHkY5h5z
+                    sETzq8YloxRI2qScRE6GOQUGI7UJsYI6T3NMqg2pttIERVvdCXh1VscqOaFlENax
+                    iCSQU1kxNlNDulF7+FKXS9pArKBn1lLS9DnmIUWNAc9nKMQZue++1jHcUA+w00wb
+                    fvvza5TP8YC+Wz7fJ5KY8tEuGUQsr4f+3rqaLzgLXG+8XEPI+5XsddrsXssqdy5S
+                    BSKfbRZpR//wygPwO3u1E2emBDr1Fawa8hUVEhiKkQPZMccvf3+3S9hStSyBXYso
+                    9mmg4vRo3TJdxayhNSitBcg3ADhEVKzK3ggIcQC/vHIzsJEg+DsM3pMldbPkXoij
+                    Dmm8fdm2QhwLp+kM8gd/2LEnqeKzH5FohKyJiNBlGczzgVgoDOLz3pc+rjf5TNlw
+                    3a04dSglKYnbimhdFdhnSgRzbuyAKkKTMDPD8vlRzIPkG2jKkl1oohDqj9EXNnV5
+                    4yRJlfaxsP1l8tEzF6/Jkts9XZoWkPsqimgqqWrADwR0Y0BSyoSx+bXCCnrhP4RB
+                    jhOhPkzpQucSSb4lGZadmts=
+                    -----END CERTIFICATE-----
+```
+
+</details>
+
+<details>
+  <summary> Both Signing and Verifying using cosign </summary>
 
 One can create predicates for any attestation format (`sbom`, `slsa`), you then can use `cosign` to verify the attestation.
 
@@ -1086,7 +1241,7 @@ One can create predicates for any attestation format (`sbom`, `slsa`), you then 
 
 ```bash
 # Generate SLSA Provenance statement
-valint slsa [image] -vv -o statement -f --output-file valint_statement.json
+valint slsa [image] -o statement -f --output-file valint_statement.json
 
 # Extract predicate
 cat valint_predicate.json | jq '.predicate' > valint_predicate.json
