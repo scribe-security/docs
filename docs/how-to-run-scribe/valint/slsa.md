@@ -1072,7 +1072,7 @@ Such verification derives the following requirements:
     - Verify that secrets shared with other pipelines cannot allow for pipelines to affect each other.
     - Verify that pipeline runs cannot affect each other
         - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a container that is created for each build), or by verifying that build-runners start each time from a predefined state.
-​
+
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
 
 ### Build service trusted builder
