@@ -33,7 +33,7 @@ It is required for all SLSA compliance levels.
 
 
 #### Predicate default format
-Following describes provenance format created by default by valint.
+The following In-toto statement describes provenance format created by default by valint.
 
 > We are currently expanding our default and custom capabilities.
 
