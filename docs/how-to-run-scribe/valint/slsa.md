@@ -971,6 +971,7 @@ The SLSA framework defines levels, which represent how secure the software suppl
 
 ​
 Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool. 
+
 Note: We refer here to the SLSA V1.0 framework.
 ​
 ## SLSA L1
