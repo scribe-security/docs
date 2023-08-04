@@ -1099,10 +1099,10 @@ Create a separete trusted-provenance-generation pipeline that will perform the f
     - verify the content of attestations created in the build-pipeline. For example, verify the content of the build-runner by comparing an SBOM attastation from the build-pipeline with an SBOM attastation that was sampled separately.
     - Use attestations collected from the build pipeline to update the Provenance document.
     - Updating the Provenance document can be done using `valint slsa` command.
-- Verify that the build was isolated, by evaluating data collected from the build service. For example - verfy the use of caches an secrets.
-​
-In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
-​
+- Verify that the build was isolated, by evaluating data collected from the build service. For example - verfy the use of caches and secrets.
+
+In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed.
+
 Please contact us for designing and implementing such a deployment.
 
 
