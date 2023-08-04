@@ -73,6 +73,7 @@ attest:
   config: ""
   default: sigstore
   cocosign: {}
+  x509: {}
 verify:
   input-format: attest-cyclonedx-json
   attestation: ""
