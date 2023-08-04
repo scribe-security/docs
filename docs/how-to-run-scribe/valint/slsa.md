@@ -467,7 +467,7 @@ stage('slsa-full-env') {
 Following are some of the customizable features we support.
 * Attach a external file **Content included** as a byProduct, use `--by-product` flag.
 * Automatically expand `byProducts` with detailed target components, use `--components` to select between the group types.
-* Set any one of specific provenance field, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
+* Set any one of specific provenance fields, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
 * Attach environment variables to `internalParameters`, use `--env` or `--all-env` flags.
 * Provide custom predicate, use `--predicate` with partial or full SLSA provenance predicate.
 * Provide custom statement, use `--statement` with partial or full SLSA provenance statement.
