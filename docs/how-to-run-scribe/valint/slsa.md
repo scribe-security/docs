@@ -586,7 +586,7 @@ For example the following `custom.predicate.json` defines custom `externalParame
 </details>
 
 <details>
-  <summary>  Provide Custom Provenance Statement </summary>
+  <summary>  Provide a Custom Provenance Statement </summary>
 
 You can provide a custom SLSA provenance statement using the `--statement` flag, specifying the path to the statement file.
 
