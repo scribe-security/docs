@@ -1060,7 +1060,7 @@ Such verification derives the following requirements:
     - in what conditions can a unauthorized entity evade the build platform
     - in what conditions can build affect each other.
 - Isolate the generation of the Provenance document:
-    - If the build platform supports secure build runners - use a secure runner (example: [GitHub](TBD LINK ***)), 
+    - If the build platform supports secure build runners - use a secure runner (example: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions), 
 ​
     or
 ​
