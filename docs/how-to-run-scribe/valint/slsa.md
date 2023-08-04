@@ -469,8 +469,8 @@ Following are some of the customizable features we support.
 * Automatically expand `byProducts` with detailed target components, use `--components` to select between the group types.
 * Set any one of specific provenance fields, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
 * Attach environment variables to `internalParameters`, use `--env` or `--all-env` flags.
-* Provide custom predicate, use `--predicate` with partial or full SLSA provenance predicate.
-* Provide custom statement, use `--statement` with partial or full SLSA provenance statement.
+* Provide custom predicate, use `--predicate` with a partial or full SLSA provenance predicate.
+* Provide custom statement, use `--statement` with a partial or full SLSA provenance statement.
 
 <details>
   <summary>  Attach an External File as a ByProduct </summary>
