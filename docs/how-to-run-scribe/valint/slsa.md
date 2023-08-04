@@ -29,7 +29,7 @@ Valint supports the following provenance formats.
 
 ### SLSA Provenance specification overview
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
-It is required for SLSA compliance levels.
+It is required for all SLSA compliance levels.
 
 
 #### Predicate default format
