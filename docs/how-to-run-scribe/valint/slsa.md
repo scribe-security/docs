@@ -510,7 +510,7 @@ valint slsa busybox:latest --invocation my_invocation --build-type docker --buil
 
 
 <details>
-  <summary>  Set Specific External parameter </summary>
+  <summary>  Set a Specific External parameter </summary>
 
 You can attach environment variables to internalParameters using the `--external` flags.
 
