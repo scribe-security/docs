@@ -982,7 +982,7 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l1) for SLSA L1 inclu
 
 Checklist for achieving SLSA L1:
 - Build your software using a CI system. Preferably use a build script that is source-controlled.
-- Activate the `valint slsa` command as part of your build script to create a Provenance document. Notice that the `valint slsa` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
+- Activate the `valint slsa` command as part of your build script to create a Provenance document. Notice that the `valint slsa` command allows adding additional information to the Provenance document - one can tailor some of the content of the Provenance document to his needs.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 1 using `valint slsa`:
