@@ -536,7 +536,7 @@ valint slsa busybox:latest --env MY_ENV
 </details>
 
 <details>
-  <summary>  Provide Custom Provenance Predicate </summary>
+  <summary>  Provide a Custom Provenance Predicate </summary>
 
 You can provide a custom SLSA provenance predicate using the `--predicate` flag, specifying the path to the predicate file.
 
