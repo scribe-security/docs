@@ -631,7 +631,7 @@ For example the following `custom.statement.json` wil include custom `subject` a
 
 
 ## Evidence Stores
-Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
+Valint supports a variety of evidence store types: Scribe's own evidence store, OCI registries and local cache. Each Evidence store type can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ### Scribe Evidence store
 Scribe evidence store allows you to store evidence using scribe Service.
