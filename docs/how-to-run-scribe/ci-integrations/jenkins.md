@@ -369,11 +369,11 @@ node {
 > Use `jenkins` as context-type.
 
 ### Using custom x509 keys
-x509 signer allows you store utilize keys for signing.
+x509 signer allows you store utilize file based keys for signing.
 
 Related flags:
 * `--key` x509 Private key path.
-* `--cert` - x509 Cert Chain path.
+* `--cert` - x509 Certificate path.
 * `--ca` - x509 CA Chain path.
 
 > While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
