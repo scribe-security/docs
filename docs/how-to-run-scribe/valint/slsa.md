@@ -95,7 +95,7 @@ The following In-toto statement describes provenance format created by default b
 <details>
   <summary>  Default Github Provenance </summary>
 
-Following example shows a provenance created by a Github.
+The following example shows a provenance created by a Github.
 
 ```json
 {
@@ -248,7 +248,7 @@ Following example shows a provenance created by a Github.
 <details>
   <summary>  Default Jenkins Provenance </summary>
 
-Following example shows a provenance created by a Jenkins pipeline.
+The following example shows a provenance created by a Jenkins pipeline.
 
 Running the following step,
 
