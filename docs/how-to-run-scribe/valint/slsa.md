@@ -721,7 +721,7 @@ Related flags:
 * `--output-directory`
 * `--force`
 
-> By default, this cache store enabled, disable by using `--cache-enable=false`
+> By default, this cache store is enabled. Disable by using `--cache-enable=false`
 
 ### Usage
 ```bash
