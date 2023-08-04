@@ -966,8 +966,8 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
 2. The Provenance document should be trustworthy and verifiable downstream (L2).
 3. The build platform should be trustworthy (L3).
-4.
-5. The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
+  
+The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
 ​
 Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool.
 ​
