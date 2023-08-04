@@ -1044,7 +1044,7 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l3) for SLSA L3 inclu
 - Build platform implements strong controls to:
     - prevent runs from influencing one another, even within the same project.
     - prevent secret material used to sign the provenance from being accessible to the user-defined build steps.
-​
+
 In addition, in order to trust the build platform, one needs to [verify the build platform](https://slsa.dev/spec/v1.0/verifying-systems). The build platform should be trusted in the sense that the Provenance document will be [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) and the build will be [isolated](https://slsa.dev/spec/v1.0/requirements#isolated). 
 
 
