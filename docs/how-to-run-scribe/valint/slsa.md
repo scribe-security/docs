@@ -10,7 +10,7 @@ geometry: margin=2cm
 
 SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
-2. The Provenance document should be trustworthy and verified downstream (L2).
+2. The Provenance document should be trustworthy and verifiable downstream (L2).
 3. The build platform should be trustworthy (L3).
 
 Valint supports generation and validation of the SLSA Provenance document.
@@ -29,11 +29,11 @@ Valint supports the following provenance formats.
 
 ### SLSA Provenance specification overview
 SLSA Provenance includes verifiable information about software artifacts describing where, when and how something was produced.
-It is required for SLSA compliance levels.
+It is required for all SLSA compliance levels.
 
 
 #### Predicate default format
-Following describes provenance format created by default by valint.
+The following In-toto statement describes a provenance format created by default by valint.
 
 > We are currently expanding our default and custom capabilities.
 
@@ -96,7 +96,6 @@ Following describes provenance format created by default by valint.
   <summary>  Default Github Provenance </summary>
 
 Following example shows a provenance created by a Github Workflow.
-
 ```json
 {
   "_type": "https://in-toto.io/Statement/v0.1",
@@ -248,7 +247,7 @@ Following example shows a provenance created by a Github Workflow.
 <details>
   <summary>  Default Jenkins Provenance </summary>
 
-Following example shows a provenance created by a Jenkins pipeline.
+The following example shows a provenance created by a Jenkins pipeline.
 
 Running the following step,
 
@@ -467,10 +466,10 @@ stage('slsa-full-env') {
 Following are some of the customizable features we support.
 * Attach a external file **Content included** as a byProduct, use `--by-product` flag.
 * Automatically expand `byProducts` with detailed target components, use `--components` to select between the group types.
-* Set any one of specific provenance field, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
+* Set any one of specific provenance fields, use `--invocation`, `--build-type`, `--builder-id`,`--started-on`, `--finished-on` flags.
 * Attach environment variables to `internalParameters`, use `--env` or `--all-env` flags.
-* Provide custom predicate, use `--predicate` with partial or full SLSA provenance predicate.
-* Provide custom statement, use `--statement` with partial or full SLSA provenance statement.
+* Provide custom predicate, use `--predicate` with a partial or full SLSA provenance predicate.
+* Provide custom statement, use `--statement` with a partial or full SLSA provenance statement.
 
 <details>
   <summary>  Attach an External File as a ByProduct </summary>
@@ -510,7 +509,7 @@ valint slsa busybox:latest --invocation my_invocation --build-type docker --buil
 
 
 <details>
-  <summary>  Set Specific External parameter </summary>
+  <summary>  Set a Specific External parameter </summary>
 
 You can attach environment variables to externalParameters using the `--external` flags.
 
@@ -536,7 +535,7 @@ valint slsa busybox:latest --env MY_ENV
 </details>
 
 <details>
-  <summary>  Provide Custom Provenance Predicate </summary>
+  <summary>  Provide a Custom Provenance Predicate </summary>
 
 You can provide a custom SLSA provenance predicate using the `--predicate` flag, specifying the path to the predicate file.
 
@@ -586,7 +585,7 @@ For example the following `custom.predicate.json` defines custom `externalParame
 </details>
 
 <details>
-  <summary>  Provide Custom Provenance Statement </summary>
+  <summary>  Provide a Custom Provenance Statement </summary>
 
 You can provide a custom SLSA provenance statement using the `--statement` flag, specifying the path to the statement file.
 
@@ -631,7 +630,7 @@ For example the following `custom.statement.json` wil include custom `subject` a
 
 
 ## Evidence Stores
-Each Evidence store can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
+Valint supports a variety of evidence store types: Scribe's own evidence store, OCI registries and local cache. Each Evidence store type can be used to store, find and download evidence, which unifies all the evidence collected from the supply chain into a unified system.
 
 ### Scribe Evidence store
 Scribe evidence store allows you to store evidence using scribe Service.
@@ -666,7 +665,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] \
 ```
 
 ### OCI Evidence store
-Admission supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
@@ -710,7 +709,7 @@ valint slsa [image] -o [attest, statement] --oci
 valint verify [image] -i [attest-slsa, statement-slsa] --oci
 ```
 
-> For related Cosign support, see [cosign-support](#cosign-support) section.
+> Valint attestations are compatible with cosign. For related Cosign support, see [cosign](#-cosign-support) section.
 
 ### Cache Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing a local directory as an evidence store.
@@ -721,7 +720,7 @@ Related flags:
 * `--output-directory`
 * `--force`
 
-> By default, this cache store enabled, disable by using `--cache-enable=false`
+> By default, this cache store is enabled. Disable by using `--cache-enable=false`
 
 ### Usage
 ```bash
@@ -1233,13 +1232,14 @@ X509v3 extensions:
 ---
 ​SLSA (Supply-chain Levels for Software Artifacts) is a security framework aiming to prevent tampering, improve integrity, and secure packages and infrastructure. The core concept of SLSA is that a software artifact can be trusted only if it complies to three requirements:
 1. The artifact should have a Provenance document, describing it's origin and build process (L1).
-2. The Provenance document should be trustworthy and verified downstream (L2).
+2. The Provenance document should be trustworthy and verifiable downstream (L2).
 3. The build platform should be trustworthy (L3).
-​
+  
 The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
+
 ​
-Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool.
-​
+Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool. 
+
 Note: We refer here to the SLSA V1.0 framework.
 ​
 ## SLSA L1
@@ -1247,10 +1247,10 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l1) for SLSA L1 inclu
 - Software producer follows a consistent build process.
 - Build platform automatically generates provenance describing how the artifact was built.
 - Software producer distributes provenance to consumers.
-​
+
 Checklist for achieving SLSA L1:
 - Build your software using a CI system. Preferably use a build script that is source-controlled.
-- Activate the `valint slsa` command as part of your build script to create a Provenance document. Notice that the `valint slsa` command allows adding additional information to the Provenance document - on can tailor some of the content of the Provenance document to his needs.
+- Activate the `valint slsa` command as part of your build script to create a Provenance document. Notice that the `valint slsa` command allows adding additional information to the Provenance document - one can tailor some of the content of the Provenance document to his needs.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 1 using `valint slsa`:
@@ -1261,7 +1261,7 @@ valint slsa [target]
 ```
 
 ### Verify Provenance using `valint verify`
-To verify SLSA Level 2 using `valint slsa` 
+To verify SLSA Level 1 using `valint slsa` 
 run the following.
 
 ```bash 
@@ -1274,7 +1274,7 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l2) for SLSA L2 inclu
 - The SLSA L1 requirements.
 - The build runs on a hosted build platform that generates and signs the provenance itself. 
 - Downstream verification of provenance includes validating the authenticity of the provenance.
-​
+  
 Checklist for achieving SLSA L2:
 
 - The SLSA L1 checklist.
@@ -1290,7 +1290,7 @@ Make sure to expose access only to the provenance creation step or workflow.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 2 using `valint slsa` 
-run the following on the build platform.
+run the following command on the build platform.
 
 ```bash 
 # Create signed SLSA Provenance
@@ -1312,7 +1312,7 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l3) for SLSA L3 inclu
 - Build platform implements strong controls to:
     - prevent runs from influencing one another, even within the same project.
     - prevent secret material used to sign the provenance from being accessible to the user-defined build steps.
-​
+
 In addition, in order to trust the build platform, one needs to [verify the build platform](https://slsa.dev/spec/v1.0/verifying-systems). The build platform should be trusted in the sense that the Provenance document will be [unforgable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable) and the build will be [isolated](https://slsa.dev/spec/v1.0/requirements#isolated). 
 
 
@@ -1328,7 +1328,7 @@ Such verification derives the following requirements:
     - in what conditions can a unauthorized entity evade the build platform
     - in what conditions can build affect each other.
 - Isolate the generation of the Provenance document:
-    - If the build platform supports secure build runners - use a secure runner (example: [GitHub](TBD LINK ***)), 
+    - If the build platform supports secure build runners - use a secure runner (example: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions), 
 ​
     or
 ​
@@ -1340,18 +1340,15 @@ Such verification derives the following requirements:
     - Verify that secrets shared with other pipelines cannot allow for pipelines to affect each other.
     - Verify that pipeline runs cannot affect each other
         - example - prevent installations done through one pipeline to affect other pipeline runs. This can be done by using ephemeral build-runners (such as a container that is created for each build), or by verifying that build-runners start each time from a predefined state.
-​
+
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
 
 ### Build service trusted builder
-> When build service supports a trusted builder
-
-
-use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
+When build service supports a trusted builder use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 3 using `valint slsa` 
-run the following in trusted builder.
+run the following on a trusted builder.
 
 ```
 # Create signed SLSA Provenance
@@ -1364,16 +1361,16 @@ valint slsa [target] -o attest --label builder_slsa_evidence
 
 Instrument the build pipeline for generating all attestations that will be needed to populate the Provenance document. For example, you may decide you want a list of the dependencies installed during the build. This list can be generated by a ```valint bom dir:``` command. In addition, create a Provenance attestation in the pipeline using the `valint slsa` command.
 
-- Create a separate trusted-provenance-generation pipeline that will perform the following
-- Generate a trusted Provenance document, based on the one created in the build pipeline;
+Create a separete trusted-provenance-generation pipeline that will perform the following:
+- Generate a trusted Proveance document, based on the one created in the build pipeline;
     - Collect data from the build service and use it to verify and update the Provenance document.
     - verify the content of attestations created in the build-pipeline. For example, verify the content of the build-runner by comparing an SBOM attestation from the build-pipeline with an SBOM attestation that was sampled separately.
     - Use attestations collected from the build pipeline to update the Provenance document.
     - Updating the Provenance document can be done using `valint slsa` command.
-- Verify that the build was isolated, by evaluating data collected from the build service. For example - verfy the use of caches an secrets.
-​
-In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed. 
-​
+- Verify that the build was isolated, by evaluating data collected from the build service. For example - verfy the use of caches and secrets.
+
+In order to perform such data collection and evaluation, Scribe provides tools that create attestations to the build run, and perform the verifications needed.
+
 Please contact us for designing and implementing such a deployment.
 
 
