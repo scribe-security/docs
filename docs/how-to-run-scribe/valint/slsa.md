@@ -970,8 +970,7 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 The SLSA framework defines levels, which represent how secure the software supply chain is. These levels correspond to the level of implementation of these requirements.
 
 ​
-Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool.
-​
+Scribe's `valint slsa` command can be used to produce Provenance documents. Following we describe how to achieve SLSA levels alongside with using this tool. 
 Note: We refer here to the SLSA V1.0 framework.
 ​
 ## SLSA L1
