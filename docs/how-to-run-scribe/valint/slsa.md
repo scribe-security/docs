@@ -1076,10 +1076,7 @@ Such verification derives the following requirements:
 These requirements are challenging and the SLSA framework specifically suggests that organizations gradually evolve from SLSA L2 to SLSA L3 compliance. 
 
 ### Build service trusted builder
-> When build service supports a trusted builder
-
-
-use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
+When build service supports a trusted builder use it, and use the the trusted bulider to run `valint slsa` command to create the Provenance document.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 3 using `valint slsa` 
