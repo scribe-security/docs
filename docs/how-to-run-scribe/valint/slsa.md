@@ -993,7 +993,7 @@ valint slsa [target]
 ```
 
 ### Verify Provenance using `valint verify`
-To verify SLSA Level 2 using `valint slsa` 
+To verify SLSA Level 1 using `valint slsa` 
 run the following.
 
 ```bash 
