@@ -710,7 +710,7 @@ valint slsa [image] -o [attest, statement] --oci
 valint verify [image] -i [attest-slsa, statement-slsa] --oci
 ```
 
-> For related Cosign support, see [cosign](#-cosign-support) section.
+> valint attestations are compatible with cosign. For related Cosign support, see [cosign](#-cosign-support) section.
 
 ### Cache Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing a local directory as an evidence store.
