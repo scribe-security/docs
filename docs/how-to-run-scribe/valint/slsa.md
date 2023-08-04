@@ -1006,7 +1006,7 @@ The [requirements](https://slsa.dev/spec/v1.0/levels#build-l2) for SLSA L2 inclu
 - The SLSA L1 requirements.
 - The build runs on a hosted build platform that generates and signs the provenance itself. 
 - Downstream verification of provenance includes validating the authenticity of the provenance.
-​
+  
 Checklist for achieving SLSA L2:
 
 - The SLSA L1 checklist.
