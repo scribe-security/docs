@@ -1080,7 +1080,7 @@ When build service supports a trusted builder use it, and use the the trusted bu
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 3 using `valint slsa` 
-run the following in trusted builder.
+run the following on a trusted builder.
 
 ```
 # Create signed SLSA Provenance
