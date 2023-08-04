@@ -1022,7 +1022,7 @@ Make sure to expose access only to the provenance creation step or workflow.
 
 ### Create Provenance using `valint slsa`​
 To achieve SLSA Level 2 using `valint slsa` 
-run the following on the build platform.
+run the following command on the build platform.
 
 ```bash 
 # Create signed SLSA Provenance
