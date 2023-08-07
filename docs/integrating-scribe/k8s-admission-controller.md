@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 <!-- # K8s Admission Controller - Coming Soon! -->
-<img src='../../../img/help/coming-soon.jpg' alt='Coming Soon'/>
+<!-- <img src='../../../img/help/coming-soon.jpg' alt='Coming Soon'/> -->
 
 
 ![Version: 0.1.4-1](https://img.shields.io/badge/Version-0.1.4--1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4-1](https://img.shields.io/badge/AppVersion-0.1.4--1-informational?style=flat-square)
@@ -22,9 +22,9 @@ This document provides instructions for installing and integrating the admission
 
 The admission controller is built with Helm and is supported by the Scribe security team. To enable the admission logic, simply add the `admission.scribe.dev/include` label to a namespace. 
 
-### Supported K8s platforms
+<!-- ### Supported K8s platforms
 
-### Prerequisites
+### Prerequisites -->
 
 ### Installing the K8s Admission Controller
 
