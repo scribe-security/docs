@@ -154,7 +154,7 @@ The above example was created under the assumption that you're using **Jenkins o
 
 22. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#importing-evidence-generated-by-other-tools)**.
 
-### Where to go on Scribe Hub
+<!-- ### Where to go on Scribe Hub
 
 Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
 
@@ -164,4 +164,36 @@ To see more details on your pipeline you can check out the **[Product page](../.
 
 <img src='../../../../img/start/products-start.jpg' alt='Products page'/>
 
+The **products** page shows you your products along with some basic information: How many subscribers have you added to this product, when the latest version of it was created (the last pipeline run), how many components were identified in the project, if the source code integrity was verified or not, how many high (or higher) vulnerabilities were identified, and how the project stands in terms of compliance to the SSDF and SLSA frameworks. -->
+
+### Where to go on Scribe Hub
+
+Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
+
+The first place you can look into to make sure your evidence has been uploaded properly is the **[Evidence report](../../scribe-hub-reports/evidence)**. The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects.
+
+To see more details on your pipeline you can check out the **Product page**
+
+<img src='../../../../img/start/products-start.jpg' alt='Products page'/>
+
 The **products** page shows you your products along with some basic information: How many subscribers have you added to this product, when the latest version of it was created (the last pipeline run), how many components were identified in the project, if the source code integrity was verified or not, how many high (or higher) vulnerabilities were identified, and how the project stands in terms of compliance to the SSDF and SLSA frameworks.
+
+Clicking on a product will show you all the product's builds and their information:
+
+<img src='../../../../img/start/builds-start.jpg' alt='Product builds page'/>
+
+For each build you can see its version ID, the build date, if the source code integrity was verified or not, the number and severity of vulnerabilities, how that build stands in terms of compliance, whether the build was published and if its signature was verified.
+
+for more information on the pipeline you just completed, click on the last build uploaded (the top of the list) and you'll get to the build dashboard:
+
+<img src='../../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+
+The dashboard is your main access to see this build's **[reports](../../scribe-hub-reports/)**. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
+
+### Where to go next
+* To learn more about what you can see, learn, and access about your build and your product look at the **[reports guide](../../scribe-hub-reports/)** section.
+* To learn how to create and manage SBOMs and vulnerabilities go to this **[guide](../../guides/manag-sbom-and-vul)**.
+* To learn about Scribe's use of the SLSA framework go to this **[guide](../../guides/secure-sfw-slsa)**.
+* To learn about enforcing SDLC policies go to this **[guide](../../guides/enforcing-sdlc-policy)**.
+* To learn how to achieve SSDF compliance go to this **[guide](../../guides/ssdf-compliance)**.
+* To learn how to secure your builds go to this **[guide](../../guides/securing-builds)**.

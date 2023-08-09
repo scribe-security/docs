@@ -106,7 +106,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         The `on: push` segment of this workflow means that whenever there is a `push` into this repository, a new signed SBOM of the repository will be sent to the evidence store of your Scribe hub.
 
-        Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your [evidence report](../../../advanced-guide/scribe-hub-reports/evidence).
+        Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your **[evidence report](../../scribe-hub-reports/evidence)**.
 
         </details>
 
@@ -209,13 +209,13 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         supplier-phone: $SUPPLIER_PHONE
         ```
 
-        Every time you run the workflow the evidence will be generated and uploaded to your Scribe Hub automatically. You'd be able to see the evidence on your [evidence report](../../../advanced-guide/scribe-hub-reports/evidence).
+        Every time you run the workflow the evidence will be generated and uploaded to your Scribe Hub automatically. You'd be able to see the evidence on your **[evidence report](../../scribe-hub-reports/evidence)**.
 
         You'll also see a new build version added to the appropriate project:
 
         <img src='../../../../img/start/builds-start.jpg' alt='Product builds page'/>
 
-        Clicking on the latest added build will allow you to explore all it's relevent information, [reports](../../../advanced-guide/scribe-hub-reports), and insights through the build dashboard:
+        Clicking on the latest added build will allow you to explore all it's relevent information, **[reports](../../scribe-hub-reports)**, and insights through the build dashboard:
 
         <img src='../../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
 
@@ -383,7 +383,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         <img src='../../../../../img/ci/slsa_provenance_intoto.jpg' alt='SLSA Provenance in-toto format'/>
 
-        In your Scribe hub, having a SLSA provenance added can be seen in your [compliance report](../../../advanced-guide/scribe-hub-reports/compliance):
+        In your Scribe hub, having a SLSA provenance added can be seen in your **[compliance report](../../scribe-hub-reports/compliance)**:
 
         <img src='../../../../../img/start/slsa-provenance.jpg' alt='SLSA provenance available'/> 
 
@@ -417,4 +417,13 @@ for more information on the pipeline you just completed, click on the last build
 
 The dashboard is your main access to see this build's **[reports](../../scribe-hub-reports/)**. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
 
-To learn more about what you can see, learn, and access about your build and your product check out the **[reports](../../scribe-hub-reports/)** section.
+### Where to go next
+* To learn more about what you can see, learn, and access about your build and your product look at the **[reports guide](../../scribe-hub-reports/)** section.
+* To learn how to create and manage SBOMs and vulnerabilities go to this **[guide](../../guides/manag-sbom-and-vul)**.
+* To learn about Scribe's use of the SLSA framework go to this **[guide](../../guides/secure-sfw-slsa)**.
+* To learn about enforcing SDLC policies go to this **[guide](../../guides/enforcing-sdlc-policy)**.
+* To learn how to achieve SSDF compliance go to this **[guide](../../guides/ssdf-compliance)**.
+* To learn how to secure your builds go to this **[guide](../../guides/securing-builds)**.
+
+
+
