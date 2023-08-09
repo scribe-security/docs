@@ -196,6 +196,8 @@ const config = {
         {to: 'docs/guides/manag-sbom-and-vul', label: 'Guides', position: 'left'},
         {to: 'docs/integrating-scribe/ci-integrations', label: 'Integrating with Scribe', position: 'left'},  
         // {to: 'docs/advanced-guide/standalone-deployment', label: 'Advanced Guide', position: 'left'},  
+        {to: 'docs/scribe-hub-reports', label: 'Scribe Hub Reports', position: 'left'},
+        {to: 'docs/scribe-api', label: 'Scribe API', position: 'left'},
         // {
         //   type: 'doc',
         //   docId: 'sampleproject',
