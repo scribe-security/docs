@@ -12,7 +12,8 @@ If you are planning to deploy in this mode, you should **[reach out to us](https
 
 In a local deployment, Valint generates SBOMs, collects additional evidence, and uses a filesystem folder or an OCI registry that you provide as a storage place for this evidence. When evaluating a policy, Valint retrieves the necessary evidence from this designated evidence store.
 
-### OCI Evidence store
+You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../integrating-scribe/other-evidence-stores)**.
+<!-- ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -119,4 +120,4 @@ Supply chain environment
 valint verify [target] -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --output-directory=[my_dir]
 ```
 
-> By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location. 
+> By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location.  -->

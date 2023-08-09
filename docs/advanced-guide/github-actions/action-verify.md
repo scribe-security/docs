@@ -292,8 +292,8 @@ jobs:
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
-
-### OCI Evidence store
+You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../integrating-scribe/other-evidence-stores)**.
+<!-- ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -346,7 +346,7 @@ jobs:
           format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
-```
+``` -->
 
 
 ### Verify SBOMs examples

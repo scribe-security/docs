@@ -182,7 +182,8 @@ pipelines:
               SUPPLIER_PHONE: $SUPPLIER_PHONE
 ```
 
-### OCI Evidence store
+You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
+<!-- ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -222,7 +223,7 @@ pipelines:
               INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               OCI: true
               OCI_REPO: [oci_repo]
-```
+``` -->
 
 ## Basic examples
 

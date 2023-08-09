@@ -274,6 +274,8 @@ File based key management library, go library abstracting the key type from appl
 
  > PEM formatted files 
 
+You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
+
 ### OCI storer
 Cocosign embeds the oc storer 
 Storer uploads evidence to your OCI registry.

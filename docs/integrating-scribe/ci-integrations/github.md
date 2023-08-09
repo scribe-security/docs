@@ -128,8 +128,8 @@ jobs:
           supplier-email: $SUPPLIER_EMAIL 
           supplier-phone: $SUPPLIER_PHONE
 ```
-
-### OCI Evidence store
+You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
+<!-- ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -213,7 +213,7 @@ jobs:
           supplier-url: $SUPPLIER_URL
           supplier-email: $SUPPLIER_EMAIL 
           supplier-phone: $SUPPLIER_PHONE
-```
+``` -->
 
 <!-- ### Checking policy compliance for your project
 

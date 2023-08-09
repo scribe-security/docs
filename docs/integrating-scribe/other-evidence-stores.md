@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Alternative evidence stores"
 title: "Integrating with Alternative types of evidence stores"
-sidebar_position: 6
+sidebar_position: 4
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
