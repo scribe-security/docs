@@ -8,15 +8,147 @@ toc_max_heading_level: 5
 
 ### Generating SBOMs
 
-In order to generate an SBOM out of a build pipeline you must first **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**. After this, Valint will generate an SBOM and upload it to the Scribe Hub upon every pipeline run. Valint generates an SBOM for build artifacts you specify as targets. 
+In order to generate an SBOM out of a build pipeline you must first **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**. After this, Valint will automatically generate an SBOM and upload it to the Scribe Hub upon every build run. Valint generates an SBOM for build artifacts you specify as targets. 
 In your build script call,
 
 ```
-valint bom <target> <flags>
+valint bom <target> -o [statement-generic, attest-generic] <flags> \
+ -E \
+ -U [SCRIBE_CLIENT_ID] \
+ -P [SCRIBE_CLIENT_SECRET]
 ```
 
-```<target>``` is a build artifact of either type of container image, file or file directory, or a git repo formatted as ```[<image:tag>, <dir path>, <git url>]```
-You can label several different build artifacts in one or more pipelines as belonging to the same **[logical application](../advanced-guide/generating-sboms/#generating-sboms-from-ci-pipeline-runs)** and its version. To this end use the special flags ```--app-name``` and ```--app-version```. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom#optional-flags)**.
+Where `<target>` of either type of container image, file or file directory, or a git repo. It is formatted as `[<image:tag>, <dir path>, <git url>]`.
+`-E` flag specifies that the SBOM is uploaded as evidence to Scribe Hub.
+`-U` and `-P` flags specify the Scribe Hub API credentials. You can read about the rest of the optional flags **[here](../integrating-scribe/valint/help/valint_bom#optional-flags)**.
+
+You can find the SBOMs in Scribe Hub under the Products catalog by drilling down from product to its versions, and to a specific version.  
+
+<img src='../../../img/start/products-start.jpg' alt='Scribe Hub Products Page'/>  
+
+<img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
+
+<img src='../../../img/start/sbom-report.jpg' alt='Your SBOM Report'/>
+
+In cases when the build SBOM doesn’t reflect all the dependency information, you can utilize Valint to generate additional SBOMs from the source code or from the package manager that Scribe Hub will merge to increase the accuracy of the composition analysis. These cases depend on the source code language, the package manager type, and the method of building the final artifact and is not an ordinary case. You can **[contact us](https://scribesecurity.com/contact-us/)** for more support in such cases.
+
+### Importing existing SBOMs
+
+In case you require to manage SBOMs as a software consumer from your own vendors or case you are using additional SBOM tools, for example for reversing binary artifacts, you can import these SBOMs to Scribe Hub. It is also possible to merge these SBOMs with the SBOMs created by Scribe to increase overall accuracy.
+
+To import such an external SBOM call Valint as follows
+```
+valint bom <filename> -o generic-attest --predicate-type cycloneDX
+```
+
+### Managing SBOMs of compound products
+
+In case your end product comprises several components (e.g., images or other deployable artifacts) such as a web application made of several microservices, you can associate the builds with a single product and version.
+
+This will aggregate their SBOMs under the same product in the Scribe Hub Products catalog.
+
+To achieve this, use the flags `--app-name` and `--app-version`.
+
+**Example**
+```
+valint bom my_image:my_tag --app-name my_app --app-version 1.0.1
+```
+
+You can manage evidence such as SBOMs of software products you build or from 3rd party through the Products catalog. Take a minute to explore the Demo Product in your Scribe account to review the different reports available for your products’ vulnerabilities, compliance with supply chain security standards, SBOMs, and contextual metadata.
+To gather evidence from your own products **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**.
+
+Once evidence is collected you can drill down to the reports by selecting the relevant product card in the catalog or **[search for relevant builds](../scribe-hub-reports/investigation#the-filter-bar)** using a rich set of filters.
+
+### Sharing SBOMs with your software consumers
+
+You can share SBOMs of versions that you publish with stakeholders such as consumers of the software you build. Scribe will alert subscribers on new vulnerabilities when they are later published for this version.
+
+To configure go to the Products catalog and find the relevant product card click ‘Invite Subscribers’ and input the email addresses of the stakeholders.
+
+<img src='../../../img/start/demo-start-1.jpg' alt='Scribe Hub Demo Product'/>
+
+Next, click the card and select the specific version that you wish to share, and click publish in its rightmost column. Note that at this point you need to manually publish every version explicitly.
+
+<img src='../../../img/start/publish-1.jpg' alt='Scribe Hub Build Publish'/>
+
+### Tracking vulnerabilities and managing security advisories
+
+Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. 
+Scribe will alert subscribers on new vulnerabilities when they are later published for this version.
+
+To review these vulnerabilities go to **Products > {Your Product} > {Version} > Vulnerabilities**
+
+<img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
+
+**Explanation:**  
+**Severity** - severity assigned by the CVE Numbering Authority (CNA)  
+**CVE ID** - the published CVE identifier  
+**Database** - the name of the CVE Numbering Authority (CNA)  
+**CVSS** - CVE’s CVSS version 3.2 score  
+**EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss)**  
+**Package & version** - the package name and version as reported in the SBOM  
+**Fix Version** - a newer version that fixes the vulnerability if exists
+
+### Ingesting reports from application security scanners
+
+You can gather the output of your application security scanners (such as SAST, SCA, and DAST) as evidence to attest to your software’s security level and evaluate it with your policies.
+In your build script use:
+```
+valint bom <file_path> -o [statement-generic, attest-generic] -p [predicate-type] [FLAGS]
+```
+For example, gathering evidence of a Trivy output:
+```
+valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+```
+
+### Signing & verifying SBOMs
+
+You can sign or verify SBOMs using local keys, a certificate, or a CA file.
+```
+valint bom busybox:latest -o attest --attest.default x509
+valint verify busybox:latest --attest.default x509
+```
+Where `--attest.default` defines the singing method. 
+<!-- For more options, you can read here. -->
+
+### Authoring advisories and VEX documents
+
+When sharing an SBOM with the stakeholders you might often require to include relevant advisories to the reported CVEs that explain why the vulnerability doesn’t affect the overall product or otherwise, how the consumer of your software should mitigate this vulnerability.
+
+Your team and your stakeholders can download these advisories in a **[VEX format](https://cyclonedx.org/capabilities/vex/)** which is machine-readable and can be used by Scribe’s policy agent.
+
+To add an advisory to a vulnerability reported go to **Products > {Your Product} > {Version} > Vulnerabilities**.
+
+Find the vulnerability according to its ID and click ‘+Add’ in its line in the right-end column.
+  
+A dialog appears:
+
+<img src='../../../img/start/vex-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX window'/>
+
+Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be canceled and the vulnerability line would be pushed to the end of the report.
+
+To export the VEX report click the Export button at the top right and select VEX document.
+
+<img src='../../../img/start/export-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX export'/>
+
+### Searching for SBOMs
+
+In the top header in Scribe Hub’s web pages you can find a semi-structured search bar, supporting both filter predicates and free text key works. 
+
+Use the following syntax:
+```
+filter_predicate1: [value] filter_predicate2: [value] text1 text2
+```
+There is an implicit boolean AND predicate between the search terms.
+Use the following predicates to filter products as follows:  
+**product** - product name  
+**cve** - CVE ID  
+**buildDateFrom** - search for a build inside a range <u>from</u> a certain date   
+**buildDateTo** - search for a build inside a range up <u>to</u> a certain date  
+
+
+
+<!-- You can label several different build artifacts in one or more pipelines as belonging to the same **[logical application](../advanced-guide/generating-sboms/#generating-sboms-from-ci-pipeline-runs)** and its version. To this end use the special flags ```--app-name``` and ```--app-version```. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom#optional-flags)**.
 
 **Example**
 
@@ -134,4 +266,4 @@ Use the following predicates to filter products as follows:
 **product** - product name  
 **cve** - CVE ID  
 **buildDateFrom** - search for a build inside a range from a certain date   
-**buildDateTo** - search for a build inside a range up to a certain date
+**buildDateTo** - search for a build inside a range up to a certain date -->
