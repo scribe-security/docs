@@ -1,7 +1,7 @@
 ---
-sidebar_label: "Stand-alone deployment"
-title: Stand-alone deployment
-sidebar_position: 3
+sidebar_label: "Standalone deployment"
+title: Standalone deployment
+sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---

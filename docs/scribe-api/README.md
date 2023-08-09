@@ -107,5 +107,5 @@ Class | Method | HTTP request | Description
 *EvidenceApi* | [**list_evidence_action**](docs/EvidenceApi.md#list_evidence_action) | **POST** /evidence/list | Get a list of processes for specific queries.
 *EvidenceApi* | [**upload_evidence_action**](docs/EvidenceApi.md#upload_evidence_action) | **POST** /evidence | Create pre-signed URL to POST file content.
 
-You can check out this example **[GitHub repository](https://github.com/scribe-security/scribe2/tree/bd07b4f58dfc196414f8d31edced0b159a78545d/superset-api-client-example)** to learn more.
+<!-- You can check out this example **[GitHub repository](https://github.com/scribe-security/scribe2/tree/bd07b4f58dfc196414f8d31edced0b159a78545d/superset-api-client-example)** to learn more. -->
 

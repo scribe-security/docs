@@ -10,8 +10,8 @@ The **[Secure Software Development Framework (SSDF) version 1.1](https://csrc.ni
 
 Scribe can help achieve two of them:
 
-**Protect the Software (PS):** Protect all components of the software from tampering and unauthorized access - relevant to Scribe’s attestation and policy capability.
+1. **Protect the Software (PS):** Protect all components of the software from tampering and unauthorized access - relevant to Scribe’s attestation and policy capability.
 
-**Produce Well-Secured Software (PW):** Produce well-secured software with minimal security vulnerabilities in its releases - relevant to Scribe’s evidence enrichment and analytics.
+2. **Produce Well-Secured Software (PW):** Produce well-secured software with minimal security vulnerabilities in its releases - relevant to Scribe’s evidence enrichment and analytics.
 
 Read about how you can evaluate your posture against SSDF **[here](ssdfpolicies)**.

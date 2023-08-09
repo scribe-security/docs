@@ -8,143 +8,57 @@ toc_max_heading_level: 5
 
 ### Introduction
 
-**[SLSA](https://slsa.dev/)** (Supply Chain Levels for Software Artifacts) is a security framework to prevent tampering, improve integrity, and secure packages and infrastructure. It is organized into levels, each representing incremental progress over the previous one, and has stable specifications **[v1.0 release](https://slsa.dev/spec/v1.0/whats-new)**. Scribe is designed to help you efficiently attain SLSA levels as explained throughout this guide.
+**[SLSA](https://slsa.dev/)** (Supply Chain Levels for Software Artifacts) is a security framework for software producers to prevent tampering, improve integrity, and secure packages and infrastructure. 
+Scribe is designed to help you efficiently attain SLSA levels as explained throughout this guide.
+SLSA is organized into levels, each representing incremental progress over the previous one.It has a stable specification, dubbed **[v1.0 release](https://slsa.dev/spec/v1.0/whats-new)**. As SLSA requirements might be challenging to implement we suggest organizations gradually progress through the SLSA levels.
 
-The SLSA goals by level are summarized as follows:  
-**Level 1:**
-* Fully script or automate your build process: Automate your build process using tools like makefile or GitHub Actions to ensure consistent and repeatable builds.
-* Generate provenance evidence by collecting evidence about the "who," "where," and "when" of a piece of software.
+The major SLSA requirements by level are are summarized below:  
+**Level 1:**  
+(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l1)**)  
+* The software producer follows a consistent build process.
+* The build platform automatically generates provenance describing how the artifact was built.
+* The software producer distributes provenance to consumers.
 
-**Level 2:**
-* Generate a provenance verifiable attestation by obtaining the data automatically from the build service that can also be authenticated and verified for integrity by the consumer of the software.
+**Level 2:**  
+(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l2)**)  
+* Level 1 requirements.
+* The builds run on a hosted build platform that generates and signs the provenance document.
+* The software consumer can verify the authenticity and integrity of the provenance document with a digital signature.
 
-**Level 3:**
-* Use a tamper-resistant build service: Implement a trusted builder (for example, GitHub Actions), to perform builds and generate non-forgeable provenance metadata.
-* Generate non-forgeable provenance metadata: The provenance metadata should detail how an artifact was built, enabling comprehensive verification of its integrity.
+**Level 3:**  
+(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l3)**)  
+At this level, the framework calls for the generation of a non-forgeable provenance document.
+* Level 2 requirements.
+* The build platform implements strong controls as follows:
+  * Prevent runs from influencing one another, even within the same project.
+  * Prevent secret material used to sign the provenance from being accessible by the user-defined build steps.
+* ​The **[build platform is verified](https://slsa.dev/spec/v1.0/verifying-systems)** so that the provenance is **[unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)** and the build is isolated as follows:
+  * If you are using a SaaS CI, verify the trustworthiness of the build with the build platform vendor.
+  * If you self-host the build platform provide a vendor-self-attestation (in addition, we recommend an analysis of the build-platform security posture). For example, the vendor attestation declares the way builds are **[isolated](https://slsa.dev/spec/v1.0/requirements#isolated)** one from another, how diverting from build-isolation can be detected and how this isolation was assessed as part of the security posture analysis.
+  * Verify that the use of the platform does not break the **[unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)** and **[isolated](https://slsa.dev/spec/v1.0/requirements#isolated)** requirements (for example: verify the use of caches).​
 
-The SLSA process of assuring and attesting that your software was built securely comprises the following steps:
-1. Gather evidence continuously from every software build.
-2. Sign the evidence with a key you own and store this evidence in an evidence store. 
-3. Apply policies to it to verify evidence integrity, assure consistent security controls, and a secure development process. 
+### How Scribe helps you attain a SLSA level
 
-You can read more on the SLSA website about **[SLSA requirements](https://slsa.dev/spec/v0.1/requirements)** and **[SLSA provenance specifications](https://slsa.dev/provenance/v1)**.
+Scribe automatically gathers evidence and creates a SLSA attestation for every build of your product.
 
-### Getting started with SLSA level 1
+Scribe does this by providing the following capabilities:
+1. Scanning your SCM and your build system security configuration by connecting to your systems’ APIs.
+2. Generating a signed provenance document for every build by employing a plugin, Scribe Valint, for your CI systems. 
+3. Ensuring that the provenance document cannot be forged in the build pipeline. 
 
-SLSA Level 1:  
-Build - **[Scripted build](https://slsa.dev/spec/v1.0/requirements#scripted-build)**  
-Provenance - **[Available](https://slsa.dev/spec/v1.0/requirements#available)**
+The provenance document includes the following data:
+1. Git: git commit ID and git URL.
+2. CI build platform, build ID, build environment variables. 
+3. Artifact name and hash. 
 
-To attain SLSA level 1, specification v1.0, with Scribe, implement the following steps:
+As SLSA requirements leave room for adding information, Scribe allows you to add custom data to the provenance document.
 
-* Step 1: Automatically gather provenance evidence
-* Step 2: Automatically gather evidence of the security posture of the dev tools 
-* Step 3: Integrate with an evidence store 
-* Step 4: Review the SLSA compliance report in Scribe Hub
-* Step 5: Apply policies to the evidence or attestations
-
-#### Step 1: Automatically gather provenance evidence or attestation
-
-Scribe’s Valint plugin for CI systems gathers evidence about the source code repo, the build agent, and the built artifact from every build run. 
-
-The provenance evidence includes:
-1. Git: git commit Id and git URL
-2. CI build platform, build ID, build environment variables
-3. Artifact name and hash ID
-
-Once integrated, the evidence Valint collects will help you attain SLSA level 2. We later explain how to attain level 3 with Scribe.
-
-To gather the provenance add a step to your build script as in the following examples. 
-Note: Before you start, if you haven’t installed it yet, **[install the Scribe Valint plugin in your CI system](../../integrating-scribe/ci-integrations/)**.
+Scribe Valint generates by default the **[standard provenance document](https://slsa.dev/provenance/v1)** as in the snippet below. It can be better understood by reviewing empirical examples from GitHub and Jenkins that appear below.
 
 <details>
-  <summary>  <b> Example for Jenkins: </b> </summary>
+  <summary> Valint provenance template </summary>
 
-```yaml
-stage('slsa-full-env') {
-    sh ''' valint slsa busybox:latest \
-          -o statement \
-          --context-type jenkins \
-          --output-directory ./scribe/valint \
-          --all-env '''
-}          
 ```
-</details>
-
-<details>
-  <summary>  <b> Example for GitLab CI/CD: </b> </summary>
-
-```yaml
-scribe-gitlab-job:
-    stage: scribe-gitlab-stage
-    script:
-      - valint bom [target]
-          -o attest-slsa
-          --context-type gitlab
-          --output-directory ./scribe/valint
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION          
-```
-</details>
-
-<details>
-  <summary>  <b> Example for Azure DevOps: </b> </summary>
-
-```yaml
-- task: ValintCli@0
-    inputs:
-      commandName: bom
-      target: [target]
-      format: attest-slsa
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      scribeEnable: true
-      scribeClientId: $(SCRIBE-CLIENT-ID)
-      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)          
-```
-</details>
-
-<details>
-  <summary>  <b> Example for Travis CI: </b> </summary>
-
-```yaml
-script:
-  - |
-    valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
-        --context-type travis \
-        --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION          
-```
-</details>
-
-<details>
-  <summary>  <b> Example for Bitbucket: </b> </summary>
-
-```yaml
-      name: scribe-bitbucket-pipeline
-        script:      
-          - pipe: scribe-security/valint-pipe:0.1.6
-            variables:
-              COMMAND_NAME: bom
-              TARGET:  [target]
-              FORMAT: attest-slsa
-              SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-              LOGICAL_APP_NAME: $LOGICAL_APP_NAME
-              APP_VERSION: $APP_VERSION          
-```
-</details>
-
-The default and basic provenance object that Valint generates is defined by the following template. It is best understood by reviewing empirical examples as the ones that come after this template from GitHub and Jenkins.
-
-<details>
-  <summary>  <b> Valint provenance template: </b> </summary>
-
-```yaml
 {
    "_type": "https://in-toto.io/Statement/v0.1",
    "predicateType": "https://slsa.dev/provenance/v1",
@@ -196,14 +110,16 @@ The default and basic provenance object that Valint generates is defined by the 
          ]
       }
    }
-}         
+}
 ```
 </details>
 
-<details>
-  <summary>  <b> Provenance example from GitHub: </b> </summary>
+#### Examples
 
-```yaml
+<details>
+  <summary> Provenance Document from GitHub </summary>
+
+```json
 {
  "_type": "https://in-toto.io/Statement/v0.1",
  "predicateType": "https://slsa.dev/provenance/v1",
@@ -347,14 +263,14 @@ The default and basic provenance object that Valint generates is defined by the 
      ]
    }
  }
-}         
+}
 ```
 </details>
 
 <details>
-  <summary>  <b> Provenance example from Jenkins: </b> </summary>
+  <summary> Provenance Document from Jenkins </summary>
 
-```yaml
+```json
 {
   "_type": "https://in-toto.io/Statement/v0.1",
   "predicateType": "https://slsa.dev/provenance/v1",
@@ -550,55 +466,253 @@ The default and basic provenance object that Valint generates is defined by the 
       ]
     }
   }
-}         
+}
 ```
 </details>
 
-<!-- You can read **[here]()** about the full specification of the fields. -->
+#### Storing the Provenance Document in an evidence store
 
-#### Customizing Valint’s provenance
+You can store, manage, and retrieve Provenance Documents in your supply chain in Scribe Hub (recommended) which facilitates evidence or attestation management, supply chain risk analysis and management, and evidence and attestation sharing hub for software producers and consumers.
 
-SLSA provenance requirements leave room for adding information according to users' requirements. You can customize the provenance object by using the following flags:
-* `--by-product` - include the contents of an external file, such as a log file or an SBOM. 
-for example:
+You can also use the following **[alternative evidence stores](#integrating-with-alternative-types-of-evidence-stores)**:
+* OCI Registry - leverage your image registry for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
+* File System Evidence store​ - Leverages a shared volume for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
+
+
+You can read more on the SLSA website about **[SLSA requirements](https://slsa.dev/spec/v0.1/requirements)** and **[SLSA provenance specifications](https://slsa.dev/provenance/v1)**.
+
+### Getting started with SLSA Level 1
+
+Checklist for attaining SLSA v1.0 Level 1:
+* Build your software using a CI system. Preferably, with a build script that is source-controlled.
+* Call the Scribe Valint slsa command from your build script to generate a provenance document.
+* Distribute the Provenance Document using Scribe Hub.
+
+Before you begin​ **[install the Scribe Plugin for your CI build system](../../integrating-scribe/ci-integrations/)**.
+
+The general Valint call structure is:
 ```
-valint slsa busybox:latest --by-product /path/to/my_file.txt
+  # Create an unsigned SLSA Provenance Document
+  valint slsa [target] -o statement \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
 ```
-* `--components` - expands `byproducts` when it is an SBOM with detailed target components such as layers packages, and files. 
-for example:
+Where `[Target]` is the build artifact and `-E` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
+
+You can store the Provenance Document in **[alternative evidence stores](#integrating-with-alternative-types-of-evidence-stores)**.
+Use command flags to **[customize the content of the provenance document](#customizing-the-provenance-document)**.
+
+Verify downstream that the attestation exists in the **[evidence store](#integrating-with-alternative-types-of-evidence-stores)** by calling:
 ```
-valint slsa busybox:latest --components layers,packages,files
+  valint verify [target] -i statement-slsa \
+  -E \
+  -U [SCRIBE_CLIENT_ID] \
+  -P [SCRIBE_CLIENT_SECRET]
 ```
-* Set specific provenance fields
+#### Examples
+
+<details>
+  <summary> GitHub </summary>
+
+```yaml
+- name: Generate SLSA provenance statement
+ id: valint_slsa_statement
+ uses: scribe-security/action-bom@master
+ with:
+   target: 'busybox:latest'
+   format: statement-slsa
+
+- uses: actions/upload-artifact@v2
+ with:
+   name: provenance
+   path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
+```
+</details>
+
+<details>
+  <summary> GitLab CI/CD </summary>
+
+```yaml
+scribe-gitlab-job:
+    stage: scribe-gitlab-stage
+    script:
+      - valint bom [target]
+          -o attest-slsa
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION
+```
+</details>
+
+<details>
+  <summary> Azure DevOps </summary>
+
+```yaml
+- task: ValintCli@0
+    inputs:
+      commandName: bom
+      target: [target]
+      format: attest-slsa
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      scribeEnable: true
+      scribeClientId: $(SCRIBE-CLIENT-ID)
+      scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: $(APP_VERSION)
+```
+</details>
+
+<details>
+  <summary> Travis CI </summary>
+
+```yaml
+script:
+  - |
+    valint bom [target] \
+        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+        --context-type travis \
+        --output-directory ./scribe/valint \
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+        --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION
+```
+</details>
+
+<details>
+  <summary> Bitbucket </summary>
+
+```yaml
+name: scribe-bitbucket-pipeline
+        script:      
+          - pipe: scribe-security/valint-pipe:0.1.6
+            variables:
+              COMMAND_NAME: bom
+              TARGET:  [target]
+              FORMAT: attest-slsa
+              SCRIBE_ENABLE: true
+              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+              LOGICAL_APP_NAME: $LOGICAL_APP_NAME
+              APP_VERSION: $APP_VERSION 
+```
+</details>
+
+### Attaining SLSA Level 2
+
+Checklist for attaining SLSA v1.0 Level 2:
+* **[SLSA Level 1 checklist](#getting-started-with-slsa-level-1)**
+* Build with a hosted build service (as opposed to building on the developer’s machine).
+* Generate and sign a Provenance Document (a signed SLSA Level 1 document).
+* Verify downstream the authenticity of the Provenance Document.
+
+#### Generating a signed Provenance Document
+
+Call the following from your build script after the build artifact is complete:
+```
+# Create signed SLSA Provenance
+valint slsa [target] -o attest --context-type [jenkins github circleci azure gitlab travis bitbucket] 
+ -E \
+ -U [SCRIBE_CLIENT_ID] \
+ -P [SCRIBE_CLIENT_SECRET]
+```
+Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](https://tbd)**.
+
+#### Secure key management​
+
+Store keys and access tokens in the build platform or preferably in a secret management system. Make sure to expose the keys only at the provenance generation step.
+
+#### Verifying the Provenance Document
+To verify make the following call:
+```
+# Create signed SLSA Provenance
+valint verify [target] -i attest-slsa --email [build-platform-identity]
+```
+
+### Attaining SLSA Level 3
+
+Checklist for attaining SLSA v1.0 Level 3:
+* **[SLSA Level 2 checklist](#attaining-slsa-level-2)**
+* Isolate the generation of the Provenance Document with one of the following alternatives:
+  * Generate the Provenance Document in the build pipeline and then verify and sign it in a separate pipeline. Verify all possible fields with data collected directly from the build platform, or another trusted source.
+  * Generate the Provenance Document in a separate pipeline, preferably on a separate build service.
+  * Use a secure build runner such as GitHub Actions.
+* Assure the secret materials used for signing the Provenance Document are not exposed beyond the signing step. Particularly, not to the build pipeline.
+* Isolate, and verify the isolation of the build pipeline from other build runs as follows:
+  * Verify build cache isn’t used, and that volumes aren’t shared with other pipeline runs.
+  * Verify secrets aren’t shared with other pipelines.
+  * Verify that build runs cannot affect each other. For example, prevent one build from installing an artifact that affects another build run. This can be realized with ephemeral build-runners in containers created for each build, or by verifying that build-runners start each time from a predefined state.
+
+#### Generating a signed Provenance Document
+
+Call the following from your build script after the build artifact is complete:
+```
+# Create signed SLSA Provenance
+valint slsa [target] -o attest --context-type [jenkins github circleci azure gitlab travis bitbucket] 
+ -E \
+ -U [SCRIBE_CLIENT_ID] \
+ -P [SCRIBE_CLIENT_SECRET]
+```
+Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](https://tbd)**.
+
+#### Using a trusted builder
+
+If you are using a trusted build service such as GitHub actions add the flag `--label builder_slsa_evidence`.
+
+#### Attesting that the builder can be trusted
+In case your build service **doesn’t** provide a trusted builder you should generally follow the steps below. ​Please contact us for customizing the tools for your specific environment.
+* Generate the Provenance Document in the build pipeline. 
+* Create a separate verification pipeline that performs the following:
+  * Collect data from the build service and use it to verify the Provenance document.
+  * Verify the content of attestations created in the build pipeline. For example, verify the content of the build-runner by comparing an SBOM attestation from the build pipeline with an SBOM attestation that was sampled separately.
+* Use attestations collected from the build pipeline to update the Provenance document.
+* Verify that the build run was isolated, by querying the build service for information about the use of elements such as cache and secrets.
+
+#### Secure key management​
+Store keys and access tokens in the build platform or preferably in a secret management system. Make sure to expose the keys only at the provenance generation step.
+
+#### Verifying the Provenance Document
+To verify make the following call:
+```
+# Create signed SLSA Provenance
+valint verify [target] -i attest-slsa --email [build-platform-identity]
+```
+
+### Customizing the Provenance Document
+
+You can customize the provenance object by using the following flags:
+* `--by-product` includes the contents of an external file, such as a log file or an SBOM.
+For example,   
+```valint slsa busybox:latest --by-product /path/to/my_file.txt```
+* `--components` extend `byproduct` when it is an SBOM with detailed target components such as layers packages, and files.
+For example,   
+```valint slsa busybox:latest --components layers,packages,files```
+* Set specific provenance fields such as:
   * `--invocation`: invocation ID
   * `--build-type`: build type
   * `--builder-id`: builder ID
   * `--started-on`: build start time
   * `--finished-on`: build finish time
-for example:
+For Example,
 ```
 valint slsa busybox:latest --invocation my_invocation --build-type docker --builder-id 12345 --started-on 2023-07-25T15:30:00Z --finished-on 2023-07-25T16:00:00Z
-``` 
-* `-env` or `--all-env` - add environment variables to the `internaParameters`.
-for example:
 ```
+* `-env` or `--all-env` adds environment variables to the `internaParameters`.
+For example,   
+```yaml
 #Attach all environment variables
 valint slsa busybox:latest --all-env
 # Attach a specific environment variable
 valint slsa busybox:latest --env MY_ENV
 ```
-* `--external` - Add parameters to ‘externalParameters’ in form of key=value pairs. 
-for example:
-```
-valint slsa busybox:latest --external my_custom_param=my_custom_value
-```
-* `--predicate` - add a full or partial SLSA provenance predicate. 
-for example:
-```
-valint slsa busybox:latest --predicate custom.predicate.json
-```
-Where custom.predicate.json specifies custom `externalParameters`, `builderDependencies` and metadata.
-```
+* `--external` adds parameters to the `externalParameters` in the form of key=value pairs.
+For example,   
+```valint slsa busybox:latest --external my_custom_param=my_custom_value```
+* `--predicate` adds a full or partial SLSA provenance predicate.
+For example,   
+```valint slsa busybox:latest --predicate custom.predicate.json```
+Where `custom.predicate.json` specifies custom `externalParameters`, `builderDependencies`, and metadata.
+```json
 {
  "buildDefinition": {
    "externalParameters": {
@@ -632,14 +746,12 @@ Where custom.predicate.json specifies custom `externalParameters`, `builderDepen
    }
  }
 }
-```
-* `--statement` - add a full or partial SLSA provenance statement. 
-for example:
-```
-valint slsa busybox:latest --statement custom.statement.json
-```
-The following custom.statement.json includes custom subject and byproducts:
-```
+``` 
+* `--statement` adds a full or partial SLSA provenance statement.
+For example,   
+```valint slsa busybox:latest --statement custom.statement.json```
+The following `custom.predicate.json` includes custom subject and byproducts.
+```json
 {
  "_type": "https://in-toto.io/Statement/v0.1",
  "predicateType": "https://slsa.dev/provenance/v1",
@@ -670,71 +782,29 @@ The following custom.statement.json includes custom subject and byproducts:
 }
 ```
 
-#### Step 2: Automatically gather evidence of the security posture of the dev tools
+### Integrating with Alternative types of evidence stores
 
-In order to meet full SLSA requirements, it's necessary to evaluate the security posture of your SCM and CI systems. This includes gathering evidence regarding the project settings, such as branch protection. 
-Currently, Scribe supports gathering evidence from GitHub. To configure implement the following steps:
-
-**1:** Access Integrations Log in to Scribe Hub. Navigate to the left pane and click on "Integrations".
-
-<img src='../../../../img/start/integrations-start.jpg' alt='Scribe Integrations'/>
-
-**2:** Scroll down to find GitHub among the listed services. Select GitHub and click "Connect".
-        
-**3:** You will be redirected to GitHub. Sign in to your GitHub account, select the relevant GitHub organization account, and choose the appropriate repositories.
-
-**4:** Once done, you will be redirected back to Scribe Hub. From this point onwards, Scribe will automatically generate a SLSA and Software Supply Chain Assurance Framework (SSDF) compliance report for every build.
-
-#### Step 3: Integrate with an evidence store
-
-You can store, manage, and retrieve evidence from your supply chain in several evidence store types:
-* Scribe Hub (recommended) - a service that facilitates evidence or attestation management, supply chain risk analysis and management, and evidence and attestation sharing hub for software producers and consumers.
-* OCI Registry - leverage your image registry for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
-* Cache Evidence store​ - leverage your build cache or a filesystem for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
-
-##### Before you begin
-Obtain Client ID and Client Secret from Scribe Hub > Integrations as shown below:
-
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-##### Usage​
-```
-# Generating evidence, storing in scribe service.
-valint slsa [target] -o [attest, statement] \
- -E \
- -U [SCRIBE_CLIENT_ID] \
- -P [SCRIBE_CLIENT_SECRET]
-
-# Verifying evidence, pulling attestation from scribe service.
-valint verify [target] -i [attest-slsa, statement-slsa] \
- -E \
- -U [SCRIBE_CLIENT_ID] \
- -P [SCRIBE_CLIENT_SECRET]
-```
-
-##### OCI Evidence store​
-
-In standalone deployments or in other cases when you don’t want to connect your SDLC with Scribe Hub, you can use an OCI registry to store and retrieve evidence. This allows you to store evidence from your CI pipeline and retrieve it at the point of admission control into your Kubernetes cluster. 
-
-**Flags:**
-* `--oci` - Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-`oci-repo` setting indicates the location in a registry under which the evidence are stored. It must be a dedicated location in an OCI registry. for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
+#### OCI Evidence store
+In standalone deployments or other cases when you don’t want to connect your SDLC with Scribe Hub, you can use an OCI registry to store and retrieve evidence. This allows you to store evidence from your CI pipeline and retrieve it at the point of admission control into your Kubernetes cluster. 
+##### Flags
+* `--oci` Enable OCI store
+* `--oci-repo` Evidence store location
+`oci-repo` setting indicates the location in a registry under which the evidence is stored. It must be a dedicated location in an OCI registry. for example, ```scribesecuriy.jfrog.io/my_docker-registry/evidence```.
 
 :::note
-Docker Hub does not support the subpath format, oci-repo should be set to your Docker hub Username.
-Some registries like Jfrog allow multi layer format for repo names such as, 
-`my_org.jfrog.io/policies/attestations`
+Docker Hub does not support the subpath format, `oci-repo` should be set to your Docker hub Username.
 :::
 
-###### Before you begin:
+Some registries such as Artifactory allow multi-layer format for repo names such as,
+```my_org.jfrog.io/policies/attestations```
+
+##### Before you begin​
 Evidence can be stored in any accessible registry.
 * Write access is required for upload (generate).
 * Read access is required for download (verify).
 You must first log in with the required access privileges to your registry before calling Valint. For example, using the `docker login` command.
 
-###### Usage​
+##### Usage
 ```
 # Generating evidence, storing on [my_repo] OCI repo.
 valint slsa [target] -o [attest, statement] --oci --oci-repo=[my_repo]
@@ -742,28 +812,22 @@ valint slsa [target] -o [attest, statement] --oci --oci-repo=[my_repo]
 # Verifying evidence, pulling attestation from [my_repo] OCI repo.
 valint verify [target] -i [attest-slsa, statement-slsa] --oci --oci-repo=[my_repo]
 ```
-
 For image targets only you may attach the evidence in the same repo as the image.
 ```
 valint slsa [image] -o [attest, statement] --oci
 
 valint verify [image] -i [attest-slsa, statement-slsa] --oci
 ```
+#### Cache Evidence store
+Valint supports both storage and verification flows for attestations and statement objects utilizing a local directory as an evidence store. This is the simplest form and is mainly used to cache previous evidence creation
 
-<!-- For related Cosign support, see cosign section. -->
-
-##### Cache Evidence store​
-
-Valint supports both storage and verification flows for attestations and statement objects utilizing a local directory as an evidence store. This is the simplest form and is mainly used to cache previous evidence creation.
-
-**Flags:**
-* `--cache-enable`
-* `--output-directory`
+##### Flags
+* `--cache-enable` 
+* `--output-directory` 
 * `--force`
-
 By default, this cache store is enabled. To disable use `--cache-enable=false`.
 
-###### Usage
+##### Usage
 ```
 # Generating evidence, storing on [my_dir] local directory.
 valint slsa [target] -o [attest, statement] --output-directory=[my_dir]
@@ -771,9 +835,9 @@ valint slsa [target] -o [attest, statement] --output-directory=[my_dir]
 # Verifying evidence, pulling attestation from [my_dir] local directory.
 valint verify [target] -i [attest-slsa, statement-slsa] --output-directory=[my_dir]
 ```
-By default, the evidence is written to `~/.cache/valint/`, use `--output-file` or `-d`,`--output-directory` to customize the evidence output location.
+By default, the evidence is written to `~/.cache/valint/`, use `--output-file`, `-d`, or `--output-directory` to customize the evidence output location. 
 
-## Basic examples
+### Basic examples
 <details>
   <summary>  Docker built image </summary>
 
@@ -997,10 +1061,140 @@ valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
 
 </details>
 
+### Reports from application security scanners
 
+You can gather the output of your application security scanners (such as SAST, SCA, and DAST) as evidence to attest to your software’s security level and evaluate it with your policies.
+In your build script use:
+```
+valint bom <file_path> -o [statement-generic, attest-generic] -p [predicate-type] [FLAGS]
+```
+For example, gathering evidence of a Trivy output:
+```
+valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+```
+Following are the currently supported predicate types:
 
+| predicate-type | file-format | tool |
+| --- | --- | --- |
+|  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
+|  https://cyclonedx.org/bom | CycloneDX | Syft | 
 
+### Signing & verifying attestations
+You can sign or verify evidence using local keys, a certificate, or a CA file.
+```
+valint bom busybox:latest -o attest --attest.default x509
+valint verify busybox:latest --attest.default x509
+```
+Where `--attest.default` defines the singing method.
+For more options, you can read **[here](https://tbd)**.
 
+### Storing Evidence
 
+You can use different types of evidence stores for the gathered evidence. 
+After evidence is gathered Valint evaluates policies at different enforcement points by pulling this evidence from any of these stores.
 
+#### Scribe Hub store
+To connect Valint to the evidence store set in its configuration the Scribe Hub API **Client ID** and **Client Secret**. 
+Go to **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** left navigation page > **Integrations** and copy the **Client ID** and **Client Secret**:
+
+<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+
+You can configure the secrets as flags as in the following example, or in Valint’s **[configuration](../../integrating-scribe/valint/configuration)**.
+
+```
+# Generate and push evidence to registry
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --f -E \
+-U $SCRIBE_CLIENT_ID \
+-P $SCRIBE_CLIENT_SECRET
+```
+
+#### File system folder
+
+By default, Valint stores evidence locally in a cache folder. You can specify another output folder by using the flags: `--output-directory` or `--output-file`. For example:
+```
+# Save evidence to custom path
+valint bom busybox:latest --output-file my_sbom.json
+
+ls -lh my_sbom.json
+
+# Change evidence cache directory
+valint bom busybox:latest --output-directory ./my_evidence_cache
+
+ls -lhR my_evidence_cache
+```
+
+#### OCI Registry
+
+To store evidence in your OCI registry such as Artifactory specify the registry URL in your Valint call and add the `--oci` flag.
+
+Example:
+```
+# Login to registry
+docker login $
+
+# Generate and push evidence to registry
+valint bom [target] -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] --oci --oci-repo $REGISTRY_URL
+```
+
+### Applying your own policy to evidence
+
+You can apply canned policies or custom policies as code:
+1. Scribe offers several sample Rego policies in this **[repo](https://github.com/scribe-public/sample-policies)** that you can fork and use in your deployment.
+2. Verifying Image has a verified signature.
+
+When signing an image SBOM the effect is singing the image hash as well as including it in the image’s SBOM. 
+Example:
+#### Sign
+```
+$HOME/.scribe/bin/valint bom busybox:latest -o attest -f
+```
+#### Verify
+```
+$HOME/.scribe/bin/valint verify busybox:latest -i attest
+```
+You can learn more about signing and verification **[here](https://tbd)**.
+
+You can verify an image in a policy by configuring the `image-policy.yaml` file as in the following example:
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my-image-policy
+      enable: true
+      input:
+        signed: true
+        format: attest-cyclonedx-json # verifies that the evidense is of this format
+        identity:
+          emails:
+            - jhon@scribesecurity.com #the email that must have signed the evidence
+      match:
+        Target_type: image
+        Context_type: github #the image must have arrived from github
+```
+
+Check out this **[video](https://www.youtube.com/watch?v=BXD21zhgkMM)** on Valint to learn more about policies.
+
+### Enforcing SDLC policies
+
+You can gather evidence from your SDLC (Software Development Lifecycle) and enforce supply chain policies accordingly in different enforcement points: at the end of the build, admission to production, or
+
+#### Gathering evidence
+
+You can collect the following types of evidence from your software-building process. The evidence is formatted as an **[in-toto](https://in-toto.io/)** attestation and can be cryptographically signed.
+
+##### SBOM 
+
+**Step 1**: Install the Valint Plugin. 
+If you haven’t installed the CI plugin yet, **[Install the Scribe Valint plugin in your CI system](../../integrating-scribe/ci-integrations/)**.
+
+**Step 2**: Basic Integration for SBOM Generation.
+As a basic integration step, generate an SBOM from the final built artifact such as a docker image. Use the following command either from the command line or in your build script immediately after the artifact is built: 
+```valint bom <target> <flags>```
+Where `<target>` refers to a build artifact of either a container image, file or file directory, or a git repo, formatted as either `<image:tag>`, `<dir path>`, or `<git url>`.
+For example: 
+```valint bom my_image:my_tag```
+**Step 3**: Advanced SBOM Generation.
+For a more detailed SBOM, you can generate additional SBOMs from the source code or the package manager installation process during the build process. These additional SBOMs can be combined to create a more comprehensive and accurate SBOM.
+
+For more detailed information about SBOM generation, read **[here](../manag-sbom-and-vul)**. 
 

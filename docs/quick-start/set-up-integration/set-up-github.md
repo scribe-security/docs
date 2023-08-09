@@ -15,7 +15,7 @@ toc_max_heading_level: 5
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-3. login to your **[GitHub](https://github.com)** account.
+3. Login to your **[GitHub](https://github.com)** account.
 
 4. Go to the repository you wish to integrate with Scribe.
 
@@ -113,11 +113,14 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
    - <details>
         <summary> To add automatic evidence collection (a signed SBOM) to your GitHub pipeline workflow </summary>
 
-        Create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
+        Assuming that you do not yet have an existing pipeline workflow, you need to create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
 
         <img src='../../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
 
-        This new file is going to be your GitHub pipeline to create the final image from your repository.  
+        This new file is going to be your GitHub pipeline to create the final image from your repository.
+
+        If you already have an existing pipeline workflow open the YAML file.
+          
         You need to add Scribe code snippets in 2 main locations:  
         
         <ul>

@@ -15,7 +15,7 @@ toc_max_heading_level: 5
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-3. login to your **[Azure](https://portal.azure.com/#home)** account.
+3. Login to your **[Azure](https://portal.azure.com/#home)** account.
 
 4. Follow the **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** instructions to install our **[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** from the Azure marketplace.
 
