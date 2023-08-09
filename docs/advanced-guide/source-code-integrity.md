@@ -66,7 +66,7 @@ build:
         format: attest
 ```
 
-To learn more about how *Valint* is used to sign evidence and about `sigstore-github`, check out *Valint*'s sign-verify **[page](../advanced-guide/standalone-deployment/signVerify "Signing And Verifying Evidence")**.
+To learn more about how *Valint* is used to sign evidence and about `sigstore-github`, check out *Valint*'s sign-verify **[page](../guides/securing-builds "Signing And Verifying Evidence")**.
 
 To create an SBOM of your checkout repo you need to use *Valint* again right after your CI/CD checkout. As this step is dependent on your CI/CD platform I encourage you to go to our **[CI Integrations page](../integrating-scribe/ci-integrations "CI Integrations")** to see what we can offer.
 

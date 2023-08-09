@@ -150,9 +150,9 @@ The above example was created under the assumption that you're using **Jenkins o
   <img src='../../../../img/start/jenkins-log-1.jpg' alt='Jenkins Log' width='60%' min-width='500px'/>  
   <img src='../../../../img/start/jenkins-log-2.jpg' alt='Jenkins Log' width='60%' min-width='500px'/>
 
-21. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#enforcing-your-own-policies)**.
+21. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#policies-and-policy-modules)**.
 
-22. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#importing-evidence-generated-by-other-tools)**.
+22. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#ingesting-reports-from-application-security-scanners)**.
 
 <!-- ### Where to go on Scribe Hub
 

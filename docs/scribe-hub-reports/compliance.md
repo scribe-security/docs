@@ -6,7 +6,7 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe for each of these frameworks **[here](../ssc-regulations/)**.
+A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe you can examine the SLSA policies **[here](../guides/secure-sfw-slsa/slsapolicies)** and the SSDF policies **[here](../guides/ssdf-compliance/ssdfpolicies)**.
 
 To reach the compliance report go to **Products > {Your Product} > {Version} > Compliance**.
 
@@ -20,7 +20,7 @@ As you can see, if the policy was checked successfully you'll see a green checkm
 
 * **Status** - Whether the policy check passed or failed 
 * **Compliance** - Which framework does the policy belongs to
-* **Policy** - Each policy under the **policy** column is a link leading to the right policy in the right regulation page such as the **[SLSA Policies](../guides/ssdf-compliance/ssdfpolicies)** or the **[SSDF Policies](../guides/secure-sfw-slsa/slsapolicies)** that Scribe monitors.
+* **Policy** - Each policy under the **policy** column is a link leading to the right policy in the right regulation page such as the **[SLSA Policies](../guides/secure-sfw-slsa/slsapolicies)** or the **[SSDF Policies](../guides/ssdf-compliance/ssdfpolicies)** that Scribe monitors.
 * **Message** - Explains why the policy check was successful or failed. Fix the failure reason to get the policy to pass on the next build run.
 
 :::note

@@ -373,7 +373,7 @@ If you're new to Bitbucket pipelines this link should help you get started:
 
 **[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines")** - Get started with Bitbucket Pipelines.
 
-### Support
+<!-- ### Support
 
 If you'd like help with this pipe, or you have an issue or a feature request, **[let us know](https://github.com/scribe-security/valint-pipe/issues)**.
 
@@ -384,7 +384,7 @@ If you are reporting an issue, please include:
 - steps to reproduce
 
 By email or slack, 
-**[Contact-us](https://scribesecurity.com/contact-us/)**.
+**[Contact-us](https://scribesecurity.com/contact-us/)**. -->
 
 <!-- ### License
 

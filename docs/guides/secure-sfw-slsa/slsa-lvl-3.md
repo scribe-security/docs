@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 Checklist for attaining SLSA v1.0 Level 3:
-* **[SLSA Level 2 checklist](slsa-lvl-2#attaining-slsa-level-2)**
+* **[SLSA Level 2 checklist](slsa-lvl-2)**
 * Isolate the generation of the Provenance Document with one of the following alternatives:
   * Generate the Provenance Document in the build pipeline and then verify and sign it in a separate pipeline. Verify all possible fields with data collected directly from the build platform, or another trusted source.
   * Generate the Provenance Document in a separate pipeline, preferably on a separate build service.
@@ -28,7 +28,7 @@ valint slsa [target] -o attest --context-type [jenkins github circleci azure git
  -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
 ```
-Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](https://tbd)**.
+Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](../../guides/enforcing-sdlc-policy)**.
 
 #### Using a trusted builder
 

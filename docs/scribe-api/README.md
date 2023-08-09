@@ -97,15 +97,15 @@ All URIs are relative to *http://localhost:4000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DatasetApi* | [**get_admin_token_action**](docs/DatasetApi.md#get_admin_token_action) | **GET** /dataset/token | This endpoint is used to get an admin token, either use client-id and secret OR the refresh token.
-*DatasetApi* | [**get_datasets_action**](docs/DatasetApi.md#get_datasets_action) | **POST** /dataset/data | This endpoint is used to retrieve data from a dataset with a filter.
-*DatasetApi* | [**list_datasets_input_action**](docs/DatasetApi.md#list_datasets_input_action) | **GET** /dataset | This endpoint is used to list the available datasets with their schema.
-*DefaultApi* | [**dataset**](docs/DefaultApi.md#dataset) | **POST** /dataset/token | This endpoint is used to exchange a team product key with a superset data-access token.
-*EvidenceApi* | [**delete_evidence_action**](docs/EvidenceApi.md#delete_evidence_action) | **DELETE** /evidence/{file_id} | Delete evidence object.
-*EvidenceApi* | [**download_evidence_action**](docs/EvidenceApi.md#download_evidence_action) | **GET** /evidence/{file_id} | Create pre-signed URL to POST file content.
-*EvidenceApi* | [**finish_upload_evidence_action**](docs/EvidenceApi.md#finish_upload_evidence_action) | **POST** /evidence/finish | Mark file transfer as finished.
-*EvidenceApi* | [**list_evidence_action**](docs/EvidenceApi.md#list_evidence_action) | **POST** /evidence/list | Get a list of processes for specific queries.
-*EvidenceApi* | [**upload_evidence_action**](docs/EvidenceApi.md#upload_evidence_action) | **POST** /evidence | Create pre-signed URL to POST file content.
+*DatasetApi* | get_admin_token_action | **GET** /dataset/token | This endpoint is used to get an admin token, either use client-id and secret OR the refresh token.
+*DatasetApi* | get_datasets_action | **POST** /dataset/data | This endpoint is used to retrieve data from a dataset with a filter.
+*DatasetApi* | list_datasets_input_action | **GET** /dataset | This endpoint is used to list the available datasets with their schema.
+*DefaultApi* | dataset | **POST** /dataset/token | This endpoint is used to exchange a team product key with a superset data-access token.
+*EvidenceApi* | delete_evidence_action | **DELETE** /evidence/{file_id} | Delete evidence object.
+*EvidenceApi* | download_evidence_action | **GET** /evidence/{file_id} | Create pre-signed URL to POST file content.
+*EvidenceApi* | finish_upload_evidence_action | **POST** /evidence/finish | Mark file transfer as finished.
+*EvidenceApi* | list_evidence_action | **POST** /evidence/list | Get a list of processes for specific queries.
+*EvidenceApi* | upload_evidence_action | **POST** /evidence | Create pre-signed URL to POST file content.
 
 <!-- You can check out this example **[GitHub repository](https://github.com/scribe-security/scribe2/tree/bd07b4f58dfc196414f8d31edced0b159a78545d/superset-api-client-example)** to learn more. -->
 

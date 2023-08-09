@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 Checklist for attaining SLSA v1.0 Level 2:
-* **[SLSA Level 1 checklist](slsa-lvl-1#getting-started-with-slsa-level-1)**
+* **[SLSA Level 1 checklist](slsa-lvl-1)**
 * Build with a hosted build service (as opposed to building on the developer’s machine).
 * Generate and sign a Provenance Document (a signed SLSA Level 1 document).
 * Verify downstream the authenticity of the Provenance Document.
@@ -22,7 +22,7 @@ valint slsa [target] -o attest --context-type [jenkins github circleci azure git
  -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
 ```
-Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](https://tbd)**.
+Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](../../guides/enforcing-sdlc-policy)**.
 
 #### Secure key management​
 

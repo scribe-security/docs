@@ -389,9 +389,9 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         </details>
 
-7. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#enforcing-your-own-policies)**.
+7. To add your own policies to the pipeline check out **[this guide](../../guides/enforcing-sdlc-policy#policies-and-policy-modules)**.
 
-8. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#importing-evidence-generated-by-other-tools)**.
+8. To capture 3rd party tool results in the pipeline and turn it into evidence, check out **[this guide](../../guides/manag-sbom-and-vul#ingesting-reports-from-application-security-scanners)**.
 
 ### Where to go on Scribe Hub
 

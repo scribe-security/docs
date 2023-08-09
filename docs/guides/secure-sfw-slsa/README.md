@@ -474,7 +474,7 @@ Scribe Valint generates by default the **[standard provenance document](https://
 
 You can store, manage, and retrieve Provenance Documents in your supply chain in Scribe Hub (recommended) which facilitates evidence or attestation management, supply chain risk analysis and management, and evidence and attestation sharing hub for software producers and consumers.
 
-You can also use the following **[alternative evidence stores](../../integrating-scribe/other-evidence-stores/#integrating-with-alternative-types-of-evidence-stores)**:
+You can also use the following **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**:
 * OCI Registry - leverage your image registry for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
 * File System Evidence store​ - Leverages a shared volume for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
 

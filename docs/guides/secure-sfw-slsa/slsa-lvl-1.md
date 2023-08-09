@@ -23,10 +23,10 @@ The general Valint call structure is:
 ```
 Where `[Target]` is the build artifact and `-E` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
 
-You can store the Provenance Document in **[alternative evidence stores](../../integrating-scribe/other-evidence-stores#integrating-with-alternative-types-of-evidence-stores)**.
-Use command flags to **[customize the content of the provenance document](customizing-provenance#customizing-the-provenance-document)**.
+You can store the Provenance Document in **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**.
+Use command flags to **[customize the content of the provenance document](customizing-provenance)**.
 
-Verify downstream that the attestation exists in the **[evidence store](../../integrating-scribe/other-evidence-stores#integrating-with-alternative-types-of-evidence-stores)** by calling:
+Verify downstream that the attestation exists in the **[evidence store](../../integrating-scribe/other-evidence-stores)** by calling:
 ```
   valint verify [target] -i statement-slsa \
   -E \

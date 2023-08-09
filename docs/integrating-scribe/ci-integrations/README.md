@@ -11,7 +11,7 @@ The following scheme demonstrates the points on your CI pipeline to enter the co
 ![Points on a generic SDLC to enter scribe code snippets](../../../static/img/ci/sdlc_diagram.jpg "points on a generic SDLC to enter scribe code snippets")
 
 
-Scribe installation includes a Command Line Interpreter (CLI) tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance. 
+<!-- Scribe installation includes a Command Line Interpreter (CLI) tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance. 
 
 ### Creating an SBOM and collecting evidence
 
@@ -24,7 +24,7 @@ The simplest integration involves automating the use of *Valint* to gather evide
 
 Once you generate the evidence in your SDLC or your pipeline it can then be automatically uploaded to Scribe Hub. 
 While *Valint* does have other capabilities and CLI options, we will focus on its basic usage.
-<!--You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").-->
+You can read more about *Gensbom* [here](../CLI/gensbom "Gensbom documentation").
 
 ### Generating SLSA provenance
 
@@ -42,7 +42,7 @@ Note that you can generate an SBOM for various other entities as stated earlier.
 
 Regarding SLSA provenance generation, if relevant, it would be placed after the final artifact is created. 
 
-___Note___ that if you do not collect evidence about your commits and source code, you cannot get integrity information about your code.   
+___Note___ that if you do not collect evidence about your commits and source code, you cannot get integrity information about your code.    -->
 
 ### Supported CIs
 
