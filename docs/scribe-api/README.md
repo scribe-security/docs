@@ -109,3 +109,6 @@ Class | Method | HTTP request | Description
 
 <!-- You can check out this example **[GitHub repository](https://github.com/scribe-security/scribe2/tree/bd07b4f58dfc196414f8d31edced0b159a78545d/superset-api-client-example)** to learn more. -->
 
+### API Usage Examples
+
+You can find working usage examples **[here](https://github.com/scribe-security/api-examples)**.

@@ -133,18 +133,41 @@ To export the VEX report click the Export button at the top right and select VEX
 
 ### Searching for SBOMs
 
-In the top header in Scribe Hub’s web pages you can find a semi-structured search bar, supporting both filter predicates and free text key works. 
+In the top header of Scribe Hub’s web pages, you can find a semi-structured search bar, supporting both filter predicates and free text key works. 
 
 Use the following syntax:
 ```
-filter_predicate1: [value] filter_predicate2: [value] text1 text2
+filter_predicate1: <value> filter_predicate2: <value> text1 text2
 ```
 There is an implicit boolean AND predicate between the search terms.
-Use the following predicates to filter products as follows:  
+Use the following filter names to filter your search as follows:  
 **product** - product name  
-**cve** - CVE ID  
-**buildDateFrom** - search for a build inside a range <u>from</u> a certain date   
-**buildDateTo** - search for a build inside a range up <u>to</u> a certain date  
+**cve** - ID of vulnerability (as CVE-2021-44228)  
+**cveSeverity** - Severity of a vulnerability value: critical, high, medium, or low   
+**context** - search for fields in the context added by the user to an SBOM
+Use the following search syntax:       
+```
+context:<user field name>:<field value>
+```
+`<user field name>:<field value>` are the field name and value that were set in the context JSON by the user, or in the SBOM metadata.  
+**cveUpdatedFrom** - Date range’s “From” of the date the CVE was updated by the CVE numbering authority (CNA)   
+**cveUpdatedTo** - Date range’s “To” of the date the CVE was updated by the CVE numbering authority  
+**cna** - CVE numbering authority (CNA). For example “NVD”  
+**advisory** - whether a user-authored advisory exists: true, false  
+**advisoryText**- search for a partial string within a user-authored advisory   
+**buildNumber** - product version ID or build ID  
+**buildDateFrom** - search for a version or a build inside a range from a certain date  
+**buildDateTo** - search for a version inside a range up to a certain date  
+**buildSignature** - the state of the signature of a version or a build: verified, unverified, unsigned  
+**label** - labels add to the context of the SBOM with Scribe Valint’s `--label` flag  
+**integrity** - the state of the signature of a product version or a build: true, false  
+**published** - product versions that were published: true, false  
+**policy** - name or part of a name of a policy  
+**policyStatus** - status of a policy verification: fail, pass  
+**policyType** - type of compliance SLSA or SSDF  
+
+
+
 
 
 

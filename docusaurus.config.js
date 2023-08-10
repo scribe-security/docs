@@ -76,6 +76,7 @@ const config = {
                 "guides/secure-sfw-slsa/slsa-lvl-3.md",
                 "guides/secure-sfw-slsa/customizing-provenance.md",
                 "guides/secure-sfw-slsa/basic-examples.md",
+                "guides/secure-sfw-slsa/cosign-keyverno.md",
                 "guides/secure-sfw-slsa/slsapolicies.md",
                 "guides/ssdf-compliance/README.md",
                 "guides/ssdf-compliance/ssdfpolicies.md",

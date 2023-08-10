@@ -1,7 +1,7 @@
 ---
 sidebar_label: Scribe Hub SLSA Policies
 title: Scribe Hub SLSA Policies
-sidebar_position: 8
+sidebar_position: 9
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
