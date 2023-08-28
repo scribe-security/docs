@@ -95,4 +95,9 @@ list:
   - git_url
   filters: {}
   current: false
+download:
+  folder-path: ""
+  format: attest-cyclonedx-json
+  ref: ""
+  store: cache
 ```

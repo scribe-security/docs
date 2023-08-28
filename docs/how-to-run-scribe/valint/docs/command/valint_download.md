@@ -1,13 +1,26 @@
-## valint
+## valint download
 
-Validate Supply Chain Integrity
+Downloads the evidence based on cache
 
-### Synopsis
-
-Command Line Interpreter (CLI) tool,that empowers supply chain stakeholders to ensure supply chain integrity, verify compliance, and generate and manage evidence.
+```
+valint download [TARGET] [flags]
+```
 
 ### Optional flags 
-Flags for `valint`
+Flags for `download` subcommand
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| | --folder-path | Folder to download the evidences of the given target | |
+| | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
+| -h | --help | help for download | |
+| | --ref | ref of the store | |
+| | --store | Stores | "cache" |
+
+
+### Global options flags
+Flags for all `valint` subcommands
 
 
 | Short | Long | Description | Default |
@@ -27,7 +40,6 @@ Flags for `valint`
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
-| -h | --help | help for valint | |
 | | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -49,11 +61,32 @@ Flags for `valint`
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
+### Examples for running `valint download`
+
+```
+ valint download <target>
+<target> Target object name format=[<image:tag>, <dir path>, <git url>]
+
+valint download alpine:latest                                            download default (cyclonedxjson) sbom downloads to cache
+valint download alpine:latest --format statement                         download sbom with specified format
+valint download alpine:latest --format statement --output-dir <path>     download sbom with specified format in the specified output directory
+valint download --ref <ref>                                              download sbom by ref (default storer is cache)
+valint download --ref <ref> --store <storer>                             download sbom by ref and storer
+valint download --ref <ref> --store <storer> --output-dir <path>         download sbom by ref and storer in the specified output directory
+
+Format-aliases:
+* json=attest-cyclonedx-json
+* predicate=predicate-cyclonedx-json
+* statement=statement-cyclonedx-json
+* attest=attest-cyclonedx-json
+
+Storers:
+* cache
+* scribe
+
+```
+
 ### SEE ALSO
 
-* [valint bom](valint_bom.md)	 - Create evidence command
-* [valint download](valint_download.md)	 - Downloads the evidence based on cache
-* [valint list](valint_list.md)	 - List evidence command
-* [valint slsa](valint_slsa.md)	 - Create SLSA provenance evidence command
-* [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 
