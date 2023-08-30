@@ -1,23 +1,23 @@
 ---
-sidebar_label: "Bom"
-title: Scribe GitHub Action for `valint bom`
+sidebar_label: "SLSA"
+title: Scribe GitHub Action for `valint slsa`
 sidebar_position: 1
 ---
 Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
-`valint bom` is used to collect evidence and generate an SBOM.
+`valint slsa` is used to collect evidence and generate an SBOM.
 
 Further documentation [GitHub integration](../github/)
 
 ### Other Actions
-* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
-### Bom Action
-Actions for `valint bom`. <br />
+### SLSA Action
+Actions for `valint slsa`. <br />
 The command allows users to generate and manage evidence collection process.
-- CycloneDX SBOM and SLSA provenance evidence support. 
+- CycloneDX SLSA provenance evidence support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
 - Attach evidence in your CI, OCI or release service.
@@ -133,7 +133,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ### Usage
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
 ```
@@ -208,7 +208,7 @@ jobs:
   scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: busybox:latest
           format: attest
@@ -296,7 +296,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: [target]
           format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
@@ -352,7 +352,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: [target]
           format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
@@ -377,7 +377,7 @@ Create SBOM for remote `busybox:latest` image.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
     format: json
@@ -392,7 +392,7 @@ Create SBOM for image built by local docker `image_name:latest`.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: docker
     target: 'image_name:latest'
@@ -420,7 +420,7 @@ steps:
       password: ${{ secrets.REGISTRY_TOKEN }}
 
   - name: Generate cyclonedx json SBOM
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-slsa@master
     with:
       target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
       force: true
@@ -435,7 +435,7 @@ Custom metadata added to SBOM.
 ```YAML
 - name: Generate cyclonedx json SBOM - add metadata - labels, envs
   id: valint_labels
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
       format: json
@@ -455,7 +455,7 @@ Custom NTIA metadata added to SBOM.
 ```YAML
 - name: Generate cyclonedx json SBOM - add NTIA metadata
   id: valint_ntia
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
       format: json
@@ -481,7 +481,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
 ```YAML
 - name: Generate cyclonedx json SBOM
   id: valint_json
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
     output-file: my_sbom.json
@@ -509,7 +509,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA pro
 ```YAML
 - name: Generate SLSA provenance statement
   id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
     format: statement-slsa
@@ -531,7 +531,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated generic 
 ```YAML
 - name: Generate SLSA provenance statement
   id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: './temp.go'
     format: statement-generic
@@ -558,7 +558,7 @@ Create SBOM for local `docker save ...` output.
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: docker-archive
     target: '/GitHub/workspace/stub_local.tar'
@@ -580,7 +580,7 @@ Create SBOM for the local oci archive.
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: oci-archive
     target: '/GitHub/workspace/stub_oci_local.tar'
@@ -600,7 +600,7 @@ Create SBOM for a local directory.
 
 - name: valint attest dir
   id: valint_attest_dir
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: dir
     target: 'testdir'
@@ -615,7 +615,7 @@ Create SBOM for `mongo-express` remote git repository.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: git
     target: 'https://github.com/mongo-express/mongo-express.git'
@@ -632,7 +632,7 @@ Create SBOM for `my_repo` local git repository.
     path: my_repo
 
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: git
     target: 'my_repo'
@@ -656,7 +656,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-      uses: scribe-security/action-bom@master
+      uses: scribe-security/action-slsa@master
       with:
           target: 'busybox:latest'
           format: attest
@@ -679,7 +679,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-slsa@master
     with:
         target: 'busybox:latest'
         format: attest-slsa
@@ -701,7 +701,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-slsa@master
     with:
         target: './file.go'
         format: attest-generic
@@ -763,7 +763,7 @@ Full job example of a image signing and verifying flow.
 
       - name: valint attest
         id: valint_attest
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            target: 'busybox:latest'
            format: attest
@@ -803,7 +803,7 @@ Full job example of a image signing and verifying flow.
 
       - name: valint attest slsa
         id: valint_attest
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            target: 'busybox:latest'
            format: attest-slsa
@@ -844,7 +844,7 @@ Full job example of a directory signing and verifying flow.
 
       - name: valint attest workdir
         id: valint_attest_dir
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            type: dir
            target: '/GitHub/workspace/'
@@ -889,7 +889,7 @@ Full job example of a git repository signing and verifying flow.
 
       - name: valint attest local repo
         id: valint_attest_dir
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            type: git
            target: '/GitHub/workspace/my_repo'
@@ -940,7 +940,7 @@ valint-dir-test:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-bom@dev
+      - uses: scribe-security/action-slsa@dev
         id: valint_attest
         with:
           target: busybox:latest
