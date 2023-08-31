@@ -588,6 +588,20 @@ sh ''' valint bom busybox \
 </details>
 
 <details>
+  <summary>  Public registry image (SLSA) </summary>
+
+Create SLSA for remote `busybox:latest` image.
+
+```javascript
+sh ''' valint slsa busybox \
+        --context-type jekins \
+        --output-directory ./scribe/valint \
+        -f '''
+``` 
+
+</details>
+
+<details>
   <summary>  Docker built image (SBOM) </summary>
 
 Create SBOM for image built by local docker `image_name:latest` image.
@@ -600,6 +614,20 @@ sh ''' valint bom image_name:latest \
 ``` 
 </details>
 
+
+<details>
+  <summary>  Docker built image (SLSA) </summary>
+
+Create SLSA for image built by local docker `image_name:latest` image.
+
+```javascript
+sh ''' valint slsa image_name:latest \
+      --context-type jenkins \
+      --output-directory ./scribe/valint \
+       -f '''
+```
+</details>
+
 <details>
   <summary>  Private registry image (SBOM) </summary>
 
@@ -609,6 +637,20 @@ Create SBOM for image hosted on private registry.
 
 ```javascript
 sh ''' valint bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
+        --context-type jenkins \
+        --output-directory ./scribe/valint \
+        -f '''
+```
+</details>
+<details>
+  <summary>  Private registry image (SLSA) </summary>
+
+Create SLSA for image hosted on private registry.
+
+> Use `docker login` to add access.
+
+```javascript
+sh ''' valint slsa scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
         --context-type jenkins \
         --output-directory ./scribe/valint \
         -f '''
@@ -639,6 +681,30 @@ pipeline {
 }
 ```
 </details>
+<details>
+  <summary>  Custom metadata (SLSA) </summary>
+
+Custom metadata added to SLSA.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+    test_env="test_env_value"
+  }
+  stages{
+    stage('bom') {
+      sh '''valint slsa busybox:latest \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            --env test_env \
+            --label test_label \
+            -f '''
+    }
+  }
+}
+```
+</details>
 
 <details>
   <summary> Directory target (SBOM) </summary>
@@ -648,6 +714,20 @@ Create SBOM for a local directory.
 ```javascript
 sh 'mkdir testdir; echo "test" > testdir/test.txt'
 sh ''' valint bom dir:testdir \
+          --context-type jenkins \
+          --output-directory ./scribe/valint \
+          -f '''
+``` 
+</details>
+
+<details>
+  <summary> Directory target (SLSA) </summary>
+
+Create SLSA for a local directory.
+
+```javascript
+sh 'mkdir testdir; echo "test" > testdir/test.txt'
+sh ''' valint slsa dir:testdir \
           --context-type jenkins \
           --output-directory ./scribe/valint \
           -f '''
@@ -672,6 +752,28 @@ Create SBOM for local git repository. <br />
 
 ```javascript
 sh ''' valint bom . \
+          --context-type jenkins \ 
+          --output-directory ./scribe/valint \
+           -f '''
+``` 
+</details>
+<details>
+  <summary> Git target (SLSA) </summary>
+
+Create SLSA for `mongo-express` remote git repository.
+
+```javascript
+sh ''' valint slsa git:https://github.com/mongo-express/mongo-express.git \
+          --context-type jenkins \
+          --output-directory ./scribe/valint \
+           -f '''
+
+``` 
+
+Create SLSA for local git repository. <br />
+
+```javascript
+sh ''' valint slsa . \
           --context-type jenkins \ 
           --output-directory ./scribe/valint \
            -f '''
