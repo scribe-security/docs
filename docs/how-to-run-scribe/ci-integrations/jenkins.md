@@ -165,7 +165,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
             valint bom [target] \
-              -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
@@ -225,7 +225,7 @@ node {
       ]) {
         sh '''
           valint bom [target] \
-            -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+            -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
@@ -300,7 +300,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
             valint bom [target] \
-              -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               --oci --oci-repo=[my_repo] '''
@@ -342,7 +342,7 @@ node {
       ]) {
         sh '''
             valint bom [target] \
-              -o [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               --oci --oci-repo=[my_repo] '''
