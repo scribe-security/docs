@@ -454,7 +454,6 @@ Custom metadata added to SLSA.
   uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
-      format: json
       force: true
       env: test_env
       label: test_label
@@ -474,7 +473,6 @@ Custom NTIA metadata added to SLSA.
   uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
-      format: json
       force: true
       author-name: bob
       author-email: bob@company.com
@@ -501,7 +499,6 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA and
   with:
     target: 'busybox:latest'
     output-file: my_slsa.json
-    format: json
 
 - uses: actions/upload-artifact@v2
   with:
