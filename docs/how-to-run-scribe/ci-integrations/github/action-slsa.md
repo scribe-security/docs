@@ -1,32 +1,32 @@
 ---
-sidebar_label: "Bom"
-title: Scribe GitHub Action for `valint bom`
+sidebar_label: "SLSA"
+title: Scribe GitHub Action for `valint slsa`
 sidebar_position: 1
 ---
 Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
-`valint bom` is used to collect evidence and generate an SBOM.
+`valint slsa` is used to collect evidence and generate an SLSA.
 
 Further documentation [GitHub integration](../github/)
 
 ### Other Actions
-* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
-### Bom Action
-Actions for `valint bom`. <br />
+### SLSA Action
+Actions for `valint slsa`. <br />
 The command allows users to generate and manage evidence collection process.
-- CycloneDX SBOM and SLSA provenance evidence support. 
-- Generates detailed SBOMs for images, directories, files and git repositories targets.
+- CycloneDX SLSA provenance evidence support. 
+- Generates detailed SLSAs for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
 - Attach evidence in your CI, OCI or release service.
 - Generate evidence directly from your private OCI registry.
-- Extensive SBOM component relation graph including, file to package, file and package to layer, commit history and file to commit relations.
-- SBOM including package CPEs and Licensing information.
-- Customizable SBOM with environments, labels.
-- Customizable SBOM with your required component groups.
-- Attach any external reports to your SBOM.
+- Extensive SLSA component relation graph including, file to package, file and package to layer, commit history and file to commit relations.
+- SLSA including package CPEs and Licensing information.
+- Customizable SLSA with environments, labels.
+- Customizable SLSA with your required component groups.
+- Attach any external reports to your SLSA.
 - Generate In-Toto attestation, statement or predicates.
 - Support Sigstore keyless verifying as well as [Github workload identity](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect).
 - Attach GitHub workflows [environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables) context (git url , commit, workflow, job, run id ..).
@@ -36,48 +36,61 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Input arguments
 ```yaml
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
   target:
-    description:
+    description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-  attach-regex:
-    description: Attach files content by regex
+  type:
+    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
+    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
+    required: false
+  scribe-audience:
+    description: Scribe auth audience
+    deprecationMessage: Please use scribe-auth-audience instead
+    required: false
+  all-env:
+    description: Attach all environment variables
+  build-type:
+    description: Set build type
+  builder-id:
+    description: Set builder id
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-    default: metadata,layers,packages,syft,files,dep,commits
-  env:
-    description: Environment keys to include in sbom
+  external:
+    description: Add build external parameters
+  finished-on:
+    description: Set metadata finished time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z)
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]
-    default: cyclonedx-json
-  package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
-  package-group:
-    description: Select package group, options=[index install all]
-  package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
-    default: ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,rust,binary,sbom
+    description: Evidence format, options=[statement attest predicate]
+  invocation:
+    description: Set metadata invocation ID
+  predicate:
+    description: Import predicate path
+  started-on:
+    description: Set metadata started time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z)
+  statement:
+    description: Import statement path
+  app-name:
+    description: Logical application name
+  app-version:
+    description: Logical application version
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509]
-    default: sigstore
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
   backoff:
     description: Backoff duration
-    default: 15s
   cache-enable:
     description: Enable local cache
-    default: true
   config:
     description: Configuration file path
   context-dir:
     description: Context dir
+  env:
+    description: Environment keys to include in sbom
   filter-regex:
     description: Filter out files by regex
-    default: '**/*.pyc,**/.git/**'
   filter-scope:
     description: Filter packages by scope
   git-branch:
@@ -99,11 +112,16 @@ To overcome the limitation install tool directly - [installer](https://github.co
     default: ./scribe/valint
   output-file:
     description: Output file name
+  pipeline-name:
+    description: Pipeline name
+  predicate-type:
+    description: Custom Predicate type (generic evidence format)
   product-key:
-    description: Scribe Project Key
-  scribe-audience:
+    description: Product Key
+  product-version:
+    description: Product Version
+  scribe-auth-audience:
     description: Scribe auth audience
-    default: api.production.scribesecurity.com
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
@@ -112,16 +130,14 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Enable scribe client
   scribe-login-url:
     description: Scribe login url
-    default: https://scribesecurity-production.us.auth0.com
   scribe-url:
     description: Scribe API Url
-    default: https://api.production.scribesecurity.com
+  structured:
+    description: Enable structured logger
   timeout:
     description: Timeout duration
-    default: 120s
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
-    default: 1
 ```
 
 ### Output arguments
@@ -132,8 +148,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Usage
 ```yaml
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
 ```
@@ -149,9 +165,9 @@ Attestations allow you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 
 Supported outputs:
-- In-toto predicate - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto statements - Cyclonedx SBOM, SLSA Provenance (unsigned evidence)
-- In-toto attestations -Cyclonedx SBOM, SLSA Provenance (signed evidence)
+- In-toto predicate - Cyclonedx SLSA Provenance (unsigned evidence)
+- In-toto statements - Cyclonedx SLSA Provenance (unsigned evidence)
+- In-toto attestations -Cyclonedx SLSA Provenance (signed evidence)
 
 Select default configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
@@ -208,7 +224,7 @@ jobs:
   scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: busybox:latest
           format: attest
@@ -296,10 +312,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          format: [statement attest predicate] (default [statement])
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -307,7 +323,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [statement attest predicate] (default [statement])
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -352,10 +368,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          format: [statement attest predicate] (default [statement])
           oci: true
           oci-repo: [oci_repo]
 
@@ -363,7 +379,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          format: [statement attest predicate] (default [statement])
           oci: true
           oci-repo: [oci_repo]
 ```
@@ -371,28 +387,28 @@ jobs:
 
 ### Basic examples
 <details>
-  <summary>  Public registry image (SBOM) </summary>
+  <summary>  Public registry image (SLSA) </summary>
 
-Create SBOM for remote `busybox:latest` image.
+Create SLSA for remote `busybox:latest` image.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
-    format: json
+    format: statement
 ``` 
 
 </details>
 
 <details>
-  <summary>  Docker built image (SBOM) </summary>
+  <summary>  Docker built image (SLSA) </summary>
 
-Create SBOM for image built by local docker `image_name:latest`.
+Create SLSA for image built by local docker `image_name:latest`.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     type: docker
     target: 'image_name:latest'
@@ -402,9 +418,9 @@ Create SBOM for image built by local docker `image_name:latest`.
 </details>
 
 <details>
-  <summary>  Private registry image (SBOM) </summary>
+  <summary>  Private registry image (SLSA) </summary>
 
-Create SBOM for image hosted by a private registry.
+Create SLSA for image hosted by a private registry.
 
 > `DOCKER_CONFIG` environment will allow the containerized action to access the private registry.
 
@@ -419,8 +435,8 @@ steps:
       username: ${{ secrets.REGISTRY_USERNAME }}
       password: ${{ secrets.REGISTRY_TOKEN }}
 
-  - name: Generate cyclonedx json SBOM
-    uses: scribe-security/action-bom@master
+  - name: Generate cyclonedx json SLSA
+    uses: scribe-security/action-slsa@master
     with:
       target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
       force: true
@@ -428,17 +444,16 @@ steps:
 </details>
 
 <details>
-  <summary>  Custom metadata (SBOM) </summary>
+  <summary>  Custom metadata (SLSA) </summary>
 
-Custom metadata added to SBOM.
+Custom metadata added to SLSA.
 
 ```YAML
-- name: Generate cyclonedx json SBOM - add metadata - labels, envs
+- name: Generate cyclonedx json SLSA - add metadata - labels, envs
   id: valint_labels
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
-      format: json
       force: true
       env: test_env
       label: test_label
@@ -448,17 +463,16 @@ Custom metadata added to SBOM.
 </details>
 
 <details>
-  <summary>  NTIA Custom metadata (SBOM) </summary>
+  <summary>  NTIA Custom metadata (SLSA) </summary>
 
-Custom NTIA metadata added to SBOM.
+Custom NTIA metadata added to SLSA.
 
 ```YAML
-- name: Generate cyclonedx json SBOM - add NTIA metadata
+- name: Generate cyclonedx json SLSA - add NTIA metadata
   id: valint_ntia
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
       target: 'busybox:latest'
-      format: json
       force: true
       author-name: bob
       author-email: bob@company.com
@@ -472,24 +486,23 @@ Custom NTIA metadata added to SBOM.
 
 
 <details>
-  <summary> Save as artifact (SBOM, SLSA) </summary>
+  <summary> Save as artifact (SLSA) </summary>
 
-Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
+Using action `OUTPUT_PATH` output argument you can access the generated SLSA and store it as an artifact.
 
 > Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
+- name: Generate cyclonedx json SLSA
   id: valint_json
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
-    output-file: my_sbom.json
-    format: json
+    output-file: my_slsa.json
 
 - uses: actions/upload-artifact@v2
   with:
-    name: scribe-sbom
+    name: scribe-slsa
     path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
 
 - uses: actions/upload-artifact@v2
@@ -509,7 +522,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA pro
 ```YAML
 - name: Generate SLSA provenance statement
   id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
     format: statement-slsa
@@ -531,7 +544,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated generic 
 ```YAML
 - name: Generate SLSA provenance statement
   id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     target: './temp.go'
     format: statement-generic
@@ -544,9 +557,9 @@ Using action `OUTPUT_PATH` output argument you can access the generated generic 
 </details>
 
 <details>
-  <summary> Docker archive image (SBOM) </summary>
+  <summary> Docker archive image (SLSA) </summary>
 
-Create SBOM for local `docker save ...` output.
+Create SLSA for local `docker save ...` output.
 
 ```YAML
 - name: Build and save local docker archive
@@ -557,8 +570,8 @@ Create SBOM for local `docker save ...` output.
     tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
     outputs: type=docker,dest=stub_local.tar
 
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     type: docker-archive
     target: '/GitHub/workspace/stub_local.tar'
@@ -568,7 +581,7 @@ Create SBOM for local `docker save ...` output.
 <details>
   <summary> OCI archive image </summary>
 
-Create SBOM for the local oci archive.
+Create SLSA for the local oci archive.
 
 ```YAML
 - name: Build and save local oci archive
@@ -579,8 +592,8 @@ Create SBOM for the local oci archive.
     tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     type: oci-archive
     target: '/GitHub/workspace/stub_oci_local.tar'
@@ -588,9 +601,9 @@ Create SBOM for the local oci archive.
 </details>
 
 <details>
-  <summary> Directory target (SBOM) </summary>
+  <summary> Directory target (SLSA) </summary>
 
-Create SBOM for a local directory.
+Create SLSA for a local directory.
 
 ```YAML
 - name: Create dir
@@ -600,7 +613,7 @@ Create SBOM for a local directory.
 
 - name: valint attest dir
   id: valint_attest_dir
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-slsa@master
   with:
     type: dir
     target: 'testdir'
@@ -609,20 +622,20 @@ Create SBOM for a local directory.
 
 
 <details>
-  <summary> Git target (SBOM) </summary>
+  <summary> Git target (SLSA) </summary>
 
-Create SBOM for `mongo-express` remote git repository.
+Create SLSA for `mongo-express` remote git repository.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     type: git
     target: 'https://github.com/mongo-express/mongo-express.git'
     format: json
 ``` 
 
-Create SBOM for `my_repo` local git repository.
+Create SLSA for `my_repo` local git repository.
 
 ```YAML
 
@@ -631,8 +644,8 @@ Create SBOM for `my_repo` local git repository.
     fetch-depth: 0
     path: my_repo
 
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Generate cyclonedx json SLSA
+  uses: scribe-security/action-slsa@master
   with:
     type: git
     target: 'my_repo'
@@ -642,9 +655,9 @@ Create SBOM for `my_repo` local git repository.
 </details>
 
 <details>
-  <summary> Attest target (SBOM) </summary>
+  <summary> Attest target (SLSA) </summary>
 
-Create and sign SBOM targets. <br />
+Create and sign SLSA targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 >Default attestation config **Required** `id-token` permission access. <br />
@@ -656,7 +669,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-      uses: scribe-security/action-bom@master
+      uses: scribe-security/action-slsa@master
       with:
           target: 'busybox:latest'
           format: attest
@@ -679,7 +692,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-slsa@master
     with:
         target: 'busybox:latest'
         format: attest-slsa
@@ -701,7 +714,7 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-slsa@master
     with:
         target: './file.go'
         format: attest-generic
@@ -709,7 +722,7 @@ job_example:
 </details>
 
 <details>
-  <summary> Verify target (SBOM) </summary>
+  <summary> Verify target (SLSA) </summary>
 
 Verify targets against a signed attestation. <br />
 
@@ -731,7 +744,7 @@ valint will look for both a bom or slsa attestation to verify against.  <br />
 Verify targets against a signed attestation. <br />
 
 Default attestation config: `sigstore-github` - sigstore (Fulcio, Rekor). <br />
-Tool will look for sbom or slsa attestation to verify against. <br />
+Tool will look for slsa or slsa attestation to verify against. <br />
 
 ```YAML
 - name: valint verify
@@ -744,7 +757,7 @@ Tool will look for sbom or slsa attestation to verify against. <br />
 </details>
 
 <details>
-  <summary> Verify Policy flow - image target (Signed SBOM) </summary>
+  <summary> Verify Policy flow - image target (Signed SLSA) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -763,7 +776,7 @@ Full job example of a image signing and verifying flow.
 
       - name: valint attest
         id: valint_attest
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            target: 'busybox:latest'
            format: attest
@@ -803,7 +816,7 @@ Full job example of a image signing and verifying flow.
 
       - name: valint attest slsa
         id: valint_attest
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            target: 'busybox:latest'
            format: attest-slsa
@@ -825,7 +838,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Verify Policy flow - Directory target (Signed SBOM) </summary>
+  <summary> Verify Policy flow - Directory target (Signed SLSA) </summary>
 
 Full job example of a directory signing and verifying flow.
 
@@ -844,7 +857,7 @@ Full job example of a directory signing and verifying flow.
 
       - name: valint attest workdir
         id: valint_attest_dir
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            type: dir
            target: '/GitHub/workspace/'
@@ -869,7 +882,7 @@ Full job example of a directory signing and verifying flow.
 
 
 <details>
-  <summary> Verify Policy flow - Git repository target (Signed SBOM) </summary>
+  <summary> Verify Policy flow - Git repository target (Signed SLSA) </summary>
 
 Full job example of a git repository signing and verifying flow.
 > Support for both local (path) and remote git (url) repositories.
@@ -889,7 +902,7 @@ Full job example of a git repository signing and verifying flow.
 
       - name: valint attest local repo
         id: valint_attest_dir
-        uses: scribe-security/action-bom@master
+        uses: scribe-security/action-slsa@master
         with:
            type: git
            target: '/GitHub/workspace/my_repo'
@@ -913,10 +926,10 @@ Full job example of a git repository signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify evidence on OCI (SBOM,SLSA depricated) </summary>
+  <summary> Attest and verify evidence on OCI (SLSA) </summary>
 
 Store any evidence on any OCI registry. <br />
-Support storage for all targets and both SBOM and SLSA evidence formats.
+Support storage for all targets and both SLSA and SLSA evidence formats.
 
 > Use input variable `format` to select between supported formats. <br />
 > Write permission to `oci-repo` is required. 
@@ -940,7 +953,7 @@ valint-dir-test:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-bom@dev
+      - uses: scribe-security/action-slsa@dev
         id: valint_attest
         with:
           target: busybox:latest
