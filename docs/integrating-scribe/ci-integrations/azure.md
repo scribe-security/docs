@@ -207,7 +207,25 @@ For example, using `docker login` command.
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+      format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+      app-name: $(LOGICAL_APP_NAME)
+      app-version: $(APP_VERSION)
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL) 
+      supplier-phone: $(SUPPLIER_PHONE)
+
+  - task: ValintCli@0
+    inputs:
+      commandName: slsa
+      target: [target]
+      format: [attest, statement, predicate]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
@@ -260,6 +278,23 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
+  <summary>  Public registry image (SLSA) </summary>
+
+Create SLSA for remote `busybox:latest` image.
+
+```YAML
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SLSA
+  inputs:
+    commandName: slsa
+    target: busybox:latest
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+
+</details>
+
+<details>
   <summary>  Docker built image (SBOM) </summary>
 
 Create SBOM for image built by local docker `image_name:latest` image.
@@ -269,6 +304,22 @@ Create SBOM for image built by local docker `image_name:latest` image.
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
+    target: image_name:latest
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+</details>
+
+<details>
+  <summary>  Docker built image (SLSA) </summary>
+
+Create SLSA for image built by local docker `image_name:latest` image.
+
+```YAML
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SLSA
+  inputs:
+    commandName: slsa
     target: image_name:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
@@ -292,6 +343,25 @@ Create SBOM for image hosted on private registry.
     force: true
 ``` 
 </details>
+
+<details>
+  <summary>  Private registry image (SLSA) </summary>
+
+Create SBOM for image hosted on private registry.
+
+> Use `docker login` task to add access.
+
+```YAML
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SLSA
+  inputs:
+    commandName: slsa
+    target: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+</details>
+
 <details>
   <summary>  Custom metadata (SBOM) </summary>
 
@@ -320,9 +390,37 @@ Custom metadata added to SBOM.
       label: test_label
 ```
 </details>
+<details>
+  <summary>  Custom metadata (SLSA) </summary>
+
+Custom metadata added to SLSA.
+
+```YAML
+- job: custom_slsa
+  displayName: Custom slsa
+
+  variables:
+    - name: test_env
+      value: test_env_value
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: ValintCli@0
+    displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
+    inputs:
+      commandName: slsa
+      target: 'busybox:latest'
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      force: true
+      env: test_env
+      label: test_label
+```
+</details>
 
 <details>
-  <summary>  Save as artifact (SBOM, SLSA) </summary>
+  <summary>  Save as artifact SBOM </summary>
 
 Using input variable `outputDirectory` or `outputFile` to export evidence as an artifact.
 
@@ -349,6 +447,33 @@ Using input variable `outputDirectory` or `outputFile` to export evidence as an 
 </details>
 
 <details>
+  <summary>  Save as artifact SLSA </summary>
+
+Using input variable `outputDirectory` or `outputFile` to export evidence as an artifact.
+
+> Use input variable `format` to select between supported formats.
+
+```YAML
+- task: ValintCli@0
+  displayName: SLSA image `busybox:latest`.
+  inputs:
+    command: slsa
+    target: busybox:latest
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    outputFile: $(Build.ArtifactStagingDirectory)/my_slsa.json
+    force: true
+
+# Using `outputDirectory` evidence cache dir
+- publish: $(Build.ArtifactStagingDirectory)/scribe/valint
+  artifact: scribe-evidence
+
+# Using `outputFile` custom path.
+- publish: $(Build.ArtifactStagingDirectory)/my_slsa.json
+  artifact: scribe-slsa
+``` 
+</details>
+
+<details>
   <summary> Directory target (SBOM) </summary>
 
 Create SBOM from a local directory. 
@@ -362,6 +487,26 @@ Create SBOM from a local directory.
   displayName: SBOM local directory.
   inputs:
     command: bom
+    target: dir:testdir
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+</details>
+
+<details>
+  <summary> Directory target (SLSA) </summary>
+
+Create SLSA from a local directory. 
+
+```YAML
+- bash: |
+    mkdir testdir
+    echo "test" > testdir/test.txt
+
+- task: ValintCli@0
+  displayName: SLSA local directory.
+  inputs:
+    command: slsa
     target: dir:testdir
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
@@ -394,6 +539,37 @@ Create SBOM for local git repository. <br />
   displayName: SBOM local git repository.
   inputs:
     command: bom
+    target: git:. 
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+</details>
+<details>
+  <summary> Git target (SLSA) </summary>
+
+Create SLSA for `mongo-express` remote git repository.
+
+```YAML
+- task: ValintCli@0
+  displayName: SBOM remote git repository.
+  inputs:
+    command: slsa
+    target: git:https://github.com/mongo-express/mongo-express.git 
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+
+Create SBOM for local git repository. <br />
+
+> When using implicit checkout note the Azure-DevOps [git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines) will effect the commits collected by the SBOM.
+
+```YAML
+- checkout: self
+
+- task: ValintCli@0
+  displayName: SLSA local git repository.
+  inputs:
+    command: slsa
     target: git:. 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true

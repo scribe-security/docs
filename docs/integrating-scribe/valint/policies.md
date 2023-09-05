@@ -84,7 +84,7 @@ The verify artifact module can be used to enforce compliance with specific suppl
       common-names: [] # Signed common name identities 
     signed: <true|false> # Should target be signed
     format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
-    match: {envrionment-context} # Any origin or subject fields used by
+    match: {environment-context} # Any origin or subject fields used by
     script:
       args: {custom script input} 
       path: <path to policy script>
@@ -518,7 +518,7 @@ The Git Owner module can be used to enforce compliance with specific supply chai
       - path: <regex> # Match to specific files
         signed-commit: <true|false> # Should commits be signed
         users: [] # Commiter identities
-    match: {envrionment-context} # Any origin or subject fields used by
+    match: {environment-context} # Any origin or subject fields used by
 ``` 
 
 > Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.

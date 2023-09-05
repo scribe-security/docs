@@ -15,6 +15,7 @@ Further documentation **[GitHub integration](../../../integrating-scribe/ci-inte
 ### Other Actions
 * **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 * **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
+* **[slsa](action-bom)**,  **[source](https://github.com/scribe-security/action-slsa)**
 * **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
 
 ### Bom Action
@@ -944,7 +945,7 @@ valint-dir-test:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-bom@dev
+      - uses: scribe-security/action-bom@master
         id: valint_attest
         with:
           target: busybox:latest
@@ -963,7 +964,7 @@ Following actions can be used to verify a target over the OCI store.
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-verify@dev
+      - uses: scribe-security/action-verify@master
         id: valint_attest
         with:
           target: busybox:latest

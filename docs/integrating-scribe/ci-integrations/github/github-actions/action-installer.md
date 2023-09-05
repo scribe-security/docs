@@ -15,6 +15,7 @@ For Further documentation **[GitHub integration](../../../integrating-scribe/ci-
 ### Other Actions
 * **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
 * **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
+* **[slsa](action-bom)**,  **[source](https://github.com/scribe-security/action-slsa)**
 * **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
 
 ### Tool installer Action

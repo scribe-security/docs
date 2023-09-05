@@ -6,6 +6,68 @@ title: Integrating Scribe in your Jenkins pipeline
 
 If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
 
+### Installation
+Install the Scribe `valint` CLI tool:
+```javascript
+    stage('install-valint') {
+        steps {
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+```
+
+### Usage
+
+<!--DOCUSAURUS_CODE_TABS-->
+<!--Declarative-->
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
+```javascript
+pipeline {
+  agent any
+  environment {
+    PATH="./temp/bin:$PATH"
+  }
+  stages {
+    stage('install-valint') {
+        steps {
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    
+    stage('bom') {
+      steps {        
+        sh '''
+            valint bom busybox:latest \
+              --context-type jenkins \
+              --output-directory ./scribe/valint -f '''
+      }
+    }
+
+```
+<!--Scripted-->
+Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
+
+```groovy
+node {
+  withEnv([
+    "PATH=./temp/bin:$PATH"
+  ]) {
+    stage('install') {
+      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+    }
+    
+    stage('bom') {
+        sh '''
+          valint bom busybox:latest \
+              --context-type jenkins \
+              --output-directory ./scribe/valint -f '''
+    }
+  }
+}
+```
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+
 <!-- ## Before you begin -->
 ### Acquiring credentials from Scribe Hub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
@@ -152,7 +214,6 @@ The examples use a sample pipeline building a Mongo express project.
   ```
 
   </details>
-
 
   **See Also**
   **[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
@@ -336,4 +397,190 @@ pipeline {
 ```
 
 </details>
+
+### OCI Evidence store
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
+
+### Usage
+<!--DOCUSAURUS_CODE_TABS-->
+<!--Declarative-->
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+    PATH="./temp/bin:$PATH"
+  }
+  stages {
+    stage('install') {
+        steps {
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    stage('bom') {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        sh '''
+            valint bom [target] \
+              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+        }
+      }
+    }
+
+    stage('verify') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+                valint verify [target] \
+                  -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+                  --context-type jenkins \
+                  --output-directory ./scribe/valint \
+                  --oci --oci-repo=[my_repo] '''
+          }
+      }
+    }
+  }
+}
+
+```
+
+<!--Scripted-->
+Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
+
+```groovy
+node {
+  withEnv([
+    "PATH=./temp/bin:$PATH"
+  ]) {
+    stage('install') {
+      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
+    }
+    stage('bom') {
+      withCredentials([
+        usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
+      ]) {
+        sh '''
+            valint bom [target] \
+              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+      }
+    }
+
+    stage('verify') {
+      withCredentials([
+        usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
+      ]) {
+        sh '''
+            valint verify [target] \
+              -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+      }
+    }
+  }
+}
+```
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+> Use `jenkins` as context-type.
 </details>
+</details>
+
+### Using custom x509 keys
+x509 signer allows you store utilize file based keys for signing.
+
+Related flags:
+* `--key` x509 Private key path.
+* `--cert` - x509 Certificate path.
+* `--ca` - x509 CA Chain path.
+
+> While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
+
+Related environment:
+* `ATTEST_KEY` x509 Private key pem content.
+* `ATTEST_CERT` - x509 Cert pem content.
+* `ATTEST_CA` - x509 CA Chain pem content.
+
+> While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
+
+> While using `x509-env` Refrain from using `slsa` command `--all-env`
+
+
+#### Adding Credentials to Jenkins
+1. Go to your Jenkins Web Console.
+2. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+3. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
+4. To add Attestation key, cert and CA, in the **Global credentials** area, click **+ Add Credentials**.
+A new **Credentials** form opens.
+
+Repeat the following to attach secrets for your local `key`, `cert` and `ca` files
+1. In the **Kind** field, select **Secret File**.
+2. Set related **ID** **`attest-key`**, **`attest-cert`** and **`attest-ca`** (lowercase).
+3. Choose related local file.
+4. Click **Create**.
+
+3 new Global credential are created with **Secret File** (Kind)
+
+> Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
+
+### Usage example
+As an example a SLSA attest command can be issued using the following snippet.
+```javascript
+withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
+        file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
+        file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
+   {
+            sh '''
+            valint slsa [target] \
+              --key $ATTEST_KEY_PATH \
+              --cert $ATTEST_CERT_PATH \
+              --ca $ATTEST_CA_PATH \
+              --context-type jenkins \
+              -o attest \
+              --attest.default x509 \
+              --output-directory ./scribe/valint \
+              -f '''
+    }
+```
+
+And as an example a SLSA verify command can be issued using the following snippet.
+```javascript
+withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
+        file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
+   {
+            sh '''
+            valint verify [target] \
+              --cert $ATTEST_CERT_PATH \
+              --ca $ATTEST_CA_PATH \
+              --context-type jenkins \
+              -i attest-slsa \
+              --attest.default x509 \
+              --output-directory ./scribe/valint \
+              -f '''
+    }
+```

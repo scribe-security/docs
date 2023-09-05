@@ -84,6 +84,7 @@ const config = {
                 "guides/securing-builds.md",
                 "integrating-scribe/ci-integrations/README.md",
                 "integrating-scribe/ci-integrations/github/README.md",
+                "integrating-scribe/ci-integrations/github/github-actions/action-slsa.md",
                 "integrating-scribe/ci-integrations/github/github-actions/action-bom.md",
                 "integrating-scribe/ci-integrations/github/github-actions/action-verify.md",
                 "integrating-scribe/ci-integrations/github/github-actions/action-installer.md",

@@ -13,9 +13,10 @@ Scribe offers the use of GitHub Actions to enable the embedding of evidence coll
 Further documentation **[GitHub integration](../../../integrating-scribe/ci-integrations/github)**.
 
 ### Other Actions
-* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
-* **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
-* **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
+* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-bom), [source](https://github.com/scribe-security/action-slsa)
+* [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
+* [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
 ### Bom Action
 Actions for `valint bom`. <br />
@@ -302,7 +303,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -316,7 +317,12 @@ jobs:
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
 You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+
+
+<details>
+  <summary> Alternative store OCI </summary>
+
+### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -358,7 +364,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 
@@ -366,11 +372,11 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
-``` -->
-
+```
+</details>
 
 ### Basic examples
 <details>
@@ -475,7 +481,7 @@ Custom NTIA metadata added to SBOM.
 
 
 <details>
-  <summary> Save as artifact (SBOM, SLSA) </summary>
+  <summary> Save evidence as artifact </summary>
 
 Using action `OUTPUT_PATH` output argument you can access the generated SBOM and store it as an artifact.
 
@@ -499,50 +505,6 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
   with:
     name: scribe-evidence
     path: scribe/
-``` 
-</details>
-
-<details>
-  <summary> Save provenance statement as artifact (SLSA) </summary>
-
-Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact.
-
-> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
-
-```YAML
-- name: Generate SLSA provenance statement
-  id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
-  with:
-    target: 'busybox:latest'
-    format: statement-slsa
-
-- uses: actions/upload-artifact@v2
-  with:
-    name: provenance
-    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
-``` 
-</details>
-
-<details>
-  <summary> Save Generic statement as artifact (SLSA) </summary>
-
-Using action `OUTPUT_PATH` output argument you can access the generated generic statement and store it as an artifact.
-
-> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
-
-```YAML
-- name: Generate SLSA provenance statement
-  id: valint_slsa_statement
-  uses: scribe-security/action-bom@master
-  with:
-    target: './temp.go'
-    format: statement-generic
-
-- uses: actions/upload-artifact@v2
-  with:
-    name: provenance
-    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
 ``` 
 </details>
 
@@ -668,31 +630,9 @@ job_example:
 </details>
 
 <details>
-  <summary> Attest target (SLSA) </summary>
-
-Create and sign SLSA targets. <br />
-By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
-
->Default attestation config **Required** `id-token` permission access.
-
-```YAML
-job_example:
-  runs-on: ubuntu-latest
-  permissions:
-    id-token: write
-  steps:
-    - name: valint attest
-    uses: scribe-security/action-bom@master
-    with:
-        target: 'busybox:latest'
-        format: attest-slsa
-``` 
-</details>
-
-<details>
   <summary> Attest target (Generic) </summary>
 
-Create and sign SLSA targets. <br />
+Create and sign Generic file targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 >Default attestation config **Required** `id-token` permission access.
@@ -717,31 +657,13 @@ job_example:
 Verify targets against a signed attestation. <br />
 
 Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
-Valint will look for either an SBOM or SLSA attestation to verify against.  <br />
+Valint will look for an SBOM describing the image to verify against.  <br />
 
 ```YAML
 - name: valint verify
   uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
-``` 
-
-</details>
-
-<details>
-  <summary> Verify target (SLSA) </summary>
-
-Verify targets against a signed attestation. <br />
-
-Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
-The tool will look for either an SBOM or SLSA attestation to verify against. <br />
-
-```YAML
-- name: valint verify
-  uses: scribe-security/action-verify@master
-  with:
-    target: 'busybox:latest'
-    input-format: attest-slsa
 ``` 
 
 </details>
@@ -787,7 +709,7 @@ Full job example of a image signing and verifying flow.
 </details>
 
 <details>
-  <summary> Verify Policy flow - image target (Signed SLSA) </summary>
+  <summary> Verify Policy flow - image target (Signed SLSA depricated) </summary>
 
 Full job example of a image signing and verifying flow.
 
@@ -943,7 +865,8 @@ valint-dir-test:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-bom@dev
+      # Use scribe-security/action-slsa@master for slsa. 
+      - uses: scribe-security/action-bom@master
         id: valint_attest
         with:
           target: busybox:latest
@@ -962,7 +885,7 @@ Following actions can be used to verify a target over the OCI store.
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - uses: scribe-security/action-verify@dev
+      - uses: scribe-security/action-verify@master
         id: valint_attest
         with:
           target: busybox:latest

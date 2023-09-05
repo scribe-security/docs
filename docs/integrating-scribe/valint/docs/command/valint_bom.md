@@ -23,7 +23,7 @@ Flags for `bom` subcommand
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,dep,commits] |
 | | --compress | Compress content (generic evidence) | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa statement-generic attest-generic] | [cyclonedx-json] |
+| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
@@ -40,21 +40,22 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --app-name | Logical application name | |
-| | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
+| | --ca | x509 CA Chain path | |
 | | --cache-enable | Enable local cache | true |
+| | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
+| | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --oci | Enable OCI store | |
@@ -126,5 +127,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [valint](valint)	 - Validate Supply Chain Integrity
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 

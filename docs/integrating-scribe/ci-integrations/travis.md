@@ -117,11 +117,11 @@ env:
 script:
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+        --format [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+        --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
         --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
         --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
         --supplier-phone $SUPPLIER_PHONE 
@@ -133,7 +133,7 @@ script:
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+        --app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
         --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
         --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
         --supplier-phone $SUPPLIER_PHONE
@@ -176,7 +176,7 @@ script:
   # Generating evidence, storing on [my_repo] OCI repo.
   - |
     valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+        --format [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]
@@ -207,6 +207,21 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
+  <summary>  Public registry image (SLSA) </summary>
+
+Create SLSA for remote `busybox:latest` image.
+
+```YAML
+- |
+  valint slsa busybox:latest \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+``` 
+
+</details>
+
+<details>
   <summary>  Docker built image (SBOM) </summary>
 
 Create SBOM for image built by local docker `image_name:latest` image.
@@ -214,6 +229,19 @@ Create SBOM for image built by local docker `image_name:latest` image.
 ```YAML
 - |
   valint bom image_name:latest \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+``` 
+</details>
+<details>
+  <summary>  Docker built image (SLSA) </summary>
+
+Create SBOM for image built by local docker `image_name:latest` image.
+
+```YAML
+- |
+  valint slsa image_name:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
@@ -237,6 +265,22 @@ Create SBOM for image hosted on private registry.
 </details>
 
 <details>
+  <summary>  Private registry image (SLSA) </summary>
+
+Create SLSA for image hosted on private registry.
+
+> Use `docker login` to add access.
+
+```YAML
+- |
+  valint slsa scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+```
+</details>
+
+<details>
   <summary>  Custom metadata (SBOM) </summary>
 
 Custom metadata added to SBOM.
@@ -253,9 +297,26 @@ Custom metadata added to SBOM.
 ```
 </details>
 
+<details>
+  <summary>  Custom metadata (SLSA) </summary>
+
+Custom metadata added to SLSA.
+```YAML
+- name: 'slsa-targets'
+  env: test_env=test_env_value
+  script:
+    - |
+      valint slsa busybox:latest \
+          --context-type travis \
+          --output-directory ./scribe/valint \
+          --env test_env --label test_label \
+          -f
+```
+</details>
+
 
 <details>
-  <summary> Save as artifact (SBOM, SLSA) </summary>
+  <summary> Save as artifact (SBOM) </summary>
 
 Using command `output-directory` or `output-file` to export evidence as an artifact.
 
@@ -299,6 +360,50 @@ For more details see **[Artifact documentation](https://docs.travis-ci.com/user/
 </details>
 
 <details>
+  <summary> Save as artifact (SLSA) </summary>
+
+Using command `output-directory` or `output-file` to export evidence as an artifact.
+
+> Use `--format`, `-o` to select between the format.
+
+> and add the following environment variables in the repository settings:
+```
+ARTIFACTS_KEY=(AWS access key id)
+ARTIFACTS_SECRET=(AWS secret access key)
+ARTIFACTS_BUCKET=(S3 bucket name)
+```
+For more details see [Artifact documentation](https://docs.travis-ci.com/user/uploading-artifacts/)
+
+```YAML
+- name: 'save-artifact'
+      git:
+        depth: false
+
+      install:
+        - mkdir ./bin
+        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - export PATH=$PATH:$PWD/bin/
+      
+      script:
+
+      - |
+        valint slsa busybox:latest \
+            --context-type travis \
+            --output-directory ./scribe/valint \
+            --output-file ./my_slsa.json \
+            -f
+      
+      addons:
+      
+        artifacts:
+          paths:
+          - ./scribe/valint
+          - ./my_slsa.json
+```
+
+</details>
+
+<details>
   <summary> Directory target (SBOM) </summary>
 
 Create SBOM for a local directory.
@@ -310,6 +415,24 @@ Create SBOM for a local directory.
 
 - |
   valint bom dir:testdir \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+``` 
+</details>
+
+<details>
+  <summary> Directory target (SLSA) </summary>
+
+Create SLSA for a local directory.
+
+```YAML
+- |
+  mkdir testdir
+  echo "test" > testdir/test.txt
+
+- |
+  valint slsa dir:testdir \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
@@ -337,6 +460,32 @@ Create SBOM for local git repository. <br />
 ```YAML
 - |
   valint bom git:. \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+``` 
+</details>
+
+<details>
+  <summary> Git target (SLSA) </summary>
+
+Create SBOM for `mongo-express` remote git repository.
+
+```YAML
+- |
+  valint slsa git:https://github.com/mongo-express/mongo-express.git \
+      --context-type travis \
+      --output-directory ./scribe/valint \
+      -f
+``` 
+
+Create SLSA for local git repository. <br />
+
+> When using implicit checkout note the travis-CI [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+
+```YAML
+- |
+  valint slsa git:. \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
@@ -373,10 +522,10 @@ Generating and verifying CycloneDX SBOM `statement` for image target `busybox:la
 Generating and verifying SLSA Provenance `statement` for image target `busybox:latest`.
 
 ```YAML
-# Create SLSA Provenance statement
+# Create CycloneDX SLSA statement
 - |
-  valint bom busybox:latest \
-    -o statement-slsa \
+  valint slsa busybox:latest \
+    -o statement \
     --context-type travis \
     --output-directory ./scribe/valint \
     -f
@@ -412,6 +561,33 @@ Generating and verifying SLSA Provenance `statement` for directory target.
 - |
   valint verify dir:testdir \
     -i statement \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
+
+<details>
+  <summary> Verify Policy flow - directory target (SLSA) </summary>
+
+Generating and verifying SLSA Provenance `statement` for directory target.
+
+```YAML
+- |
+  mkdir testdir
+  echo "test" > testdir/test.txt
+
+# Create CycloneDX SBOM statement
+- |
+  valint slsa dir:testdir \
+    -o statement-slsa \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+# Verify CycloneDX SBOM statement
+- |
+  valint verify dir:testdir \
+    -i statement-slsa \
     --context-type travis \
     --output-directory ./scribe/valint
 ```
@@ -456,6 +632,44 @@ Or for a local repository
 ```
 </details>
 
+<details>
+  <summary> Verify Policy flow - Git repository target (SLSA) </summary>
+
+Generating and verifying `statements` for remote git repo target `https://github.com/mongo-express/mongo-express.git`.
+
+```yaml
+- |
+  valint slsa git:https://github.com/mongo-express/mongo-express.git \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+
+- |
+  valint verify git:https://github.com/mongo-express/mongo-express.git \
+    -i statement-slsa \
+    --context-type travis \
+    --output-directory ./scribe/valint
+``` 
+
+Or for a local repository
+```yaml
+- |
+  valint slsa git:. \
+    -o statement \
+    --context-type travis \
+    --output-directory ./scribe/valint \
+    -f
+
+
+- |
+  valint verify git:. \
+    -i statement-slsa \
+    --context-type travis \
+    --output-directory ./scribe/valint
+```
+</details>
 
 ## Resources
 If you're new to Travis this link should help you get started:

@@ -212,7 +212,7 @@ pipelines:
             variables:
               COMMAND_NAME: bom
               TARGET:  [target]
-              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+              FORMAT: [attest, statement, attest-slsa (depricated), statement-slsa(depricated), attest-generic, statement-generic]
               OCI: true
               OCI_REPO: [oci_repo]
 
@@ -239,6 +239,18 @@ Create SBOM from remote `busybox:latest` image.
         VERBOSE: 2
         FORCE: "true"
 ``` 
+### Public registry image (SLSA)
+
+Create slsa from remote `busybox:latest` image.
+
+```YAML
+  - pipe: scribe-security/valint-pipe:0.1.6
+      variables:
+        COMMAND: slsa
+        TARGET: busybox:latest
+        VERBOSE: 2
+        FORCE: "true"
+``` 
 
 ###  Docker built image (SBOM)
 
@@ -248,6 +260,18 @@ Create SBOM for image built by local docker `image_name:latest` image.
 - pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: bom
+    TARGET: image_name:latest
+    VERBOSE: 2
+    FORCE: "true"
+``` 
+###  Docker built image (SLSA)
+
+Create SLSA for image built by local docker `image_name:latest` image.
+
+```YAML
+- pipe: scribe-security/valint-pipe:0.1.6
+  variables:
+    COMMAND: slsa
     TARGET: image_name:latest
     VERBOSE: 2
     FORCE: "true"
@@ -263,6 +287,20 @@ Create SBOM for image hosted on private registry.
 - pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: bom
+    TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    FORCE: true
+    VERBOSE: 2
+```
+###  Private registry image (SLSA)
+
+Create SLSA for image hosted on private registry.
+
+> Use `docker login` to add access.
+
+```YAML
+- pipe: scribe-security/valint-pipe:0.1.6
+  variables:
+    COMMAND: slsa
     TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
     FORCE: true
     VERBOSE: 2
@@ -286,7 +324,25 @@ Custom metadata added to SBOM.
           LABEL: test_label
 ```
 
-### Save as artifact (SBOM, SLSA)
+###  Custom metadata (SLSA)
+
+Custom metadata added to SLSA.
+```YAML
+- step:
+    name: valint-image-step
+    script:
+      - export test_env=test_env_value
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: slsa
+          TARGET: busybox:latest
+          VERBOSE: 2
+          FORCE: "true"
+          ENV: test_env
+          LABEL: test_label
+```
+
+### Save as artifact SBOM
 
 Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
 
@@ -308,6 +364,28 @@ Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as a
       - scribe/**
       - my_sbom.json
 ```
+### Save as artifact SLSA
+
+Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
+
+> Use input variable `FORMAT` to select between supported formats.
+
+
+```YAML
+- step:
+    name: save-artifact-step
+    script:
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: slsa
+          OUTPUT_FILE: my_slsa.json
+          TARGET: busybox:latest
+          VERBOSE: 2
+          FORCE: "true"
+    artifacts:
+      - scribe/**
+      - my_sbom.json
+```
 
 ### Directory target (SBOM)
 
@@ -322,6 +400,34 @@ step:
   - pipe: scribe-security/valint-pipe:0.1.6
     variables:
       COMMAND: bom
+      TARGET: dir:./testdir
+      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
+      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+      LOGICAL_APP_NAME: $LOGICAL_APP_NAME
+      APP_VERSION: $APP_VERSION
+      AUTHOR_NAME: $AUTHOR_NAME
+      AUTHOR_EMAIL: $AUTHOR_EMAIL
+      AUTHOR_PHONE: $AUTHOR_PHONE
+      SUPPLIER_NAME: $SUPPLIER_NAME
+      SUPPLIER_URL: $SUPPLIER_URL
+      SUPPLIER_EMAIL: $SUPPLIER_EMAIL
+      SUPPLIER_PHONE: $SUPPLIER_PHONE
+      VERBOSE: 2
+``` 
+
+### Directory target (SLSA)
+
+Create SLSA from a local directory. 
+
+```YAML
+step:
+  name: dir-sbom-step
+  script:
+  - mkdir testdir
+  - echo "test" > testdir/test.txt
+  - pipe: scribe-security/valint-pipe:0.1.6
+    variables:
+      COMMAND: slsa
       TARGET: dir:./testdir
       SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
@@ -363,6 +469,37 @@ Create SBOM for local git repository.
           - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
             variables:
               COMMAND_NAME: bom
+              TARGET: dir:scm_mongo_express
+              VERBOSE: 2
+              FORCE: "true"
+``` 
+
+### Git target (SLSA)
+
+Create SLSA for `mongo-express` remote git repository.
+
+```YAML
+- step:
+    name: valint-git-step
+    script:
+      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+        variables:
+          COMMAND_NAME: slsa
+          TARGET: git:https://github.com/mongo-express/mongo-express.git
+          VERBOSE: 2
+          FORCE: "true"
+``` 
+
+Create SLSA for local git repository.
+
+```YAML
+    - step:
+        name: valint-git-step
+        script:
+          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
+          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+            variables:
+              COMMAND_NAME: slsa
               TARGET: dir:scm_mongo_express
               VERBOSE: 2
               FORCE: "true"
