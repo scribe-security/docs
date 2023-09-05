@@ -11,6 +11,7 @@ Further documentation [GitHub integration](../github/)
 
 ### Other Actions
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-bom), [source](https://github.com/scribe-security/action-slsa)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 

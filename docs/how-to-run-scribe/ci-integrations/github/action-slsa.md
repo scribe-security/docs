@@ -10,6 +10,7 @@ Scribe offers the use of GitHub Actions to enable the embedding of evidence coll
 Further documentation [GitHub integration](../github/)
 
 ### Other Actions
+* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
 * [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)

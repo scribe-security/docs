@@ -64,6 +64,7 @@ const config = {
                 "how-to-run-scribe/ci-integrations/README.md",
                 "how-to-run-scribe/ci-integrations/github/README.md",
                 "how-to-run-scribe/ci-integrations/github/action-bom.md",
+                "how-to-run-scribe/ci-integrations/github/action-slsa.md",
                 "how-to-run-scribe/ci-integrations/github/action-verify.md",
                 "how-to-run-scribe/ci-integrations/github/action-installer.md",
                 "how-to-run-scribe/ci-integrations/github/docs/attestations.md",

@@ -6,6 +6,7 @@ sidebar_position: 1
 
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
 * [Bom](action-bom)
+* [Slsa](action-slsa)
 * [Verify](action-verify)
 * [Installer](action-installer)
 
