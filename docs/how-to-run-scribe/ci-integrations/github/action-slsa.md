@@ -536,28 +536,6 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA pro
 </details>
 
 <details>
-  <summary> Save Generic statement as artifact (SLSA depricated) </summary>
-
-Using action `OUTPUT_PATH` output argument you can access the generated generic statement and store it as an artifact.
-
-> Use action `output-file: <my_custom_path>` input argument to set a custom output path.
-
-```YAML
-- name: Generate SLSA provenance statement
-  id: valint_slsa_statement
-  uses: scribe-security/action-slsa@master
-  with:
-    target: './temp.go'
-    format: statement-generic
-
-- uses: actions/upload-artifact@v2
-  with:
-    name: provenance
-    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
-``` 
-</details>
-
-<details>
   <summary> Docker archive image (SLSA) </summary>
 
 Create SLSA for local `docker save ...` output.
@@ -697,28 +675,6 @@ job_example:
     with:
         target: 'busybox:latest'
         format: attest-slsa
-``` 
-</details>
-
-<details>
-  <summary> Attest target (Generic) </summary>
-
-Create and sign SLSA targets. <br />
-By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
-
->Default attestation config **Required** `id-token` permission access.
-
-```YAML
-job_example:
-  runs-on: ubuntu-latest
-  permissions:
-    id-token: write
-  steps:
-    - name: valint attest
-    uses: scribe-security/action-slsa@master
-    with:
-        target: './file.go'
-        format: attest-generic
 ``` 
 </details>
 
