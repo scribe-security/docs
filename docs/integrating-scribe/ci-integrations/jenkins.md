@@ -18,8 +18,6 @@ Install the Scribe `valint` CLI tool:
 
 ### Usage
 
-<!--DOCUSAURUS_CODE_TABS-->
-<!--Declarative-->
 Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
 ```javascript
 pipeline {
@@ -65,10 +63,7 @@ node {
   }
 }
 ```
-<!--END_DOCUSAURUS_CODE_TABS-->
 
-
-<!-- ## Before you begin -->
 ### Acquiring credentials from Scribe Hub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
@@ -214,6 +209,7 @@ The examples use a sample pipeline building a Mongo express project.
   ```
 
   </details>
+
 
   **See Also**
   **[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
@@ -397,6 +393,7 @@ pipeline {
 ```
 
 </details>
+</details>
 
 ### OCI Evidence store
 <details>
@@ -420,8 +417,7 @@ You must first login with the required access privileges to your registry before
 For example, using `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
 
 ### Usage
-<!--DOCUSAURUS_CODE_TABS-->
-<!--Declarative-->
+
 Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
 
 ```javascript
@@ -505,10 +501,9 @@ node {
   }
 }
 ```
-<!--END_DOCUSAURUS_CODE_TABS-->
 
 > Use `jenkins` as context-type.
-</details>
+
 </details>
 
 ### Using custom x509 keys
