@@ -105,8 +105,6 @@ jobs:
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
-    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith
     AUTHOR_EMAIL: john@thiscompany.com
@@ -178,8 +176,6 @@ For example, using `docker login` command.
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-    APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith 
     AUTHOR_EMAIL: jhon@thiscompany.com 
@@ -261,8 +257,6 @@ jobs:
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
-    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith
     AUTHOR_EMAIL: john@thiscompany.com

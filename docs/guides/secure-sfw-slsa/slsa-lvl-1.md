@@ -65,7 +65,6 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION
 ```
 </details>
 
@@ -82,8 +81,6 @@ scribe-gitlab-job:
       scribeEnable: true
       scribeClientId: $(SCRIBE-CLIENT-ID)
       scribeClientSecret: $(SCRIBE-CLIENT-SECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
 ```
 </details>
 
@@ -98,7 +95,6 @@ script:
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION
 ```
 </details>
 
@@ -116,7 +112,5 @@ name: scribe-bitbucket-pipeline
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-              LOGICAL_APP_NAME: $LOGICAL_APP_NAME
-              APP_VERSION: $APP_VERSION 
 ```
 </details>

@@ -62,8 +62,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
             on: push
 
             env:
-            LOGICAL_APP_NAME: your-project # The app name all these SBOMs will be assosiated with
-            APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
             # SBOM Author meta data - Optional
             AUTHOR_NAME: John-Smith 
             AUTHOR_EMAIL: jhon@thiscompany.com 
@@ -91,8 +89,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     product-key: ${{ github.repository }}
                     scribe-client-id: ${{ secrets.CLIENT_ID }}
                     scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
-                    app-name: $LOGICAL_APP_NAME
-                    app-version: $APP_VERSION
                     author-name: $AUTHOR_NAME
                     author-email: $AUTHOR_EMAIL
                     author-phone: $AUTHOR_PHONE
@@ -138,8 +134,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
             on: workflow_dispatch
 
             env:
-                LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-                APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
                 # SBOM Author meta data - Optional
                 AUTHOR_NAME: John-Smith 
                 AUTHOR_EMAIL: jhon@thiscompany.com 
@@ -173,8 +167,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         scribe-client-id: ${{ secrets.CLIENT_ID }}
                         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
-                        app-name: $LOGICAL_APP_NAME
-                        app-version: $APP_VERSION
                         author-name: $AUTHOR_NAME
                         author-email: $AUTHOR_EMAIL
                         author-phone: $AUTHOR_PHONE
@@ -198,8 +190,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         scribe-client-id: ${{ secrets.CLIENT_ID }}
                         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
-                        app-name: $LOGICAL_APP_NAME
-                        app-version: $APP_VERSION
                         author-name: $AUTHOR_NAME
                         author-email: $AUTHOR_EMAIL
                         author-phone: $AUTHOR_PHONE
@@ -288,8 +278,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
             on: workflow_dispatch
 
             env:
-                LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-                APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
                 # SBOM Author meta data - Optional
                 AUTHOR_NAME: John-Smith 
                 AUTHOR_EMAIL: jhon@thiscompany.com 
@@ -323,8 +311,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         scribe-client-id: ${{ secrets.CLIENT_ID }}
                         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
-                        app-name: $LOGICAL_APP_NAME
-                        app-version: $APP_VERSION
                         author-name: $AUTHOR_NAME
                         author-email: $AUTHOR_EMAIL
                         author-phone: $AUTHOR_PHONE
@@ -348,8 +334,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         scribe-client-id: ${{ secrets.CLIENT_ID }}
                         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
-                        app-name: $LOGICAL_APP_NAME
-                        app-version: $APP_VERSION
                         author-name: $AUTHOR_NAME
                         author-email: $AUTHOR_EMAIL
                         author-phone: $AUTHOR_PHONE

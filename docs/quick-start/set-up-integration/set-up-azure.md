@@ -70,8 +70,6 @@ jobs:
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
-    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
     # SBOM Author meta data - Optional
     AUTHOR_NAME: John-Smith
     AUTHOR_EMAIL: john@thiscompany.com
@@ -94,8 +92,6 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
       author-email: $(AUTHOR_EMAIL)
       author-phone: $(AUTHOR_PHONE)
@@ -113,8 +109,6 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
       author-email: $(AUTHOR_EMAIL)
       author-phone: $(AUTHOR_PHONE)

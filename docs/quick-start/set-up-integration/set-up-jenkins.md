@@ -66,8 +66,6 @@ toc_max_heading_level: 5
 pipeline {
   agent any
   environment {
-    LOGICAL_APP_NAME="demo-project"
-    APP_VERSION="1.0.1"
     AUTHOR_NAME="John-Smith" 
     AUTHOR_EMAIL="jhon@thiscompany.com" 
     AUTHOR_PHONE="555-8426157" 
@@ -99,7 +97,6 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''
@@ -122,7 +119,6 @@ pipeline {
             --context-type jenkins \
             --output-directory ./scribe/valint \
             -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
             --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
             --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
             --supplier-phone $SUPPLIER_PHONE '''

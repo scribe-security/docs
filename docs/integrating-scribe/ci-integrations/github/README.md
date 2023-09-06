@@ -72,8 +72,6 @@ Integrating Scribe Hub with your environment requires the following credentials 
 name:  scribe_github_workflow
 
 env:
-  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-  APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
   # SBOM Author meta data - Optional
   AUTHOR_NAME: John-Smith 
   AUTHOR_EMAIL: jhon@thiscompany.com 
@@ -101,8 +99,6 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          app-name: $LOGICAL_APP_NAME
-          app-version: $APP_VERSION
           author-name: $AUTHOR_NAME
           author-email: $AUTHOR_EMAIL
           author-phone: $AUTHOR_PHONE
@@ -118,8 +114,6 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          app-name: $LOGICAL_APP_NAME
-          app-version: $APP_VERSION
           author-name: $AUTHOR_NAME
           author-email: $AUTHOR_EMAIL
           author-phone: $AUTHOR_PHONE
@@ -130,92 +124,6 @@ jobs:
 ```
 
 You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../other-evidence-stores)**.
-
-<!-- ### OCI Evidence store
-Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `oci` Enable OCI store.
-* `oci-repo` - Evidence store location.
-
-### Before you begin
-Evidence can be stored in any accessible registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first log in with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or `docker/login-action` action.
-
-### Usage
-```yaml
-name:  scribe_github_workflow
-
-env:
-  LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be assosiated with
-  APP_VERSION: 1.0.1 # The app version all these SBOMs will be assosiated with
-  # SBOM Author meta data - Optional
-  AUTHOR_NAME: John-Smith 
-  AUTHOR_EMAIL: jhon@thiscompany.com 
-  AUTHOR_PHONE: 555-8426157 
-  # SBOM Supplier meta data - Optional
-  SUPPLIER_NAME: Scribe-Security 
-  SUPPLIER_URL: www.scribesecurity.com 
-  SUPPLIER_EMAIL: info@scribesecurity.com
-  SUPPLIER_PHONE: 001-001-0011
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.my_registry }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-          oci: true
-          oci-repo: [oci_repo]
-          app-name: $LOGICAL_APP_NAME
-          app-version: $APP_VERSION
-          author-name: $AUTHOR_NAME
-          author-email: $AUTHOR_EMAIL
-          author-phone: $AUTHOR_PHONE
-          supplier-name: $SUPPLIER_NAME
-          supplier-url: $SUPPLIER_URL
-          supplier-email: $SUPPLIER_EMAIL 
-          supplier-phone: $SUPPLIER_PHONE
-
-      - name:  Verify policy step
-        uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-          oci: true
-          oci-repo: [oci_repo]
-          app-name: $LOGICAL_APP_NAME
-          app-version: $APP_VERSION
-          author-name: $AUTHOR_NAME
-          author-email: $AUTHOR_EMAIL
-          author-phone: $AUTHOR_PHONE
-          supplier-name: $SUPPLIER_NAME
-          supplier-url: $SUPPLIER_URL
-          supplier-email: $SUPPLIER_EMAIL 
-          supplier-phone: $SUPPLIER_PHONE
-``` -->
 
 <!-- ### Checking policy compliance for your project
 
