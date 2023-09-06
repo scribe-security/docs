@@ -53,8 +53,6 @@ The **Out of Date Components** report displays packages that have newer versions
 
 ##### Out of Date Components Fields
 
-* **Logical Application** - The logical_app metadata field included in this SBOM 
-* **L. app version** - The app_version metadata field included in this SBOM
 * **Component** - The package name as listed in the SBOM. In the case of the source code, the component name will be the file name.
 * **tag** - The build tag where this version was found. 'Latest' means the latest build otherwise you'll see the build's version ID 
 * **Dependency** - What component is relaying on this package
