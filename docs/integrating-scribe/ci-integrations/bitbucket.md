@@ -153,8 +153,6 @@ pipelines:
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-              LOGICAL_APP_NAME: $LOGICAL_APP_NAME
-              APP_VERSION: $APP_VERSION
               AUTHOR_NAME: $AUTHOR_NAME
               AUTHOR_EMAIL: $AUTHOR_EMAIL
               AUTHOR_PHONE: $AUTHOR_PHONE
@@ -171,19 +169,13 @@ pipelines:
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-              LOGICAL_APP_NAME: $LOGICAL_APP_NAME
-              APP_VERSION: $APP_VERSION
-              AUTHOR_NAME: $AUTHOR_NAME
-              AUTHOR_EMAIL: $AUTHOR_EMAIL
-              AUTHOR_PHONE: $AUTHOR_PHONE
-              SUPPLIER_NAME: $SUPPLIER_NAME
-              SUPPLIER_URL: $SUPPLIER_URL
-              SUPPLIER_EMAIL: $SUPPLIER_EMAIL
-              SUPPLIER_PHONE: $SUPPLIER_PHONE
 ```
 
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -223,7 +215,8 @@ pipelines:
               INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               OCI: true
               OCI_REPO: [oci_repo]
-``` -->
+```
+</details>
 
 ## Basic examples
 
@@ -433,13 +426,6 @@ step:
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
       LOGICAL_APP_NAME: $LOGICAL_APP_NAME
       APP_VERSION: $APP_VERSION
-      AUTHOR_NAME: $AUTHOR_NAME
-      AUTHOR_EMAIL: $AUTHOR_EMAIL
-      AUTHOR_PHONE: $AUTHOR_PHONE
-      SUPPLIER_NAME: $SUPPLIER_NAME
-      SUPPLIER_URL: $SUPPLIER_URL
-      SUPPLIER_EMAIL: $SUPPLIER_EMAIL
-      SUPPLIER_PHONE: $SUPPLIER_PHONE
       VERBOSE: 2
 ``` 
 

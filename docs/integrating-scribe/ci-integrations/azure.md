@@ -129,8 +129,6 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
       author-email: $(AUTHOR_EMAIL)
       author-phone: $(AUTHOR_PHONE)
@@ -148,20 +146,14 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
-      author-name: $(AUTHOR_NAME)
-      author-email: $(AUTHOR_EMAIL)
-      author-phone: $(AUTHOR_PHONE)
-      supplier-name: $(SUPPLIER_NAME)
-      supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL)
-      supplier-phone: $(SUPPLIER_PHONE)
 ```
 
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
 
-<!-- ### OCI Evidence store
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -211,26 +203,6 @@ For example, using `docker login` command.
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
-      author-name: $(AUTHOR_NAME)
-      author-email: $(AUTHOR_EMAIL)
-      author-phone: $(AUTHOR_PHONE)
-      supplier-name: $(SUPPLIER_NAME)
-      supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL) 
-      supplier-phone: $(SUPPLIER_PHONE)
-
-  - task: ValintCli@0
-    inputs:
-      commandName: slsa
-      target: [target]
-      format: [attest, statement, predicate]
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      oci: true
-      ociRepo: [oci_repo]
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
       author-name: $(AUTHOR_NAME)
       author-email: $(AUTHOR_EMAIL)
       author-phone: $(AUTHOR_PHONE)
@@ -247,16 +219,8 @@ For example, using `docker login` command.
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]
-      app-name: $(LOGICAL_APP_NAME)
-      app-version: $(APP_VERSION)
-      author-name: $(AUTHOR_NAME)
-      author-email: $(AUTHOR_EMAIL)
-      author-phone: $(AUTHOR_PHONE)
-      supplier-name: $(SUPPLIER_NAME)
-      supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL) 
-      supplier-phone: $(SUPPLIER_PHONE)
-``` -->
+```
+</details>
 
 ### Basic examples
 
@@ -278,13 +242,78 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
+  <summary>  NTIA Custom metadata (SBOM) </summary>
+
+Attach custom SBOM NTIA metadata.
+
+```YAML
+trigger:
+  branches:
+    include:
+    - main
+
+jobs:
+- job: scribe_azure_job
+  displayName: 'Scribe Azure Job'
+  pool:
+    name: {Update pool name here}		# Example: Mikey
+    agent: {Update agent name here}		# Example: azure-runner-ubuntu
+
+  variables:
+    imageName: 'pipelines-javascript-docker'
+    LOGICAL_APP_NAME: demo-project # The app name all these SBOMs will be associated with
+    APP_VERSION: "1.0.1" # The app version all these SBOMs will be associated with
+    # SBOM Author meta data - Optional
+    AUTHOR_NAME: John-Smith
+    AUTHOR_EMAIL: john@thiscompany.com
+    AUTHOR_PHONE: 555-8426157
+    # SBOM Supplier meta data - Optional
+    SUPPLIER_NAME: Scribe-Security
+    SUPPLIER_URL: www.scribesecurity.com
+    SUPPLIER_EMAIL: info@scribesecurity.com
+    SUPPLIER_PHONE: 001-001-0011
+
+  steps:
+  - task: scribeInstall@0
+
+  - task: ValintCli@0
+    inputs:
+      command: bom
+      target: nginx
+      format: statement
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      scribeEnable: true
+      scribeClientId: $(CLIENTID)
+      scribeClientSecret: $(CLIENTSECRET)
+      author-name: $(AUTHOR_NAME)
+      author-email: $(AUTHOR_EMAIL)
+      author-phone: $(AUTHOR_PHONE)
+      supplier-name: $(SUPPLIER_NAME)
+      supplier-url: $(SUPPLIER_URL)
+      supplier-email: $(SUPPLIER_EMAIL)
+      supplier-phone: $(SUPPLIER_PHONE)
+
+  - task: ValintCli@0
+    inputs:
+      command: verify
+      target: nginx
+      inputFormat: statement
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      scribeEnable: true
+      scribeClientId: $(CLIENTID)
+      scribeClientSecret: $(CLIENTSECRET)
+```
+</details>
+
+
+<details>
   <summary>  Public registry image (SLSA) </summary>
 
 Create SLSA for remote `busybox:latest` image.
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SLSA
+  displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
     target: busybox:latest
@@ -317,7 +346,7 @@ Create SLSA for image built by local docker `image_name:latest` image.
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SLSA
+  displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
     target: image_name:latest
@@ -353,7 +382,7 @@ Create SBOM for image hosted on private registry.
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SLSA
+  displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
     target: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest

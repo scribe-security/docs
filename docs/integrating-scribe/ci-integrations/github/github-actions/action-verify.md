@@ -295,7 +295,12 @@ jobs:
 ```
 
 You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -348,7 +353,8 @@ jobs:
           format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
-``` -->
+```
+</details>
 
 
 ### Verify SBOMs examples

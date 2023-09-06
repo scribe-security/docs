@@ -134,15 +134,15 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
-          --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
-          --supplier-phone $SUPPLIER_PHONE
 ```
 
 > Use `gitlab` as context-type.
 
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -197,7 +197,8 @@ scribe-gitlab-job:
           --oci --oci-repo=[my_repo]
 ```
 
-> Use `gitlab` as context-type. -->
+> Use `gitlab` as context-type.
+</details>
 
 ### Basic examples
 <details>
@@ -215,11 +216,46 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
+  <summary>  NTIA Custom metadata (SBOM) </summary>
+
+Attach custom SBOM NTIA metadata.
+
+```YAML
+image: docker:latest
+variables:
+  AUTHOR_EMAIL: john@thiscompany.com
+  AUTHOR_PHONE: 555-8426157
+  # SBOM Supplier meta data - Optional
+  SUPPLIER_NAME: Scribe-Security
+  SUPPLIER_URL: www.scribesecurity.com
+  SUPPLIER_EMAIL: info@scribesecurity.com
+  SUPPLIER_PHONE: 001-001-0011
+
+services:
+  - docker:dind
+
+stages:
+    - custom-ntia-metadata-stage
+
+custom-ntia-metadata:
+    stage: custom-ntia-metadata-stage
+    script:
+      - valint bom busybox
+            --context-type gitlab
+            --output-directory ./scribe/valint -f 
+            --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
+          --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+          --supplier-phone $SUPPLIER-PHONE
+```
+</details>
+
+<details>
   <summary>  Public registry image (SLSA) </summary>
 
 Create SLSA for remote `busybox:latest` image.
 
 ```YAML
+
 - valint slsa busybox
       --context-type gitlab
       --output-directory ./scribe/valint

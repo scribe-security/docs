@@ -134,8 +134,12 @@ script:
         --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
         --supplier-phone $SUPPLIER_PHONE
 ```
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -184,7 +188,8 @@ script:
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]
-``` -->
+```
+</details>
 
 ### Basic examples
 <details>

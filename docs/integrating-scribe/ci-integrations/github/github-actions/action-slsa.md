@@ -149,7 +149,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Usage
 ```yaml
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
@@ -330,7 +330,11 @@ jobs:
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
 
-### OCI Evidence store
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -384,7 +388,7 @@ jobs:
           oci: true
           oci-repo: [oci_repo]
 ```
-
+</details>
 
 ### Basic examples
 <details>
@@ -393,7 +397,7 @@ jobs:
 Create SLSA for remote `busybox:latest` image.
 
 ```YAML
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     target: 'busybox:latest'
@@ -408,7 +412,7 @@ Create SLSA for remote `busybox:latest` image.
 Create SLSA for image built by local docker `image_name:latest`.
 
 ```YAML
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     type: docker
@@ -436,7 +440,7 @@ steps:
       username: ${{ secrets.REGISTRY_USERNAME }}
       password: ${{ secrets.REGISTRY_TOKEN }}
 
-  - name: Generate cyclonedx json SLSA
+  - name: Generate SLSA provenance
     uses: scribe-security/action-slsa@master
     with:
       target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
@@ -450,7 +454,7 @@ steps:
 Custom metadata added to SLSA.
 
 ```YAML
-- name: Generate cyclonedx json SLSA - add metadata - labels, envs
+- name: Generate SLSA provenance - add metadata - labels, envs
   id: valint_labels
   uses: scribe-security/action-slsa@master
   with:
@@ -469,7 +473,7 @@ Custom metadata added to SLSA.
 Custom NTIA metadata added to SLSA.
 
 ```YAML
-- name: Generate cyclonedx json SLSA - add NTIA metadata
+- name: Generate SLSA provenance - add NTIA metadata
   id: valint_ntia
   uses: scribe-security/action-slsa@master
   with:
@@ -494,7 +498,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA and
 > Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
 ```YAML
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   id: valint_json
   uses: scribe-security/action-slsa@master
   with:
@@ -549,7 +553,7 @@ Create SLSA for local `docker save ...` output.
     tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
     outputs: type=docker,dest=stub_local.tar
 
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     type: docker-archive
@@ -571,7 +575,7 @@ Create SLSA for the local oci archive.
     tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     type: oci-archive
@@ -606,7 +610,7 @@ Create SLSA for a local directory.
 Create SLSA for `mongo-express` remote git repository.
 
 ```YAML
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     type: git
@@ -623,7 +627,7 @@ Create SLSA for `my_repo` local git repository.
     fetch-depth: 0
     path: my_repo
 
-- name: Generate cyclonedx json SLSA
+- name: Generate SLSA provenance
   uses: scribe-security/action-slsa@master
   with:
     type: git

@@ -70,8 +70,12 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * Set your Scribe credentials as environment variables according to **[CircleCI environment variables instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project "CircleCI embedding environment variables instructions")**.
 * Follow instructions and examples on the CircleCI **[ScribeHub Orb page](https://circleci.com/developer/orbs/orb/scribe-security/orbs "Instructions for using ScribeHub Orb")**.
 
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../other-evidence-stores)**.
-<!-- ### OCI Evidence store
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -86,7 +90,8 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or **[circle orbs](https://circleci.com/docs/building-docker-images/)**. -->
+For example, using `docker login` command or **[circle orbs](https://circleci.com/docs/building-docker-images/)**.
+</details>
 
 ### Scribe CircleCI Orbs
 

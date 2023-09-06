@@ -295,6 +295,7 @@ jobs:
 ```
 
 You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../integrating-scribe/other-evidence-stores)**.
+
 <!-- ### OCI Evidence store
 Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 

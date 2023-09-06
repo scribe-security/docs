@@ -159,7 +159,7 @@ The examples use a sample pipeline building a Mongo express project.
         }
       }
       
-      stage('sbom') {
+      stage('dir-bom') {
         agent {
           docker {
             image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
@@ -173,11 +173,10 @@ The examples use a sample pipeline building a Mongo express project.
               valint bom dir:mongo-express-scm \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-              --logical-app-name $LOGICAL_APP_NAME --app-version $APP_VERSION \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET  \
               --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
               --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-              --supplier-phone $SUPPLIER_PHONE '''
+              --supplier-phone $SUPPLIER_PHONE'''
           }
         }
       }
@@ -207,9 +206,52 @@ The examples use a sample pipeline building a Mongo express project.
     }
   }
   ```
-
   </details>
 
+ <details>
+    <summary>  <b> Sample SLSA integration code </b> </summary>
+
+  ```javascript
+  pipeline {
+  agent any
+  stages {
+    stage('slsa-provenance') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
+        }
+      }
+      steps {        
+        sh '''
+            valint slsa busybox:latest \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+      }
+    }
+
+    stage('verify') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
+        }
+      }
+      steps {
+            sh '''
+            valint verify busybox:latest -i statement-slsa \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+        }
+      }
+  }
+}
+```
+</details>
 
   **See Also**
   **[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
@@ -311,6 +353,70 @@ spec:
 ```
 </details>
 
+ <details>
+    <summary>  <b> Sample SLSA integration code </b> </summary>
+
+```javascript
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile './KubernetesPod.yaml'
+    }
+  }
+  stages {
+    stage('slsa-provenance') {
+      steps {                
+        container('valint') {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+            sh '''
+            valint slsa busybox:latest \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+          }
+        }
+      }
+    }
+
+    stage('verify') {
+      steps {
+        container('valint') {
+            sh '''
+            valint verify busybox:latest -i statement-slsa \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+        }
+      }
+    }
+  }
+}
+```
+This example uses Jenkins over k8s plugin with the Pod template defined like this:
+```YAML
+metadata:
+  labels:
+    some-label: jsl-scribe-test
+spec:
+  containers:
+  - name: jnlp
+    env:
+    - name: CONTAINER_ENV_VAR
+      value: jnlp
+  - name: valint
+    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
+    command:
+    - cat
+    tty: true
+  - name: git
+    image: alpine/git
+    command:
+      - cat
+    tty: true
+```
+  
+</details>
+
 **See Also**
 **[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)**
 
@@ -356,7 +462,7 @@ pipeline {
       }
     }
     
-    stage('sbom') {
+    stage('dir-bom') {
       steps {        
         withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
@@ -393,9 +499,56 @@ pipeline {
 ```
 
 </details>
+
+<details>
+    <summary>  <b> Sample SLSA integration code </b> </summary>
+
+```javascript
+pipeline {
+  agent any
+  stages {
+    stage('install') {
+        steps {
+          cleanWs()
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    
+    stage('slsa-provenance') {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        sh '''
+            valint slsa busybox:latest \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+        }
+      }
+    }
+
+    stage('image-bom') {
+      steps {
+            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            sh '''
+            valint verify busybox:latest -i statement-slsa \
+            --context-type jenkins \
+            --output-directory ./scribe/valint testing \
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+          }
+      }
+    }
+  }
+}
+
+```
+
 </details>
 
-### OCI Evidence store
+</details>
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
 <details>
   <summary> <b> OCI Evidence store </b></summary>
 
