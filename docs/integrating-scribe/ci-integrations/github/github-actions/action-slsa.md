@@ -324,7 +324,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [statement attest predicate] (default [statement])
+          input-format: [statement attest predicate] (default [statement])
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -384,7 +384,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [statement attest predicate] (default [statement])
+          input-format: [statement attest predicate] (default [statement])
           oci: true
           oci-repo: [oci_repo]
 ```

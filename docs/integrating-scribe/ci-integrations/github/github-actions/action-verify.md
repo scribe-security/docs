@@ -288,7 +288,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          input-format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -350,7 +350,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          input-format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           oci: true
           oci-repo: [oci_repo]
 ```
