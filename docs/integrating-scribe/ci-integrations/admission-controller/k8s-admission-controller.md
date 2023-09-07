@@ -1,6 +1,6 @@
 ---
 sidebar_label: "K8s Admission Controller"
-title: K8s Admission Controller - Coming Soon!
+title: Admission Controller - Coming Soon!
 sidebar_position: 5
 toc_min_heading_level: 2
 toc_max_heading_level: 5
