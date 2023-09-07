@@ -121,6 +121,7 @@ Dockerhub does not support the subpath format, `oci-repo` should be set to your 
     --set imagePullSecrets=[secret-name]
     ```
   > Note `oci-repo` and `secret-name` need to be replaced with values.
+  
 </details>
 
 

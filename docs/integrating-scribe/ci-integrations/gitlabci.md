@@ -139,6 +139,7 @@ scribe-gitlab-job:
 > Use `gitlab` as context-type.
 
 ### Alternative evidence stores
+
 > You can learn more about alternative stores **[here](../other-evidence-stores)**.
 
 <details>
@@ -198,6 +199,7 @@ scribe-gitlab-job:
 ```
 
 > Use `gitlab` as context-type.
+
 </details>
 
 ### Basic examples

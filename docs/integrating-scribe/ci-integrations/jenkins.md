@@ -119,6 +119,7 @@ The code in these examples of a workflow executes these steps:
 The examples use a sample pipeline building a Mongo express project. 
 
 #### Jenkins over Docker
+
 <details>
   <summary> <b> Jenkins over Docker </b></summary>
   <h3>  Prerequisites </h3>
@@ -134,76 +135,7 @@ The examples use a sample pipeline building a Mongo express project.
 
   **Procedure**
 
-  <details>
-    <summary>  <b> Sample integration code </b> </summary>
 
-  ```javascript
-  pipeline {
-    agent any
-    environment {
-      AUTHOR_NAME="John-Smith" 
-      AUTHOR_EMAIL="jhon@thiscompany.com" 
-      AUTHOR_PHONE="555-8426157" 
-      SUPPLIER_NAME="Scribe-Security" 
-      SUPPLIER_URL="www.scribesecurity.com" 
-      SUPPLIER_EMAIL="info@scribesecurity.com"
-      SUPPLIER_PHONE="001-001-0011"
-    }
-    stages {
-      stage('checkout') {
-        steps {
-            cleanWs()
-            sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
-        }
-      }
-      
-      stage('dir-bom') {
-        agent {
-          docker {
-            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-            reuseNode true
-            args "--entrypoint="
-          }
-        }
-        steps {        
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
-          sh '''
-              valint bom dir:mongo-express-scm \
-              --context-type jenkins \
-              --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET  \
-              --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-              --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-              --supplier-phone $SUPPLIER_PHONE'''
-          }
-        }
-      }
-
-      stage('image-bom') {
-        agent {
-          docker {
-            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-            reuseNode true
-            args "--entrypoint="
-          }
-        }
-        steps {
-              withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
-              sh '''
-              valint bom mongo-express:1.0.0-alpha.4 \
-              --context-type jenkins \
-              --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-              --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-              --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-              --supplier-phone $SUPPLIER_PHONE '''
-            }
-        }
-      }
-    }
-  }
-  ```
-  </details>
 
  <details>
     <summary>  <b> Sample SLSA integration code </b> </summary>
@@ -250,8 +182,9 @@ The examples use a sample pipeline building a Mongo express project.
 ```
 </details>
 
-  **See Also**
-  **[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
+**See Also**
+**[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
+
 </details>
 
 #### Jenkins over Kubernetes (K8s)
