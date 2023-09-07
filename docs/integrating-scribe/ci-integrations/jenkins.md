@@ -190,9 +190,9 @@ The examples use a sample pipeline building a Mongo express project.
   }
   ```
 
- </details>
+  </details>
 
- <details>
+<details>
     <summary>  <b> Sample SLSA integration code </b> </summary>
 
   ```javascript
@@ -234,7 +234,9 @@ The examples use a sample pipeline building a Mongo express project.
       }
   }
 }
+
 ```
+
 </details>
 
 **See Also**
@@ -320,8 +322,8 @@ spec:
 ```
 </details>
 
- <details>
-    <summary>  <b> Sample SLSA integration code </b> </summary>
+<details>
+  <summary>  <b> Sample SLSA integration code </b> </summary>
 
 ```javascript
 pipeline {
@@ -380,6 +382,7 @@ spec:
     command:
       - cat
     tty: true
+    
 ```
   
 </details>
@@ -497,6 +500,7 @@ pipeline {
 </details>
 
 ### Alternative evidence stores
+
 > You can learn more about alternative stores **[here](../other-evidence-stores)**.
 
 <details>

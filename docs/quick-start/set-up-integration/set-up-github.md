@@ -61,7 +61,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
             on: push
 
-
             build:
                 runs-on: ubuntu-latest
 
@@ -81,13 +80,14 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                     label: is_git_commit
                     format: attest
+                    
         ```
 
         The `on: push` segment of this workflow means that whenever there is a `push` into this repository, a new signed SBOM of the repository will be sent to the evidence store of your Scribe hub.
 
         Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your **[evidence report](../../scribe-hub-reports/evidence)**.
 
-        </details>
+    </details>
 
    - <details>
         <summary> To add automatic evidence collection (a signed SBOM) to your GitHub pipeline workflow </summary>
