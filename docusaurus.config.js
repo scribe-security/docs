@@ -108,6 +108,7 @@ const config = {
                 "integrating-scribe/valint/configure/usage.md",
                 "integrating-scribe/valint/configure/sbom.md",
                 "integrating-scribe/valint/configure/generic.md",
+                "integrating-scribe/valint/overview.md",
                 // "integrating-scribe/valint/policies.md",
                 // "integrating-scribe/valint/SLSA.md",
                 "integrating-scribe/valint/help/valint.md",
