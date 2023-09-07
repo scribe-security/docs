@@ -18,15 +18,14 @@ In addition to evidence management, Valint also **generates** evidence for a ran
 Valint also enables you to **generate** any 3rd party report, scan or configuration (any file) into evidence using the **Generic evidence** subtype. Enabling compliance requirements to refer and attest to your custom needs.
 
 
-### High level diagram  
+### High level diagrams  
 <img src='../../../img/cli//valint_high_level.jpg' alt='Valint high level' width='80%' min-width='600px'/>
 
 <img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
 
-### Platform diagram  
-<img src='../../../img/cli//module_digram.jpg' alt='Platform Diagram' width='80%' min-width='600px'/>
+<img src='../../../img/cli//module_digram.jpg' alt='Evidence Flow Diagram' width='80%' min-width='600px'/>
 
-<img src='../../../img/cli/platform_table.jpg' alt='Platform table' width='80%' min-width='600px'/>
+<img src='../../../img/cli/platform_table.jpg' alt='Interfaces' width='80%' min-width='600px'/>
 
 ### Policy engine
 At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
