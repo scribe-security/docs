@@ -293,17 +293,6 @@ name: Create signed git commit sbom
 
 on: push
 
-env:
- # SBOM Author meta data - Optional
- AUTHOR_NAME: John-Smith
- AUTHOR_EMAIL: jhon@thiscompany.com
- AUTHOR_PHONE: 555-8426157
- # SBOM Supplier meta data - Optional
- SUPPLIER_NAME: Scribe-Security
- SUPPLIER_URL: www.scribesecurity.com
- SUPPLIER_EMAIL: info@scribesecurity.com
- SUPPLIER_PHONE: 001-001-0011
-
 build:
    runs-on: ubuntu-latest
 
@@ -321,33 +310,18 @@ build:
        product-key: ${{ github.repository }}
        scribe-client-id: ${{ secrets.CLIENT_ID }}
        scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
-       author-name: $AUTHOR_NAME
-       author-email: $AUTHOR_EMAIL
-       author-phone: $AUTHOR_PHONE
-       supplier-name: $SUPPLIER_NAME
-       supplier-url: $SUPPLIER_URL
-       supplier-email: $SUPPLIER_EMAIL
-       supplier-phone: $SUPPLIER_PHONE
        label: is_git_commit
        format: attest
 ```
 2. Verifying checkout - generate an SBOM of your checked-out repo.  Example CLI command (See **[CI/CD Integrations](../integrating-scribe/ci-integrations)** for your specific CI system):
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v \
---logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
---author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
---supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \
---supplier-phone $SUPPLIER-PHONE
+--scribe.client-secret=$CLIENT-SECRET -E -f
 ```
 3. Generate an SBOM of the final Docker image was built so that Scribe Hub knows the build completed:
 ```
  $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-  --scribe.client-secret=$CLIENT-SECRET -E -f -v \
-  --logical-app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
-  --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
-  --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \
-  --supplier-phone $SUPPLIER-PHONE
+  --scribe.client-secret=$CLIENT-SECRET -E -f
 ```
 
 Scribe Hub compares the checkout SBOM with the SBOM from the relevant commit. Note that the commit SBOM and the checkout SBOM must be generated from separate workflows. If one of these SBOMs isn't found, Scribe skips this integrity check.

@@ -70,15 +70,6 @@ jobs:
 
   variables:
     imageName: 'pipelines-javascript-docker'
-    # SBOM Author meta data - Optional
-    AUTHOR_NAME: John-Smith
-    AUTHOR_EMAIL: john@thiscompany.com
-    AUTHOR_PHONE: 555-8426157
-    # SBOM Supplier meta data - Optional
-    SUPPLIER_NAME: Scribe-Security
-    SUPPLIER_URL: www.scribesecurity.com
-    SUPPLIER_EMAIL: info@scribesecurity.com
-    SUPPLIER_PHONE: 001-001-0011
 
   steps:
   - task: scribeInstall@0
@@ -92,13 +83,6 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      author-name: $(AUTHOR_NAME)
-      author-email: $(AUTHOR_EMAIL)
-      author-phone: $(AUTHOR_PHONE)
-      supplier-name: $(SUPPLIER_NAME)
-      supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL)
-      supplier-phone: $(SUPPLIER_PHONE)
 
   - task: ValintCli@0
     inputs:
@@ -109,13 +93,6 @@ jobs:
       scribeEnable: true
       scribeClientId: $(CLIENTID)
       scribeClientSecret: $(CLIENTSECRET)
-      author-name: $(AUTHOR_NAME)
-      author-email: $(AUTHOR_EMAIL)
-      author-phone: $(AUTHOR_PHONE)
-      supplier-name: $(SUPPLIER_NAME)
-      supplier-url: $(SUPPLIER_URL)
-      supplier-email: $(SUPPLIER_EMAIL)
-      supplier-phone: $(SUPPLIER_PHONE)
 ```
 <img src='../../../../img/start/azure-8.png' alt='azure-pipelines.yml'/>
 

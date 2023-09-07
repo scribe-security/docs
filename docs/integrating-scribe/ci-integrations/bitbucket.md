@@ -153,13 +153,6 @@ pipelines:
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-              AUTHOR_NAME: $AUTHOR_NAME
-              AUTHOR_EMAIL: $AUTHOR_EMAIL
-              AUTHOR_PHONE: $AUTHOR_PHONE
-              SUPPLIER_NAME: $SUPPLIER_NAME
-              SUPPLIER_URL: $SUPPLIER_URL
-              SUPPLIER_EMAIL: $SUPPLIER_EMAIL
-              SUPPLIER_PHONE: $SUPPLIER_PHONE
 
           - pipe: scribe-security/valint-pipe:0.1.6
             variables:
@@ -229,7 +222,6 @@ Create SBOM from remote `busybox:latest` image.
       variables:
         COMMAND: bom
         TARGET: busybox:latest
-        VERBOSE: 2
         FORCE: "true"
 ``` 
 ### Public registry image (SLSA)
@@ -241,8 +233,6 @@ Create slsa from remote `busybox:latest` image.
       variables:
         COMMAND: slsa
         TARGET: busybox:latest
-        VERBOSE: 2
-        FORCE: "true"
 ``` 
 
 ###  Docker built image (SBOM)
@@ -266,7 +256,6 @@ Create SLSA for image built by local docker `image_name:latest` image.
   variables:
     COMMAND: slsa
     TARGET: image_name:latest
-    VERBOSE: 2
     FORCE: "true"
 ``` 
 
@@ -282,7 +271,6 @@ Create SBOM for image hosted on private registry.
     COMMAND: bom
     TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
     FORCE: true
-    VERBOSE: 2
 ```
 ###  Private registry image (SLSA)
 
@@ -311,7 +299,6 @@ Custom metadata added to SBOM.
         variables:
           COMMAND_NAME: bom
           TARGET: busybox:latest
-          VERBOSE: 2
           FORCE: "true"
           ENV: test_env
           LABEL: test_label
@@ -329,7 +316,6 @@ Custom metadata added to SLSA.
         variables:
           COMMAND_NAME: slsa
           TARGET: busybox:latest
-          VERBOSE: 2
           FORCE: "true"
           ENV: test_env
           LABEL: test_label
@@ -351,7 +337,6 @@ Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as a
           COMMAND_NAME: bom
           OUTPUT_FILE: my_sbom.json
           TARGET: busybox:latest
-          VERBOSE: 2
           FORCE: "true"
     artifacts:
       - scribe/**
@@ -373,7 +358,6 @@ Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as a
           COMMAND_NAME: slsa
           OUTPUT_FILE: my_slsa.json
           TARGET: busybox:latest
-          VERBOSE: 2
           FORCE: "true"
     artifacts:
       - scribe/**
@@ -396,14 +380,6 @@ step:
       TARGET: dir:./testdir
       SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      AUTHOR_NAME: $AUTHOR_NAME
-      AUTHOR_EMAIL: $AUTHOR_EMAIL
-      AUTHOR_PHONE: $AUTHOR_PHONE
-      SUPPLIER_NAME: $SUPPLIER_NAME
-      SUPPLIER_URL: $SUPPLIER_URL
-      SUPPLIER_EMAIL: $SUPPLIER_EMAIL
-      SUPPLIER_PHONE: $SUPPLIER_PHONE
-      VERBOSE: 2
 ``` 
 
 ### Directory target (SLSA)
@@ -422,7 +398,6 @@ step:
       TARGET: dir:./testdir
       SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-      VERBOSE: 2
 ``` 
 
 ### Git target (SBOM)

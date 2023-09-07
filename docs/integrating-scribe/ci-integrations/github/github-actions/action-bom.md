@@ -40,48 +40,69 @@ To overcome the limitation install tool directly - **[installer](https://github.
 
 ### Input arguments
 ```yaml
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
   target:
-    description:
+    description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
+  type:
+    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
+    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
+    required: false
+  scribe-audience:
+    description: Scribe auth audience
+    deprecationMessage: Please use scribe-auth-audience instead
+    required: false
   attach-regex:
     description: Attach files content by regex
+  author-email:
+    description: Set author email
+  author-name:
+    description: Set author name
+  author-phone:
+    description: Set author phone
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-    default: metadata,layers,packages,syft,files,dep,commits
-  env:
-    description: Environment keys to include in sbom
+  compress:
+    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]
-    default: cyclonedx-json
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa statement-generic attest-generic]
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
+    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
   package-group:
     description: Select package group, options=[index install all]
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod rust binary sbom]
-    default: ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,rust,binary,sbom
+    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+  supplier-email:
+    description: Set supplier email
+  supplier-name:
+    description: Set supplier name
+  supplier-phone:
+    description: Set supplier phone
+  supplier-url:
+    description: Set supplier url
+  app-name:
+    description: Logical application name
+    deprecationMessage: Flag is no longer supported
+  app-version:
+    description: Logical application version
+    deprecationMessage: Flag is no longer supported
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509]
-    default: sigstore
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
   backoff:
     description: Backoff duration
-    default: 15s
   cache-enable:
     description: Enable local cache
-    default: true
   config:
     description: Configuration file path
   context-dir:
     description: Context dir
+  env:
+    description: Environment keys to include in sbom
   filter-regex:
     description: Filter out files by regex
-    default: '**/*.pyc,**/.git/**'
   filter-scope:
     description: Filter packages by scope
   git-branch:
@@ -103,11 +124,17 @@ To overcome the limitation install tool directly - **[installer](https://github.
     default: ./scribe/valint
   output-file:
     description: Output file name
+  pipeline-name:
+    description: Pipeline name
+  predicate-type:
+    description: Custom Predicate type (generic evidence format)
   product-key:
-    description: Scribe Project Key
-  scribe-audience:
+    description: Product Key
+  product-version:
+    description: Product Version
+  scribe-auth-audience:
     description: Scribe auth audience
-    default: api.production.scribesecurity.com
+    required: false
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
@@ -116,16 +143,14 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Enable scribe client
   scribe-login-url:
     description: Scribe login url
-    default: https://scribesecurity-production.us.auth0.com
   scribe-url:
     description: Scribe API Url
-    default: https://api.production.scribesecurity.com
+  structured:
+    description: Enable structured logger
   timeout:
     description: Timeout duration
-    default: 120s
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
-    default: 1
 ```
 
 ### Output arguments

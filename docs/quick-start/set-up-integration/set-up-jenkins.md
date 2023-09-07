@@ -65,15 +65,6 @@ toc_max_heading_level: 5
 ```javascript
 pipeline {
   agent any
-  environment {
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
-  }
   stages {
     stage('checkout') {
       steps {
@@ -96,10 +87,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
@@ -118,10 +106,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
           }
       }
     }

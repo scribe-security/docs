@@ -71,17 +71,6 @@ Integrating Scribe Hub with your environment requires the following credentials 
 ```yaml
 name:  scribe_github_workflow
 
-env:
-  # SBOM Author meta data - Optional
-  AUTHOR_NAME: John-Smith 
-  AUTHOR_EMAIL: jhon@thiscompany.com 
-  AUTHOR_PHONE: 555-8426157 
-  # SBOM Supplier meta data - Optional
-  SUPPLIER_NAME: Scribe-Security 
-  SUPPLIER_URL: www.scribesecurity.com 
-  SUPPLIER_EMAIL: info@scribesecurity.com
-  SUPPLIER_PHONE: 001-001-0011
-
 on: 
   push:
     tags:
@@ -99,13 +88,6 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          author-name: $AUTHOR_NAME
-          author-email: $AUTHOR_EMAIL
-          author-phone: $AUTHOR_PHONE
-          supplier-name: $SUPPLIER_NAME
-          supplier-url: $SUPPLIER_URL
-          supplier-email: $SUPPLIER_EMAIL 
-          supplier-phone: $SUPPLIER_PHONE
 
         uses: scribe-security/action-verify@master
         with:
@@ -114,13 +96,6 @@ jobs:
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
-          author-name: $AUTHOR_NAME
-          author-email: $AUTHOR_EMAIL
-          author-phone: $AUTHOR_PHONE
-          supplier-name: $SUPPLIER_NAME
-          supplier-url: $SUPPLIER_URL
-          supplier-email: $SUPPLIER_EMAIL 
-          supplier-phone: $SUPPLIER_PHONE
 ```
 
 You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../other-evidence-stores)**.

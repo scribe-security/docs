@@ -81,7 +81,7 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 A new **Credentials** form opens.
 1. In the **Kind** field, select **Username with password**.
 
-1. Set **ID** to **`scribe-production-auth-id`** (lowercase).
+1. Set **ID** to **`scribe-auth-id`** (lowercase).
 1. Copy the *Client ID* provided by Scribe to the **Username**.
 1. Copy the *Client Secret* provided by Scribe to the **Password**.
 1. Leave **Scope** as **Global**.
@@ -135,7 +135,62 @@ The examples use a sample pipeline building a Mongo express project.
 
   **Procedure**
 
+  <details>
+    <summary>  <b> Sample integration code </b> </summary>
 
+  ```javascript
+  pipeline {
+    agent any
+    stages {
+      stage('checkout') {
+        steps {
+            cleanWs()
+            sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+        }
+      }
+      
+      stage('dir-bom') {
+        agent {
+          docker {
+            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+            reuseNode true
+            args "--entrypoint="
+          }
+        }
+        steps {        
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          sh '''
+              valint bom dir:mongo-express-scm \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+          }
+        }
+      }
+
+      stage('image-bom') {
+        agent {
+          docker {
+            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+            reuseNode true
+            args "--entrypoint="
+          }
+        }
+        steps {
+              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+              sh '''
+              valint bom mongo-express:1.0.0-alpha.4 \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            }
+        }
+      }
+    }
+  }
+  ```
+
+ </details>
 
  <details>
     <summary>  <b> Sample SLSA integration code </b> </summary>
@@ -205,15 +260,7 @@ pipeline {
       yamlFile 'jenkins/k8s/scribe-test/KubernetesPod.yaml'
     }
   }
-  environment {
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
-  }
+ 
   stages {
     stage('checkout-bom') {
       steps {        
@@ -222,15 +269,12 @@ pipeline {
         }
         
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -239,15 +283,12 @@ pipeline {
     stage('image-bom') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -365,13 +406,6 @@ pipeline {
   agent any
   environment {
     PATH="./temp/bin:$PATH"
-    AUTHOR_NAME="John-Smith" 
-    AUTHOR_EMAIL="jhon@thiscompany.com" 
-    AUTHOR_PHONE="555-8426157" 
-    SUPPLIER_NAME="Scribe-Security" 
-    SUPPLIER_URL="www.scribesecurity.com" 
-    SUPPLIER_EMAIL="info@scribesecurity.com"
-    SUPPLIER_PHONE="001-001-0011"
   }
   stages {
     stage('install') {
@@ -388,30 +422,24 @@ pipeline {
     
     stage('dir-bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-            --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-            --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-            --supplier-phone $SUPPLIER_PHONE '''
+            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
           }
       }
     }
@@ -438,7 +466,7 @@ pipeline {
     
     stage('slsa-provenance') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
@@ -450,7 +478,7 @@ pipeline {
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-staging-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
             sh '''
             valint verify busybox:latest -i statement-slsa \
             --context-type jenkins \

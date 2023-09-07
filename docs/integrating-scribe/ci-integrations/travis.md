@@ -103,25 +103,13 @@ install:
 
 name: "scribe-travis-job"
 
-env:
-  AUTHOR_NAME="John-Smith" 
-  AUTHOR_EMAIL="jhon@thiscompany.com" 
-  AUTHOR_PHONE="555-8426157" 
-  SUPPLIER_NAME="Scribe-Security" 
-  SUPPLIER_URL="www.scribesecurity.com" 
-  SUPPLIER_EMAIL="info@scribesecurity.com"
-  SUPPLIER_PHONE="001-001-0011"
-
 script:
   - |
     valint bom [target] \
         --format [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-        --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-        --supplier-phone $SUPPLIER_PHONE 
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET 
 
         
   - |
@@ -129,10 +117,7 @@ script:
         --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
-        --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE \
-        --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL \ 
-        --supplier-phone $SUPPLIER_PHONE
+        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET 
 ```
 
 ### Alternative evidence stores

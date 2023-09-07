@@ -30,11 +30,17 @@ The command allows users to verify any target against its evidence.
 
 ### Input arguments
 ```yaml
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry, git]'
   target:
-    description:
+    description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
+  type:
+    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
+    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
+    required: false
+  scribe-audience:
+    description: Scribe auth audience
+    deprecationMessage: Please use scribe-auth-audience instead
+    required: false
   attestation:
     description: Attestation for target
   common-name:
@@ -44,28 +50,29 @@ The command allows users to verify any target against its evidence.
   force:
     description: Force skip cache
   input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic]
-    default: attest-cyclonedx-json
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
   uri:
     description: Default policy allowed uris
+  app-name:
+    description: Logical application name
+  app-version:
+    description: Logical application version
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509]
-    default: sigstore
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
   backoff:
     description: Backoff duration
-    default: 15s
   cache-enable:
     description: Enable local cache
-    default: true
   config:
     description: Configuration file path
   context-dir:
     description: Context dir
+  env:
+    description: Environment keys to include in sbom
   filter-regex:
     description: Filter out files by regex
-    default: '**/*.pyc,**/.git/**'
   filter-scope:
     description: Filter packages by scope
   git-branch:
@@ -87,11 +94,17 @@ The command allows users to verify any target against its evidence.
     default: ./scribe/valint
   output-file:
     description: Output file name
+  pipeline-name:
+    description: Pipeline name
+  predicate-type:
+    description: Custom Predicate type (generic evidence format)
   product-key:
-    description: Scribe Project Key
-  scribe-audience:
+    description: Product Key
+  product-version:
+    description: Product Version
+  scribe-auth-audience:
     description: Scribe auth audience
-    default: api.production.scribesecurity.com
+    required: false
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
@@ -100,17 +113,14 @@ The command allows users to verify any target against its evidence.
     description: Enable scribe client
   scribe-login-url:
     description: Scribe login url
-    default: https://scribesecurity-production.us.auth0.com
   scribe-url:
     description: Scribe API Url
-    default: https://api.production.scribesecurity.com
+  structured:
+    description: Enable structured logger
   timeout:
     description: Timeout duration
-    default: 120s
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
-    default: 1
-
 ```
 
 ### Usage

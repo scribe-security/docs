@@ -102,17 +102,6 @@ before_script:
   - apt install git curl -y
   - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 
-variables:
-  # SBOM Author meta data - Optional
-  AUTHOR_NAME: John-Smith 
-  AUTHOR_EMAIL: jhon@thiscompany.com 
-  AUTHOR_PHONE: 555-8426157 
-  # SBOM Supplier meta data - Optional
-  SUPPLIER_NAME: Scribe-Security 
-  SUPPLIER_URL: www.scribesecurity.com 
-  SUPPLIER_EMAIL: info@scribesecurity.com
-  SUPPLIER_PHONE: 001-001-0011  
-
 stages:
     - scribe-gitlab-stage
 
@@ -124,9 +113,6 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
-          --author-name $AUTHOR_NAME --author-email AUTHOR_EMAIL --author-phone $AUTHOR_PHONE 
-          --supplier-name $SUPPLIER_NAME --supplier-url $SUPPLIER_URL --supplier-email $SUPPLIER_EMAIL 
-          --supplier-phone $SUPPLIER_PHONE 
           -f
 
       - valint verify [target]
@@ -224,14 +210,6 @@ Attach custom SBOM NTIA metadata.
 
 ```YAML
 image: docker:latest
-variables:
-  AUTHOR_EMAIL: john@thiscompany.com
-  AUTHOR_PHONE: 555-8426157
-  # SBOM Supplier meta data - Optional
-  SUPPLIER_NAME: Scribe-Security
-  SUPPLIER_URL: www.scribesecurity.com
-  SUPPLIER_EMAIL: info@scribesecurity.com
-  SUPPLIER_PHONE: 001-001-0011
 
 services:
   - docker:dind
@@ -244,10 +222,7 @@ custom-ntia-metadata:
     script:
       - valint bom busybox
             --context-type gitlab
-            --output-directory ./scribe/valint -f 
-            --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
-          --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
-          --supplier-phone $SUPPLIER-PHONE
+            --output-directory ./scribe/valint -f
 ```
 </details>
 

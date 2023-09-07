@@ -23,17 +23,6 @@ name: Create signed git commit sbom
 
 on: push
 
-env:
-  # SBOM Author meta data - Optional
-  AUTHOR_NAME: John-Smith 
-  AUTHOR_EMAIL: jhon@thiscompany.com 
-  AUTHOR_PHONE: 555-8426157 
-  # SBOM Supplier meta data - Optional
-  SUPPLIER_NAME: Scribe-Security 
-  SUPPLIER_URL: www.scribesecurity.com 
-  SUPPLIER_EMAIL: info@scribesecurity.com
-  SUPPLIER_PHONE: 001-001-0011
-
 build:
     runs-on: ubuntu-latest
 
@@ -51,13 +40,6 @@ build:
         product-key: ${{ github.repository }}
         scribe-client-id: ${{ secrets.CLIENT_ID }}
         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
-        author-name: $AUTHOR_NAME
-        author-email: $AUTHOR_EMAIL
-        author-phone: $AUTHOR_PHONE
-        supplier-name: $SUPPLIER_NAME
-        supplier-url: $SUPPLIER_URL
-        supplier-email: $SUPPLIER_EMAIL 
-        supplier-phone: $SUPPLIER_PHONE
         label: is_git_commit
         format: attest
 ```
@@ -72,20 +54,13 @@ As an example, here's what you need to do in a general pipeline where you use CL
 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
---app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
---author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
---supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
---supplier-phone $SUPPLIER-PHONE
+--scribe.client-secret=$CLIENT-SECRET -E -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
    $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f -v \ 
-   --app-name $LOGICAL-APP-NAME --app-version $APP-VERSION \
-   --author-name $AUTHOR-NAME --author-email AUTHOR-EMAIL --author-phone $AUTHOR-PHONE \
-   --supplier-name $SUPPLIER-NAME --supplier-url $SUPPLIER-URL --supplier-email $SUPPLIER-EMAIL \ 
+   --scribe.client-secret=$CLIENT-SECRET -E -f -v
    --supplier-phone $SUPPLIER-PHONE   
 ```
 

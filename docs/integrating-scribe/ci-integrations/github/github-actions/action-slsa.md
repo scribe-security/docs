@@ -37,7 +37,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Input arguments
 ```yaml
-  target:
+   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
   type:
@@ -48,30 +48,18 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Scribe auth audience
     deprecationMessage: Please use scribe-auth-audience instead
     required: false
-  all-env:
-    description: Attach all environment variables
-  build-type:
-    description: Set build type
-  builder-id:
-    description: Set builder id
-  components:
-    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  external:
-    description: Add build external parameters
-  finished-on:
-    description: Set metadata finished time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z)
+  attestation:
+    description: Attestation for target
+  common-name:
+    description: Default policy allowed common names
+  email:
+    description: Default policy allowed emails
   force:
-    description: Force overwrite cache
-  format:
-    description: Evidence format, options=[statement attest predicate]
-  invocation:
-    description: Set metadata invocation ID
-  predicate:
-    description: Import predicate path
-  started-on:
-    description: Set metadata started time (<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>Z)
-  statement:
-    description: Import statement path
+    description: Force skip cache
+  input-format:
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
+  uri:
+    description: Default policy allowed uris
   app-name:
     description: Logical application name
   app-version:
@@ -123,6 +111,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Product Version
   scribe-auth-audience:
     description: Scribe auth audience
+    required: false
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
