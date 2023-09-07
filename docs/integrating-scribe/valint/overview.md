@@ -1,7 +1,7 @@
 ---
-sidebar_label: "Valint Overview"
+sidebar_label: "Overview"
 sidebar_position: 2
-title: "Valint: Validate Supply Chain Integrity"
+title: "Scribe CLI Overview"
 author: Mikey Strauss - Scribe
 date: April 5, 2021
 geometry: margin=2cm
