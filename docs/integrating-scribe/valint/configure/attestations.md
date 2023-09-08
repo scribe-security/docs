@@ -210,7 +210,8 @@ OCI store capability allows your evidence collection to span across your supply 
 `oci-repo` setting indicates the location in a registry under which the evidence are stored.
 It must be a dedicated location in a OCI registry.
 for example, `scribesecurity.jfrog.io/my_docker-registry/evidence`.
-In order to successfully upload evidence to an OCI registry you need to be logged in to the registry with write permission. In the example above, you need to use the command 'docker login scribesecurity.jfrog.io'.
+
+In order to successfully upload evidence to an OCI registry you need to be logged in to the registry with write permission. In the example above, you need to use the command `docker login scribesecurity.jfrog.io`.
 
 Default config, 
 ``` 
