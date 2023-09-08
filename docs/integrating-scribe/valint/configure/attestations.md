@@ -209,7 +209,7 @@ OCI store capability allows your evidence collection to span across your supply 
 ### OCI Repo flag
 `oci-repo` setting indicates the location in a registry under which the evidence are stored.
 It must be a dedicated location in a OCI registry.
-for example, `scribesecuriy.jfrog.io/my_docker-registry/evidence`.
+for example, `scribesecurity.jfrog.io/my_docker-registry/evidence`.
 
 Default config, 
 ``` 
