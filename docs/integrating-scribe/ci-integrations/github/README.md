@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+**_Mikey, I find this page reduntant; the target types should be covered in one place for all valint uses. This page should be only a list of actions with short descriptions + links, and maybe an example that one can copy-paste. As for the example given below - I think it is better to give a concrete example - e.g. how to use valint to verify a busybox docker image._**
+
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. 
 
 This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:

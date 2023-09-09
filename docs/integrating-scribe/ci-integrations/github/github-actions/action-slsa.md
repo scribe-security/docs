@@ -3,31 +3,35 @@ sidebar_label: "SLSA"
 title: Scribe GitHub Action for `valint slsa`
 sidebar_position: 1
 ---
+
+**_Mikey, the first sentence is redundant just remove it:_**
+
 Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
 
-`valint slsa` is used to collect evidence and generate an SLSA.
+`valint slsa` is used to generate SLSA Provenance type evidence. The Provenance generation includes options to collect and embedd different data items into the Provenance document. 
 
 Further documentation [GitHub integration](../github/)
 
-### Other Actions
+### Other Actions **Mikey - either delete or put at the end of the page**
 * [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
 * [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
 * [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
 
 ### SLSA Action
-Actions for `valint slsa`. <br />
-The command allows users to generate and manage evidence collection process.
-- CycloneDX SLSA provenance evidence support. 
-- Generates detailed SLSAs for images, directories, files and git repositories targets.
+Actions for `valint slsa`. <br /> **Mikey - what does this sentence add?**
+This action allows users to generate and manage evidence collection process.
+- CycloneDX SLSA provenance evidence support. **Mikey - not clear**
+- Generates detailed SLSA Provenance documents for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
-- Attach evidence in your CI, OCI or release service.
+- Attach evidence in your CI, OCI or release service. **What do you mean?**
 - Generate evidence directly from your private OCI registry.
-- Extensive SLSA component relation graph including, file to package, file and package to layer, commit history and file to commit relations.
-- SLSA including package CPEs and Licensing information.
-- Customizable SLSA with environments, labels.
-- Customizable SLSA with your required component groups.
-- Attach any external reports to your SLSA.
+- Extensive SLSA Provenance component relation graph including, file to package, file and package to layer, commit history and file to commit relations. **Mikey - where does this fit into the prov?**
+- SLSA Provenance includes package CPEs and Licensing information.
+- Customizable SLSA Provenance:
+  - User defined Environment variables and custome labels.
+  - User defined component groups. **Mikey - I did not understand**
+  - User defined external reports.
 - Generate In-Toto attestation, statement or predicates.
 - Support Sigstore keyless verifying as well as [Github workload identity](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect).
 - Attach GitHub workflows [environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables) context (git url , commit, workflow, job, run id ..).
@@ -132,7 +136,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Output arguments
 ```yaml
-  OUTPUT_PATH:
+  OUTPUT_PATH:  **Mikey is this the argument name? isnt it output-file?**
     description: 'evidence output file path'
 ```
 
@@ -145,6 +149,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ```
 
 ### Configuration
+**Mikey - this is not clear: what if i do not provide a config? what is the default?
+And in addition - isn't this behavior common to all integrations?**
 
 Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
 
@@ -169,9 +175,9 @@ See details [attestations](docs/attestations)
 >By default Github actions use `sigstore-github` flow, Github provided workload identities, this will allow using the workflow identity (`token-id` permissions is required).
 
 
-### Storing Keys in Secret Vault
+### Storing Keys in GitHub Secrets
 
-Github exposes secrets from its vault using environment varuables, you may provide these environments as secret to valint.
+Github exposes secrets to the pipeline using environment varuables, you may provide these environments as secrets to valint. **Mikey: why is the X509 info require a click? I suggest we say here that secrets maybe the client-secret or the X509 keys. anyways - this info should be in the higher level Github description as part of concepts to understand**
 
 > Paths names prefixed with `env://[NAME]` are read from the environment matching the name.
 
@@ -241,7 +247,7 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 
 > Fields specified as [target] support the following format.
 
-### Format
+### Format **Mikey - I seems we repeat this info many times. I think we should have it in one place**
 
 `[scheme]:[name]:[tag]` 
 
@@ -417,7 +423,7 @@ Create SLSA for image built by local docker `image_name:latest`.
 Create SLSA for image hosted by a private registry.
 
 > `DOCKER_CONFIG` environment will allow the containerized action to access the private registry.
-
+**Mikey: the term DOCKER_CONFIG does not appear below**
 ```YAML
 env:
   DOCKER_CONFIG: $HOME/.docker
@@ -457,9 +463,9 @@ Custom metadata added to SLSA.
 </details>
 
 <details>
-  <summary>  NTIA Custom metadata (SLSA) </summary>
+  <summary>  Support of NTIA Minimal SBOM Required Information </summary>
 
-Custom NTIA metadata added to SLSA.
+Custom NTIA metadata added to SLSA. **Mikey - I'm not sure this makes sense. The NTIA are SBOM reqruiements, not SLSA Prov.**
 
 ```YAML
 - name: Generate SLSA provenance - add NTIA metadata
@@ -482,7 +488,7 @@ Custom NTIA metadata added to SLSA.
 <details>
   <summary> Save as artifact (SLSA) </summary>
 
-Using action `OUTPUT_PATH` output argument you can access the generated SLSA and store it as an artifact.
+Using GitHub's built-in action output argument `OUTPUT_PATH` you can access the generated SLSA and store it as an artifact.
 
 > Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
@@ -509,7 +515,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA and
 <details>
   <summary> Save provenance statement as artifact (SLSA  depricated) </summary>
 
-Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact.
+Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact. **Mikey - Why is this deprecated?? What does this add to the previous example?**
 
 > Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 

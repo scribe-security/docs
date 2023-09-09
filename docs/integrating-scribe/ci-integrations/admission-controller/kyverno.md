@@ -6,7 +6,7 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-**[Kyverno](https://https://github.com/kyverno/kyverno)** is an open source policy engine designed for kubernetes. Valint integrates with the Kyverno **[verify-images](https://kyverno.io/docs/writing-policies/verify-images/)** rule (Sigstore).
+**[Kyverno](https://https://github.com/kyverno/kyverno)** is an open source policy engine designed for kubernetes. Valint integrates with the Kyverno **[verify-images](https://kyverno.io/docs/writing-policies/verify-images/)** rule; Kyverno can enforce policies requiring the use of signed images, and ```valint``` can be used to generate the required attestations that include the image signature.
 
 ### Sigstore Keyless admission
 
