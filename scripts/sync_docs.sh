@@ -3,7 +3,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "valint" "action-bom" "action-verify" "action-installer" "JSL" "" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
+supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
 
 pull_submodules() {
     repos=$1
@@ -118,14 +118,14 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 import_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
     cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
@@ -134,14 +134,14 @@ import_action_extra() {
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/"
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
@@ -155,10 +155,13 @@ import_action-verify() {
     repo="action-verify"
     import_action  ${repo}
 }
-
 import_action-installer() {
     import_action "action-installer"
 }
+import_action-slsa() {
+    import_action "action-slsa"
+}
+
 export_action-bom() {
     repo="action-bom"
     export_action ${repo}
@@ -169,46 +172,20 @@ export_action-verify() {
     export_action ${repo}
     export_action_extra ${repo}
 }
-
 export_action-installer() {
     set -x
     export_action "action-installer"
 }
-
-import_JSL() {
-    repo="JSL"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/jenkins/JSL"
-    import_file ${repo} "" "${dst_dir}"
-    cp -r "${repo_dir}/imgs" "${dst_dir}"
-}
-
-export_JSL() {
-    repo="JSL"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/jenkins/JSL"
-    export_file ${repo} "" "${dst_dir}"
-    cp -r "${repo_dir}/imgs" "${dst_dir}"
-}
-
-import_misc() {
-    repo="misc"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/other-integrations/"
-    import_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
-}
-
-export_misc() {
-    repo="misc"
-    repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/other-integrations/"
-    export_file_rename ${repo} "docker-cli-plugin" "${dst_dir}/docker-cli-plugin.md"
+export_action-slsa() {
+    repo="action-slsa"
+    export_action ${repo}
+    export_action_extra ${repo}
 }
 
 import_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
 
     # Hack to remove header not supported by bitbucket
     echo "---
@@ -223,7 +200,7 @@ sidebar_position: 4
 export_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
     
     # Hack to remove header not supported by bitbucket
     sed -n '/^# Bitbucket Pipelines Pipe:/,$p' ${dst_dir}/bitbucket.md > ${repo_dir}/README.md    
@@ -233,35 +210,35 @@ export_valint-pipe() {
 import_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
     import_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
 export_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
 import_helm-charts() {
     repo="helm-charts"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/other-integrations/"
-    import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+    dst_dir="docs/integrating-scribe/"
+    import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/k8s-admission-controller.md"
 }
 
 export_helm-charts() {
     repo="helm-charts"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/other-integrations/"
-    export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/admission-controller.md"
+    dst_dir="docs/integrating-scribe/"
+    export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/k8s-admission-controller.md"
 }
 
 import_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
 
     # Hack to remove header not supported by bitbucket
     echo "---
@@ -276,7 +253,7 @@ sidebar_position: 4
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/how-to-run-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations/"
 
     sed -n '/^# Azure Pipelines/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
@@ -285,15 +262,15 @@ import_cli() {
     set -x
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    cp "${repo_dir}/README.md" "docs/how-to-run-scribe/${repo}"
-    cp -r "${repo_dir}/docs" "docs/how-to-run-scribe/${repo}/"
+    cp "${repo_dir}/README.md" "docs/integrating-scribe/${repo}"
+    cp -r "${repo_dir}/docs" "docs/integrating-scribe/${repo}/"
 }
 
 export_cli() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/how-to-run-scribe/${repo}"
+    dst_dir="docs/integrating-scribe/${repo}"
     cp -r "${dst_dir}/docs" "${repo_dir}"
     # mv "docs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
     export_file ${repo} "" "${dst_dir}"
