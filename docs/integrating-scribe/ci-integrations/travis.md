@@ -243,7 +243,7 @@ Create SBOM for image hosted on private registry.
 
 ```YAML
 - |
-  valint bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
+  valint bom scribesecurity.jfrog.io/scribe-docker-local/example:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
@@ -259,7 +259,7 @@ Create SLSA for image hosted on private registry.
 
 ```YAML
 - |
-  valint slsa scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest \
+  valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f

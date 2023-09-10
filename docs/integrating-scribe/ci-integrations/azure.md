@@ -329,7 +329,7 @@ Create SBOM for image hosted on private registry.
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
-    target: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
 ``` 
@@ -347,7 +347,7 @@ Create SBOM for image hosted on private registry.
   displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
-    target: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
 ``` 

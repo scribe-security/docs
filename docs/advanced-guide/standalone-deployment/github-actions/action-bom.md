@@ -429,7 +429,7 @@ steps:
   - name: Generate cyclonedx json SBOM
     uses: scribe-security/action-bom@master
     with:
-      target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
+      target: 'scribesecurity.jfrog.io/scribe-docker-local/example:latest'
       force: true
 ```
 </details>
@@ -561,7 +561,7 @@ Create SBOM for local `docker save ...` output.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
+    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate cyclonedx json SBOM
@@ -583,7 +583,7 @@ Create SBOM for the local OCI archive.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
+    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate cyclonedx json SBOM

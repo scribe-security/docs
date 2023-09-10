@@ -4,35 +4,21 @@ title: Scribe GitHub Action for `valint slsa`
 sidebar_position: 1
 ---
 
-**_Mikey, the first sentence is redundant just remove it:_**
-
-Scribe offers the use of GitHub Actions to enable the embedding of evidence collection and integrity validation into your pipeline as a way to help secure your software supply chain.
-
 `valint slsa` is used to generate SLSA Provenance type evidence. The Provenance generation includes options to collect and embedd different data items into the Provenance document. 
 
 Further documentation [GitHub integration](../github/)
 
-### Other Actions **Mikey - either delete or put at the end of the page**
-* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
-* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
-* [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
-* [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
-
 ### SLSA Action
-Actions for `valint slsa`. <br /> **Mikey - what does this sentence add?**
 This action allows users to generate and manage evidence collection process.
-- CycloneDX SLSA provenance evidence support. **Mikey - not clear**
+- SLSA provenance 1.0 evidence support.
 - Generates detailed SLSA Provenance documents for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
-- Attach evidence in your CI, OCI or release service. **What do you mean?**
+- Attach evidence to any OCI registry.
 - Generate evidence directly from your private OCI registry.
-- Extensive SLSA Provenance component relation graph including, file to package, file and package to layer, commit history and file to commit relations. **Mikey - where does this fit into the prov?**
-- SLSA Provenance includes package CPEs and Licensing information.
 - Customizable SLSA Provenance:
-  - User defined Environment variables and custome labels.
-  - User defined component groups. **Mikey - I did not understand**
-  - User defined external reports.
-- Generate In-Toto attestation, statement or predicates.
+  - Adding by-products files.
+  - Custom invocation, external params and other fields.
+- Signing - Generate In-Toto Attestation.
 - Support Sigstore keyless verifying as well as [Github workload identity](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect).
 - Attach GitHub workflows [environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables) context (git url , commit, workflow, job, run id ..).
 
@@ -136,7 +122,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 
 ### Output arguments
 ```yaml
-  OUTPUT_PATH:  **Mikey is this the argument name? isnt it output-file?**
+  OUTPUT_PATH:
     description: 'evidence output file path'
 ```
 
@@ -149,35 +135,29 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ```
 
 ### Configuration
-**Mikey - this is not clear: what if i do not provide a config? what is the default?
-And in addition - isn't this behavior common to all integrations?**
+If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
 
-Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
-
-See detailed [configuration](docs/configuration)
+For a comprehensive overview of the configuration file's structure and available options, please refer to the CLI configuration documentation.
 
 ### Attestations 
 Attestations allow you to sign and verify your targets. <br />
 Attestations allow you to connect PKI-based identities to your evidence and policy management.  <br />
 
 Supported outputs:
-- In-toto predicate - Cyclonedx SLSA Provenance (unsigned evidence)
-- In-toto statements - Cyclonedx SLSA Provenance (unsigned evidence)
-- In-toto attestations -Cyclonedx SLSA Provenance (signed evidence)
+- In-toto statements SLSA Provenance (unsigned evidence)
+- In-toto attestations SLSA Provenance (signed evidence)
 
 Select default configuration using `--attest.default` flag. <br />
 Select a custom configuration by providing `cocosign` field in the [configuration](docs/configuration) or custom path using `--attest.config`.
 Scribe uses the **cocosign** library we developed to deal with digital signatures signing and verification.
 
 See details [In-toto spec](https://github.com/in-toto/attestation)
-See details [attestations](docs/attestations)
 
 >By default Github actions use `sigstore-github` flow, Github provided workload identities, this will allow using the workflow identity (`token-id` permissions is required).
 
-
 ### Storing Keys in GitHub Secrets
 
-Github exposes secrets to the pipeline using environment varuables, you may provide these environments as secrets to valint. **Mikey: why is the X509 info require a click? I suggest we say here that secrets maybe the client-secret or the X509 keys. anyways - this info should be in the higher level Github description as part of concepts to understand**
+Github exposes secrets to the pipeline using environment variables, you may provide these environments as secrets to valint.
 
 > Paths names prefixed with `env://[NAME]` are read from the environment matching the name.
 
@@ -191,7 +171,7 @@ X509 Signer enables the utilization of environments for supplying key, certifica
 
 For example the following configuration and Job.
 
-Configuraiton File, `.valint.yaml`
+Configuration File, `.valint.yaml`
 ```yaml
 attest:
   cocosign:
@@ -247,7 +227,7 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 
 > Fields specified as [target] support the following format.
 
-### Format **Mikey - I seems we repeat this info many times. I think we should have it in one place**
+### Format
 
 `[scheme]:[name]:[tag]` 
 
@@ -423,7 +403,7 @@ Create SLSA for image built by local docker `image_name:latest`.
 Create SLSA for image hosted by a private registry.
 
 > `DOCKER_CONFIG` environment will allow the containerized action to access the private registry.
-**Mikey: the term DOCKER_CONFIG does not appear below**
+
 ```YAML
 env:
   DOCKER_CONFIG: $HOME/.docker
@@ -438,7 +418,7 @@ steps:
   - name: Generate SLSA provenance
     uses: scribe-security/action-slsa@master
     with:
-      target: 'scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest'
+      target: 'scribesecurity.jfrog.io/scribe-docker-local/example:latest'
       force: true
 ```
 </details>
@@ -461,29 +441,6 @@ Custom metadata added to SLSA.
     test_env: test_env_value
 ```
 </details>
-
-<details>
-  <summary>  Support of NTIA Minimal SBOM Required Information </summary>
-
-Custom NTIA metadata added to SLSA. **Mikey - I'm not sure this makes sense. The NTIA are SBOM reqruiements, not SLSA Prov.**
-
-```YAML
-- name: Generate SLSA provenance - add NTIA metadata
-  id: valint_ntia
-  uses: scribe-security/action-slsa@master
-  with:
-      target: 'busybox:latest'
-      force: true
-      author-name: bob
-      author-email: bob@company.com
-      author-phone: 000
-      supplier-name: alice
-      supplier-url: company2.com
-      supplier-email: alice@company2.com
-      supplier-phone: 001
-```
-</details>
-
 
 <details>
   <summary> Save as artifact (SLSA) </summary>
@@ -513,9 +470,9 @@ Using GitHub's built-in action output argument `OUTPUT_PATH` you can access the 
 </details>
 
 <details>
-  <summary> Save provenance statement as artifact (SLSA  depricated) </summary>
+  <summary> Save provenance statement as artifact </summary>
 
-Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact. **Mikey - Why is this deprecated?? What does this add to the previous example?**
+Using action `OUTPUT_PATH` output argument you can access the generated SLSA provenance statement and store it as an artifact.
 
 > Use action `output-file: <my_custom_path>` input argument to set a custom output path.
 
@@ -545,7 +502,7 @@ Create SLSA for local `docker save ...` output.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
+    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate SLSA provenance
@@ -567,7 +524,7 @@ Create SLSA for the local oci archive.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecuriy.jfrog.io/scribe-docker-public-local/stub_local:latest
+    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate SLSA provenance
@@ -959,3 +916,8 @@ Install valint as a tool
 Recommended to add output directory value to your .gitignore file.
 By default add `**/scribe` to your `.gitignore`.
 
+## Other Actions
+* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
+* [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
+* [installer](action-installer), [source](https://github.com/scribe-security/action-installer)

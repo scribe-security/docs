@@ -269,7 +269,7 @@ Create SBOM for image hosted on private registry.
 - pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: bom
-    TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     FORCE: true
 ```
 ###  Private registry image (SLSA)
@@ -282,7 +282,7 @@ Create SLSA for image hosted on private registry.
 - pipe: scribe-security/valint-pipe:0.1.6
   variables:
     COMMAND: slsa
-    TARGET: scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
     FORCE: true
     VERBOSE: 2
 ```
