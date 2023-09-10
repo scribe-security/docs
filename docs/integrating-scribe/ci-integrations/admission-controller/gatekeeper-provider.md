@@ -3,11 +3,10 @@ sidebar_label: "Gatekeeper-provider"
 title: Admission controller - Coming Soon! 
 sidebar_position: 4
 ---
-
 # Valint Gatekeeper Provider
 To integrate [OPA Gatekeeper's new ExternalData feature](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) with Valint to verify policies on your supply chain.
 
-> This feature is for testing Gatekeeper external data feature. Do not use for production.
+> This repo is meant for testing Gatekeeper external data feature. Do not use for production.
 
 ## Installation
 
@@ -147,9 +146,10 @@ By **default** Valint policy is a simplistic verify signature policy.
 ```bash
 kubectl apply -f policy/examples/error.yaml
 ```
-Request should be rejected as the image was not signed.
+Request should be rejected.
 
 ```
+  Error from server (Forbidden): error when creating "policy/examples/valid.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "ERROR (VerifyAdmissionImage(\"scribesecuriy.jfrog.io/scribe-docker-public-local/test/gensbom_alpine_input:latest\")): [rule] [my_policy] [verify-artifact] [verify_rego] verify, Err: [my_policy] [verify-artifact] [verify_rego] rule failed"}
   Error from server (Forbidden): error when creating "policy/examples/error.yaml": admission webhook "validation.gatekeeper.sh" denied the request
 ```
 
