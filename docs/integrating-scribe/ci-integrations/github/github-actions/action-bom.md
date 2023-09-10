@@ -396,7 +396,7 @@ jobs:
 
 ### Basic examples
 <details>
-  <summary>  Public registry image (SBOM) </summary>
+  <summary>  Public registry image </summary>
 
 Create SBOM for remote `busybox:latest` image.
 
@@ -411,7 +411,7 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image (SBOM) </summary>
+  <summary>  Docker built image </summary>
 
 Create SBOM for image built by local docker `image_name:latest`.
 
@@ -427,7 +427,7 @@ Create SBOM for image built by local docker `image_name:latest`.
 </details>
 
 <details>
-  <summary>  Private registry image (SBOM) </summary>
+  <summary>  Private registry image </summary>
 
 Create SBOM for image hosted by a private registry.
 
@@ -453,7 +453,7 @@ steps:
 </details>
 
 <details>
-  <summary>  Custom metadata (SBOM) </summary>
+  <summary>  Custom metadata </summary>
 
 Custom metadata added to SBOM.
 
@@ -473,7 +473,7 @@ Custom metadata added to SBOM.
 </details>
 
 <details>
-  <summary>  NTIA Custom metadata (SBOM) </summary>
+  <summary>  NTIA Custom metadata </summary>
 
 Custom NTIA metadata added to SBOM.
 
@@ -525,7 +525,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
 </details>
 
 <details>
-  <summary> Docker archive image (SBOM) </summary>
+  <summary> Docker archive image </summary>
 
 Create SBOM for local `docker save ...` output.
 
@@ -569,7 +569,7 @@ Create SBOM for the local OCI archive.
 </details>
 
 <details>
-  <summary> Directory target (SBOM) </summary>
+  <summary> Directory target </summary>
 
 Create SBOM for a local directory.
 
@@ -590,7 +590,7 @@ Create SBOM for a local directory.
 
 
 <details>
-  <summary> Git target (SBOM) </summary>
+  <summary> Git target </summary>
 
 Create SBOM for `mongo-express` remote git repository.
 
@@ -623,7 +623,7 @@ Create SBOM for `my_repo` local git repository.
 </details>
 
 <details>
-  <summary> Attest target (SBOM) </summary>
+  <summary> Attest target </summary>
 
 Create and sign SBOM targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
@@ -668,7 +668,7 @@ job_example:
 </details>
 
 <details>
-  <summary> Verify target (SBOM) </summary>
+  <summary> Verify target </summary>
 
 Verify targets against a signed attestation. <br />
 

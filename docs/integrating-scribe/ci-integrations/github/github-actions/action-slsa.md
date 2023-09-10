@@ -367,7 +367,7 @@ jobs:
 
 ### Basic examples
 <details>
-  <summary>  Public registry image (SLSA) </summary>
+  <summary>  Public registry image </summary>
 
 Create SLSA for remote `busybox:latest` image.
 
@@ -382,7 +382,7 @@ Create SLSA for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image (SLSA) </summary>
+  <summary>  Docker built image </summary>
 
 Create SLSA for image built by local docker `image_name:latest`.
 
@@ -398,7 +398,7 @@ Create SLSA for image built by local docker `image_name:latest`.
 </details>
 
 <details>
-  <summary>  Private registry image (SLSA) </summary>
+  <summary>  Private registry image </summary>
 
 Create SLSA for image hosted by a private registry.
 
@@ -424,7 +424,7 @@ steps:
 </details>
 
 <details>
-  <summary>  Custom metadata (SLSA) </summary>
+  <summary>  Custom metadata </summary>
 
 Custom metadata added to SLSA.
 
@@ -443,7 +443,7 @@ Custom metadata added to SLSA.
 </details>
 
 <details>
-  <summary> Save as artifact (SLSA) </summary>
+  <summary> Save as artifact </summary>
 
 Using GitHub's built-in action output argument `OUTPUT_PATH` you can access the generated SLSA and store it as an artifact.
 
@@ -492,7 +492,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA pro
 </details>
 
 <details>
-  <summary> Docker archive image (SLSA) </summary>
+  <summary> Docker archive image </summary>
 
 Create SLSA for local `docker save ...` output.
 
@@ -536,7 +536,7 @@ Create SLSA for the local oci archive.
 </details>
 
 <details>
-  <summary> Directory target (SLSA) </summary>
+  <summary> Directory target </summary>
 
 Create SLSA for a local directory.
 
@@ -557,7 +557,7 @@ Create SLSA for a local directory.
 
 
 <details>
-  <summary> Git target (SLSA) </summary>
+  <summary> Git target </summary>
 
 Create SLSA for `mongo-express` remote git repository.
 
@@ -590,7 +590,7 @@ Create SLSA for `my_repo` local git repository.
 </details>
 
 <details>
-  <summary> Attest target (SLSA) </summary>
+  <summary> Attest target </summary>
 
 Create and sign SLSA targets. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
@@ -635,7 +635,7 @@ job_example:
 </details>
 
 <details>
-  <summary> Verify target (SLSA) </summary>
+  <summary> Verify target </summary>
 
 Verify targets against a signed attestation. <br />
 
@@ -652,7 +652,7 @@ valint will look for both a bom or slsa attestation to verify against.  <br />
 </details>
 
 <details>
-  <summary> Verify target (SLSA) </summary>
+  <summary> Verify target </summary>
 
 Verify targets against a signed attestation. <br />
 
@@ -839,7 +839,7 @@ Full job example of a git repository signing and verifying flow.
 </details>
 
 <details>
-  <summary> Attest and verify evidence on OCI (SLSA) </summary>
+  <summary> Attest and verify evidence on OCI </summary>
 
 Store any evidence on any OCI registry. <br />
 Support storage for all targets and both SLSA and SLSA evidence formats.
