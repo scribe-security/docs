@@ -30,7 +30,7 @@ function HomepageHeader() {
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <Redirect to="/docs/getting-started/introducing-scribe"/>
+    <Redirect to="/docs/introducing-scribe/what-is-scribe"/>
     // <Layout
     //   title={`Hello from ${siteConfig.title}`}
     //   description="Description will go into a meta tag in <head />">

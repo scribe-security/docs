@@ -9,7 +9,7 @@ Integrations requires the Valint CLI installed.
 * Valint - gitHub Action for SBOM Generation (Scribe) 
 
 ## Valint installation
-See details [CLI documentation - install ](../how-to-run-scribe/valint/README.md)
+See details **[CLI documentation - install ](../cli/valint/docs/installation)**
 
 ### Supported targets
 * `checksum`: only checksum file(s)
@@ -20,15 +20,15 @@ See details [CLI documentation - install ](../how-to-run-scribe/valint/README.md
 
 # Goreleaser hooks
 Sboms and attestations can be created on the your source and application artifacts.
-Note valint is used by the goreleaser sign flow hooks.
+Note Valint is used by the goreleaser sign flow hooks.
 
 # SBOMs
-Using valint to create cyclonedx sboms for your project.
+Using Valint to create CycloneDX SBOMs for your project.
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
-[Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note valint Attestations include SBOM payload.
+**[Goreleaser documentation](https://goreleaser.com/customization/sign/)**
+Note Valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an SBOM for all artifacts.
 ```YAML
@@ -50,7 +50,7 @@ signs:
 
 ## Image
 Using Goreleaser provided image signing hooks.
-[Goreleaser documentation](https://goreleaser.com/customization/docker_sign/)
+**[Goreleaser documentation](https://goreleaser.com/customization/docker_sign/)**
 Attestations include SBOM so there is not real need to generate both.
 
 Add the following to your goreleaser config to create an SBOM for all image tags.
@@ -65,13 +65,13 @@ docker_signs:
 
 
 # Attestations
-Using valint to create In-toto attestations including a signed for your project artifacts.
+Using **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)** to create in-toto attestations including a signed for your project artifacts.
 
 
 ## Artifacts
 Using Goreleaser provided signing hooks.
-[Goreleaser documentation](https://goreleaser.com/customization/sign/)
-Note valint Attestations include SBOM payload.
+**[Goreleaser documentation](https://goreleaser.com/customization/sign/)**
+Note Valint Attestations include SBOM payload.
 
 Add the following to your goreleaser config to create an attestations for all artifacts.
 ```YAML
@@ -85,7 +85,7 @@ signs:
 
 ## Image
 Using Goreleaser provided image signing hooks.
-[Goreleaser documentation](https://goreleaser.com/customization/docker_sign/)
+**[Goreleaser documentation](https://goreleaser.com/customization/docker_sign/)**
 Attestations include SBOM so there is not real need to generate both.
 
 Add the following to your goreleaser config to create an attestations for all image tags.
@@ -100,7 +100,7 @@ docker_signs:
 
 ## Verifying target
 Using Valint you can verify any artifact attestations (source,binary,image etc..). \
-For details signing and verification options see [cocosign](https://github.com/scribe-security/cocosign) 
+For details signing and verification options see **[cocosign](https://github.com/scribe-security/cocosign)** 
 
 1) First download attestation for your target (GitHub releases). \
 2) Install Valint (See CI or local installation options)
@@ -117,9 +117,9 @@ Following are some integration examples.
 Scribe integrity flow - upload evidence using `valint` and download the integrity report using `valint`. \
 
 <details>
-  <summary> Github action workflow - SBOMS </summary>
+  <summary> GitHub action workflow - SBOMS </summary>
 
-Full workflow example of a workflow, upload sbom evidence on source,binaries and images using valint and download report using valint.
+Full workflow example of a workflow, upload SBOM evidence on source,binaries and images using Valint and download report using Valint.
 
 `release.yaml`
 ```YAML
@@ -243,10 +243,10 @@ docker_signs:
 ## Attestations
 
 <details>
-  <summary> Github action workflow - Attestations (sigstore) </summary>
+  <summary> Github action workflow - Attestations (Sigstore) </summary>
 
-Full workflow example of a workflow, upload attestations evidence on source,binaries and images using valint and download report using valint.
-Note attestations use on github the sigstore-github integration using the identity of the workflow and sigstore as a CA.
+Full workflow example of a workflow, upload attestations evidence on source,binaries and images using Valint and download report using Valint.
+Note attestations use on GitHub the Sigstore-GitHub integration using the identity of the workflow and Sigstore as a CA.
 
 `release.yaml`
 ```YAML
@@ -365,9 +365,9 @@ docker_signs:
 
 
 <details>
-  <summary> Verify image - sigstore </summary>
+  <summary> Verify image - Sigstore </summary>
 
-Download your image attestations from your release page, verify the image against sigstore.
+Download your image attestations from your release page, verify the image against Sigstore.
 
 ```shell
 valint verify scribesecuriy.jfrog.io/scribe-docker-public-local/goreleaser-example:v1.2.23 --external external:goreleaser-example_v1.2.23.image.sbom.sig
@@ -382,7 +382,7 @@ INFO[0007] Verify success - TRUSTED signiture, Verifier trust: fulcioVerifier, C
 INFO[0007] Verify success - Rekor offline               
 INFO[0007] Verify attestation success         
 ```
-Note Github workload identity `https://github.com/scribe-security/goreleaser-example/.github/workflows/release.yml@refs/tags/v1.2.23`.
+Note GitHub workload identity `https://github.com/scribe-security/goreleaser-example/.github/workflows/release.yml@refs/tags/v1.2.23`.
 
 </details>
 
