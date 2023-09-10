@@ -275,8 +275,8 @@ export_cli() {
     dst_dir="docs/integrating-scribe/${repo}"
     cp -r "${dst_dir}/docs" "${repo_dir}"
     # mv "docs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
-    export_file ${repo} "" "${dst_dir}"
-
+    export_file_rename "${repo_dir}/README.md" ${dst_dir}/getting-started-valint.md "" 
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
 }
 
 import_gensbom() {
@@ -288,11 +288,25 @@ export_gensbom() {
 }
 
 import_valint() {
-    import_cli valint
+    set -x
+    repo=valint
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrating-scribe/${repo}"
+
+    cp -r "${repo_dir}/docs" "docs/integrating-scribe/${repo}/"}
+    mv docs/integrating-scribe/${repo}/README.md docs/integrating-scribe/${repo}/getting-started-valint.md
 }
 
 export_valint() {
-    export_cli valint
+    repo=valint
+    set -x
+    repo_dir="${submodules_dir}/${repo}"
+
+    dst_dir="docs/integrating-scribe/${repo}"
+    cp -r "${dst_dir}/docs" "${repo_dir}"
+    # mv "ddst_dirocs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
+    export_file_rename "${repo}" "" ${dst_dir}/getting-started-valint.md
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
 }
 
 
