@@ -26,7 +26,7 @@ Create SLSA Provenance for images hosted by a private registry.
 
 ```bash
 docker login
-valint slsa scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest
 ```
 </details>
 

@@ -12,12 +12,6 @@ Use `installer` to install Scribe tools in your workflow.
 
 For Further documentation **[GitHub integration](../../../integrating-scribe/ci-integrations/github)**.
 
-### Other Actions
-* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
-* **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
-* **[slsa](action-bom)**,  **[source](https://github.com/scribe-security/action-slsa)**
-* **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
-
 ### Tool installer Action
 You can use the `installer` Action to install any scribe tool in to your workflow allowing full access to all the CLI options in your workflows. 
 
@@ -64,3 +58,9 @@ Install the tool locally if you want to:
     tools: valint
 ``` 
 </details>
+
+## Other Actions
+* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
+* [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
+* [installer](action-installer), [source](https://github.com/scribe-security/action-installer)

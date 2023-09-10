@@ -12,15 +12,7 @@ Use `valint verify` to verify evidence (attestations) and policies.
 
 Further documentation **[GitHub integration](../../../integrating-scribe/ci-integrations/github)**.
 
-
-### Other Actions
-* **[installer](action-installer)**, **[source](https://github.com/scribe-security/action-installer)**
-* **[bom](action-bom)**, **[source](https://github.com/scribe-security/action-bom)**
-* **[slsa](action-bom)**,  **[source](https://github.com/scribe-security/action-slsa)**
-* **[verify](action-verify)**, **[source](https://github.com/scribe-security/action-verify)**
-
 ### Verify Action
-Action for `valint verify`.
 The command allows users to verify any target against its evidence.
 - Verify image, directory, file or git targets.
 - Verify evidence policy compliance across the supply chain.
@@ -133,9 +125,9 @@ The command allows users to verify any target against its evidence.
 ```
 
 ### Configuration
-Use default configuration path `.valint.yaml`, or provide a custom path using `--config` flag.
+If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
 
-See detailed **[configuration](../configuration)**.
+For a comprehensive overview of the configuration file's structure and available options, please refer to the CLI configuration documentation.
 
 
 ### Attestations 
@@ -665,3 +657,9 @@ Install Valint as a tool:
 ### .gitignore
 It's recommended to add an output directory value to your .gitignore file.
 By default add `**/scribe` to your `.gitignore`.
+
+## Other Actions
+* [bom](action-bom), [source](https://github.com/scribe-security/action-bom)
+* [slsa](action-slsa), [source](https://github.com/scribe-security/action-slsa)
+* [verify](action-verify), [source](https://github.com/scribe-security/action-verify)
+* [installer](action-installer), [source](https://github.com/scribe-security/action-installer)
