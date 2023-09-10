@@ -4,6 +4,8 @@ title: Azure Pipelines
 sidebar_position: 4
 ---
 
+# Azure Pipelines Task
+
 Scribe offers users of Azure Pipelines to use DevOps Tasks for embedding evidence collection and integrity verification in their workflows.
 
 Task in Azure DevOps is a feature that enables users to create, schedule, and manage tasks from a central location. Task provides users with an easy way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
@@ -574,7 +576,4 @@ If you're new to Azure pipelines these links should help you get started:
 * **[Key concepts for new Azure Pipelines users](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops "Key concepts for new Azure Pipelines users")**.
 * **[Getting started with Azure Pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/pipelines-get-started?view=azure-devops "Getting started with Azure Pipelines")**.
 * **[Create your first Azure pipeline](https://learn.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline?view=azure-devops&tabs=java%2Ctfs-2018-2%2Cbrowser "Create your first Azure pipeline")**.
-
-
-
 

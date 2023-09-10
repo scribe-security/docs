@@ -4,6 +4,8 @@ title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
 sidebar_position: 7
 ---
 
+# Bitbucket Pipelines Pipe
+
 Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
 
 ### YAML Definition
