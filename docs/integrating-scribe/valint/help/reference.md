@@ -1,6 +1,6 @@
 ---
-sidebar_label: "Usage reference"
-title: Usage reference
+sidebar_label: "Reference"
+title: Reference
 author: mikey strauss - Scribe
 sidebar_position: 3
 date: April 5, 2021
