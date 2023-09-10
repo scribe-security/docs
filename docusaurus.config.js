@@ -111,7 +111,7 @@ const config = {
                 "integrating-scribe/valint/overview.md",
                 // "integrating-scribe/valint/policies.md",
                 // "integrating-scribe/valint/SLSA.md",
-                "integrating-scribe/valint/help/refrence.md",
+                "integrating-scribe/valint/help/reference.md",
                 "integrating-scribe/valint/help/valint.md",
                 "integrating-scribe/valint/help/valint_bom.md",
                 "integrating-scribe/valint/help/valint_verify.md",
