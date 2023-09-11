@@ -1,8 +1,8 @@
 ---
-sidebar_label: "Reference"
-title: Reference
+sidebar_label: "Configuration parameters summary"
+title: Configuration parameters summary
 author: mikey strauss - Scribe
-sidebar_position: 3
+sidebar_position: 9
 date: April 5, 2021
 geometry: margin=2cm
 ---
@@ -35,6 +35,7 @@ yourimage.tar |
 > Example command `valint slsa docker:busybox:latest`.
 
 ### Evidence Stores
+
 | Type  | Description | requirement |
 | --- | --- | --- |
 | cache | Evidence is stored locally | access to a directory |
@@ -58,6 +59,7 @@ The following table includes the types of environments we currently support:
 
 
 The fields are collected from any supported environment.
+
 | Field | Description | 
 | --- | --- | 
 | context_type | Environment type | 

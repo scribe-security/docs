@@ -1,8 +1,8 @@
 ---
-sidebar_label: "Using third party evidence"
-title: Using third party evidence
+sidebar_label: "Collecting third party evidence"
+title: Collecting third party evidence
 author: mikey strauss - Scribe
-sidebar_position: 3
+sidebar_position: 7
 date: April 5, 2021
 geometry: margin=2cm
 ---

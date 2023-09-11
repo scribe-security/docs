@@ -231,7 +231,7 @@ INFO enabled: fulcioSigner, using signer
 INFO enabled: fulcioVerifier, using verifer
 tlog entry created with index: 10855458 c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d
 INFO storer: upload success, Storer: rekorStorer
-sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com]
+sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [user@example.com]
 INFO output: File write to FS, Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
 INFO scribe: client disabled
 INFO attest: evidence generated successfully
@@ -266,15 +266,15 @@ INFO disabled: ociStorer, Storer skipping,
 INFO enabled: rekorStorer, using storer
 INFO enabled: fulcioVerifier, using verifer
 INFO rekor: verify offline success (bundle)
-INFO rekor: download cert, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com]
-INFO attest: verify success - TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com], URIs: []
+INFO rekor: download cert, CN: sigstore-intermediate, Emails: [user@example.com]
+INFO attest: verify success - TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [user@example.com], URIs: []
 INFO rekor: verify offline success (bundle)
 INFO attest: verify attestation success
 INFO attest: verify policy success, Policies: []
 INFO verify: success, Type: attest-cyclonedx-json Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
    ```
 :::note
-1. The `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [mikey@scribesecurity.com], URIs: []` which includes signers identity.
+1. The `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [user@example.com], URIs: []` which includes signers identity.
 2. The `verify: success, Type: attest-cyclonedx-json` at the end - that's what we're looking to see.
 :::   
    

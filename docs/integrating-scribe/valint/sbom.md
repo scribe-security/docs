@@ -1,15 +1,16 @@
 ---
-sidebar_label: "SBOM Details"
-title: SBOM Details
+sidebar_label: "SBOM Generation"
+title: SBOM Generation
 author: mikey strauss - Scribe
-sidebar_position: 3
+sidebar_position: 10
 date: April 5, 2021
 geometry: margin=2cm
 ---
 
 ### CycloneDX SBOM
-The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration.
-The following table describes the `group` types we currently support.
+The CycloneDX SBOM evidence format includes a large amount of analyzed data depending on the target and user configuration. 
+
+The following table describes the group types we currently support.
 
 | Component group | Description | targets | required |
 | --- | --- | --- | --- |

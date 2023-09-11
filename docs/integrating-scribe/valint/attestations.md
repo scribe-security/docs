@@ -1,11 +1,11 @@
 ---
-sidebar_label: "Attestations"
-title: Attestations
-sidebar_position: 1
+sidebar_label: "Generating attestations"
+title: Generating attestations
+sidebar_position: 6
 ---
 
-Attestations represents authenticated metadata about a set of software artifacts (evidence). <br /> 
-scribe utilizes both attestations (signed) and statement (unsigned) to validate the integrity and policy compliance of your supply chain. Scribe uses the **cocosign** library we developed to deal with digital signatures for signing and verification.
+Valint collects and formats evidence according to the [in-toto](https://in-toto.io/specs/) specification which has become the standard building block for software supply chain management. Valint supports both in-toto attestations (signed evidence) and statements (unsigned evidence). Valint can signs the evidence with different schemes as specified below.
+
 
 ### Evidence 
 `cocosign` supports both signed and unsigned evidence.
