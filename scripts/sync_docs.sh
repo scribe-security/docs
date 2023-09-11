@@ -295,6 +295,7 @@ import_valint() {
 
     cp -r "${repo_dir}/docs" "docs/integrating-scribe/${repo}/"}
     mv docs/integrating-scribe/${repo}/README.md docs/integrating-scribe/${repo}/getting-started-valint.md
+    mv docs/integrating-scribe/${repo}/secure-sfw-slsa docs/guides
 }
 
 export_valint() {
@@ -306,6 +307,9 @@ export_valint() {
     cp -r "${dst_dir}/docs" "${repo_dir}"
     # mv "ddst_dirocs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
     export_file_rename "${repo}" "" ${dst_dir}/getting-started-valint.md
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
+
+    dst_dir="docs/guides/secure-sfw-slsa"
     cp -r ${dst_dir}/* "${repo_dir}/docs/"
 }
 
