@@ -1,8 +1,8 @@
 ---
-sidebar_label: "Policies"
-title: Policies
+sidebar_label: "Applying policies"
+title: Applying policies
 author: mikey strauss - Scribe
-sidebar_position: 3
+sidebar_position: 5
 date: April 5, 2021
 geometry: margin=2cm
 ---

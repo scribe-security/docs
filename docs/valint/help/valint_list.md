@@ -1,31 +1,53 @@
----
-sidebar_label: "Valint flags"
-title: Optional Valint flags
-sidebar_position: 1
-toc_min_heading_level: 2
-toc_max_heading_level: 5
----
+## valint list
+
+List evidence command
+
+### Synopsis
+
+List evidence in all evidence stores
+
+```
+valint list [flags]
+```
+
+### Optional flags 
+Flags for `list` subcommand
+
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --app-name | Logical application name | |
-| | --app-version | Logical application version | |
+| | --columns | List of columns to be displayed | [timestamp,store,ref,sbomname,product-key,git_url] |
+| | --current | List evidence attached to the current context | |
+| | --filters | Filters for each evidence property | [] |
+| -h | --help | help for list | |
+
+
+### Global options flags
+Flags for all `valint` subcommands
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
+| | --ca | x509 CA Chain path | |
 | | --cache-enable | Enable local cache | true |
+| | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
-| -h | --help | help for valint | |
+| | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --log-context | Attach context to all logs | |
+| | --log-file | Output log to file | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
@@ -44,8 +66,20 @@ toc_max_heading_level: 5
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
+### Examples for running `valint list`
+
+```
+  valint list <target>
+
+  valint list                                                               list all
+  valint list alpine:latest                                                 list evidence for target
+  valint list alpine:latest --product-key test                              list evidence in product
+  valint list alpine:latest --filters git_branch=master      				  filter results for a specific branch
+  valint list alpine:latest --columns store,ref,git_branch,product-key      select columns for list table
+
+```
+
 ### SEE ALSO
 
-* [Valint bom](../help/valint_bom)	 - Create evidence command
-* [Valint verify](../help/valint_verify)	 - Verify compliance policies against evidence
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 

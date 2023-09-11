@@ -47,12 +47,14 @@ In case your end product comprises several components (e.g., images or other dep
 
 This will aggregate their SBOMs under the same product in the Scribe Hub Products catalog.
 
-To achieve this, use the flags `--app-name` and `--app-version`.
+To achieve this, you can use the flags `--product-key` (`-n`) and `--product-version` (`-v`).
 
 **Example**
 ```
-valint bom my_image:my_tag --app-name my_app --app-version 1.0.1
+valint bom my_image:my_tag -n my_app -v 1.0.1
 ```
+
+Note that you do not have to use these flags explicitly. If you do not specify a product-key (the flag used to specify a product name) the product-key will be populated automatically with the repository name. If you do not specify a product-version the version will be empty. That means that if the exact product name and version number are important to you you should consider adding these flags to your use of Valint.
 
 You can manage evidence such as SBOMs of software products you build or from 3rd party through the Products catalog. Take a minute to explore the Demo Product in your Scribe account to review the different reports available for your products’ vulnerabilities, compliance with supply chain security standards, SBOMs, and contextual metadata.
 To gather evidence from your own products **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**.

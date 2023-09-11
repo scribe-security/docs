@@ -74,12 +74,6 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Set supplier phone
   supplier-url:
     description: Set supplier url
-  app-name:
-    description: Logical application name
-    deprecationMessage: Flag is no longer supported
-  app-version:
-    description: Logical application version
-    deprecationMessage: Flag is no longer supported
   attest-config:
     description: Attestation config path
   attest-default:

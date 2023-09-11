@@ -1,12 +1,10 @@
----
-sidebar_label: "Valint Bom"
-title: Valint Bom
-sidebar_position: 2
-toc_min_heading_level: 2
-toc_max_heading_level: 5
----
+## valint bom
 
-Collect, Create and Store evidence for artifacts (SBOMs, SLSA provenance) or any third-party tools.
+Create evidence command
+
+### Synopsis
+
+Collect, Create and Store evidence for artifacts (SBOMs,SLSA provenance) or any third-party tools.
 
 ```
 valint bom [TARGET] [flags]
@@ -25,7 +23,7 @@ Flags for `bom` subcommand
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,dep,commits] |
 | | --compress | Compress content (generic evidence) | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa statement-generic attest-generic] | [cyclonedx-json] |
+| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom] | |
 | | --package-group | Select package group, options=[index install all] | |
@@ -42,23 +40,26 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --app-name | Logical application name | |
-| | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
+| | --ca | x509 CA Chain path | |
 | | --cache-enable | Enable local cache | true |
+| | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
+| | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --log-context | Attach context to all logs | |
+| | --log-file | Output log to file | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
@@ -128,5 +129,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [Optional Valint flags](../help/valint)
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 
