@@ -35,7 +35,6 @@ bom:
       enable: true
   formats:
   - cyclonedx-json
-  env: []
   force: false
   components:
   - metadata
@@ -64,10 +63,17 @@ bom:
   attach-regex: []
   final-artifact: false
   compress: false
+slsa:
+  formats:
+  - statement
+  components:
+  - metadata
+  - layers
 attest:
   config: ""
   default: sigstore
   cocosign: {}
+  x509: {}
 verify:
   input-format: attest-cyclonedx-json
   attestation: ""
@@ -89,4 +95,9 @@ list:
   - git_url
   filters: {}
   current: false
+download:
+  folder-path: ""
+  format: attest-cyclonedx-json
+  ref: ""
+  store: cache
 ```
