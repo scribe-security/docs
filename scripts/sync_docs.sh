@@ -118,14 +118,14 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/integrating-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 import_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
     cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
@@ -134,14 +134,14 @@ import_action_extra() {
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/"
+    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
@@ -185,12 +185,13 @@ export_action-slsa() {
 import_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
 
     # Hack to remove header not supported by bitbucket
     echo "---
-title: Bitbucket
-sidebar_position: 4
+sidebar_label: "Bitbucket"
+title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
+sidebar_position: 7
 ---
 " > "${dst_dir}/bitbucket.md"
     cat ${repo_dir}/README.md >>  "${dst_dir}/bitbucket.md"
@@ -200,24 +201,24 @@ sidebar_position: 4
 export_valint-pipe() {
     repo="valint-pipe"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
     
     # Hack to remove header not supported by bitbucket
-    sed -n '/^# Bitbucket Pipelines Pipe:/,$p' ${dst_dir}/bitbucket.md > ${repo_dir}/README.md    
+    sed -n '/^# Bitbucket Pipelines Pipe/,$p' ${dst_dir}/bitbucket.md > ${repo_dir}/README.md    
     # export_file_rename ${repo} "" "${dst_dir}/bitbucket.md"
 }
 
 import_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
     import_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
 export_orbs() {
     repo="orbs"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
@@ -238,10 +239,11 @@ export_helm-charts() {
 import_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
 
     # Hack to remove header not supported by bitbucket
     echo "---
+sidebar_label: "Azure Pipelines"
 title: Azure Pipelines
 sidebar_position: 4
 ---
@@ -253,9 +255,9 @@ sidebar_position: 4
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/"
+    dst_dir="docs/integrating-scribe/ci-integrations"
 
-    sed -n '/^# Azure Pipelines/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
+    sed -n '/^# Azure Pipelines Task/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
 }
 
 import_cli() {
@@ -273,8 +275,8 @@ export_cli() {
     dst_dir="docs/integrating-scribe/${repo}"
     cp -r "${dst_dir}/docs" "${repo_dir}"
     # mv "docs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
-    export_file ${repo} "" "${dst_dir}"
-
+    export_file_rename "${repo_dir}/README.md" ${dst_dir}/getting-started-valint.md "" 
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
 }
 
 import_gensbom() {
@@ -286,11 +288,29 @@ export_gensbom() {
 }
 
 import_valint() {
-    import_cli valint
+    set -x
+    repo=valint
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrating-scribe/${repo}"
+
+    cp -r "${repo_dir}/docs" "docs/integrating-scribe/${repo}/"}
+    mv docs/integrating-scribe/${repo}/README.md docs/integrating-scribe/${repo}/getting-started-valint.md
+    mv docs/integrating-scribe/${repo}/secure-sfw-slsa docs/guides
 }
 
 export_valint() {
-    export_cli valint
+    repo=valint
+    set -x
+    repo_dir="${submodules_dir}/${repo}"
+
+    dst_dir="docs/integrating-scribe/${repo}"
+    cp -r "${dst_dir}/docs" "${repo_dir}"
+    # mv "ddst_dirocs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
+    export_file_rename "${repo}" "" ${dst_dir}/getting-started-valint.md
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
+
+    dst_dir="docs/guides/secure-sfw-slsa"
+    cp -r ${dst_dir}/* "${repo_dir}/docs/"
 }
 
 

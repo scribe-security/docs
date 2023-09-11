@@ -3,6 +3,12 @@ sidebar_label: "Bitbucket"
 title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
 sidebar_position: 7
 ---
+<<<<<<< HEAD
+=======
+
+# Bitbucket Pipelines Pipe
+
+>>>>>>> 580b433682efe357735c6ed7a8d95a4991f8e31a
 Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
 
 ### YAML Definition
