@@ -1,72 +1,93 @@
+
 ---
-sidebar_label: "Overview"
-sidebar_position: 2
-title: "Scribe CLI Overview"
-author: Mikey Strauss - Scribe
-date: April 5, 2021
-geometry: margin=2cm
+sidebar_label: "Scribe CLI"
+sidebar_position: 1
+title: "Scribe CLI"
 ---
 
-Valint is a powerful tool that validates the integrity of your **supply chain**, providing organizations with a way to enforce `policies` using the Scribe Service, CI, or admission controller. 
-It also provides a mechanism for compliance and transparency, both within the organization and with external parties.
- 
-By managing `evidence` generation, storage and validation, Valint ensures that your organization's `policies` are enforced throughout the supply chain. <br />
-You can store evidence locally or in any OCI registry, as well as using the Scribe Service for storage.
+## Overview
+Valint (**Va**lidate supply chain **Int**egrity) is Scribe’s on-prem CLI tool that compliments Scribe Hub. It provides a large number of features for validating integrity and enforcing a policy over your supply chain. 
+Here are the respective roles of Valint and Scribe Hub:
 
-In addition to evidence management, Valint also **generates** evidence for a range of targets, including directories, file artifacts, images, and git repositories. It supports two types of evidence: **CycloneDX SBOMs** and **SLSA provenance**. With Valint, you can sign and verify artifacts against their origin and signer identity in the supply chain.
+### Valint
+* Generate Evidence, such as SBOM, Provenance, SDLC events, and SDLC artifacts (file or directory hashes, etc.)
+* Collect 3rd party evidence
+* Sign and verify evidence
+* Upload evidence to an evidence store (Scribe Hub or on-prem)
+* Evaluate evidence to enforce SDLC policies in-pipeline or at a deployment gate
 
-Valint also enables you to **generate** any 3rd party report, scan or configuration (any file) into evidence using the **Generic evidence** subtype. Enabling compliance requirements to refer and attest to your custom needs.
+### Scribe Hub
+* Manage multiple product supply chains
+* Store, manage, and retrieve evidence with context
+* Enrich evidence with threat intelligence
+* Analyze supply chain risk
+* Integrate with 3rd party tools
+* Share evidence, risk, and compliance levels with stakeholders
+* Enforce Enriched to SDLC policies in-pipeline or at a deployment gate [MIKEY]
 
+While Valint works integrally with Scribe Hub it can also be deployed as a standalone by utilizing an on-prem file server or an OCI registry as an evidence store in lieu of Scribe Hub for uploading and retrieving evidence.
 
-### High level diagrams  
-<img src='../../../img/cli//valint_high_level.jpg' alt='Valint high level' width='80%' min-width='600px'/>
+## Integration with the supply chain
 
-<img src='../../../img/cli/valint_support_table.jpg' alt='Valint support table' width='80%' min-width='600px'/>
+### Integration with your SCM
+You can invoke Valint from your SCM to generate SBOMs of code commits, sign them and upload them as evidence.
 
-<img src='../../../img/cli//module_digram.jpg' alt='Evidence Flow Diagram' width='80%' min-width='600px'/>
+### Integration with your CI pipelines
+You can deploy Valint as a native plugin in various CI platforms where it is used to generate evidence such as SBOMs, Provenance Documents, capture files or directories as evidence, or upload evidence created by other CI tools.
+You can also invoke Valint as a build policy gate to fail or alert on the build.
 
-<img src='../../../img/cli/platform_table.jpg' alt='Interfaces' width='80%' min-width='600px'/>
+### Integration as a Kubernetes Admission Controller
+Valint can use Valint as an Admission Controller where it evaluates with policies the images before they are deployed.
+Valint can be used in conjunction with **OPA Gatekeeper**, **Kyverno**, or as a standalone Admission Controller.
 
-### Policy engine
-At the heart of Valint lies the `policy engine`, which enforces a set of policies on the `evidence` produced by your supply chain. The policy engine accesses different `evidence stores` to retrieve and store `evidence` for compliance verification throughout your supply chain. <br />
-Each `policy` proposes to enforce a set of policy modules your supply chain must comply with. 
+Integration with other links in your software supply chain
+You can use Valint for use cases such as the following as part of your existing processes:
+* Generate SBOMs of Software artifacts received from third-party
+* Generate and upload SBOMs of container images from your container registry
+* Sign as evidence self-attestation documents
 
-> For more details on policies, see [polices](#policies) section.
+## Evidence Target types​
+Valint collects evidence from different types of Tragets (artifacts) that are produced or consumed in your supply chain. Valint currently supports the following types of targets:
 
-### Evidence
-Evidence can refer to metadata collected about artifacts, reports, events or settings produced or provided to your supply chain.
-Evidence can be either signed (attestations) or unsigned (statements).
+* OCI and Docker images
+* Single files
+* Directories
+* Git Repositories
 
-### Generic evidence
-Generic evidence includes custom 3rd party verifiable information containing any required compliance requirements.
-Generic evidence allows users to include any file as evidence or attestation (signed) hooking in 3rd party tools.
-Allowing more robust and customizable policies to fit your needs.
+## Formatting evidence and adding context
+Valint collects and formats evidence according to the [in-toto](https://in-toto.io/specs/) specification which has become the standard building block for software supply chain management. Valint supports both in-toto attestations (signed evidence) and statements (unsigned evidence).
 
-For example, Attesting to License scanner report can enable you to enforce licensing requirements as part of your build pipeline.
+In order to provide control and a consistent view across different links in the supply chain it is important to maintain context for the different pieces of evidence that are collected. For example, Valint enables piecing together the identity (digest) of an image stored in a container registry by attaching information from the environment variables of the CI system about the build agent that built it, build run ID, git project, commit ID, and so on.
+This allows the application of compound policies that consider different steps in the software’s development life cycle.
 
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+## Attestation - signing evidence and verifying it
+Valint signs the evidence with different schemes:
+* PKI - x509
+* [Sigstore cosign](https://docs.sigstore.dev/signing/quickstart/) a method to generate ephemeral keys ad hoc
+* KMS
+* TPM
+You can use Valint to verify these signatures in relevant downstream stages to verify the integrity of the software artifacts or of the evidence before applying additional policy conditions to their contents.
 
-### Environment context
-`environment context` collects information from the underlining environments, in which Valint is run.
+## Analyzing the Software Composition
+Valint can analyze your software project dependencies by examining different steps in your supply chain. Each step generates an SBOM and in turn, Scribe Hub fuses all these analyses together to create an accurate analysis that is required in cases where a single method doesn’t suffice.
 
-Environment context is key to connecting the evidence and the actual point in your supply chain they where created by.
-Given an artifact to the Valint assumes the context of the artifact (`target`) it is provided, In other words, the identifiers of the artifact are included in the context `environment context`.
+* Analyzing metadata and fingerprinting the contents of a build output artifact such as a docker image
+* Analyzing the dependency requirements in source code in a git repository or a file directory
+* Valint can also capture existing SBOMs or the output of other SCA tools and upload it to Scribe Hub
 
-On the verification flow the current `environment context` is provided to the policy engine, which is the key to defining relative requirements between different points in the supply chain.
+Valint can map relationships such as package to OCI image layers, package to git commit or commit history, package to files, to package, commit to package.
 
-For example, verification done in Github Actions can refer to policy requirements that apply to the current run number.
-Another example, verification done on a binary can refer to requirements that apply to the hash of the binary.
+## SLSA Provenance Document
+Valint can generate a Provenance Document required for SLSA compliance. Read more about attaining compliance with SLSA [here](https://scribe-security.netlify.app/docs/guides/secure-sfw-slsa/).
 
-### Policies
----
-Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
-Policy configuration can be set under the main configuration `policies` section.
+## Collecting evidence from third-party tools
+Valint can collect the output of SCA tools, SBOM tools, or application security scans as evidence, sign, and upload them to the evidence store. You can use this evidence to evaluate policies downstream with Valint. For example, block unapproved licenses of dependencies in a software artifact that were detected by a third-party SCA.
 
-Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
-A `policy` is verified if ALL required `modules` in are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
+## Applying supply chain policies
+Valint can act as a supply chain policy evaluation and enforcement agent. To this end, it pulls required evidence objects previously uploaded to an evidence store (Scribe Hub or on-prem) and evaluates them against policies that you set. These are either canned policies that you can parametrize or coded policies that you author and maintain by a gitops process.
+The output of an evaluation includes evaluation details, a verdict, and a reference to the evidence.
 
-### Target types
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+## Using alternative Evidence Stores
+In lieu of Scribe Hub, you can configure Valint to use other stores to store and retrieve evidence. However, in this scenario, you cannot benefit from Scribe Hub’s evidence retrieval by context, data enrichment and risk analysis, and cross-organizational supply chain transparency sharing.
+* OCI registry 
+* Cache or local directory 
