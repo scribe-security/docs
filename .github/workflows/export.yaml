@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04] # TODO: only build
-        repo: ["valint", "action-bom", "action-verify", "action-slsa", "JSL", "orbs", "azure-tasks", "helm-charts", "valint-pipe"]
+        repo: ["valint", "action-bom", "action-verify", "action-slsa", "orbs", "azure-tasks", "helm-charts", "valint-pipe"]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -47,7 +47,7 @@ jobs:
           git status
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           branch: docs_import_${{ steps.extract_branch.outputs.branch }}
           path: sub/${{ matrix.repo }}
