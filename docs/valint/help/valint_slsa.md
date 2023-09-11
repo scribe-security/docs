@@ -1,12 +1,10 @@
----
-sidebar_label: "Valint SLSA"
-title: Valint SLSA
-sidebar_position: 3
-toc_min_heading_level: 2
-toc_max_heading_level: 5
----
+## valint slsa
 
-This is the create SLSA provenance evidence command. It allows you to collect, Create and Store SLSA provenance evidence.
+Create SLSA provenance evidence command
+
+### Synopsis
+
+Collect, Create and Store SLSA provenance evidence
 
 ```
 valint slsa [TARGET] [flags]
@@ -21,6 +19,7 @@ Flags for `slsa` subcommand
 | | --all-env | Attach all environment variables | |
 | | --build-type | Set build type | |
 | | --builder-id | Set builder id | |
+| | --by-product | Attach by product path | |
 | | --components | Select by products components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers] |
 | | --external | Add build external parameters | [] |
 | | --finished-on | Set metadata finished time (YYYY-MM-DDThh:mm:ssZ) | |
@@ -42,18 +41,23 @@ Flags for all `valint` subcommands
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
+| | --ca | x509 CA Chain path | |
 | | --cache-enable | Enable local cache | true |
+| | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
+| | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --log-context | Attach context to all logs | |
+| | --log-file | Output log to file | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
@@ -109,4 +113,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [Optional Valint flags](../help/valint)
+* [valint](valint.md)	 - Validate Supply Chain Integrity
+

@@ -1,13 +1,29 @@
-## valint
+## valint list
 
-Validate Supply Chain Integrity
+List evidence command
 
 ### Synopsis
 
-Command Line Interpreter (CLI) tool,that empowers supply chain stakeholders to ensure supply chain integrity, verify compliance, and generate and manage evidence.
+List evidence in all evidence stores
+
+```
+valint list [flags]
+```
 
 ### Optional flags 
-Flags for `valint`
+Flags for `list` subcommand
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| | --columns | List of columns to be displayed | [timestamp,store,ref,sbomname,product-key,git_url] |
+| | --current | List evidence attached to the current context | |
+| | --filters | Filters for each evidence property | [] |
+| -h | --help | help for list | |
+
+
+### Global options flags
+Flags for all `valint` subcommands
 
 
 | Short | Long | Description | Default |
@@ -27,7 +43,6 @@ Flags for `valint`
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
-| -h | --help | help for valint | |
 | | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -51,11 +66,20 @@ Flags for `valint`
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
+### Examples for running `valint list`
+
+```
+  valint list <target>
+
+  valint list                                                               list all
+  valint list alpine:latest                                                 list evidence for target
+  valint list alpine:latest --product-key test                              list evidence in product
+  valint list alpine:latest --filters git_branch=master      				  filter results for a specific branch
+  valint list alpine:latest --columns store,ref,git_branch,product-key      select columns for list table
+
+```
+
 ### SEE ALSO
 
-* [valint bom](valint_bom.md)	 - Create evidence command
-* [valint download](valint_download.md)	 - Downloads the evidence based on cache
-* [valint list](valint_list.md)	 - List evidence command
-* [valint slsa](valint_slsa.md)	 - Create SLSA provenance evidence command
-* [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 
