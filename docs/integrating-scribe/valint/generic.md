@@ -2,7 +2,7 @@
 sidebar_label: "Collecting third party evidence"
 title: Collecting third party evidence
 author: mikey strauss - Scribe
-sidebar_position: 7
+sidebar_position: 4
 date: April 5, 2021
 geometry: margin=2cm
 ---

@@ -2,7 +2,7 @@
 sidebar_label: "SBOM Generation"
 title: SBOM Generation
 author: mikey strauss - Scribe
-sidebar_position: 10
+sidebar_position: 6
 date: April 5, 2021
 geometry: margin=2cm
 ---

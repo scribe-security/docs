@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Generating attestations"
 title: Generating attestations
-sidebar_position: 6
+sidebar_position: 3
 ---
 
 Valint collects and formats evidence according to the [in-toto](https://in-toto.io/specs/) specification which has become the standard building block for software supply chain management. Valint supports both in-toto attestations (signed evidence) and statements (unsigned evidence). Valint can signs the evidence with different schemes as specified below.

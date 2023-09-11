@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Getting started with Valint"
-sidebar_position: 1
+sidebar_position: 2
 title: "Getting started with Valint"
 toc_min_heading_level: 2
 toc_max_heading_level: 5
