@@ -15,7 +15,7 @@ In your build script call `valint bom <target> <flags>`.
 `<target>` is a build artifact of either type of container image, file or file directory, or a git repo formatted as  
 `[<image:tag>, <dir path>, <git url>]`.  
 
-You can label several different build artifacts in one or more pipelines as belonging to the same logical application and its version. To this end use the special flags `--app-name` and `--app-version`. You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom/#optional-flags)**.
+You can label several different build artifacts in one or more pipelines as belonging to the same application and version. To this end use the flags `--product-key` (`-n`) and `--product-version` (`-v`). You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom/#optional-flags)**.
 
 ### Example
 

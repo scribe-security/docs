@@ -45,10 +45,6 @@ The command allows users to verify any target against its evidence.
     description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
   uri:
     description: Default policy allowed uris
-  app-name:
-    description: Logical application name
-  app-version:
-    description: Logical application version
   attest-config:
     description: Attestation config path
   attest-default:

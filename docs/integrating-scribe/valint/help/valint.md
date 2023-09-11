@@ -8,8 +8,6 @@ toc_max_heading_level: 5
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --app-name | Logical application name | |
-| | --app-version | Logical application version | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |

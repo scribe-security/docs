@@ -50,10 +50,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
   uri:
     description: Default policy allowed uris
-  app-name:
-    description: Logical application name
-  app-version:
-    description: Logical application version
   attest-config:
     description: Attestation config path
   attest-default:
