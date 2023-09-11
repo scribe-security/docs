@@ -3,7 +3,7 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe")
+supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" )
 
 pull_submodules() {
     repos=$1
@@ -225,15 +225,29 @@ export_orbs() {
 import_helm-charts() {
     repo="helm-charts"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/"
+    dst_dir="docs/integrating-scribe/admission-controller"
     import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/k8s-admission-controller.md"
 }
 
 export_helm-charts() {
     repo="helm-charts"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/"
+    dst_dir="docs/integrating-scribe/admission-controller"
     export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/k8s-admission-controller.md"
+}
+
+import_gatekeeper-provider() {
+    repo="helm-charts"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrating-scribe/admission-controller"
+    import_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/gatekeeper-provider.md"
+}
+
+export_gatekeeper-provider() {
+    repo="gatekeeper-provider"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/integrating-scribe/admission-controller"
+    export_file_rename ${repo}/charts/admission-controller "" "${dst_dir}/gatekeeper-provider.md"
 }
 
 import_azure-tasks() {
@@ -291,11 +305,11 @@ import_valint() {
     set -x
     repo=valint
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/${repo}"
+    dst_dir="docs/${repo}"
 
-    cp -r "${repo_dir}/docs" "docs/integrating-scribe/${repo}/"}
-    mv docs/integrating-scribe/${repo}/README.md docs/integrating-scribe/${repo}/getting-started-valint.md
-    mv docs/integrating-scribe/${repo}/secure-sfw-slsa docs/guides
+    cp -r "${repo_dir}/docs" "docs/${repo}/"}
+    mv docs/${repo}/README.md docs/${repo}/getting-started-valint.md
+    mv docs/${repo}/secure-sfw-slsa docs/guides
 }
 
 export_valint() {
