@@ -1,4 +1,3 @@
-
 ---
 sidebar_label: "Scribe CLI"
 sidebar_position: 1
