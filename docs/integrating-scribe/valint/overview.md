@@ -1,10 +1,9 @@
 ---
-sidebar_label: "Scribe CLI"
+sidebar_label: "Overview"
 sidebar_position: 1
-title: "Scribe CLI"
+title: "Overview"
 ---
 
-## Overview
 Valint (**Va**lidate supply chain **Int**egrity) is Scribe’s on-prem CLI tool that compliments Scribe Hub. It provides a large number of features for validating integrity and enforcing a policy over your supply chain. 
 Here are the respective roles of Valint and Scribe Hub:
 
@@ -22,7 +21,6 @@ Here are the respective roles of Valint and Scribe Hub:
 * Analyze supply chain risk
 * Integrate with 3rd party tools
 * Share evidence, risk, and compliance levels with stakeholders
-* Enforce Enriched to SDLC policies in-pipeline or at a deployment gate [MIKEY]
 
 While Valint works integrally with Scribe Hub it can also be deployed as a standalone by utilizing an on-prem file server or an OCI registry as an evidence store in lieu of Scribe Hub for uploading and retrieving evidence.
 
