@@ -9,9 +9,9 @@ toc_max_heading_level: 5
 If you are using GitHub Actions as your Continuous Integration tool (CI), use these quick start instructions to integrate Scribe into your pipeline to protect your projects. 
 
 This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
-* **[Installer](../../../../docs/integrating-scribe/ci-integrations/github/github-actions/action-installer)**
-* **[Bom](../../../../docs/integrating-scribe/ci-integrations/github/github-actions/action-bom.md)**
-* **[Verify](../../../../docs/integrating-scribe/ci-integrations/github/github-actions/action-verify)**
+* **[Installer](../../../../docs/integrating-scribe/ci-integrations/github/action-installer)**
+* **[Bom](../../../../docs/integrating-scribe/ci-integrations/github/action-bom.md)**
+* **[Verify](../../../../docs/integrating-scribe/ci-integrations/github/action-verify)**
 
 ### Target types - `[target]`
 ---
