@@ -33,7 +33,7 @@ The command allows users to generate and manage evidence collection process.
 - Attach any external reports to your SBOM.
 - Generate In-Toto attestation, statement or predicates.
 - Support Sigstore keyless verifying as well as **[GitHub workload identity](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)**.
-- Attach GitHub workflows **[environment](https://docs.github.com/en/actions/learn-github-actions/environment-variables)** context (git url , commit, workflow, job, run id ..).
+- Attach GitHub workflows **[environment](https://docs.github.com/en/actions/learn-environment-variables)** context (git url , commit, workflow, job, run id ..).
 
 > Containerized actions limit's the ability to generate evidence on a target located outside the working directory (directory or git targets). <br />
 To overcome the limitation install tool directly - **[installer](https://github.com/scribe-security/actions/tree/master/installer)**.
