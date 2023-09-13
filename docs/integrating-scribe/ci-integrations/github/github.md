@@ -11,4 +11,5 @@ If you are using GitHub Actions as your Continuous Integration tool (CI), use th
 This is the simplified quick-start guide. To learn more about Scribe's GitHub capabilities check out the following GitHub Actions documentation links:
 * **[Installer](../../../../docs/integrating-scribe/ci-integrations/github/action-installer)**
 * **[Bom](../../../../docs/integrating-scribe/ci-integrations/github/action-bom.md)**
+* **[SLSA](../../../../docs/integrating-scribe/ci-integrations/github/action-slsa.md)**
 * **[Verify](../../../../docs/integrating-scribe/ci-integrations/github/action-verify)**
