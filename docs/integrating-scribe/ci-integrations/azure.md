@@ -4,8 +4,6 @@ title: Azure Pipelines
 sidebar_position: 4
 ---
 
-# Azure Pipelines Task
-
 Scribe offers users of Azure Pipelines to use DevOps Tasks for embedding evidence collection and integrity verification in their workflows.
 
 Task in Azure DevOps is a feature that enables users to create, schedule, and manage tasks from a central location. Task provides users with an easy way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
@@ -73,7 +71,7 @@ Related Flags:
 >* `scribeEnable`
 
 ### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**

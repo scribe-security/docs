@@ -1,4 +1,4 @@
-## valint slsa
+# valint slsa
 
 Create SLSA provenance evidence command
 

@@ -10,7 +10,7 @@ toc_max_heading_level: 5
 
 ### Before you begin
 
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
@@ -43,7 +43,7 @@ To run the demo you need to:
 
    - Type a name for your secret in the `Name` input box. you need to add 2 secrets, `CLIENT_ID` and `CLIENT_SECRET`.
 
-   - Enter the value for your secret. In both cases the secret value was the one you get from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
+   - Enter the value for your secret. In both cases the secret value was the one you get from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
 
    - Click `Add secret`.
 
@@ -60,11 +60,11 @@ This would lead you to your 'Actions' tab:
 
 5. At this point you can run the build pipeline - build the project and containerize it. You can do this by running the *`Create signed git clone and signed image SBOMs`* workflow. As the name suggests, this workflow will generate a signed SBOM of the git repo cloned into the pipeline and another signed SBOM of the final built docker image.  
 
-   Both attestations will be uploaded to your Scribe Hub account. Now you can view the project details on the **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **products** page of your Scribe Hub account.
+   Both attestations will be uploaded to your Scribe Hub account. Now you can view the project details on the **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **products** page of your Scribe Hub account.
 
 ### Quick tour of the Scribe Hub
 
-The first page you see when you log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
+The first page you see when you log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
 
 <img src='../../../img/start/products-start.jpg' alt='Products page'/>
 
