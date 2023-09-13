@@ -1,4 +1,4 @@
-## valint diff
+# valint diff
 
 Compare differences between source and destination sboms
 

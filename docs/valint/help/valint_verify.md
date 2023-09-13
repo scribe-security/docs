@@ -1,4 +1,4 @@
-## valint verify
+# valint verify
 
 Verify compliance policies against evidence to ensure the integrity of supply chain.
 

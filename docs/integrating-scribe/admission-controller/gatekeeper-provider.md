@@ -3,7 +3,7 @@ sidebar_label: "Gatekeeper-provider"
 title: Admission controller - Coming Soon! 
 sidebar_position: 4
 ---
-# Valint Gatekeeper Provider
+
 The OPA Gatekeeper is an admission controller that enforces policies on Kubernetes resources. Valint can be used as a provider for Gatekeeper to verify policies on your supply chain.
 
 To integrate [OPA Gatekeeper's ExternalData feature](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) with Valint to verify policies on your supply chain.
