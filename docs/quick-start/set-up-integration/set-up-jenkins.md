@@ -11,7 +11,7 @@ toc_max_heading_level: 5
 1. If you haven't yet done so, open a free Scribe Hub account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
 
 
-2. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
+2. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
@@ -137,7 +137,7 @@ The above example was created under the assumption that you're using **Jenkins o
 
 <!-- ### Where to go on Scribe Hub
 
-Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
+Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
 
 The first place you can look into to make sure your evidence has been uploaded properly is the **[Evidence report](../../scribe-hub-reports/evidence)**. The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects.
 
@@ -149,7 +149,7 @@ The **products** page shows you your products along with some basic information:
 
 ### Where to go on Scribe Hub
 
-Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
+Now that you've created your first set of evidence you can log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** to view the results. 
 
 The first place you can look into to make sure your evidence has been uploaded properly is the **[Evidence report](../../scribe-hub-reports/evidence)**. The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects.
 

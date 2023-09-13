@@ -12,7 +12,7 @@ To collect security policy information (SLSA and SSDF) from your GitHub pipeline
 
 ### Where to start
 
-Before you connect to ScribeApp no security policy data will be included in your build version information. To start the integration visit your **[Scribe Hub account](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")**. On the left column go to the **integrations** option.
+Before you connect to ScribeApp no security policy data will be included in your build version information. To start the integration visit your **[Scribe Hub account](https://scribehub.scribesecurity.com/ "Scribe Hub Link")**. On the left column go to the **integrations** option.
 
 <!-- <img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
 

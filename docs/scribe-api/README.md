@@ -19,7 +19,7 @@ curl --request POST \
   --data client_secret=YOUR_CLIENT_SECRET \
   --data audience='api.production.scribesecurity.com'
 ```
-The `CLIENT_ID` and `CLIENT_SECRET` in this script are the same `CLIENT_ID` and `CLIENT_SECRET` you can retrieve from your  **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
+The `CLIENT_ID` and `CLIENT_SECRET` in this script are the same `CLIENT_ID` and `CLIENT_SECRET` you can retrieve from your  **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
 
 <img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 

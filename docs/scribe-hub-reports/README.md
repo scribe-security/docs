@@ -4,7 +4,7 @@ sidebar_label: "Scribe Hub Reports"
 title: Scribe Hub Reports
 ---
 
-The first page you see when you log into your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
+The first page you see when you log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
 
 Clicking on a product would lead you to the Builds page for the product and clicking on a Build would lead you to the build dashboard.
 
