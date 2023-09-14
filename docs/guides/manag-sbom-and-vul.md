@@ -83,13 +83,23 @@ To review these vulnerabilities go to **Products > {Your Product} > {Version} > 
 <img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
 
 **Explanation:**  
-**Severity** - severity assigned by the CVE Numbering Authority (CNA)  
-**CVE ID** - the published CVE identifier  
-**Database** - the name of the CVE Numbering Authority (CNA)  
-**CVSS** - CVE’s CVSS version 3.2 score  
-**EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss)**  
-**Package & version** - the package name and version as reported in the SBOM  
-**Fix Version** - a newer version that fixes the vulnerability if exists
+**Product** - The product name where this vulnerability was found  
+**Version** - The build version as reported in the SBOM  
+**ID** - The published CVE identifier  
+**Severity** - Severity assigned by the CVE Numbering Authority (CNA)  
+**Component** - The build component (an image) where the vulnerability was found   
+**Component Version** - the build component version where the vulnerability was found   
+**Layer** - The image layer where this vulnerability was found  
+**Dependency** - The name of the library where this vulnerability was found  
+**Dependency Version** - The library version where this vulnerability was found  
+**Dependency latest version** - The latest version of the library where this vulnerability was found. If this version is different from the version used in your image consider updating your version.  
+**CVSS 3.1** - CVE’s CVSS version 3.1 score   
+**EPSS** - Exploitability probability score as predicted by **[https://www.first.org/epss/](https://www.first.org/epss)**   
+**Date** - The date when the vulnerability scan was done  
+**Labels** - Any additional labels linked to this component or dependency  
+**References** - A link to the CVE information and other relevant links  
+**Source** - The name of the CVE Numbering Authority (CNA)  
+**Tool** - The tool used to discover this vulnerability
 
 ### Ingesting reports from application security scanners
 
@@ -119,9 +129,11 @@ When sharing an SBOM with the stakeholders you might often require to include re
 
 Your team and your stakeholders can download these advisories in a **[VEX format](https://cyclonedx.org/capabilities/vex/)** which is machine-readable and can be used by Scribe’s policy agent.
 
-To add an advisory to a vulnerability reported go to **Products > {Your Product} > {Version} > Vulnerabilities**.
+To add an advisory to a vulnerability reported, go to **Products > {Your Product} > {Version} > Advisories**.
 
-Find the vulnerability according to its ID and click ‘+Add’ in its line in the right-end column.
+Find the vulnerability according to its ID and click ‘+Add’ in its line in the rightmost column. Note that the CVE ID is identical to the one found on the **Vulnerabilities** page.
+
+<img src='../../../img/start/advisories-start.jpg' alt='Scribe Hub Product Build Advisories Page'/>
   
 A dialog appears:
 

@@ -31,8 +31,8 @@ For each of the product's builds you can see:
 * When the build happened (Build date)
 * Whether the build's source code integrity was validated
 * How many High and Critical vulnerabilities are in the build
-* How the build measure up in regards to compliance with SSDF and SLSA 
-* Whether the build is signed or not and, if it was signed, whether the signature has been verified 
+* Each component included in the build (assuming there are multiple components comprising each build)  
+* Whether the build is signed or not and  
 * Whether the build has been published
 
 ### Subscribers
@@ -81,12 +81,14 @@ The dashboard presents:
 * How many low, medium, high, and critical vulnerabilities are in this build
 
 From this dashboard, at the top of the screen, you can access the following build reports:
+* [Products Page](product)
 * [Compliance Report](compliance)
 * [Vulnerabilities Report](vulnerabilities)
+* [Advisories Report](advisories)
 * [SBOM Report](sbom)
 * [Licenses Report](licenses)
 * [Context Report](context)
-
+* [Investigation Page](investigation) 
 
 
 
