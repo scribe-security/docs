@@ -84,7 +84,7 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 
 `[scheme]:[name]:[tag]` 
 
-| Sources | target-type | scheme | Description | example
+| Sources | target-type | scheme | Description | example |
 | --- | --- | --- | --- | --- |
 | Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
 | OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
@@ -93,7 +93,7 @@ Using supported targets, you can collect evidence and verify compliance on a ran
 | Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
 | Local git | git | git | local repository git | git:path/to/yourrepository | 
 | Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
+| File | file | file | file path on disk | file:path/to/yourproject/file |
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -120,7 +120,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 <img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Store credentials in [kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 
+* Store credentials in [kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 * Install `valint` task from tekton catalog using the following command
 ```bash
@@ -128,35 +128,12 @@ kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/va
 ```
 
 ### Usage
+
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: scribe-secret
-  annotations:
-    tekton.dev/git-0: https://github.com
-    tekton.dev/git-1: https://gitlab.com
-    tekton.dev/docker-0: https://gcr.io
-type: Opaque
-stringData:
-  client_id: ""
-  client_secret: ""
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-pvc-cache
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500m
----
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -164,42 +141,77 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom alpine:latest -vv
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-  - name: scribe-security-verify
+      value: 
+        - bom 
+        - alpine:latest
+        - -o=statement
+
+  - name: valint-verify-bom
     taskRef:
-      name: scribe-security
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     runAfter:
     - valint-bom
     params:
     - name: args
-      value: verify alpine:latest -vv
-    - name: cache-90dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
+      value: 
+        - verify 
+        - alpine:latest 
+        - -i=statement
+
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-verify-bom
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - alpine:latest
+        - -o=statement
+
+  - name: valint-verify-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-slsa
+    params:
+    - name: args
+      value: 
+        - verify 
+        - alpine:latest 
+        - -i=statement-slsa
 ---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: valint-test-pipeline-run
+  name: basic-tests
 spec:
   pipelineRef:
-    name: scribe-security-test-pipeline
+    name: basic-tests
   workspaces:
   - name: shared-workspace
     persistentvolumeclaim:
-      claimName: test-pvc-cache
+      claimName: test-pvc-output
   podTemplate:
     volumes:
-    - name: valint-cache
+    - name: shared-workspace
       persistentVolumeClaim:
-        claimName: test-pvc-cache
+        claimName: test-pvc-output
 ```
 
 ## OCI Evidence store
@@ -262,7 +274,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -270,48 +282,77 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom alpine:latest -vv
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
-  - name: scribe-security-verify
+      value: 
+        - bom 
+        - alpine:latest
+        - -o=statement
+
+  - name: valint-verify-bom
     taskRef:
-      name: scribe-security
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     runAfter:
     - valint-bom
     params:
     - name: args
-      value: verify alpine:latest -vv
-    - name: cache-90dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
+      value: 
+        - verify 
+        - alpine:latest 
+        - -i=statement
+
+  - name: valint-slsa
+    taskRef:
+      name: valint
     workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-verify-bom
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - alpine:latest
+        - -o=statement
+
+  - name: valint-verify-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-slsa
+    params:
+    - name: args
+      value: 
+        - verify 
+        - alpine:latest 
+        - -i=statement-slsa
 ---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: valint-test-pipeline-run
+  name: basic-tests
 spec:
   pipelineRef:
-    name: scribe-security-test-pipeline
+    name: basic-tests
   workspaces:
   - name: shared-workspace
     persistentvolumeclaim:
-      claimName: test-pvc-cache
+      claimName: test-pvc-output
   podTemplate:
     volumes:
-    - name: valint-cache
+    - name: shared-workspace
       persistentVolumeClaim:
-        claimName: test-pvc-cache
+        claimName: test-pvc-output
 ```
 
 > Use `gitlab` as context-type.
@@ -326,7 +367,7 @@ Create SBOM for remote `busybox:latest` image.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -334,16 +375,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom alpine:latest -vv
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - alpine:latest
+        - -o=statement
 ``` 
 
 </details>
@@ -357,7 +397,7 @@ Create SBOM for image built by local docker `image_name:latest` image.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -365,16 +405,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom alpine:latest -vv -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - alpine:latest
+        - -o=statement
 ``` 
 </details>
 
@@ -389,7 +428,7 @@ Create SBOM for image hosted on private registry.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -397,16 +436,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+        - -o=statement
 ```
 </details>
 
@@ -419,7 +457,7 @@ Custom metadata added to SBOM.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -427,16 +465,17 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom busybox:latest --env test_env --label test_label -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - busybox:latest
+        - -o=statement
+        - --env=test_env
+        - --label=test_label
 ```
 </details>
 
@@ -452,7 +491,7 @@ Create SBOM for local `docker save` output.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -460,16 +499,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom docker-archive:busybox.tar -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - docker-archive:busybox.tar
+        - -o=statement
 ```
 </details>
 
@@ -482,7 +520,7 @@ Create SBOM for a local directory.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -490,16 +528,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom dir:testdir -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - dir:testdir
+        - -o=statement
 ```
 </details>
 
@@ -513,7 +550,7 @@ Create SBOM for `mongo-express` remote git repository.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -521,16 +558,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom git:https://github.com/mongo-express/mongo-express.git -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - git:https://github.com/mongo-express/mongo-express.git
+        - -o=statement
 ```
 
 Create SBOM for local git repository. <br />
@@ -541,7 +577,7 @@ Create SBOM for local git repository. <br />
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: valint-test-pipeline
+  name: basic-tests
 spec:
   workspaces:
   - name: shared-workspace
@@ -549,16 +585,15 @@ spec:
   - name: valint-bom
     taskRef:
       name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
     params:
     - name: args
-      value: bom . -f
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
-    workspaces:
-    - name: dockerconfig
-      workspace: docker-credentials
+      value: 
+        - bom 
+        - "."
+        - -o=statement
 ``` 
 </details>
 
