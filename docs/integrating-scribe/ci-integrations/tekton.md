@@ -387,6 +387,34 @@ spec:
 ``` 
 
 </details>
+<details>
+  <summary>  Public registry image (SLSA) </summary>
+
+Create SLSA for remote `busybox:latest` image.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa
+        - alpine:latest
+``` 
+
+</details>
 
 <details>
   <summary>  Docker built image (SBOM) </summary>
@@ -414,6 +442,33 @@ spec:
         - bom 
         - alpine:latest
         - -o=statement
+``` 
+</details>
+<details>
+  <summary>  Docker built image (SLSA) </summary>
+
+Create SLSA for image built by local docker `image_name:latest` image.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa
+        - alpine:latest
 ``` 
 </details>
 
@@ -447,6 +502,35 @@ spec:
         - -o=statement
 ```
 </details>
+<details>
+  <summary>  Private registry image (SLSA) </summary>
+
+Create SLSA for image hosted on private registry.
+
+> Use `docker login` to add access.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
+```
+</details>
 
 <details>
   <summary> Custom metadata (SBOM) </summary>
@@ -472,6 +556,38 @@ spec:
     - name: args
       value: 
         - bom 
+        - busybox:latest
+        - -o=statement
+        - --env=test_env
+        - --label=test_label
+```
+</details>
+
+
+<details>
+  <summary> Custom metadata (SLSA) </summary>
+
+Custom metadata added to SLSA.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa 
         - busybox:latest
         - -o=statement
         - --env=test_env
@@ -512,6 +628,36 @@ spec:
 </details>
 
 <details>
+  <summary> Archive image (SLSA) </summary>
+
+Create SLSA for local `docker save` output.
+
+> Use `oci-archive` target type when creating a OCI archive (`podman save`).
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa
+        - docker-archive:busybox.tar
+```
+</details>
+
+<details>
   <summary> Directory target (SBOM) </summary>
 
 Create SBOM for a local directory.
@@ -537,6 +683,34 @@ spec:
         - bom 
         - dir:testdir
         - -o=statement
+```
+</details>
+
+<details>
+  <summary> Directory target (SLSA) </summary>
+
+Create SLSA for a local directory.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-bom
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - dir:testdir
 ```
 </details>
 
@@ -594,6 +768,60 @@ spec:
         - bom 
         - "."
         - -o=statement
+``` 
+</details>
+
+<details>
+  <summary> Git target (SLSA) </summary>
+
+Create SLSA for `mongo-express` remote git repository.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - git:https://github.com/mongo-express/mongo-express.git
+```
+
+Create SLSA for local git repository. <br />
+
+> When using implicit checkout note the Gitlab-CI [git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+
+```YAML
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - "."
 ``` 
 </details>
 
