@@ -96,6 +96,7 @@ const config = {
                 "integrating-scribe/ci-integrations/circleci.md",
                 "integrating-scribe/ci-integrations/gitlabci.md",
                 "integrating-scribe/ci-integrations/travis.md",
+                "integrating-scribe/ci-integrations/tekton.md",
                 "integrating-scribe/ci-integrations/valint-ci-configuration.md",
                 "integrating-scribe/other-evidence-stores.md",
                 // "integrating-scribe/git-repositories.md",
