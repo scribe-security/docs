@@ -6,36 +6,8 @@ sidebar_position: 3
 # Tekton CI/CD
 Scribe support evidence collecting and integrity verification for Tekton CI/CD.
 
-Integrations provides several options enabling generation of SBOMs from various sources.
-The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Tekton CI/CD workflows or to the Scribe Service.
-
-### Usage
-
+## Usage
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: scribe-secret
-  annotations:
-    tekton.dev/git-0: https://github.com
-    tekton.dev/git-1: https://gitlab.com
-    tekton.dev/docker-0: https://gcr.io
-type: Opaque
-stringData:
-  client_id: "<your_client_id>"
-  client_secret: "<your_client_secret>"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-pvc-cache
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500m
----
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -49,51 +21,16 @@ spec:
       name: valint
     params:
     - name: args
-      value: bom alpine:latest -vv
-    - name: cache-dir
-      value: valint-cache
-    - name: scribe-secret
-      value: scribe-secret
----
-apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
-metadata:
-  name: valint-test-pipeline-run
-spec:
-  pipelineRef:
-    name: scribe-security-test-pipeline
-  workspaces:
-  - name: shared-workspace
-    persistentvolumeclaim:
-      claimName: test-pvc-cache
-  podTemplate:
-    volumes:
-    - name: valint-cache
-      persistentVolumeClaim:
-        claimName: test-pvc-cache
+      value: bom busybox:latest
 ```
 
-## Target types - `[target]`
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+## Parameters
 
-> Fields specified as [target] support the following format.
-
-### Format
-
-`[scheme]:[name]:[tag]` 
-
-| Sources | target-type | scheme | Description | example |
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file |
+| Parameter | Description | Default |
+| --- | --- | ---: |
+| `scribe-secret` | The name of the secret that has the scribe security secrets. | scribe-secret |
+| `args` | Arguments of the `valint` CLI | |
+| `image-version-sha` | The ID of the valint image cli to be used. | |
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -118,18 +55,41 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client ID**
 * **Client Secret**
 
-<img src='../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
 * Store credentials in [kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)
 
-* Install `valint` task from tekton catalog using the following command
-```bash
-kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/valint/0.1/valint.yaml
+
+#### Storing your credentials
+
+The `valint` task looks for a Kubernetes secret that stores your Scribe user credentials. This secret is called `scribe-secret` by default and is expected to have the keys `scribe-client-id` and `scribe-client-secret`.
+You can use the following example configuration. Make sure to provide the correct credentials for your Scribe environment.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: orka-creds
+type: Opaque
+stringData:
+  scribe_client_id: $(client_id)
+  scribe_client_secret: $(client_secret)
+  scribe_enable: true
 ```
+
+```sh
+kubectl apply --namespace=<namespace> -f scribe-secret.yaml
+```
+
+Omit `--namespace` if installing in the `default` namespace.
+
+> **NOTE:** These credentials are used by the `valint` task to generate an authentication token to access the Scribe API.
+
 
 ### Usage
 
 ```yaml
+# Creates a CycloneDX SBOM and verifies its policy.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -148,7 +108,7 @@ spec:
     - name: args
       value: 
         - bom 
-        - alpine:latest
+        - busybox:latest
         - -o=statement
 
   - name: valint-verify-bom
@@ -158,14 +118,25 @@ spec:
     - name: output
       workspace: shared-workspace
     runAfter:
-    - valint-bom
+    - valint-verify
     params:
     - name: args
       value: 
         - verify 
-        - alpine:latest 
+        - busybox:latest 
         - -i=statement
+```
 
+```yaml
+# Creates a SLSA Provanence and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
   - name: valint-slsa
     taskRef:
       name: valint
@@ -195,26 +166,13 @@ spec:
         - verify 
         - alpine:latest 
         - -i=statement-slsa
----
-apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
-metadata:
-  name: basic-tests
-spec:
-  pipelineRef:
-    name: basic-tests
-  workspaces:
-  - name: shared-workspace
-    persistentvolumeclaim:
-      claimName: test-pvc-output
-  podTemplate:
-    volumes:
-    - name: shared-workspace
-      persistentVolumeClaim:
-        claimName: test-pvc-output
 ```
 
-## OCI Evidence store
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
@@ -230,47 +188,10 @@ Evidence can be stored in any accusable registry.
 * Read access is required for download (verify).
 
 You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or [DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry).
-
-Then you can add a secret json file that is created after logging in to the deployment. You should use the following command to convert it to base64 before adding it to the secrets
-
-```
-cat ~/.docker/config.json | base64 -w0
-```
 
 ### Usage
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: docker-credentials
-data:
-  config.json: ""
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: scribe-secret
-  annotations:
-    tekton.dev/git-0: https://github.com
-    tekton.dev/git-1: https://gitlab.com
-    tekton.dev/docker-0: https://gcr.io
-type: Opaque
-stringData:
-  client_id: ""
-  client_secret: ""
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-pvc-cache
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500m
----
+# Creates a CycloneDX SBOM and verifies its policy.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -289,8 +210,10 @@ spec:
     - name: args
       value: 
         - bom 
-        - alpine:latest
+        - busybox:latest
         - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
 
   - name: valint-verify-bom
     taskRef:
@@ -304,9 +227,22 @@ spec:
     - name: args
       value: 
         - verify 
-        - alpine:latest 
+        - busybox:latest 
         - -i=statement
+        - --oci
+        - --oci-repo [my_repo]
+```
 
+```yaml
+# Creates a SLSA Provanence and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
   - name: valint-slsa
     taskRef:
       name: valint
@@ -319,8 +255,10 @@ spec:
     - name: args
       value: 
         - slsa 
-        - alpine:latest
+        - busybox:latest
         - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
 
   - name: valint-verify-slsa
     taskRef:
@@ -334,28 +272,13 @@ spec:
     - name: args
       value: 
         - verify 
-        - alpine:latest 
+        - busybox:latest 
         - -i=statement-slsa
----
-apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
-metadata:
-  name: basic-tests
-spec:
-  pipelineRef:
-    name: basic-tests
-  workspaces:
-  - name: shared-workspace
-    persistentvolumeclaim:
-      claimName: test-pvc-output
-  podTemplate:
-    volumes:
-    - name: shared-workspace
-      persistentVolumeClaim:
-        claimName: test-pvc-output
+        - --oci
+        - --oci-repo [my_repo]
 ```
 
-> Use `gitlab` as context-type.
+</details>
 
 ## Basic examples
 <details>
@@ -383,7 +306,6 @@ spec:
       value: 
         - bom 
         - alpine:latest
-        - -o=statement
 ``` 
 
 </details>
@@ -416,63 +338,7 @@ spec:
 
 </details>
 
-<details>
-  <summary>  Docker built image (SBOM) </summary>
-
-Create SBOM for image built by local docker `image_name:latest` image.
-
-```YAML
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-bom
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    params:
-    - name: args
-      value: 
-        - bom 
-        - alpine:latest
-        - -o=statement
-``` 
-</details>
-<details>
-  <summary>  Docker built image (SLSA) </summary>
-
-Create SLSA for image built by local docker `image_name:latest` image.
-
-```YAML
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-slsa
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    params:
-    - name: args
-      value: 
-        - slsa
-        - alpine:latest
-``` 
-</details>
-
-<details>
+<!-- <details>
   <summary>  Private registry image (SBOM) </summary>
 
 Create SBOM for image hosted on private registry.
@@ -501,7 +367,8 @@ spec:
         - scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
         - -o=statement
 ```
-</details>
+</details> -->
+<!-- 
 <details>
   <summary>  Private registry image (SLSA) </summary>
 
@@ -530,7 +397,7 @@ spec:
         - slsa 
         - scribesecuriy.jfrog.io/scribe-docker-local/stub_remote:latest
 ```
-</details>
+</details> -->
 
 <details>
   <summary> Custom metadata (SBOM) </summary>
@@ -557,7 +424,6 @@ spec:
       value: 
         - bom 
         - busybox:latest
-        - -o=statement
         - --env=test_env
         - --label=test_label
 ```
@@ -589,7 +455,6 @@ spec:
       value: 
         - slsa 
         - busybox:latest
-        - -o=statement
         - --env=test_env
         - --label=test_label
 ```
@@ -623,7 +488,6 @@ spec:
       value: 
         - bom 
         - docker-archive:busybox.tar
-        - -o=statement
 ```
 </details>
 
@@ -682,7 +546,6 @@ spec:
       value: 
         - bom 
         - dir:testdir
-        - -o=statement
 ```
 </details>
 
@@ -740,7 +603,6 @@ spec:
       value: 
         - bom 
         - git:https://github.com/mongo-express/mongo-express.git
-        - -o=statement
 ```
 
 Create SBOM for local git repository. <br />
@@ -766,8 +628,7 @@ spec:
     - name: args
       value: 
         - bom 
-        - "."
-        - -o=statement
+        - git:.
 ``` 
 </details>
 
@@ -821,10 +682,6 @@ spec:
     - name: args
       value: 
         - slsa 
-        - "."
+        - git:.
 ``` 
 </details>
-
-## Resources
-
-[Gitlab CI Jobs Page](https://docs.gitlab.com/ee/ci/) - Github CI docs.
