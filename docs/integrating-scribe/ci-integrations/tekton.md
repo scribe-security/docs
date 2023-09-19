@@ -4,8 +4,6 @@ sidebar_label: "Tekton CI/CD"
 title: Integrating Scribe in your Tekton Pipelines
 ---
 
-
-# Tekton CI/CD
 Scribe support evidence collecting and integrity verification for Tekton CI/CD.
 
 ## Usage
