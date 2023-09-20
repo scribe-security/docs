@@ -76,7 +76,7 @@ Clicking on a product will show you all the product's builds and their informati
 
 <img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
 
-For each build you can see its version ID, the build date, if the source code integrity was verified or not, the number and severity of vulnerabilities, how that build stands in terms of compliance, whether the build was published and if its signature was verified.
+For each build you can see its version ID, all of its components, the build date, if the source code integrity was verified or not, the number and severity of vulnerabilities, whether each component was signed or not, and whether the build was published. You also have a link to each component's repository URL.
 
 for more information click on any of the builds and you'll get to the build dashboard:
 

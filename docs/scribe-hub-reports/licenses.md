@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Licenses"
 title: Licenses
-sidebar_position: 5
+sidebar_position: 6
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
