@@ -116,13 +116,13 @@ If you want to know if you have uploaded a particular piece of evidence to be ab
 ### Use cases
 
 #### All evidence for a single product
-The simplest use case is to view all the information for a single logical application (**logical_app**). The logical_app metadata groups all SBOMs of a particular product together. If, for example, you have a pipeline that generates 3 different images that are all part of the same application or service you can add the logical_app metadata field as well as the app_version metadata field to all their SBOMs to group the evidence together. 
+The simplest use case is to view all the information for a single application (**product-key**, **-n**). The product-key metadata groups all SBOMs of a particular product together. If, for example, you have a pipeline that generates 3 different images that are all part of the same application or service you can add the product-key metadata field as well as the product-version (-V) metadata field to all their SBOMs to group the evidence together. 
 
-To see all the evidence linked to a particular product or logical application, go to the search bar at the top of the page and type in the product or application name. If that application has multiple versions released you can narrow the search by adding the specific version you're looking for. To make it easier, all app/product names and all versions that have been identified in your data are present as a list in the relevant field for you to choose from.
+To see all the evidence linked to a particular product or application, go to the search bar at the top of the page and type in the product or application name (assuming you've added the **product-key** metadata). If that application has multiple versions released you can narrow the search by adding the specific version you're looking for (if you've added the **product-version** metadata). To make it easier, all app/product names and all versions that have been identified in your data are present as a list in the relevant field for you to choose from.
 
 <img src='../../img/start/investigation-search-1.jpg' alt='Investigation Search bar' width='40%' min-width='400px'/>
 
-Be aware that unless you added the logical_app and app_version metadata fields to the SBOMs you generated, the product name will be derived from the pipeline that created the evidence. We strongly encourage you to include that information to make it easier to search for and analyze your evidence data.
+Be aware that unless you added the product-key and product-version metadata fields to the SBOMs you generated, the product name will be derived from the pipeline that created the evidence. We strongly encourage you to include that information to make it easier to search for and analyze your evidence data.
 
 #### Check before you publish
 We recommend you create a checklist to follow before you decide to publish a new version. You should check that:
