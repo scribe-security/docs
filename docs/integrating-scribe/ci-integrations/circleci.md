@@ -72,7 +72,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 
 ### Alternative evidence stores
-> You can learn more about alternative stores **[here](../other-evidence-stores)**.
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
   <summary> <b> OCI Evidence store </b></summary>
