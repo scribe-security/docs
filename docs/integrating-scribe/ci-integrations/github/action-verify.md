@@ -354,6 +354,20 @@ jobs:
 ```
 </details>
 
+### Running action as non root user
+By default action runs in its own pid namespace as the root user.
+You change users you can use the `USERID` and `USERNAME` env
+
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    target: 'busybox:latest'
+    format: json
+  env:
+    USERID: 1001
+    USERNAME: runner
+``` 
 
 ### Verify SBOMs examples
 <details>
