@@ -51,11 +51,4 @@ Flags for `valint`
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
-### SEE ALSO
-
-* [valint bom](valint_bom.md)	 - Create evidence command
-* [valint download](valint_download.md)	 - Downloads the evidence based on cache
-* [valint list](valint_list.md)	 - List evidence command
-* [valint slsa](valint_slsa.md)	 - Create SLSA provenance evidence command
-* [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
 

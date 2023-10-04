@@ -16,10 +16,6 @@ Scribe's Valint, which stands for "Validate the Integrity of the supply chain", 
 
 Valint sends the evidence it collects to the Scribe Hub. Additionally, Valint can serve as an agent that enforces supply chain policies either at the end of a build, during admission control to your production environment, or on an ad hoc basis. It retrieves evidence and analytic data from Scribe Hub and applies policy-as-code to it.
 
-Valint sends the evidence it collects to the Scribe Hub. Additionally, Valint can serve as an agent that enforces supply chain policies either at the end of a build, during admission control to your production environment, or on an ad hoc basis. It retrieves evidence and analytic data from Scribe Hub and applies policy-as-code to it.
-
-Simply put, Valint is a tool that generates a bill of your software components, collects evidence about how secure your software is, and ensures your software meets set rules. It sends this information to Scribe Hub and can also act as a guardrail to make sure these rules are followed at key stages of your software building and deployment process.
-
 <!-- :::note
 Scribe software supply chain security capabilities are concentrated around the CI/CD pipeline and the creation of a docker image as a final product of that pipeline.
 

@@ -155,10 +155,34 @@ attest:
                 cert: ./public/cert.pem
                 ca: ./public/ca.pem
 ```
+
+Another example using a specific certificate in a *.crt format:
+```yaml
+signer:
+    x509:
+        enable: true
+        private: '~/scribe/pki/private/Test164.key'
+        cert: '~/scribe/pki/issued/Test164.crt'
+verifier:
+    x509:
+        enable: true
+        cert: '~/scribe/pki/issued/Test164.crt'
+        ca: ~/scribe/pki/ca.crt
+```
 > Use flag `--attest.config` to provide a external cocosign config.
 
 
 ## Signers and verifiers support
+If you do not currently have a PKI or choose not to connect your PKI and certificates to Scribe, you can ask Scribe to issue you a CA and signing key. Of the various fields that are required for such a certificate we need to get the following:
+* CN (Common Name) - string, must be unique for each certificate
+* Email - string must be unique for each certificate 
+
+Of course there are lots of other possible subfields but these are the ones we require at a minimum.
+If you already have an existing certificate you'd like us to include in your account to enable you to verify files signed using that certificate, that certificate should also include these two fields at a minimum. 
+
+Valint can verify these two subfields (CN and Email) in addition to the general cryptographic verification. That means that we check if the certificate is valid within your PKI and we can also check if [at least one of] those two fields matches the verification policy.
+
+As to the certificate algorithms we support, you can examine a full list [here](#x509)
 
 ### **KMS**
 Sigstore based KMS signer allows users to sign via kms. <br />
