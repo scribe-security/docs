@@ -190,8 +190,8 @@ Another example using a specific certificate in a *.crt format:
 signer:
     x509:
         enable: true
-        private: '~/scribe/pki/private/Scribe164.key'
-        cert: '~/scribe/pki/issued/Scribe164.crt'
+        private: '~/scribe/pki/private/key.crt'
+        cert: '~/scribe/pki/issued/cert.crt'
 verifier:
     x509:
         enable: true
