@@ -190,8 +190,8 @@ Another example using a specific certificate in a *.crt format:
 signer:
     x509:
         enable: true
-        private: '~/scribe/pki/private/Test164.key'
-        cert: '~/scribe/pki/issued/Test164.crt'
+        private: '~/scribe/pki/private/Scribe164.key'
+        cert: '~/scribe/pki/issued/Scribe164.crt'
 verifier:
     x509:
         enable: true
@@ -201,9 +201,9 @@ verifier:
 
 
 ## Signers and verifiers support
-If you do not currently have a PKI or choose not to connect your PKI and certificates to Scribe, you can ask Scribe to issue you a CA and signing key. Of the various fields that are required for such a certificate we need to get the following:
-* CN (Common Name) - string, must be unique for each certificate
-* Email - string must be unique for each certificate 
+If you do not currently have a PKI or choose not to connect your PKI and certificates to Scribe, you can ask Scribe to issue you a CA, certificate and signing key. Of the various fields that are required for such a certificate we need to get the following:
+* CN (Common Name) - string, unique signer name  
+* Email - string, unique email of the signer 
 
 Of course there are lots of other possible subfields but these are the ones we require at a minimum.
 If you already have an existing certificate you'd like us to include in your account to enable you to verify files signed using that certificate, that certificate should also include these two fields at a minimum. 
