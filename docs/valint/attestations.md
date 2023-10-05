@@ -17,17 +17,17 @@ See details [In-toto spec](https://github.com/in-toto/attestation)
 ### Default configuration
 You can select from a set of prefilled default configuration.
 
-> Use flag `--attest.default`, supported values are `sigstore,sigstore-github,x509`.
+> Use flag `--attest.default`, supported values are `sigstore,sigstore-github,x509,x509-env`.
 
-<details>
-  <summary> Sigstore public instance </summary>
-
+## Sigstore
 Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
 Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
 
 > Use flag `--attest.default=sigstore`.
 
-Default config
+<details>
+  <summary> Default config </summary>
+
 ```yaml
 signer:
     fulcio:
@@ -50,14 +50,13 @@ storer:
 </details>
 
 <details>
-  <summary> Sigstore public instance - Github workfload identity </summary>
-
+  <summary> Sigstore public instance - Github workfload identity  </summary>
 Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
 Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
 
 > Select by using `--attest.default=sigstore-github`
 
-Default config
+## Default config
 
 ```yaml
 signer:
@@ -74,21 +73,54 @@ verifier:
 ```
 </details>
 
-
-<details>
-  <summary> X509 local keys </summary>
-
+## Custom CA: X509 Attestations
 X509 signer allow you to use local keys, cert and CA file to sign and verify you attestations.
-You may can use the default x509 `cocosign` configuration flag.
+The signer certificate is attached to the attestation, if you provide it to the signer, you can omit it from the verifier.
 
-> Use flag `--attest.default=x509`.
-
+### Usage
+Signing an Attestation:
 ```bash
-valint bom busybox:latest -o attest --attest.default x509
-valint verify busybox:latest --attest.default x509
+valint <bom, slsa> <target> -o attest --attest.default <x509,x509-env> \
+    --key <key path/env/url> \
+    --cert <cert path/env/url> \
+    --ca <ca-chain path/env/url>
+```
+Verifying an Attestation:
+```bash
+valint verify <target> -i <attest, attest-slsa> --attest.default <x509,x509-env> \
+    --ca <cert path/env/url>
 ```
 
-Default config
+Flags and Parameters
+* `--key`: PEM encoded Signer key.
+* `--cert`:PEM encoded Signer certificate.
+* `--ca`: PEM encoded CA Chain.
+* `--attest-deafult` Select `x509` or `x509-env` default configuration.
+
+> The ca supports multiple CA chains within a single file.
+
+### File Paths and Formats
+- Filesystem files can be passed by path (e.g., `./my_cert.pem`)
+- In Memory files can be passed through the environment (e.g., `env://MY_ENV`)
+- Remote files can be passed via URL (e.g., `https://my_url.com/my_cert.pem`)
+
+### Using x509 local keys
+
+To use local keys, use the flag `--attest.default=x509`.
+
+```bash
+valint bom busybox:latest -o attest --attest.default x509 \
+    --key my_key.pem \
+    --cert my_cert.pem \
+    --ca my_ca.pem
+    
+valint verify busybox:latest -i attest --attest.default x509 \
+    --ca my_ca-chain.pem
+```
+
+<details>
+  <summary> Default config </summary>
+
 ```yaml
 signer:
     x509:
@@ -99,15 +131,12 @@ signer:
 verifier:
     x509:
         enable: true
-        cert: /etc/cocosign/keys/public/cert.pem
         ca: /etc/cocosign/keys/public/ca.pem
 ```
 </details>
 
-<details>
-  <summary> X509 environment keys </summary>
-
-X509 Signer enables the utilization of environments for supplying key, certificate, and CA files in order to sign and verify attestations. It is commonly employed in conjunction with Secret Vaults, where secrets are exposed through environments.
+### Using environment keys
+X509 Signer supports environment variables for key, certificate, and CA files, often used with Secret Vaults where secrets are exposed through environments.
 
 >  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
 
@@ -117,10 +146,12 @@ export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
 export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
 
 valint bom busybox:latest -o attest
-valint verify busybox:latest
+valint verify busybox:latest -i attest
 ```
 
-Config example
+<details>
+  <summary> Default config </summary>
+
 ```yaml
 signer:
     x509:
@@ -131,14 +162,12 @@ signer:
 verifier:
     x509:
         enable: true
-        cert: env://ATTEST_CERT
         ca: env://ATTEST_CA
 ```
 </details>
 
 ## Custom configuration
-Edit your main configuration, add the following subsection. <br />
-For full configuration details see [configuration-format](#configuration-format).
+To customize your configuration, add the following subsection to your main configuration file. For detailed configuration options, refer to [configuration-format](#configuration-format).
 
 Usage:
 ```yaml
@@ -155,10 +184,33 @@ attest:
                 cert: ./public/cert.pem
                 ca: ./public/ca.pem
 ```
+
+Another example using a specific certificate in a *.crt format:
+```yaml
+signer:
+    x509:
+        enable: true
+        private: '~/scribe/pki/private/key.crt'
+        cert: '~/scribe/pki/issued/cert.crt'
+verifier:
+    x509:
+        enable: true
+        ca: ~/scribe/pki/ca.crt
+```
 > Use flag `--attest.config` to provide a external cocosign config.
 
 
 ## Signers and verifiers support
+If you do not currently have a PKI or choose not to connect your PKI and certificates to Scribe, you can ask Scribe to issue you a CA, certificate and signing key. Of the various fields that are required for such a certificate we need to get the following:
+* CN (Common Name) - string, unique signer name  
+* Email - string, unique email of the signer 
+
+Of course there are lots of other possible subfields but these are the ones we require at a minimum.
+If you already have an existing certificate you'd like us to include in your account to enable you to verify files signed using that certificate, that certificate should also include these two fields at a minimum. 
+
+Valint can verify these two subfields (CN and Email) in addition to the general cryptographic verification. That means that we check if the certificate is valid within your PKI and we can also check if [at least one of] those two fields matches the verification policy.
+
+As to the certificate algorithms we support, you can examine a full list [here](#x509)
 
 ### **KMS**
 Sigstore based KMS signer allows users to sign via kms. <br />
