@@ -281,7 +281,21 @@ storer:
 
 > Supports cosign verification
 
-### Configuration format
+## CRL verification
+
+Verifying client certificate against a CRL is supported only for x509 verifier. There are two ways of providing a CRL to the verifier:
+
+1. Using a file addressed by path (in `--crl` flag or configuration file) or by value (in the environment variable).
+2. Using the `CRL Distribution Point` field of client certificate by setting the `--enable-crl` flag to `true`. In this case, `valint` will try to download the CRL from the URL specified in the certificate.
+
+If the file is provided, `valint` ignores the `CRL Distribution Point` field in the certificate and uses the file. The CRL should be in PEM format, signed by the same CA as the client certificate.
+
+If the file is not provided but the `--enable-crl` flag is used, `valint` will try to download the CRL from the `CRL Distribution Point` field in the client certificate.
+If this field is not present, `valint` will pass CRL verification without any errors. And if it is present, `valint` will try to download the CRL from the URL specified. If the download fails, `valint` will issue a certificate verification error.
+
+If `valint` was able to get the CRL, it will check if the client certificate is revoked. If it is, `valint` will issue a certificate verification error, and if it's not, it'll continue with the signature verification.
+
+## Configuration format
 ```yaml
 signer:
 	x509:
@@ -304,7 +318,8 @@ verifier:
 	x509:
 	    enable: <true|false>
 	    cert: <cert_path>
-	    ca: <ca_path>
+        ca: <ca_path>
+        crl: <crl_path>
 	fulcio:
 	    enable: <true|false>
 	kms:
