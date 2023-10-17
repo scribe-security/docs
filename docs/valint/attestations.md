@@ -88,13 +88,15 @@ valint <bom, slsa> <target> -o attest --attest.default <x509,x509-env> \
 Verifying an Attestation:
 ```bash
 valint verify <target> -i <attest, attest-slsa> --attest.default <x509,x509-env> \
-    --ca <cert path/env/url>
+    --ca <cert path/env/url> \
+    --crl <crl path/env/url>
 ```
 
 Flags and Parameters
 * `--key`: PEM encoded Signer key.
 * `--cert`:PEM encoded Signer certificate.
 * `--ca`: PEM encoded CA Chain.
+* `--crl`: PEM encoded CRL file.
 * `--attest-deafult` Select `x509` or `x509-env` default configuration.
 
 > The ca supports multiple CA chains within a single file.
@@ -115,7 +117,8 @@ valint bom busybox:latest -o attest --attest.default x509 \
     --ca my_ca.pem
     
 valint verify busybox:latest -i attest --attest.default x509 \
-    --ca my_ca-chain.pem
+    --ca my_ca-chain.pem \
+    --crl my_crl.pem
 ```
 
 <details>
@@ -136,14 +139,15 @@ verifier:
 </details>
 
 ### Using environment keys
-X509 Signer supports environment variables for key, certificate, and CA files, often used with Secret Vaults where secrets are exposed through environments.
+X509 Signer supports environment variables for key, certificate, CA and CRL files, often used with Secret Vaults where secrets are exposed through environments.
 
 >  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
 
 ```bash
 export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
-export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
 export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export ATTEST_CRL=$(cat  /etc/cocosign/keys/public/crl.pem)
 
 valint bom busybox:latest -o attest
 valint verify busybox:latest -i attest
@@ -183,19 +187,21 @@ attest:
                 enable: true
                 cert: ./public/cert.pem
                 ca: ./public/ca.pem
+                crl: ./public/crl.pem
 ```
 
-Another example using a specific certificate in a *.crt format:
+Another example using a specific certificate in a *.crt format, key in *.key format and crl in *.crl format:
 ```yaml
 signer:
     x509:
         enable: true
-        private: '~/scribe/pki/private/key.crt'
-        cert: '~/scribe/pki/issued/cert.crt'
+        private: '~/scribe/pki/private/client.key'
+        cert: '~/scribe/pki/issued/client.crt'
 verifier:
     x509:
         enable: true
         ca: ~/scribe/pki/ca.crt
+        crl: ~/scribe/pki/ca.crl
 ```
 > Use flag `--attest.config` to provide a external cocosign config.
 
