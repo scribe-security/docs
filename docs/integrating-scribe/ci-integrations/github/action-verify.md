@@ -68,7 +68,7 @@ The command allows users to verify any target against its evidence.
   crl-full-chain:
     description: Enable Full chain CRL verfication
   enable-crl:
-    description: Verify certificate revocation list
+    description: Verify certificate revocation list using CRL Distribution Points from the certificate
   env:
     description: Environment keys to include in sbom
   filter-regex:
