@@ -88,13 +88,15 @@ valint <bom, slsa> <target> -o attest --attest.default <x509,x509-env> \
 Verifying an Attestation:
 ```bash
 valint verify <target> -i <attest, attest-slsa> --attest.default <x509,x509-env> \
-    --ca <cert path/env/url>
+    --ca <cert path/env/url> \
+    --crl <crl path/env/url>
 ```
 
 Flags and Parameters
 * `--key`: PEM encoded Signer key.
 * `--cert`:PEM encoded Signer certificate.
 * `--ca`: PEM encoded CA Chain.
+* `--crl`: PEM encoded CRL file.
 * `--attest-deafult` Select `x509` or `x509-env` default configuration.
 
 > The ca supports multiple CA chains within a single file.
@@ -115,7 +117,8 @@ valint bom busybox:latest -o attest --attest.default x509 \
     --ca my_ca.pem
     
 valint verify busybox:latest -i attest --attest.default x509 \
-    --ca my_ca-chain.pem
+    --ca my_ca-chain.pem \
+    --crl my_crl.pem
 ```
 
 <details>
@@ -136,14 +139,15 @@ verifier:
 </details>
 
 ### Using environment keys
-X509 Signer supports environment variables for key, certificate, and CA files, often used with Secret Vaults where secrets are exposed through environments.
+X509 Signer supports environment variables for key, certificate, CA and CRL files, often used with Secret Vaults where secrets are exposed through environments.
 
 >  path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
 
 ```bash
 export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
-export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
 export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export ATTEST_CRL=$(cat  /etc/cocosign/keys/public/crl.pem)
 
 valint bom busybox:latest -o attest
 valint verify busybox:latest -i attest
@@ -183,19 +187,21 @@ attest:
                 enable: true
                 cert: ./public/cert.pem
                 ca: ./public/ca.pem
+                crl: ./public/crl.pem
 ```
 
-Another example using a specific certificate in a *.crt format:
+Another example using a specific certificate in a *.crt format, key in *.key format and crl in *.crl format:
 ```yaml
 signer:
     x509:
         enable: true
-        private: '~/scribe/pki/private/key.crt'
-        cert: '~/scribe/pki/issued/cert.crt'
+        private: '~/scribe/pki/private/client.key'
+        cert: '~/scribe/pki/issued/client.crt'
 verifier:
     x509:
         enable: true
         ca: ~/scribe/pki/ca.crt
+        crl: ~/scribe/pki/ca.crl
 ```
 > Use flag `--attest.config` to provide a external cocosign config.
 
@@ -275,7 +281,21 @@ storer:
 
 > Supports cosign verification
 
-### Configuration format
+## CRL verification
+
+Verifying client certificate against a CRL is supported only for x509 verifier. There are two ways of providing a CRL to the verifier:
+
+1. Using a file addressed by path (in `--crl` flag or configuration file) or by value (in the environment variable).
+2. Using the `CRL Distribution Point` field of client certificate by setting the `--enable-crl` flag to `true`. In this case, `valint` will try to download the CRL from the URL specified in the certificate.
+
+If the file is provided, `valint` ignores the `CRL Distribution Point` field in the certificate and uses the file. The CRL should be in PEM format, signed by the same CA as the client certificate.
+
+If the file is not provided but the `--enable-crl` flag is used, `valint` will try to download the CRL from the `CRL Distribution Point` field in the client certificate.
+If this field is not present, `valint` will pass CRL verification without any errors. And if it is present, `valint` will try to download the CRL from the URL specified. If the download fails, `valint` will issue a certificate verification error.
+
+If `valint` was able to get the CRL, it will check if the client certificate is revoked. If it is, `valint` will issue a certificate verification error, and if it's not, it'll continue with the signature verification.
+
+## Configuration format
 ```yaml
 signer:
 	x509:
@@ -298,7 +318,8 @@ verifier:
 	x509:
 	    enable: <true|false>
 	    cert: <cert_path>
-	    ca: <ca_path>
+        ca: <ca_path>
+        crl: <crl_path>
 	fulcio:
 	    enable: <true|false>
 	kms:

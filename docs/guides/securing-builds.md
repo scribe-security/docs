@@ -83,6 +83,7 @@ verifier:
        enable: true
        cert: /etc/cocosign/keys/public/cert.pem
        ca: /etc/cocosign/keys/public/ca.pem
+       crl: /etc/cocosign/keys/public/crl.pem
 ```
 
 #### X509 environment keys
@@ -90,8 +91,9 @@ X509 Signer enables the utilization of environments for supplying key, certifica
 path names prefixed with `env://[NAME]` are extracted from the environment corresponding to the specified name.
 ```yaml
 export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
-export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
 export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
+export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
+export ATTEST_CRL=$(cat  /etc/cocosign/keys/public/crl.pem)
 
 valint bom busybox:latest -o attest
 valint verify busybox:latest
@@ -100,15 +102,16 @@ valint verify busybox:latest
 ```yaml
 signer:
    x509:
-       enable: true
-       private: env://ATTEST_KEY
-       cert: env://ATTEST_CERT
-       ca: env://ATTEST_CA
+      enable: true
+      private: env://ATTEST_KEY
+      cert: env://ATTEST_CERT
+      ca: env://ATTEST_CA
 verifier:
    x509:
-       enable: true
-       cert: env://ATTEST_CERT
-       ca: env://ATTEST_CA
+      enable: true
+      cert: env://ATTEST_CERT
+      ca: env://ATTEST_CA
+      crl: env://ATTEST_CRL
 ```
 
 ### Custom Configuration
@@ -130,6 +133,7 @@ attest:
                enable: true
                cert: ./public/cert.pem
                ca: ./public/ca.pem
+               crl: ./public/crl.pem
 ```
 Use flag `--attest.config` to provide an external Cocosign config.
 

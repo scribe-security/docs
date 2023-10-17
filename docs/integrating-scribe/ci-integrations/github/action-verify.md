@@ -45,18 +45,30 @@ The command allows users to verify any target against its evidence.
     description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
   uri:
     description: Default policy allowed uris
+  allow-expired:
+    description: Allow expired certs
   attest-config:
     description: Attestation config path
   attest-default:
     description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
   backoff:
     description: Backoff duration
+  ca:
+    description: x509 CA Chain path
   cache-enable:
     description: Enable local cache
+  cert:
+    description: x509 Cert path
   config:
     description: Configuration file path
   context-dir:
     description: Context dir
+  crl:
+    description: x509 CRL path
+  crl-full-chain:
+    description: Enable Full chain CRL verfication
+  enable-crl:
+    description: Verify certificate revocation list using CRL Distribution Points from the certificate
   env:
     description: Environment keys to include in sbom
   filter-regex:
@@ -69,10 +81,16 @@ The command allows users to verify any target against its evidence.
     description: Git commit hash in the repository
   git-tag:
     description: Git tag in the repository
+  key:
+    description: x509 Private key path
   label:
     description: Add Custom labels
   level:
     description: Log depth level, options=[panic fatal error warning info debug trace]
+  log-context:
+    description: Attach context to all logs
+  log-file:
+    description: Output log to file
   oci:
     description: Enable OCI store
   oci-repo:
@@ -84,6 +102,8 @@ The command allows users to verify any target against its evidence.
     description: Output file name
   pipeline-name:
     description: Pipeline name
+  policy-args:
+    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
@@ -92,7 +112,6 @@ The command allows users to verify any target against its evidence.
     description: Product Version
   scribe-auth-audience:
     description: Scribe auth audience
-    required: false
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
@@ -112,13 +131,15 @@ The command allows users to verify any target against its evidence.
 ```
 
 ### Usage
-```
+```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-installer@master
+  uses: scribe-security/action-verify@v0.4.1
   with:
       target: 'busybox:latest'
 ```
+
+> Use `master` instead of tag to automatically pull latest version.
 
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
