@@ -149,10 +149,12 @@ To overcome the limitation install tool directly - **[installer](https://github.
 ### Usage
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-bom@v0.4.1
   with:
     target: 'busybox:latest'
 ```
+
+> Use `master` instead of tag to automatically pull latest version.
 
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
