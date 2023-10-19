@@ -94,7 +94,7 @@ valint verify <target> -i <attest, attest-slsa> --attest.default <x509,x509-env>
 
 Flags and Parameters
 * `--key`: PEM encoded Signer key.
-* `--cert`:PEM encoded Signer certificate.
+* `--cert`: PEM encoded Signer certificate.
 * `--ca`: PEM encoded CA Chain.
 * `--crl`: PEM encoded CRL file.
 * `--attest-deafult` Select `x509` or `x509-env` default configuration.
