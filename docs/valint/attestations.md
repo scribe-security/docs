@@ -79,7 +79,7 @@ verifier:
   <summary> X509 local keys </summary>
 
 X509 signer allow you to use local keys, cert and CA file to sign and verify you attestations.
-You may can use the default x509 `cocosign` configuration flag.
+You may use the default x509 `cocosign` configuration flag.
 
 > Use flag `--attest.default=x509`.
 
