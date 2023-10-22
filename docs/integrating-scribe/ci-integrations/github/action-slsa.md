@@ -86,8 +86,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  enable-crl:
-    description: Verify certificate revocation list using CRL Distribution Points from the certificate
+  disable-crl:
+    description: Disable certificate revocation verificatoin
   env:
     description: Environment keys to include in sbom
   filter-regex:
@@ -158,7 +158,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ### Usage
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v0.4.1
+  uses: scribe-security/action-slsa@v0.4.2
   with:
     target: 'busybox:latest'
 ```
