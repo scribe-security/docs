@@ -1,4 +1,4 @@
-# valint download
+## valint download
 
 Downloads the evidence based on cache
 
@@ -25,6 +25,7 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --allow-expired | Allow expired certs | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
@@ -34,6 +35,9 @@ Flags for all `valint` subcommands
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| | --crl | x509 CRL path | |
+| | --crl-full-chain | Enable Full chain CRL verfication | |
+| | --disable-crl | Disable certificate revocation verificatoin | |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
@@ -50,6 +54,7 @@ Flags for all `valint` subcommands
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
+| | --policy-args | Policy arguments | [] |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
@@ -58,6 +63,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
+| -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
