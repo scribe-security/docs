@@ -186,14 +186,15 @@ For example the following configuration and Job.
 Configuration File, `.valint.yaml`
 ```yaml
 attest:
-  cocosign:
-    signer:
+    default: "" #Custom cocosign configuration
+    cocosign:
+      signer:
         x509:
             enable: true
             private: env://SIGNER_KEY
             cert: env://SIGNER_CERT
             ca: env://COMPANY_CA
-    verifier:
+      verifier:
         x509:
             enable: true
             cert: env://SIGNER_CERT

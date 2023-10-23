@@ -182,6 +182,7 @@ For example the following configuration and Job.
 configuration File, `.valint.yaml`
 ```yaml
 attest:
+  default: "" # Set custom configuration
   cocosign:
     signer:
         x509:

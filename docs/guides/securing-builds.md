@@ -25,24 +25,27 @@ Use flag `--attest.default` with the following values:
 
 Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (Google, Microsoft, GitHub). Sigstore will also provide a transparency log for any one to verify your signatures against `rekor`. 
 Use flag `--attest.default=sigstore`.
+
 **Default configuration**:
 ```yaml
-signer:
-   fulcio:
-       enable: true
-       url: https://fulcio.sigstore.dev
-       oidc:
-           auth: interactive
-           issuer: https://oauth2.sigstore.dev/auth
-           clientid: sigstore
-verifier:
-   fulcio:
-       enable: true
-storer:
-   rekor:
-       enable: true
-       url: https://rekor.sigstore.dev
-       disablebundle: false
+attest:
+  cocosign:
+    signer:
+      fulcio:
+        enable: true
+        url: https://fulcio.sigstore.dev
+        oidc:
+          auth: interactive
+          issuer: https://oauth2.sigstore.dev/auth
+          clientid: sigstore
+    verifier:
+      fulcio:
+        enable: true
+    storer:
+      rekor:
+        enable: true
+        url: https://rekor.sigstore.dev
+        disablebundle: false
 ```
 
 #### Sigstore public instance - GitHub workflow identity
@@ -50,17 +53,19 @@ Sigstore signer and verifier allow you to use ephemeral short living keys based 
 Use flag `--attest.default=sigstore-github`.
 **Configuration example**:
 ```yaml
-signer:
- fulcio:
-   enable: true
-   url: https://fulcio.sigstore.dev
-   oidc:
-     auth: provider
-     issuer: https://token.actions.githubusercontent.com
-     clientid: sigstore
-verifier:
- fulcio:
-   enable: true
+attest:
+  cocosign:
+    signer:
+      fulcio:
+        enable: true
+        url: https://fulcio.sigstore.dev
+        oidc:
+        auth: provider
+        issuer: https://token.actions.githubusercontent.com
+        clientid: sigstore
+    verifier:
+      fulcio:
+        enable: true
 ```
 
 #### X509 local keys
@@ -70,20 +75,24 @@ Use flag `--attest.default=x509`.
 valint bom busybox:latest -o attest --attest.default x509
 valint verify busybox:latest --attest.default x509
 ```
-**Configuration example**:
+Default Configuration is set to the following, customize by using `--ca`, `--cert`, `--key` and `--crl` respectifully.
+
 ```yaml
-signer:
-   x509:
-       enable: true
-       private: /etc/cocosign/keys/private/default.pem
-       cert: /etc/cocosign/keys/public/cert.pem
-       ca: /etc/cocosign/keys/public/ca.pem
-verifier:
-   x509:
-       enable: true
-       cert: /etc/cocosign/keys/public/cert.pem
-       ca: /etc/cocosign/keys/public/ca.pem
-       crl: /etc/cocosign/keys/public/crl.pem
+attest:
+  default: x509 # Set by attest.default flag.
+  cocosign:
+    signer:
+      x509:
+        enable: true
+        private: /etc/cocosign/keys/private/default.pem
+        cert: /etc/cocosign/keys/public/cert.pem
+        ca: /etc/cocosign/keys/public/ca.pem
+    verifier:
+      x509:
+        enable: true
+        cert: /etc/cocosign/keys/public/cert.pem
+        ca: /etc/cocosign/keys/public/ca.pem
+        crl: /etc/cocosign/keys/public/crl.pem
 ```
 
 #### X509 environment keys
@@ -98,20 +107,22 @@ export ATTEST_CRL=$(cat  /etc/cocosign/keys/public/crl.pem)
 valint bom busybox:latest -o attest
 valint verify busybox:latest
 ```
-**Configuration example**:
+
+**Configuration File, `.valint.yaml` example**
 ```yaml
-signer:
-   x509:
-      enable: true
-      private: env://ATTEST_KEY
-      cert: env://ATTEST_CERT
-      ca: env://ATTEST_CA
-verifier:
-   x509:
-      enable: true
-      cert: env://ATTEST_CERT
-      ca: env://ATTEST_CA
-      crl: env://ATTEST_CRL
+attest:
+  cocosign:
+    signer:
+      x509:
+        enable: true
+        private: env://ATTEST_KEY
+        cert: env://ATTEST_CERT
+        ca: env://ATTEST_CA
+    verifier:
+      x509:
+        enable: true
+        ca: env://ATTEST_CA
+        crl: env://ATTEST_CRL
 ```
 
 ### Custom Configuration
@@ -122,8 +133,8 @@ For full configuration details see **[configuration-format](../integrating-scrib
 #### Usage
 ```yaml
 attest:
-   default: ""
-   cocosign: #Custom cocosign configuration
+   default: "" #Custom cocosign configuration
+   cocosign:
        signer:
            x509:
                enable: true

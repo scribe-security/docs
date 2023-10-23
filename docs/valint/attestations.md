@@ -29,19 +29,22 @@ Sigstore will also provide a transperancy log for any one to verify your signatu
   <summary> Default config </summary>
 
 ```yaml
-signer:
-    fulcio:
+attest:
+  default: "sigstore"
+  cocosign:
+    signer:
+      fulcio:
         enable: true
         url: https://fulcio.sigstore.dev
         oidc:
-            auth: interactive
-            issuer: https://oauth2.sigstore.dev/auth
-            clientid: sigstore
-verifier:
-    fulcio:
+        auth: interactive
+        issuer: https://oauth2.sigstore.dev/auth
+        clientid: sigstore
+    verifier:
+      fulcio:
         enable: true
-storer:
-    rekor:
+    storer:
+      rekor:
         enable: true
         url: https://rekor.sigstore.dev
         disablebundle: false
@@ -59,17 +62,20 @@ Sigstore will also provide a transperancy log for any one to verify your signatu
 ## Default config
 
 ```yaml
-signer:
-  fulcio:
-    enable: true
-    url: https://fulcio.sigstore.dev
-    oidc:
-      auth: provider
-      issuer: https://token.actions.githubusercontent.com
-      clientid: sigstore
-verifier:
-  fulcio:
-    enable: true
+attest:
+  default: "sigstore-github"
+  cocosign:
+    signer:
+      fulcio:
+        enable: true
+        url: https://fulcio.sigstore.dev
+        oidc:
+        auth: provider
+        issuer: https://token.actions.githubusercontent.com
+        clientid: sigstore
+    verifier:
+      fulcio:
+        enable: true
 ```
 </details>
 
@@ -125,14 +131,17 @@ valint verify busybox:latest -i attest --attest.default x509 \
   <summary> Default config </summary>
 
 ```yaml
-signer:
-    x509:
+attest:
+  default: "x509"
+  cocosign:
+    signer:
+      x509:
         enable: true
         private: /etc/cocosign/keys/private/default.pem
         cert: /etc/cocosign/keys/public/cert.pem
         ca: /etc/cocosign/keys/public/ca.pem
-verifier:
-    x509:
+    verifier:
+      x509:
         enable: true
         ca: /etc/cocosign/keys/public/ca.pem
 ```
@@ -147,24 +156,26 @@ X509 Signer supports environment variables for key, certificate, CA and CRL file
 export ATTEST_CERT=$(cat /etc/cocosign/keys/public/cert.pem)
 export ATTEST_KEY=$(cat /etc/cocosign/keys/private/default.pem)
 export ATTEST_CA=$(cat  /etc/cocosign/keys/public/ca.pem)
-export ATTEST_CRL=$(cat  /etc/cocosign/keys/public/crl.pem)
 
-valint bom busybox:latest -o attest
-valint verify busybox:latest -i attest
+valint bom busybox:latest -o attest --attest.default x509-env
+valint verify busybox:latest -i attest --attest.default x509-env
 ```
 
 <details>
   <summary> Default config </summary>
 
 ```yaml
-signer:
-    x509:
+attest:
+  default: "x509-env"
+  cocosign:
+    signer:
+      x509:
         enable: true
         private: env://ATTEST_KEY
         cert: env://ATTEST_CERT
         ca: env://ATTEST_CA
-verifier:
-    x509:
+    verifier:
+      x509:
         enable: true
         ca: env://ATTEST_CA
 ```
@@ -176,8 +187,8 @@ To customize your configuration, add the following subsection to your main confi
 Usage:
 ```yaml
 attest:
-    default: ""
-    cocosign: #Custom cocosign configuration
+    default: ""  #Custom cocosign configuration
+    cocosign:
         signer:
             x509:
                 enable: true
@@ -192,16 +203,19 @@ attest:
 
 Another example using a specific certificate in a *.crt format, key in *.key format and crl in *.crl format:
 ```yaml
-signer:
-    x509:
-        enable: true
-        private: '~/scribe/pki/private/client.key'
-        cert: '~/scribe/pki/issued/client.crt'
-verifier:
-    x509:
-        enable: true
-        ca: ~/scribe/pki/ca.crt
-        crl: ~/scribe/pki/ca.crl
+attest:
+    default: ""  #Custom cocosign configuration
+    cocosign:
+      signer:
+        x509:
+          enable: true
+          private: '~/scribe/pki/private/client.key'
+          cert: '~/scribe/pki/issued/client.crt'
+      verifier:
+        x509:
+          enable: true
+          ca: ~/scribe/pki/ca.crt
+          crl: ~/scribe/pki/ca.crl
 ```
 > Use flag `--attest.config` to provide a external cocosign config.
 
