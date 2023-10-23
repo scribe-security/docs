@@ -4,7 +4,7 @@ sidebar_label: "Tekton CI/CD"
 title: Integrating Scribe in your Tekton Pipelines
 ---
 
-Scribe support evidence collecting and integrity verification for Tekton CI/CD.
+You can use Scribe to collect evidence and verify integrity for the Tekton CI/CD.
 
 ## Usage
 ```yaml
