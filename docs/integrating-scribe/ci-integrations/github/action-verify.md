@@ -67,8 +67,8 @@ The command allows users to verify any target against its evidence.
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  enable-crl:
-    description: Verify certificate revocation list using CRL Distribution Points from the certificate
+  disable-crl:
+    description: Disable certificate revocation verificatoin
   env:
     description: Environment keys to include in sbom
   filter-regex:
@@ -134,7 +134,7 @@ The command allows users to verify any target against its evidence.
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v0.4.1
+  uses: scribe-security/action-verify@v0.4.2
   with:
       target: 'busybox:latest'
 ```
