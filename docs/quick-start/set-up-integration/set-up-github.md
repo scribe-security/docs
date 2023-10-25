@@ -48,7 +48,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
    - <details>
         <summary> To add automatic evidence collection (a signed SBOM) after each commit </summary>
 
-        Create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
+        Assuming that you do not yet have an existing pipeline workflow, you need to create a new YAML file under the `.github/workflows/` folder in the root folder of your repository.
 
         <img src='../../../../img/start/github-workflows.jpg' alt='Repository Workflows'/>
 
