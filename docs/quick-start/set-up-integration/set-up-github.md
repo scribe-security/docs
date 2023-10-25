@@ -87,7 +87,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
 
         Once this evidence is uploaded to your Scribe Hub you'd be able to see it on your **[evidence report](../../scribe-hub-reports/evidence)**.
 
-    </details>
+     </details>
 
    - <details>
         <summary> To add automatic evidence collection (a signed SBOM) to your GitHub pipeline workflow </summary>
