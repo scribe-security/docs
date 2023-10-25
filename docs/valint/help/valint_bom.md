@@ -1,4 +1,4 @@
-# valint bom
+## valint bom
 
 Create evidence command
 
@@ -40,6 +40,7 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --allow-expired | Allow expired certs | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
 | | --backoff | Backoff duration | "15s" |
@@ -49,6 +50,9 @@ Flags for all `valint` subcommands
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| | --crl | x509 CRL path | |
+| | --crl-full-chain | Enable Full chain CRL verfication | |
+| | --disable-crl | Disable certificate revocation verificatoin | |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
@@ -65,6 +69,7 @@ Flags for all `valint` subcommands
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
+| | --policy-args | Policy arguments | [] |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
@@ -73,6 +78,7 @@ Flags for all `valint` subcommands
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
+| -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
@@ -81,31 +87,31 @@ Flags for all `valint` subcommands
 ### Examples for running `valint bom`
 
 ```
-  valint bom <target>
+  valint  <target>
   
   <target> Target object name format=[<image:tag>, <dir path>, <git url>]
 
-  valint bom alpine:latest                         create default (cyclonedxjson) sbom
-  valint bom alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
-  valint bom alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
-  valint bom alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
-  valint bom alpine:latest                     show verbose debug information
-  valint bom alpine:latest -A "*/**"           collect files content in to SBOM
-  valint bom file.json -o attest-generic 	  attach file as evidence
+  valint  alpine:latest                         create default (cyclonedxjson) sbom
+  valint  alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
+  valint  alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
+  valint  alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
+  valint  alpine:latest                     show verbose debug information
+  valint  alpine:latest -A "*/**"           collect files content in to SBOM
+  valint  file.json -o attest-generic 	  attach file as evidence
 
   Supports the following image sources:
-  valint bom yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+  valint  yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
 
   You can also explicitly specify the scheme to use:
-  valint bom docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-  valint bom podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
-  valint bom docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-  valint bom oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
-  valint bom dir:path/to/yourproject                read directly from a path on disk (any directory)
-  valint bom registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-  valint bom file:path/to/yourproject/file          read directly from a path on disk (any single file)
-  valint bom git:path/to/yourrepository             read directly from a local repository on disk
-  valint bom git:https://github.com/yourrepository.git         read directly from a remote repository on git
+  valint  docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+  valint  podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
+  valint  docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+  valint  oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+  valint  dir:path/to/yourproject                read directly from a path on disk (any directory)
+  valint  registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+  valint  file:path/to/yourproject/file          read directly from a path on disk (any single file)
+  valint  git:path/to/yourrepository             read directly from a local repository on disk
+  valint  git:https://github.com/yourrepository.git         read directly from a remote repository on git
 
   SBOM-Example:
   valint bom alpine:latest -o attest
