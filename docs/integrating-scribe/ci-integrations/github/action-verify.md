@@ -377,8 +377,7 @@ jobs:
 </details>
 
 ### Running action as non root user
-By default action runs in its own pid namespace as the root user.
-You change users you can use the `USERID` and `USERNAME` env
+By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
 
 ```YAML
 - name: Generate cyclonedx json SBOM
@@ -389,6 +388,26 @@ You change users you can use the `USERID` and `USERNAME` env
   env:
     USERID: 1001
     USERNAME: runner
+``` 
+
+<details>
+  <summary> Non root user with HIGH UID/GID </summary>
+By default, the action runs in its own pid namespace as the root user. If the user uses a high UID or GID, you must specify all the following environment variables. You can change the user by setting specific `USERID` and `USERNAME` variables. Additionally, you may group the process by setting specific `GROUPID` and `GROUP` variables.
+
+```YAML
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    target: 'busybox:latest'
+    format: json
+  env:
+    USERID: 888000888
+    USERNAME: my_user
+    GROUPID: 777000777
+    GROUP: my_group
+``` 
+
+</details>
 ``` 
 
 ### Verify SBOMs examples
