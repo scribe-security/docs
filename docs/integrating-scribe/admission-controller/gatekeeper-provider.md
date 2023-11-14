@@ -6,13 +6,13 @@ sidebar_position: 4
 
 The OPA Gatekeeper is an admission controller that enforces policies on Kubernetes resources. Valint can be used as a provider for Gatekeeper to verify policies on your supply chain.
 
-To integrate [OPA Gatekeeper's ExternalData feature](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) with Valint to verify policies on your supply chain.
+To integrate [OPA Gatekeeper's new ExternalData feature](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) with Valint to verify policies on your supply chain.
 
 > This repo is meant for testing Gatekeeper external data feature. Do not use for production.
 
 ## Installation
 
-### Installing gatekeeper
+### Installing Gatekeeper
 - Deploy Gatekeeper with external data enabled (`--enable-external-data`)
 ```sh
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
@@ -22,19 +22,37 @@ helm install gatekeeper/gatekeeper  \
     --set enableExternalData=true \
     --set controllerManager.dnsPolicy=ClusterFirst,audit.dnsPolicy=ClusterFirst \
     --set validatingWebhookTimeoutSeconds=30 \
-    --version 3.10.0
 ```
-_Note: This repository is currently only working with Gatekeeper 3.10 and the `externalData` feature in `alpha`. There is an open issue to track the support of Gatekeeper 3.11 and `externalData` feature in `beta`: https://github.com/scribe-security/gatekeeper-valint/issues/20._
+
+### Generate TLS certificate and key for the provider
+Gatekeeper enforces TLS when communicating with the provider, so certificates must be provided.
+
+1) To generate new certificates, use the script:
+- `scripts/generate-tls-cert.sh`
+
+2) This will create CA and certificate files in `certs` directory.
 
 ### Installing Valint Gatekeeper provider
-- `kubectl apply -f manifest`
 
-- `kubectl apply -f policy/provider.yaml`
-  - > Update `url` if it's not `http://gatekeeper-valint.gatekeeper-valint:8090` (default)
+- ```sh
+   helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
+   --namespace gatekeeper-valint --create-namespace \
+   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+   --set certs.tlsCrt="$(cat certs/tls.crt)" \
+   --set certs.tlsKey="$(cat certs/tls.key)"
+  ```
 
-- `kubectl apply -f policy/template.yaml`
+If Valint verification is to be performed with x509 certificate, provide additional flags.
 
-- `kubectl apply -f policy/constraint.yaml`
+- ```sh
+   helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
+   --namespace gatekeeper-valint --create-namespace \
+   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+   --set certs.tlsCrt="$(cat certs/tls.crt)" \
+   --set certs.tlsKey="$(cat certs/tls.key)" \
+   --set x509.cert="$(cat valint/tls.crt)" \
+   --set x509.ca="$(cat valint/ca.crt)"
+  ```
 
 ### Evidence Stores
 Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
@@ -47,45 +65,26 @@ Each storer can be used to store, find and download evidence, unifying all the s
 ## Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
-Related Deployment environments:
-> Note the values set:
->* `VALINT_SCRIBE_AUTH_CLIENT_ID`
->* `VALINT_SCRIBE_AUTH_CLIENT_SECERT`
->* `VALINT_SCRIBE_ENABLE`
-
 ### Before you begin
-Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
 * **Client ID**
 * **Client Secret**
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-1. Edit the `manifest/secret.yaml` file, enable client and add  related `Client ID` and `Client Secret`.
+Enable Scribe client and add related `Client ID` and `Client Secret`.
 
-  For example.
-  ```yaml
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: scribe-cred-secret
-    namespace: gatekeeper-valint
-  stringData:
-    scribe_client_id: "<your client secret>"
-    scribe_client_secret: "<your client secret>"
-    scribe_enable: "true"
+- ```sh
+   helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
+   --namespace gatekeeper-valint --create-namespace \
+   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+   --set certs.tlsCrt="$(cat certs/tls.crt)" \
+   --set certs.tlsKey="$(cat certs/tls.key)" \
+   --set scribe.enable=true \
+   --set scribe.client_id=$SCRIBE_CLIENT_ID \
+   --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
   ```
-
-2. To install the gatekeeper-valint with Scribe service integration:
-```bash
-    kubectl apply -f manifest
-    # Update `url` if it's not `http://gatekeeper-valint.gatekeeper-valint:8090` (default)
-    kubectl apply -f policy/provider.yaml
-
-    kubectl apply -f policy/template.yaml
-    kubectl apply -f policy/constraint.yaml
-```
-
 > Credentials will be stored as a secret named `scribe-cred-secret`.
 
 ## OCI Evidence store
@@ -95,7 +94,20 @@ Using OCI registry as an evidence store allows you to upload and verify evidence
 Related configmap flags:
 >* `config.attest.cocosign.storer.OCI.enable` - Enable OCI store.
 >* `config.attest.cocosign.storer.OCI.repo` - Evidence store location.
-<!-- * `imagePullSecrets` - Secret name for private registry. -->
+
+## Private registries
+To verify images from registries that require authentication, create a Kubernetes image pull secret named `gatekeeper-valint-pull-secret`.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gatekeeper-valint-pull-secret
+  namespace: gatekeeper-valint
+data:
+  .dockerconfigjson: ewoJImF1...g==
+type: kubernetes.io/dockerconfigjson
+```
 
 ### Dockerhub limitation
 Dockerhub does not support the subpath format, `oci-repo` should be set to your Dockerhub Username.
@@ -107,7 +119,7 @@ Dockerhub does not support the subpath format, `oci-repo` should be set to your 
 - Read access to download evidence for the provider.
 - Evidence can be stored in any accessible OCI registry.
 
-1. Edit the `manifest/configmap.yaml` file, enable OCI client and enable a OCI repo.
+1. Edit the `charts/gatekeeper-valint/values.yaml` file, enable OCI client and enable a OCI repo.
    For example, 
    ```yaml
    attest:
@@ -130,16 +142,6 @@ Dockerhub does not support the subpath format, `oci-repo` should be set to your 
     kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n gatekeeper-valint
     ``` -->
      
-2. To install the gatekeeper-valint with Scribe service integration:
-```bash
-    kubectl apply -f manifest
-    # Update `url` if it's not `http://gatekeeper-valint.gatekeeper-valint:8090` (default)
-    kubectl apply -f policy/provider.yaml
-
-    kubectl apply -f policy/template.yaml
-    kubectl apply -f policy/constraint.yaml
-```
-
 ## Verification
 
 ## See Gatekeeper Valint in action
@@ -151,8 +153,7 @@ kubectl apply -f policy/examples/error.yaml
 Request should be rejected.
 
 ```
-  Error from server (Forbidden): error when creating "policy/examples/valid.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "ERROR (VerifyAdmissionImage(\"scribesecuriy.jfrog.io/scribe-docker-public-local/test/gensbom_alpine_input:latest\")): [rule] [my_policy] [verify-artifact] [verify_rego] verify, Err: [my_policy] [verify-artifact] [verify_rego] rule failed"}
-  Error from server (Forbidden): error when creating "policy/examples/error.yaml": admission webhook "validation.gatekeeper.sh" denied the request
+  Error from server (Forbidden): error when creating "policy/examples/error.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "ERROR (VerifyAdmissionImage(\"scribesecuriy.jfrog.io/scribe-docker-public-local/test/gensbom_alpine_input:latest\")): [rule] [my_policy] [verify-artifact] [verify_rego] verify, Err: [my_policy] [verify-artifact] [verify_rego] rule failed"}
 ```
 
 This will successfully create the pod demo using a demo signed image.
@@ -175,4 +176,4 @@ valint [bom, slsa] my_image -o attest [--oci OR --scribe.enable]
 ## Adding custom policies
 The configuration of the Valint provider is done via a ConfigMap.
 The same parameters and flags as in Valint can be set.
-See manigest/configmap.yaml and Valint documentation for more details.
+See `charts/gatekeeper-valint/values.yaml`, valint.config section and Valint documentation for more details.
