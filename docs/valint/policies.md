@@ -761,3 +761,50 @@ attest:
                 git_url: '{{ .Args.git_url }}'
                 git_branch: '{{ .Args.git_branch }}'
 ```
+
+## Evidence Lookup
+
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in the storage using anumber of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "env", and "flags".
+
+1. `target`context group specifies parameters that can be derived from the target provided (if any). Those parameters are:
+    * `target_type` - the type of the target provided (e.g., image, git, generic, etc.)
+    * `sbomversion` - the version of the SBOM provided (usually sha256 or sha1 hash)
+
+2. `env` context group specifies parameters that can be derived from the running environment. Those parameters are:
+    * `context_type` - the type of the environment (e.g., local, github, etc.)
+    * `git_url` - the git url of the repository (if any)
+    * `git_commit` - the git commit of the repository (if any)
+    * `run_id` - the run id
+    * `build_num` - the build number
+
+3. `flags` context group specifies parameters that can be derived from the command line arguments. Those parameters are:
+    * `name` - the name of the product
+    * `product_version` - the version of the product
+    * `predicate_type` - the type of the predicate (e.g., https://cyclonedx.org/bom, https://slsa.dev/provenance/v0.1, etc.)
+
+User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
+By default groups `target` and `flags` are used.
+The list of groups to be used should be provided to the `attest.cocosign.policies.<policy>.modules.<module>.input.context-group` field in the configuration file.
+
+In addition, user can specify any parameters that they want to be match by an evidence manually. For example, these can be `git_url` or `timestamp`.
+
+An example of using the `target` context group and a specific timestamp value is shown below:
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true
+        modules:
+          - name: my_module
+            type: verify-artifact
+            enable: true
+            input:
+              signed: true
+              format: attest-cyclonedx-json
+              match:
+                timestamp: "2023-11-16T09:46:25+02:00"
+              context-group:
+                - target
+```
