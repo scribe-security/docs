@@ -708,3 +708,56 @@ match:
 > If you also add `git_url: github.com/my_org/myimage.git`, it requires the evidence to be collected from a pipeline on a specific repo.
 
 </details>
+
+## Templating policy params
+
+The template engine for policy configuration provides users with a flexible mechanism to define and customize policies through the use of template arguments. These template arguments act as placeholders within the policy configuration, allowing users to dynamically substitute values before the policy is evaluated.
+
+Currently `valint` supports two groups of template arguments:
+
+1. Context-defined
+
+Context arguments are derived from the evidence context, enabling users to directly reference any field within it. The syntax for referencing a context variable is as follows: `{{ .Context.<var_name> }}`.
+
+Replace `<var_name>` with the specific variable name from the evidence context that you want to use. Foe example, `{{ .Context.git_commit }}`.
+
+
+2. User-defined
+
+Users can pass custom arguments through the command line using the `--policy-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
+
+For example,
+
+```bash
+valint verify git:repo.git --policy-args "my_arg"="foo"
+```
+
+In the policy configuration: `{{ .Args.my_arg }}`.
+
+***Replacement and Error Handling***
+
+Before a policy is evaluated, the template engine performs a substitution of template arguments with their corresponding values. This ensures that the policy receives the actual data during evaluation.
+If the replacement process encounters an issue, such as an undefined variable or a mismatch in the provided arguments, an error is issued, and the policy evaluation is halted.
+
+***Example***
+
+The following example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch are passed as arguments to the policy using the `--policy-args` flag. The target_type is passed as a field from the evidence context.
+
+```yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        enable: true
+        modules:
+          - name: my_module
+            type: verify-artifact
+            enable: true
+            input:
+              signed: true
+              format: attest-cyclonedx-json
+              match:
+                target_type: '{{ .Context.target_type }}'
+                git_url: '{{ .Args.git_url }}'
+                git_branch: '{{ .Args.git_branch }}'
+```
