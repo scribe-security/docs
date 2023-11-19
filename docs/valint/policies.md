@@ -739,9 +739,10 @@ In the policy configuration: `{{ .Args.my_arg }}`.
 Before a policy is evaluated, the template engine performs a substitution of template arguments with their corresponding values. This ensures that the policy receives the actual data during evaluation.
 If the replacement process encounters an issue, such as an undefined variable or a mismatch in the provided arguments, an error is issued, and the policy evaluation is halted.
 
-***Example***
+<details>
+  <summary> Usage </summary>
 
-The following example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch are passed as arguments to the policy using the `--policy-args` flag. The target_type is passed as a field from the evidence context.
+This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch are passed as arguments to the policy using the `--policy-args` flag. The target_type is passed as a field from the evidence context.
 
 ```yaml
 attest:
@@ -761,6 +762,8 @@ attest:
                 git_url: '{{ .Args.git_url }}'
                 git_branch: '{{ .Args.git_branch }}'
 ```
+
+</details>
 
 ## Evidence Lookup
 
@@ -788,6 +791,9 @@ The list of groups to be used should be provided to the `attest.cocosign.policie
 
 In addition, user can specify any parameters that they want to be match by an evidence manually. For example, these can be `git_url` or `timestamp`.
 
+<details>
+  <summary> Usage </summary>
+
 An example of using the `target` context group and a specific timestamp value is shown below:
 
 ```yaml
@@ -808,3 +814,4 @@ attest:
               context-group:
                 - target
 ```
+</details>
