@@ -49,6 +49,8 @@ This will aggregate their SBOMs under the same product in the Scribe Hub Product
 
 To achieve this, you can use the flags `--product-key` (`-n`) and `--product-version` (`-v`).
 
+By default, our system automatically distinguishes between deliverable and non-deliverable artifacts. To modify this behavior, employ the `--deliverable` flag and set it to either `true` or `false`.
+
 **Example**
 ```
 valint bom my_image:my_tag -n my_app -v 1.0.1

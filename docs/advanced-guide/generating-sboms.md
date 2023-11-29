@@ -17,6 +17,9 @@ In your build script call `valint bom <target> <flags>`.
 
 You can label several different build artifacts in one or more pipelines as belonging to the same application and version. To this end use the flags `--product-key` (`-n`) and `--product-version` (`-v`). You can read about other optional flags **[here](../integrating-scribe/valint/command/valint_bom/#optional-flags)**.
 
+
+By default, our system automatically distinguishes between deliverable and non-deliverable artifacts. To modify this behavior, employ the `--deliverable` flag and set it to either `true` or `false`.
+
 ### Example
 
 ```
