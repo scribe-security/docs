@@ -196,7 +196,7 @@ jobs:
           format: attest
         env:
           SIGNER_KEY: ${{ secrets.SIGNER_KEY }}
-          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          SIGNER_CERT: ${{ secrets.SIGNER_CERT }}
           COMPANY_CA:  ${{ secrets.COMPANY_CA }}
 
         uses: scribe-security/action-verify@master
@@ -204,7 +204,7 @@ jobs:
           target: busybox:latest
           input-format: attest
         env:
-          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          SIGNER_CERT: ${{ secrets.SIGNER_CERT }}
           COMPANY_CA:  ${{ secrets.COMPANY_CA }}
 ```
 </details>
