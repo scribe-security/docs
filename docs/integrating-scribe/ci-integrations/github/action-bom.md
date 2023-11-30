@@ -33,49 +33,39 @@ To overcome the limitation install tool directly - **[installer](https://github.
 
 ### Input arguments
 ```yaml
-    target:
+  target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-  type:
-    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
-    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
-    required: false
-  scribe-audience:
-    description: Scribe auth audience
-    deprecationMessage: Please use scribe-auth-audience instead
-    required: false
-  all-env:
-    description: Attach all environment variables
-  build-type:
-    description: Set build type
-  builder-id:
-    description: Set builder id
-  by-product:
-    description: Attach by product path
+  attach-regex:
+    description: Attach files content by regex
+  author-email:
+    description: Set author email
+  author-name:
+    description: Set author name
+  author-phone:
+    description: Set author phone
   components:
-    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
-  external:
-    description: Add build external parameters
-  finished-on:
-    description: Set metadata finished time (YYYY-MM-DDThh:mm:ssZ)
+    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
+  compress:
+    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[statement attest predicate]
-  invocation:
-    description: Set metadata invocation ID
-  predicate:
-    description: Import predicate path
-  started-on:
-    description: Set metadata started time (YYYY-MM-DDThh:mm:ssZ)
-  statement:
-    description: Import statement path
-  app-name:
-    description: Logical application name
-    deprecationMessage: Flag is no longer supported
-  app-version:
-    description: Logical application version
-    deprecationMessage: Flag is no longer supported
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
+  package-exclude-type:
+    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+  package-group:
+    description: Select package group, options=[index install all]
+  package-type:
+    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+  supplier-email:
+    description: Set supplier email
+  supplier-name:
+    description: Set supplier name
+  supplier-phone:
+    description: Set supplier phone
+  supplier-url:
+    description: Set supplier url
   allow-expired:
     description: Allow expired certs
   attest-config:
