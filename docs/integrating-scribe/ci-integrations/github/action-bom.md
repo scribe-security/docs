@@ -466,7 +466,7 @@ Create SBOM for Deliverable  `mongo-express/mongo-express` Git repository.
     target: git:https://github.com/mongo-express/mongo-express.git
     product-key: my_product
     product-version: 3
-    deliverable: "true"
+    deliverable: true
     format: json
 ``` 
 
