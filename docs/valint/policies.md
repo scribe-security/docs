@@ -736,13 +736,13 @@ In the policy configuration: `{{ .Args.my_arg }}`.
 
 ***Replacement and Error Handling***
 
-Before a policy is evaluated, the template engine performs a substitution of template arguments with their corresponding values. This ensures that the policy receives the actual data during evaluation.
-If the replacement process encounters an issue, such as an undefined variable or a mismatch in the provided arguments, an error is issued, and the policy evaluation is halted.
+Before a policy is evaluated, template engine performs a substitution of templated arguments with the corresponding values.
+If the replacement process encounters an issue, such as no value provided for a variable used by the configuration, an error is issued and policy evaluation is halted.
 
 <details>
   <summary> Usage </summary>
 
-This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch are passed as arguments to the policy using the `--policy-args` flag. The target_type is passed as a field from the evidence context.
+This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch should beare passed as arguments to the policy using the `--policy-args` flag as `--policy-args git_url=<url> --policy-args git_branch=<branch>`. The target_type is passed as a field from the evidence context.
 
 ```yaml
 attest:
@@ -767,29 +767,29 @@ attest:
 
 ## Evidence Lookup
 
-In order to run a policy rule, `valint` requires relevant evidence, which can be found in the storage using anumber of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "env", and "flags".
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "env", and "flags".
 
-1. `target`context group specifies parameters that can be derived from the target provided (if any). Those parameters are:
-    * `target_type` - the type of the target provided (e.g., image, git, generic, etc.)
-    * `sbomversion` - the version of the SBOM provided (usually sha256 or sha1 hash)
+1. `target` context group specifies parameters that can be derived from the target provided (if any). Those parameters are:
+    * `target_type` - the type of the target provided (e.g., image, git, generic etc.)
+    * `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
 2. `env` context group specifies parameters that can be derived from the running environment. Those parameters are:
-    * `context_type` - the type of the environment (e.g., local, github, etc.)
-    * `git_url` - the git url of the repository (if any)
-    * `git_commit` - the git commit of the repository (if any)
-    * `run_id` - the run id
-    * `build_num` - the build number
+    * `context_type` - type of the environment (e.g., local, github, etc.)
+    * `git_url` - git url of the repository (if any)
+    * `git_commit` - git commit of the current repository state (if any)
+    * `run_id` - run id
+    * `build_num` - build number
 
 3. `flags` context group specifies parameters that can be derived from the command line arguments. Those parameters are:
-    * `name` - the name of the product
-    * `product_version` - the version of the product
-    * `predicate_type` - the type of the predicate (e.g., https://cyclonedx.org/bom, https://slsa.dev/provenance/v0.1, etc.)
+    * `name` - name of the product
+    * `product_version` - version of the product
+    * `predicate_type` - type of the predicate (e.g., https://cyclonedx.org/bom, https://slsa.dev/provenance/v0.1, etc.)
 
 User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
-By default groups `target` and `flags` are used.
+By default `target` and `flags` groups are used.
 The list of groups to be used should be provided to the `attest.cocosign.policies.<policy>.modules.<module>.input.context-group` field in the configuration file.
 
-In addition, user can specify any parameters that they want to be match by an evidence manually. For example, these can be `git_url` or `timestamp`.
+In addition, one can manually specify any parameters that they want to be matched by an evidence. For example, these can be `git_url` or `timestamp`.
 
 <details>
   <summary> Usage </summary>
