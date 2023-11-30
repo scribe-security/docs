@@ -33,7 +33,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 
 ### Input arguments
 ```yaml
-  target:
+    target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
   type:
@@ -44,36 +44,38 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Scribe auth audience
     deprecationMessage: Please use scribe-auth-audience instead
     required: false
-  attach-regex:
-    description: Attach files content by regex
-  author-email:
-    description: Set author email
-  author-name:
-    description: Set author name
-  author-phone:
-    description: Set author phone
+  all-env:
+    description: Attach all environment variables
+  build-type:
+    description: Set build type
+  builder-id:
+    description: Set builder id
+  by-product:
+    description: Attach by product path
   components:
-    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  compress:
-    description: Compress content (generic evidence)
+    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
+  external:
+    description: Add build external parameters
+  finished-on:
+    description: Set metadata finished time (YYYY-MM-DDThh:mm:ssZ)
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
-  package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
-  package-group:
-    description: Select package group, options=[index install all]
-  package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
-  supplier-email:
-    description: Set supplier email
-  supplier-name:
-    description: Set supplier name
-  supplier-phone:
-    description: Set supplier phone
-  supplier-url:
-    description: Set supplier url
+    description: Evidence format, options=[statement attest predicate]
+  invocation:
+    description: Set metadata invocation ID
+  predicate:
+    description: Import predicate path
+  started-on:
+    description: Set metadata started time (YYYY-MM-DDThh:mm:ssZ)
+  statement:
+    description: Import statement path
+  app-name:
+    description: Logical application name
+    deprecationMessage: Flag is no longer supported
+  app-version:
+    description: Logical application version
+    deprecationMessage: Flag is no longer supported
   allow-expired:
     description: Allow expired certs
   attest-config:
@@ -96,6 +98,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
@@ -443,6 +447,42 @@ By default, the action runs in its own pid namespace as the root user. If the us
 </details>
 
 ### Basic examples
+<details>
+  <summary>  Attach sbom to product </summary>
+
+Create SBOM for remote `busybox:latest` image and attach it to a specific product version.
+
+```YAML
+- name: Generate cyclonedx json SBOM attached to a product
+  uses: scribe-security/action-bom@master
+  with:
+    target: 'busybox:latest'
+    product-key: my_product
+    product-version: 3
+    format: json
+``` 
+
+</details>
+
+<details>
+  <summary>  Set Git sbom as deliverable artifact </summary>
+
+Create SBOM for Deliverable  `mongo-express/mongo-express` Git repository.
+
+```YAML
+- name: Generate cyclonedx json SBOM for a deliverable Git repo
+  uses: scribe-security/action-bom@master
+  with:
+    target: git:https://github.com/mongo-express/mongo-express.git
+    product-key: my_product
+    product-version: 3
+    deliverable: "true"
+    format: json
+``` 
+
+</details>
+
+
 <details>
   <summary>  Public registry image </summary>
 

@@ -25,14 +25,6 @@ The command allows users to verify any target against its evidence.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-  type:
-    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
-    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
-    required: false
-  scribe-audience:
-    description: Scribe auth audience
-    deprecationMessage: Please use scribe-auth-audience instead
-    required: false
   attestation:
     description: Attestation for target
   common-name:
@@ -67,6 +59,8 @@ The command allows users to verify any target against its evidence.
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
