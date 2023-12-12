@@ -168,7 +168,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 ### Usage
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v0.4.2
+  uses: scribe-security/action-bom@v0.5.0
   with:
     target: 'busybox:latest'
 ```

@@ -134,7 +134,7 @@ The command allows users to verify any target against its evidence.
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v0.4.2
+  uses: scribe-security/action-verify@v0.5.0
   with:
       target: 'busybox:latest'
 ```

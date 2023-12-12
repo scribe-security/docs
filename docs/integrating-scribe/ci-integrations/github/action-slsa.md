@@ -158,7 +158,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ### Usage
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v0.4.2
+  uses: scribe-security/action-slsa@v0.5.0
   with:
     target: 'busybox:latest'
 ```
