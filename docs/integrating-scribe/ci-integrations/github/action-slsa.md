@@ -34,10 +34,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
     deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
     required: false
-  scribe-audience:
-    description: Scribe auth audience
-    deprecationMessage: Please use scribe-auth-audience instead
-    required: false
   all-env:
     description: Attach all environment variables
   build-type:
@@ -129,16 +125,12 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Product Key
   product-version:
     description: Product Version
-  scribe-auth-audience:
-    description: Scribe auth audience
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:

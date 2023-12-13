@@ -163,8 +163,8 @@ jobs:
           args: release  --debug --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALINT_SCRIBE_AUTH0_CLIENTID:  ${{ secrets.clientid }}
-          VALINT_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
+          VALINT_SCRIBE_CLIENTID:  ${{ secrets.clientid }}
+          VALINT_SCRIBE_CLIENTSECRET: ${{ secrets.clientsecret }}
           VALINT_SCRIBE_ENABLE: true
 
       - uses: actions/upload-artifact@v2
