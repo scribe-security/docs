@@ -179,7 +179,7 @@ Composite Action can be used on Linux or Windows runners following
 - name: Generate cyclonedx json SBOM
   uses: scribe-security/action-bom-cli@v0.5.1
   with:
-    target: 'busybox:latest'
+    target: 'hello-world:latest'
 ```
 
 > Use `master` instead of tag to automatically pull latest version.
