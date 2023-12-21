@@ -174,7 +174,7 @@ Containerized action can be used on Linux runners as following
     target: 'busybox:latest'
 ```
 
-Composite Action can be used on Linux or Windows runners following
+Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
   uses: scribe-security/action-bom-cli@v0.5.1
