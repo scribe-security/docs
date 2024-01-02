@@ -30,10 +30,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-  type:
-    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
-    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
-    required: false
   all-env:
     description: Attach all environment variables
   build-type:
@@ -82,6 +78,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:

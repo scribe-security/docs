@@ -36,10 +36,6 @@ To overcome the limitation install tool directly - **[installer](https://github.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-  type:
-    description: Target source type scheme=[docker,docker-archive, oci-archive, dir, registry, git, generic]
-    deprecationMessage: Please use target fields, formated [type]:[target]:[tag]
-    required: false
   attach-regex:
     description: Attach files content by regex
   author-email:
@@ -92,6 +88,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
@@ -446,6 +444,42 @@ By default, the action runs in its own pid namespace as the root user. If the us
 </details>
 
 ### Basic examples
+<details>
+  <summary>  Attach sbom to product </summary>
+
+Create SBOM for remote `busybox:latest` image and attach it to a specific product version.
+
+```YAML
+- name: Generate cyclonedx json SBOM attached to a product
+  uses: scribe-security/action-bom@master
+  with:
+    target: 'busybox:latest'
+    product-key: my_product
+    product-version: 3
+    format: json
+``` 
+
+</details>
+
+<details>
+  <summary>  Set Git sbom as deliverable artifact </summary>
+
+Create SBOM for Deliverable  `mongo-express/mongo-express` Git repository.
+
+```YAML
+- name: Generate cyclonedx json SBOM for a deliverable Git repo
+  uses: scribe-security/action-bom@master
+  with:
+    target: git:https://github.com/mongo-express/mongo-express.git
+    product-key: my_product
+    product-version: 3
+    deliverable: true
+    format: json
+``` 
+
+</details>
+
+
 <details>
   <summary>  Public registry image </summary>
 
