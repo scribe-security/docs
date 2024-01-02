@@ -17,6 +17,7 @@ const config = {
     [
       '@docusaurus/plugin-sitemap', 
       {
+        id: 'sitemap',
         changefreq: 'weekly',
         priority: 0.5,
         ignorePatterns: ['/tags/**'],
