@@ -112,8 +112,6 @@ The command allows users to verify any target against its evidence.
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:
@@ -125,12 +123,21 @@ The command allows users to verify any target against its evidence.
 ```
 
 ### Usage
+Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v0.4.2
+  uses: scribe-security/action-verify@v0.5.1
   with:
       target: 'busybox:latest'
+```
+
+Composite Action can be used on Linux or Windows runners as following
+```yaml
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-verify-cli@v0.5.1
+  with:
+    target: 'hello-world:latest'
 ```
 
 > Use `master` instead of tag to automatically pull latest version.

@@ -105,18 +105,12 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Output file name
   product-key:
     description: Scribe Project Key
-  scribe-audience:
-    description: Scribe auth audience
-    default: api.production.scribesecurity.com
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
-    default: https://scribesecurity-production.us.auth0.com
   scribe-url:
     description: Scribe API Url
     default: https://api.production.scribesecurity.com
