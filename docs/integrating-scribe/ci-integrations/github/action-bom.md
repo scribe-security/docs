@@ -455,7 +455,7 @@ Valint tool supports both Windows and Linux images. To specify the desired image
     format: json
 ```
 
-By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform:
+By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform.
 
 ```yaml
 - name: Generate cyclonedx json SBOM
