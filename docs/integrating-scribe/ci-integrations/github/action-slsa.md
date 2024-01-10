@@ -432,6 +432,37 @@ By default, the action runs in its own pid namespace as the root user. If the us
 </details>
 ``` 
 
+### Platform-Specific Image Handling
+Valint tool supports both Windows and Linux images. To specify the desired image platform, use the platform field in your configuration:
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa@master
+  with:
+    target: hello-world:latest
+    platform: linux:amd64
+```
+
+By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform:
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa@master
+  with:
+    target: registry:hello-world:latest
+    platform: windows/amd64
+```
+
+### Windows Runner Compatibility
+Please be aware that when using a Windows runner, containerized actions will not work as expected use CLI actions instead.
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa-cli@master
+  with:
+    target: hello-world:latest
+```
+
 ### Basic examples
 <details>
   <summary>  Public registry image </summary>

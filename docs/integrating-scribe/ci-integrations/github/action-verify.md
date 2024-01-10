@@ -381,8 +381,8 @@ jobs:
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Verify image
+  uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
     format: json
@@ -396,8 +396,8 @@ By default, the action runs in its own pid namespace as the root user. You can c
 By default, the action runs in its own pid namespace as the root user. If the user uses a high UID or GID, you must specify all the following environment variables. You can change the user by setting specific `USERID` and `USERNAME` variables. Additionally, you may group the process by setting specific `GROUPID` and `GROUP` variables.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Verify image
+  uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
     format: json
@@ -410,6 +410,37 @@ By default, the action runs in its own pid namespace as the root user. If the us
 
 </details>
 ``` 
+
+### Platform-Specific Image Handling
+Valint tool supports both Windows and Linux images. To specify the desired image platform, use the platform field in your configuration:
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: hello-world:latest
+    platform: linux:amd64
+```
+
+By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform:
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: registry:hello-world:latest
+    platform: windows/amd64
+```
+
+### Windows Runner Compatibility
+Please be aware that when using a Windows runner, containerized actions will not work as expected use CLI actions instead.
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify-cli@master
+  with:
+    target: hello-world:latest
+```
 
 ### Verify SBOMs examples
 <details>
