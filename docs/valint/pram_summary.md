@@ -68,11 +68,11 @@ The fields are collected from any supported environment.
 | git_commit | Environment provided git commit |
 | git_tag | Environment provided git tag |
 | git_ref | Environment provided git ref |
+| git_uuid | Environment provided git uuid |
 | workflow | Environment workflow |
 | job_name | Environment Job name |
 | actor | Environment provided actor |
 | build_num | Environment build num |
-
 
 The following fields are collected from any supported artifact (`target`).
 
@@ -80,6 +80,9 @@ The following fields are collected from any supported artifact (`target`).
 | --- | --- | --- | --- |
 | content_type | Target Evidence Format (CLI) value of flags`--format`, `--input-format` | All | 
 | name | Product key (CLI) - value of flag `--product-key` | All |
+| name | Product Version (CLI) - value of flag `--product-version` | All |
+| name | Pipeline name (CLI) - value of flag `--pipeline-name` | All |
+| name | Mark as Deilverable (CLI) - value of flag `--deliverable` | All |
 | sbomgroup | Target SBOM group - `image, directory, file, git` | All |
 | sbomname |  Target SBOM name | All |
 | sbomversion | Target SBOM name  | All |

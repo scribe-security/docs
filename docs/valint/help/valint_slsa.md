@@ -50,6 +50,7 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
+| | --deliverable | Mark as deliverable, options=[true, false] | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |

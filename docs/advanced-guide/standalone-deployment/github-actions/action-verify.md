@@ -89,9 +89,6 @@ The command allows users to verify any target against its evidence.
     description: Output file name
   product-key:
     description: Scribe Project Key
-  scribe-audience:
-    description: Scribe auth audience
-    default: api.production.scribesecurity.com
   scribe-client-id:
     description: Scribe Client ID
   scribe-client-secret:
@@ -196,7 +193,7 @@ jobs:
           format: attest
         env:
           SIGNER_KEY: ${{ secrets.SIGNER_KEY }}
-          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          SIGNER_CERT: ${{ secrets.SIGNER_CERT }}
           COMPANY_CA:  ${{ secrets.COMPANY_CA }}
 
         uses: scribe-security/action-verify@master
@@ -204,7 +201,7 @@ jobs:
           target: busybox:latest
           input-format: attest
         env:
-          SIGNER_CERT: ${{ secrets.SIGNER_KEY }}
+          SIGNER_CERT: ${{ secrets.SIGNER_CERT }}
           COMPANY_CA:  ${{ secrets.COMPANY_CA }}
 ```
 </details>
