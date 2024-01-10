@@ -451,7 +451,7 @@ Valint tool supports both Windows and Linux images. To specify the desired image
   uses: scribe-security/action-bom@master
   with:
     target: hello-world:latest
-    platform: linux:amd64
+    platform: linux/amd64
     format: json
 ```
 

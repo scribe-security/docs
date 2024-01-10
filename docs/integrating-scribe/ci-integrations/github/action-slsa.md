@@ -440,7 +440,7 @@ Valint tool supports both Windows and Linux images. To specify the desired image
   uses: scribe-security/action-slsa@master
   with:
     target: hello-world:latest
-    platform: linux:amd64
+    platform: linux/amd64
 ```
 
 By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform:
