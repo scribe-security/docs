@@ -412,7 +412,7 @@ By default, the action runs in its own pid namespace as the root user. If the us
 ``` 
 
 ### Platform-Specific Image Handling
-Valint tool supports both Windows and Linux images. To specify the desired image platform, use the platform field in your configuration:
+The Valint tool is compatible with both Linux and Windows images. Set the desired platform using the 'platform' field in your configuration:
 
 ```yaml
 - name: valint verify
@@ -422,7 +422,7 @@ Valint tool supports both Windows and Linux images. To specify the desired image
     platform: linux/amd64
 ```
 
-By default, the Docker environment is set up to pull images with their runner associated platforms. For cross-platform image analysis, pull the image directly from the registry and explicitly specify the platform.
+Docker is configured by default to pull images matching the runner's platform. For analyzing images across different platforms, you need to pull the image from the registry and specify the platform.
 
 ```yaml
 - name: valint verify
@@ -433,7 +433,7 @@ By default, the Docker environment is set up to pull images with their runner as
 ```
 
 ### Windows Runner Compatibility
-Please be aware that when using a Windows runner, containerized actions will not work as expected use CLI actions instead.
+> On Windows Github runners, containerized actions are currently not supported. It's recommended to use CLI actions in such cases.
 
 ```yaml
 - name: valint verify
