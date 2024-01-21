@@ -17,11 +17,9 @@ cache:
   output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
-    login-url: https://scribe-hub-production.us.auth0.com
-    grant-type: client_credentials
     enable: true
     audience: api.production.scribesecurity.com
-  url: https://airflow.scribesecurity.com
+  url: https://api.scribesecurity.com
   enable: false
   retry:
     backoff: 15s

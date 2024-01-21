@@ -8,64 +8,77 @@ geometry: margin=2cm
 ---
 
 # Policies
+
 Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
 Policy configuration can be set under the main configuration `policies` section.
 
-Each `policy` consists of a set of `policy modules` that your supply chain must comply with. 
-A `policy` is verified if ALL required `modules` included in it are evaluated and verified. A `module` is verified if ANY `evidence` is found that complies with the `module` configuration and setting.
+Each `policy` consists of a set of `policy rules` that your supply chain must comply with.
+A `policy` is verified if ALL required `rules` included in it are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
 ### Usage
+
 Policies are configured as part of Valint configuration file, under the `policies` section.
 
 ```yaml
 attest:
   cocosign:
-    policies:  # Set of policies - grouping modules
+    policies:  # Set of policies - grouping rules
       - name: <policy_name>
-        enable: true      
-        modules: Set of module settings/configuration and input
-          - name: <module_name>
-            type: <verify-artifact> # Currently supporting the following types
-            enable: true
-            input: {} # Module input, depending on the module type
-``` 
+        rules: Set of rule settings/configuration and input
+          - name: <rule_name>
+            path: <rule_path> # Specify if an external script is used
+            description: "A brief rule description"
+            labels: [] # list of user-specified labels
+            initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
+            evidence: #Evidence lookup parameters
+              signed: false
+              format-type: <format-type>
+              filter-by: [] # A group of Context fields to use for the evidence lookup
+            with:  {} # rule input, depending on the rule type
+```
 
 > For configuration details, see [configuration](docs/configuration) section.
 
 > For PKI setting, see [attestations](docs/attestations) section.
 
-### Policy 
+### Policy
+
 Policy support the following fields:
-* `enable`, enable module (default false). 
-* `name`, policy name (**required**). 
-* `modules`, list of policy module configuration.
 
-# Policy modules
-Module is a compliance checks that you can configure to your specific organization requirements.
-* `enable`, enable module (default false). 
-* `name`, policy module name (**required**). 
-* `type`, type of the module, currently supporting `veirfy-arifact` and `git-owner`.
-* `match`, match on evidence with a specific context.
-* `input`, module specific configuration.
+* `disable`, disable rule (default false).
+* `name`, policy name (**required**).
+* `rules`, list of policy rule configuration.
 
-> For `match` details, see [Policies](#match-field) section
-> For `input` details, see related module section
+# Policy rules
 
-## Verify Artifact module
+Rule is a compliance checks that you can configure to your specific organization requirements.
+
+* `disable`, disable rule (default false).
+* `name`, policy rule name (**required**).
+* `type`, type of the rule, currently supporting `veirfy-arifact` (_default_) and `git-owner`.
+* `evidence`, match on evidence with a specified parameters.
+* `with`, rule-specific configuration parameters.
+
+> For `evidence` details, see [Policies](#context-match-fields) section
+> For `with` details, see related rule section
+
+## Verify Artifact rule
+
 ---
-The Verify Artifact module enforces a set of requirements on who produced artifacts across your supply chain as well as what information should be collected on each artifact.
+The Verify Artifact rule enforces a set of requirements on who produced artifacts across your supply chain as well as what information should be collected on each artifact.
 In other words, it ensures produced artifacts' (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) in the format field of the input.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `match` [origin labels](##origin-context). 
+* Evidence Format: The evidence format should follow the specified format(s) either in the format-type or format field of the input.
+* Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` [origin labels](##origin-context).
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The module applies to a specific artifact or any group of artifacts, as specified by the `match` [subject labels](##subject-context).
-* Policy as code: The module allows extension of the verification using custom scripts, as specified by the `rego` input.
+* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` [subject labels](##subject-context).
+* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `rego` or `script` input.
 
 ### Use cases
-The verify artifact module can be used to enforce compliance with specific supply chain requirements, such as:
+
+The `verify-artifact` rule can be used to enforce compliance with specific supply chain requirements, such as:
 
 * Images must be signed and produce a CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
@@ -73,60 +86,57 @@ The verify artifact module can be used to enforce compliance with specific suppl
 * Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
 
 ### Configuration
+
 ```yaml
-- type: verify-artifact # Policy name
-  enable: true/false # Policy enable (default false) 
-  name: "" # Any user provided name
-  input:
+- name: "" # Any user provided name
+  evidence:
+    signed: <true|false> # Should target be signed
+    format-type: <cyclonedx-json, slsa> # Expected evidence format
+    filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
+    {environment-context} # Any origin or subject fields used by
+  with:
     identity:
       emails: [] # Signed email identities 
       uris: [] # Signed URIs identities 
-      common-names: [] # Signed common name identities 
-    signed: <true|false> # Should target be signed
-    format: <statement-cyclonedx-json, attest-cyclonedx-json, statement-slsa, attest-slsa> # Expected evidence format
-    match: {environment-context} # Any origin or subject fields used by
-    script:
-      args: {custom script input} 
-      path: <path to policy script>
-      rego:
-        script: | 
-          # embedded policy script
-          package verify
+      common-names: [] # Signed common name identities
+    {custom script input} # Any rule-specific input
+  path: <path to policy script>
+  script: |
+    # embedded policy script
+    package verify
 
-          verify = v {
-              v := {
-                "allow": {Custom policy validation}
-              }
-          }
-``` 
+    verify = v {
+        v := {
+          "allow": {Custom policy validation}
+        }
+    }
+```
 
 ### Examples
+
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](docs/configuration) section.
 
 <details>
   <summary> Signed Images policy </summary>
-In this example, the policy module named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
+In this example, the policy rule named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true
-        modules:
+        rules:
           - name: signed_image
-            type: verify-artifact
-            enable: true
-            input:
+            evidence:
               signed: true
-              format: attest-cyclonedx-json
+              format-type: cyclonedx-json
+              target_type: image
+            with:
               identity:
                 common-names:
                   - mycompany.com
-              match:
-                target_type: image
 ```
 
 **Command:**<br />
@@ -144,27 +154,24 @@ valint verify busybox:latest
 
 <details>
   <summary> Image SLSA provenance policy </summary>
-In this example, the policy module named `slsa_prov_module` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
+In this example, the policy rule named `slsa_prov_rule` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true
-        modules:
-          - name: slsa_prov_module
-            type: verify-artifact
-            enable: true
-            input:
+        rules:
+          - name: slsa_prov_rule
+            evidence:
               signed: true
-              format: attest-slsa
+              format-type: slsa
+              target_type: image
+            with:
               identity:
                 emails:
                   - bob@mycompany.com
                   - alice@mycompany.com
-              match:
-                target_type: image
 ```
 
 **Command:**<br />
@@ -181,8 +188,8 @@ valint verify busybox:latest
 </details>
 
 <details>
-  <summary> Signed tagged sourced module </summary>
-In this example, the policy module named "tagged_git_module" will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
+  <summary> Signed tagged sourced rule </summary>
+In this example, the policy rule named "tagged_git_rule" will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
 
 > The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
 
@@ -191,21 +198,18 @@ attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true  
-        modules:
-          - name: tagged_git_module
-            type: verify-artifact
-            enable: true
-            input:
+        rules:
+          - name: tagged_git_rule
+            evidence:
               signed: true
-              format: attest-slsa
+              format-type: slsa
+              target_type: git
+              target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
+              branch: main
+            with:
               identity:
                 emails:
                 - bob@mycompany.com
-              match:
-                target_type: git
-                target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
-                branch: main
 ```
 
 **Command:**<br />
@@ -222,27 +226,23 @@ valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-sls
 
 <details>
   <summary> Binary verification </summary>
-In this example, the policy, named "binary_module" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
-The policy module also enforces an unsigned SLSA provenance statement is produced as evidence.
+In this example, the policy, named "binary_rule" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
+The policy rule also enforces an unsigned SLSA provenance statement is produced as evidence.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true  
-        modules:
-          - name: binary_module
-            type: verify-artifact
-            enable: true
-            input:
+        rules:
+          - name: binary_rule
+            evidence:
               signed: false
-              format: statement-slsa
-              match:
-                target_type: file
-                context_type: azure
-                git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
-                input_name: my_binary.exe
+              format-type: slsa
+              target_type: file
+              context_type: azure
+              git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
+              input_name: my_binary.exe
 ```
 
 **Command:**<br />
@@ -260,30 +260,27 @@ valint verify file:my_binary.exe
 
 <details>
   <summary> 3rd party verification </summary>
-In this example, the policy module named "3rd-party-scan" will evaluate scanned `3rd-party-scan.json` file, Originated from Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` and signed by `bob@mycompany.com`.
+In this example, the policy rule named "3rd-party-scan" will evaluate scanned `3rd-party-scan.json` file, Originated from Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` and signed by `bob@mycompany.com`.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true  
-        modules:
+        rules:
           - name: 3rd-party-rule
-            type: verify-artifact
-            enable: true
-            input:
-              signed: false
-              format: attest-generic
+            evidence:
+              signed: true
+              format-type: generic
+              target_type: generic
+              context_type: azure
+              git_url: https://dev.azure.com/mycompany/somerepo
+              git_branch: main
+              input_name: 3rd-party-scan.json
+            with:
               identity:
                 emails:
                 - bob@mycompany.com
-              match:
-                target_type: generic
-                context_type: azure
-                git_url: https://dev.azure.com/mycompany/somerepo
-                git_branch: main
-                input_name: 3rd-party-scan.json
 ```
 
 **Command:**<br />
@@ -300,38 +297,38 @@ valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://sca
 </details>
 
 
-### Policy As Code
-You can define custom policies for artifacts verified by the module by attaching them as code. After the module enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
+### Policy as Code
+
+You can define custom policies for artifacts verified by the rule by attaching them as code. After the rule enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
 
 ### Usage
-Module verifies the predicate of the evidence in a custom Rego script embedded in the policy.
+
+Rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
 
 ```yaml
 - name: signed_image_custom_policy
-  type: verify-artifact
-  enable: true
-  input:
+  evidence:
     signed: true
-    format: attest-cyclonedx-json
+    format-type: cyclonedx-json
+    target_type: image
+  with:
     identity:
       common-names:
         - mycompany.com
-    match:
-      target_type: image
-    rego:
-      script: | 
-        package verify
-        default allow = false
-        verify = {
-           "allow": allow
-        }
+    script: |
+      package verify
+      default allow = false
+      verify = {
+        "allow": allow
+      }
 
-        allow = {
-          input.evidence.predicate-type == "https://cyclonedx.org/bom"
-        }
+      allow = {
+        input.evidence.predicate-type == "https://cyclonedx.org/bom"
+      }
 ```
 
 #### Rego script
+
 In order to add a verification script you must provide a `verify` rule in your script.
 A Rego script can be provided in two forms: as an embedded code snippet in the `rego` section or as a dedicated file using the `path` field.
 
@@ -344,13 +341,20 @@ default allow = false
 
 verify = {
     "allow": false,
-    "summary": []
-    "violations": []
-    "errors": []
+    "violation": {
+      "type": "violation_type",
+      "details": [],
+    },
+    "summary": [{
+      "allow": false,
+      "violations": count(violations),
+      "reason": "some reason string"
+    }],
 }
 ```
 
 #### Input structure
+
 Script input has the following structure.
 
 ```yaml
@@ -366,7 +370,8 @@ stores:
 
 > When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
 
-#### Output structure 
+#### Output structure
+
 Script output must provide the following structure.
 
 ```json
@@ -382,16 +387,17 @@ Script output must provide the following structure.
     },
   ],
   "errors": [], # Optional
-  "violations": [ # Optional
+  "violation": [ # Optional
     {
         "type": "string",
-        "details": {},
+        "details": [{}],
     },
   ]
 }
 ```
 
 ### Examples
+
 Copy the Examples configuration into file name `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
@@ -401,7 +407,7 @@ Files should be in the same directory as running Valint commands.
 
 <details>
   <summary> Custom package policy </summary>
-In this example, the policy module named `custom-package-policy` to verify a custom package requirements.
+In this example, the policy rule named `custom-package-policy` to verify a custom package requirements.
 In the example Alpine packages are forbidden.
 
 ```yaml
@@ -409,44 +415,39 @@ attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true
-        modules:
+        rules:
           - name: signed_image
-            type: verify-artifact
-            enable: true
-            input:
+            evidence:
               signed: true
-              format: attest-cyclonedx-json
-              match:
-                target_type: image
-              rego:
-                script: |
-                  package verify
-                  import data.policies.sbom_parser as parser
-                  default allow = false
+              format-type: cyclonedx-json
+              target_type: image
+            script: |
+              package verify
+              import data.policies.sbom_parser as parser
+              default allow = false
 
-                  verify = v {
-                    v := {
-                      "allow": allow,
-                      "violations": violation(input.evidence.predicate.bom.components),
-                    }
-                  }
+              verify = v {
+                v := {
+                  "allow": allow,
+                  "violation": violation(input.evidence.predicate.bom.components),
+                }
+              }
 
-                  allow {
-                    v := violation(input.evidence.predicate.bom.components)
-                    count(v) == 0
-                    input.evidence.predicateType == "https://cyclonedx.org/bom"
-                  }
+              allow {
+                v := violation(input.evidence.predicate.bom.components)
+                count(v) == 0
+                input.evidence.predicateType == "https://cyclonedx.org/bom"
+              }
 
-                  violation(components) = v {
-                    v := { x |
-                          some i
-                          comp := components[i]
-                          comp.type == "library"
-                          comp.group == "apk"
-                          x := comp["purl"]
-                      }
+              violation(components) = v {
+                v := { x |
+                      some i
+                      comp := components[i]
+                      comp.type == "library"
+                      comp.group == "apk"
+                      x := comp["purl"]
                   }
+              }
 ```
 
 
@@ -463,19 +464,21 @@ valint verify busybox:latest
 
 </details>
 
-## Git Owner module
-The Git Owner module enforces a set of requirements on the identity editing files on git repositories.
+## Git Owner rule
 
-* Verifiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the module input.
-* File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the module input.
+The Git Owner rule enforces a set of requirements on the identity editing files on git repositories.
+
+* Verifiable owners: enforce Commit signature for a set of files, as specified by the `signed-commit` field in the rule input.
+* File owners: enforce the Committer identity for a set of files, as specified by the `user` field in the rule input.
 
 > NOTICE: We currently do not verify the commit signature as it requires the public key of all the signatures keys.
 
-> NOTICE: Module only enforces file requirement on the LATEST commit not the entire chain.
+> NOTICE: Rule only enforces file requirement on the LATEST commit not the entire chain.
 
 ### Evidence requirements
-Module requires a populated CycloneDX SBOM with commit, file and relations.
-Module supports both signed and unsigned forms of CycloneDX evidence.
+
+Rule requires a populated CycloneDX SBOM with commit, file and relations.
+Rule supports both signed and unsigned forms of CycloneDX evidence.
 
 * `--components` must include the following groups `commits`,`files`, `dep` (optionally include, `packages`).
 * `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
@@ -499,18 +502,22 @@ valint verify git:<repo>
 ```
 
 ### Use cases
-The Git Owner module can be used to enforce compliance with specific supply chain requirements, such as:
+
+The Git Owner rule can be used to enforce compliance with specific supply chain requirements, such as:
 
 * Only permitted Committer identities can update the `package.json` file.
 * Commits must be signed for all files excluding the tests related files.
 * Only permitted signed Committer identities can update the CircleCI workflows.
 
 ### Configuration
+
 ```yaml
 - type: git-owner # Policy name
-  enable: true/false # Policy enable (default false) 
+  disable: true/false # Policy enable (default false)
   name: "" # Any user provided name
-  input:
+  evidence:
+    {environment-context} # Any origin or subject fields used by
+  with:
     default: # Default files requirements
       signed-commit: <true|false> # Should commits be signed
       users: [] # Commiter identities
@@ -518,31 +525,29 @@ The Git Owner module can be used to enforce compliance with specific supply chai
       - path: <regex> # Match to specific files
         signed-commit: <true|false> # Should commits be signed
         users: [] # Commiter identities
-    match: {environment-context} # Any origin or subject fields used by
 ``` 
 
 > Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.
 
 ### Examples
+
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](docs/configuration) section.
 
 <details>
   <summary> Package git owners </summary>
-In this example, the policy module named "package-git-owner" enforces `package.json` committer identity.
+In this example, the policy rule named "package-git-owner" enforces `package.json` committer identity.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: package-git-owner
-        enable: true  
-        modules:
+        rules:
           - name: npm-owner-rule
             type: git-owner
-            enable: true
-            input:
+            with:
               specific:
                 - path: package.json
                   users:
@@ -568,19 +573,17 @@ valint verify git:https://github.com/myorg/my_npm_pkg.git -i attest
 
 <details>
   <summary> Signed Commit history </summary>
-In this example, the policy module named " signed-commits-policy" enforces Commits are signed excluding files used for testing.
+In this example, the policy rule named " signed-commits-policy" enforces Commits are signed excluding files used for testing.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: signed-commits-policy
-        enable: true  
-        modules:
+        rules:
           - name: signed-commits-js-rule
             type: git-owner
-            enable: true
-            input:
+            with:
               default:
                 signed-commit: true
               specific:
@@ -602,27 +605,25 @@ valint verify git:https://github.com/myorg/some_repo.git -i attest
 
 <details>
   <summary> Workflows owners </summary>
-In this example, the policy module named "workflow-owners-policy" enforces only permitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
+In this example, the policy rule named "workflow-owners-policy" enforces only permitted signed Committer identitied can update CircleCI workflows under `.circle` subdirectory.
 
 ```yaml
 attest:
   cocosign:
     policies:
       - name: workflow-owners-policy
-        enable: true  
-        modules:
+        rules:
           - name: cirlce-workflow-rule
             type: git-owner
-            enable: true
-            input:
+            evidence:
+              context_type: circle
+            with:
               specific:
                 - path: \.circle/.*
                   signed-commit: true
                   users:
                     - alice@email.com
                     - bob@email.com
-              match:
-                context_type: circle
 ```
 
 **Command:**<br />
@@ -637,16 +638,19 @@ valint verify git:https://github.com/myorg/some_repo.git -i attest
 ```
 </details>
 
-## SLSA Framework module - Coming Soon!
-The SLSA Framework module enforces Levels 1 to 3 of SLSA Specifications.
-For example, Branch Protection and Build Provenance requirements can be enforced.
-SLSA Framework module requires a SLSA provenance object as well as Security Posture evidence.
+## SLSA Framework rule - Coming Soon!
 
-## Third-Party module - Coming Soon!
-The Third-Party module enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
+The SLSA Framework rule enforces Levels 1 to 3 of SLSA Specifications.
+For example, Branch Protection and Build Provenance requirements can be enforced.
+SLSA Framework rule requires a SLSA provenance object as well as Security Posture evidence.
+
+## Third-Party rule - Coming Soon!
+
+The Third-Party rule enforces requirements on any third-party scan, reports or settings that may be required internally or externally.
 For example, the NPM Audit result, Synk or Sonarqube scans, not only should pass but also be exposed as compliance evidence.
 
 ## Default policy
+
 When no policy configuration is found, the signed artifact policy is used.
 
 By default, the following command runs a signature and identity verification on the target provided:
@@ -668,24 +672,24 @@ attest:
   cocosign:
   policies:
   - name: default-policy
-    modules:
+    rules:
     - type: verify-artifact
-      enable: true
-      name: "default-module"
-      input:
-        identity: # Populated by `--email`, `--uri` and `--common-name flags sets
+      name: "default-rule"
+      evidence:
         signed: true
         format: ${current.content_type} # Populated by --input-format flag.
-        match:
-          sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+        sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+      with:
+        identity: # Populated by `--email`, `--uri` and `--common-name flags sets
 ```
 
-> For module details, see [verify artifact module](#verify-artifact-module) section.
+> For rule details, see [verify artifact rule](#verify-artifact-rule) section.
 
 </details>
 
-## Match field
-`match` field is a set of labels supported by all modules. 
+## Context match fields
+
+Context match fields is a set of labels supported by all rules.
 These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
 
 Using these fields allows you to set different compliance requirements for different layers of your supply chain.
@@ -696,9 +700,9 @@ Using these fields allows you to set different compliance requirements for diffe
   <summary> Usage </summary>
 
 Here's an example of usage: 
-If you want to evaluate images named `myorg/myimage:latest`, you may set the module with the following labels:
+If you want to evaluate images named `myorg/myimage:latest`, you may set the rule with the following labels:
 ```
-match:
+evidence:
     sbomgroup: image
     sbomname: myorg/myimage:latest
 ```
@@ -713,7 +717,7 @@ match:
 
 The template engine for policy configuration provides users with a flexible mechanism to define and customize policies through the use of template arguments. These template arguments act as placeholders within the policy configuration, allowing users to dynamically substitute values before the policy is evaluated.
 
-Currently `valint` supports two groups of template arguments:
+Currently `valint` supports three groups of template arguments:
 
 1. Context-defined
 
@@ -721,8 +725,11 @@ Context arguments are derived from the evidence context, enabling users to direc
 
 Replace `<var_name>` with the specific variable name from the evidence context that you want to use. Foe example, `{{ .Context.git_commit }}`.
 
+2. Environment-defined
 
-2. User-defined
+Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.
+
+3. User-defined
 
 Users can pass custom arguments through the command line using the `--policy-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
 
@@ -749,45 +756,41 @@ attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true
-        modules:
-          - name: my_module
-            type: verify-artifact
-            enable: true
-            input:
+        rules:
+          - name: my_rule
+            with:
               signed: true
-              format: attest-cyclonedx-json
-              match:
-                target_type: '{{ .Context.target_type }}'
-                git_url: '{{ .Args.git_url }}'
-                git_branch: '{{ .Args.git_branch }}'
+              format-type: cyclonedx-json
+              target_type: '{{ .Context.target_type }}'
+              git_url: '{{ .Args.git_url }}'
+              git_branch: '{{ .Args.git_branch }}'
 ```
 
 </details>
 
 ## Evidence Lookup
 
-In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "env", and "flags".
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "pipeline", and "product".
 
 1. `target` context group specifies parameters that can be derived from the target provided (if any). Those parameters are:
     * `target_type` - the type of the target provided (e.g., image, git, generic etc.)
     * `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
-2. `env` context group specifies parameters that can be derived from the running environment. Those parameters are:
+2. `pipeline` context group specifies parameters that can be derived from the running environment. Those parameters are:
     * `context_type` - type of the environment (e.g., local, github, etc.)
     * `git_url` - git url of the repository (if any)
     * `git_commit` - git commit of the current repository state (if any)
     * `run_id` - run id
     * `build_num` - build number
 
-3. `flags` context group specifies parameters that can be derived from the command line arguments. Those parameters are:
+3. `product` context group specifies product parameters that can be derived from the command line arguments. Those parameters are:
     * `name` - name of the product
     * `product_version` - version of the product
     * `predicate_type` - type of the predicate (e.g., https://cyclonedx.org/bom, https://slsa.dev/provenance/v0.1, etc.)
 
 User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
-By default `target` and `flags` groups are used.
-The list of groups to be used should be provided to the `attest.cocosign.policies.<policy>.modules.<module>.input.context-group` field in the configuration file.
+By default `target` and `product` groups are used.
+The list of groups to be used should be provided to the `attest.cocosign.policies.<policy>.rules.<rule>.evidence.filter-by` field in the configuration file.
 
 In addition, one can manually specify any parameters that they want to be matched by an evidence. For example, these can be `git_url` or `timestamp`.
 
@@ -801,17 +804,13 @@ attest:
   cocosign:
     policies:
       - name: my_policy
-        enable: true
-        modules:
-          - name: my_module
-            type: verify-artifact
-            enable: true
+        rules:
+          - name: my_rule
             input:
               signed: true
-              format: attest-cyclonedx-json
-              match:
-                timestamp: "2023-11-16T09:46:25+02:00"
-              context-group:
+              format-type: cyclonedx-json
+              timestamp: "2023-11-16T09:46:25+02:00" # manually specified timestamp
+              filter-by:
                 - target
 ```
 </details>
