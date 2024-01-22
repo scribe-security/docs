@@ -107,7 +107,6 @@ The `verify-artifact` rule can be used to enforce compliance with specific suppl
     {custom script input} # Any rule-specific input
   script-lang: "rego"
   script: |
-    # embedded policy script
     package verify
 
     verify = v {
@@ -685,7 +684,7 @@ attest:
       evidence:
         signed: true
         format: ${current.content_type} # Populated by --input-format flag.
-        sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+        sbomversion: ${current.sbomversion} # Populated from the artifact version provided to verify command.
       with:
         identity: # Populated by `--email`, `--uri` and `--common-name flags sets
 ```
@@ -813,7 +812,7 @@ attest:
       - name: my_policy
         rules:
           - name: my_rule
-            input:
+            evidence:
               signed: true
               format-type: cyclonedx-json
               timestamp: "2023-11-16T09:46:25+02:00" # manually specified timestamp
@@ -821,3 +820,67 @@ attest:
                 - target
 ```
 </details>
+
+## External policy configs - Coming Soon!
+
+Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
+
+External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--policy` flag or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
+
+Each extermal configuration should represent an entry to `attest.cocosign.policies` or to `attest.cocosign.policies[].rules` field of the main configuration file.
+
+For example, a policy configuration defined by the following file:
+
+```yaml
+attest:
+  cocosign:
+  policies:
+  - name: default
+    rules:
+    - name: "default-rule"
+      evidence:
+        signed: true
+        format-type: cyclonedx-json
+      with:
+        identity:
+          emails:
+            - my@email.com
+```
+
+Can be represented in an external file like
+
+```yaml
+name: default
+rules:
+  - name: "default-rule"
+    evidence:
+      signed: true
+      format-type: cyclonedx-json
+    with:
+      identity:
+        emails:
+          - my@email.com
+```
+
+or
+
+```yaml
+name: "default-rule"
+evidence:
+  signed: true
+  format-type: cyclonedx-json
+with:
+  identity:
+    emails:
+      - my@email.com
+```
+
+One can use as many policies per `valint verify` run as they want.
+
+### Bundling policy configs - Coming Soon!
+
+Policy configurations along with the corresponding rego scripts can be bundled together in a directory or a git repo and then referenced in the cmd args via the `--bundle` flag or in the main configuration file via the `attest.bundle` field.  
+In case of using a git repo, it's possible to also specify a branch and a commit or a tag to be used with `--git-branch`, `--git-commit` and `--git-tag` options respectively. The repo would be cloned automatically by `valint`.  
+For the GitHub authentication, a token can be provided via `GITHUB_TOKEN` environment variable or as part of url like `<token>@github.com`.
+
+To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--policy` flag.
