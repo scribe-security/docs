@@ -26,7 +26,7 @@ attest:
   cocosign:
     policies:  # Set of policies - grouping rules
       - name: <policy_name>
-        rules: Set of rule settings/configuration and input
+        rules: # Set of rule settings/configuration and input
           - name: <rule_name>
             path: <rule_path> # Specify if an external script is used
             description: "A brief rule description"
@@ -50,9 +50,14 @@ The Policy supports the following fields:
 
 A rule is a compliance check that you can configure to your specific organization's requirements.
 
-* `disable`, disable rule (default false).
+* `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
 * `type`, type of the rule, currently supporting `verify-artifact` (_default_) and `git-owner`.
+* `description`, rule description (_optional_).
+* `labels`, list of user-specified labels (_optional_).
+* `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
+* `path`, path to a custom rule script **OR** `script`, embedded rule script.
+* `script-lang` script language, currently only `rego` is supported.
 * `evidence`, match on evidence with a specified parameters.
 * `with`, rule-specific configuration parameters.
 
@@ -64,7 +69,7 @@ The Verify Artifact rule enforces a set of requirements on who produced artifact
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) in the format field of the input.
+* Evidence Format: The evidence format should follow the specified format(s) either in the `format-type` or `format` field of the input.
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` **[origin labels](../guides/enforcing-sdlc-policy#context-match-fields)**. For instance, you can verify that an artifact is generated from a particular pipeline or repository.
 * Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` **[subject labels](../guides/enforcing-sdlc-policy#context-match-fields)**.
 * Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `rego` input.

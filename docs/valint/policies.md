@@ -24,9 +24,9 @@ attest:
   cocosign:
     policies:  # Set of policies - grouping rules
       - name: <policy_name>
-        rules: Set of rule settings/configuration and input
-          - name: <rule_name>
-            path: <rule_path> # Specify if an external script is used
+        rules: # Set of rule settings/configuration and input
+          - name: "<rule_name>"
+            path: "<rule_path>" # Specify if an external script is used
             description: "A brief rule description"
             labels: [] # list of user-specified labels
             initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
@@ -37,15 +37,15 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see [configuration](configuration) section.
 
-> For PKI setting, see [attestations](docs/attestations) section.
+> For PKI setting, see [attestations](attestations) section.
 
 ### Policy
 
 Policy support the following fields:
 
-* `disable`, disable rule (default false).
+* `disable`, disable rule (default _false_).
 * `name`, policy name (**required**).
 * `rules`, list of policy rule configuration.
 
@@ -53,14 +53,19 @@ Policy support the following fields:
 
 Rule is a compliance checks that you can configure to your specific organization requirements.
 
-* `disable`, disable rule (default false).
+* `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
 * `type`, type of the rule, currently supporting `verify-artifact` (_default_) and `git-owner`.
+* `description`, rule description (_optional_).
+* `labels`, list of user-specified labels (_optional_).
+* `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
+* `path`, path to a custom rule script **OR** `script`, embedded rule script.
+* `script-lang` script language, currently only `rego` is supported.
 * `evidence`, match on evidence with a specified parameters.
 * `with`, rule-specific configuration parameters.
 
-> For `evidence` details, see [Policies](#context-match-fields) section
-> For `with` details, see related rule section
+> For `evidence` details, see [Policies](#context-match-fields) section.  
+> For `with` details, see related rule section.
 
 ## Verify Artifact rule
 
@@ -70,7 +75,7 @@ In other words, it ensures produced artifacts' (`targets`) integrity by checking
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) either in the format-type or format field of the input.
+* Evidence Format: The evidence format should follow the specified format(s) either in the `format-type` or `format` field of the input.
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` [origin labels](##origin-context).
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
 * Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` [subject labels](##subject-context).
@@ -91,7 +96,7 @@ The `verify-artifact` rule can be used to enforce compliance with specific suppl
 - name: "" # Any user provided name
   evidence:
     signed: <true|false> # Should target be signed
-    format-type: <cyclonedx-json, slsa> # Expected evidence format
+    format-type: "<cyclonedx-json, slsa>" # Expected evidence format
     filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
     {environment-context} # Any origin or subject fields used by
   with:
@@ -100,7 +105,7 @@ The `verify-artifact` rule can be used to enforce compliance with specific suppl
       uris: [] # Signed URIs identities 
       common-names: [] # Signed common name identities
     {custom script input} # Any rule-specific input
-  path: <path to policy script>
+  script-lang: "rego"
   script: |
     # embedded policy script
     package verify
@@ -116,7 +121,7 @@ The `verify-artifact` rule can be used to enforce compliance with specific suppl
 
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see [configuration](configuration) section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -402,7 +407,7 @@ Script output must provide the following structure.
 Copy the Examples configuration into file name `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see [configuration](configuration) section.
 > You may also use `path` field to set a custom path for your script.
 
 
@@ -534,7 +539,7 @@ The Git Owner rule can be used to enforce compliance with specific supply chain 
 
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](docs/configuration) section.
+> For configuration details, see [configuration](configuration) section.
 
 <details>
   <summary> Package git owners </summary>
