@@ -55,7 +55,7 @@ Rule is a compliance checks that you can configure to your specific organization
 
 * `disable`, disable rule (default false).
 * `name`, policy rule name (**required**).
-* `type`, type of the rule, currently supporting `veirfy-arifact` (_default_) and `git-owner`.
+* `type`, type of the rule, currently supporting `verify-artifact` (_default_) and `git-owner`.
 * `evidence`, match on evidence with a specified parameters.
 * `with`, rule-specific configuration parameters.
 
@@ -334,7 +334,8 @@ A Rego script can be provided in two forms: as an embedded code snippet in the `
 
 > By default `valint` looks for ``.valint.rego` file.
 
-Usage, use the following rule structure
+Use the following rule structure.
+
 ```bash
 package verify
 default allow = false
@@ -358,14 +359,14 @@ verify = {
 Script input has the following structure.
 
 ```yaml
-evidence: {Intoto-statment} 
+evidence: {Intoto-statment}
 verifier: {verifier-context}
 config:
-args: {custom script input} 
+args: {custom script input}
 stores:
-    oci: {OCI store configuration}
-    cache: {Cache store configuration}
-    scribe: {Scribe store configuration}
+   oci: {OCI store configuration}
+   cache: {Cache store configuration}
+   scribe: {Scribe store configuration}
 ```
 
 > When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
@@ -482,7 +483,7 @@ Rule supports both signed and unsigned forms of CycloneDX evidence.
 
 * `--components` must include the following groups `commits`,`files`, `dep` (optionally include, `packages`).
 * `-o`, `--format` must be either `statement-cyclonedx-json` or `attest-cyclonedx-json`.
-* Optional use `--git-tag`, `--git-branch` and `--git-commit-` to target the specific 
+* Optional use `--git-tag`, `--git-branch` and `--git-commit` to target the specific
 
 ```bash
 valint bom git:<repo>
@@ -654,6 +655,7 @@ For example, the NPM Audit result, Synk or Sonarqube scans, not only should pass
 When no policy configuration is found, the signed artifact policy is used.
 
 By default, the following command runs a signature and identity verification on the target provided:
+
 ```bash
 valint verify [target] --input-format [attest, attest-slsa] \
    --email [email] --common-name <common name> --uri [uri]
@@ -690,7 +692,7 @@ attest:
 ## Context match fields
 
 Context match fields is a set of labels supported by all rules.
-These labels add requirements on the origin or the subject of the provided evidence considered for compliance. 
+These labels add requirements on the origin or the subject of the provided evidence considered for compliance.
 
 Using these fields allows you to set different compliance requirements for different layers of your supply chain.
 
