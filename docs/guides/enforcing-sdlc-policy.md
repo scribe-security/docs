@@ -128,7 +128,7 @@ attest:
                   - mycompany.com
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -163,7 +163,7 @@ attest:
                   - alice@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -201,7 +201,7 @@ attest:
                 - bob@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -211,6 +211,7 @@ valint bom git:github.com:your_org/your_repo.git --tag 0.1.3 -o attest-slsa
 # Verify policy (cache store)
 valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-slsa
 ```
+
 </details>
 
 <details>
@@ -234,7 +235,7 @@ attest:
               input_name: my_binary.exe
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -272,7 +273,7 @@ attest:
                 - bob@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -288,6 +289,7 @@ valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://sca
 You can define custom policies for artifacts verified by the rule by attaching them as code. After the rule enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
 
 ##### Usage
+
 Rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
 
 ```yaml
@@ -315,6 +317,7 @@ Rule verifies the predicate of the evidence in a custom Rego script embedded in 
 ### Policy As Code​
 
 #### Rego script​
+
 In order to add a verification script you must provide a `verify` rule in your script. A Rego script can be provided in two forms: as an embedded code snippet in the `rego` section or as a dedicated file using the `path` field.
 
 By default `valint` looks for a `.valint.rego` file.
@@ -340,7 +343,9 @@ verify = {
 ```
 
 #### Input structure​
+
 Script input has the following structure.
+
 ```yaml
 evidence: {Intoto-statment}
 verifier: {verifier-context}
@@ -351,9 +356,11 @@ stores:
    cache: {Cache store configuration}
    scribe: {Scribe store configuration}
 ```
+
 When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
 
 #### Output structure​
+
 Script output must provide the following structure.
 
 ```json
@@ -379,8 +386,8 @@ Script output must provide the following structure.
 ```
 
 ### Examples
-Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`. Files should be in the same directory as running Valint commands. 
 
+Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`. Files should be in the same directory as running Valint commands. 
 
 > For configuration details, see the **[configuration](../integrating-scribe/valint/configuration)** section. You may also use `path` field to set a custom path for your script.
 
@@ -429,8 +436,7 @@ attest:
               }
 ```
 
-
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -491,7 +497,8 @@ The Git Owner rule can be used to enforce compliance with specific supply chain 
 * Only permitted signed Committer identities can update the CircleCI workflows.
 
 ### Configuration​
-```
+
+```yaml
 - type: git-owner # Policy name
   disable: true/false # Policy enable (default false)
   name: "" # Any user provided name
@@ -505,7 +512,7 @@ The Git Owner rule can be used to enforce compliance with specific supply chain 
       - path: <regex> # Match to specific files
         signed-commit: <true|false> # Should commits be signed
         users: [] # Commiter identities
-``` 
+```
 
 > Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.
 
@@ -539,7 +546,7 @@ attest:
                     - bob@email.com
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -549,6 +556,7 @@ valint bom git:https://github.com/myorg/my_npm_pkg.git -o attest --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/my_npm_pkg.git -i attest
 ```
+
 </details>
 
 <details>
@@ -571,7 +579,7 @@ attest:
                   signed-commit: false
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -581,6 +589,7 @@ valint bom git:https://github.com/myorg/some_repo.git -o attest  --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/some_repo.git -i attest
 ```
+
 </details>
 
 <details>
@@ -606,7 +615,7 @@ attest:
                     - bob@email.com
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -616,6 +625,7 @@ valint bom git:https://github.com/myorg/some_repo.git -o attest  --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/some_repo.git -i attest
 ```
+
 </details>
 
 ### Third-Party rule - Coming Soon!
@@ -672,10 +682,12 @@ Using these fields allows you to set different compliance requirements for diffe
 #### Usage
 
 Here's an example of usage: If you want to evaluate images named myorg/myimage:latest, you may set the rule with the following labels:
-```
+
+```yaml
 evidence:
    sbomgroup: image
    sbomname: myorg/myimage:latest
 ```
+
 If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
 If you also add `git_url: github.com/my_org/myimage.git`, it requires the evidence to be collected from a pipeline on a specific repo.

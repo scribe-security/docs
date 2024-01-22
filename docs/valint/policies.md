@@ -9,7 +9,7 @@ geometry: margin=2cm
 
 # Policies
 
-Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`. <br />
+Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`.  
 Policy configuration can be set under the main configuration `policies` section.
 
 Each `policy` consists of a set of `policy rules` that your supply chain must comply with.
@@ -143,7 +143,7 @@ attest:
                   - mycompany.com
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -226,6 +226,7 @@ valint bom git:github.com:your_org/your_repo.git --tag 0.1.3 -o attest-slsa
 # Verify policy (cache store)
 valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-slsa
 ```
+
 </details>
 
 <details>
@@ -299,7 +300,6 @@ valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://sca
 ```
 
 </details>
-
 
 ### Policy as Code
 
@@ -455,7 +455,6 @@ attest:
               }
 ```
 
-
 **Command:**<br />
 Run the command on the required supply chain location.
 
@@ -530,7 +529,7 @@ The Git Owner rule can be used to enforce compliance with specific supply chain 
       - path: <regex> # Match to specific files
         signed-commit: <true|false> # Should commits be signed
         users: [] # Commiter identities
-``` 
+```
 
 > Detailed regex syntax of `path` field is defined by https://github.com/google/re2/wiki/Syntax.path.
 
@@ -574,6 +573,7 @@ valint bom git:https://github.com/myorg/my_npm_pkg.git -o attest --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/my_npm_pkg.git -i attest
 ```
+
 </details>
 
 <details>
@@ -606,6 +606,7 @@ valint bom git:https://github.com/myorg/some_repo.git -o attest  --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/some_repo.git -i attest
 ```
+
 </details>
 
 <details>
@@ -641,6 +642,7 @@ valint bom git:https://github.com/myorg/some_repo.git -o attest  --components co
 # Verify policy (cache store)
 valint verify git:https://github.com/myorg/some_repo.git -i attest
 ```
+
 </details>
 
 ## SLSA Framework rule - Coming Soon!
@@ -707,7 +709,8 @@ Using these fields allows you to set different compliance requirements for diffe
 
 Here's an example of usage: 
 If you want to evaluate images named `myorg/myimage:latest`, you may set the rule with the following labels:
-```
+
+```yaml
 evidence:
     sbomgroup: image
     sbomname: myorg/myimage:latest
@@ -725,18 +728,14 @@ The template engine for policy configuration provides users with a flexible mech
 
 Currently `valint` supports three groups of template arguments:
 
-1. Context-defined
-
-Context arguments are derived from the evidence context, enabling users to directly reference any field within it. The syntax for referencing a context variable is as follows: `{{ .Context.<var_name> }}`.
-
+1. Context-defined  
+Context arguments are derived from the evidence context, enabling users to directly reference any field within it. The syntax for referencing a context variable is as follows: `{{ .Context.<var_name> }}`.  
 Replace `<var_name>` with the specific variable name from the evidence context that you want to use. Foe example, `{{ .Context.git_commit }}`.
 
-2. Environment-defined
-
+2. Environment-defined  
 Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.
 
-3. User-defined
-
+3. User-defined  
 Users can pass custom arguments through the command line using the `--policy-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
 
 For example,
@@ -819,6 +818,7 @@ attest:
               filter-by:
                 - target
 ```
+
 </details>
 
 ## External policy configs - Coming Soon!
