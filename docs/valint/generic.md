@@ -9,8 +9,6 @@ geometry: margin=2cm
 
 # Overview
 The `valint evidence` command allows users to collect, create, and store any file as evidence, supporting third-party verifiable information. This functionality enables users to meet various compliance requirements by including custom evidence or attestation (signed) from third-party tools. The versatility of generic evidence empowers users to enforce robust and customizable policies in their supply chain.
-
-
 For example, Attesting to License scanner report can enable you to enforce licensing requirements as part of your build pipeline.
 
 ### Usage
