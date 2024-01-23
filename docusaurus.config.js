@@ -126,6 +126,7 @@ const config = {
                 "valint/help/valint_bom.md",
                 "valint/help/valint_verify.md",
                 "valint/help/valint_slsa.md",
+                "valint/help/valint_evidence.md",
                 "integrating-scribe/admission-controller/gatekeeper-provider.md",
                 "integrating-scribe/admission-controller/kyverno.md",
                 "scribe-hub-reports/README.md",
