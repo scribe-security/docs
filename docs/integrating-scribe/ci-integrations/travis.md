@@ -105,8 +105,8 @@ name: "scribe-travis-job"
 
 script:
   - |
-    valint bom [target] \
-        --format [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+    valint [bom,slsa,evidence] [target] \
+        --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET 

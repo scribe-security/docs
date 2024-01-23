@@ -90,8 +90,8 @@ scribe-gitlab-job:
 ```yaml
 script:
   - |
-    valint bom [target] \
-        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+    valint [bom,slsa,evidence] [target] \
+        --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
         -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \

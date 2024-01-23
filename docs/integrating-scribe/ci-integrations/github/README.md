@@ -81,15 +81,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        uses: scribe-security/action-bom@master
+#      - uses: scribe-security/action-bom@master
+#      - uses: scribe-security/action-bom@master
+      - uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [attest, statement]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
 
-        uses: scribe-security/action-verify@master
+      - uses: scribe-security/action-verify@master
         with:
           target: [target]
           input-format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]

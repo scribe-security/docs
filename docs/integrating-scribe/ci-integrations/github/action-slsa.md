@@ -321,18 +321,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        uses: scribe-security/action-slsa@master
+      - uses: scribe-security/action-slsa@master
         with:
           target: [target]
-          format: [statement attest predicate] (default [statement])
+          format: [statement, attest]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
 
-        uses: scribe-security/action-verify@master
+      - uses: scribe-security/action-verify@master
         with:
           target: [target]
-          input-format: [statement attest predicate] (default [statement])
+          input-format: [statement-slsa, attest-slsa]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}

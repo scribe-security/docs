@@ -12,7 +12,7 @@ In order to generate an SBOM out of a build pipeline you must first **[install t
 In your build script call,
 
 ```
-valint bom <target> -o [statement-generic, attest-generic] <flags> \
+valint evidence <target> -o [statement, attest] <flags> \
  -E \
  -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
@@ -108,12 +108,13 @@ To review these vulnerabilities go to **Products > {Your Product} > {Version} > 
 You can gather the output of your application security scanners (such as SAST, SCA, and DAST) as evidence to attest to your software’s security level and evaluate it with your policies.
 In your build script use:
 ```
-valint bom <file_path> -o [statement-generic, attest-generic] -p [predicate-type] [FLAGS]
+valint evidence <file_path> -o [statement, attest] -p [predicate-type] [FLAGS]
 ```
 For example, gathering evidence of a Trivy output:
 ```
-valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+valint bom report.sarif -o attest
 ```
+> Trivy Predicate type is autodetected.
 
 ### Signing & verifying SBOMs
 
