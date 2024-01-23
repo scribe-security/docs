@@ -1,22 +1,30 @@
-## valint download
+## valint evidence
 
-Downloads the evidence based on cache
+Add file as evidence command
+
+### Synopsis
+
+Collect, Create and Store any file as evidence
 
 ```
-valint download [TARGET] [flags]
+valint evidence [TARGET] [flags]
 ```
 
 ### Optional flags 
-Flags for `download` subcommand
+Flags for `evidence` subcommand
 
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --folder-path | Folder to download the evidences of the given target | |
-| | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
-| -h | --help | help for download | |
-| | --ref | ref of the store | |
-| | --store | Stores | "cache" |
+| | --compress | Compress content) | |
+| -o | --format | Evidence format, options=[statement attest] | [statement] |
+| | --format-encoding | Format encoding | |
+| | --format-type | Format type | |
+| | --format-version | Format version | |
+| -h | --help | help for evidence | |
+| | --tool | Tool name | |
+| | --tool-vendor | Tool vendor | |
+| | --tool-version | Tool version | |
 
 
 ### Global options flags
@@ -72,28 +80,19 @@ Flags for all `valint` subcommands
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
-### Examples for running `valint download`
+### Examples for running `valint evidence`
 
 ```
- valint download <target>
-<target> Target object name format=[<image:tag>, <dir path>, <git url>]
+  valint evidence <file>
 
-valint download alpine:latest                                            download default (cyclonedxjson) sbom downloads to cache
-valint download alpine:latest --format statement                         download sbom with specified format
-valint download alpine:latest --format statement --output-dir <path>     download sbom with specified format in the specified output directory
-valint download --ref <ref>                                              download sbom by ref (default storer is cache)
-valint download --ref <ref> --store <storer>                             download sbom by ref and storer
-valint download --ref <ref> --store <storer> --output-dir <path>         download sbom by ref and storer in the specified output directory
+  <file> File Path to add as evidence
 
-Format-aliases:
-* json=attest-cyclonedx-json
-* predicate=predicate-cyclonedx-json
-* statement=statement-cyclonedx-json
-* attest=attest-cyclonedx-json
-
-Storers:
-* cache
-* scribe
+  valint evidence file.json                                                                   Attach a file as evidence
+  valint evidence file.json -o attest                                                         Sign evidence
+  valint evidence file.json --tool my_tool --tool-version 0.0.1 --vendor="My Company Inc"     Customize tool information
+  valint evidence file.json --format my_format --format-version 0.0.1 --format-encoding=xml   Customize format information
+  valint evidence file.json --predicate-type https:/my_company.com/my_predicate/v1            Customize predicate type
+  valint evidence file.json --compress                                                        Compress content
 
 ```
 

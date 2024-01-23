@@ -41,6 +41,7 @@ Flags for all `valint` subcommands
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
+| | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
 | -e | --env | Environment keys to include in sbom | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
@@ -58,6 +59,7 @@ Flags for all `valint` subcommands
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
+| | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --policy-args | Policy arguments | [] |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
@@ -66,7 +68,7 @@ Flags for all `valint` subcommands
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
-| -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
+| -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
 | -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |

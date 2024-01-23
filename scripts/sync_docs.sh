@@ -307,9 +307,9 @@ import_valint() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/${repo}"
 
-    cp -r "${repo_dir}/docs" "docs/${repo}/"}
-    mv docs/${repo}/README.md docs/${repo}/getting-started-valint.md
-    mv docs/${repo}/secure-sfw-slsa docs/guides
+    cp -r ${repo_dir}/docs/command/* "docs/${repo}/help/"
+    cp -r "${repo_dir}/docs/configuration.md" "docs/${repo}/configuration.md"
+    # mv "${repo_dir}}/README.md" "docs/${repo}/getting-started-valint.md"
 }
 
 export_valint() {
