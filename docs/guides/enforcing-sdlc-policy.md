@@ -52,7 +52,7 @@ A rule is a compliance check that you can configure to your specific organizatio
 
 * `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
-* `type`, type of the rule, currently supporting `verify-artifact` (_default_) and `git-owner`.
+* `type`, type of the rule, currently supporting only `verify-artifact`.
 * `description`, rule description (_optional_).
 * `labels`, list of user-specified labels (_optional_).
 * `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
@@ -120,7 +120,7 @@ attest:
           - name: signed_image
             evidence:
               signed: true
-              format-type: cyclonedx-json
+              format-type: cyclonedx
               target_type: image
             with:
               identity:
@@ -296,7 +296,7 @@ Rule verifies the predicate of the evidence in a custom Rego script embedded in 
 - name: signed_image_custom_policy
   evidence:
     signed: true
-    format-type: cyclonedx-json
+    format-type: cyclonedx
     target_type: image
   with:
     identity:
@@ -405,7 +405,7 @@ attest:
           - name: signed_image
             evidence:
               signed: true
-              format-type: cyclonedx-json
+              format-type: cyclonedx
               target_type: image
             script: |
               package verify
@@ -474,7 +474,6 @@ attest:
   policies:
   - name: default-policy
     rules:
-    - type: verify-artifact
       name: "default-rule"
       evidence:
         signed: true
