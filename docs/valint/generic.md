@@ -7,44 +7,43 @@ date: April 5, 2021
 geometry: margin=2cm
 ---
 
-### Generic evidence
-Generic evidence includes custom 3rd party verifiable information containing any required compliance requirements.
-Generic evidence allows users to include any file as evidence or attestation (signed) hooking in 3rd party tools.
-Allowing more robust and customizable policies to fit your needs.
+# Overview
+The `valint evidence` command allows users to collect, create, and store any file as evidence, supporting third-party verifiable information. This functionality enables users to meet various compliance requirements by including custom evidence or attestation (signed) from third-party tools. The versatility of generic evidence empowers users to enforce robust and customizable policies in their supply chain.
+
 
 For example, Attesting to License scanner report can enable you to enforce licensing requirements as part of your build pipeline.
 
-### Usage: 
-Attach a generic evidence
-`valint bom <file_path> -o [statement-generic, attest-generic] [FLAGS]`
+### Usage
 
-Verify a generic evidence artifact
-`valint verify <file_path> -i [statement-generic, attest-generic] [FLAGS]`
-
-Using the following flags, <br />
-* `--predicate-type`: Customize the predicate type of the evidence, which must be a valid URI (optional) <br />
-Default value is `http://scribesecurity.com/evidence/generic/v0.1`. 
-
-* `--compress`: Compress content (optional)
-
-For Example, using Trivy SARIF report as evidence.
+To attach evidence:
 ```bash
-valint bom report.sarif -o attest-generic -p https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+valint evidence [FILE] -o [statement, attest] [FLAGS]
 ```
 
-### Scribe Predicate types
-KNOWN predicates types allow the generic evidence to be further analyzed by Scribe service.
+## Auto-Detected Tools
+Valint now supports auto-detection of fields, including the tool format and predicate type, from the output of various tools. When using the `valint evidence` command, the tool can automatically detect certain fields based on the generated output.
 
-The following table are the KNOWN predicate types we recommend using,
+| Tool Name      | Predicate-Type | Format |  Format-Encoding | Command Example |
+|---|---|---|---|---|
+| trivy          | `https://aquasecurity.github.io/trivy/<version>/docs/configuration/reporting/#json` | json   | -                 | `trivy image --format json -o evidence.json`      |
+| trivy          | `http://docs.oasis-open.org/sarif/sarif/<version>`           | sarif  | json              | `trivy image --format sarif -o evidence.sarif.json`    |
+| valint         | `http://docs.oasis-open.org/sarif/sarif/<version>`           | sarif  | json              | `valint verify <target>`                     |
+| valint         | `https://cyclonedx.org/bom/<version>`                        | cyclonedx | json           | `valint bom <target>`                               |
+| syft           | `https://cyclonedx.org/bom/<version>`                        | cyclonedx | json           | `syft packages <target> -o cyclonedx-json --file evidence.json `         |
+| cdxgen (owasp-plugin) | `https://cyclonedx.org/bom/<version>`                 | cyclonedx | json, xml       | `cdxgen alpine:latest -t docker -o evidence.cdx.json`|
+| codeql         | `http://docs.oasis-open.org/sarif/sarif/<version>`           | sarif  | json              | `codeql execute --format sarif -o evidnece.sarif.json`|
+| valint         | `https://slsa.dev/provenance/<version>`                      | slsa   | json              | `valint slsa <target>`                              |
+| Default         | `http://scribesecurity.com/evidence/generic/<version>`       | -      | -                 | `-`        
 
-| predicate-type | file-format | tool |
-| --- | --- | --- |
-|  https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif <br /> https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#json | sarif <br /> json | trivy |
-|  http://docs.oasis-open.org/sarif/sarif/v2.1.0 | sarif | CodeQL |
-|  https://cyclonedx.org/bom | CycloneDX | Syft | 
-|  https://slsa.dev/provenance/v0.2 | Intoto-predicate, Intoto-Statement | Cosign | 
+### Customizing you evidence
+By default Valint autodetects the predicate type for a set of tools, see table below.
 
-#### Trivy integration
+* `--predicate-type`: Customize the predicate type of the evidence, which must be a valid URI (optional) 
+* `--compress`: Can be used to sign the compress file before attaching it to evidence.
+* `--tool`, `--tool-version`, `--tool-vendor`, Can be used for custom tool integrations.
+* `--format-type`, `--format-version`, `--format-encoding`, Can be used for custom format integrations.
+
+#### Trivy integration exmaple
 Install Trivy's latest version.
 
 Run the following command to export a Sarif report.
@@ -54,7 +53,7 @@ trivy image --format sarif -o report.sarif  golang:1.12-alpine
 
 Run the following Valint command to add the report as evidence to the Scribe Service.
 ```bash
-valint bom report.sarif --predicate-type http://docs.oasis-open.org/sarif/sarif/v2.1.0 -o  [attest-generic, statement-generic] \
+valint evidence report.sarif -o  [attest, statement] \
   -E \
   -U [SCRIBE_CLIENT_ID] \
   -P [SCRIBE_CLIENT_SECRET]
@@ -87,7 +86,7 @@ valint bom report.sarif --predicate-type http://docs.oasis-open.org/sarif/sarif/
 ### Extracting the predicate from attestation
 You may use the following command to extract evidence from a encoded attestation file.
 ```bash
-valint bom [target] -o [attest, attest-slsa, attest-generic] -o my_attestation.sig
+valint [bom, slsa, evidence] [target] -o attest --output-file my_attestation.sig
 
 cat my_attesataion.sig | jq -r '.payload' | base64 -d | jq -r '.payload' | base64 --decode | jq '.predicate' > predicate.json
 ```
