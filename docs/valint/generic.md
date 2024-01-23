@@ -18,7 +18,7 @@ valint evidence [FILE] -o [statement, attest] [FLAGS]
 ```
 
 ## Auto-Detected Tools
-Valint now supports auto-detection of fields, including the tool format and predicate type, from the output of various tools. When using the `valint evidence` command, the tool can automatically detect certain fields based on the generated output.
+`valint evidence` supports auto-detection of fields, including the tool format and predicate type, from the output of various tools.
 
 | Tool Name      | Predicate-Type | Format |  Format-Encoding | Command Example |
 |---|---|---|---|---|
