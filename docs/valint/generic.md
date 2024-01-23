@@ -12,7 +12,6 @@ The `valint evidence` command allows users to collect, create, and store any fil
 For example, Attesting to License scanner report can enable you to enforce licensing requirements as part of your build pipeline.
 
 ### Usage
-
 To attach evidence:
 ```bash
 valint evidence [FILE] -o [statement, attest] [FLAGS]
@@ -37,8 +36,8 @@ Valint now supports auto-detection of fields, including the tool format and pred
 
 > For CycloneDX and Sarif Tools, tool information is taken from the format tool section.
 
-### Customizing you evidence
-By default Valint autodetects the predicate type for a set of tools, see table below.
+### Tailoring Evidence Metadata
+The customization options enable you to tailor the evidence generation process according to your specific needs, tools, or formats.
 
 * `--predicate-type`: Customize the predicate type of the evidence, which must be a valid URI.
 * `--compress`: Can be used to sign the compress file before attaching it to evidence.
