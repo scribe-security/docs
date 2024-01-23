@@ -33,12 +33,16 @@ Valint now supports auto-detection of fields, including the tool format and pred
 | cdxgen (owasp-plugin) | `https://cyclonedx.org/bom/<version>`                 | cyclonedx | json, xml       | `cdxgen alpine:latest -t docker -o evidence.cdx.json`|
 | codeql         | `http://docs.oasis-open.org/sarif/sarif/<version>`           | sarif  | json              | `codeql execute --format sarif -o evidnece.sarif.json`|
 | valint         | `https://slsa.dev/provenance/<version>`                      | slsa   | json              | `valint slsa <target>`                              |
-| Default         | `http://scribesecurity.com/evidence/generic/<version>`       | -      | -                 | `-`        
+| Other CycloneDX Tools | `https://cyclonedx.org/bom/<version>` | cyclonedx | json | [Tool Command] |
+| Other Sarif Tools | `http://docs.oasis-open.org/sarif/sarif/<version>`  | sarif | json | [Tool Command] |
+| Default         | `http://scribesecurity.com/evidence/generic/<version>`       | -      | -                 | `-`  
+
+> For CycloneDX and Sarif Tools, tool information is taken from the format tool section.
 
 ### Customizing you evidence
 By default Valint autodetects the predicate type for a set of tools, see table below.
 
-* `--predicate-type`: Customize the predicate type of the evidence, which must be a valid URI (optional) 
+* `--predicate-type`: Customize the predicate type of the evidence, which must be a valid URI.
 * `--compress`: Can be used to sign the compress file before attaching it to evidence.
 * `--tool`, `--tool-version`, `--tool-vendor`, Can be used for custom tool integrations.
 * `--format-type`, `--format-version`, `--format-encoding`, Can be used for custom format integrations.
