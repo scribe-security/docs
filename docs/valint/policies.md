@@ -668,3 +668,38 @@ In case of using a git repo, it's possible to also specify a branch and a commit
 For the GitHub authentication, a token can be provided via `GITHUB_TOKEN` environment variable or as part of url like `<token>@github.com`.
 
 To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--policy` flag.
+
+### Examples
+
+To run an external policy, say, on a docker image target, first we need to create an image SBOM:
+
+```bash
+valint bom busybox:latest -o attest
+```
+
+Then, if we have a policy rule like
+
+```yaml
+name: "default-rule"
+evidence:
+  signed: true
+  format-type: cyclonedx
+with:
+  identity:
+    emails:
+      - my@email.com
+```
+
+saved in `path/to/rule.yaml`, we can run the policy:
+
+```bash
+valint verify busybox:latest --policy /path/to/default-rule.yaml
+```
+
+If the rule is a part of a bundle and the bath in the bundle looks like `policies/images/rule.yaml`, then we can run it like
+
+```bash
+valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --policy policies/images/default-rule.yaml
+```
+
+An example of policy evaluation results can be found in the [policy results](policy-results) section.
