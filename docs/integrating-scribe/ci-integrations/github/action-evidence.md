@@ -580,7 +580,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated evidence
 </details>
 
 <details>
-  <summary> Attest File evidence (Signed) </summary>
+  <summary> Attest File evidence  </summary>
 
 Create and sign file as evidence. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
@@ -618,7 +618,7 @@ Default attestation config: `sigstore-github` - Sigstore (Fulcio, Rekor). <br />
 </details>
 
 <details>
-  <summary> Verify Policy flow (Signed) </summary>
+  <summary> Verify Policy flow </summary>
 
 Full job example of a signing and verifying evidence flow.
 
