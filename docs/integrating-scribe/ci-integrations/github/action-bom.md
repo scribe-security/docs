@@ -36,6 +36,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
+    required: false
   attach-regex:
     description: Attach files content by regex
   author-email:
@@ -51,13 +52,13 @@ To overcome the limitation install tool directly - **[installer](https://github.
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json]
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
   package-group:
-    description: Select package group, options=[index install all]
+    description: Select package group, options=all
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
   supplier-email:
     description: Set supplier email
   supplier-name:
@@ -90,6 +91,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Enable Full chain CRL verfication
   deliverable:
     description: Mark as deliverable, options=[true, false]
+  depth:
+    description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
@@ -125,6 +128,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Output file name
   pipeline-name:
     description: Pipeline name
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
   policy-args:
     description: Policy arguments
   predicate-type:
@@ -161,7 +166,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.0.0
+  uses: scribe-security/action-bom@v1.1.0
   with:
     target: 'busybox:latest'
 ```
@@ -169,7 +174,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.0.0
+  uses: scribe-security/action-bom-cli@v1.1.0
   with:
     target: 'hello-world:latest'
 ```
@@ -977,5 +982,6 @@ By default add `**/scribe` to your `.gitignore`.
 ## Other Actions
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
 * [slsa](action-slsa.md), [source](https://github.com/scribe-security/action-slsa)
+* [evidence](action-evidence.md), [source](https://github.com/scribe-security/action-evidence)
 * [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)
