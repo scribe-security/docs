@@ -277,7 +277,7 @@ Run the command on the required supply chain location.
 
 ```bash
 # Generate required evidence
-valint bom 3rd-party-scan.json -o attest-generic --predicate-type https://scanner.com/scan_format
+valint evidence 3rd-party-scan.json -o attest --predicate-type https://scanner.com/scan_format
 
 # Verify policy (cache store)
 valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://scanner.com/scan_format

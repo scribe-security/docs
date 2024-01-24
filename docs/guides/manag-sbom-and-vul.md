@@ -12,7 +12,7 @@ In order to generate an SBOM out of a build pipeline you must first **[install t
 In your build script call,
 
 ```
-valint evidence <target> -o [statement, attest] <flags> \
+valint bom <target> -o [statement, attest] <flags> \
  -E \
  -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
@@ -114,7 +114,7 @@ For example, gathering evidence of a Trivy output:
 ```
 valint bom report.sarif -o attest
 ```
-> Trivy Predicate type is autodetected.
+> Trivy Predicate type and tool information is autodetected.
 
 ### Signing & verifying SBOMs
 

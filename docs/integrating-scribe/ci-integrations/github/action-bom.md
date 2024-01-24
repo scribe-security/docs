@@ -730,9 +730,9 @@ job_example:
 </details>
 
 <details>
-  <summary> Attest target (Generic) </summary>
+  <summary> Attest File evidence </summary>
 
-Create and sign Generic file targets. <br />
+Create and sign file as evidence. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 >Default attestation config **Required** `id-token` permission access.
@@ -744,10 +744,10 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-evidence@master
     with:
         target: './file.go'
-        format: attest-generic
+        format: attest
 ``` 
 </details>
 

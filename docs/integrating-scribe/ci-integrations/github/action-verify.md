@@ -362,10 +362,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name:  Generate evidence step
+        # uses: scribe-security/action-evidence@master
+        # uses: scribe-security/action-slsa@master
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          format: [attest, statement]
           oci: true
           oci-repo: [oci_repo]
 

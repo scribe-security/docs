@@ -160,8 +160,8 @@ script:
     
   # Generating evidence, storing on [my_repo] OCI repo.
   - |
-    valint bom [target] \
-        --format [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+    valint bom [bom,slsa,evidence] \
+        --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
         --oci --oci-repo=[my_repo]

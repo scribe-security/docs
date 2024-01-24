@@ -111,7 +111,7 @@ Flags for all `valint` subcommands
   valint verify alpine:latest -i attest-slsa
 
   Generic-Example:
-  valint bom file.json -o attest-generic
+  valint evidence file.json -o attest
   valint verify file.sjon -i attest-generic
 
   Input-Format-aliases:
