@@ -27,8 +27,8 @@ attest:
     policies:  # Set of policies - grouping rules
       - name: <policy_name>
         rules: # Set of rule settings/configuration and input
-          - name: <rule_name>
-            path: <rule_path> # Specify if an external script is used
+          - name: "<rule_name>"
+            path: "<rule_path>" # Specify if an external script is used
             description: "A brief rule description"
             labels: [] # list of user-specified labels
             initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
@@ -63,16 +63,18 @@ A rule is a compliance check that you can configure to your specific organizatio
 
 For `evidence` details, see the **[Policies](../guides/enforcing-sdlc-policy#context-match-fields)** section For `with` details, see related rule section.
 
-### Verify Artifact rule​
+## Verify Artifact rule type
 
-The Verify Artifact rule enforces a set of requirements on who produced artifacts across your supply chain as well as what information should be collected on each artifact. In other words, it ensures produced artifacts' (`targets`) integrity by checking the expected evidence, signatures, and origin in your supply chain.
+---
+A rule of Verify Artifact type verifies some properties of an artifact. Examples of such checks are:
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) either in the `format-type` or `format` field of the input.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` **[origin labels](../guides/enforcing-sdlc-policy#context-match-fields)**. For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` **[subject labels](../guides/enforcing-sdlc-policy#context-match-fields)**.
-* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `rego` input.
+* Evidence Format: The evidence format should follow the specified format(s) provided in the `format-type` field of the input.
+* Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` [origin labels](##origin-context).
+For instance, you can verify that an artifact is generated from a particular pipeline or repository.
+* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` [subject labels](##subject-context).
+* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `path` or `script` input.
 
 #### Configuration​
 
@@ -80,7 +82,7 @@ The Verify Artifact rule enforces a set of requirements on who produced artifact
 - name: "" # Any user provided name
   evidence:
     signed: <true|false> # Should target be signed
-    format-type: <cyclonedx-json, slsa> # Expected evidence format
+    format-type: "<cyclonedx-json, slsa>" # Expected evidence format
     filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
     {environment-context} # Any origin or subject fields used by
   with:
@@ -90,8 +92,8 @@ The Verify Artifact rule enforces a set of requirements on who produced artifact
       common-names: [] # Signed common name identities
     {custom script input} # Any rule-specific input
   path: <path to policy script>
+  script-lang: rego # Currently only rego is supported
   script: |
-    # embedded policy script
     package verify
 
     verify = v {
@@ -216,7 +218,7 @@ valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-sls
 
 <details>
   <summary> Binary verification </summary>
-In this example, the policy, named "binary_rule" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
+In this example, the policy, named "binary_origin" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
 The policy rule also enforces an unsigned SLSA provenance statement is produced as evidence.
 
 ```yaml
@@ -225,7 +227,7 @@ attest:
     policies:
       - name: my_policy
         rules:
-          - name: binary_rule
+          - name: binary_origin
             evidence:
               signed: false
               format-type: slsa
@@ -290,7 +292,7 @@ You can define custom policies for artifacts verified by the rule by attaching t
 
 ##### Usage
 
-Rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
+The following rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
 
 ```yaml
 - name: signed_image_custom_policy
@@ -318,7 +320,7 @@ Rule verifies the predicate of the evidence in a custom Rego script embedded in 
 
 #### Rego script​
 
-In order to add a verification script you must provide a `verify` rule in your script. A Rego script can be provided in two forms: as an embedded code snippet in the `rego` section or as a dedicated file using the `path` field.
+In order to add a verification script you must provide a `verify` rule in your script. A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
 
 By default `valint` looks for a `.valint.rego` file.
 
@@ -478,7 +480,7 @@ attest:
       evidence:
         signed: true
         format: ${current.content_type} # Populated by --input-format flag.
-        sbomversion: ${current.sbomversion> # Populated from the artifact version provided to verify command.
+        sbomversion: ${current.sbomversion} # Populated from the artifact version provided to verify command.
       with:
         identity: # Populated by `--email`, `--uri` and `--common-name flags sets
 ```
@@ -490,7 +492,7 @@ attest:
 ## Context match fields
 
 Context match fields is a set of labels supported by all rules.
-These labels add requirements on the origin or the subject of the provided evidence considered for compliance.
+These labels strictly define a criteria to choose the evidence that will be passed to the rule evaluation.
 
 Using these fields allows you to set different compliance requirements for different layers of your supply chain.
 <!-- For full label fields list see **[environment-context](https://tbd)** section. -->

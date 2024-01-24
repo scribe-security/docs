@@ -7,9 +7,9 @@ date: November 30, 2023
 geometry: margin=2cm
 ---
 
-# Introduction to policy results
+## Introduction to policy results
 
-After running the `valint verify` command, the results of policy evaluation can be stored as an in-toto statement (`statement-sarif` or simply `statement`), in-toto attestation (`attest-sarif` / `attest`), or a JSON file in SARIF format. The output is then pushed to an OCI registry and can be verified at a later time.
+The policy evaluation outcome is a report in SARIF format, optionally encapsulated as an evidence: in-toto statement (_default_) or attestation. By default, this evidence is pushed to the attestation store and can be referenced by other policies.
 
 In this context, the in-toto statement or attestation has a predicate type of <http://docs.oasis-open.org/sarif/sarif/2.1.0>, target type `policy-results` and contains SARIF under `.predicate.content` path.
 
@@ -17,7 +17,7 @@ The pure SARIF format consists solely of the SARIF output from the policy evalua
 
 In addition to the evidence output, the results are also presented in the log as a table, providing a quick overview of both failed and passed rules.
 
-# Creating attestations out of policy results
+## Creating attestations out of policy results
 
 The results of policy evaluation are stored by default. If you want not to do it, use the `--skip-report` option.
 
@@ -25,14 +25,14 @@ The `--format` option (or `-o` for short) is employed to specify the output form
 
 Additionally, you have the option to save a local copy of the uploaded statement using the `--output-file /path/to/file` option.
 
-# Tuning policy results output
+## Tuning policy results output
 
 It's also possible to determine how policy results are included in the output. The supported options are:
 
 * `--result.by-rule` – aggregates all rule violations into one result per rule. By default, this option is disabled, meaning that each violation is pushed to SARIF as a separate result.
 * `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default.
 
-# Example
+## Example
 
 After policy evaluation, the results are shown in the output log as a table:
 

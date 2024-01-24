@@ -9,10 +9,9 @@ geometry: margin=2cm
 
 # Policies
 
-Each `policy` proposes to enforce a set of requirements your supply chain must comply with. Policies reports include valuations, compliance details, verdicts as well as references to provided `evidence`.  
+Each `policy` proposes to enforce a set of requirements (aka `rules`) your supply chain must comply with. The outcome of a policy evaluation is a policy result attestation, a report that details the rule evaluatoin results and references to the provided evidence.  
 Policy configuration can be set under the main configuration `policies` section.
 
-Each `policy` consists of a set of `policy rules` that your supply chain must comply with.
 A `policy` is verified if ALL required `rules` included in it are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
 ### Usage
@@ -67,23 +66,22 @@ Rule is a compliance checks that you can configure to your specific organization
 > For `evidence` details, see [Policies](#context-match-fields) section.  
 > For `with` details, see related rule section.
 
-## Verify Artifact rule
+## Verify Artifact rule type
 
 ---
-The Verify Artifact rule enforces a set of requirements on who produced artifacts across your supply chain as well as what information should be collected on each artifact.
-In other words, it ensures produced artifacts' (`targets`) integrity by checking the expected evidence, signatures and origin in your supply chain.
+A rule of Verify Artifact type verifies some properties of an artifact. Examples of such checks are:
 
 * Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
 * Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) either in the `format-type` or `format` field of the input.
+* Evidence Format: The evidence format should follow the specified format(s) provided in the `format-type` field of the input.
 * Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` [origin labels](##origin-context).
 For instance, you can verify that an artifact is generated from a particular pipeline or repository.
 * Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` [subject labels](##subject-context).
-* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `rego` or `script` input.
+* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `path` or `script` input.
 
 ### Use cases
 
-The `verify-artifact` rule can be used to enforce compliance with specific supply chain requirements, such as:
+A rule of `verify-artifact` type can be used to enforce compliance with specific supply chain requirements, such as:
 
 * Images must be signed and produce a CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
@@ -105,7 +103,8 @@ The `verify-artifact` rule can be used to enforce compliance with specific suppl
       uris: [] # Signed URIs identities 
       common-names: [] # Signed common name identities
     {custom script input} # Any rule-specific input
-  script-lang: "rego"
+  path: <path to policy script>
+  script-lang: rego # Currently only rego is supported
   script: |
     package verify
 
@@ -178,7 +177,7 @@ attest:
                   - alice@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -216,7 +215,7 @@ attest:
                 - bob@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -231,7 +230,7 @@ valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-sls
 
 <details>
   <summary> Binary verification </summary>
-In this example, the policy, named "binary_rule" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
+In this example, the policy, named "binary_origin" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
 The policy rule also enforces an unsigned SLSA provenance statement is produced as evidence.
 
 ```yaml
@@ -240,7 +239,7 @@ attest:
     policies:
       - name: my_policy
         rules:
-          - name: binary_rule
+          - name: binary_origin
             evidence:
               signed: false
               format-type: slsa
@@ -250,7 +249,7 @@ attest:
               input_name: my_binary.exe
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -288,7 +287,7 @@ attest:
                 - bob@mycompany.com
 ```
 
-**Command:**<br />
+***Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -307,7 +306,7 @@ You can define custom policies for artifacts verified by the rule by attaching t
 
 ### Usage
 
-Rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
+The following rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
 
 ```yaml
 - name: signed_image_custom_policy
@@ -334,9 +333,9 @@ Rule verifies the predicate of the evidence in a custom Rego script embedded in 
 #### Rego script
 
 In order to add a verification script you must provide a `verify` rule in your script.
-A Rego script can be provided in two forms: as an embedded code snippet in the `rego` section or as a dedicated file using the `path` field.
+A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
 
-> By default `valint` looks for ``.valint.rego` file.
+> By default `valint` looks for `.valint.rego` file.
 
 Use the following rule structure.
 
@@ -455,7 +454,7 @@ attest:
               }
 ```
 
-**Command:**<br />
+**Command:**  
 Run the command on the required supply chain location.
 
 ```bash
@@ -582,6 +581,8 @@ By default `target` and `product` groups are used.
 The list of groups to be used should be provided to the `attest.cocosign.policies.<policy>.rules.<rule>.evidence.filter-by` field in the configuration file.
 
 In addition, one can manually specify any parameters that they want to be matched by an evidence. For example, these can be `git_url` or `timestamp`.
+
+If more than one evidence is found, the newest one is used.
 
 <details>
   <summary> Usage </summary>
