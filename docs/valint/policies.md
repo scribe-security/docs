@@ -607,6 +607,40 @@ attest:
 
 </details>
 
+### Targetless Run
+
+Using `evidence` field it's possible to run a policy rule without providing a target. In this case, the evidence will be looked up using the provided parameters for each rule and no values from any target will be used (simply, the `filter-by: target` flag will be ignored).
+To be able to run `valint verify` in targetless mode, the `evidence` field in a rule config should describe the needed evidence well enough.  
+In the following example, the newest evidence of `target_type: image` for the provided product (defined by the name & version) will be used.
+
+```yaml
+# my_policy.yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        rules:
+          - name: my_rule
+            evidence:
+              signed: true
+              format-type: cyclonedx
+              target_ttpe: image
+              filter-by:
+                - product
+            with:
+              identity:
+                emails:
+                  - my@email.com
+```
+
+```bash
+valint bom busybox:latest -o attest --product-key my_product --product-version 1.0.0
+```
+
+```bash
+valint verify --product-key my_product --product-version 1.0.0 -c my_policy.yaml
+```
+
 ## External policy configs - Coming Soon!
 
 Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
