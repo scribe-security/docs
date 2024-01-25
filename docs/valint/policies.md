@@ -520,12 +520,12 @@ Replace `<var_name>` with the specific variable name from the evidence context t
 Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.
 
 3. User-defined  
-Users can pass custom arguments through the command line using the `--policy-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
+Users can pass custom arguments through the command line using the `--rule-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
 
 For example,
 
 ```bash
-valint verify git:repo.git --policy-args "my_arg"="foo"
+valint verify git:repo.git --rule-args "my_arg"="foo"
 ```
 
 In the policy configuration: `{{ .Args.my_arg }}`.
@@ -538,7 +538,7 @@ If the replacement process encounters an issue, such as no value provided for a 
 <details>
   <summary> Usage </summary>
 
-This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch should beare passed as arguments to the policy using the `--policy-args` flag as `--policy-args git_url=<url> --policy-args git_branch=<branch>`. The target_type is passed as a field from the evidence context.
+This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch should beare passed as arguments to the policy using the `--rule-args` flag as `--rule-args git_url=<url> --rule-args git_branch=<branch>`. The target_type is passed as a field from the evidence context.
 
 ```yaml
 attest:
@@ -645,7 +645,7 @@ valint verify --product-key my_product --product-version 1.0.0 -c my_policy.yaml
 
 Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
 
-External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--policy` flag or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
+External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--rule` flag or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
 
 Each extermal configuration should represent an entry to `attest.cocosign.policies` or to `attest.cocosign.policies[].rules` field of the main configuration file.
 
@@ -703,7 +703,11 @@ Policy configurations along with the corresponding rego scripts can be bundled t
 In case of using a git repo, it's possible to also specify a branch and a commit or a tag to be used with `--git-branch`, `--git-commit` and `--git-tag` options respectively. The repo would be cloned automatically by `valint`.  
 For the GitHub authentication, a token can be provided via `GITHUB_TOKEN` environment variable or as part of url like `<token>@github.com`.
 
-To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--policy` flag.
+To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--rule` flag.
+
+#### Default bundle
+
+By default, `valint` defaults to work with <https://github.com/scribe-security/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--rule` flag. If no`--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
 
 ### Examples
 
@@ -729,13 +733,13 @@ with:
 saved in `path/to/rule.yaml`, we can run the policy:
 
 ```bash
-valint verify busybox:latest --policy /path/to/default-rule.yaml
+valint verify busybox:latest --rule /path/to/default-rule.yaml
 ```
 
 If the rule is a part of a bundle and the bath in the bundle looks like `policies/images/rule.yaml`, then we can run it like
 
 ```bash
-valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --policy policies/images/default-rule.yaml
+valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule policies/images/default-rule.yaml
 ```
 
 An example of policy evaluation results can be found in the [policy results](policy-results) section.
