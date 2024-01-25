@@ -525,7 +525,7 @@ Include evidence for a file with custom tool-related metadata.
 ```YAML
 - name: Attach file as evidence with custom tool information
   id: valint_labels
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-evidence@master
   with:
     target: some_file.json
     tool: my_tool
@@ -542,7 +542,7 @@ Include evidence for a file with custom format-related metadata.
 ```YAML
 - name: Attach file as evidence with custom format information
   id: valint_labels
-  uses: scribe-security/action-bom@master
+  uses: scribe-security/action-evidence@master
   with:
     target: some_file.json
     format-type: my_format
