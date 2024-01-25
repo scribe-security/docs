@@ -6,7 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-You can use Scribe to apply policies at different points along your SDLC. For example, at the end of a build or at the admission control point to the production cluster. Use cases for example:
+You can use Scribe to apply policies at different points along your SDLC.
+For example, at the end of a build or at the admission control point to the production cluster. Use cases for example:
 
 * Images must be signed and have a matching CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
@@ -15,7 +16,8 @@ You can use Scribe to apply policies at different points along your SDLC. For ex
 
 ### Policies and Policy Rules
 
-A `policy` consists of a set of `rules` and is verified if all of them are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
+A `policy` consists of a set of `rules` and is verified if all of them are evaluated and verified.
+A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
 #### Usage
 
@@ -320,7 +322,8 @@ The following rule verifies the predicate of the evidence in a custom Rego scrip
 
 #### Rego script​
 
-In order to add a verification script you must provide a `verify` rule in your script. A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
+In order to add a verification script you must provide a `verify` rule in your script.
+A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
 
 By default `valint` looks for a `.valint.rego` file.
 
@@ -389,7 +392,8 @@ Script output must provide the following structure.
 
 ### Examples
 
-Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`. Files should be in the same directory as running Valint commands. 
+Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
+Files should be in the same directory as running Valint commands.
 
 > For configuration details, see the **[configuration](../integrating-scribe/valint/configuration)** section. You may also use `path` field to set a custom path for your script.
 
@@ -462,7 +466,7 @@ valint verify [target] --input-format [attest, attest-slsa] \
    --email [email] --common-name <common name> --uri [uri]
 ```
 
-In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.  
+In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.
 
 For full command details, see **[Valint verify](../integrating-scribe/valint/help/valint_verify)** command.
 
