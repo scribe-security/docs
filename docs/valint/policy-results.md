@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Policy results"
-title: Creating attestations out of policy results
+title: Policy Result Evaluation
 author: Viktor Kartashov - Scribe
 sidebar_position: 6
 date: November 30, 2023
@@ -25,12 +25,12 @@ The `--format` option (or `-o` for short) is employed to specify the output form
 
 Additionally, you have the option to save a local copy of the uploaded statement using the `--output-file /path/to/file` option.
 
-## Tuning policy results output
+<!-- ## Tuning policy results output
 
 It's also possible to determine how policy results are included in the output. The supported options are:
 
 * `--result.by-rule` – aggregates all rule violations into one result per rule. By default, this option is disabled, meaning that each violation is pushed to SARIF as a separate result.
-* `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default.
+* `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default. -->
 
 ## Example
 
