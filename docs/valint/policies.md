@@ -641,7 +641,7 @@ valint bom busybox:latest -o attest --product-key my_product --product-version 1
 valint verify --product-key my_product --product-version 1.0.0 -c my_policy.yaml
 ```
 
-## External policy configs - Coming Soon!
+## External policy configs - Early Availability
 
 Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
 
@@ -697,7 +697,7 @@ with:
 
 One can use as many policies per `valint verify` run as they want.
 
-### Bundling policy configs - Coming Soon!
+### Bundle policy configs - Early Availability
 
 Policy configurations along with the corresponding rego scripts can be bundled together in a directory or a git repo and then referenced in the cmd args via the `--bundle` flag or in the main configuration file via the `attest.bundle` field.  
 In case of using a git repo, it's possible to also specify a branch and a commit or a tag to be used with `--git-branch`, `--git-commit` and `--git-tag` options respectively. The repo would be cloned automatically by `valint`.  
