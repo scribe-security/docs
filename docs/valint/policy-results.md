@@ -19,7 +19,7 @@ In addition to the evidence output, the results are also presented in the log as
 
 ## Creating attestations out of policy results
 
-The results of policy evaluation are stored by default. If you want not to do it, use the `--skip-report` option.
+The results of policy evaluation are stored by default as evidence. If you want not to do it, use the `--skip-report` option.
 
 The `--format` option (or `-o` for short) is employed to specify the output format. Supported values include `attest-sarif` (or simply `attest`), `statement-sarif` (also referred to as `statement`) and `sarif` (in JSON format). The default value is `statement`.
 
@@ -33,6 +33,22 @@ It's also possible to determine how policy results are included in the output. T
 * `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default. -->
 
 ## Example
+To illustrate the process of creating attestations and evaluating policy results, consider the following example. In this case, we'll create a signed SBOM (Software Bill of Materials) evidence for the busybox image and then evaluate it against a policy named image-fresh.
+
+Create SBOM Evidence:
+```bash
+valint bom busybox:latest -o attest
+```
+We first use `valint bom` command generates a signed SBOM evidence for the busybox image using the default output format, which is an in-toto statement (attest).
+
+Evaluate Policy:
+```bash
+valint verify busybox:latest -i attest --rule policies/images/image-fresh.yaml 
+```
+Next we use `valint verify` command to evaluate the busybox image against the specified policy rule (`image-fresh.yaml`).
+> The `--rule` option is currently in Early Availability.
+
+After executing these commands, the results of the policy evaluation are displayed in the output log as a table, summarizing the evaluation for each rule:
 
 After policy evaluation, the results are shown in the output log as a table:
 
@@ -47,12 +63,29 @@ After policy evaluation, the results are shown in the output log as a table:
 ├─────────────────────────┼────────┼────────────────────────┼───────────────────┼──────────────────────────────────────────────┤
 │ AGGREGATE POLICY RESULT │        │                        │ PASSED            │                                              │
 └─────────────────────────┴────────┴────────────────────────┴───────────────────┴──────────────────────────────────────────────┘
-``````
+```
 
-and are also stored as a SARIF report inside an in-toto statement in the OCI registry:
+Moreover, the Sarif result is produced and dispatched as evidence, providing the option for it to be signed based on specific requirements. This signing capability enhances the integrity and authenticity of the generated evidence, ensuring a secure and verifiable representation of the policy evaluation results.
 
 <details>
-  <summary> Example </summary>
+  <summary> Signed Policy Result Example </summary>
+
+```bash
+# Create a signed SBOM (Software Bill of Materials) evidence for the 'busybox' image
+valint bom busybox:latest -o attest 
+
+# Verify signed evidence for 'busybox' and export a signed evidence for Policy results
+valint verify busybox:latest -i attest -o attest 
+```
+
+In this example, we generate a signed SBOM evidence for the 'busybox' image using the valint bom command. Subsequently, the valint verify command evaluates the signed evidence for 'busybox' (`-i attest`) and the -o flag to export a signed evidence for Policy results (`-o attest`).
+
+</details>
+
+<details>
+  <summary> Example Sarif output </summary>
+
+Results are also presented as a SARIF report inside an in-toto statement.
 
 ```json
 {
