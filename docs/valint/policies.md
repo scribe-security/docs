@@ -12,7 +12,8 @@ geometry: margin=2cm
 Each `policy` proposes to enforce a set of requirements (aka `rules`) your supply chain must comply with. The outcome of a policy evaluation is a policy result attestation, a report that details the rule evaluatoin results and references to the provided evidence.  
 Policy configuration can be set under the main configuration `policies` section.
 
-A `policy` is verified if ALL required `rules` included in it are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
+A `policy` consists of a set of `rules` and is verified if all of them are evaluated and verified.
+A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
 ### Usage
 
@@ -36,9 +37,9 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
-> For configuration details, see [configuration](configuration) section.
+> For configuration details, see the [configuration](configuration) section.
 
-> For PKI setting, see [attestations](attestations) section.
+> For PKI configuration, see the [attestations](attestations) section.
 
 ### Policy
 
@@ -50,7 +51,7 @@ Policy support the following fields:
 
 # Policy rules
 
-Rule is a compliance checks that you can configure to your specific organization requirements.
+A rule is a compliance check that you can configure to your specific organization's requirements.
 
 * `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
@@ -83,7 +84,7 @@ For instance, you can verify that an artifact is generated from a particular pip
 
 A rule of `verify-artifact` type can be used to enforce compliance with specific supply chain requirements, such as:
 
-* Images must be signed and produce a CycloneDX SBOM.
+* Images must be signed and have a matching CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
 * Tagged sources must be signed and verified by a set of individuals or processes.
 * Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
@@ -292,7 +293,7 @@ Run the command on the required supply chain location.
 
 ```bash
 # Generate required evidence
-valint bom 3rd-party-scan.json -o attest-generic --predicate-type https://scanner.com/scan_format
+valint evidence 3rd-party-scan.json -o attest --predicate-type https://scanner.com/scan_format
 
 # Verify policy (cache store)
 valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://scanner.com/scan_format
@@ -335,7 +336,7 @@ The following rule verifies the predicate of the evidence in a custom Rego scrip
 In order to add a verification script you must provide a `verify` rule in your script.
 A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
 
-> By default `valint` looks for `.valint.rego` file.
+> By default `valint` looks for a `.valint.rego` file.
 
 Use the following rule structure.
 
@@ -402,7 +403,7 @@ Script output must provide the following structure.
 
 ### Examples
 
-Copy the Examples configuration into file name `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
+Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
 > For configuration details, see [configuration](configuration) section.
