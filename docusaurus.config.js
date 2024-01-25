@@ -97,6 +97,7 @@ const config = {
                 "integrating-scribe/ci-integrations/github/action-slsa.md",
                 "integrating-scribe/ci-integrations/github/action-bom.md",
                 "integrating-scribe/ci-integrations/github/action-verify.md",
+                "integrating-scribe/ci-integrations/github/action-evidence.md",
                 "integrating-scribe/ci-integrations/github/action-installer.md",
                 "integrating-scribe/ci-integrations/jenkins.md",
                 "integrating-scribe/ci-integrations/example.md",
