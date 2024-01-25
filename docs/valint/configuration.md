@@ -1,4 +1,4 @@
-# Configuration 
+# Configuration
 
 Configuration search paths:
 
@@ -17,10 +17,6 @@ cache:
   output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
-    login-url: https://scribe-hub-production.us.auth0.com
-    client-id: '******'
-    client-secret: '******'
-    grant-type: client_credentials
     enable: true
     audience: api.production.scribesecurity.com
   url: https://api.scribesecurity.com
