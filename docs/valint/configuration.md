@@ -1,4 +1,4 @@
-# Configuration
+# Configuration 
 
 Configuration search paths:
 
@@ -18,7 +18,6 @@ cache:
 scribe:
   auth:
     enable: true
-    audience: api.production.scribesecurity.com
   url: https://api.scribesecurity.com
   enable: false
   retry:
@@ -86,8 +85,9 @@ evidence:
   compress: false
 attest:
   config: ""
-  bundle: ""
-  policy_configs: []
+  bundle: https://github.com/scribe-public/sample-policies
+  skip-bundle: true
+  rule_configs: []
   default: sigstore
   report:
     add-passed: true

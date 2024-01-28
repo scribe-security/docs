@@ -17,11 +17,14 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | -a | --attestation | Attestation for target | |
+| | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
 | | --common-name | Default policy allowed common names | |
 | | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
 | -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
+| | --rule | Rule configuration file path (early-availability) | |
+| | --skip-bundle | Skip bundle download | |
 | | --skip-report | Skip Policy report stage | |
 | | --uri | Default policy allowed uris | |
 
@@ -47,7 +50,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
-| -e | --env | Environment keys to include in sbom | |
+| -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -64,11 +67,11 @@ Flags for all `valint` subcommands
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
-| | --policy-args | Policy arguments | [] |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
+| | --rule-args | Policy arguments | [] |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
@@ -84,12 +87,18 @@ Flags for all `valint` subcommands
 ```
   valint verify <target>
   
-  <target> Target object name format=[<image:tag>, <dir path>, <git url>]
+  <target> Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
 
-  valint verify alpine:latest                         verify target against signed attestation of sbom
-  valint verify alpine:latest -i attest-slsa          verify target against signed attestation of SLSA provenance
-  valint verify file.json -i attest-generic 	  	  verify file as evidence
-  valint verify alpine:latest -vv                     show verbose debug information
+  valint verify alpine:latest                                                 verify target against signed attestation of sbom
+  valint verify alpine:latest -i attest-slsa                                  verify target against signed attestation of SLSA provenance
+  valint verify file.json -i attest-generic 	  	                          verify file as evidence
+  valint verify alpine:latest                                                 show verbose debug information
+  valint verify alpine:latest --rule policies/images/fresh-image.yaml         verify images freshness (early-availability)
+  valint verify busybox:latest --rule policies/sboms/complete-licenses.yaml   verify complete licences (early-availability)
+
+  Target-less Operation:
+  valint verify   evaluate policy without specifying a target subject
+
 
   Supports the following image sources:
   valint verify yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
@@ -107,7 +116,7 @@ Flags for all `valint` subcommands
   valint verify alpine:latest -i attest
 
   SLSA-Example:
-  valint bom alpine:latest -o attest-slsa
+  valint slsa alpine:latest -o attest
   valint verify alpine:latest -i attest-slsa
 
   Generic-Example:

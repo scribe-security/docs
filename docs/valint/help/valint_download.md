@@ -40,7 +40,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
-| -e | --env | Environment keys to include in sbom | |
+| -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -57,11 +57,11 @@ Flags for all `valint` subcommands
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
-| | --policy-args | Policy arguments | [] |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
+| | --rule-args | Policy arguments | [] |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
