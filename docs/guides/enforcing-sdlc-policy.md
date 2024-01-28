@@ -24,15 +24,19 @@ The following is a description of a sample rule bundle (_the feature is in early
 
 1. Install `valint`:
 
-    ```bash
-    curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
-    ```
+   ```bash
+   curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   ```
 
 2. Create an SBOM of a type you want to verify
 
    ```bash
-   valint bom busybox:latest -o statement-cyclonedx-json
+   valint bom busybox:latest -o statement
    ```
+   
+   Additional options:
+   * To explore other evidence types, use commands like `valint slsa` or `valint evidence`.
+   * Specify `-o attest` for signed evidence.
 
 3. Verify the SBOM against a policy. The current catalogue will be used as a default bundle for `valint`.
 
@@ -51,7 +55,7 @@ The following is a description of a sample rule bundle (_the feature is in early
    All of the policy rules in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based on the product name and version. To do so, first create an SBOM providing these values:
 
    ```bash
-   valint bom busybox:latest -o statement-cyclonedx-json --product-name busybox --product-version v1.36.1
+   valint bom busybox:latest -o statement --product-name busybox --product-version v1.36.1
    ```
 
    Then, run
@@ -126,7 +130,7 @@ The second is a rego script that contains the actual verifyer code. It can be us
 An example of creating an SBOM evidence:
 
 ```bash
-valint bom ubuntu:latest -o statement-cyclonedx-json
+valint bom ubuntu:latest -o statement
 ```
 
 To verify the evidence against the rule, run:
@@ -435,7 +439,7 @@ trivy image ubuntu:latest -f sarif -o ubuntu-cve.json
 Create an evidence from this report:
 
 ```bash
-valint bom ubuntu-cve.json --predicate-type http://scribesecurity.com/evidence/generic/v0.1  -o statement-generic
+valint evidence ubuntu-cve.json  -o statement
 ```
 
 Verify the attestation against the rule:
@@ -589,7 +593,7 @@ trivy config <dir_containing_dockerfile> -f sarif -o my-image-dockerfile.json
 Create an evidence from this report:
 
 ```bash
-valint bom my-image-dockerfile.json --predicate-type http://scribesecurity.com/evidence/generic/v0.1  -o statement-generic
+valint evidence my-image-dockerfile.json -o statement
 ```
 
 Verify the attestation against the rule:
@@ -621,7 +625,7 @@ semgrep scan --config auto -o semgrep-report.sarif --sarif
 Then, create an evidence from this report:
 
 ```bash
-valint bom semgrep-report.sarif --predicate-type http://scribesecurity.com/evidence/generic/v0.1  -o statement-generic
+valint evidence semgrep-report.sarif -o statement
 ```
 
 Configuration of This rule is done in the file [verify-semgrep-report.yaml](https://github.com/scribe-public/sample-policies/tree/main/policies/sarif/verify-semgrep-report.yaml). In this example we forbid any violations of the `use-after-free` rule:
