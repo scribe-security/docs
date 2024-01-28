@@ -37,7 +37,7 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
-> For configuration details, see the [configuration](configuration) section.
+> For configuration details, see the [configuration](./configuration.md) section.
 
 > For PKI configuration, see the [attestations](attestations) section.
 
@@ -406,7 +406,7 @@ Script output must provide the following structure.
 Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](configuration) section.
+> For configuration details, see [configuration](./configuration.md) section.
 > You may also use `path` field to set a custom path for your script.
 
 
