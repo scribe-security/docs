@@ -3,14 +3,19 @@
 submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
-supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" )
+base_public="git@github.com:scribe-public"
+supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" "sample-policies" )
 
 pull_submodules() {
     repos=$1
     for repo in "${repos[@]}"
     do
         echo "Download repo $${repo}"
-        repo_url="${base}/${repo}"
+        if [ "$repo" == "sample-policies" ]; then
+            repo_url="${base_public}/${repo}"
+        else
+            repo_url="${base}/${repo}"
+        fi
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
         pushd "${repo_dir}"
@@ -222,6 +227,32 @@ export_orbs() {
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
+
+import_sample-policies() {
+    repo="sample-policies"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/guides"
+
+    echo '---
+sidebar_label: "Applying Policies to your SDLC"
+title: Applying Policies to your SDLC
+sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---' > "${dst_dir}/enforcing-sdlc-policy.md"
+
+    tail -n +2 "${repo_dir}/README.md" >> "${dst_dir}/enforcing-sdlc-policy.md"
+}
+
+export_sample-policies() {
+    repo="sample-policies"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/guides"
+    export_file_rename ${repo} "" "${dst_dir}/enforcing-sdlc-policy.md"
+    sed -i '/^---$/,/^---$/c\
+# Sample policies' "${repo_dir}/README.md"
+}
+
 import_helm-charts() {
     repo="helm-charts"
     repo_dir="${submodules_dir}/${repo}"
@@ -291,14 +322,6 @@ export_cli() {
     # mv "docs/how-to-run-scribe/${repo}/README.md" "${repo_dir}/README.md" 
     export_file_rename "${repo_dir}/README.md" ${dst_dir}/getting-started-valint.md "" 
     cp -r ${dst_dir}/* "${repo_dir}/docs/"
-}
-
-import_gensbom() {
-    import_cli gensbom
-}
-
-export_gensbom() {
-    export_cli gensbom
 }
 
 import_valint() {
