@@ -78,7 +78,7 @@ The `valint evidence` action is a versatile action designed to include various t
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -112,14 +112,14 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy-args:
-    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:
@@ -128,6 +128,8 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
+  scribe-login-url:
+    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:

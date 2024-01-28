@@ -23,10 +23,12 @@ The command allows users to verify any target against its evidence.
 ### Input arguments
 ```yaml
   target:
-    description: Target object name format=[<image:tag>, <dir path>, <git url>]
+    description: Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
     required: true
   attestation:
     description: Attestation for target
+  bundle:
+    description: Policy bundle uri/path (early-availability)
   common-name:
     description: Default policy allowed common names
   email:
@@ -35,6 +37,12 @@ The command allows users to verify any target against its evidence.
     description: Force skip cache
   input-format:
     description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
+  rule:
+    description: Rule configuration file path (early-availability)
+  skip-bundle:
+    description: Skip bundle download
+  skip-report:
+    description: Skip Policy report stage
   uri:
     description: Default policy allowed uris
   allow-expired:
@@ -61,10 +69,12 @@ The command allows users to verify any target against its evidence.
     description: Enable Full chain CRL verfication
   deliverable:
     description: Mark as deliverable, options=[true, false]
+  depth:
+    description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -96,14 +106,16 @@ The command allows users to verify any target against its evidence.
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  policy-args:
-    description: Policy arguments
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:
@@ -112,6 +124,8 @@ The command allows users to verify any target against its evidence.
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
+  scribe-login-url:
+    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:

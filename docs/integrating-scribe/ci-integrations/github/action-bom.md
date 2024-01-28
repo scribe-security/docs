@@ -36,7 +36,6 @@ To overcome the limitation install tool directly - **[installer](https://github.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
-    required: false
   attach-regex:
     description: Attach files content by regex
   author-email:
@@ -47,12 +46,10 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Set author phone
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  compress:
-    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json]
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
   package-exclude-type:
     description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
   package-group:
@@ -96,7 +93,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -130,14 +127,14 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy-args:
-    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:

@@ -47,7 +47,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[statement attest predicate]
+    description: Evidence format, options=[statement attest]
   invocation:
     description: Set metadata invocation ID
   predicate:
@@ -85,7 +85,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -119,14 +119,14 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy-args:
-    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:
@@ -135,6 +135,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Scribe Client Secret
   scribe-enable:
     description: Enable scribe client
+  scribe-login-url:
+    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:
