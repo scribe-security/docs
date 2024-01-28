@@ -39,7 +39,7 @@ attest:
 
 > For configuration details, see the [configuration](./configuration.md) section.
 
-> For PKI configuration, see the [attestations](attestations) section.
+> For PKI configuration, see the [attestations](./attestations.md) section.
 
 ### Policy
 
@@ -120,7 +120,7 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
 
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](configuration) section.
+> For configuration details, see [configuration](./configuration.md) section.
 
 <details>
   <summary> Signed Images policy </summary>
