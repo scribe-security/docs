@@ -153,9 +153,9 @@ pipelines:
         script:    
           - pipe: scribe-security/valint-pipe:0.1.6
             variables:
-              COMMAND_NAME: bom
+              COMMAND_NAME: [bom,slsa,evidence]
               TARGET:  [target]
-              FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+              FORMAT: [attest, statement]
               SCRIBE_ENABLE: true
               SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
@@ -206,9 +206,9 @@ pipelines:
           - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD [my_registry]
           - pipe: scribe-security/valint-pipe:0.1.6
             variables:
-              COMMAND_NAME: bom
+              COMMAND_NAME: [bom,slsa,evidence]
               TARGET:  [target]
-              FORMAT: [attest, statement, attest-slsa (depricated), statement-slsa(depricated), attest-generic, statement-generic]
+              FORMAT: [attest, statement]
               OCI: true
               OCI_REPO: [oci_repo]
 

@@ -21,13 +21,12 @@ Flags for `bom` subcommand
 | | --author-name | Set author name | |
 | | --author-phone | Set author phone | |
 | | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,dep,commits] |
-| | --compress | Compress content (generic evidence) | |
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
-| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom] | |
-| | --package-group | Select package group, options=[index install all] | |
-| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom] | [ruby,python,javascript,java,dpkg,apkdb,rpm,go-mod,dotnet,r-package,rust,binary,sbom] |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
+| | --package-group | Select package group, options=all | |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel] | [ruby,python,javascript,java,dpkg,apk,rpm,go-module,dotnet,r-package,rust,binary,sbom,nix,conan,alpm,graalvm,cocoapods,swift,dart,elixir,php,erlang,github,portage,haskell,kernel] |
 | | --supplier-email | Set supplier email | |
 | | --supplier-name | Set supplier name | |
 | | --supplier-phone | Set supplier phone | |
@@ -53,8 +52,9 @@ Flags for all `valint` subcommands
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
+| | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
-| -e | --env | Environment keys to include in sbom | |
+| -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -70,15 +70,16 @@ Flags for all `valint` subcommands
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
-| | --policy-args | Policy arguments | [] |
+| | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
+| | --rule-args | Policy arguments | [] |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
-| -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
+| -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
 | -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
@@ -98,7 +99,6 @@ Flags for all `valint` subcommands
   valint  alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
   valint  alpine:latest                     show verbose debug information
   valint  alpine:latest -A "*/**"           collect files content in to SBOM
-  valint  file.json -o attest-generic 	  attach file as evidence
 
   Supports the following image sources:
   valint  yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.

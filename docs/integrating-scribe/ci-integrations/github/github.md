@@ -12,4 +12,5 @@ This is the simplified quick-start guide. To learn more about Scribe's GitHub ca
 * **[Installer](../../../../docs/integrating-scribe/ci-integrations/github/action-installer)**
 * **[Bom](../../../../docs/integrating-scribe/ci-integrations/github/action-bom.md)**
 * **[SLSA](../../../../docs/integrating-scribe/ci-integrations/github/action-slsa.md)**
+* **[Evidence](../../../../docs/integrating-scribe/ci-integrations/github/action-evidence)**
 * **[Verify](../../../../docs/integrating-scribe/ci-integrations/github/action-verify)**

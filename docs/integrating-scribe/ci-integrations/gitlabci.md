@@ -108,8 +108,8 @@ stages:
 scribe-gitlab-job:
     stage: scribe-gitlab-stage
     script:
-      - valint bom [target]
-          -o [attest, statement, attest-slsa (depricated), attest-slsa (depricated), attest-generic, statement-generic]
+      - valint [bom,slsa,evidence] [target]
+          -o [attest, statement]
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
@@ -171,8 +171,8 @@ scribe-gitlab-job:
     script:
       - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
 
-      - valint bom [target]
-          -o [attest, statement, attest-slsa (depricated), attest-slsa (depricated), attest-generic, statement-generic]
+      - valint [bom,slsa,evidence] [target]
+          -o [attest, statement]
           --context-type gitlab
           --output-directory ./scribe/valint
           --oci --oci-repo=[my_repo]

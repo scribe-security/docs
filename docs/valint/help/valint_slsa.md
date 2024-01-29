@@ -24,7 +24,7 @@ Flags for `slsa` subcommand
 | | --external | Add build external parameters | [] |
 | | --finished-on | Set metadata finished time (YYYY-MM-DDThh:mm:ssZ) | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[statement attest predicate] | [statement] |
+| -o | --format | Evidence format, options=[statement attest] | [statement] |
 | -h | --help | help for slsa | |
 | | --invocation | Set metadata invocation ID | |
 | | --predicate | Import predicate path | |
@@ -51,8 +51,9 @@ Flags for all `valint` subcommands
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
+| | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
-| -e | --env | Environment keys to include in sbom | |
+| -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | | --git-branch | Git branch in the repository | |
@@ -68,15 +69,16 @@ Flags for all `valint` subcommands
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
-| | --policy-args | Policy arguments | [] |
+| | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
+| | --rule-args | Policy arguments | [] |
 | -U | --scribe.client-id | Scribe Client ID | |
 | -P | --scribe.client-secret | Scribe Client Secret | |
 | -E | --scribe.enable | Enable scribe client | |
-| -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
+| -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
 | -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |
 | | --timeout | Timeout duration | "120s" |
