@@ -733,6 +733,8 @@ rules:
   - uses: policies/images/forbid-large-images.yaml
 ```
 
+Such files can later be referenced in the `--rule` flag (see examples below).
+
 ### Examples
 
 To run an external policy, say, on a docker image target, first we need to create an image SBOM:
