@@ -709,6 +709,30 @@ To reference a policy rule in a bundle, the relative path to the bundle root sho
 
 By default, `valint` defaults to work with <https://github.com/scribe-public/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--rule` flag. If no`--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
 
+#### Reusing bundle rules
+
+The "uses" flag in rule descriptions allows users to utilize external configurations from a bundle as a base for creating custom rules. This feature simplifies reusing of bundle rules with different parameters.
+
+For example, lets, reuse bundle config `policies/images/fresh-image.yaml`. Let's create a local rule config file:
+
+```yaml
+uses: policies/images/fresh-image.yaml
+with:
+  max_days: 1000
+```
+
+The value `with.max_days: 1000` will override the default from the bundle config, the other values will remain the same. If needed, one can override any other value from the bundle config.
+
+It's also possible to create a policy config utilizing multiple bundle rules:
+
+```yaml
+rules:
+  - uses: policies/images/fresh-image.yaml
+    with:
+      max_days: 1000
+  - uses: policies/images/forbid-large-images.yaml
+```
+
 ### Examples
 
 To run an external policy, say, on a docker image target, first we need to create an image SBOM:
