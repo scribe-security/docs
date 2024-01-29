@@ -697,6 +697,8 @@ with:
 
 One can use as many policies per `valint verify` run as they want.
 
+When using `--rule` flag, `valint` will first lookup the config in local FS and if not found, will try to use a config from the bundle (if used).
+
 ### Bundle policy configs - Early Availability
 
 Policy configurations along with the corresponding rego scripts can be bundled together in a directory or a git repo and then referenced in the cmd args via the `--bundle` flag or in the main configuration file via the `attest.bundle` field.  
