@@ -1,13 +1,34 @@
-## valint
+## valint evidence
 
-Validate Supply Chain Integrity
+Add file as evidence command
 
 ### Synopsis
 
-Command Line Interpreter (CLI) tool,that empowers supply chain stakeholders to ensure supply chain integrity, verify compliance, and generate and manage evidence.
+Collect, Create and Store any file as evidence
+
+```
+valint evidence [TARGET] [flags]
+```
 
 ### Optional flags 
-Flags for `valint`
+Flags for `evidence` subcommand
+
+
+| Short | Long | Description | Default |
+| --- | --- | --- | --- |
+| | --compress | Compress content) | |
+| -o | --format | Evidence format, options=[statement attest] | [statement] |
+| | --format-encoding | Format encoding | |
+| | --format-type | Format type | |
+| | --format-version | Format version | |
+| -h | --help | help for evidence | |
+| | --tool | Tool name | |
+| | --tool-vendor | Tool vendor | |
+| | --tool-version | Tool version | |
+
+
+### Global options flags
+Flags for all `valint` subcommands
 
 
 | Short | Long | Description | Default |
@@ -33,7 +54,6 @@ Flags for `valint`
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
-| -h | --help | help for valint | |
 | | --key | x509 Private key path | |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
@@ -60,12 +80,23 @@ Flags for `valint`
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
+### Examples for running `valint evidence`
+
+```
+  valint evidence <file>
+
+  <file> File Path to add as evidence
+
+  valint evidence file.json                                                                   Attach a file as evidence
+  valint evidence file.json -o attest                                                         Sign evidence
+  valint evidence file.json --tool my_tool --tool-version 0.0.1 --vendor="My Company Inc"     Customize tool information
+  valint evidence file.json --format my_format --format-version 0.0.1 --format-encoding=xml   Customize format information
+  valint evidence file.json --predicate-type https:/my_company.com/my_predicate/v1            Customize predicate type
+  valint evidence file.json --compress                                                        Compress content
+
+```
+
 ### SEE ALSO
 
-* [valint bom](valint_bom.md)	 - Create evidence command
-* [valint download](valint_download.md)	 - Downloads the evidence based on cache
-* [valint evidence](valint_evidence.md)	 - Add file as evidence command
-* [valint list](valint_list.md)	 - List evidence command
-* [valint slsa](valint_slsa.md)	 - Create SLSA provenance evidence command
-* [valint verify](valint_verify.md)	 - Verify compliance policies against evidence to ensure the integrity of supply chain.
+* [valint](valint.md)	 - Validate Supply Chain Integrity
 

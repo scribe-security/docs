@@ -177,13 +177,9 @@ File-based key management, abstracting the key type from applications (TPM suppo
 
 ### Signing And Verifying Evidence
 
-Valint Bom commands output format `-o`, `--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats: 
-* statement-cyclonedx-json
-* attest-cyclonedx-json
-* statement-slsa
-* attest-slsa
-* statement-generic
-* attest-generic
+Valint [Bom,Slsa, Evidence] commands output format `-o`, `--format` as well as the Verify command `-i`, `--input-format` value must match one of the supported formats: 
+* statement
+* attest
 
 #### Signing the result Valint Bom command into an attestation
 Run the valint bom [target] -o [format] command on one of the format options above.

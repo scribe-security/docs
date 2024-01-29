@@ -46,18 +46,16 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Set author phone
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  compress:
-    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
     description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
   package-group:
-    description: Select package group, options=[index install all]
+    description: Select package group, options=all
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apkdb rpm go-mod dotnet r-package rust binary sbom]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
   supplier-email:
     description: Set supplier email
   supplier-name:
@@ -90,10 +88,12 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Enable Full chain CRL verfication
   deliverable:
     description: Mark as deliverable, options=[true, false]
+  depth:
+    description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -125,14 +125,16 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  policy-args:
-    description: Policy arguments
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:
@@ -161,7 +163,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.0.0
+  uses: scribe-security/action-bom@v1.1.0
   with:
     target: 'busybox:latest'
 ```
@@ -169,7 +171,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.0.0
+  uses: scribe-security/action-bom-cli@v1.1.0
   with:
     target: 'hello-world:latest'
 ```
@@ -332,19 +334,18 @@ jobs:
   scribe-sign-verify:
     runs-on: ubuntu-latest
     steps:
-
-        uses: scribe-security/action-bom@master
+      - uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          format: [attest, statement]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
 
-        uses: scribe-security/action-verify@master
+      - uses: scribe-security/action-verify@master
         with:
           target: [target]
-          input-format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          input-format: [attest, statement]
           scribe-enable: true
           scribe-client-id: ${{ secrets.clientid }}
           scribe-client-secret: ${{ secrets.clientsecret }}
@@ -397,7 +398,7 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
           target: [target]
-          format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          format: [attest, statement]
           oci: true
           oci-repo: [oci_repo]
 
@@ -405,7 +406,7 @@ jobs:
         uses: scribe-security/action-verify@master
         with:
           target: [target]
-          input-format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+          input-format: [attest, statement]
           oci: true
           oci-repo: [oci_repo]
 ```
@@ -731,9 +732,9 @@ job_example:
 </details>
 
 <details>
-  <summary> Attest target (Generic) </summary>
+  <summary> Attest File evidence </summary>
 
-Create and sign Generic file targets. <br />
+Create and sign file as evidence. <br />
 By default the `sigstore-github` flow is used, GitHub workload identity and Sigstore (Fulcio, Rekor).
 
 >Default attestation config **Required** `id-token` permission access.
@@ -745,10 +746,10 @@ job_example:
     id-token: write
   steps:
     - name: valint attest
-    uses: scribe-security/action-bom@master
+    uses: scribe-security/action-evidence@master
     with:
         target: './file.go'
-        format: attest-generic
+        format: attest
 ``` 
 </details>
 
@@ -978,5 +979,6 @@ By default add `**/scribe` to your `.gitignore`.
 ## Other Actions
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
 * [slsa](action-slsa.md), [source](https://github.com/scribe-security/action-slsa)
+* [evidence](action-evidence.md), [source](https://github.com/scribe-security/action-evidence)
 * [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)

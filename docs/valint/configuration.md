@@ -17,11 +17,8 @@ cache:
   output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
-    login-url: https://scribe-hub-production.us.auth0.com
-    grant-type: client_credentials
     enable: true
-    audience: api.production.scribesecurity.com
-  url: https://airflow.scribesecurity.com
+  url: https://api.scribesecurity.com
   enable: false
   retry:
     backoff: 15s
@@ -51,30 +48,53 @@ bom:
     - javascript
     - java
     - dpkg
-    - apkdb
+    - apk
     - rpm
-    - go-mod
+    - go-module
     - dotnet
     - r-package
     - rust
     - binary
     - sbom
+    - nix
+    - conan
+    - alpm
+    - graalvm
+    - cocoapods
+    - swift
+    - dart
+    - elixir
+    - php
+    - erlang
+    - github
+    - portage
+    - haskell
+    - kernel
     exclude-type: []
   attach-regex: []
   final-artifact: false
-  compress: false
 slsa:
   formats:
   - statement
   components:
   - metadata
   - layers
+evidence:
+  formats:
+  - statement
+  compress: false
 attest:
   config: ""
+  bundle: https://github.com/scribe-public/sample-policies
+  skip-bundle: true
+  rule_configs: []
   default: sigstore
+  report:
+    add-passed: true
   cocosign: {}
   x509: {}
 verify:
+  formats: statement-sarif
   input-format: attest-cyclonedx-json
   attestation: ""
   force: false
@@ -96,8 +116,6 @@ list:
   filters: {}
   current: false
 download:
-  folder-path: ""
   format: attest-cyclonedx-json
-  ref: ""
   store: cache
 ```

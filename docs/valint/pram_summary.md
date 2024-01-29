@@ -80,9 +80,12 @@ The following fields are collected from any supported artifact (`target`).
 | --- | --- | --- | --- |
 | content_type | Target Evidence Format (CLI) value of flags`--format`, `--input-format` | All | 
 | name | Product key (CLI) - value of flag `--product-key` | All |
-| name | Product Version (CLI) - value of flag `--product-version` | All |
-| name | Pipeline name (CLI) - value of flag `--pipeline-name` | All |
-| name | Mark as Deilverable (CLI) - value of flag `--deliverable` | All |
+| product_version | Product Version (CLI) - value of flag `--product-version` | All |
+| pipeline_name | Pipeline name (CLI) - value of flag `--pipeline-name` | All |
+| deliverable | Mark as Deilverable (CLI) - value of flag `--deliverable` | All |
+| labels | Attach label (CLI) - value of flag `--label` | All |
+| env | Attach environment (CLI) - value of flag `--env` | All |
+| timestamp | Evidence creation timestamp | All |
 | sbomgroup | Target SBOM group - `image, directory, file, git` | All |
 | sbomname |  Target SBOM name | All |
 | sbomversion | Target SBOM name  | All |
@@ -104,11 +107,17 @@ The following fields are collected from any supported artifact (`target`).
 | target_git_commit | Target provided git commit | git |
 | target_git_tag | Target provided git tag | git |
 | target_git_ref | Target provided git ref | git |
+| tool | Tool name | All |
+| tool_version | Evidence creator tool version | All |
+| tool_vendor | Evidence creator tool vendor | All |
+| format_type | Evidence format type | All |
+| format_version | Evidence Format version | All |
+| format_encoding | Evidence Format encoding | All |
 
 > `content type` is set by the `--format` or `--input-format` flag it supports the following types.
 
-| content_type | 
-| --- |
+| Command | content_type | 
+| --- | --- |
 | cyclonedx-json |
 | statement-cyclonedx-json | 
 | attest-cyclonedx-json | 
@@ -118,8 +127,8 @@ The following fields are collected from any supported artifact (`target`).
 | attest-generic |
 
 #### `valint bom` format support
-| Format | alias | Description | signed |
-| --- | --- | --- | --- |
+| Command | Format | alias | Description | signed |
+| --- | --- | --- | --- | --- |
 | cyclonedx-json | json | CyclondeDX json format | no |
 | statement-cyclonedx-json | statement | In-toto CyclondeDX Statement | no |
 | attest-cyclonedx-json | attest | In-toto CyclondeDX Attestation | yes |
@@ -133,6 +142,14 @@ The following fields are collected from any supported artifact (`target`).
 | attest-slsa | attest |  In-toto SLSA Provenance Attestation | yes |
 
 > Select using `slsa` command `-o`, `--format` flag.
+
+#### `valint evidence` format support
+| Format | alias | Description | signed |
+| --- | --- | --- | --- |
+| statement-generic | statement | In-toto Generic Statement | no |
+| attest-generic | attest | In-toto Generic Attestations| yes |
+
+> Select using `evidence` command `-o`, `--format` flag.
 
 #### `valint verify` Input format support
 | Format | alias | Description | signed |

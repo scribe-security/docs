@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/checkout@v3
         with:
-          repository: scribe-security/${{ matrix.repo }}
+          repository: ${{ matrix.repo == 'sample-policies' && 'scribe-public' || 'scribe-security' }}/${{ matrix.repo }}
           path: sub/${{ matrix.repo }}
           token: ${{ secrets.PR_PAT }}
       
