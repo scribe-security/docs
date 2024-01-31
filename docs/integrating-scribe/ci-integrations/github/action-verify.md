@@ -141,7 +141,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.1.0
+  uses: scribe-security/action-verify@v1.1.1
   with:
       target: 'busybox:latest'
 ```
@@ -149,7 +149,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.1.0
+  uses: scribe-security/action-verify-cli@v1.1.1
   with:
     target: 'hello-world:latest'
 ```
@@ -399,8 +399,8 @@ jobs:
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Verify image
+  uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
     format: json
@@ -414,8 +414,8 @@ By default, the action runs in its own pid namespace as the root user. You can c
 By default, the action runs in its own pid namespace as the root user. If the user uses a high UID or GID, you must specify all the following environment variables. You can change the user by setting specific `USERID` and `USERNAME` variables. Additionally, you may group the process by setting specific `GROUPID` and `GROUP` variables.
 
 ```YAML
-- name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@master
+- name: Verify image
+  uses: scribe-security/action-verify@master
   with:
     target: 'busybox:latest'
     format: json
@@ -428,6 +428,37 @@ By default, the action runs in its own pid namespace as the root user. If the us
 
 </details>
 ``` 
+
+### Platform-Specific Image Handling
+The Valint tool is compatible with both Linux and Windows images. Set the desired platform using the 'platform' field in your configuration:
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: hello-world:latest
+    platform: linux/amd64
+```
+
+Docker is configured by default to pull images matching the runner's platform. For analyzing images across different platforms, you need to pull the image from the registry and specify the platform.
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify@master
+  with:
+    target: registry:hello-world:latest
+    platform: windows/amd64
+```
+
+### Windows Runner Compatibility
+> On Windows Github runners, containerized actions are currently not supported. It's recommended to use CLI actions in such cases.
+
+```yaml
+- name: valint verify
+  uses: scribe-security/action-verify-cli@master
+  with:
+    target: hello-world:latest
+```
 
 ### Verify SBOMs examples
 <details>

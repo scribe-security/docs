@@ -157,7 +157,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.1.0
+  uses: scribe-security/action-slsa@v1.1.1
   with:
     target: 'busybox:latest'
 ```
@@ -165,7 +165,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.1.0
+  uses: scribe-security/action-slsa-cli@v1.1.1
   with:
     target: 'hello-world:latest'
 ```
@@ -437,6 +437,37 @@ By default, the action runs in its own pid namespace as the root user. If the us
 
 </details>
 ``` 
+
+### Platform-Specific Image Handling
+The Valint tool is compatible with both Linux and Windows images. Set the desired platform using the 'platform' field in your configuration:
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa@master
+  with:
+    target: hello-world:latest
+    platform: linux/amd64
+```
+
+Docker is configured by default to pull images matching the runner's platform. For analyzing images across different platforms, you need to pull the image from the registry and specify the platform.
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa@master
+  with:
+    target: registry:hello-world:latest
+    platform: windows/amd64
+```
+
+### Windows Runner Compatibility
+> On Windows Github runners, containerized actions are currently not supported. It's recommended to use CLI actions in such cases.
+
+```yaml
+- name: Generate SLSA provenance
+  uses: scribe-security/action-slsa-cli@master
+  with:
+    target: hello-world:latest
+```
 
 ### Basic examples
 <details>
