@@ -444,6 +444,40 @@ By default, the action runs in its own pid namespace as the root user. If the us
 ``` 
 </details>
 
+### Platform-Specific Image Handling
+The Valint tool is compatible with both Linux and Windows images. Set the desired platform using the 'platform' field in your configuration:
+
+```yaml
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    target: hello-world:latest
+    platform: linux/amd64
+    format: json
+```
+
+Docker is configured by default to pull images matching the runner's platform. For analyzing images across different platforms, you need to pull the image from the registry and specify the platform.
+
+```yaml
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom@master
+  with:
+    target: registry:hello-world:latest
+    platform: windows/amd64
+    format: json
+```
+
+### Windows Runner Compatibility
+> On Windows Github runners, containerized actions are currently not supported. It's recommended to use CLI actions in such cases.
+
+```yaml
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom-cli@master
+  with:
+    target: hello-world:latest
+    format: json
+```
+
 ### Basic examples
 <details>
   <summary>  Attach sbom to product </summary>
