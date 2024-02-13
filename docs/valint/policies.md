@@ -715,13 +715,15 @@ By default, `valint` defaults to work with <https://github.com/scribe-public/sam
 
 The "uses" flag in rule descriptions allows users to utilize external configurations from a bundle as a base for creating custom rules. This feature simplifies reusing of bundle rules with different parameters.
 
-For example, lets, reuse bundle config `policies/images/fresh-image.yaml`. Let's create a local rule config file:
+For example, lets reuse bundle config `v1/images/fresh-image.yaml`. Let's create a local rule config file:
 
 ```yaml
-uses: policies/images/fresh-image.yaml
+uses: images/fresh-image@v1
 with:
   max_days: 1000
 ```
+
+Note that the config file extension is applied by `valint` automatically, there's no need to specify it.
 
 The value `with.max_days: 1000` will override the default from the bundle config, the other values will remain the same. If needed, one can override any other value from the bundle config.
 
@@ -729,10 +731,10 @@ It's also possible to create a policy config utilizing multiple bundle rules:
 
 ```yaml
 rules:
-  - uses: policies/images/fresh-image.yaml
+  - uses: images/fresh-image@v1
     with:
       max_days: 1000
-  - uses: policies/images/forbid-large-images.yaml
+  - uses: images/forbid-large-images@v1
 ```
 
 Such files can later be referenced in the `--rule` flag (see examples below).
@@ -761,13 +763,13 @@ with:
 saved in `path/to/rule.yaml`, we can run the policy:
 
 ```bash
-valint verify busybox:latest --rule /path/to/default-rule.yaml
+valint verify busybox:latest --rule /path/to/rule.yaml
 ```
 
-If the rule is a part of a bundle and the bath in the bundle looks like `policies/images/rule.yaml`, then we can run it like
+If the rule is a part of a bundle and the path in the bundle looks like `v1/images/rule.yaml`, then we can run it like
 
 ```bash
-valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule policies/images/default-rule.yaml
+valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule v1/images/rule.yaml
 ```
 
 An example of policy evaluation results can be found in the [policy results](policy-results) section.
