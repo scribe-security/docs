@@ -6,13 +6,13 @@ Verify compliance policies against evidence to ensure the integrity of supply ch
 
 Verify compliance policies against evidence to ensure the integrity of supply chain.
 
-```
+```bash
 valint verify [TARGET] [flags]
 ```
 
-### Optional flags 
-Flags for `verify` subcommand
+### Optional flags
 
+Flags for `verify` subcommand
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
@@ -28,10 +28,9 @@ Flags for `verify` subcommand
 | | --skip-report | Skip Policy report stage | |
 | | --uri | Default policy allowed uris | |
 
-
 ### Global options flags
-Flags for all `valint` subcommands
 
+Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
@@ -81,20 +80,19 @@ Flags for all `valint` subcommands
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
-
 ### Examples for running `valint verify`
 
-```
+```text
   valint verify <target>
   
   <target> Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
 
-  valint verify alpine:latest                                                 verify target against signed attestation of sbom
-  valint verify alpine:latest -i attest-slsa                                  verify target against signed attestation of SLSA provenance
-  valint verify file.json -i attest-generic 	  	                          verify file as evidence
-  valint verify alpine:latest                                                 show verbose debug information
-  valint verify alpine:latest --rule policies/images/fresh-image.yaml         verify images freshness (early-availability)
-  valint verify busybox:latest --rule policies/sboms/complete-licenses.yaml   verify complete licences (early-availability)
+  valint verify alpine:latest                                           verify target against signed attestation of sbom
+  valint verify alpine:latest -i attest-slsa                            verify target against signed attestation of SLSA provenance
+  valint verify file.json -i attest-generic                             verify file as evidence
+  valint verify alpine:latest                                           show verbose debug information
+  valint verify alpine:latest --rule v1/images/fresh-image.yaml         verify images freshness (early-availability)
+  valint verify busybox:latest --rule v1/sboms/complete-licenses.yaml   verify complete licences (early-availability)
 
   Target-less Operation:
   valint verify   evaluate policy without specifying a target subject
@@ -131,5 +129,4 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [valint](valint.md)	 - Validate Supply Chain Integrity
-
+* [valint](valint.md) - Validate Supply Chain Integrity
