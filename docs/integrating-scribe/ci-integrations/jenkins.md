@@ -40,6 +40,8 @@ pipeline {
               --output-directory ./scribe/valint -f '''
       }
     }
+  }
+}
 
 ```
 <!--Scripted-->
