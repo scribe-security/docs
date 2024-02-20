@@ -40,6 +40,8 @@ pipeline {
               --output-directory ./scribe/valint -f '''
       }
     }
+  }
+}
 
 ```
 <!--Scripted-->
@@ -207,7 +209,8 @@ The examples use a sample pipeline building a Mongo express project.
           args "--entrypoint="
         }
       }
-      steps {        
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')])       
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
@@ -225,8 +228,9 @@ The examples use a sample pipeline building a Mongo express project.
         }
       }
       steps {
-            sh '''
-            valint verify busybox:latest -i statement-slsa \
+         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')])
+         sh '''
+         valint verify busybox:latest -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
@@ -338,7 +342,7 @@ pipeline {
         container('valint') {
           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
-            valint slsa busybox:latest \
+            valint slsa mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
@@ -350,8 +354,9 @@ pipeline {
     stage('verify') {
       steps {
         container('valint') {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
             sh '''
-            valint verify busybox:latest -i statement-slsa \
+            valint verify mongo-express:1.0.0-alpha.4 -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
@@ -359,6 +364,7 @@ pipeline {
       }
     }
   }
+}
 }
 ```
 This example uses Jenkins over k8s plugin with the Pod template defined like this:

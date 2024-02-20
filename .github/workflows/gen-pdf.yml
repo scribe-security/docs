@@ -1,0 +1,25 @@
+name: 'Generate Documentation in Artifacts'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate_pdf:
+    name: 'generate ebook'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: install prince
+      run: |
+        curl https://www.princexml.com/download/prince-14.2-linux-generic-x86_64.tar.gz -O
+        tar zxf prince-14.2-linux-generic-x86_64.tar.gz
+        cd prince-14.2-linux-generic-x86_64
+        yes "" | sudo ./install.sh
+    - name: build pdf
+      run: npx docusaurus-prince-pdf -u https://scribe-security.netlify.app/docs/introducing-scribe/what-is-scribe --output scribe-guide.pdf
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: scribe-guide-pdf
+        path: scribe-guide.pdf

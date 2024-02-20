@@ -37,7 +37,7 @@ To run the demo you need to:
 
       <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
 
-   - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Codespaces`.
+   - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Actions`.
 
    - At the top of the page, click `New repository secret`.
 
