@@ -163,7 +163,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.1.1
+  uses: scribe-security/action-bom@v1.2.0
   with:
     target: 'busybox:latest'
 ```
@@ -171,7 +171,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.1.1
+  uses: scribe-security/action-bom-cli@v1.2.0
   with:
     target: 'hello-world:latest'
 ```
