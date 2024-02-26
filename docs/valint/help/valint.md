@@ -21,7 +21,7 @@ Flags for `valint`
 | | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
@@ -30,6 +30,8 @@ Flags for `valint`
 | -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| -G | --gate | Policy Gate name | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
@@ -63,6 +65,7 @@ Flags for `valint`
 ### SEE ALSO
 
 * [valint bom](valint_bom.md)	 - Create evidence command
+* [valint discard](valint_discard.md)	 - Discard evidence
 * [valint download](valint_download.md)	 - Downloads the evidence based on cache
 * [valint evidence](valint_evidence.md)	 - Add file as evidence command
 * [valint list](valint_list.md)	 - List evidence command

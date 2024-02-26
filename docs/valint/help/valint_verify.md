@@ -6,13 +6,13 @@ Verify compliance policies against evidence to ensure the integrity of supply ch
 
 Verify compliance policies against evidence to ensure the integrity of supply chain.
 
-```bash
+```
 valint verify [TARGET] [flags]
 ```
 
-### Optional flags
-
+### Optional flags 
 Flags for `verify` subcommand
+
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
@@ -22,15 +22,16 @@ Flags for `verify` subcommand
 | | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
-| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
+| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | | --rule | Rule configuration file path (early-availability) | |
 | | --skip-bundle | Skip bundle download | |
 | | --skip-report | Skip Policy report stage | |
 | | --uri | Default policy allowed uris | |
 
-### Global options flags
 
+### Global options flags
 Flags for all `valint` subcommands
+
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
@@ -43,7 +44,7 @@ Flags for all `valint` subcommands
 | | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
@@ -52,6 +53,8 @@ Flags for all `valint` subcommands
 | -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| -G | --gate | Policy Gate name | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
@@ -80,19 +83,20 @@ Flags for all `valint` subcommands
 | | --timeout | Timeout duration | "120s" |
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
+
 ### Examples for running `valint verify`
 
-```text
+```
   valint verify <target>
   
   <target> Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
 
-  valint verify alpine:latest                                           verify target against signed attestation of sbom
-  valint verify alpine:latest -i attest-slsa                            verify target against signed attestation of SLSA provenance
-  valint verify file.json -i attest-generic                             verify file as evidence
-  valint verify alpine:latest                                           show verbose debug information
-  valint verify alpine:latest --rule v1/images/fresh-image.yaml         verify images freshness (early-availability)
-  valint verify busybox:latest --rule v1/sboms/complete-licenses.yaml   verify complete licences (early-availability)
+  valint verify alpine:latest                                                 verify target against signed attestation of sbom
+  valint verify alpine:latest -i attest-slsa                                  verify target against signed attestation of SLSA provenance
+  valint verify file.json -i attest-generic 	  	                          verify file as evidence
+  valint verify alpine:latest                                                 show verbose debug information
+  valint verify alpine:latest --rule policies/images/fresh-image.yaml         verify images freshness (early-availability)
+  valint verify busybox:latest --rule policies/sboms/complete-licenses.yaml   verify complete licences (early-availability)
 
   Target-less Operation:
   valint verify   evaluate policy without specifying a target subject
@@ -129,4 +133,5 @@ Flags for all `valint` subcommands
 
 ### SEE ALSO
 
-* [valint](valint.md) - Validate Supply Chain Integrity
+* [valint](valint.md)	 - Validate Supply Chain Integrity
+

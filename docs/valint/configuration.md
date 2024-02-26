@@ -95,7 +95,7 @@ attest:
   x509: {}
 verify:
   formats: statement-sarif
-  input-format: attest-cyclonedx-json
+  input-format: ""
   attestation: ""
   force: false
   final-artifact: false
@@ -110,12 +110,17 @@ list:
   - timestamp
   - store
   - ref
+  - context_type
   - sbomname
   - product-key
   - git_url
+  all: false
   filters: {}
   current: false
-download:
-  format: attest-cyclonedx-json
-  store: cache
+  output-file: ""
+  format: ""
+discard:
+  silent: false
+  interactive: false
+  current: false
 ```

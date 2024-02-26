@@ -18,13 +18,13 @@ Flags for `evidence` subcommand
 | --- | --- | --- | --- |
 | | --compress | Compress content) | |
 | -o | --format | Evidence format, options=[statement attest] | [statement] |
-| | --format-encoding | Format encoding | |
-| | --format-type | Format type | |
-| | --format-version | Format version | |
+| | --format-encoding | Evidence Format encoding | |
+| | --format-type | Evidence Format type | |
+| | --format-version | Evidence Format version | |
 | -h | --help | help for evidence | |
-| | --tool | Tool name | |
-| | --tool-vendor | Tool vendor | |
-| | --tool-version | Tool version | |
+| | --tool | Evidence Tool name | |
+| | --tool-vendor | Evidence Tool vendor | |
+| | --tool-version | Evidence Tool version | |
 
 
 ### Global options flags
@@ -42,7 +42,7 @@ Flags for all `valint` subcommands
 | | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
@@ -51,6 +51,8 @@ Flags for all `valint` subcommands
 | -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| -G | --gate | Policy Gate name | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
