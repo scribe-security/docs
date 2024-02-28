@@ -33,7 +33,7 @@ The following is a description of a sample rule bundle (*please note that the fe
    ```bash
    valint bom busybox:latest -o statement
    ```
-   
+
    Additional options:
    * To explore other evidence types, use commands like `valint slsa` or `valint evidence`.
    * Specify `-o attest` for signed evidence.
@@ -41,13 +41,13 @@ The following is a description of a sample rule bundle (*please note that the fe
 3. Verify the SBOM against a policy. The current catalogue will be used as a default bundle for `valint`.
 
    ```bash
-   valint verify busybox:latest --rule v1/sboms/complete-licenses.yaml # path within a repo
+   valint verify busybox:latest --rule sboms/complete-licenses@v1 # path within a repo
    ```
 
    If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--git-tag` flag for `valint`:
 
    ```bash
-   valint verify busybox:latest --git-tag v1.0.0 --rule v1/sboms/complete-licenses.yaml
+   valint verify busybox:latest --git-tag v1.0.0 --rule sboms/complete-licenses@v1
    ```
 
 ### Targetless Run
@@ -61,7 +61,7 @@ The following is a description of a sample rule bundle (*please note that the fe
    Then, run
 
    ```bash
-   valint verify --rule v1/sboms/complete-licenses.yaml --product-name busybox --product-version v1.36.1
+   valint verify --rule sboms/complete-licenses@v1 --product-name busybox --product-version v1.36.1
    ```
 
    Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
@@ -74,7 +74,7 @@ In order to run a rule, its script file should be referred by a rule config. Eac
 If you fork this ruleset or create your own, in order to use it you need to specify its location in `valint` flag `--bundle` either in cmd args or a `valint.yaml` config file:
 
 ```bash
-valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule v1/sboms/complete-licenses.yaml
+valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule sboms/complete-licenses@v1
 ```
 
 ## Policy Rule Catalogue
@@ -136,7 +136,7 @@ valint bom ubuntu:latest -o statement
 To verify the evidence against the rule, run:
 
 ```bash
-valint verify ubuntu:latest -i statement-cyclonedx-json --rule v1/sboms/rule_config.yaml
+valint verify ubuntu:latest -i statement-cyclonedx-json --rule sboms/rule_config@v1
 ```
 
 #### Forbid Unsigned Artifacts
@@ -234,7 +234,7 @@ valint bom ubuntu:latest -o statement
 To verify the evidence against the rule:
 
 ```bash
-valint verify ubuntu:latest -i statement --rule v1/images/rule_config.yaml
+valint verify ubuntu:latest -i statement --rule images/rule_config@v1
 ```
 
 #### Restrict Shell Image Entrypoint
@@ -301,7 +301,7 @@ valint bom git:https://github.com/golang/go -o statement
 To verify the evidence against the rule:
 
 ```bash
-valint verify git:https://github.com/golang/go -i statement --rule v1/git/rule_config.yaml
+valint verify git:https://github.com/golang/go -i statement --rule git/rule_config@v1
 ```
 
 #### Coding Permissions
@@ -342,7 +342,7 @@ valint slsa ubuntu:latest -o statement
 Example of verifying a SLSA statement:
 
 ```bash
-valint verify ubuntu:latest -i statement-slsa --rule v1/slsa/rule_config.yaml
+valint verify ubuntu:latest -i statement-slsa --rule slsa/rule_config@v1
 ```
 
 #### Builder Name
@@ -445,7 +445,7 @@ valint evidence ubuntu-cve.json  -o statement
 Verify the attestation against the rule:
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic --rule v1/sarif/verify-sarif.yaml
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v1
 ```
 
 ###### Running Trivy On Docker Container Rootfs
@@ -599,7 +599,7 @@ valint evidence my-image-dockerfile.json -o statement
 Verify the attestation against the rule:
 
 ```bash
-valint verify my-image-dockerfile.json -i statement-generic --rule v1/sarif/report-iac-errors.yaml
+valint verify my-image-dockerfile.json -i statement-generic --rule sarif/report-iac-errors@v1
 ```
 
 The only configurable parameter in [report-iac-errors.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/report-iac-errors.yaml) is `violations_threshold`, which is the maximum number of errors allowed in the report:
@@ -640,7 +640,7 @@ with:
 Then, run `valint verify` as usual:
 
 ```bash
-valint verify semgrep-report.sarif -i statement-generic --rule v1/sarif/verify-semgrep-report.yaml
+valint verify semgrep-report.sarif -i statement-generic --rule sarif/verify-semgrep-report@v1
 ```
 
 If any violations found, the output will contain their description, including the violated rule and the file where the violation was found.
@@ -658,5 +658,5 @@ Rego policy rules can be written either as snippets in the yaml file, or as sepa
 An example of such a rego script is given in the [verify-sarif.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.rego) file, that is consumed by the [verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) configuraion. To evaluate the rule, run
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic --rule v1/sarif/verify-sarif.yaml
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v1
 ```
