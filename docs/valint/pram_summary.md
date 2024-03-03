@@ -132,8 +132,6 @@ The following fields are collected from any supported artifact (`target`).
 | cyclonedx-json | json | CyclondeDX json format | no |
 | statement-cyclonedx-json | statement | In-toto CyclondeDX Statement | no |
 | attest-cyclonedx-json | attest | In-toto CyclondeDX Attestation | yes |
-| statement-generic |  | In-toto Generic Statement | no |
-| attest-generic |  | In-toto Generic Attestations| yes |
 
 #### `valint slsa` format support
 | Format | alias | Description | signed |

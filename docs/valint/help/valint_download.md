@@ -13,10 +13,10 @@ Flags for `download` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --folder-path | Folder to download the evidences of the given target | |
-| | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
+| -o | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | -h | --help | help for download | |
-| | --ref | ref of the store | |
-| | --store | Stores | "cache" |
+| | --ref | Evidence store refrence | |
+| | --store | Select evidence store | |
 
 
 ### Global options flags
@@ -34,7 +34,7 @@ Flags for all `valint` subcommands
 | | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
 | | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
@@ -43,6 +43,8 @@ Flags for all `valint` subcommands
 | -e | --env | Environment keys to include in evidence | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
+| -G | --gate | Policy Gate name | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |

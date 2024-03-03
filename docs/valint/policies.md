@@ -17,7 +17,7 @@ A `rule` is verified if ANY `evidence` is found that complies with the `rule` co
 
 ### Usage
 
-Policies are configured as part of Valint configuration file, under the `policies` section.
+Policies can be configured as part of Valint configuration file, under the `policies` section
 
 ```yaml
 attest:
@@ -37,6 +37,23 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
+Or as a separate file, referenced in `--policy` flag (Early Availability)
+
+```yaml
+name: <policy_name>
+rules: # Set of rule settings/configuration and input
+  - name: "<rule_name>"
+    path: "<rule_path>" # Specify if an external script is used
+    description: "A brief rule description"
+    labels: [] # list of user-specified labels
+    initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
+    evidence: #Evidence lookup parameters
+      signed: false
+      format-type: <format-type>
+      filter-by: [] # A group of Context fields to use for the evidence lookup
+    with:  {} # rule input, depending on the rule type
+```
+
 > For configuration details, see the [configuration](./configuration.md) section.
 
 > For PKI configuration, see the [attestations](./attestations.md) section.
@@ -49,22 +66,25 @@ Policy support the following fields:
 * `name`, policy name (**required**).
 * `rules`, list of policy rule configuration.
 
+The field `name` can be omitted. In this case, the policy will be evaluated as a default policy.  
+If `rules` section is empty, the whole policy will be omitted.
+
 # Policy rules
 
 A rule is a compliance check that you can configure to your specific organization's requirements.
 
 * `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
-* `type`, type of the rule, currently supporting only `verify-artifact`.
+* `type`, type of the rule, currently supporting only `verify-artifact` (which is used as a default and therefore can be omitted).
 * `description`, rule description (_optional_).
 * `labels`, list of user-specified labels (_optional_).
 * `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
 * `path`, path to a custom rule script **OR** `script`, embedded rule script.
 * `script-lang` script language, currently only `rego` is supported.
-* `evidence`, match on evidence with a specified parameters.
-* `with`, rule-specific configuration parameters.
+* `evidence`, match on evidence with a specified parameters (see full description below).
+* `with`, rule-specific configuration parameters (for the detailed description, see the docs for the specific rule).
 
-> For `evidence` details, see [Policies](#context-match-fields) section.  
+> For `evidence` details, see [Rule Configuration](#configuration) section.  
 > For `with` details, see related rule section.
 
 ## Verify Artifact rule type
@@ -94,10 +114,10 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
 ```yaml
 - name: "" # Any user provided name
   evidence:
-    signed: <true|false> # Should target be signed
+    signed: <true|false> # Define if target should be signed
     format-type: "<cyclonedx-json, slsa>" # Expected evidence format
     filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
-    {environment-context} # Any origin or subject fields used by
+    {environment-context} # Any Evidence Context field is also supported for matching
   with:
     identity:
       emails: [] # Signed email identities 
@@ -645,7 +665,7 @@ valint verify --product-key my_product --product-version 1.0.0 -c my_policy.yaml
 
 Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
 
-External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--rule` flag or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
+External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--policy/--rule` flag correspondingly or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
 
 Each extermal configuration should represent an entry to `attest.cocosign.policies` or to `attest.cocosign.policies[].rules` field of the main configuration file.
 
@@ -695,9 +715,9 @@ with:
       - my@email.com
 ```
 
-One can use as many policies per `valint verify` run as they want.
+One can reference several policies/rules configs per `valint verify` run.
 
-When using `--rule` flag, `valint` will first lookup the config in local FS and if not found, will try to use a config from the bundle (if used).
+When using `--policy/--rule` flag, `valint` will first lookup the config in local FS and if not found, will try to use a config from the bundle (if used).
 
 ### Bundle policy configs - Early Availability
 
@@ -705,11 +725,11 @@ Policy configurations along with the corresponding rego scripts can be bundled t
 In case of using a git repo, it's possible to also specify a branch and a commit or a tag to be used with `--git-branch`, `--git-commit` and `--git-tag` options respectively. The repo would be cloned automatically by `valint`.  
 For the GitHub authentication, a token can be provided via `GITHUB_TOKEN` environment variable or as part of url like `<token>@github.com`.
 
-To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--rule` flag.
+To reference a policy/rule in a bundle, the relative path to the bundle root should be provided in the `--policy/--rule` flag correspondingly.
 
 #### Default bundle
 
-By default, `valint` defaults to work with <https://github.com/scribe-public/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--rule` flag. If no`--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
+By default, `valint` defaults to work with <https://github.com/scribe-public/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--policy/--rule` flags. If no `--policy` or `--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
 
 #### Reusing bundle rules
 
@@ -737,7 +757,7 @@ rules:
   - uses: images/forbid-large-images@v1
 ```
 
-Such files can later be referenced in the `--rule` flag (see examples below).
+Such policy configs can later be referenced in the `--policy` flag (see examples below).
 
 ### Examples
 
@@ -769,7 +789,7 @@ valint verify busybox:latest --rule /path/to/rule.yaml
 If the rule is a part of a bundle and the path in the bundle looks like `v1/images/rule.yaml`, then we can run it like
 
 ```bash
-valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule v1/images/rule.yaml
+valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule images/rule@v1
 ```
 
 An example of policy evaluation results can be found in the [policy results](policy-results) section.
