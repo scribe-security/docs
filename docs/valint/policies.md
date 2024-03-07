@@ -54,6 +54,21 @@ rules: # Set of rule settings/configuration and input
     with:  {} # rule input, depending on the rule type
 ```
 
+A single rule can also be described in a separate file and referenced by `--rule` flag (Early Availability)
+
+```yaml
+name: "<rule_name>"
+path: "<rule_path>" # Specify if an external script is used
+description: "A brief rule description"
+labels: [] # list of user-specified labels
+initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
+evidence: #Evidence lookup parameters
+  signed: false
+  format-type: <format-type>
+  filter-by: [] # A group of Context fields to use for the evidence lookup
+with:  {} # rule input, depending on the rule type
+```
+
 > For configuration details, see the [configuration](./configuration.md) section.
 
 > For PKI configuration, see the [attestations](./attestations.md) section.
