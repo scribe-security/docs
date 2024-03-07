@@ -592,6 +592,12 @@ attest:
 
 </details>
 
+## Filtering Policy Rules (Early Availability)
+
+Since policy rules can be labeled with user-defined labels and also can be a part of one ore more initiatives, it's possible to filter them by these parameters on runtime. For this purpose, `valint` has flags `--filter-label` and `--filter-initiative` respectively.
+
+When using these flags, `valint` will only evaluate the rules that match the provided labels and/or initiatives. In order to be run, a rule should match all the provided labels and/or initiatives. If no rules in a policy are matched the requirements, the policy will be omitted.
+
 ## Evidence Lookup
 
 In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters. These parameters can be set manually by the user or automatically derived from the context. Parameters that can be derived automatically are categorized into three context groups: "target," "pipeline", and "product".
