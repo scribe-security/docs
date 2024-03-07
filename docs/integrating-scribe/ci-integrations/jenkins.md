@@ -543,8 +543,8 @@ pipeline {
       steps {        
         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
         sh '''
-            valint bom [target] \
-              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+            valint [bom,slsa,evidence] [target] \
+              -o [attest, statement] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               --oci --oci-repo=[my_repo] '''
@@ -585,8 +585,8 @@ node {
         usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
       ]) {
         sh '''
-            valint bom [target] \
-              -o [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic] \
+            valint [bom,slsa,evidence] [target] \
+              -o [attest, statement] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
               --oci --oci-repo=[my_repo] '''

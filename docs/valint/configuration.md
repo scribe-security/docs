@@ -1,4 +1,4 @@
-# Configuration
+# Configuration 
 
 Configuration search paths:
 
@@ -18,7 +18,6 @@ cache:
 scribe:
   auth:
     enable: true
-    audience: api.production.scribesecurity.com
   url: https://api.scribesecurity.com
   enable: false
   retry:
@@ -49,31 +48,54 @@ bom:
     - javascript
     - java
     - dpkg
-    - apkdb
+    - apk
     - rpm
-    - go-mod
+    - go-module
     - dotnet
     - r-package
     - rust
     - binary
     - sbom
+    - nix
+    - conan
+    - alpm
+    - graalvm
+    - cocoapods
+    - swift
+    - dart
+    - elixir
+    - php
+    - erlang
+    - github
+    - portage
+    - haskell
+    - kernel
     exclude-type: []
   attach-regex: []
   final-artifact: false
-  compress: false
 slsa:
   formats:
   - statement
   components:
   - metadata
   - layers
+evidence:
+  formats:
+  - statement
+  compress: false
 attest:
   config: ""
+  bundle: https://github.com/scribe-public/sample-policies
+  skip-bundle: true
+  rule_configs: []
   default: sigstore
+  report:
+    add-passed: true
   cocosign: {}
   x509: {}
 verify:
-  input-format: attest-cyclonedx-json
+  formats: statement-sarif
+  input-format: ""
   attestation: ""
   force: false
   final-artifact: false
@@ -88,14 +110,17 @@ list:
   - timestamp
   - store
   - ref
+  - context_type
   - sbomname
   - product-key
   - git_url
+  all: false
   filters: {}
   current: false
-download:
-  folder-path: ""
-  format: attest-cyclonedx-json
-  ref: ""
-  store: cache
+  output-file: ""
+  format: ""
+discard:
+  silent: false
+  interactive: false
+  current: false
 ```

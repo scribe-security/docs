@@ -170,7 +170,7 @@ For example, using `docker login` command.
     inputs:
       commandName: bom
       target: [target]
-      format: [attest, statement, attest-slsa (depricated), statement-slsa (depricated), attest-generic, statement-generic]
+      format: [attest, statement]
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       oci: true
       ociRepo: [oci_repo]

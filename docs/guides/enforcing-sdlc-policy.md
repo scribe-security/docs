@@ -6,506 +6,657 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-You can use Scribe to apply policies at different points along your SDLC. For example, at the end of a build or at the admission control point to the production cluster. Use cases for example:
+You can use Scribe to apply policies at different points along your SDLC.
+For example, at the end of a build or at the admission control point to the production cluster. Use cases for example:
 
-* Images must be signed and have a matching CycloneDX SBOM.
-* Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
-* Tagged sources must be signed and verified by a set of individuals or processes.
-* Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
+- Images must be signed, and they must have a matching CycloneDX SBOM.
+- Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
+- Tagged sources must be signed and verified by a set of individuals or processes.
+- Released binaries must be built by Azure DevOps from a specific git repository and have unsigned SLSA provenance.
 
-### Policies and Policy Rules
+For the detailed policy description, see **[policies](../valint/policies)** section.
 
-A `policy` consists of a set of `rules` and is verified if all of them are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
+## Sample Rule Bundle
 
-#### Usage
+The following is a description of a sample rule bundle (*please note that the feature is in early availability*) that can be used to build a policy for your SDLC.
 
-Policies are configured as part of Valint configuration file, under the `policies` section.
+## Quickstart
 
-```yaml
-attest:
-  cocosign:
-    policies:  # Set of policies - grouping rules
-      - name: <policy_name>
-        rules: # Set of rule settings/configuration and input
-          - name: "<rule_name>"
-            path: "<rule_path>" # Specify if an external script is used
-            description: "A brief rule description"
-            labels: [] # list of user-specified labels
-            initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
-            evidence: #Evidence lookup parameters
-              signed: false
-              format-type: <format-type>
-              filter-by: [] # A group of Context fields to use for the evidence lookup
-            with:  {} # rule input, depending on the rule type
-```
+1. Install `valint`:
 
-For configuration details, see the **[configuration](../integrating-scribe/valint/configuration)** section.
-For PKI configuration, see the **[attestations](../guides/securing-builds)** section.
+   ```bash
+   curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   ```
 
-The Policy supports the following fields:
+2. Create an SBOM of a type you want to verify
 
-* `disable`, disable rule (default false).
-* `name`, policy name (**required**).
-* `rules`, list of policy rule configuration.
+   ```bash
+   valint bom busybox:latest -o statement
+   ```
 
-A rule is a compliance check that you can configure to your specific organization's requirements.
+   Additional options:
+   * To explore other evidence types, use commands like `valint slsa` or `valint evidence`.
+   * Specify `-o attest` for signed evidence.
 
-* `disable`, disable rule (default _false_).
-* `name`, policy rule name (**required**).
-* `type`, type of the rule, currently supporting only `verify-artifact`.
-* `description`, rule description (_optional_).
-* `labels`, list of user-specified labels (_optional_).
-* `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
-* `path`, path to a custom rule script **OR** `script`, embedded rule script.
-* `script-lang` script language, currently only `rego` is supported.
-* `evidence`, match on evidence with a specified parameters.
-* `with`, rule-specific configuration parameters.
+3. Verify the SBOM against a policy. The current catalogue will be used as a default bundle for `valint`.
 
-For `evidence` details, see the **[Policies](../guides/enforcing-sdlc-policy#context-match-fields)** section For `with` details, see related rule section.
+   ```bash
+   valint verify busybox:latest --rule sboms/complete-licenses@v1 # path within a repo
+   ```
 
-## Verify Artifact rule type
+   If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--git-tag` flag for `valint`:
 
----
-A rule of Verify Artifact type verifies some properties of an artifact. Examples of such checks are:
+   ```bash
+   valint verify busybox:latest --git-tag v1.0.0 --rule sboms/complete-licenses@v1
+   ```
 
-* Signed Evidence: The artifact should include signed or unsigned evidence, as specified by the `signed` field in the input.
-* Signing Identity: The artifact should be signed by a specific identity, as specified by the `identity` fields in the input (for signed evidence).
-* Evidence Format: The evidence format should follow the specified format(s) provided in the `format-type` field of the input.
-* Origin of artifact: The artifact should originate from an expected source, as specified by the `evidence` [origin labels](##origin-context).
-For instance, you can verify that an artifact is generated from a particular pipeline or repository.
-* Artifact details: The rule applies to a specific artifact or any group of artifacts, as specified by the `evidence` [subject labels](##subject-context).
-* Policy as code: The rule allows extension of the verification using custom scripts, as specified by the `path` or `script` input.
+### Targetless Run
 
-#### Configuration​
+   All of the policy rules in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based on the product name and version. To do so, first create an SBOM providing these values:
 
-```yaml
-- name: "" # Any user provided name
-  evidence:
-    signed: <true|false> # Should target be signed
-    format-type: "<cyclonedx-json, slsa>" # Expected evidence format
-    filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
-    {environment-context} # Any origin or subject fields used by
-  with:
-    identity:
-      emails: [] # Signed email identities 
-      uris: [] # Signed URIs identities 
-      common-names: [] # Signed common name identities
-    {custom script input} # Any rule-specific input
-  path: <path to policy script>
-  script-lang: rego # Currently only rego is supported
-  script: |
-    package verify
+   ```bash
+   valint bom busybox:latest -o statement --product-name busybox --product-version v1.36.1
+   ```
 
-    verify = v {
-        v := {
-          "allow": {Custom policy validation}
-        }
-    }
-```
+   Then, run
 
-### Examples
+   ```bash
+   valint verify --rule sboms/complete-licenses@v1 --product-name busybox --product-version v1.36.1
+   ```
 
-Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
+   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
 
-> For configuration details, see the **[configuration](../integrating-scribe/valint/configuration)** section.
+## Modifying Rules in This Catalogue
 
-<details>
-  <summary> Signed Images policy </summary>
-In this example, the policy rule named `signed_image` will evaluate images where signed by `mycompony.com` using `attest-cyclondex-json` format.
+Each rule in this catalogue consists of a `rego` script and `yaml` configuration file.
+In order to run a rule, its script file should be referred by a rule config. Each `.yaml` represents such a config and is ready for use. If you modify or add your own rules, don't forget to fulfill this requirement.
 
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: signed_image
-            evidence:
-              signed: true
-              format-type: cyclonedx
-              target_type: image
-            with:
-              identity:
-                common-names:
-                  - mycompany.com
-```
-
-**Command:**  
-Run the command on the required supply chain location.
+If you fork this ruleset or create your own, in order to use it you need to specify its location in `valint` flag `--bundle` either in cmd args or a `valint.yaml` config file:
 
 ```bash
-# Generate required evidence, requires signing capabilities.
-valint bom busybox:latest -o attest
-
-# Verify policy (cache store)
-valint verify busybox:latest
+valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule sboms/complete-licenses@v1
 ```
 
-</details>
+## Policy Rule Catalogue
 
-<details>
-  <summary> Image SLSA provenance policy </summary>
-In this example, the policy rule named `slsa_prov_rule` will evaluate images where signed by `bob@mycompany.com` or `alice@mycompany.com` using `attest-slsa` format.
+| Rule | Description | Additional Info |
+| --- | --- | --- |
+| [Forbid Unsigned Artifacts](#forbid-unsigned-artifacts) | Verify the artifact's authenticity and signer identity. | [SBOM](#sboms) |
+| [Blocklist Packages](#blocklist-packages) | Prevent risky packages in the artifact. | [SBOM](#sboms) |
+| [Required Packages](#required-packages) | Ensure mandatory packages/files in the artifact. | [SBOM](#sboms) |
+| [Banned Licenses](#banned-licenses) | Restrict inclusion of certain licenses in the artifact. | [SBOM](#sboms) |
+| [Complete Licenses](#complete-licenses) | Guarantee all packages have valid licenses. | [SBOM](#sboms) |
+| [Fresh Artifact](#fresh-artifact) | Verify an artifact's freshness. | [SBOM](#sboms) |
+| [Fresh Image](#fresh-image) | Ensure an image freshness. | [Image SBOM](#images) |
+| [Restrict Shell Image Entrypoint](#restrict-shell-image-entrypoint) | Prevent shell as image entrypoint. | [SBOM](#sboms) |
+| [Blocklist Image Build Scripts](#blocklist-image-build-scripts) | Restrict build scripts in image build. | [Image SBOM](#images) |
+| [Verify Image Lables/Annotations](#verify-image-lablesannotations) | Ensure image has required labels (e.g., git-commit). | [SBOM](#sboms)  |
+| [Forbid Huge Images](#forbid-large-images) | Limit image size. | [Image SBOM](#images) |
+| [Coding Permissions](#coding-permissions) | Control file modifications by authorized identities. | [Git SBOM](#git) |
+| Merging Permissions | Ensure authorized identities merge to main. | Counterpart to [Forbid Commits To Main](#forbid-commits-to-main)? |
+| [Forbid Unsigned Commits](#forbid-unsigned-commits) | Prevent unsigned commits in evidence. | [Git SBOM](#git) |
+| [Forbid Commits To Main](#forbid-commits-to-main) | Verify there were no commits to the main branch. | [Git SBOM](#git) |
+| [Verify Use of Specific Builder](#builder-name) | Enforce use of a specific builder for artifact. | [SLSA-Prov](#slsa) |
+| [Banned Builder Dependencies](#banned-builder-dependencies) | Restrict banned builder dependencies. | [SLSA-Prov](#slsa) |
+| [Verify Build Time](#build-time) | Validate build time within window. | [SLSA-Prov](#slsa) |
+| [Verify Byproducts Produced](#produced-byproducts) | Ensure that specific byproducts are produced. | [SLSA-Prov](#slsa) |
+| [Verify That Field Exists](#verify-that-field-exists) | Ensure that specific field exists in the SLSA statement. | [SLSA-Prov](#slsa) |
+| [No Critical CVEs](#no-critical-cves) | Prohibit ANY critical CVEs. | [SARIF](#sarif-reports) |
+| [Limit High CVEs](#limit-high-cves) | Limit high CVEs. | [SARIF](#sarif-reports) |
+| [Do Not Allow Specific CVEs](#do-not-allow-specific-cves) | Prevent specific CVEs in the artifact. | [SARIF](#sarif-reports) |
+| [No Static Analysis Errors](#no-static-analysis-errors) | Prevent static analysis errors in the artifact. | [SARIF](#sarif-reports) |
+| [Limit Static Analysis Warnings](#limit-static-analysis-warnings) | Restrict static analysis warnings count. | [SARIF](#sarif-reports) |
+| [Do Not Allow Specific Static Analysis Rules](#do-not-allow-specific-static-analysis-rules) | Restrict specific static analysis warnings. | [SARIF](#sarif-reports) |
+| [Do Not Allow Vulnerabilities Based On Specific Attack Vector](#do-not-allow-vulnerabilities-based-on-specific-attack-vector) | Restrict vulnerabilities based on specific attack vector. | [SARIF](#sarif-reports) |
+| [Report IaC Configuration errors](#report-iac-configuration-errors) | Check if there are any IaC configuration errors. | [SARIF](#sarif-reports) |
+| [Verify Semgrep SARIF report](#verify-semgrep-sarif-report) | Check for specific violations in a semgrep report. | [SARIF](#sarif-reports) |
+| [Forbid Accessing Host](#forbid-accessing-host) | Do not allow images with detected vulnerabilities giving access to the host system. | Generic Evidence | [Generic](#generic) |
+| No Package Downgrading | Restrict package downgrades. | src and dst [SBOM](#sboms) |
+| No License Modification | Prevent license modifications. | src and dst [SBOM](#sboms) |
+| Verify Source code Integrity | Verify that the artifact source code has not been modified | src and dst [Git SBOM](#git) |
+| Verify Dependencies Integrity | Verify that specific files or folders have not been modified | src and dst [SBOM](#sboms) |
+| [Verify Github Branch Protection](https://github.com/scribe-public/sample-policies/tree/main/v1/apis/github-branch-protection.md) | Verify that the branch protection rules are compliant to required | None |
+| [Verify GitLab Push Rules](https://github.com/scribe-public/sample-policies/tree/main/v1/apis/gitlab-push-rules.md) | Verify that the push rules are compliant to required. GitLabs push rules overlap some of GitHub's branch protection rules | None |
 
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: slsa_prov_rule
-            evidence:
-              signed: true
-              format-type: slsa
-              target_type: image
-            with:
-              identity:
-                emails:
-                  - bob@mycompany.com
-                  - alice@mycompany.com
-```
+### General Information
 
-***Command:**  
-Run the command on the required supply chain location.
+Most of the policy rules in this bundle consist of two files: a `.yaml` and a `.rego`.
+
+The first is a rule configuration file that should be referenced by on runtime or merged to the actual `valint.yaml`.
+The second is a rego script that contains the actual verifyer code. It can be used as is or merged to the `.yaml` using `script` option.
+
+### SBOMs
+
+An example of creating an SBOM evidence:
 
 ```bash
-# Generate required evidence, requires signing capabilities.
-valint bom busybox:latest -o attest-slsa
-
-# Verify policy (cache store)
-valint verify busybox:latest
+valint bom ubuntu:latest -o statement
 ```
 
-</details>
-
-<details>
-  <summary> Signed tagged sourced rule </summary>
-In this example, the policy rule named "tagged_git_rule" will evaluate sources' `mycompany/somerepo` tags where defined in the `main` branch and signed by `bob@mycompany.com`.
-
-> The policy requires only the **HEAD** of the git target to comply to the policy not the entire history.
-
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: tagged_git_rule
-            evidence:
-              signed: true
-              format-type: slsa
-              target_type: git
-              target_git_url: git@github.com:mycompany/somerepo.git # Git url of the target.
-              branch: main
-            with:
-              identity:
-                emails:
-                - bob@mycompany.com
-```
-
-***Command:**  
-Run the command on the required supply chain location.
+To verify the evidence against the rule, run:
 
 ```bash
-# Generate required evidence, requires signing capabilities.
-valint bom git:github.com:your_org/your_repo.git --tag 0.1.3 -o attest-slsa
-
-# Verify policy (cache store)
-valint verify git:github.com:your_org/your_repo.git --tag 0.1.3 -i statement-slsa
+valint verify ubuntu:latest -i statement-cyclonedx-json --rule sboms/rule_config@v1
 ```
 
-</details>
+#### Forbid Unsigned Artifacts
 
-<details>
-  <summary> Binary verification </summary>
-In this example, the policy, named "binary_origin" enforces requirements on the binary `my_binary.exe` was Originated from which Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` repo.
-The policy rule also enforces an unsigned SLSA provenance statement is produced as evidence.
+This rule ([artifact-signed.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/artifact-signed.yaml)) verifies that the SBOM is signed and the signer identity equals to a given value.
 
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: binary_origin
-            evidence:
-              signed: false
-              format-type: slsa
-              target_type: file
-              context_type: azure
-              git_url: https://dev.azure.com/mycompany/somerepo # Git url of the environment.
-              input_name: my_binary.exe
-```
+If you have not created an SBOM yet, create an sbom attestation, for example:
 
-***Command:**  
-Run the command on the required supply chain location.
+In [artifact-signed.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/artifact-signed.yaml) file,
+edit policy parameters ```attest.cocosign.policies.rules.input identity``` to reflect the expected signers identity.
 
-```bash
-# Generate required evidence
-valint bom file:my_binary.exe -o statement-slsa
+You can also edit `target_type` to refelct the artifact type.
 
-# Verify policy (cache store)
-valint verify file:my_binary.exe
-```
-
-</details>
-
-<details>
-  <summary> 3rd party verification </summary>
-In this example, the policy rule named "3rd-party-scan" will evaluate scanned `3rd-party-scan.json` file, Originated from Azure DevOps triggered by the `https://dev.azure.com/mycompany/somerepo` and signed by `bob@mycompany.com`.
-
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: 3rd-party-rule
-            evidence:
-              signed: true
-              format-type: generic
-              target_type: generic
-              context_type: azure
-              git_url: https://dev.azure.com/mycompany/somerepo
-              git_branch: main
-              input_name: 3rd-party-scan.json
-            with:
-              identity:
-                emails:
-                - bob@mycompany.com
-```
-
-***Command:**  
-Run the command on the required supply chain location.
-
-```bash
-# Generate required evidence
-valint bom 3rd-party-scan.json -o attest-generic --predicate-type https://scanner.com/scan_format
-
-# Verify policy (cache store)
-valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://scanner.com/scan_format
-```
-
-</details>
-
-You can define custom policies for artifacts verified by the rule by attaching them as code. After the rule enforces the origin and subject of the evidence, you can further analyze and customize the content to meet your organization's requirements.
-
-##### Usage
-
-The following rule verifies the predicate of the evidence in a custom Rego script embedded in the policy.
-
-```yaml
-- name: signed_image_custom_policy
-  evidence:
-    signed: true
-    format-type: cyclonedx
-    target_type: image
-  with:
-    identity:
-      common-names:
-        - mycompany.com
-    script: |
-      package verify
-      default allow = false
-      verify = {
-        "allow": allow
-      }
-
-      allow = {
-        input.evidence.predicate-type == "https://cyclonedx.org/bom"
-      }
-```
-
-### Policy As Code​
-
-#### Rego script​
-
-In order to add a verification script you must provide a `verify` rule in your script. A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
-
-By default `valint` looks for a `.valint.rego` file.
-
-Use the following rule structure.
-
-```bash
-package verify
-default allow = false
-
-verify = {
-    "allow": false,
-    "violation": {
-      "type": "violation_type",
-      "details": [],
-    },
-    "summary": [{
-      "allow": false,
-      "violations": count(violations),
-      "reason": "some reason string"
-    }],
-}
-```
-
-#### Input structure​
-
-Script input has the following structure.
-
-```yaml
-evidence: {Intoto-statment}
-verifier: {verifier-context}
-config:
-args: {custom script input}
-stores:
-   oci: {OCI store configuration}
-   cache: {Cache store configuration}
-   scribe: {Scribe store configuration}
-```
-
-When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
-
-#### Output structure​
-
-Script output must provide the following structure.
-
-```json
-{
-  "allow": bool, # Required
-  "summary": [ # Optional
-    {
-      "allow": bool,
-      "type": "string",
-      "details": "string",
-      "violations": "int",
-      "reason": "string"
-    },
-  ],
-  "errors": [], # Optional
-  "violation": [ # Optional
-    {
-        "type": "string",
-        "details": [{}],
-    },
-  ]
-}
-```
-
-### Examples
-
-Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`. Files should be in the same directory as running Valint commands. 
-
-> For configuration details, see the **[configuration](../integrating-scribe/valint/configuration)** section. You may also use `path` field to set a custom path for your script.
-
-<details>
-  <summary> Custom package policy </summary>
-In this example, the policy rule named `custom-package-policy` to verify a custom package requirements.
-In the example Alpine packages are forbidden.
-
-```yaml
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        rules:
-          - name: signed_image
-            evidence:
-              signed: true
-              format-type: cyclonedx
-              target_type: image
-            script: |
-              package verify
-              import data.policies.sbom_parser as parser
-              default allow = false
-
-              verify = v {
-                v := {
-                  "allow": allow,
-                  "violation": violation(input.evidence.predicate.bom.components),
-                }
-              }
-
-              allow {
-                v := violation(input.evidence.predicate.bom.components)
-                count(v) == 0
-                input.evidence.predicateType == "https://cyclonedx.org/bom"
-              }
-
-              violation(components) = v {
-                v := { x |
-                      some i
-                      comp := components[i]
-                      comp.type == "library"
-                      comp.group == "apk"
-                      x := comp["purl"]
-                  }
-              }
-```
-
-**Command:**  
-Run the command on the required supply chain location.
-
-```bash
-# Generate required evidence, requires signing capabilities.
-valint bom busybox:latest -o attest
-
-# Verify policy (cache store)
-valint verify busybox:latest
-```
-
-</details>
-
-### Default policy​
-
-When no policy configuration is found, the signed artifact policy is used.
-
-By default, the following command runs a signature and identity verification on the target provided:
-
-```bash
-valint verify [target] --input-format [attest, attest-slsa] \
-   --email [email] --common-name <common name> --uri [uri]
-```
-
-In other words, the Signed Artifact policy allows you to verify signature compliance and format of artifacts in your supply chain.  
-
-For full command details, see **[Valint verify](../integrating-scribe/valint/help/valint_verify)** command.
-
-<details>
-  <summary> Default Policy Evaluation </summary>
-The default policy can also be evaluated as the following policy configuration:
-
-```yaml
-attest:
-  cocosign:
-  policies:
-  - name: default-policy
-    rules:
-      name: "default-rule"
-      evidence:
-        signed: true
-        format: ${current.content_type} # Populated by --input-format flag.
-        sbomversion: ${current.sbomversion} # Populated from the artifact version provided to verify command.
-      with:
-        identity: # Populated by `--email`, `--uri` and `--common-name flags sets
-```
-
-> For rule details, see **[verify artifact rule](#verify-artifact-rule)** section.
-
-</details>
-
-## Context match fields
-
-Context match fields is a set of labels supported by all rules.
-These labels strictly define a criteria to choose the evidence that will be passed to the rule evaluation.
-
-Using these fields allows you to set different compliance requirements for different layers of your supply chain.
-<!-- For full label fields list see **[environment-context](https://tbd)** section. -->
-
-#### Usage
-
-Here's an example of usage: If you want to evaluate images named myorg/myimage:latest, you may set the rule with the following labels:
+> Optional target types are `git`,`directory`, `image`, `file`, `generic`.
 
 ```yaml
 evidence:
-   sbomgroup: image
-   sbomname: myorg/myimage:latest
+   target_type: image
+with:
+   identity:
+      emails:
+         - example@company.com
 ```
 
-If you also add `context_type: github` label, it requires the origin of the evidence to be generated by a Github.
-If you also add `git_url: github.com/my_org/myimage.git`, it requires the evidence to be collected from a pipeline on a specific repo.
+#### Blocklist Packages
+
+This rule ([blocklist-packages.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/blocklist-packages.yaml), [blocklist-packages.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/blocklist-packages.rego)) verifies an SBOM does not include packages in the list of risky packages.
+
+`rego` code for This rule can be found in the [blocklist-packages.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/blocklist-packages.rego) file.
+
+Edit the list of the risky licenses in the `input.rego.args` parameter in file [blocklist-packages.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/blocklist-packages.yaml):
+
+```yaml
+with:
+   blocklist:
+      - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
+      - "log4j"
+   blocklisted_limit: 0
+```
+
+#### Required Packages
+
+This rule ([required-packages.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/required-packages.yaml), [required-packages.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/required-packages.rego)) verifies that the SBOM includes packages from the list of required packages.
+
+Edit the list of the required packages in the `input.rego.args` parameter in file [required-packages.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/required-packages.yaml):
+
+```yaml
+with:
+   required_pkgs:
+      - "pkg:deb/ubuntu/bash@5.1-6ubuntu1?arch=amd64\u0026distro=ubuntu-22.04"
+   violations_limit: 1
+```
+
+The rule checks if there is a package listed in SBOM whose name contains the name of a required package as a substring. For example, if the package name is ```pkg:deb/ubuntu/bash@5.1-6ubuntu1?arch=amd64\u0026distro=ubuntu-22.04```, it will match any substring, like just ```bash``` or ```bash@5.1-6ubuntu1```.
+
+#### Banned Licenses
+
+This rule ([banned-licenses.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/banned-licenses.yaml), [banned-licenses.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/banned-licenses.rego)) verifies that the SBOM does not include licenses from the list of risky licenses.
+
+Edit the list of the risky licenses in the `input.rego.args` parameter in file [banned-licenses.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/banned-licenses.yaml):
+
+```yaml
+rgs:
+   blocklist:
+      - GPL
+      - MPL
+   blocklisted_limit : 10
+```
+
+#### Complete Licenses
+
+This rule ([complete-licenses.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/complete-licenses.yaml), [complete-licenses.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/complete-licenses.rego)) verifies that every package in the SBOM has a license.
+
+It doesn't have any additional parameters.
+
+#### Fresh Artifact
+
+This rule ([fresh-sbom.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/fresh-sbom.yaml), [fresh-sbom.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/fresh-sbom.rego)) verifies that the SBOM is not older than a given number of days.
+
+Edit the config `input.rego.args` parameter in file [fresh-sbom.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sboms/fresh-sbom.yaml):
+
+```yaml
+with:
+   max_days : 30
+```
+
+### Images
+
+An example of creating an evidence:
+
+```bash
+valint bom ubuntu:latest -o statement
+```
+
+To verify the evidence against the rule:
+
+```bash
+valint verify ubuntu:latest -i statement --rule images/rule_config@v1
+```
+
+#### Restrict Shell Image Entrypoint
+
+This rule ([restrict-shell-entrypoint.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/restrict-shell-entrypoint.yaml), [restrict-shell-entrypoint.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/images/restrict-shell-entrypoint.rego)) verifies that the image entrypoint does not provide shell access by default. It does so by verifying that both `Entrypoint` and `Cmd` don't contain `sh` (there's an exclusion for `.sh` though).
+
+This rule is not configurable.
+
+#### Blocklist Image Build Scripts
+
+This rule ([blocklist-build-scripts.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/blocklist-build-scripts.yaml), [blocklist-build-scripts.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/images/blocklist-build-scripts.rego)) verifies that the image did not run blocklisted scripts on build.
+
+Edit the list of the blocklisted scripts in the `input.rego.args` parameter in file [blocklist-build-scripts.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/no-build-scripts.yaml):
+
+```yaml
+with:
+   blocklist:
+      - curl
+```
+
+#### Verify Image Lables/Annotations
+
+This rule ([verify-labels.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/verify-labels.yaml), [verify-labels.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/images/verify-labels.rego)) verifies that image has labels with required values.
+
+Edit the list of the required labels in the config object in file [verify-labels.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/verify-labels.yaml):
+
+```yaml
+with:
+   labels:
+      - label: "org.opencontainers.image.version"
+        value: "22.04"
+```
+
+#### Fresh Image
+
+This rule ([fresh-image.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/fresh-image.yaml), [fresh-image.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/images/fresh-image.rego)) verifies that the image is not older than a given number of days.
+
+Edit the config `input.rego.args` parameter in file [fresh-image.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/fresh-image.yaml):
+
+```yaml
+with:
+   max_days: 183
+```
+
+#### Forbid Large Images
+
+This rule ([forbid-large-images.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/forbid-large-images.yaml), [forbid-large-images.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/images/forbid-large-images.rego)) verifies that the image is not larger than a given size.
+
+Set max size in bytes in the `input.rego.args` parameter in file [forbid-large-images.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/images/forbid-large-images.yaml):
+
+```yaml
+with:
+   max_size: 77808811
+```
+
+### Git
+
+An example of creating a Git evidence:
+
+```bash
+valint bom git:https://github.com/golang/go -o statement
+```
+
+To verify the evidence against the rule:
+
+```bash
+valint verify git:https://github.com/golang/go -i statement --rule git/rule_config@v1
+```
+
+#### Coding Permissions
+
+This rule ([coding-permissions.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/git/coding-permissions.yaml), [coding-permissions.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/git/coding-permissions.rego)) verifies that files from the specified list were modified by authorized users only.
+
+For This rule be able to run, the evidence must include a reference to the files that were modified in the commit. This can be done by adding parameter `--components commits,files` to the `valint bom` command.
+
+For specifying the list of files and identities, edit the `input.rego.args` parameter in file [coding-permissions.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/git/coding-permissions.yaml).
+This example for repository [Golang Build](https://github.com/golang/build) verifies that files `build.go` and `internal/https/README.md` were modified only by identities containing `@golang.com` and `@golang.org`:
+
+```yaml
+with:
+   ids:
+      - "@golang.com"
+      - "@golang.org"
+   files:
+      - "a.txt"
+      - "somedir/b.txt"
+```
+
+#### Forbid Unsigned Commits
+
+This rule ([no-unsigned-commits.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/git/no-unsigned-commits.yaml), [no-unsigned-commits.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/git/no-unsigned-commits.rego)) verifies that evidence has no unsigned commits. It does not verify the signatures though.
+
+#### Forbid Commits To Main
+
+This rule ([no-commit-to-main.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/git/no-commit-to-main.yaml), [no-commit-to-main.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/git/no-commit-to-main.rego)) verifies that evidence has no commits made to main branch.
+
+### SLSA
+
+Example of creating a SLSA statement:
+
+```bash
+valint slsa ubuntu:latest -o statement
+```
+
+Example of verifying a SLSA statement:
+
+```bash
+valint verify ubuntu:latest -i statement-slsa --rule slsa/rule_config@v1
+```
+
+#### Builder Name
+
+This rule ([verify-builder.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-builder.yaml), [verify-builder.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-builder.rego)) verifies that the builder name of the SLSA statement equals to a given value.
+
+Edit config `input.rego.args` parameter in file [verify-builder.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-builder.yaml):
+
+```yaml
+with:
+   id: "local"
+```
+
+#### Banned Builder Dependencies
+
+This rule ([banned-builder-deps.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/banned-builder-deps.yaml), [banned-builder-deps.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/banned-builder-deps.rego)) verifies that the builder used to build an artifact does not have banned dependencies (such as an old openSSL version).
+
+Edit config `input.rego.args` parameter in file [banned-builder-deps.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/banned-builder-deps.yaml):
+
+```yaml
+with:
+   blocklist:
+      - name: "valint"
+         version: "0.0.0"
+```
+
+#### Build Time
+
+This rule ([build-time.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/build-time.yaml), [build-time.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/build-time.rego)) verifies that the build time of the SLSA statement is within a given time window The timezone is derived from the timestamp in the statement.
+
+Edit config `input.rego.args` parameter in file [build-time.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/build-time.yaml):
+
+```yaml
+with:
+   start_hour: 8
+   end_hour: 20
+   workdays:
+      - "Sunday"
+      - "Monday"
+      - "Tuesday"
+      - "Wednesday"
+      - "Thursday"
+```
+
+#### Produced Byproducts
+
+This rule ([verify-byproducts.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-byproducts.yaml), [verify-byproducts.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-byproducts.rego)) verifies that the SLSA statement contains all the required byproducts.
+According to the SLSA Provenance [documentation](https://slsa.dev/spec/v1.0/provenance), there are no mandatory fields in the description of a byproduct, but at least one of `uri, digest, content` should be specified.
+So, the rule checks if each byproduct specified in the configuration is present in one of those fields of any byproduct in the SLSA statement. It does so by calling the `contains` function, so the match is not exact.
+
+Before running the rule, specify desired byproducts in the `input.rego.args` parameter in file [verify-byproducts.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/verify-byproducts.yaml):
+
+```yaml
+with:
+   byproducts:
+      - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230
+```
+
+#### Verify That Field Exists
+
+This rule ([field-exists.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/field-exists.yaml), [field-exists.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/field-exists.rego)) verifies that the SLSA statement contains a field with the given path.
+
+Before running the rule, specify desired paths in the `input.rego.args` parameter in file [field-exists.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/slsa/field-exists.yaml):
+
+```yaml
+with:
+   paths:
+      - "predicate/runDetails/builder/builderDependencies"
+   violations_threshold: 0
+```
+
+### Sarif Reports
+
+#### Generic SARIF Rule
+
+This rule ([verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml), [verify-sarif.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.rego)) allows to verify any SARIF report against a given rule. The rule has several parameters to check against:
+
+* ruleLevel: the level of the rule, can be "error", "warning", "note", "none"
+* ruleIds: the list of the rule IDs to check against
+* precision: the precision of the check, can be "exact", "substring", "regex"
+* ignore: the list of the rule IDs to ignore
+* maxAllowed: the maximum number of violations allowed
+
+These values can be changed in the `input.rego.args` section in the [verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file.
+
+##### Creating a BOM out of a SARIF report
+
+Create a trivy sarif report of the vulnerabilities of an image:
+
+```bash
+trivy image ubuntu:latest -f sarif -o ubuntu-cve.json
+```
+
+Create an evidence from this report:
+
+```bash
+valint evidence ubuntu-cve.json  -o statement
+```
+
+Verify the attestation against the rule:
+
+```bash
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v1
+```
+
+###### Running Trivy On Docker Container Rootfs
+
+As an alternative, one can run `trivy` against an existing Docker container rootfs:
+
+```bash
+docker run --rm -it alpine:3.11
+```
+
+Then, inside docker run:
+
+```bash
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+trivy rootfs / -f sarif -o rootfs.json
+```
+
+Then, outside docker run this to copy the report from the container:
+
+```bash
+docker cp $(docker ps -lq):/rootfs.json .
+```
+
+After that create the evidence and verify it as described above.
+
+##### No Critical CVEs
+
+To verify that the SARIF report does not contain any critical CVEs, set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level:
+      - critical
+   precision: []
+   rule_ids: []
+   ignore: []
+   max_allowed: 0
+```
+
+##### Limit High CVEs
+
+To verify that the SARIF report does not contain more than specified number of CVEs with high level (let's say 10), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level: high,
+   precision: []
+   rule_ids: []
+   ignore: []
+   max_allowed: 10
+```
+
+##### Do Not Allow Specific CVEs
+
+To verify that the SARIF report does not contain certain CVEs (let's say CVE-2021-1234 and CVE-2021-5678), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level:
+      - "error"
+      - "warning"
+      - "note"
+      - "none"
+   precision: []
+   rule_ids:
+      - "CVE-2021-1234"
+      - "CVE-2021-5678"
+   ignore: []
+   max_allowed: 0
+```
+
+##### No Static Analysis Errors
+
+To verify that the SARIF report does not contain any static analysis errors, set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level:
+      - "error"
+   precision: []
+   rule_ids: []
+   ignore: []
+   max_allowed: 0
+```
+
+##### Limit Static Analysis Warnings
+
+To verify that the SARIF report does not contain more than specified number of static analysis warnings (let's say 10), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level:
+      - "warning"
+   precision: []
+   rule_ids: []
+   ignore: []
+   max_allowed: 10
+```
+
+##### Do Not Allow Specific Static Analysis Rules
+
+To verify that the SARIF report does not contain static analysis warnings from the following rules: "rule1", "rule2", "rule3", set the following parameters in the `rego.args` section in the[verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) file:
+
+```yaml
+with:
+   rule_level:
+      - "error"
+      - "warning"
+      - "note"
+      - "none"
+   precision: []
+   rule_ids:
+      - "rule1"
+      - "rule2"
+      - "rule3"
+   ignore: []
+   max_allowed: 0
+```
+
+##### Do Not Allow Vulnerabilities Based On Specific Attack Vector
+
+Trivy/grype reports usually contain descriptions for some CVEs, like impact and attack vector.
+This rule ([verify-attack-vector.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-attack-vector.yaml), [verify-attack-vector.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-attack-vector.rego)) is meant to restrict number of vulnerabilities with specific attack vectors.
+For example, to restrict vulnerabilities with attack vector "stack buffer overflow", set the following parameters in the `rego.args` section in the [verify-attack-vector.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-attack-vector.yaml) file:
+
+```yaml
+with:
+   attack_vectors:
+      - "stack buffer overflow"
+   violations_threshold: 0
+```
+
+Then run the rule against the SARIF report as described above.
+
+#### Report IaC Configuration errors
+
+This rule ([report-iac-errors.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/report-iac-errors.yaml), [report-iac-errors.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/report-iac-errors.rego)) allows to verify a Trivy IaC report and check if there are any errors in the configuration.
+
+First, create a trivy report of the misconfigurations of a Dockerfile:
+
+```bash
+trivy config <dir_containing_dockerfile> -f sarif -o my-image-dockerfile.json
+```
+
+Create an evidence from this report:
+
+```bash
+valint evidence my-image-dockerfile.json -o statement
+```
+
+Verify the attestation against the rule:
+
+```bash
+valint verify my-image-dockerfile.json -i statement-generic --rule sarif/report-iac-errors@v1
+```
+
+The only configurable parameter in [report-iac-errors.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/report-iac-errors.yaml) is `violations_threshold`, which is the maximum number of errors allowed in the report:
+
+```yaml
+with:
+   violations_threshold: 0
+```
+
+#### Verify Semgrep SARIF report
+
+`semgrep`, a code analysis tool, can produce SARIF reports, which later can be verified by `valint` against a given rule.
+
+This rule ([verify-semgrep-report.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-semgrep-report.yaml), [verify-semgrep-report.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-semgrep-report.rego)) allows to verify that given SARIF report does not contain specific rules violations.
+
+First, one needs to create a semgrep report (say, for the `openvpn` repo):
+
+```bash
+cd openvpn/
+semgrep scan --config auto -o semgrep-report.sarif --sarif
+```
+
+Then, create an evidence from this report:
+
+```bash
+valint evidence semgrep-report.sarif -o statement
+```
+
+Configuration of This rule is done in the file [verify-semgrep-report.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-semgrep-report.yaml). In this example we forbid any violations of the `use-after-free` rule:
+
+```yaml
+with:
+   rule_ids:
+      - "use-after-free"
+   violations_threshold: 0
+```
+
+Then, run `valint verify` as usual:
+
+```bash
+valint verify semgrep-report.sarif -i statement-generic --rule sarif/verify-semgrep-report@v1
+```
+
+If any violations found, the output will contain their description, including the violated rule and the file where the violation was found.
+
+### Forbid Accessing Host
+
+Trivy k8s analysis can highlight some misconfigurations which allow container to access host filesystem or network. The goal of This rule is to detect such misconfigurations.
+
+To run this rule one has to create a Trivy k8s report and create a generic statement with `valint` from it. Then, simply verify the statement against this rule. No additional configuration required.
+
+## Writing Rule Files
+
+Rego policy rules can be written either as snippets in the yaml file, or as separate rego files.
+
+An example of such a rego script is given in the [verify-sarif.rego](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.rego) file, that is consumed by the [verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/main/v1/sarif/verify-sarif.yaml) configuraion. To evaluate the rule, run
+
+```bash
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v1
+```

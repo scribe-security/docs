@@ -62,5 +62,6 @@ Install the tool locally if you want to:
 ## Other Actions
 * [bom](action-bom.md), [source](https://github.com/scribe-security/action-bom)
 * [slsa](action-slsa.md), [source](https://github.com/scribe-security/action-slsa)
+* [evidence](action-evidence.md), [source](https://github.com/scribe-security/action-evidence)
 * [verify](action-verify.md), [source](https://github.com/scribe-security/action-verify)
 * [installer](action-installer.md), [source](https://github.com/scribe-security/action-installer)

@@ -12,11 +12,12 @@ geometry: margin=2cm
 Each `policy` proposes to enforce a set of requirements (aka `rules`) your supply chain must comply with. The outcome of a policy evaluation is a policy result attestation, a report that details the rule evaluatoin results and references to the provided evidence.  
 Policy configuration can be set under the main configuration `policies` section.
 
-A `policy` is verified if ALL required `rules` included in it are evaluated and verified. A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
+A `policy` consists of a set of `rules` and is verified if all of them are evaluated and verified.
+A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
 ### Usage
 
-Policies are configured as part of Valint configuration file, under the `policies` section.
+Policies can be configured as part of Valint configuration file, under the `policies` section
 
 ```yaml
 attest:
@@ -36,9 +37,26 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
-> For configuration details, see [configuration](configuration) section.
+Or as a separate file, referenced in `--policy` flag (Early Availability)
 
-> For PKI setting, see [attestations](attestations) section.
+```yaml
+name: <policy_name>
+rules: # Set of rule settings/configuration and input
+  - name: "<rule_name>"
+    path: "<rule_path>" # Specify if an external script is used
+    description: "A brief rule description"
+    labels: [] # list of user-specified labels
+    initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
+    evidence: #Evidence lookup parameters
+      signed: false
+      format-type: <format-type>
+      filter-by: [] # A group of Context fields to use for the evidence lookup
+    with:  {} # rule input, depending on the rule type
+```
+
+> For configuration details, see the [configuration](./configuration.md) section.
+
+> For PKI configuration, see the [attestations](./attestations.md) section.
 
 ### Policy
 
@@ -48,22 +66,25 @@ Policy support the following fields:
 * `name`, policy name (**required**).
 * `rules`, list of policy rule configuration.
 
+The field `name` can be omitted. In this case, the policy will be evaluated as a default policy.  
+If `rules` section is empty, the whole policy will be omitted.
+
 # Policy rules
 
-Rule is a compliance checks that you can configure to your specific organization requirements.
+A rule is a compliance check that you can configure to your specific organization's requirements.
 
 * `disable`, disable rule (default _false_).
 * `name`, policy rule name (**required**).
-* `type`, type of the rule, currently supporting only `verify-artifact`.
+* `type`, type of the rule, currently supporting only `verify-artifact` (which is used as a default and therefore can be omitted).
 * `description`, rule description (_optional_).
 * `labels`, list of user-specified labels (_optional_).
 * `initiatives`, list of related initiatives, like SLSA, SSDF, etc. (_optional_).
 * `path`, path to a custom rule script **OR** `script`, embedded rule script.
 * `script-lang` script language, currently only `rego` is supported.
-* `evidence`, match on evidence with a specified parameters.
-* `with`, rule-specific configuration parameters.
+* `evidence`, match on evidence with a specified parameters (see full description below).
+* `with`, rule-specific configuration parameters (for the detailed description, see the docs for the specific rule).
 
-> For `evidence` details, see [Policies](#context-match-fields) section.  
+> For `evidence` details, see [Rule Configuration](#configuration) section.  
 > For `with` details, see related rule section.
 
 ## Verify Artifact rule type
@@ -83,7 +104,7 @@ For instance, you can verify that an artifact is generated from a particular pip
 
 A rule of `verify-artifact` type can be used to enforce compliance with specific supply chain requirements, such as:
 
-* Images must be signed and produce a CycloneDX SBOM.
+* Images must be signed and have a matching CycloneDX SBOM.
 * Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
 * Tagged sources must be signed and verified by a set of individuals or processes.
 * Released binaries must be built by Azure DevOps on a specific git repository using unsigned SLSA provenance.
@@ -93,10 +114,10 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
 ```yaml
 - name: "" # Any user provided name
   evidence:
-    signed: <true|false> # Should target be signed
+    signed: <true|false> # Define if target should be signed
     format-type: "<cyclonedx-json, slsa>" # Expected evidence format
     filter-by: [<product, pipeline, target, none>] # A group of Context fields to use for the evidence lookup
-    {environment-context} # Any origin or subject fields used by
+    {environment-context} # Any Evidence Context field is also supported for matching
   with:
     identity:
       emails: [] # Signed email identities 
@@ -119,7 +140,7 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
 
 Copy the Examples into a file named `.valint.yaml` in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](configuration) section.
+> For configuration details, see [configuration](./configuration.md) section.
 
 <details>
   <summary> Signed Images policy </summary>
@@ -292,7 +313,7 @@ Run the command on the required supply chain location.
 
 ```bash
 # Generate required evidence
-valint bom 3rd-party-scan.json -o attest-generic --predicate-type https://scanner.com/scan_format
+valint evidence 3rd-party-scan.json -o attest --predicate-type https://scanner.com/scan_format
 
 # Verify policy (cache store)
 valint verify 3rd-party-scan.json -i attest-generic --predicate-type https://scanner.com/scan_format
@@ -335,7 +356,7 @@ The following rule verifies the predicate of the evidence in a custom Rego scrip
 In order to add a verification script you must provide a `verify` rule in your script.
 A Rego script can be provided in two forms: as an embedded code snippet in the `script` section or as a dedicated file using the `path` field.
 
-> By default `valint` looks for `.valint.rego` file.
+> By default `valint` looks for a `.valint.rego` file.
 
 Use the following rule structure.
 
@@ -402,10 +423,10 @@ Script output must provide the following structure.
 
 ### Examples
 
-Copy the Examples configuration into file name `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
+Copy the Examples into a file named `.valint.yaml` and Copy Examples custom script into file name `.valint.rego`.
 Files should be in the same directory as running Valint commands.
 
-> For configuration details, see [configuration](configuration) section.
+> For configuration details, see [configuration](./configuration.md) section.
 > You may also use `path` field to set a custom path for your script.
 
 
@@ -519,12 +540,12 @@ Replace `<var_name>` with the specific variable name from the evidence context t
 Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.
 
 3. User-defined  
-Users can pass custom arguments through the command line using the `--policy-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
+Users can pass custom arguments through the command line using the `--rule-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
 
 For example,
 
 ```bash
-valint verify git:repo.git --policy-args "my_arg"="foo"
+valint verify git:repo.git --rule-args "my_arg"="foo"
 ```
 
 In the policy configuration: `{{ .Args.my_arg }}`.
@@ -537,7 +558,7 @@ If the replacement process encounters an issue, such as no value provided for a 
 <details>
   <summary> Usage </summary>
 
-This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch should beare passed as arguments to the policy using the `--policy-args` flag as `--policy-args git_url=<url> --policy-args git_branch=<branch>`. The target_type is passed as a field from the evidence context.
+This example demonstrates the use of template arguments in a policy configuration. The policy requires that the evidence is generated from a specific git repository and branch. The git repository and branch should beare passed as arguments to the policy using the `--rule-args` flag as `--rule-args git_url=<url> --rule-args git_branch=<branch>`. The target_type is passed as a field from the evidence context.
 
 ```yaml
 attest:
@@ -606,11 +627,45 @@ attest:
 
 </details>
 
-## External policy configs - Coming Soon!
+### Targetless Run
+
+Using `evidence` field it's possible to run a policy rule without providing a target. In this case, the evidence will be looked up using the provided parameters for each rule and no values from any target will be used (simply, the `filter-by: target` flag will be ignored).
+To be able to run `valint verify` in targetless mode, the `evidence` field in a rule config should describe the needed evidence well enough.  
+In the following example, the newest evidence of `target_type: image` for the provided product (defined by the name & version) will be used.
+
+```yaml
+# my_policy.yaml
+attest:
+  cocosign:
+    policies:
+      - name: my_policy
+        rules:
+          - name: my_rule
+            evidence:
+              signed: true
+              format-type: cyclonedx
+              target_ttpe: image
+              filter-by:
+                - product
+            with:
+              identity:
+                emails:
+                  - my@email.com
+```
+
+```bash
+valint bom busybox:latest -o attest --product-key my_product --product-version 1.0.0
+```
+
+```bash
+valint verify --product-key my_product --product-version 1.0.0 -c my_policy.yaml
+```
+
+## External policy configs - Early Availability
 
 Policy or rule configuration can be set not only in the main configuration file but also in external files. This can be useful when you want to reuse the same policy configuration for different targets or as a part of a configuration bundle or when you just want to keep your main configuration file clean.
 
-External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--policy` flag or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
+External policy/rule configuration can be set in a separate file and then referenced in the cmd args via the `--policy/--rule` flag correspondingly or in the main configuration file via the `attest.policy_configs` field of type `[]string`.
 
 Each extermal configuration should represent an entry to `attest.cocosign.policies` or to `attest.cocosign.policies[].rules` field of the main configuration file.
 
@@ -660,15 +715,49 @@ with:
       - my@email.com
 ```
 
-One can use as many policies per `valint verify` run as they want.
+One can reference several policies/rules configs per `valint verify` run.
 
-### Bundling policy configs - Coming Soon!
+When using `--policy/--rule` flag, `valint` will first lookup the config in local FS and if not found, will try to use a config from the bundle (if used).
+
+### Bundle policy configs - Early Availability
 
 Policy configurations along with the corresponding rego scripts can be bundled together in a directory or a git repo and then referenced in the cmd args via the `--bundle` flag or in the main configuration file via the `attest.bundle` field.  
 In case of using a git repo, it's possible to also specify a branch and a commit or a tag to be used with `--git-branch`, `--git-commit` and `--git-tag` options respectively. The repo would be cloned automatically by `valint`.  
 For the GitHub authentication, a token can be provided via `GITHUB_TOKEN` environment variable or as part of url like `<token>@github.com`.
 
-To reference a policy rule in a bundle, the relative path to the bundle root should be provided in the `--policy` flag.
+To reference a policy/rule in a bundle, the relative path to the bundle root should be provided in the `--policy/--rule` flag correspondingly.
+
+#### Default bundle
+
+By default, `valint` defaults to work with <https://github.com/scribe-public/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--policy/--rule` flags. If no `--policy` or `--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
+
+#### Reusing bundle rules
+
+The "uses" flag in rule descriptions allows users to utilize external configurations from a bundle as a base for creating custom rules. This feature simplifies reusing of bundle rules with different parameters.
+
+For example, lets reuse bundle config `v1/images/fresh-image.yaml`. Let's create a local rule config file:
+
+```yaml
+uses: images/fresh-image@v1
+with:
+  max_days: 1000
+```
+
+Note that the config file extension is applied by `valint` automatically, there's no need to specify it.
+
+The value `with.max_days: 1000` will override the default from the bundle config, the other values will remain the same. If needed, one can override any other value from the bundle config.
+
+It's also possible to create a policy config utilizing multiple bundle rules:
+
+```yaml
+rules:
+  - uses: images/fresh-image@v1
+    with:
+      max_days: 1000
+  - uses: images/forbid-large-images@v1
+```
+
+Such policy configs can later be referenced in the `--policy` flag (see examples below).
 
 ### Examples
 
@@ -694,13 +783,13 @@ with:
 saved in `path/to/rule.yaml`, we can run the policy:
 
 ```bash
-valint verify busybox:latest --policy /path/to/default-rule.yaml
+valint verify busybox:latest --rule /path/to/rule.yaml
 ```
 
-If the rule is a part of a bundle and the bath in the bundle looks like `policies/images/rule.yaml`, then we can run it like
+If the rule is a part of a bundle and the path in the bundle looks like `v1/images/rule.yaml`, then we can run it like
 
 ```bash
-valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --policy policies/images/default-rule.yaml
+valint verify busybox:latest --bundle https://github.com/user/bundle --git-tag v1.0.0 --rule images/rule@v1
 ```
 
 An example of policy evaluation results can be found in the [policy results](policy-results) section.

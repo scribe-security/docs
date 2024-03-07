@@ -1,31 +1,27 @@
-## valint list
+## valint evidence
 
-List evidence command
+Add file as evidence command
 
 ### Synopsis
 
-List evidence in all evidence stores
+Collect, Create and Store any file as evidence
 
 ```
-valint list [flags]
+valint evidence [TARGET] [flags]
 ```
 
 ### Optional flags 
-Flags for `list` subcommand
+Flags for `evidence` subcommand
 
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --all | Include all evidence fields | |
-| | --columns | List of columns to be displayed | [timestamp,store,ref,context_type,sbomname,product-key,git_url] |
-| | --current | List evidence attached to the current context | |
-| | --filters | Filters for each evidence property | [] |
-| -o | --format | List output format, options=[table json] | |
+| | --compress | Compress content) | |
+| -o | --format | Evidence format, options=[statement attest] | [statement] |
 | | --format-encoding | Evidence Format encoding | |
 | | --format-type | Evidence Format type | |
 | | --format-version | Evidence Format version | |
-| -h | --help | help for list | |
-| -O | --output-file | File to write output | |
+| -h | --help | help for evidence | |
 | | --tool | Evidence Tool name | |
 | | --tool-vendor | Evidence Tool vendor | |
 | | --tool-version | Evidence Tool version | |
@@ -68,6 +64,7 @@ Flags for all `valint` subcommands
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
@@ -85,20 +82,20 @@ Flags for all `valint` subcommands
 | -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
 
 
-### Examples for running `valint list`
+### Examples for running `valint evidence`
 
 ```
-  valint list <target>
+  valint evidence <file>
 
-  valint list                                                               list all
-  valint list alpine:latest                                                 list evidence for target
-  valint list alpine:latest --product-key test                              list evidence in product
-  valint list alpine:latest --filters git_branch=master      				  filter results for a specific branch
-  valint list alpine:latest --columns store,ref,git_branch,product-key      select columns for list table
-  valint list alpine:latest --filters product-key=abc                       filter for specific columns in list table
-  valint list alpine:latest -o json                       	              output list in json format
-  valint list alpine:latest -o json --all                      	          output all evidence field in json format
-  
+  <file> File Path to add as evidence
+
+  valint evidence file.json                                                                   Attach a file as evidence
+  valint evidence file.json -o attest                                                         Sign evidence
+  valint evidence file.json --tool my_tool --tool-version 0.0.1 --vendor="My Company Inc"     Customize tool information
+  valint evidence file.json --format my_format --format-version 0.0.1 --format-encoding=xml   Customize format information
+  valint evidence file.json --predicate-type https:/my_company.com/my_predicate/v1            Customize predicate type
+  valint evidence file.json --compress                                                        Compress content
+
 ```
 
 ### SEE ALSO
