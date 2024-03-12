@@ -16,7 +16,7 @@ For more detailed information, please visit our page on [enforcing SDLC policies
 
 Additionally, you have the option to reference or fork our default [policy bundle](https://github.com/scribe-public/sample-policies) repository.
 
-## Use Cases Examples
+### Use Cases Examples
 
 | Use Case                                       | Description                                                                                                   |
 |------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
