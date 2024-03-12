@@ -294,6 +294,15 @@ Finally, if you consult the **management console**, you'll be able to view both 
 
 <img src='../../../../img/cicd/admission_result_context.png' alt='Scribe Policy Results' width='70%' min-width='400px'/>
 
+Policy result Context
+
+<details>
+  <summary> Policy result Context </summary>
+
+<img src='../../../../img/cicd/admission_result_context.png' alt='Admission Context details' width='70%' min-width='400px'/>
+
+</details>
+
 
 # Policy Gate
 The Gate Policies in Valint Gatekeeper Provider allow for fine-grained control over policy evaluation for images admitted into the system. 
@@ -475,13 +484,7 @@ valint evidence report.sarif --product-key my_product --product-version v1 [FLAG
 ## Policy results
 Policy results are generated individually for each image evaluation, delivered in Sarif format as evidence. For further details, please refer to the [policy results](https://scribe-security.netlify.app/docs/valint/policy-results) page.
 
-<details>
-  <summary> Admission Policy Result context </summary>
-Admission Policy Results encompass resource identification, including labels and namespaces, of the Kubernetes resources that were admitted, along with information about the admission provider.
-
-<img src='../../../../img/cicd/admission_result_context.png' alt='Admission Context details' width='70%' min-width='400px'/>
-
-</details>
+> Admission Policy Results Context is attached with resource identification, including labels and namespaces, of the Kubernetes resources that were admitted, along with information about the admission provider.
 
 ### Signing policy result
 Currently, signing policy results are only supported when using X509 keys. To set this up:
