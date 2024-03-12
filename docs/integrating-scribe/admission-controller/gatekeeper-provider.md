@@ -62,7 +62,7 @@ helm repo update
 Gatekeeper enforces TLS when communicating with the provider, so certificates must be provided.
 For more details see [Gatekeepers TLS support](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata/#tls-and-mutual-tls-support).
 
-1) To generate new certificates, use may use the quiqstart `generate-tls-cert` [script](https://github.com/scribe-security/gatekeeper-valint/blob/main/scripts/generate-tls-cert.sh):
+1) To generate new certificates, use may use the quick-start `generate-tls-cert` [script](https://github.com/scribe-security/gatekeeper-valint/blob/main/scripts/generate-tls-cert.sh):
 
 - `curl -sSfL https://raw.githubusercontent.com/scribe-security/gatekeeper-valint/main/scripts/generate-tls-cert.sh | sh -s --`
 
