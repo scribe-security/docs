@@ -268,7 +268,7 @@ To resolve this, sign your image using the Valint tool:
 valint bom mycompany/signed:latest -o attest  --product-key scribesecurity/signed:latest [FLAGS]
 ```
 
-Then, reapply the deployment:
+Then, re-apply the deployment:
 
 ```bash
 kubectl apply -f signed-deployment.yaml
