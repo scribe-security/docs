@@ -49,6 +49,8 @@ helm install gatekeeper/gatekeeper  \
     --set validatingWebhookTimeoutSeconds=30
 ```
 
+> Notice `enableExternalData` is set as true.
+
 ### Step 2: Pull Valint Gatekeeper helm Repo
 Pull valint gatekeeper Helm chart
 ```bash
@@ -81,16 +83,17 @@ Integrating Scribe Hub with admission controller requires the following credenti
 
 Enable Scribe client and add related `Client ID` and `Client Secret`.
 
-- ```sh
-   helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
-   --namespace gatekeeper-valint --create-namespace \
-   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
-   --set certs.tlsCrt="$(cat certs/tls.crt)" \
-   --set certs.tlsKey="$(cat certs/tls.key)" \
-   --set scribe.enable=true \
-   --set scribe.client_id=$SCRIBE_CLIENT_ID \
-   --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
-  ```
+```bash
+helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
+  --namespace gatekeeper-valint --create-namespace \
+  --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+  --set certs.tlsCrt="$(cat certs/tls.crt)" \
+  --set certs.tlsKey="$(cat certs/tls.key)" \
+  --set scribe.enable=true \
+  --set scribe.client_id=$SCRIBE_CLIENT_ID \
+  # --set scribe.url=$SCRIBE_URL \
+  --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
+```
 > Credentials will be stored as a secret named `valint-scribe-cred-secret`.
 
 > Tls cert and key are stored as a secret named `gatekeeper-valint-certs`
@@ -251,19 +254,18 @@ spec:
 In the output, you should see a rejected admission error due to the unsigned image.
 
 ```log
-  Error from server (Forbidden): error when creating "signed-deployment.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "
+Error from server (Forbidden): error when creating "policy/examples/signed-deployment.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "
+Scribe Admission refused 'scribesecurity/signed:latest' deployment to 'default'.
 
-  Scribe Admission refused 'mycompany/signed:latest' deployment to 'default'.
-
-  - policy check failed, Policies [require_signed_images] failed with the following errors.
-  * rule [error_on_signed_image] failed resource not found, no evidence found
-  "}
+- policy check failed, Policies [require_signed_images] failed with the following errors.
+* rule [error_on_unsigned_image] failed resource not found, no evidence found
+"}
 ```
 
 To resolve this, sign your image using the Valint tool:
 
 ```bash
-valint bom mycompany/signed:latest -o attest [FLAGS]
+valint bom mycompany/signed:latest -o attest  --product-key scribesecurity/signed:latest [FLAGS]
 ```
 
 Then, reapply the deployment:
@@ -287,6 +289,11 @@ Upon successful deployment, you'll see a detailed evaluation summary in the admi
 │ AGGREGATE POLICY RESULT │        │                        │ PASSED            │                                            │
 └─────────────────────────┴────────┴────────────────────────┴───────────────────┴────────────────────────────────────────────┘
 ```
+
+Finally, if you consult the **management console**, you'll be able to view both the unsuccessful and successful outcomes of the policy.
+
+<img src='../../../../img/cicd/admission_result_context.png' alt='Scribe Policy Results' width='70%' min-width='400px'/>
+
 
 # Policy Gate
 The Gate Policies in Valint Gatekeeper Provider allow for fine-grained control over policy evaluation for images admitted into the system. 
@@ -465,6 +472,37 @@ valint evidence report.sarif --product-key my_product --product-version v1 [FLAG
 ```
 </details>
 
+## Policy results
+Policy results are generated individually for each image evaluation, delivered in Sarif format as evidence. For further details, please refer to the [policy results](https://scribe-security.netlify.app/docs/valint/policy-results) page.
+
+<details>
+  <summary> Admission Policy Result context </summary>
+Admission Policy Results encompass resource identification, including labels and namespaces, of the Kubernetes resources that were admitted, along with information about the admission provider.
+
+<img src='../../../../img/cicd/admission_result_context.png' alt='Admission Context details' width='70%' min-width='400px'/>
+
+</details>
+
+### Signing policy result
+Currently, signing policy results are only supported when using X509 keys. To set this up:
+
+* Set the `x509.key` field to specify the policy result signer key.
+  It must be under the same CA the evidence is verified in.
+  
+For example, to perform an upgrade with X509-based signing:
+```bash
+   helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+   --namespace gatekeeper-valint \
+   --reuse-values --force \
+   --set valint.attest.default=x509-env \
+   --set valint.verify.formats=attest \
+   --set x509.ca="$(cat certs/evidence.crt)"
+   --set x509.key="$(cat certs/evidence.key)"
+```
+> Secret is stored under a secret named `valint-x509-secret`.
+
+> Please replace the keys and certificates generated by our `scripts/generate-tls-cert.sh` for evidence signing and verfication with your organization's trusted CA.
+
 ## Default Policy - Unsigned Image Warning
 By default, the provider is installed with a policy to `warning` on *ANY* image that is not signed. This serves as a basic security measure to alert users about potentially risky, unsigned images.
 
@@ -568,25 +606,7 @@ valint:
     bundle: https://github.com/my_company/sample-policies 
 ``` -->
 
-### Signing policy result
-Currently, signing policy results are only supported when using X509 keys. To set this up:
 
-* Set the `x509.key` field to specify the policy result signer key.
-  It must be under the same CA the evidence is verified in.
-  
-For example, to perform an upgrade with X509-based signing:
-```bash
-   helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
-   --namespace gatekeeper-valint \
-   --reuse-values --force \
-   --set valint.attest.default=x509-env \
-   --set valint.verify.formats=attest \
-   --set x509.ca="$(cat certs/evidence.crt)"
-   --set x509.key="$(cat certs/evidence.key)"
-```
-> Secret is stored under a secret named `valint-x509-secret`.
-
-> Please replace the keys and certificates generated by our `scripts/generate-tls-cert.sh` for evidence signing and verfication with your organization's trusted CA.
 
 ## Uploading signed evidence
 Using valint `-o attest` flag you can upload signed evidence on the image.
