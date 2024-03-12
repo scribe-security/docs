@@ -102,7 +102,7 @@ In your policies you then can set what rules should be verfied over signed evide
    signed: true
 ```
 
-## Signing evidence
+### Signing evidence
 You can sign images or any type of evidence using Valint.
 For more information see [attestation](https://scribe-security.netlify.app/docs/valint/attestations) page.
 
