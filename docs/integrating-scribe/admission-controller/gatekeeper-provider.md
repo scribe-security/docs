@@ -208,8 +208,6 @@ select:
       - name: error_on_unsigned_image
         uses: sboms/artifact-signed@v1
         level: error
-        evidence:
-          signed: true
 ```
 
 In the provided `signed_image_policy.yaml`, we specify a policy to enforce signature verification for images admitted from the my_company Dockerhub account.
@@ -484,8 +482,6 @@ select:
       - name: warn_on_unsigned_image
         uses: sboms/artifact-signed@v1
         level: "warning"
-        evidence:
-          signed: true
 ```
 
 To pass the evaluation, you can sign your images using the valint tool, like so:
