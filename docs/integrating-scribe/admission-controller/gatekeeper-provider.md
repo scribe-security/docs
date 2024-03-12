@@ -292,14 +292,12 @@ Upon successful deployment, you'll see a detailed evaluation summary in the admi
 
 Finally, if you consult the **management console**, you'll be able to view both the unsuccessful and successful outcomes of the policy.
 
-<img src='../../../../img/cicd/admission_result_context.png' alt='Scribe Policy Results' width='70%' min-width='400px'/>
-
-Policy result Context
+<img src='../../../../img/cicd/admission_demo_results.png' alt='Policy Results view' width='70%' min-width='400px'/>
 
 <details>
-  <summary> Policy result Context </summary>
+  <summary> Policy Result Context </summary>
 
-<img src='../../../../img/cicd/admission_result_context.png' alt='Admission Context details' width='70%' min-width='400px'/>
+<img src='../../../../img/cicd/admission_result_context.png' alt='Context Details view' width='70%' min-width='400px'/>
 
 </details>
 
