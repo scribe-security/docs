@@ -40,6 +40,7 @@ Additionally, you have the option to reference or fork our default [policy bundl
 - Deploy Gatekeeper with external data enabled (`--enable-external-data`)
 ```sh
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
+helm repo update
 helm install gatekeeper/gatekeeper  \
     --name-template=gatekeeper \
     --namespace gatekeeper-system --create-namespace \
@@ -52,14 +53,16 @@ helm install gatekeeper/gatekeeper  \
 Pull valint gatekeeper Helm chart
 ```bash
 helm repo add gatekeeper-valint https://scribe-security.github.io/gatekeeper-valint/charts
+helm repo update
 ```
 
 ### Step 3: Generate TLS certificate and key for the provider
 Gatekeeper enforces TLS when communicating with the provider, so certificates must be provided.
 For more details see [Gatekeepers TLS support](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata/#tls-and-mutual-tls-support).
 
-1) To generate new certificates, use the script:
-- `scripts/generate-tls-cert.sh`
+1) To generate new certificates, use may use the quiqstart `generate-tls-cert` [script](https://github.com/scribe-security/gatekeeper-valint/blob/main/scripts/generate-tls-cert.sh):
+
+- `curl -sSfL https://raw.githubusercontent.com/scribe-security/gatekeeper-valint/main/scripts/generate-tls-cert.sh | sh -s --`
 
 2) This will create CA and certificate files in `certs` directory.
 
