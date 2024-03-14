@@ -54,6 +54,21 @@ rules: # Set of rule settings/configuration and input
     with:  {} # rule input, depending on the rule type
 ```
 
+A single rule can also be described in a separate file and referenced by `--rule` flag (Early Availability)
+
+```yaml
+name: "<rule_name>"
+path: "<rule_path>" # Specify if an external script is used
+description: "A brief rule description"
+labels: [] # list of user-specified labels
+initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
+evidence: #Evidence lookup parameters
+  signed: false
+  format-type: <format-type>
+  filter-by: [] # A group of Context fields to use for the evidence lookup
+with:  {} # rule input, depending on the rule type
+```
+
 > For configuration details, see the [configuration](./configuration.md) section.
 
 > For PKI configuration, see the [attestations](./attestations.md) section.
@@ -576,6 +591,12 @@ attest:
 ```
 
 </details>
+
+## Filtering Policy Rules (Early Availability)
+
+Since policy rules can be labeled with user-defined labels and also can be a part of one ore more initiatives, it's possible to filter them by these parameters on runtime. For this purpose, `valint` has flags `--rule-label` and `--initiative` respectively.
+
+When using these flags, `valint` will only evaluate the rules that match the provided labels and/or initiatives. In order to be run, a rule should match all the provided labels and/or any of the initiatives. If a rule doesn't match the requirements, it will be disabled. Similarly, if no rules in a policy match the requirements, the policy will be omitted.
 
 ## Evidence Lookup
 
