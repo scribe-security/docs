@@ -64,7 +64,9 @@ For more details see [Gatekeepers TLS support](https://open-policy-agent.github.
 
 1) To generate new certificates, use may use the quick-start `generate-tls-cert` [script](https://github.com/scribe-security/gatekeeper-valint/blob/main/scripts/generate-tls-cert.sh):
 
-- `curl -sSfL https://raw.githubusercontent.com/scribe-security/gatekeeper-valint/main/scripts/generate-tls-cert.sh | sh -s --`
+```bash
+curl -sSfL https://raw.githubusercontent.com/scribe-security/gatekeeper-valint/main/scripts/generate-tls-cert.sh | bash
+```
 
 2) This will create CA and certificate files in `certs` directory.
 
