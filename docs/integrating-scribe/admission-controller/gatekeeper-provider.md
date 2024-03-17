@@ -647,8 +647,7 @@ Access requirement for Provider
 Access requirement for Evidence creation (CI or local)
 - Write access to upload evidence using the `valint` tool.
 
-* Install Example
-
+Install the provider with the following command:
 ```bash
 helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
   --namespace gatekeeper-valint --create-namespace \
