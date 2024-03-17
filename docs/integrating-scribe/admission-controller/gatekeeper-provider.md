@@ -54,7 +54,7 @@ helm install gatekeeper/gatekeeper  \
 ### Step 2: Pull Valint Gatekeeper helm Repo
 Pull valint gatekeeper Helm chart
 ```bash
-helm repo add gatekeeper-valint https://scribe-security.github.io/gatekeeper-valint/charts
+helm repo add scribe https://scribe-security.github.io/gatekeeper-valint
 helm repo update
 ```
 
@@ -84,14 +84,13 @@ Integrating Scribe Hub with admission controller requires the following credenti
 Enable Scribe client and add related `Client ID` and `Client Secret`.
 
 ```bash
-helm install charts/gatekeeper-valint --name-template=gatekeeper-valint \
+helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
   --namespace gatekeeper-valint --create-namespace \
   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
   --set certs.tlsCrt="$(cat certs/tls.crt)" \
   --set certs.tlsKey="$(cat certs/tls.key)" \
   --set scribe.enable=true \
   --set scribe.client_id=$SCRIBE_CLIENT_ID \
-  # --set scribe.url=$SCRIBE_URL \
   --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
 ```
 > Credentials will be stored as a secret named `valint-scribe-cred-secret`.
@@ -119,7 +118,7 @@ To enable the provider to verify X509-based signatures, follow these steps:
 
 For example, to perform an upgrade with X509-based verification:
 ```bash
-helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
   --namespace gatekeeper-valint \
   --reuse-values --force \
   --set valint.attest.default=x509-env \
@@ -161,7 +160,7 @@ To enable the provider to verify Sigstore Keyless signatures, set the `valint.at
 
 For example, to perform an upgrade with sigstore-based verification:
 ```bash
-helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
   --namespace gatekeeper-valint \
   --reuse-values --force \
   --set valint.attest.default=sigstore
@@ -185,12 +184,12 @@ valint verify <target> -i <attest, attest-slsa, attest-generic> [FLAGS]
 
 </details>
 
-# Demo: Enforcing Image Signing Policies with Gatekeeper Valint
+## Demo: Enforcing Image Sigstore Signing Policies Over Scribe store
 To showcase the enforcement of image signing policies using Gatekeeper Valint, we'll apply a simplistic unsigned image error policy and upgrade our gate accordingly.
 
 Upgrade your gate with the following command,
 ```bash
-helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
   --values signed_image_policy.yaml \
   --namespace gatekeeper-valint \
   --reuse-values --force
@@ -316,6 +315,7 @@ select:
     product-key: <string> # Optional
     policy: <object> # Reuquired
 ```
+
 * `gate`: Specifies the gate name.
 * `apply`: list of policies to apply
 * `namespace`: Specifies the namespace to which the policy should apply to.
@@ -328,10 +328,22 @@ select:
 
 > policy gate configuration are mapped to a configmap named `gatekeeper-valint-policies`.
 
+#### Defining Namespace for Gatekeeper Constraints
+Setting Gatekeeper Constraints Namespace
+To set the namespace for gatekeeper constraints, please configure the set `constraint.namespace` fields. The distinction from setting the policy gate namespace is that API calls will only be triggered for constraint.namespace.
+
+For example, to perform an upgrade to your policy gate:
+```bash
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
+  --set constraint.namespace=my_namespace \
+  --namespace gatekeeper-valint \
+  --reuse-values --force
+```
+
 #### Updating Your Policy Gate
 For example, to perform an upgrade to your policy gate:
 ```bash
-helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
   --values my_gate.yaml \
   --namespace gatekeeper-valint \
   --reuse-values --force
@@ -492,12 +504,12 @@ Currently, signing policy results are only supported when using X509 keys. To se
   
 For example, to perform an upgrade with X509-based signing:
 ```bash
-helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
   --namespace gatekeeper-valint \
   --reuse-values --force \
   --set valint.attest.default=x509-env \
   --set valint.verify.formats=attest \
-  --set x509.ca="$(cat certs/evidence.crt)"
+  --set x509.ca="$(cat certs/ca.crt)"
   --set x509.key="$(cat certs/evidence.key)"
 ```
 > Secret is stored under a secret named `valint-x509-secret`.
@@ -539,7 +551,7 @@ To verify images from registries that require authentication, follow these steps
 
 For example, to perform an upgrade with your local docker config:
 ```bash
-helm upgrade charts/gatekeeper-valint \
+helm upgrade scribe/gatekeeper-valint \
   --namespace gatekeeper-valint \
   --reuse-values --force \
   --set image.imagePullSecrets="$(cat ~/.docker/config.json | base64 -w0)"
@@ -566,7 +578,7 @@ To use private bundles from your preferred Git platform, follow these steps:
 
 For example, to perform an upgrade with your local docker config:
 ```bash
-helm upgrade charts/gatekeeper-valint \
+helm upgrade scribe/gatekeeper-valint \
   --namespace gatekeeper-valint \
   --reuse-values --force \
   --set valint.attest.bundle=https://github.com/my_company/policies.git
@@ -574,6 +586,11 @@ helm upgrade charts/gatekeeper-valint \
 ```
 > Secret is stored under a secret named `valint-bundle-pull-secret`.
 
+## Uploading signed evidence
+Using valint `-o attest` flag you can upload signed evidence on the image.
+```bash
+valint [bom, slsa] my_image -o attest [--oci OR --scribe.enable]
+```
 
 <!-- ### Bundle managed policies
 > Only available for private bundles.
@@ -582,7 +599,7 @@ Users who own there own bundle repo can apply the `policy` field directly from t
 
 For example, to perform an upgrade to your policy gate:
 ```bash
-   helm upgrade gatekeeper-valint ./charts/gatekeeper-valint \
+   helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
    --values my_gate.yaml \
    --namespace gatekeeper-valint \
    --reuse-values --force
@@ -609,44 +626,165 @@ valint:
 
 
 
-## Uploading signed evidence
-Using valint `-o attest` flag you can upload signed evidence on the image.
-```bash
-valint [bom, slsa] my_image -o attest [--oci OR --scribe.enable]
-```
 
 ## Alterative Evidence Stores - OCI
 Valint supports both storage and verification flows for `attestations` and `statement` objects using an **OCI* registry as an evidence store. <br />
 Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
 
 Related configmap flags:
->* `config.attest.cocosign.storer.OCI.enable` - Enable OCI store.
->* `config.attest.cocosign.storer.OCI.repo` - Evidence store location.
+>* `valint.attest.cocosign.storer.OCI.enable` - Enable OCI store.
+>* `valint.attest.cocosign.storer.OCI.repo` - Evidence store location.
 
 ### Before you begin
-- Write access to upload evidence using the `valint` tool.
+Access requirement for Provider
 - Read access to download evidence for the provider.
+- Write access to upload policy report evidence for the provider.
+> Can be skipped when `valint.attest.report.disable` is set to true
 - Evidence can be stored in any accessible OCI registry.
 
-1. Edit the `charts/gatekeeper-valint/values.yaml` file, enable OCI client and enable a OCI repo.
-   For example, 
-   ```yaml
-   attest:
-    cocosign:
-      storer:
-        OCI:
-          enable: true
-          repo: <optional oci-repo>
-   ```
+Access requirement for Evidence creation (CI or local)
+- Write access to upload evidence using the `valint` tool.
 
-   > [oci-repo] is the URL of the OCI repository where all evidence will be uploaded.
-      - Example: If your oci repo is `somewhere/evidence_store` create a evidence for `example/my_image:latest`, the evidence will be stored as under `somewhere/evidence_store/image/SHA-256-DIGEST.sig`
+* Install Example
+helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
+  --namespace gatekeeper-valint --create-namespace \
+  --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+  --set certs.tlsCrt="$(cat certs/tls.crt)" \
+  --set certs.tlsKey="$(cat certs/tls.key)" \
+  --set scribe.enable=true \
+  --set scribe.client_id=$SCRIBE_CLIENT_ID \
+  --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
 
-   > Empty `oci-repo` will Attach the evidence to the same repo as the uploaded image.
-    - Example: If you create a evidence for `example/my_image:latest`, the evidence will be stored as `example/my_image:SHA-256-DIGEST.sig` (oci-repo).
+```bash
+helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
+  --namespace gatekeeper-valint --create-namespace \
+  --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
+  --set certs.tlsCrt="$(cat certs/tls.crt)" \
+  --set certs.tlsKey="$(cat certs/tls.key)" \
+  --set valint.attest.report.disable=true \
+  --set image.imagePullSecrets="$(cat ~/.docker/config.json | base64 -w0)" \
+  --set valint.attest.cocosign.storer.OCI.enable=true \
+  --set valint.attest.cocosign.storer.OCI.repo=[oci-repo]"
+```
 
-<!-- 2. If [oci-repo] is a private registry, attach permissions to the admission with the following steps:
-    1. Create a secret:
-    ```bash
-    kubectl create secret docker-registry [secret-name] --docker-server=[registry_url] --docker-username=[username] --docker-password=[access_token] -n gatekeeper-valint
-    ``` -->
+> [oci-repo] is the URL of the OCI repository where all evidence will be uploaded.
+  - Example: If your oci repo is `somewhere/evidence_store` create a evidence for `example/my_image:latest`, the evidence will be stored as under `somewhere/evidence_store/image/SHA-256-DIGEST.sig`
+
+### Cosign Style Evidence Attachment
+If a dedicated `oci-repo` is not provided evidence assumed to b Attach the evidence to the same repo as the uploaded image.
+
+- Example: If you create a evidence for `example/my_image:latest`, the evidence will be stored as `example/my_image:SHA-256-DIGEST.sig` (oci-repo).
+
+## Demo: Enforcing Image X509 Signing Policies Over OCI store
+To showcase the enforcement of image signing policies using Gatekeeper Valint, we'll apply a simplistic unsigned image error policy and upgrade our gate accordingly.
+
+Upgrade your gate with the following command,
+```bash
+helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
+  --values signed_image_policy.yaml \
+  --namespace gatekeeper-valint \
+  --set valint.attest.default=x509-env \
+  --set x509.ca="$(cat certs/ca.crt)" \
+  --reuse-values --force
+```
+> `x509.ca`, `valint-attest-default`  will configure the provider to verify using the CA.
+We strongly recommend replacing CA certificates with those from your trusted organization.
+
+<details>
+  <summary> signed_image_policy.yaml file </summary>
+
+```yaml
+select:
+  gate: signed_images_gate
+  apply:
+  - namespace: "" # Any
+    glob:
+    - "mycompany/**"
+    filter-by:
+    - target
+    policy:
+      name: require_signed_images
+      rules:
+      - name: error_on_unsigned_image
+        uses: sboms/artifact-signed@v1
+        level: error
+```
+
+In the provided `signed_image_policy.yaml`, we specify a policy to enforce signature verification for images admitted from the my_company Dockerhub account.
+</details>
+
+Now lets try and apply deployments before signing the image.
+```bash
+kubectl apply -f signed-deployment.yaml 2>&1 | echo -e "$(cat -)"
+```
+
+<details>
+  <summary> signed-deployment.yaml file </summary>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signed-deployment
+  labels:
+    app: signed-deployment
+spec:
+  replicas: 0 # testing purposes only
+  selector:
+    matchLabels:
+      app: signed-deployment
+  template:
+    metadata:
+      labels:
+        app: signed-deployment
+    spec:
+      containers:
+      - name: valid
+        image: mycompany/signed:latest
+```
+
+</details>
+
+In the output, you should see a rejected admission error due to the unsigned image.
+
+```log
+Error from server (Forbidden): error when creating "policy/examples/signed-deployment.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "
+Scribe Admission refused 'scribesecurity/signed:latest' deployment to 'default'.
+
+- policy check failed, Policies [require_signed_images] failed with the following errors.
+* rule [error_on_unsigned_image] failed resource not found, no evidence found
+"}
+```
+
+To resolve this, sign your image using the Valint tool:
+
+```bash
+valint bom mycompany/signed:latest -o attest \
+  --components metadata \
+  --oci --oci-repo [oci-repo] [FLAGS]
+```
+
+> `--components metadata` minimizes the size of the SBOM.
+
+Then, re-apply the deployment:
+```bash
+kubectl apply -f signed-deployment.yaml
+```
+
+Upon successful deployment, you'll see a detailed evaluation summary in the admission logs, providing insights into the policy checks performed and their outcomes.
+
+```log
+[2024-03-17 09:47:28]  INFO verify: [TRUSTED] verify success, CA: x509-verifier, CN: Gatekeeper Root CA, Emails: [], URIs: []
+...
+[2024-03-11 10:05:27]  INFO Target 'mycompany/signed:latest' results
+[2024-03-11 10:05:27]  INFO Policy "require_signed_images" Evaluation Summary: 
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Policy "require_signed_images" Evaluation Summary                                                                         │
+├─────────────────────────┬────────┬────────────────────────┬───────────────────┬────────────────────────────────────────────┤
+│ RULE NAME               │ SIGNED │ SIGNATURE VERIFICATION │ POLICY EVALUATION │ COMMENT                                    │
+├─────────────────────────┼────────┼────────────────────────┼───────────────────┼────────────────────────────────────────────┤
+│ error_on_unsigned_image │ true   │ passed                 │                   │ 1/1 evidence origin and signature verified │
+├─────────────────────────┼────────┼────────────────────────┼───────────────────┼────────────────────────────────────────────┤
+│ AGGREGATE POLICY RESULT │        │                        │ PASSED            │                                            │
+└─────────────────────────┴────────┴────────────────────────┴───────────────────┴────────────────────────────────────────────┘
+```
