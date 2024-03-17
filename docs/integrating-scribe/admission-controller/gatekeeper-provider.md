@@ -648,14 +648,6 @@ Access requirement for Evidence creation (CI or local)
 - Write access to upload evidence using the `valint` tool.
 
 * Install Example
-helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
-  --namespace gatekeeper-valint --create-namespace \
-  --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
-  --set certs.tlsCrt="$(cat certs/tls.crt)" \
-  --set certs.tlsKey="$(cat certs/tls.key)" \
-  --set scribe.enable=true \
-  --set scribe.client_id=$SCRIBE_CLIENT_ID \
-  --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
 
 ```bash
 helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
