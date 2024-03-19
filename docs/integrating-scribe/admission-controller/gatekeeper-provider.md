@@ -252,7 +252,7 @@ spec:
 
 </details>
 
-In the output, you should see a rejected admission error due to the unsigned image.
+In the output, you should see a rejected admission error due to the unsigned image SBOM.
 
 ```log
 Error from server (Forbidden): error when creating "policy/examples/signed-deployment.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "
