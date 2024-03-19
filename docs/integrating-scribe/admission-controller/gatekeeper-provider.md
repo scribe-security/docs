@@ -559,7 +559,7 @@ helm upgrade scribe/gatekeeper-valint \
   --set image.imagePullSecrets="$(cat ~/.docker/config.json | base64 -w0)"
 ```
 
-Secret createcd should follow the following pattern
+Secret created should follow the following pattern
 ```yaml
 apiVersion: v1
 kind: Secret
