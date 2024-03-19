@@ -110,7 +110,7 @@ In your policies you then can set what rules should be verified over signed evid
 ```
 
 ### Signing evidence
-You can sign images or any type of evidence using Valint.
+You can sign image SBOMs or any other type of evidence using Valint.
 For more information see [attestation](https://scribe-security.netlify.app/docs/valint/attestations) page.
 
 ### X509-based Signatures
