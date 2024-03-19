@@ -266,7 +266,7 @@ Scribe Admission refused 'scribesecurity/signed:latest' deployment to 'default'.
 To resolve this, sign your image using the Valint tool:
 
 ```bash
-valint bom mycompany/signed:latest -o attest  --product-key scribesecurity/signed:latest [FLAGS]
+valint bom my_company/signed:latest -o attest  --product-key scribesecurity/signed:latest [FLAGS]
 ```
 
 Then, re-apply the deployment:
