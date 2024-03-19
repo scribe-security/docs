@@ -278,7 +278,7 @@ kubectl apply -f signed-deployment.yaml
 Upon successful deployment, you'll see a detailed evaluation summary in the admission logs, providing insights into the policy checks performed and their outcomes.
 
 ```log
-[2024-03-11 10:05:27]  INFO Target 'mycompany/signed:latest' results
+[2024-03-11 10:05:27]  INFO Target 'my_company/signed:latest' results
 [2024-03-11 10:05:27]  INFO Policy "require_signed_images" Evaluation Summary: 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Policy "require_signed_images" Evaluation Summary                                                                         │
