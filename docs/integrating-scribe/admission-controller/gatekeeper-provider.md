@@ -247,7 +247,7 @@ spec:
     spec:
       containers:
       - name: valid
-        image: mycompany/signed:latest
+        image: my_company/signed:latest
 ```
 
 </details>
