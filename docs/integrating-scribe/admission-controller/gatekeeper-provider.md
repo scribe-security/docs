@@ -206,7 +206,7 @@ select:
   apply:
   - namespace: "" # Any
     glob:
-    - "mycompany/**"
+    - "my_company/**"
     filter-by:
     - target
     policy:
