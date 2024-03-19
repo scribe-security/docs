@@ -638,11 +638,11 @@ Related configmap flags:
 >* `valint.attest.cocosign.storer.OCI.repo` - Evidence store location.
 
 ### Before you begin
-Access requirement for Provider
+To guarantee access requirements for the Provider, you need to provide an Image Pull secret with the following permissions:
 - Read access to download evidence for the provider.
 - Write access to upload policy report evidence for the provider.
 > Can be skipped when `valint.attest.report.disable` is set to true
-- Evidence can be stored in any accessible OCI registry.
+
 
 Access requirement for Evidence creation (CI or local)
 - Write access to upload evidence using the `valint` tool.
