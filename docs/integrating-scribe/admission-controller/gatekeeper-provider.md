@@ -263,7 +263,7 @@ Scribe Admission refused 'scribesecurity/signed:latest' deployment to 'default'.
 "}
 ```
 
-To resolve this, sign your image using the Valint tool:
+To resolve this, sign your image SBOM using the Valint tool:
 
 ```bash
 valint bom my_company/signed:latest -o attest  --product-key scribesecurity/signed:latest [FLAGS]
