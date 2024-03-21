@@ -40,6 +40,15 @@ attest:
 Or as a separate file, referenced in `--policy` flag (Early Availability)
 
 ```yaml
+defaults:
+  labels: []
+  initiatives: []
+  evidence:
+    signed: false
+    format-type: <format-type>
+    filter-by: []
+env:
+  ENV_VAR_1: "value"
 name: <policy_name>
 rules: # Set of rule settings/configuration and input
   - name: "<rule_name>"
@@ -53,6 +62,10 @@ rules: # Set of rule settings/configuration and input
       filter-by: [] # A group of Context fields to use for the evidence lookup
     with:  {} # rule input, depending on the rule type
 ```
+
+> Note the `defaults` section, which allows you to override values for the underlying rules, including evidence lookup parameters (which are used as defaults), labels and initatives (both appended to the existing lists).
+
+> Also note file-wise `env` values, used by `valint` for the [templating engine](#templating-policy-params).
 
 A single rule can also be described in a separate file and referenced by `--rule` flag (Early Availability)
 
