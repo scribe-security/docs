@@ -22,7 +22,7 @@ Policies can be configured as part of Valint configuration file, under the `poli
 ```yaml
 attest:
   cocosign:
-    policies:  # Set of policies - grouping rules
+    policies: # Set of policies - grouping rules
       - name: <policy_name>
         rules: # Set of rule settings/configuration and input
           - name: "<rule_name>"
@@ -35,10 +35,10 @@ attest:
               signed: false
               format-type: <format-type>
               filter-by: [] # A group of Context fields to use for the evidence lookup
-            with:  {} # rule input, depending on the rule type
+            with: {} # rule input, depending on the rule type
 ```
 
-Or as a separate file, referenced in `--policy` flag  (Early Availability, [see below](#external-policy-configs---early-availability))
+Or as a separate file, referenced in `--policy` flag (Early Availability, [see below](#external-policy-configs---early-availability))
 
 ```yaml
 defaults:
@@ -62,7 +62,7 @@ rules: # Set of rule settings/configuration and input
       signed: false
       format-type: <format-type>
       filter-by: [] # A group of Context fields to use for the evidence lookup
-    with:  {} # rule input, depending on the rule type
+    with: {} # rule input, depending on the rule type
 ```
 
 > Note the `defaults` section, which allows you to override values for the underlying rules, including evidence lookup parameters (which are used as defaults), labels and initatives (both appended to the existing lists).
@@ -82,7 +82,7 @@ evidence: #Evidence lookup parameters
   signed: false
   format-type: <format-type>
   filter-by: [] # A group of Context fields to use for the evidence lookup
-with:  {} # rule input, depending on the rule type
+with: {} # rule input, depending on the rule type
 ```
 
 > For configuration details, see the [configuration](./configuration.md) section.
@@ -421,9 +421,9 @@ verifier: {verifier-context}
 config:
 args: {custom script input}
 stores:
-   oci: {OCI store configuration}
-   cache: {Cache store configuration}
-   scribe: {Scribe store configuration}
+  oci: {OCI store configuration}
+  cache: {Cache store configuration}
+  scribe: {Scribe store configuration}
 ```
 
 > When using Signed Attestations, the Custom Rego script receives the raw In-toto statement along with the identity of the signer.
