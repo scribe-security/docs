@@ -37,15 +37,19 @@ It's also possible to determine how policy results are included in the output. T
 * `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default. -->
 
 ## Example
+
 To illustrate the process of creating attestations and evaluating policy results, consider the following example. In this case, we'll create a signed SBOM (Software Bill of Materials) evidence for the busybox image and then evaluate it against a policy named image-fresh.
 
 Create SBOM Evidence:
+
 ```bash
 valint bom busybox:latest -o attest
 ```
+
 We first use `valint bom` command generates a signed SBOM evidence for the busybox image using the default output format, which is an in-toto statement (attest).
 
 Evaluate Policy:
+
 ```bash
 valint verify busybox:latest -i attest --rule v1/images/image-fresh.yaml 
 ```

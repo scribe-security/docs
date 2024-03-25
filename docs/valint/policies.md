@@ -38,7 +38,7 @@ attest:
             with:  {} # rule input, depending on the rule type
 ```
 
-Or as a separate file, referenced in `--policy` flag (Early Availability)
+Or as a separate file, referenced in `--policy` flag  (Early Availability, [see below](#external-policy-configs---early-availability))
 
 ```yaml
 defaults:
@@ -48,7 +48,7 @@ defaults:
     signed: false
     format-type: <format-type>
     filter-by: []
-env:
+env: # File-wise environment variables for the template engine (see below)
   ENV_VAR_1: "value"
 name: <policy_name>
 rules: # Set of rule settings/configuration and input
@@ -69,7 +69,7 @@ rules: # Set of rule settings/configuration and input
 
 > Also note file-wise `env` values, used by `valint` for the [templating engine](#templating-policy-params).
 
-A single rule can also be described in a separate file and referenced by `--rule` flag (Early Availability)
+A single rule can also be described in a separate file and referenced by `--rule` flag (Early Availability, [see below](#external-policy-configs---early-availability))
 
 ```yaml
 name: "<rule_name>"
@@ -157,9 +157,9 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
       uris: [] # Signed URIs identities 
       common-names: [] # Signed common name identities
     {custom script input} # Any rule-specific input
-  path: <path to policy script>
+  path: <path to policy script> # OR script
   script-lang: rego # Currently only rego is supported
-  script: |
+  script: | # OR path
     package verify
 
     verify = v {
@@ -570,7 +570,8 @@ Context arguments are derived from the evidence context, enabling users to direc
 Replace `<var_name>` with the specific variable name from the evidence context that you want to use. Foe example, `{{ .Context.git_commit }}`.
 
 2. Environment-defined  
-Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.
+Environment arguments are derived from the environment variables. The syntax for referencing an environment variable is as follows: `{{ .Env.<var_name> }}`.  
+Note that one can define file-wise environment variables in the policy configuration file under the `env` field. These variables will only be used for the template evaluations in the file where they are defined.
 
 3. User-defined  
 Users can pass custom arguments through the command line using the `--rule-args` flag. These user-defined arguments are then referenced in the policy configuration using the following syntax: `{{ .Args.<var_name> }}`.
@@ -726,7 +727,7 @@ attest:
             - my@email.com
 ```
 
-Can be represented in an external file like
+Can be represented in an external `policy` file like
 
 ```yaml
 name: default
@@ -741,7 +742,7 @@ rules:
           - my@email.com
 ```
 
-or
+or in an external `rule` file like
 
 ```yaml
 name: "default-rule"
