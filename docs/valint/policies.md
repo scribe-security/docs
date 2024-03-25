@@ -28,6 +28,7 @@ attest:
           - name: "<rule_name>"
             path: "<rule_path>" # Specify if an external script is used
             description: "A brief rule description"
+            aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
             labels: [] # list of user-specified labels
             initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
             evidence: #Evidence lookup parameters
@@ -54,6 +55,7 @@ rules: # Set of rule settings/configuration and input
   - name: "<rule_name>"
     path: "<rule_path>" # Specify if an external script is used
     description: "A brief rule description"
+    aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
     labels: [] # list of user-specified labels
     initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
     evidence: #Evidence lookup parameters
@@ -73,6 +75,7 @@ A single rule can also be described in a separate file and referenced by `--rule
 name: "<rule_name>"
 path: "<rule_path>" # Specify if an external script is used
 description: "A brief rule description"
+aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
 labels: [] # list of user-specified labels
 initiatives: [] # list of related initatives, like SLSA, SSDF, etc.
 evidence: #Evidence lookup parameters
@@ -141,6 +144,8 @@ A rule of `verify-artifact` type can be used to enforce compliance with specific
 
 ```yaml
 - name: "" # Any user provided name
+  description: "A brief rule description"
+  aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
   evidence:
     signed: <true|false> # Define if target should be signed
     format-type: "<cyclonedx-json, slsa>" # Expected evidence format
