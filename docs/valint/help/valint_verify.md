@@ -22,8 +22,11 @@ Flags for `verify` subcommand
 | | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
 | -h | --help | help for verify | |
+| | --initiative | Run only rules with specified initiative | |
 | -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
+| | --policy | Policy configuration file path (early-availability) | |
 | | --rule | Rule configuration file path (early-availability) | |
+| | --rule-label | Run only rules with specified label | |
 | | --skip-bundle | Skip bundle download | |
 | | --skip-report | Skip Policy report stage | |
 | | --uri | Default policy allowed uris | |

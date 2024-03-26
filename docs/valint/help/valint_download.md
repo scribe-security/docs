@@ -15,6 +15,7 @@ Flags for `download` subcommand
 | | --folder-path | Folder to download the evidences of the given target | |
 | -o | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | -h | --help | help for download | |
+| | --payload | path of the decoded payload | |
 | | --ref | Evidence store refrence | |
 | | --store | Select evidence store | |
 
@@ -78,14 +79,15 @@ Flags for all `valint` subcommands
 
 ```
  valint download <target>
-<target> Target object name format=[<image:tag>, <dir path>, <git url>]
+<target> Target object name format=[<image:tag>, <dir path>, <git url>, <file path]
 
 valint download alpine:latest                                            download default (cyclonedxjson) sbom downloads to cache
 valint download alpine:latest --format statement                         download sbom with specified format
-valint download alpine:latest --format statement --output-dir <path>     download sbom with specified format in the specified output directory
+valint download alpine:latest --format statement --output-file <path>    download sbom with specified format in the specified output file
 valint download --ref <ref>                                              download sbom by ref (default storer is cache)
 valint download --ref <ref> --store <storer>                             download sbom by ref and storer
-valint download --ref <ref> --store <storer> --output-dir <path>         download sbom by ref and storer in the specified output directory
+valint download --ref <ref> --store <storer> --output-file <path>        download sbom by ref and storer in the specified output directory
+valint download alpine:latest --payload <path>                           download evidence payload in the specified output file.
 
 Format-aliases:
 * json=attest-cyclonedx-json
@@ -96,6 +98,14 @@ Format-aliases:
 Storers:
 * cache
 * scribe
+
+For example, to retrieve the SBOM from signed evidence:
+valint bom alpine:latest -o attest
+valint download alpine:latest --payload <path>
+
+For example, to retrieve third-party evidence from unsigned evidence:
+valint evidence some_file.json
+valint download some_file.json -o statement-generic --payload <path>
 
 ```
 
