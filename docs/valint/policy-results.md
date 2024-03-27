@@ -25,23 +25,31 @@ The `--format` option (or `-o` for short) is employed to specify the output form
 
 Additionally, you have the option to save a local copy of the uploaded statement using the `--output-file /path/to/file` option.
 
-<!-- ## Tuning policy results output
+## Tuning policy results output
 
 It's also possible to determine how policy results are included in the output. The supported options are:
 
-* `--result.by-rule` – aggregates all rule violations into one result per rule. By default, this option is disabled, meaning that each violation is pushed to SARIF as a separate result.
+* result-per-violation – each violation is pushed to SARIF as a separate result. This is the default behavior.
+
+* result-per-rule – all rule violations are aggregated into one result per rule. This option can be enabled separately for each rule by specifying `aggregate-results: true` in the rule configuration.
+
+<!-- * `--result.by-rule` – aggregates all rule violations into one result per rule. By default, this option is disabled, meaning that each violation is pushed to SARIF as a separate result.
 * `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default. -->
 
 ## Example
+
 To illustrate the process of creating attestations and evaluating policy results, consider the following example. In this case, we'll create a signed SBOM (Software Bill of Materials) evidence for the busybox image and then evaluate it against a policy named image-fresh.
 
 Create SBOM Evidence:
+
 ```bash
 valint bom busybox:latest -o attest
 ```
+
 We first use `valint bom` command generates a signed SBOM evidence for the busybox image using the default output format, which is an in-toto statement (attest).
 
 Evaluate Policy:
+
 ```bash
 valint verify busybox:latest -i attest --rule v1/images/image-fresh.yaml 
 ```

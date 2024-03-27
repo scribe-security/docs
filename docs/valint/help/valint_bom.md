@@ -24,9 +24,9 @@ Flags for `bom` subcommand
 | -f | --force | Force overwrite cache | |
 | -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | [cyclonedx-json] |
 | -h | --help | help for bom | |
-| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
-| | --package-group | Select package group, options=all | |
-| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel] | [ruby,python,javascript,java,dpkg,apk,rpm,go-module,dotnet,r-package,rust,binary,sbom,nix,conan,alpm,graalvm,cocoapods,swift,dart,elixir,php,erlang,github,portage,haskell,kernel] |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
+| | --package-group | Select package group, options=[index install all] | |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
 | | --supplier-email | Set supplier email | |
 | | --supplier-name | Set supplier name | |
 | | --supplier-phone | Set supplier phone | |
@@ -91,30 +91,30 @@ Flags for all `valint` subcommands
 ### Examples for running `valint bom`
 
 ```
-  valint  <target>
+  valint bom <target>
   
   <target> Target object name format=[<image:tag>, <dir path>, <git url>]
 
-  valint  alpine:latest                         create default (cyclonedxjson) sbom
-  valint  alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
-  valint  alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
-  valint  alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
-  valint  alpine:latest                     show verbose debug information
-  valint  alpine:latest -A "*/**"           collect files content in to SBOM
+  valint bom alpine:latest                         create default (cyclonedxjson) sbom
+  valint bom alpine:latest -o cyclonedxxml         create cyclonedx xml sbom
+  valint bom alpine:latest -o attest               create intoto attestation of cyclonedx sbom 
+  valint bom alpine:latest -o attest-slsa          create intoto attestation of SLSA provenance
+  valint bom alpine:latest                     show verbose debug information
+  valint bom alpine:latest -A "*/**"           collect files content in to SBOM
 
   Supports the following image sources:
-  valint  yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+  valint bom yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
 
   You can also explicitly specify the scheme to use:
-  valint  docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-  valint  podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
-  valint  docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-  valint  oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
-  valint  dir:path/to/yourproject                read directly from a path on disk (any directory)
-  valint  registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-  valint  file:path/to/yourproject/file          read directly from a path on disk (any single file)
-  valint  git:path/to/yourrepository             read directly from a local repository on disk
-  valint  git:https://github.com/yourrepository.git         read directly from a remote repository on git
+  valint bom docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+  valint bom podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
+  valint bom docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+  valint bom oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+  valint bom dir:path/to/yourproject                read directly from a path on disk (any directory)
+  valint bom registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+  valint bom file:path/to/yourproject/file          read directly from a path on disk (any single file)
+  valint bom git:path/to/yourrepository             read directly from a local repository on disk
+  valint bom git:https://github.com/yourrepository.git         read directly from a remote repository on git
 
   SBOM-Example:
   valint bom alpine:latest -o attest

@@ -42,34 +42,7 @@ bom:
   - commits
   package:
     group: ""
-    type:
-    - ruby
-    - python
-    - javascript
-    - java
-    - dpkg
-    - apk
-    - rpm
-    - go-module
-    - dotnet
-    - r-package
-    - rust
-    - binary
-    - sbom
-    - nix
-    - conan
-    - alpm
-    - graalvm
-    - cocoapods
-    - swift
-    - dart
-    - elixir
-    - php
-    - erlang
-    - github
-    - portage
-    - haskell
-    - kernel
+    type: []
     exclude-type: []
   attach-regex: []
   final-artifact: false
@@ -87,7 +60,10 @@ attest:
   config: ""
   bundle: https://github.com/scribe-public/sample-policies
   skip-bundle: true
+  policy_configs: []
   rule_configs: []
+  label_filters: []
+  initiative_filters: []
   default: sigstore
   report:
     add-passed: true
