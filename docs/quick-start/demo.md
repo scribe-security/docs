@@ -12,7 +12,6 @@ toc_max_heading_level: 5
 
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
@@ -29,7 +28,7 @@ To run the demo you need to:
 
 2. clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (the repo contains a simple ‘Hello-World’ app - an NPM based web server).  
 
-3. Define two new secret variables for the cloned repository to be used with the workflows: a `Client ID` and a `Client secret`. To do that, go to settings → Secrets and variables → Actions → New repository secret.
+3. Define a secret `Client secret` variables for the cloned repository to be used with the workflows. To do that, go to settings → Secrets and variables → Actions → New repository secret.
 
    - On GitHub.com, navigate to the main page of the repository.
 

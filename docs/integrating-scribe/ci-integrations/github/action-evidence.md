@@ -122,8 +122,6 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
-  scribe-client-id:
-    description: Scribe Client ID
   scribe-client-secret:
     description: Scribe Client Secret
   scribe-enable:
@@ -150,7 +148,7 @@ The `valint evidence` action is a versatile action designed to include various t
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence@v1.3.0
+  uses: scribe-security/action-evidence@v1.3.1
   with:
     target: some_file.json
 ```
@@ -158,7 +156,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence-cli@v1.3.0
+  uses: scribe-security/action-evidence-cli@v1.3.1
   with:
     target: some_file.json
 ```
@@ -289,7 +287,6 @@ Related Flags:
 ### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>

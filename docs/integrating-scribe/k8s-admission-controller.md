@@ -218,7 +218,6 @@ After installing the admission you you want to upload evidence .
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 valint [bom,slsa,evidence] [target] -o [attest, statement] -E \
-  -U $SCRIBE_CLIENT_ID \
   -P $SCRIBE_CLIENT_SECRET
 ```
 
@@ -254,7 +253,6 @@ helm uninstall -n scribe admission-controller
 | config.context.name | string | `""` | Scribe Project Key |
 | config.verify.input-format | string | `"attest"` | Evidence format |
 | imagePullSecrets | list | `[]` | OCI evidence store secret name |
-| scribe.auth.client_id | string | `""` | Scribe Client ID |
 | scribe.auth.client_secret | string | `""` | Scribe Client Secret |
 | scribe.service.enable | bool | `false` | Scribe Client Enable |
 | serviceMonitor.enabled | bool | `false` |  |

@@ -11,7 +11,7 @@ toc_max_heading_level: 5
 1. If you haven't yet done so, open a free Scribe Hub account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
 
 
-2. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
+2. Get your **Client Secret** credentials from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 

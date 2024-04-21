@@ -19,7 +19,6 @@ Call the following from your build script after the build artifact is complete:
 # Create signed SLSA Provenance
 valint slsa [target] -o attest --context-type [jenkins github circleci azure gitlab travis bitbucket] 
  -E \
- -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
 ```
 Where `[Target]` is the build artifact name. You can find signing configuration instructions **[here](../../guides/enforcing-sdlc-policy)**.

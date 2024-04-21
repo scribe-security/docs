@@ -121,7 +121,6 @@ Flags for all `valint` subcommands
 | PRODUCT_KEY     | Product Key                                                                                                                   |                    |
 | PRODUCT_VERSION | Product Version                                                                                                               |                    |
 | QUIET           | Suppress all logging output                                                                                                   |                    |
-| SCRIBE_CLIENT_ID| Scribe Client ID                                                                                                              |                    |
 | SCRIBE_CLIENT_SECRET| Scribe Client Secret                                                                                                      |                    |
 | SCRIBE_ENABLE   | Enable scribe client                                                                                                          |                    |
 | SCRIBE_URL      | Scribe API Url                                                                                                                | "https://api.scribesecurity.com" | any |
@@ -262,15 +261,13 @@ Related Flags:
 
 > Note the flag set:
 >
-> * `SCRIBE_CLIENT_ID`
-> * `SCRIBE_CLIENT_ID`
+> * `SCRIBE_CLIENT_SECRET`
 > * `SCRIBE_ENABLE`
 
 ### Before you begin
 
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='assets/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
@@ -292,7 +289,6 @@ pipelines:
               TARGET:  [target]
               FORMAT: [attest, statement]
               SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 
           - pipe: scribe-security/valint-pipe:1.1.0
@@ -301,7 +297,6 @@ pipelines:
               TARGET:  [target]
               INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
               SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 
@@ -540,7 +535,6 @@ step:
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 
@@ -558,7 +552,6 @@ step:
     variables:
       COMMAND: slsa
       TARGET: dir:./testdir
-      SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
       SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 
