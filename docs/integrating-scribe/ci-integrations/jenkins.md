@@ -69,7 +69,6 @@ node {
 ### Acquiring credentials from Scribe Hub
 Integrating Scribe Hub with Jenkins requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
@@ -79,12 +78,12 @@ Integrating Scribe Hub with Jenkins requires the following credentials that are 
 1. Go to your Jenkins Web Console.
 1. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
 1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
-1. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**.
+1. To add `Client Secret`, in the **Global credentials** area, click **+ Add Credentials**.
 A new **Credentials** form opens.
 1. In the **Kind** field, select **Username with password**.
 
 1. Set **ID** to **`scribe-auth-id`** (lowercase).
-1. Copy the *Client ID* provided by Scribe to the **Username**.
+1. Enter any value in to **Username** field.
 1. Copy the *Client Secret* provided by Scribe to the **Password**.
 1. Leave **Scope** as **Global**.
 1. Click **Create**.
@@ -165,7 +164,7 @@ The examples use a sample pipeline building a Mongo express project.
               valint bom dir:mongo-express-scm \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -184,7 +183,7 @@ The examples use a sample pipeline building a Mongo express project.
               valint bom mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_CLIENT_SECRET '''
             }
         }
       }
@@ -215,7 +214,7 @@ The examples use a sample pipeline building a Mongo express project.
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
       }
     }
 
@@ -233,7 +232,7 @@ The examples use a sample pipeline building a Mongo express project.
          valint verify busybox:latest -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_CLIENT_SECRET '''
         }
       }
   }
@@ -280,7 +279,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -294,7 +293,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -345,7 +344,7 @@ pipeline {
             valint slsa mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_CLIENT_SECRET '''
           }
         }
       }
@@ -359,7 +358,7 @@ pipeline {
             valint verify mongo-express:1.0.0-alpha.4 -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
@@ -436,7 +435,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
@@ -448,7 +447,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
           }
       }
     }
@@ -480,7 +479,7 @@ pipeline {
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
@@ -492,7 +491,7 @@ pipeline {
             valint verify busybox:latest -i statement-slsa \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
           }
       }
     }

@@ -18,8 +18,7 @@ The general Valint call structure is:
   # Create an unsigned SLSA Provenance Document
   valint slsa [target] -o statement \
   -E \
-  -U [SCRIBE_CLIENT_ID] \
-  -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_CLIENT_SECRET]
 ```
 Where `[Target]` is the build artifact and `-E` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
 
@@ -30,8 +29,7 @@ Verify downstream that the attestation exists in the **[evidence store](../../in
 ```
   valint verify [target] -i statement-slsa \
   -E \
-  -U [SCRIBE_CLIENT_ID] \
-  -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_CLIENT_SECRET]
 ```
 #### Examples
 
@@ -64,7 +62,7 @@ scribe-gitlab-job:
           -o attest-slsa
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          -E -P $SCRIBE_CLIENT_SECRET
 ```
 </details>
 
@@ -94,7 +92,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET \
+        -E -P $SCRIBE_CLIENT_SECRET \
 ```
 </details>
 
@@ -110,7 +108,6 @@ name: scribe-bitbucket-pipeline
               TARGET:  [target]
               FORMAT: attest-slsa
               SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_ID: $SCRIBE_CLIENT_ID
               SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
 ```
 </details>

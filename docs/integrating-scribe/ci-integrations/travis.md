@@ -77,12 +77,11 @@ Related Flags:
 ### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-* Add the credentials (client id, client secret, and product key) to your Travis environment according to the **[Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables")** to avoid revealing secrets.
+* Add the credentials (client secret, and product key) to your Travis environment according to the **[Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables")** to avoid revealing secrets.
 
 * Open your Travis project and make sure you have a YAML file named `.travis-ci.yml`.
 The code in the following examples of a workflow running on the mongo-express image 
@@ -109,7 +108,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET 
+        -E -P $SCRIBE_CLIENT_SECRET 
 
         
   - |
@@ -117,7 +116,7 @@ script:
         --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET 
+        -E -P $SCRIBE_CLIENT_SECRET 
 ```
 
 ### Alternative evidence stores

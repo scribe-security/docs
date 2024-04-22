@@ -80,12 +80,11 @@ Scribe evidence store allows you store evidence using scribe Service.
 #### Before you begin
 Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
-Enable Scribe client and add related `Client ID` and `Client Secret`.
+Enable Scribe client and add related `Client Secret`.
 
 ```bash
 helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
@@ -94,7 +93,6 @@ helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
   --set certs.tlsCrt="$(cat certs/tls.crt)" \
   --set certs.tlsKey="$(cat certs/tls.key)" \
   --set scribe.enable=true \
-  --set scribe.client_id=$SCRIBE_CLIENT_ID \
   --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
 ```
 > Credentials will be stored as a secret named `valint-scribe-cred-secret`.

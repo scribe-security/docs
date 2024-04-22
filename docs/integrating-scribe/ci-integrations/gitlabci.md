@@ -80,7 +80,6 @@ Related Flags:
 ### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
@@ -112,14 +111,14 @@ scribe-gitlab-job:
           -o [attest, statement]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          -E -P $SCRIBE_CLIENT_SECRET
           -f
 
       - valint verify [target]
           -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET
+          -E -P $SCRIBE_CLIENT_SECRET
 ```
 
 > Use `gitlab` as context-type.

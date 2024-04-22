@@ -118,8 +118,6 @@ The command allows users to verify any target against its evidence.
     description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
-  scribe-client-id:
-    description: Scribe Client ID
   scribe-client-secret:
     description: Scribe Client Secret
   scribe-enable:
@@ -141,7 +139,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.3.0
+  uses: scribe-security/action-verify@v1.3.1
   with:
       target: 'busybox:latest'
 ```
@@ -149,7 +147,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.3.0
+  uses: scribe-security/action-verify-cli@v1.3.1
   with:
     target: 'hello-world:latest'
 ```
@@ -288,7 +286,6 @@ Related Flags:
 ### Before you begin
 Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>

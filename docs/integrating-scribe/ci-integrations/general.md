@@ -9,7 +9,6 @@ toc_max_heading_level: 5
 ### Before you begin
 Integrating Scribe Hub with a generic CI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
 
-* **Client ID**
 * **Client Secret**
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
@@ -22,12 +21,11 @@ Integrating Scribe Hub with a generic CI requires the following credentials that
       curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
       ```
 2. Add the credentials to your CI system.
-Here is an example for setting your *client id* and *client secret* credentials as environment variables:  
+Here is an example for setting your *client secret* credentials as environment variables:  
    ```js
-   export CLIENT-ID=<client_id>
    export CLIENT-SECRET=<client_secret>
    ```
-   Replace <client_id> with the client id value you received from **Scribe Hub** and the same goes for the <client_secret> to set them up as environment variables. 
+   Replace <client_secret> with value you received from **Scribe Hub** to set it up as environment variables. 
 
 3. Call Scribe `valint` from your build script.
 <!--- Copy from illustration -->
