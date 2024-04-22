@@ -38,8 +38,7 @@ build:
         target: 'git:.'
         scribe-enable: true
         product-key: ${{ github.repository }}
-        scribe-client-id: ${{ secrets.CLIENT_ID }}
-        scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
+         scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
         label: is_git_commit
         format: attest
 ```

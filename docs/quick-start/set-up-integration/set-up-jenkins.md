@@ -11,7 +11,7 @@ toc_max_heading_level: 5
 1. If you haven't yet done so, open a free Scribe Hub account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
 
 
-2. Get your **Client ID** and **Client Secret** credentials from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
+2. Get your **Client Secret** credentials from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page. 
 
 <img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
 
@@ -24,10 +24,10 @@ toc_max_heading_level: 5
 5. Select 'Global' in the list of domains:
   <img src='../../../../img/start/jenkins-global.jpg' alt='Jenkins Global domain' width='40%' min-width='300px'/>
 
-6. To add Client ID and Client Secret, in the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
+6. To add Client Secret, in the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
   <img src='../../../../img/start/jenkins-add-credentials.jpg' alt='Jenkins Add Credentials'/>
 
-7. Apply the **Client ID** provided by Scribe to the **Username** and the **Client Secret** to the **Password**.
+7. Apply the **Client Secret** provided by Scribe to the **Password**, Username can be filled in with anything.
   <img src='../../../../img/start/jenkins-username.jpg' alt='Jenkins Credentials Username/Password' width='70%' min-width='600px'/>
 
 8. Set **ID** to **`scribe-auth-id`** (lowercase).
@@ -87,7 +87,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
         }
       }
     }
@@ -106,7 +106,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -U $SCRIBE_CLIENT_ID -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_CLIENT_SECRET '''
           }
       }
     }

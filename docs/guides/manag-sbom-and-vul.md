@@ -14,7 +14,6 @@ In your build script call,
 ```
 valint bom <target> -o [statement, attest] <flags> \
  -E \
- -U [SCRIBE_CLIENT_ID] \
  -P [SCRIBE_CLIENT_SECRET]
 ```
 
