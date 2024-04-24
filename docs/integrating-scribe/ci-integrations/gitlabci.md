@@ -77,14 +77,11 @@ Related Flags:
 >* `-P`, `--scribe.client-secret`
 >* `-E`, `--scribe.enable`
 
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+### Setting up the Scribe Hub API Token in GitLab CI
 
-* **Client Secret**
+Integrating Scribe Hub with your environment requires an API token which you can create in Scribe Hub [here] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration. 
 
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Store credentials using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**. 
+* Set your Scribe Hub API token in GitLab according to **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**. 
 
 * Open your GitLab project and make sure you have a yaml file named `.gitlab-ci.yml`.
 
