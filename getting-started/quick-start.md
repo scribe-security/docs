@@ -22,7 +22,7 @@ To run the demo you need to:
 
 3. Create a [Scribe Hub API Token] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. YOu should copy it to a safe temporary notepad until you finish this demo.
    
-5. Create a new secret for your cloned repo, `Client secret` and set its value to the Scribe Hub API token value. Go to settings → Secrets and variables → Actions → New repository secret.
+5. Create a new secret for your cloned repo, and set its value to the Scribe Hub API token value. 
 
    - On GitHub.com, navigate to the main page of the repository.
 
@@ -34,7 +34,7 @@ To run the demo you need to:
 
    - At the top of the page, click `New repository secret`.
 
-   - Type a name for your secret in the `Name` input box. you need to add 2 secrets, `CLIENT_ID` and `CLIENT_SECRET`.
+   - Type `CLIENT_SECRET` as name for your secret in the `Name` input box.
 
    - Enter the value for your secret.
 
@@ -45,7 +45,7 @@ Click ‘I understand my workflows, go ahead and enable them’.
 
    <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
 
-This would lead you to your 'Actions' tab:   
+You will be redirected to the 'Actions' tab:   
 
    <img src='../../../img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>  
 
