@@ -8,14 +8,6 @@ toc_max_heading_level: 5
 
 <!-- ## Try Scribe on a sample Git Project -->
 
-### Before you begin
-
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
-
 ### Using Scribe on a Sample Project
 
 This is a demo deployment of Scribe on a sample git project consisting of a source code repository and a simple CI pipeline implemented using Git workflows. Running the provided workflow will demonstrate how to use Scribe’s tools to generate signed evidence (AKA attestations) from 3 stages of the CI pipeline.
@@ -24,11 +16,13 @@ The evidence created will be uploaded to the Scribe SaaS platform, and allow the
 
 To run the demo you need to:
 
-1. login to your GitHub account.
+1. Login to your GitHub account.
 
-2. clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (the repo contains a simple ‘Hello-World’ app - an NPM based web server).  
+2. Clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (this repo contains a simple ‘Hello-World’ app - an NPM based web server).  
 
-3. Define a `Client secret` variables for the cloned repository to be used with the workflows. To do that, go to settings → Secrets and variables → Actions → New repository secret.
+3. Create a [Scribe Hub API Token] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. YOu should copy it to a safe temporary notepad until you finish this demo.
+   
+5. Create a new secret for your cloned repo, `Client secret` and set its value to the Scribe Hub API token value. Go to settings → Secrets and variables → Actions → New repository secret.
 
    - On GitHub.com, navigate to the main page of the repository.
 
@@ -42,11 +36,11 @@ To run the demo you need to:
 
    - Type a name for your secret in the `Name` input box. you need to add 2 secrets, `CLIENT_ID` and `CLIENT_SECRET`.
 
-   - Enter the value for your secret. In both cases the secret value was the one you get from your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **Integrations** page.
+   - Enter the value for your secret.
 
    - Click `Add secret`.
 
-4. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
+6. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
 Click ‘I understand my workflows, go ahead and enable them’.
 
    <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
