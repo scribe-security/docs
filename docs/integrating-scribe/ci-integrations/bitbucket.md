@@ -264,15 +264,10 @@ Related Flags:
 > * `SCRIBE_CLIENT_SECRET`
 > * `SCRIBE_ENABLE`
 
-### Before you begin
+### Setting up the Scribe Hub API Token in Bitbucket
+Integrating Scribe Hub with your environment requires an API token which you can create in Scribe Hub [here] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration. 
 
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='assets/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Set your Scribe credentials as environment variables according to **[Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions")**.
+* Set your Scribe Hub API token as an environment variable according to **[Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions")**.
 * Use the Scribe custom pipe as shown in the example bellow
 
 ### Usage
