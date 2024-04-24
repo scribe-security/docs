@@ -66,59 +66,50 @@ node {
 }
 ```
 
-### Acquiring credentials from Scribe Hub
-Integrating Scribe Hub with Jenkins requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+## Scribe Hub Integration steps
 
-* **Client Secret**
+1. ### Install Scribe CLI
+Scribe CLI, **Valint**, is required to generate evidence in such as SBOMs and SLSA provenance. 
+Install the Scribe `valint` CLI tool:
+```javascript
+    stage('install-valint') {
+        steps {
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+```
+2. ### Configure a Scribe Hub API key in Jenkins
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com), or sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+2. Create an API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
+  
+3. Login to your Jenkins Web Console and select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
+  <img src='../../../../img/start/jenkins-1.jpg' alt='Jenkins Dashboard - Manage credentials'/>
 
-### Adding Credentials to Jenkins
+4. Select 'Global' in the list of domains:
+  <img src='../../../../img/start/jenkins-global.jpg' alt='Jenkins Global domain' width='40%' min-width='300px'/>
 
-1. Go to your Jenkins Web Console.
-1. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
-1. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
-1. To add `Client Secret`, in the **Global credentials** area, click **+ Add Credentials**.
-A new **Credentials** form opens.
-1. In the **Kind** field, select **Username with password**.
+5. To add Client Secret, in the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
+  <img src='../../../../img/start/jenkins-add-credentials.jpg' alt='Jenkins Add Credentials'/>
 
-1. Set **ID** to **`scribe-auth-id`** (lowercase).
-1. Enter any value in to **Username** field.
-1. Copy the *Client Secret* provided by Scribe to the **Password**.
-1. Leave **Scope** as **Global**.
-1. Click **Create**.
-1. Another Global credential is created as a **Username with Password** (Kind)
+6. Copy the Scribe Hub API Token to the **Password** field, Set the Username to `SCRIBE_CLIENT_ID`.
+  <img src='../../../../img/start/jenkins-username.jpg' alt='Jenkins Credentials Username/Password' width='70%' min-width='600px'/>
 
+7. Set **ID** to `scribe-auth-id` (lowercase).
+  <img src='../../../../img/start/jenkins-auth-id.jpg' alt='Jenkins Credentials ID' width='40%' min-width='300px'/>
 
-<!-- The final state of the secrets definition should be as shown in the following screenshot:
-![Jenkins Credentials](../../../../../img/ci/JenkinsCredentials.png "Scribe Credentials integrated as Global Jenkins credentials")
-  -->
+8. Click **Create**.
+  <img src='../../../../img/start/jenkins-cred-create.jpg' alt='Jenkins Credentials Create' width='40%' min-width='300px'/>
 
 ### Avoiding costly commits
-To avoid potentially costly commits, we recommended adding the Scribe output directory to your .gitignore file.
-By default, add `**/scribe` to your .gitignore.
+To avoid potentially costly commits, add the Scribe output directory (`**/scribe`) to your .gitignore file.
 
-<!---
-### Using Jenkins Shared Library (JSL)
+### Instrumenting your build scripts
 
-Use JSL to ease your integration. 
-Read [Scribe JSL Documentation](./JSL/) for instructions.
--->
-
-### Procedure
-Scribe installation includes Command Line Interpreter (CLI) tools. Scribe provides the following a CLI tool called **Valint**. This tool is used to generate evidence in the form of SBOMs as well as SLSA provenance.  
-
-Every integration pipeline is unique. 
-Integrating Scribe's code into your pipeline varies from one case to another.
-
-The following are examples that illustrate where to add Scribe code snippets. 
-
-The code in these examples of a workflow executes these steps:
-1. Calls `valint` right after checkout to collect hash value evidence of the source code files and upload the evidence.
-2. Calls `valint` to generate an SBOM from the final Docker image and upload the evidence.
- 
-The examples use a sample pipeline building a Mongo express project. 
-
+The following examples demonstrate using Valint to collect evidence of source code and image SBOMs:
+1. Post checkout for a source code SBOM
+2. Post image build for SBOM for an image SBOM
+   
 #### Jenkins over Docker
 
 <details>
@@ -134,7 +125,7 @@ The examples use a sample pipeline building a Mongo express project.
 
   * A `docker` is installed on your build node in Jenkins.
 
-  **Procedure**
+  **Instrumentation**
 
   <details>
     <summary>  <b> Sample integration code </b> </summary>
@@ -397,14 +388,14 @@ spec:
 
 </details>
 
-#### Jenkins over Vanilla (No Agent)
+#### Vanilla Jenkins (No Agent)
 <details>
   <summary> <b> Jenkins Vanilla (No Agent) </b></summary>
   <h3>  Prerequisites </h3>
 
  `curl` installed on your build node in Jenkins.
 
-**Procedure**
+**Instrumentation**
 
 <details>
   <summary>  <b> Sample integration code </b> </summary>
@@ -521,7 +512,7 @@ Related flags:
 
 
 ### Before you begin
-Evidence can be stored in any accusable registry.
+Evidence can be stored in any accessible registry.
 * Write access is required for upload (generate).
 * Read access is required for download (verify).
 
@@ -636,22 +627,6 @@ Related environment:
 > While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
 
 > While using `x509-env` Refrain from using `slsa` command `--all-env`
-
-
-#### Adding Credentials to Jenkins
-1. Go to your Jenkins Web Console.
-2. Select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
-3. Go to the Global Credential setup: click on any one of the clickable **Global** Domains in the **Domain** column.
-4. To add Attestation key, cert and CA, in the **Global credentials** area, click **+ Add Credentials**.
-A new **Credentials** form opens.
-
-Repeat the following to attach secrets for your local `key`, `cert` and `ca` files
-1. In the **Kind** field, select **Secret File**.
-2. Set related **ID** **`attest-key`**, **`attest-cert`** and **`attest-ca`** (lowercase).
-3. Choose related local file.
-4. Click **Create**.
-
-3 new Global credential are created with **Secret File** (Kind)
 
 > Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
 
