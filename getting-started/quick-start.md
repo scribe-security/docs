@@ -22,7 +22,7 @@ To run the demo you need to:
 
 3. Create a [Scribe Hub API Token] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. YOu should copy it to a safe temporary notepad until you finish this demo.
    
-5. Create a new secret for your cloned repo, and set its value to the Scribe Hub API token value. 
+4. Create a new secret for your cloned repo, and set its value to the Scribe Hub API token value. 
 
    - On GitHub.com, navigate to the main page of the repository.
 
@@ -40,7 +40,7 @@ To run the demo you need to:
 
    - Click `Add secret`.
 
-6. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
+5. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
 Click ‘I understand my workflows, go ahead and enable them’.
 
    <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
@@ -51,7 +51,7 @@ You will be redirected to the 'Actions' tab:
 
    From the actions available on the left panel select *`Create signed git commit sbom`* and click `Run workflow`.  Once the workflow finished executing, a signed attestation (an SBOM) has been generated and automatically uploaded to your Scribe Hub account.
 
-5. At this point you can run the build pipeline - build the project and containerize it. You can do this by running the *`Create signed git clone and signed image SBOMs`* workflow. As the name suggests, this workflow will generate a signed SBOM of the git repo cloned into the pipeline and another signed SBOM of the final built docker image.  
+6. At this point you can run the build pipeline - build the project and containerize it. You can do this by running the *`Create signed git clone and signed image SBOMs`* workflow. As the name suggests, this workflow will generate a signed SBOM of the git repo cloned into the pipeline and another signed SBOM of the final built docker image.  
 
    Both attestations will be uploaded to your Scribe Hub account. Now you can view the project details on the **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** **products** page of your Scribe Hub account.
 
