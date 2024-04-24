@@ -59,14 +59,11 @@ Related Flags:
 >* `scribe-client-secret`
 >* `scribe-enable`
 
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+### Setting up the Scribe Hub API Token in CircleCI
 
-* **Client Secret**
+Integrating Scribe Hub with your environment requires an API token which you can create in Scribe Hub [here] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration. 
 
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Set your Scribe credentials as environment variables according to **[CircleCI environment variables instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project "CircleCI embedding environment variables instructions")**.
+* Set your Scribe Hub API token as an environment variable according to **[CircleCI environment variables instructions](https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project "CircleCI embedding environment variables instructions")**.
 * Follow instructions and examples on the CircleCI **[ScribeHub Orb page](https://circleci.com/developer/orbs/orb/scribe-security/orbs "Instructions for using ScribeHub Orb")**.
 
 
