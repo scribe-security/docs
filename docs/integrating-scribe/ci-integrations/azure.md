@@ -6,7 +6,7 @@ sidebar_position: 4
 
 Scribe offers users of Azure Pipelines to use DevOps Tasks for embedding evidence collection and integrity verification in their workflows.
 
-Task in Azure DevOps is a feature that enables users to create, schedule, and manage tasks from a central location. Task provides users with an easy way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
+A Task in Azure DevOps enables users to create, schedule, and manage tasks from a central location. Task provides users with a way to automate common workflows and activities in Azure DevOps. It provides several actions enabling the generation of SBOMs from various sources.
 The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the Azure DevOps pipelines or to the Scribe Service.
 
 ### Installation
@@ -70,15 +70,11 @@ Related Flags:
 >* `scribeClientSecret`
 >* `scribeEnable`
 
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+### Setting up the Scribe Hub API Token in Azure Pipelines
 
-* **Client Secret**
+Integrating Scribe Hub with your environment requires an API token which you can create in Scribe Hub [here] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration. 
 
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-
-* Add the credentials to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**. 
+* Add the Scribe Hub API token to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**. 
 
 * Open your Azure DevOps project and make sure you have a YAML file named `azure-pipelines.yml`.  
 
