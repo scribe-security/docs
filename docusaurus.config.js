@@ -146,6 +146,8 @@ const config = {
                 "scribe-hub-reports/sbom.md",
                 "scribe-hub-reports/vulnerabilities.md",                                                                               
                 "scribe-api/README.md",
+                "platforms/overview.md",
+                "platforms/gitlab-integration.md",
                 // "advanced-guide/generating-sboms.md",
                 // "advanced-guide/source-code-integrity.md",
                 // "advanced-guide/standalone-deployment/README.md",
