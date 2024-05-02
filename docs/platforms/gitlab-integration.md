@@ -13,6 +13,33 @@ The integration revolves around three main stages: `discovery`, `bom-sign`, and 
 
 Reusable Jobs Can be pulled from the following [repository](https://github.com/scribe-public/gitlab_platforms.git).
 
+### Quick-start
+To use our provided reusable Jobs, add the 'include' section with a 'remote' reference:
+
+```yaml
+include:
+  - remote: `https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/[ Job ]
+    inputs:
+      [ARGS]
+
+```
+
+2. **Set Global Variables**: Customize global variables according to your environment and requirements.
+
+3. **Configure Stages**: Customize stages based on your platform (GitLab, Dockerhub, or Kubernetes).
+
+4. **Adjust Runner Considerations**: Ensure your CI/CD runner environment meets the necessary requirements for cache management and optimal performance.
+
+You may find the reusable Jobs in the following location.
+- [GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-gitlab.yml)
+- [Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-dockerhub.yml)
+- [Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-k8s.yml)
+- [BOM Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/bom-dockerhub.yml)
+- [BOM Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/bom-k8s.yml)
+- [Policy GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/policy-gitlab.yml)
+- [Policy Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/policy-dockerhub.yml)
+- [Policy Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/policy-k8s.yml)
+
 ### Usage
 
 <details>
@@ -45,14 +72,14 @@ stages:
 
 include:
   # DISCOVERY
-  - local: gitlab-ci.d/discover-gitlab.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-gitlab.yml
     inputs:
       project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
       organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
       gitlab-token: ${GITLAB_TOKEN}
 
   # POLICY
-  - local: gitlab-ci.d/policy-gitlab.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-gitlab.yml
     inputs:
       project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
       organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
@@ -142,19 +169,19 @@ stages:
 
 include:
   # DISCOVERY
-  - local: gitlab-ci.d/discover-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
       username: ${DOCKERHUB_USERNAME}
       password-b64: ${DOCKERHUB_PASSWORD_B64}
 
   # BOM
-  - local: gitlab-ci.d/bom-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
 
   # POLICY
-  - local: gitlab-ci.d/policy-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
 
@@ -250,19 +277,19 @@ stages:
 
 include:
   # DISCOVERY
-  - local: gitlab-ci.d/discover-gitlab.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-gitlab.yml
     inputs:
       project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
       organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
       gitlab-token: ${GITLAB_TOKEN}
 
-  - local: gitlab-ci.d/discover-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
       username: ${DOCKERHUB_USERNAME}
       password-b64: ${DOCKERHUB_PASSWORD_B64}
 
-  - local: gitlab-ci.d/discover-k8s.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-k8s.yml
     inputs:
       namespace-mapping: "*default*::factory2::V.2"
       pod-mapping: "*::factory2::V.2"
@@ -270,25 +297,25 @@ include:
       url: ${K8S_TOKEN}
 
   # BOM
-  - local: gitlab-ci.d/bom-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
 
-  - local: gitlab-ci.d/bom-k8s.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-k8s.yml
     inputs:
       mapping: "*default*::*::*::factory2::V.2"
 
   # POLICY
-  - local: gitlab-ci.d/policy-gitlab.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-gitlab.yml
     inputs:
       project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
       organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
 
-  - local: gitlab-ci.d/policy-dockerhub.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-dockerhub.yml
     inputs:
       mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
 
-  - local: gitlab-ci.d/policy-k8s.yml
+  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-k8s.yml
     inputs:
       mapping: "*default*::*::*::factory2::V.2"
 
