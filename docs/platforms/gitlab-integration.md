@@ -503,7 +503,7 @@ The `policy` stage evaluates the security framework policy against signed eviden
 | `policy-dockerhub`        | Evaluates policy against Dockerhub evidence. |
 | `policy-k8s`              | Evaluates policy against Kubernetes evidence. |
 
-The next chapters of this documentation provides a comprehensive guide to seamlessly integrating the Scribe Security Platform into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
+The next chapters of this documentation provide a comprehensive guide to seamlessly integrating the Scribe Security Platform into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
 
 ## Runner Considerations
 
