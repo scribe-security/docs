@@ -540,8 +540,8 @@ Effortlessly configure global variables to tailor the integration to your specif
 | `VALINT_CONTEXT_TYPE`            | Context type to use.                                            |
 | `VALINT_DISABLE_EVIDENCE_CACHE`  | Disable evidence cache.                                         |
 | `ATTEST_KEY_B64`                 | Evidence signing key.                                           |
-| `ATTEST_CERT_B64`                | Evidence signing certificate.                                   |
-| `ATTEST_CA_B64`                  | Evidence signing CA.                                            |
+| `ATTEST_CERT_B64`                | Evidence signing certificate (use PEM format).                                   |
+| `ATTEST_CA_B64`                  | Evidence signing CA (use PEM format).                                            |
 | `GITLAB_TOKEN`                   | GitLab discovery token.                                         |
 | `K8S_TOKEN`                      | Kubernetes discovery token.                                     |
 | `K8S_URL`                        | Kubernetes discovery URL.                                       |
