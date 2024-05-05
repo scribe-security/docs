@@ -505,7 +505,7 @@ The `policy` stage evaluates the security framework policy against signed eviden
 
 The next chapters of this documentation provide a comprehensive guide to seamlessly integrating the Scribe Security Platform into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
 
-### Using custom x509 keys
+## Using custom x509 keys
 
 Utilizing X509 Keys for Platform Jobs
 
