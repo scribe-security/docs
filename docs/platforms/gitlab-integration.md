@@ -34,9 +34,9 @@ include:
 
 You may find the reusable Jobs in the following location.
 
-- [GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-gitlab.yml)
-- [Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-dockerhub.yml)
-- [Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-k8s.yml)
+- [Discover GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-gitlab.yml)
+- [Discover Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-dockerhub.yml)
+- [Discover Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-k8s.yml)
 - [BOM Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/bom-dockerhub.yml)
 - [BOM Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/bom-k8s.yml)
 - [Policy GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/policy-gitlab.yml)
