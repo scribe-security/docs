@@ -78,7 +78,7 @@ Install the Scribe `valint` CLI tool:
         }
     }
 ```
-2. ### Configure a Scribe Hub API key in Jenkins
+2. ### Configure a Scribe Hub API Token in Jenkins
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com), or sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
 2. Create an API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
@@ -89,7 +89,7 @@ Install the Scribe `valint` CLI tool:
 4. Select 'Global' in the list of domains:
   <img src='../../../../img/start/jenkins-global.jpg' alt='Jenkins Global domain' width='40%' min-width='300px'/>
 
-5. To add Client Secret, in the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
+5. In the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
   <img src='../../../../img/start/jenkins-add-credentials.jpg' alt='Jenkins Add Credentials'/>
 
 6. Copy the Scribe Hub API Token to the **Password** field, Set the Username to `SCRIBE_CLIENT_ID`.
