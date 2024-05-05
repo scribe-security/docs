@@ -458,7 +458,7 @@ policy-k8s:
 
 </details>
 
-## `Discovery` Stage
+## `discovery` Stage
 
 In the `discovery` stage, assets are identified within your GitLab, Dockerhub, or Kubernetes environments. These assets are then stored in a database, and evidence is generated for subsequent analysis.
 
@@ -482,7 +482,7 @@ In the `discovery` stage, assets are identified within your GitLab, Dockerhub, o
 | `discovery-dockerhub`     | Discovers artifacts in Dockerhub environment.| `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` |
 | `discovery-k8s`           | Discovers artifacts in Kubernetes environment.| `K8S_TOKEN`, `K8S_URL` |
 
-## `BOM-SIGN` Stage
+## `bom-sign` Stage
 
 In the `bom-sign` stage, assets retrieved from the database are used to create SBOMs (Software Bill of Materials), which are then signed and uploaded to the Scribe Security Platform.
 
@@ -498,7 +498,7 @@ In the `bom-sign` stage, assets retrieved from the database are used to create S
 | `bom-sign-dockerhub`      | Creates and signs SBOMs for Dockerhub.     |
 | `bom-sign-k8s`            | Creates and signs SBOMs for Kubernetes.    |
 
-## `Policy` Stage
+## `policy` Stage
 
 The `policy` stage evaluates the security framework policy against signed evidence, generating SARIF reports that are subsequently signed and uploaded.
 
