@@ -526,6 +526,8 @@ cat my_ca-chain.pem | base64
 
 <img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
 
+   <img src='../../../../img/ci/platforms_gitlab_keys.jpg' alt='Signing Variables' width='50%' min-width='500px'/>
+
    <img src='../../../../img/ci/sigstore.jpg' alt='Log in to Sigstore' width='50%' min-width='500px'/>
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
