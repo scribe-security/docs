@@ -17,6 +17,23 @@ Key Features:
 * Powerful capabilities to map assets to Scribe Products
 * Experimental: Extracting data from build logs.
 
+
+### Installing Platforms
+
+Use the following command line interface (CLI) installation options:
+
+<details>
+  <summary> Docker image </summary>
+
+Pull the `platforms` release binary wrapped in its relevant docker image. <br />
+Tag value should be the requested version.
+
+```bash
+docker pull scribesecurity/platforms:latest
+```
+
+</details>
+
 ## Concepts
 * Assets: Assets are the resources that are being scanned. They can be anything from a docker image to a git repository.
 * Products: Products are software products that are made up of multiple assets. Examples:

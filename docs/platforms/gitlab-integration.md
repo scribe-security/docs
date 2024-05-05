@@ -505,6 +505,33 @@ The `policy` stage evaluates the security framework policy against signed eviden
 
 The next chapters of this documentation provide a comprehensive guide to seamlessly integrating the Scribe Security Platform into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
 
+### Using custom x509 keys
+
+Platforms Jobs can be used with X509 keys
+
+Setup Keys in Gitlab Variable manager.
+For the X509 key in PEM format, Certificate and CA-chain.
+* Encode keys
+
+```yaml
+cat my_key.pem | base64
+cat my_cert.pem | base64
+cat my_ca-chain.pem | base64
+```
+
+* Store Values as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
+
+* `ATTEST_KEY_B64` x509 Private key pem content.
+* `ATTEST_CERT_B64` - x509 Cert pem content.
+* `ATTEST_CA_B64` - x509 CA Chain pem content
+
+<img src='../../../img/ci/platforms-gitlab-keys.png' alt='Signing Variables'/>
+
+We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
+
+> Explore additional signing options in the [attestations](./attestations.md) section.
+
+
 ## Runner Considerations
 
 When managing your GitLab CI/CD pipeline, it's essential to consider various factors related to your runner environment to ensure smooth operation and optimal performance. Here are some key considerations:
