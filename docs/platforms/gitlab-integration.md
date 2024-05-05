@@ -4,9 +4,9 @@ title: "Platforms GitLab Integration"
 sidebar_position: 2
 ---
 
-# Scribe Security Platform GitLab Integration Guide
+# Scribe Security Platforms GitLab Integration Guide
 
-Welcome to the official documentation for integrating the Scribe Security Platform with GitLab CI/CD. This guide provides comprehensive instructions on configuring your GitLab CI pipeline to leverage the powerful security features of the Scribe Security Platform. Below, you'll find detailed information on how to structure your CI/CD pipeline, utilize cache mechanisms, manage runner considerations, and leverage global variables effectively.
+Welcome to the official documentation for integrating Scribe Security Platforms Tool with GitLab CI/CD. This guide provides comprehensive instructions on configuring your GitLab CI pipeline to leverage the powerful security features of the Scribe Security Platform. Below, you'll find detailed information on how to structure your CI/CD pipeline, utilize cache mechanisms, manage runner considerations, and leverage global variables effectively.
 
 ## Overview
 The integration revolves around three main stages: `discovery`, `bom-sign`, and `policy`. Each stage serves a specific purpose in enhancing the security of your software development lifecycle.
@@ -503,7 +503,7 @@ The `policy` stage evaluates the security framework policy against signed eviden
 | `policy-dockerhub`        | Evaluates policy against Dockerhub evidence. |
 | `policy-k8s`              | Evaluates policy against Kubernetes evidence. |
 
-The next chapters of this documentation provide a comprehensive guide to seamlessly integrating the Scribe Security Platform into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
+The next chapters of this documentation provide a comprehensive guide to seamlessly integrating the Platforms Tool into your GitLab CI/CD pipeline, ensuring enhanced security throughout your development lifecycle.
 
 ## Using custom x509 keys
 
@@ -550,7 +550,7 @@ When using a DIND runner, ensure that you allocate sufficient space to store ima
 
 #### Automatic Cleanup
 
-The Platforms CLI includes the ability to automate Docker cache cleanup by invoking `docker system prune -af` automatically. You can configure parameters such as `MONITOR_MOUNT`, `MONITOR_CLEAN_DOCKER`, and `MONITOR_THRESHOLD` to manage space usage effectively. If the space usage exceeds the threshold, the runner will automatically clean up the Docker cache, ensuring smooth operation of your CI/CD pipeline.
+The Platforms Tool includes the ability to automate Docker cache cleanup by invoking `docker system prune -af` automatically. You can configure parameters such as `MONITOR_MOUNT`, `MONITOR_CLEAN_DOCKER`, and `MONITOR_THRESHOLD` to manage space usage effectively. If the space usage exceeds the threshold, the runner will automatically clean up the Docker cache, ensuring smooth operation of your CI/CD pipeline.
 
 ## Global Variables
 
@@ -558,7 +558,7 @@ Effortlessly configure global variables to tailor the integration to your specif
 
 | Variable                         | Description                                                     |
 |----------------------------------|-----------------------------------------------------------------|
-| `PLATFORMS_VERSION`              | Version of the Scribe Security Platform to use.                 |
+| `PLATFORMS_VERSION`              | Version of the Platforms tool.                 |
 | `VALINT_SCRIBE_AUTH_CLIENT_SECRET` | Scribe Service Client Secret.                                 |
 | `VALINT_SCRIBE_ENABLE`           | Enable Scribe Service.                                          |
 | `VALINT_SCRIBE_URL`              | Scribe Service URL.                                             |
