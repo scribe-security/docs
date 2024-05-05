@@ -56,7 +56,6 @@ variables:
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
-  VALINT_SCRIBE_URL: https://api.dev.scribesecurity.com
   VALINT_CONTEXT_TYPE: "gitlab"
   VALINT_DISABLE_EVIDENCE_CACHE: false
 
@@ -138,7 +137,6 @@ variables:
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
-  VALINT_SCRIBE_URL: https://api.dev.scribesecurity.com
   VALINT_CONTEXT_TYPE: "gitlab"
   VALINT_DISABLE_EVIDENCE_CACHE: false
 
@@ -250,7 +248,6 @@ variables:
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
-  VALINT_SCRIBE_URL: https://api.dev.scribesecurity.com
   VALINT_CONTEXT_TYPE: "gitlab"
   VALINT_DISABLE_EVIDENCE_CACHE: false
 
@@ -574,7 +571,6 @@ Effortlessly configure global variables to tailor the integration to your specif
 | `PLATFORMS_VERSION`              | Version of the Platforms tool.                 |
 | `VALINT_SCRIBE_AUTH_CLIENT_SECRET` | Scribe Service Client Secret.                                 |
 | `VALINT_SCRIBE_ENABLE`           | Enable Scribe Service.                                          |
-| `VALINT_SCRIBE_URL`              | Scribe Service URL.                                             |
 | `VALINT_CONTEXT_TYPE`            | Context type to use.                                            |
 | `VALINT_DISABLE_EVIDENCE_CACHE`  | Disable evidence cache.                                         |
 | `ATTEST_KEY_B64`                 | Evidence signing key.                                           |
