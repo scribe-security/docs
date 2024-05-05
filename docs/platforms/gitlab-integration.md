@@ -499,6 +499,8 @@ In the `bom-sign` stage, assets retrieved from the database are used to create S
 
 The `policy` stage evaluates the security framework policy against signed evidence, generating SARIF reports that are subsequently signed and uploaded.
 
+Our default policies can be reviewed and managed as code, for more details see our default [Policy As Code Bundle](https://github.com/scribe-public/sample-policies/tree/main/v1).
+
 ### Cache
 
 - Database cache from the discovery stage is required.
