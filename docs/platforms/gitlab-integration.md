@@ -521,6 +521,7 @@ cat my_ca-chain.pem | base64
 * Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
 
 <img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
+
   * `ATTEST_KEY_B64` Base64 encoded x509 Private key pem content.
   * `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
   * `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
