@@ -43,7 +43,7 @@ You may find the reusable Jobs in the following location.
 ### Usage
 
 <details>
-<summary> Gitlab Workflow Example </summary>
+<summary> Gitlab Platform Example </summary>
 
 ```yaml
 variables:
@@ -125,7 +125,7 @@ policy-gitlab:
 </details>
 
 <details>
-<summary> Dockerhub Workflow Example </summary>
+<summary> Dockerhub Platform Example </summary>
 
 ```yaml
 variables:
@@ -236,7 +236,7 @@ policy-dockerhub:
 </details>
 
 <details>
-<summary> Kuberneties Workflow Example </summary>
+<summary> Kubernetes Platform Example </summary>
 
 ```yaml
 variables:
