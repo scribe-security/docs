@@ -507,30 +507,28 @@ The next chapters of this documentation provide a comprehensive guide to seamles
 
 ### Using custom x509 keys
 
-Platforms Jobs can be used with X509 keys
+Utilizing X509 Keys for Platform Jobs
 
-Setup Keys in Gitlab Variable manager.
-For the X509 key in PEM format, Certificate and CA-chain.
-* Encode keys
+* Prepare the X509 key in PEM format, including the Certificate and CA-chain.
 
+* Encode the keys using the commands below:
 ```yaml
 cat my_key.pem | base64
 cat my_cert.pem | base64
 cat my_ca-chain.pem | base64
 ```
 
-* Store Values as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
+* Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
 
-* `ATTEST_KEY_B64` x509 Private key pem content.
-* `ATTEST_CERT_B64` - x509 Cert pem content.
-* `ATTEST_CA_B64` - x509 CA Chain pem content
+1) `ATTEST_KEY_B64` x509 Private key pem content.
+2) `ATTEST_CERT_B64` - x509 Cert pem content.
+3) `ATTEST_CA_B64` - x509 CA Chain pem content
 
-<img src='../../../img/ci/platforms-gitlab-keys.png' alt='Signing Variables'/>
+<img src='../../../../img/ci/platforms-gitlab-keys.png' alt='Signing Variables'/>
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
 > Explore additional signing options in the [attestations](./attestations.md) section.
-
 
 ## Runner Considerations
 
