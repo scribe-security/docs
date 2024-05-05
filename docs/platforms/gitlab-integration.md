@@ -546,7 +546,7 @@ In our examples, we utilize the GitLab Cache API to seamlessly share the databas
 
 ### Docker Cache
 
-When using a DIND runner, ensure that it has enough space to store the database and evidence cache. Additionally, allocate sufficient space to store image caches when using 'bom-sign' and 'policy' for both Dockerhub and Kubernetes. You can utilize helper functions like 'cleanup-docker-cache' to remove the Docker cache and maintain optimal storage usage.
+When using a DIND runner, ensure that you allocate sufficient space to store image caches when using 'bom-sign' and 'policy' for both Dockerhub and Kubernetes. You can utilize helper functions like 'cleanup-docker-cache' to remove the Docker cache and maintain optimal storage usage.
 
 #### Automatic Cleanup
 
