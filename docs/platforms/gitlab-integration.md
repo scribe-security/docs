@@ -9,11 +9,13 @@ sidebar_position: 2
 Welcome to the official documentation for integrating Scribe Security Platforms Tool with GitLab CI/CD. This guide provides comprehensive instructions on configuring your GitLab CI pipeline to leverage the powerful security features of the Scribe Security Platform. Below, you'll find detailed information on how to structure your CI/CD pipeline, utilize cache mechanisms, manage runner considerations, and leverage global variables effectively.
 
 ## Overview
+
 The integration revolves around three main stages: `discovery`, `bom-sign`, and `policy`. Each stage serves a specific purpose in enhancing the security of your software development lifecycle.
 
 Reusable Jobs Can be pulled from the following [repository](https://github.com/scribe-public/gitlab_platforms.git).
 
-### Quick-start
+### Quickstart
+
 To use our provided reusable Jobs, add the 'include' section with a 'remote' reference:
 
 ```yaml
@@ -31,6 +33,7 @@ include:
 4. **Adjust Runner Considerations**: Ensure your CI/CD runner environment meets the necessary requirements for cache management and optimal performance.
 
 You may find the reusable Jobs in the following location.
+
 - [GitLab Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-gitlab.yml)
 - [Dockerhub Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-dockerhub.yml)
 - [Kubernetes Workflow](https://github.com/scribe-public/gitlab_platforms/blob/main/discover-k8s.yml)
@@ -233,6 +236,7 @@ policy-dockerhub:
       - evidence/dockerhub/*sarif*
     expire_in: 1 week
 ```
+
 </details>
 
 <details>
@@ -451,6 +455,7 @@ policy-k8s:
       - evidence/k8s/*sarif*
     expire_in: 1 week
 ```
+
 </details>
 
 ## `Discovery` Stage
@@ -458,16 +463,19 @@ policy-k8s:
 In the `discovery` stage, assets are identified within your GitLab, Dockerhub, or Kubernetes environments. These assets are then stored in a database, and evidence is generated for subsequent analysis.
 
 ### Cache
+
 - Database cache is essential for all subsequent stages.
 - Evidence cache is recommended for improved performance.
 
 ### Variables
+
 | Variable                  | Description                                |
 |---------------------------|--------------------------------------------|
 | `PLATFORMS_DB_PATH`       | Path to the database file.                 |
 | `VALINT_OUTPUT_DIRECTORY` | Path to the evidence output directory.     |
 
 ### Jobs
+
 | Job                       | Description                                   | Required Tokens |
 |---------------------------|-----------------------------------------------|-----------------|
 | `discovery-gitlab`        | Discovers artifacts in GitLab environment.   | `GITLAB_TOKEN`  |
@@ -479,10 +487,12 @@ In the `discovery` stage, assets are identified within your GitLab, Dockerhub, o
 In the `bom-sign` stage, assets retrieved from the database are used to create SBOMs (Software Bill of Materials), which are then signed and uploaded to the Scribe Security Platform.
 
 ### Cache
+
 - Database cache from the discovery stage is required.
 - Evidence cache is recommended for policy evaluation.
 
 ### Jobs
+
 | Job                       | Description                                |
 |---------------------------|--------------------------------------------|
 | `bom-sign-dockerhub`      | Creates and signs SBOMs for Dockerhub.     |
@@ -493,10 +503,12 @@ In the `bom-sign` stage, assets retrieved from the database are used to create S
 The `policy` stage evaluates the security framework policy against signed evidence, generating SARIF reports that are subsequently signed and uploaded.
 
 ### Cache
+
 - Database cache from the discovery stage is required.
 - Evidence cache is recommended for improved performance.
 
 ### Jobs
+
 | Job                       | Description                                |
 |---------------------------|--------------------------------------------|
 | `policy-gitlab`           | Evaluates policy against GitLab evidence.  |
@@ -509,22 +521,23 @@ The next chapters of this documentation provide a comprehensive guide to seamles
 
 Utilizing X509 Keys for Platform Jobs
 
-* Prepare the X509 key in PEM format, including the Certificate and CA-chain.
+- Prepare the X509 key in PEM format, including the Certificate and CA-chain.
 
-* Encode the keys using the commands below:
+- Encode the keys using the commands below:
+
 ```yaml
 cat my_key.pem | base64
 cat my_cert.pem | base64
 cat my_ca-chain.pem | base64
 ```
 
-* Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
+- Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
 
 <img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
 
-  * `ATTEST_KEY_B64` Base64 encoded x509 Private key pem content.
-  * `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
-  * `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
+- `ATTEST_KEY_B64` Base64 encoded x509 Private key pem content.
+- `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
+- `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
@@ -582,4 +595,4 @@ Effortlessly configure global variables to tailor the integration to your specif
 | `MONITOR_THRESHOLD`              | Threshold for space usage.                                      |
 | `LOG_LEVEL`                      | Log level to use.                                               |
 | `DEBUG`                          | Enable API trace mode.                                          |
-| `VALINT_LOG_LEVEL`               | Valint log level to use.                                        
+| `VALINT_LOG_LEVEL`               | Valint log level to use.
