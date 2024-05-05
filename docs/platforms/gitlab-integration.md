@@ -519,11 +519,11 @@ cat my_ca-chain.pem | base64
 ```
 
 * Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
+
+<img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
   * `ATTEST_KEY_B64` Base64 encoded x509 Private key pem content.
   * `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
   * `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
-
-<img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
@@ -539,7 +539,7 @@ When managing your GitLab CI/CD pipeline, it's essential to consider various fac
 
 - **Evidence Cache**: While evidence cache is optional, it's recommended for improved performance. It can be shared across some or all stages of your pipeline. Evidence cache is created by any job using it, and evidence is pushed to it in all stages. If you remove the evidence cache, the required evidence will be pulled from the Scribe Security Platform. Helper functions like 'cleanup-evidence-cache' can be used to remove the evidence cache when needed.
 
-## GitLab Cache API
+### GitLab Cache API
 
 In our examples, we utilize the GitLab Cache API to seamlessly share the database and evidence cache across stages. GitLab CI shares the Docker cache across jobs by default, simplifying cache management and optimizing resource utilization.
 
@@ -547,7 +547,7 @@ In our examples, we utilize the GitLab Cache API to seamlessly share the databas
 
 When using a DIND runner, ensure that it has enough space to store the database and evidence cache. Additionally, allocate sufficient space to store image caches when using 'bom-sign' and 'policy' for both Dockerhub and Kubernetes. You can utilize helper functions like 'cleanup-docker-cache' to remove the Docker cache and maintain optimal storage usage.
 
-### Automatic Cleanup
+#### Automatic Cleanup
 
 The Platforms CLI includes the ability to automate Docker cache cleanup by invoking `docker system prune -af` automatically. You can configure parameters such as `MONITOR_MOUNT`, `MONITOR_CLEAN_DOCKER`, and `MONITOR_THRESHOLD` to manage space usage effectively. If the space usage exceeds the threshold, the runner will automatically clean up the Docker cache, ensuring smooth operation of your CI/CD pipeline.
 
