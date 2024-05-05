@@ -524,7 +524,9 @@ cat my_ca-chain.pem | base64
 2) `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
 3) `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
 
-<img src='../../../../img/ci/platforms-gitlab-keys.png' alt='Signing Variables'/>
+<img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
+
+   <img src='../../../../img/ci/sigstore.jpg' alt='Log in to Sigstore' width='50%' min-width='500px'/>
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
