@@ -476,8 +476,10 @@ In the `discovery` stage, assets are identified within your GitLab, Dockerhub, o
 | Job                       | Description                                   | Required Tokens |
 |---------------------------|-----------------------------------------------|-----------------|
 | `discovery-gitlab`        | Discovers artifacts in GitLab environment.   | `GITLAB_TOKEN`  |
-| `discovery-dockerhub`     | Discovers artifacts in Dockerhub environment.| `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` |
+| `discovery-dockerhub`     | Discovers artifacts in Dockerhub environment.| `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD_B64` |
 | `discovery-k8s`           | Discovers artifacts in Kubernetes environment.| `K8S_TOKEN`, `K8S_URL` |
+
+> We recommended to base64 encode Dockerhub Password to ensure they can be marked as protected and masked.
 
 ## `bom-sign` Stage
 
