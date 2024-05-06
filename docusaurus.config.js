@@ -12,6 +12,15 @@ var isPullRequest = process.env.PULL_REQUEST === "true";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  /*scripts: [
+    {
+      src: 'https://cdn.gtranslate.net/widgets/latest/dwf.js',
+      defer: true
+    }
+  ],*/
+  clientModules: [
+    require.resolve('./static/js/gTranslate.js'),
+  ],
   plugins: [
     require.resolve('docusaurus-lunr-search'),
     [
@@ -201,6 +210,11 @@ const config = {
         href: 'https://scribesecurity.com/',
       },
       items: [
+        {
+          type: 'html',
+          position: 'right',
+          value: '<div id="gtranslateBlock"><div class="gtranslate_wrapper"></div></div>',
+        },
         // {
         //   type: 'doc',
         //   docId: 'overview',
