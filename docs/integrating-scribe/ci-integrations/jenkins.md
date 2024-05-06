@@ -68,7 +68,7 @@ node {
 
 ## Scribe Hub Integration steps
 
-1. ### Install Scribe CLI
+### 1. Install Scribe CLI
 Scribe CLI, **Valint**, is required to generate evidence in such as SBOMs and SLSA provenance. 
 Install the Scribe `valint` CLI tool:
 ```javascript
@@ -78,7 +78,7 @@ Install the Scribe `valint` CLI tool:
         }
     }
 ```
-2. ### Configure a Scribe Hub API Token in Jenkins
+### 2. Configure a Scribe Hub API Token in Jenkins
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com), or sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
 2. Create an API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
@@ -101,19 +101,16 @@ Install the Scribe `valint` CLI tool:
 8. Click **Create**.
   <img src='../../../../img/start/jenkins-cred-create.jpg' alt='Jenkins Credentials Create' width='40%' min-width='300px'/>
 
-### Avoiding costly commits
-To avoid potentially costly commits, add the Scribe output directory (`**/scribe`) to your .gitignore file.
-
-### Instrumenting your build scripts
+### 3. Instrumenting your build scripts
 
 The following examples demonstrate using Valint to collect evidence of source code and image SBOMs:
-1. Post checkout for a source code SBOM
-2. Post image build for SBOM for an image SBOM
-   
-#### Jenkins over Docker
+- Post checkout for a source code SBOM
+- Post image build for SBOM for an image SBOM
+
+**Note:** To avoid potentially costly commits, add the Scribe output directory (`**/scribe`) to your .gitignore file.
 
 <details>
-  <summary> <b> Jenkins over Docker </b></summary>
+  <summary> <b> 1. Jenkins over Docker </b></summary>
   <h3>  Prerequisites </h3>
 
   * Jenkins extensions installed:
@@ -124,8 +121,6 @@ The following examples demonstrate using Valint to collect evidence of source co
     1. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional)
 
   * A `docker` is installed on your build node in Jenkins.
-
-  **Instrumentation**
 
   <details>
     <summary>  <b> Sample integration code </b> </summary>
@@ -150,12 +145,12 @@ The following examples demonstrate using Valint to collect evidence of source co
           }
         }
         steps {        
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
           sh '''
               valint bom dir:mongo-express-scm \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_API_TOKEN '''
           }
         }
       }
@@ -169,12 +164,12 @@ The following examples demonstrate using Valint to collect evidence of source co
           }
         }
         steps {
-              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
               sh '''
               valint bom mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_API_TOKEN '''
             }
         }
       }
@@ -200,12 +195,12 @@ The following examples demonstrate using Valint to collect evidence of source co
         }
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')])       
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')])       
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
       }
     }
 
@@ -218,12 +213,12 @@ The following examples demonstrate using Valint to collect evidence of source co
         }
       }
       steps {
-         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')])
+         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')])
          sh '''
          valint verify busybox:latest -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_API_TOKEN '''
         }
       }
   }
@@ -233,14 +228,13 @@ The following examples demonstrate using Valint to collect evidence of source co
 
 </details>
 
-**See Also**
-**[Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)**
+**See Also** [Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
 
 </details>
 
-#### Jenkins over Kubernetes (K8s)
+
 <details>
-  <summary> <b> Jenkins over Kubernetes (K8s) </b></summary>
+  <summary> <b> 2. Jenkins over Kubernetes </b></summary>
   <h3>  Prerequisites </h3>
 
 **[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
@@ -265,12 +259,12 @@ pipeline {
         }
         
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
             sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
           }
         }
       }
@@ -279,12 +273,12 @@ pipeline {
     stage('image-bom') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
           }
         }
       }
@@ -330,12 +324,12 @@ pipeline {
     stage('slsa-provenance') {
       steps {                
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
             sh '''
             valint slsa mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_API_TOKEN '''
           }
         }
       }
@@ -344,12 +338,12 @@ pipeline {
     stage('verify') {
       steps {
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
             sh '''
             valint verify mongo-express:1.0.0-alpha.4 -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_CLIENT_SECRET '''
+              -E -P $SCRIBE_API_TOKEN '''
         }
       }
     }
@@ -383,19 +377,15 @@ spec:
   
 </details>
 
-**See Also**
-**[Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)**
+**See Also** [Jenkins over Kubernetes documentation](https://plugins.jenkins.io/kubernetes/)
 
 </details>
 
-#### Vanilla Jenkins (No Agent)
 <details>
-  <summary> <b> Jenkins Vanilla (No Agent) </b></summary>
+  <summary> <b> 3. Vanilla Jenkins (without an agent) </b></summary>
   <h3>  Prerequisites </h3>
 
  `curl` installed on your build node in Jenkins.
-
-**Instrumentation**
 
 <details>
   <summary>  <b> Sample integration code </b> </summary>
@@ -421,24 +411,24 @@ pipeline {
     
     stage('dir-bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
         }
       }
     }
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
           }
       }
     }
@@ -465,24 +455,24 @@ pipeline {
     
     stage('slsa-provenance') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
         }
       }
     }
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
             sh '''
             valint verify busybox:latest -i statement-slsa \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_API_TOKEN '''
           }
       }
     }
@@ -495,7 +485,7 @@ pipeline {
 
 </details>
 
-### Alternative evidence stores
+### 4. Alternative evidence stores
 
 > You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 
@@ -537,7 +527,7 @@ pipeline {
     }
     stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint [bom,slsa,evidence] [target] \
               -o [attest, statement] \
@@ -550,7 +540,7 @@ pipeline {
 
     stage('verify') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
             sh '''
                 valint verify [target] \
                   -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
@@ -578,7 +568,7 @@ node {
     }
     stage('bom') {
       withCredentials([
-        usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
+        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')
       ]) {
         sh '''
             valint [bom,slsa,evidence] [target] \
@@ -591,7 +581,7 @@ node {
 
     stage('verify') {
       withCredentials([
-        usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')
+        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')
       ]) {
         sh '''
             valint verify [target] \
@@ -609,7 +599,7 @@ node {
 
 </details>
 
-### Using custom x509 keys
+### 5. Using custom x509 keys
 x509 signer allows you store utilize file based keys for signing.
 
 Related flags:
@@ -630,7 +620,7 @@ Related environment:
 
 > Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
 
-### Usage example
+### 6. Example
 As an example a SLSA attest command can be issued using the following snippet.
 ```javascript
 withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
