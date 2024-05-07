@@ -49,6 +49,15 @@
     font-size: 2rem !important;
   }
 }
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.custom-table th, .custom-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
 
 .gtranslate_wrapper {
   position: relative;
