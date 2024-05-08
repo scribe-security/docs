@@ -95,13 +95,20 @@ Scoping and excluding assets for various commands is supported. The scope values
 * To scope the K8s scan only to namespaces that start with "prod", use the option `--scope.namespace prod*`.
 * To scope to both "prod" and "dev" namespaces, the option `--scope.namespace prod*, dev*` can be used. 
 
-Options for **mapping assets to Scribe Products and Product-versions** are supported for all relevant commands. The mapping is done using an `--<asset>.mapping` option, followed by a list of asset-mapping strings. The common format for the asset-mapping string is `asset_name::product_key::product_version`. The asset name part supports wildcards. For example,
+Options for **mapping assets to Scribe Products and Product-versions** are supported for all relevant commands. The mapping is done using an `--<asset>.mapping` option, followed by a list of asset-mapping strings. The common format for the asset-mapping string is `asset_name::product_key::product_version`. The asset name part supports wildcards. 
+
+For example,
+
 * To map the Nautilus Gitlab project to the Accounting product, version 1.0 use the option `--project.mapping nautilus::Accounting::1.0`.
+
 * To map all the Gitlab projects that start with "service" to ComplexProduct1 and ComplexProduct2 use the option `--project.mapping service*::ComplexProduct1::1.0, service*::ComplexProduct2::1.0`.
+
 * The K8s asset-mapping strings for mapping images to be scanned to products are in the format `namespace::pod::image::product_key::product_version`. For example,
+
 * To map all the images in the "prod" namespace to the Accounting product, version 1.0, use the option `--image.mapping prod::*::Accounting::1.0`.
+
 * To map all the images from my-company DockerHub namespace to the Gizmo product, version 2.0 use the option `--image.mapping my-company/*::Gizmo::2.0`.
 
-Notes:
-* Mapping is another scoping stage; if a mapping is done, only the assets that are mapped will be considered for the command.
-* Some of the platforms support a `default_product_key_strategy` option, which will be used if a product-key was not explicitly provided in the `valint.product-key` option. For example, the `platforms bom k8s --default_product_key_strategy namespace` will use the namespace as the product-key.
+> Mapping is another scoping stage; if a mapping is done, only the assets that are mapped will be considered for the command.
+
+> Some of the platforms support a `default_product_key_strategy` option, which will be used if a product-key was not explicitly provided in the `valint.product-key` option. For example, the `platforms bom k8s --default_product_key_strategy namespace` will use the namespace as the product-key.
