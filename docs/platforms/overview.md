@@ -87,5 +87,7 @@ Automation of SBOM Generation of assets.
 ### Policy Evaluation
 
 Policy evaluation is the process of evaluating policies on the evidence generated.
-    * Scribe provides a policy-as-code framework, which provides users with out-of-the-box policies and the ability to write custom policies.
-    * Policies are applied to evidence; the policy evaluation process involves pulling the relevant attestations from the attestation store and evaluating the policies on the evidence. For example, to verify the security of a source-code repo, the policy evaluation process will consume evidence about the repo and the account, and evaluate policies such as "limited admins", "all secrets have an expiration date", "at least 2 reviewers are required for merging a PR", etc.
+
+* Scribe provides a policy-as-code framework, which provides users with out-of-the-box policies and the ability to write custom policies.
+
+* Policies are applied to evidence; the policy evaluation process involves pulling the relevant attestations from the attestation store and evaluating the policies on the evidence. For example, to verify the security of a source-code repo, the policy evaluation process will consume evidence about the repo and the account, and evaluate policies such as "limited admins", "all secrets have an expiration date", "at least 2 reviewers are required for merging a PR", etc.
