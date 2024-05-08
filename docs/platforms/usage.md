@@ -13,7 +13,7 @@ There are two ways to run the `platforms` tool:
 1. Using a CI script to automate the discovery, evidence generation, SBOM generation and policy evaluation process. Scribe provides such CI scripts to make the process easy.
 
 
-### Installing Platforms
+### Installing Platforms CLI
 
 Use the following command line interface (CLI) installation options:
 
