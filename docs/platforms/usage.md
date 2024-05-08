@@ -1,19 +1,10 @@
 ---
 sidebar_label: "Platform CLI Usage"
-title: "Platform CLI Usage"
+title: "Using the `platforms` Tool"
 sidebar_position: 2
 ---
 
-# Using the `platforms` Tool
-## Usage
-### Installation and Running
-
-There are two ways to run the `platforms` tool:
-
-1. Using a CI script to automate the discovery, evidence generation, SBOM generation and policy evaluation process. Scribe provides such CI scripts to make the process easy.
-
-
-### Installing Platforms CLI
+## Installing Platforms CLI
 
 Use the following command line interface (CLI) installation options:
 
@@ -29,13 +20,13 @@ docker pull scribesecurity/platforms:latest
 
 </details>
 
-#### CI integration
+### CI integration
 
 Platforms CLI has supported CI integrations to automate the discovery, evidence generation, SBOM generation and policy evaluation process.
 
 * [Gitlab Integration](https://scribe-security.netlify.app/docs/platforms/gitlab-integration.md)
 
-### CLI Commands Structure
+## CLI Commands Structure
 All the commands in the `platforms` tool are structured as follows:
 ```bash
 platforms [global-options] command [command options] platform [platform options]
