@@ -4,7 +4,7 @@ submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
 base_public="git@github.com:scribe-public"
-supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" "sample-policies" )
+supported_repos=( "valint" "platforms_lib" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" "sample-policies" )
 
 pull_submodules() {
     repos=$1
@@ -150,6 +150,15 @@ export_action_extra() {
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
+import_platforms_lib() {
+    repo="platforms_lib"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/platforms/"
+    cp -r "${repo_dir}/docs/cli/*" "${dst_dir}" || true}
+}
+export_platforms_lib() {
+    echo "pass"
+}
 
 import_action-bom() {
     repo="action-bom"
