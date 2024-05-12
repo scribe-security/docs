@@ -4,7 +4,7 @@ sidebar_label: "Jenkins"
 title: Integrating Scribe in your Jenkins pipeline
 ---
 
-Use the following  instructions to integrate your Jenkins pipelines with Scribe.
+Use the following instructions to integrate your Jenkins pipelines with Scribe.
 
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
