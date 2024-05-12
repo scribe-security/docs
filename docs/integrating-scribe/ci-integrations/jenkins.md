@@ -30,7 +30,7 @@ Use the following  instructions to integrate your Jenkins pipelines with Scribe.
 6. Click **Create**.
    ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg){: style="width:50%; min-width:300px;"}
 
-### 2. Install Scribe CLI
+### 3. Install Scribe CLI
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
 Install Valint on your build runner with the following command
@@ -48,7 +48,7 @@ Alternatively, add an instalation stage at the beginning of your relevant builds
 ```
 **Note:** To avoid potentially costly commits, add the Scribe output directory `**/scribe` to your .gitignore file.
 
-### 3. Instrument your build scripts
+### 4. Instrument your build scripts
 
 #### Basic usage
 
