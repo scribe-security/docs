@@ -489,14 +489,14 @@ pipeline {
 
 <details>
   <summary> Using an OCI registry as an evidence store instead of Scribe Hub </summary>
-For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry [learn more](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores).
-
+For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry <a href="https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores">(learn more)</a>
+   
 Related flags:
 * `--oci` Enable OCI store.
 * `--oci-repo` - Evidence store location.
 
 1. Allow Valint Read and Write access to this registry.
-2. Login to the registry. For example, `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
+2. Login to the registry, for example with `docker login`.
 
 #### Basic usage
 A basic usage generating SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
