@@ -4,10 +4,41 @@ sidebar_label: "Jenkins"
 title: Integrating Scribe in your Jenkins pipeline
 ---
 
-If you are using Jenkins as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects.
+Use the following  instructions to integrate your Jenkins pipelines with Scribe.
 
-### Installation
-Install the Scribe `valint` CLI tool:
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
+
+### 2. Add the API token to Jenkins secrets
+1. Login to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
+   ![Jenkins Dashboard - Manage credentials](/img/start/jenkins-1.jpg){: style="width:50%; min-width:300px;"}
+
+2. Select 'Global' in the list of domains:
+   ![Jenkins Global domain](/img/start/jenkins-global.jpg){: style="width:50%; min-width:300px;"}
+
+3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
+   ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg){: style="width:50%; min-width:300px;"}
+
+4. Copy the Scribe Hub API Token to the **Password** field and set username to `SCRIBE_CLIENT_ID`.
+   ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg){: style="width:50%; min-width:300px;"}
+
+5. Set **ID** to `scribe-auth-id` (lowercase).
+   ![Jenkins Credentials ID](/img/start/jenkins-auth-id.jpg){: style="width:50%; min-width:300px;"}
+
+6. Click **Create**.
+   ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg){: style="width:50%; min-width:300px;"}
+
+### 2. Install Scribe CLI
+
+**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
+Install Valint on your build runner with the following command
+```
+sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+```
+
+Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
 ```javascript
     stage('install-valint') {
         steps {
@@ -15,10 +46,15 @@ Install the Scribe `valint` CLI tool:
         }
     }
 ```
+**Note:** To avoid potentially costly commits, add the Scribe output directory `**/scribe` to your .gitignore file.
 
-### Usage
+### 3. Instrument your build scripts
 
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
+#### Basic usage
+
+A basic usage generating SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
+
+Example Jenkinsfile in [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax:
 ```javascript
 pipeline {
   agent any
@@ -31,13 +67,16 @@ pipeline {
           sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
         }
     }
-    
+
     stage('bom') {
       steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint -f '''
+              -E -P $SCRIBE_API_TOKEN
+        '''
       }
     }
   }
@@ -45,7 +84,8 @@ pipeline {
 
 ```
 <!--Scripted-->
-Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
+
+Example in [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax:
 
 ```groovy
 node {
@@ -57,63 +97,26 @@ node {
     }
     
     stage('bom') {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
-          valint bom busybox:latest \
+            valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint -f '''
+              -E -P $SCRIBE_API_TOKEN
+        '''
     }
   }
 }
 ```
 
-## Scribe Hub Integration steps
-
-### 1. Install Scribe CLI
-Scribe CLI, **Valint**, is required to generate evidence in such as SBOMs and SLSA provenance. 
-Install the Scribe `valint` CLI tool:
-```javascript
-    stage('install-valint') {
-        steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
-        }
-    }
-```
-### 2. Configure a Scribe Hub API Token in Jenkins
-1. Sign in to [Scribe Hub](https://app.scribesecurity.com), or sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
-
-2. Create an API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
-  
-3. Login to your Jenkins Web Console and select **Dashboard> Manage Jenkins> Manage credentials (under Security options)**.
-  <img src='../../../../img/start/jenkins-1.jpg' alt='Jenkins Dashboard - Manage credentials'/>
-
-4. Select 'Global' in the list of domains:
-  <img src='../../../../img/start/jenkins-global.jpg' alt='Jenkins Global domain' width='40%' min-width='300px'/>
-
-5. In the **Global credentials** area, click **+ Add Credentials**. A new **Credentials** form will open.
-  <img src='../../../../img/start/jenkins-add-credentials.jpg' alt='Jenkins Add Credentials'/>
-
-6. Copy the Scribe Hub API Token to the **Password** field, Set the Username to `SCRIBE_CLIENT_ID`.
-  <img src='../../../../img/start/jenkins-username.jpg' alt='Jenkins Credentials Username/Password' width='70%' min-width='600px'/>
-
-7. Set **ID** to `scribe-auth-id` (lowercase).
-  <img src='../../../../img/start/jenkins-auth-id.jpg' alt='Jenkins Credentials ID' width='40%' min-width='300px'/>
-
-8. Click **Create**.
-  <img src='../../../../img/start/jenkins-cred-create.jpg' alt='Jenkins Credentials Create' width='40%' min-width='300px'/>
-
-### 3. Instrumenting your build scripts
-
-The following examples demonstrate using Valint to collect evidence of source code and image SBOMs:
-- Post checkout for a source code SBOM
-- Post image build for SBOM for an image SBOM
-
-**Note:** To avoid potentially costly commits, add the Scribe output directory (`**/scribe`) to your .gitignore file.
+#### Additional scenarios 
+Here are more examples of integration of Valint with Jenkins deployed in different forms. In these example we added usage of Valint to generate source code SBOM by calling it in the build script right after the code is checked out:
 
 <details>
-  <summary> <b> 1. Jenkins over Docker </b></summary>
-  <h3>  Prerequisites </h3>
-
-  * Jenkins extensions installed:
+  <summary> <b> Jenkins over Docker </b></summary>
+  <h4>  Prerequisites </h4>
+    
+    Jenkins extensions installed:
     1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**
     1. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**
     1. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**
@@ -123,7 +126,7 @@ The following examples demonstrate using Valint to collect evidence of source co
   * A `docker` is installed on your build node in Jenkins.
 
   <details>
-    <summary>  <b> Sample integration code </b> </summary>
+    <summary>  <b> Example SBOM generation </b> </summary>
 
   ```javascript
   pipeline {
@@ -180,7 +183,7 @@ The following examples demonstrate using Valint to collect evidence of source co
   </details>
 
 <details>
-    <summary>  <b> Sample SLSA integration code </b> </summary>
+    <summary>  <b> Example SLSA prvenance generation and verification </b> </summary>
 
   ```javascript
   pipeline {
@@ -234,14 +237,13 @@ The following examples demonstrate using Valint to collect evidence of source co
 
 
 <details>
-  <summary> <b> 2. Jenkins over Kubernetes </b></summary>
-  <h3>  Prerequisites </h3>
+  <summary> <b> Jenkins over Kubernetes </b></summary>
+  <h4>  Prerequisites </h4>
 
 **[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
 
-**Procedure**
 <details>
-  <summary>  <b> Sample integration code </b> </summary>
+  <summary>  <b> Example SBOM generation </b> </summary>
 
 ```javascript
 pipeline {
@@ -286,7 +288,7 @@ pipeline {
   }
 }
 ```
-This example uses Jenkins over k8s plugin with the Pod template defined like this:
+This example uses Jenkins over k8s plugin with the Pod template as follows:
 ```YAML
 metadata:
   labels:
@@ -311,7 +313,7 @@ spec:
 </details>
 
 <details>
-  <summary>  <b> Sample SLSA integration code </b> </summary>
+  <summary>  <b> Example SLSA generationa nd verification </b> </summary>
 
 ```javascript
 pipeline {
@@ -351,7 +353,7 @@ pipeline {
 }
 }
 ```
-This example uses Jenkins over k8s plugin with the Pod template defined like this:
+This example uses Jenkins over k8s plugin with the Pod template defined as follows:
 ```YAML
 metadata:
   labels:
@@ -382,8 +384,8 @@ spec:
 </details>
 
 <details>
-  <summary> <b> 3. Vanilla Jenkins (without an agent) </b></summary>
-  <h3>  Prerequisites </h3>
+  <summary> <b> Vanilla Jenkins (without an agent) </b></summary>
+  <h4>  Prerequisites </h4>
 
  `curl` installed on your build node in Jenkins.
 
@@ -440,7 +442,7 @@ pipeline {
 </details>
 
 <details>
-    <summary>  <b> Sample SLSA integration code </b> </summary>
+    <summary>  <b> Example SLSA provenance </b> </summary>
 
 ```javascript
 pipeline {
@@ -485,33 +487,21 @@ pipeline {
 
 </details>
 
-### 4. Alternative evidence stores
-
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
-
 <details>
-  <summary> <b> OCI Evidence store </b></summary>
-
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+  <summary> <b> Using an OCI registry as an evidence store instead of Scribe Hub </b></summary>
+For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry [learn more](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores).
 
 Related flags:
 * `--oci` Enable OCI store.
 * `--oci-repo` - Evidence store location.
 
+1. Allow Valint Read and Write access to this registry.
+2. Login to the registry. For example, `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
 
-### Before you begin
-Evidence can be stored in any accessible registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
+#### Basic usage
+A basic usage generating SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
 
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
-
-### Usage
-
-Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
+Example Jenkinsfile in [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax:
 
 ```javascript
 pipeline {
@@ -527,7 +517,6 @@ pipeline {
     }
     stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint [bom,slsa,evidence] [target] \
               -o [attest, statement] \
@@ -540,7 +529,6 @@ pipeline {
 
     stage('verify') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
             sh '''
                 valint verify [target] \
                   -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
@@ -556,7 +544,7 @@ pipeline {
 ```
 
 <!--Scripted-->
-Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
+Example Jenkinsfile in [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
 
 ```groovy
 node {
@@ -567,9 +555,6 @@ node {
       sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
     }
     stage('bom') {
-      withCredentials([
-        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')
-      ]) {
         sh '''
             valint [bom,slsa,evidence] [target] \
               -o [attest, statement] \
@@ -594,13 +579,10 @@ node {
   }
 }
 ```
-
-> Use `jenkins` as context-type.
-
 </details>
 
-### 5. Using custom x509 keys
-x509 signer allows you store utilize file based keys for signing.
+### 5. Signing with x509 keys
+You can sign evidence with x509 file based keys.
 
 Related flags:
 * `--key` x509 Private key path.
@@ -610,9 +592,9 @@ Related flags:
 > While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
 
 Related environment:
-* `ATTEST_KEY` x509 Private key pem content.
-* `ATTEST_CERT` - x509 Cert pem content.
-* `ATTEST_CA` - x509 CA Chain pem content.
+* `ATTEST_KEY` x509 Private key pem
+* `ATTEST_CERT` x509 Cert pem
+* `ATTEST_CA` x509 CA Chain pem
 
 > While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
 
@@ -620,8 +602,9 @@ Related environment:
 
 > Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
 
-### 6. Example
-As an example a SLSA attest command can be issued using the following snippet.
+<details>
+  <summary> <b> Example of genrating and verifying a SLSA provenance attestation </b></summary>
+
 ```javascript
 withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
         file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
@@ -640,7 +623,7 @@ withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
     }
 ```
 
-And as an example a SLSA verify command can be issued using the following snippet.
+Verification:
 ```javascript
 withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'),
         file(credentialsId: 'attest-ca', variable: 'ATTEST_CA_PATH')
@@ -656,3 +639,4 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
               -f '''
     }
 ```
+<details>
