@@ -11,8 +11,10 @@ Use the following instructions to integrate Scribe with your local host or with 
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration. </br></br>
-**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
+2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
 
 ### 2. Add the API token to your environemnt
   
