@@ -9,6 +9,7 @@ Use the following instructions to integrate your Bitbucket with Scribe.
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
 2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+   
 :::note Important
 The token is a secret and will not be accessible from the UI after you finalize the token generation. 
 :::
@@ -34,8 +35,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
   - pipe: scribe-security/valint-pipe:1.1.0
       variables:
         COMMAND: bom
-        TARGET: busybox:latest
-        FORCE: "true"
+        TARGET: busybox:latest        
 ```
 </details>
 <details>
@@ -66,8 +66,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
   variables:
     COMMAND: bom
     TARGET: image_name:latest
-    VERBOSE: 2
-    FORCE: "true"
+    VERBOSE: 2    
 ```
 </details>
 
@@ -77,8 +76,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: slsa
-    TARGET: image_name:latest
-    FORCE: "true"
+    TARGET: image_name:latest    
 ```
 </details>
 
@@ -92,7 +90,6 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
   variables:
     COMMAND: bom
     TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    FORCE: true
 ```
 </details>
 
@@ -101,13 +98,11 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 
 > Add a `docker login` task before the adding the following task:
 
-
 ```YAML
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: slsa
     TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    FORCE: true
     VERBOSE: 2
 ```
 </details>
@@ -124,11 +119,11 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
         variables:
           COMMAND_NAME: bom
           TARGET: busybox:latest
-          FORCE: "true"
           ENV: test_env
           LABEL: test_label
 ```
 </details>
+
 <details>
   <summary>  Add custom metadata to SLSA provenance </summary>
 
@@ -140,8 +135,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
       - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
         variables:
           COMMAND_NAME: slsa
-          TARGET: busybox:latest
-          FORCE: "true"
+          TARGET: busybox:latest          
           ENV: test_env
           LABEL: test_label
 ```
@@ -161,7 +155,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
           COMMAND_NAME: bom
           OUTPUT_FILE: my_sbom.json
           TARGET: busybox:latest
-          FORCE: "true"
+          
     artifacts:
       - scribe/**
       - my_sbom.json
@@ -181,13 +175,13 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
         variables:
           COMMAND_NAME: slsa
           OUTPUT_FILE: my_slsa.json
-          TARGET: busybox:latest
-          FORCE: "true"
+          TARGET: busybox:latest          
     artifacts:
       - scribe/**
       - my_sbom.json
 ```
 </details>
+
 <details>
   <summary> Generate an SBOM of a local file directory </summary>
 
@@ -201,7 +195,7 @@ step:
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+      SCRIBE_CLIENT_SECRET: $SCRIBE_TOKEN
 ```
 </details>
 <details>
@@ -217,7 +211,7 @@ step:
     variables:
       COMMAND: slsa
       TARGET: dir:./testdir
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+      SCRIBE_CLIENT_SECRET: $SCRIBE_TOKEN
 ```
 </details>
 
@@ -233,8 +227,7 @@ step:
         variables:
           COMMAND_NAME: bom
           TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2
-          FORCE: "true"
+          VERBOSE: 2          
 ```
 
 <p>For a local git repo:</p>
@@ -248,13 +241,12 @@ step:
             variables:
               COMMAND_NAME: bom
               TARGET: dir:scm_mongo_express
-              VERBOSE: 2
-              FORCE: "true"
+              VERBOSE: 2              
 ```
 
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
-  <p>For a remote git repo</p>
+  <p>For a remote git repo:</p>
   
 ```YAML
 - step:
@@ -264,11 +256,10 @@ step:
         variables:
           COMMAND_NAME: slsa
           TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2
-          FORCE: "true"
+          VERBOSE: 2          
 ```
 
-<p>For a local git repo</p>
+<p>For a local git repo:</p>
 
 ```YAML
     - step:
@@ -279,6 +270,5 @@ step:
             variables:
               COMMAND_NAME: slsa
               TARGET: dir:scm_mongo_express
-              VERBOSE: 2
-              FORCE: "true"
+              VERBOSE: 2              
 ```
