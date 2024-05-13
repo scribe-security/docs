@@ -223,7 +223,7 @@ step:
 
 <details>
   <summary> Generate an SBOM of a git repo </summary>
-  <p>For a remote git repo</p>
+  <p>For a remote git repo:</p>
 
 ```YAML
 - step:
@@ -237,7 +237,7 @@ step:
           FORCE: "true"
 ```
 
-<p>For a local git repo</p>
+<p>For a local git repo:</p>
 
 ```YAML
     - step:
