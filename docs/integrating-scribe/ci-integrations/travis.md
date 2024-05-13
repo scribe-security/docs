@@ -308,7 +308,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 <details>
   <summary> Generate an SBOM of a git repo </summary>
 
-For a remote git repo: </br>
+<p>For a remote git repo:</p>
 
 ```YAML
 - |
@@ -317,8 +317,7 @@ For a remote git repo: </br>
       --output-directory ./scribe/valint \
       -f
 ``` 
-
-For a local git repo: </br>
+<p>For a local git repo:</p>
 
 **Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected into the SBOM.
 
@@ -334,7 +333,7 @@ For a local git repo: </br>
 <details>
   <summary> Generate SLSA provenance of a git reop </summary>
 
-  For a remote git repo:</br>
+  <p>For a remote git repo:</p>
 
 ```YAML
 - |
@@ -344,7 +343,7 @@ For a local git repo: </br>
       -f
 ``` 
 
-For a local git repo: </br>
+<p>For a local git repo:</p>
 
 **Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected.
 
@@ -454,7 +453,7 @@ For a local git repo: </br>
 <details>
   <summary> Generate and verify an SBOM `statement` for a git repo </summary>
 
-For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</br>
+<p>For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</p>
 
 ```yaml
 - |
@@ -494,7 +493,7 @@ For a local repo:</br>
 <details>
   <summary> Generate and verify SLSA provenance `statement` for a git repo </summary>
 
-For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</br>
+<p>For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</p>
 
 ```yaml
 - |
