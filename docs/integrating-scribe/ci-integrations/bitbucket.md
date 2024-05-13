@@ -223,7 +223,7 @@ step:
 
 <details>
   <summary> Generate an SBOM of a git repo </summary>
-  For a remote git repo </br>
+  <p>For a remote git repo</p>
 
 ```YAML
 - step:
@@ -237,7 +237,7 @@ step:
           FORCE: "true"
 ```
 
-For a local git repo </br>
+<p>For a local git repo</p>
 
 ```YAML
     - step:
@@ -254,7 +254,7 @@ For a local git repo </br>
 
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
-  For a remote git repo </br>
+  <p>For a remote git repo</p>
   
 ```YAML
 - step:
@@ -268,7 +268,7 @@ For a local git repo </br>
           FORCE: "true"
 ```
 
-For a local git repo </br>
+<p>For a local git repo</p>
 
 ```YAML
     - step:
