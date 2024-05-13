@@ -9,7 +9,8 @@ Use the following instructions to integrate your Azure pipelines with Scribe.
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration </br>
+**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
 
 ### 2. Add the API token to the Azure DevOps secrets
 
@@ -361,8 +362,9 @@ jobs:
 </details>
 
 <details>
-  <summary> Generate an SBOM of a remote git repo </summary>
-
+  <summary> Generate an SBOM of a git repo </summary>
+  > For a remote git repo </br>
+  
 ```YAML
 - task: ValintCli@0
   displayName: SBOM remote git repository.
@@ -374,8 +376,8 @@ jobs:
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-
-*When using implicit checkout note the Azure-DevOps **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** will affect the commits collected by the SBOM.
+> For a local git repo </br>
+**Note** If you use implicit checkout, **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** affects the commits collected into the SBOM.
 
 ```YAML
 - checkout: self
@@ -392,10 +394,9 @@ jobs:
 ``` 
 </details>
 <details>
-  <summary> Git target (SLSA) </summary>
-
-Create SLSA for `mongo-express` remote git repository.
-
+  <summary> Generate SLSA provenance of a git reop </summary>
+> For a remote git repo
+  
 ```YAML
 - task: ValintCli@0
   displayName: SBOM remote git repository.
@@ -406,9 +407,7 @@ Create SLSA for `mongo-express` remote git repository.
     force: true
 ``` 
 
-Create SBOM for local git repository. <br />
-
-> When using implicit checkout note the Azure-DevOps [git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines) will effect the commits collected by the SBOM.
+> For a local git repo
 
 ```YAML
 - checkout: self
