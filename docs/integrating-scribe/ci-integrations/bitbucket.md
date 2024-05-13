@@ -1,3 +1,4 @@
+
 ---
 sidebar_label: "Bitbucket"
 title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
@@ -8,83 +9,86 @@ Use the following instructions to integrate your Bitbucket with Scribe.
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
-   
+2. Create an API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
 :::note Important
-The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+The token is a secret and will not be accessible from the UI after you finalize the token generation.
 :::
 
 ### 2. Add the API token to the Bitbucket secrets
 
-Add the Scribe Hub API token as SCRIBE_TOKEN by following the [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
+Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
 
 ### 3. Install Scribe CLI
 
-**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
-Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/master/)
+**Valint** - Scribe CLI is required to generate evidence such as SBOMs and SLSA provenance. Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/master/).
 
 ### 4. Instrument your build scripts
 
 #### Examples
 
 <details>
-  <summary> Generate an SBOM for an image in a public registry </summary>
+  <summary>Generate an SBOM for an image in a public registry</summary>
 
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: bom
-        TARGET: busybox:latest        
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: bom
+    TARGET: busybox:latest
 ```
 </details>
-<details>
-  <summary> Generate SLSA provenance for an image in a public registry </summary>
 
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: slsa
-        TARGET: busybox:latest
+<details>
+  <summary>Generate SLSA provenance for an image in a public registry</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: slsa
+    TARGET: busybox:latest
 ```
 </details>
-<details>
-  <summary> Generate evidence from a third party tool output </summary>
 
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: evidence
-        TARGET: some_security_report.json
+<details>
+  <summary>Generate evidence from a third party tool output</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: evidence
+    TARGET: some_security_report.json
 ```
 </details>
+
 <details>
-  <summary> Generate an SBOM for for an image built with local docker </summary>
-  
-```YAML
+  <summary>Generate an SBOM for an image built with local docker</summary>
+
+```yaml
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: bom
     TARGET: image_name:latest
-    VERBOSE: 2    
+    VERBOSE: 2
 ```
 </details>
 
 <details>
-  <summary> Generate SLSA provenance for for an image built with local docker </summary>
-```YAML
+  <summary>Generate SLSA provenance for an image built with local docker</summary>
+
+```yaml
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: slsa
-    TARGET: image_name:latest    
+    TARGET: image_name:latest
 ```
 </details>
 
 <details>
-  <summary>  Generate an SBOM for an image in a private registry </summary>
+  <summary>Generate an SBOM for an image in a private registry</summary>
 
-> Add a `docker login` task before the adding the following task:
+> Add a `docker login` task before adding the following task:
 
-```YAML
+```yaml
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: bom
@@ -93,11 +97,11 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 </details>
 
 <details>
-  <summary> Generate SLSA provenance for an image in a private registry </summary>
+  <summary>Generate SLSA provenance for an image in a private registry</summary>
 
-> Add a `docker login` task before the adding the following task:
+> Add a `docker login` task before adding the following task:
 
-```YAML
+```yaml
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: slsa
@@ -107,9 +111,9 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 </details>
 
 <details>
-  <summary>  Add custom metadata to SBOM </summary>
+  <summary>Add custom metadata to SBOM</summary>
 
-```YAML
+```yaml
 - step:
     name: valint-image-step
     script:
@@ -124,28 +128,30 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 </details>
 
 <details>
-  <summary>  Add custom metadata to SLSA provenance </summary>
+  <summary>Add custom metadata to SLSA provenance</summary>
 
-```YAML
+```yaml
 - step:
     name: valint-image-step
     script:
       - export test_env=test_env_value
+
+
       - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
         variables:
           COMMAND_NAME: slsa
-          TARGET: busybox:latest          
+          TARGET: busybox:latest
           ENV: test_env
           LABEL: test_label
 ```
 </details>
 
 <details>
-  <summary> Export SBOM as an artifact </summary>
+  <summary>Export SBOM as an artifact</summary>
 
-> Use `format` input argumnet to set the format.
+> Use `format` input argument to set the format.
 
-```YAML
+```yaml
 - step:
     name: save-artifact-step
     script:
@@ -154,7 +160,7 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
           COMMAND_NAME: bom
           OUTPUT_FILE: my_sbom.json
           TARGET: busybox:latest
-          
+
     artifacts:
       - scribe/**
       - my_sbom.json
@@ -162,11 +168,11 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 </details>
 
 <details>
-  <summary> Export SLSA provenance as an artifact </summary>
+  <summary>Export SLSA provenance as an artifact</summary>
 
-  > Use `format` input argumnet to set the format.
+> Use `format` input argument to set the format.
 
-```YAML
+```yaml
 - step:
     name: save-artifact-step
     script:
@@ -174,10 +180,11 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
         variables:
           COMMAND_NAME: slsa
           OUTPUT_FILE: my_slsa.json
-          TARGET: busybox:latest          
+          TARGET: busybox:latest
+
     artifacts:
       - scribe/**
-      - my_sbom.json
+      - my_slsa.json
 ```
 </details>
 
