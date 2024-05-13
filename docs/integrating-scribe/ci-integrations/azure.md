@@ -22,8 +22,8 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment according
 
 ### 4. Instrument your build scripts
 
-### Basic Usage
-A basic usage example that generates an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
+### Basic example
+Generats an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
 In your Azure DevOps project make sure you have a file named `azure-pipelines.yml` and add the following steps to it after the build step:
 
 ```yaml
@@ -44,27 +44,6 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
       scribeEnable: true
       scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-
-#### About Target types - `[target]`
-
-Valint scans a target artifact to generate evidence such as SBOMs, or SLSA provenance. It can optionally also sign this evidence to create an attestation.
-These artifacts are typically produced or consumed in your supply chain. Valint supports a range of target types are types as specified in the table below.
-
-#### '[target]' Format
-
-`[scheme]:[name]:[tag]` 
-
-| Sources | target-type | scheme | Description | Example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
 
 ### Addtional examples
 
