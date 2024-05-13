@@ -61,7 +61,7 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
     commandName: bom
     target: busybox:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -136,8 +136,7 @@ jobs:
   inputs:
     commandName: slsa
     target: busybox:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -153,8 +152,7 @@ jobs:
   inputs:
     commandName: bom
     target: image_name:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -169,8 +167,7 @@ jobs:
   inputs:
     commandName: slsa
     target: image_name:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -187,8 +184,7 @@ jobs:
   inputs:
     commandName: bom
     target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -205,8 +201,7 @@ jobs:
   inputs:
     commandName: slsa
     target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -232,8 +227,7 @@ jobs:
     inputs:
       commandName: bom
       target: 'busybox:latest'
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      force: true
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
       env: test_env
       label: test_label
       scribeEnable: true
@@ -260,8 +254,7 @@ jobs:
     inputs:
       commandName: slsa
       target: 'busybox:latest'
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      force: true
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
       env: test_env
       label: test_label
       scribeEnable: true
@@ -281,8 +274,7 @@ jobs:
     command: bom
     target: busybox:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    outputFile: $(Build.ArtifactStagingDirectory)/my_sbom.json
-    force: true
+    outputFile: $(Build.ArtifactStagingDirectory)/my_sbom.json    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 
@@ -308,8 +300,7 @@ jobs:
     command: slsa
     target: busybox:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    outputFile: $(Build.ArtifactStagingDirectory)/my_slsa.json
-    force: true
+    outputFile: $(Build.ArtifactStagingDirectory)/my_slsa.json    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 
@@ -336,8 +327,7 @@ jobs:
   inputs:
     command: bom
     target: dir:testdir
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -356,8 +346,7 @@ jobs:
   inputs:
     command: slsa
     target: dir:testdir
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 
@@ -374,8 +363,7 @@ jobs:
   inputs:
     command: bom
     target: git:https://github.com/mongo-express/mongo-express.git 
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ```
@@ -390,8 +378,7 @@ jobs:
   inputs:
     command: bom
     target: git:. 
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
@@ -407,7 +394,7 @@ jobs:
     command: slsa
     target: git:https://github.com/mongo-express/mongo-express.git 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    
 ``` 
 
 > For a local git repo
@@ -421,7 +408,7 @@ jobs:
     command: slsa
     target: git:. 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
+    
 ``` 
 </details>
 <details>
