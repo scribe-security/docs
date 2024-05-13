@@ -109,7 +109,7 @@ custom-ntia-metadata:
     script:
       - valint bom busybox
             --context-type gitlab
-            --output-directory ./scribe/valint -f
+            --output-directory ./scribe/valint
 ```
 </details>
 
@@ -362,6 +362,7 @@ git-remote-job:
   <summary> Generate SLSA provenance for a git repo </summary>
 
 <p>For a remote git repo:</p>
+
 ```YAML
 git-remote-job:
   script:
@@ -378,6 +379,5 @@ git-remote-job:
     - valint slsa .
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
 ``` 
 </details>
