@@ -16,22 +16,22 @@ The token is a secret and will not be accessible from the UI after you finalize 
 
 ### 2. Add the API token to Jenkins secrets
 1. Login to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
-   ![Jenkins Dashboard - Manage credentials](/img/start/jenkins-1.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Dashboard - Manage credentials](/img/start/jenkins-1.jpg)
 
 2. Select 'Global' in the list of domains:
-   ![Jenkins Global domain](/img/start/jenkins-global.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Global domain](/img/start/jenkins-global.jpg)
 
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
-   ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg)
 
 4. Copy the Scribe Hub API Token to the **Password** field and set username to `SCRIBE_CLIENT`.
-   ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg)
 
 5. Set **ID** to `scribe-auth-id` (lowercase).
-   ![Jenkins Credentials ID](/img/start/jenkins-auth-id.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Credentials ID](/img/start/jenkins-auth-id.jpg)
 
 6. Click **Create**.
-   ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg){: style="width:50%; min-width:300px;"}
+   ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg)
 
 ### 3. Install Scribe CLI
 
@@ -41,7 +41,7 @@ Install Valint on your build runner with the following command
 sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
 ```
 
-Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
+Alternatively, add an installation stage at the beginning of your relevant builds as follows:
 ```javascript
     stage('install-valint') {
         steps {
