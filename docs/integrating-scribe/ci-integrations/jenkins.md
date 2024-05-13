@@ -1,4 +1,3 @@
-
 ---
 sidebar_position: 2
 sidebar_label: "Jenkins"
@@ -79,13 +78,13 @@ pipeline {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f '''
+              --output-directory ./scribe/valint -f
               -E -P $SCRIBE_API_TOKEN
         '''
-      }
-    }
-  }
-}
+         }
+       }
+     }
+   }
 ```
 
 Jenkinsfile [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax:
@@ -105,7 +104,7 @@ node {
             valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint -f
-              -E -P $SCRIBE_TOKEN '''
+              -E -P $SCRIBE_TOKEN
         '''
     }
   }
