@@ -376,7 +376,7 @@ git-remote-job:
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
 
-> For a remote git repo
+<p>For a remote git repo</p>
 ```YAML
 git-remote-job:
   script:
@@ -387,7 +387,7 @@ git-remote-job:
 
 ``` 
 
-> For a local git repo
+<p>For a local git repo</p>
 
 ```YAML
 git-remote-job:
