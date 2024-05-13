@@ -20,9 +20,9 @@ The token is a secret and will not be accessible from the UI after you finalize 
 Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables").
 ### 3. Install Scribe CLI
 
-**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
-1. Install Azure DevOps [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) from the Azure marketplace.  <br />
-2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.  <br />
+**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
+1. Install Azure DevOps [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) from the Azure marketplace.
+2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.
 
 ### 4. Instrument your build scripts
 
