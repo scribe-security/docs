@@ -38,7 +38,11 @@ import swagger_client
 
 Please follow the installation procedure and then run the following:
 
-First, create a [Scribe Hub API Token] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you finish this demo.
+Create an API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
 
 ```python
 from __future__ import print_function
@@ -49,7 +53,8 @@ from pprint import pprint
 
 # Configure API key authorization: JWT
 configuration = swagger_client.Configuration()
-configuration.api_key['Authorization'] = 'SCRIBE_API_TOKEN'
+configuration.api_key['Authorization'] = <scribe-token>
+# Replace <scribe-token> with the actual token you generated in Scribe Hub
 # Uncomment below to setup prefix (e.g. Bearer) for API Token, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
@@ -58,7 +63,7 @@ api_instance = swagger_client.DatasetApi(swagger_client.ApiClient(configuration)
 body = swagger_client.LoginRequest() # LoginRequest |  (optional)
 
 try:
-    # This endpoint is used to get an admin token, either use Scribe API Token OR the refresh token.
+    # This endpoint is used to get an admin token.
     api_response = api_instance.get_admin_token_action(body=body)
     pprint(api_response)
 except ApiException as e:
