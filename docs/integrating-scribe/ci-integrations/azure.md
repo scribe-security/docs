@@ -9,7 +9,7 @@ Use the following instructions to integrate your Azure pipelines with Scribe.
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration </br>
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration. </br></br>
 **Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
 
 ### 2. Add the API token to the Azure DevOps secrets
@@ -46,7 +46,7 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
       scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 
-### Addtional examples
+### Additional examples
 
 <details>
   <summary> Generate an SBOM for an image in a public registry </summary>
@@ -363,7 +363,7 @@ jobs:
 
 <details>
   <summary> Generate an SBOM of a git repo </summary>
-  > For a remote git repo </br>
+For a remote git repo: </br>
   
 ```YAML
 - task: ValintCli@0
@@ -376,7 +376,7 @@ jobs:
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-> For a local git repo </br>
+For a local git repo: </br>
 **Note** If you use implicit checkout, **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** affects the commits collected into the SBOM.
 
 ```YAML
@@ -395,7 +395,7 @@ jobs:
 </details>
 <details>
   <summary> Generate SLSA provenance of a git reop </summary>
-> For a remote git repo
+For a remote git repo:
   
 ```YAML
 - task: ValintCli@0
