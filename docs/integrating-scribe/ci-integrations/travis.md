@@ -3,96 +3,35 @@ sidebar_label: "Travis CI"
 title: Travis CI
 sidebar_position: 6
 ---
+Use the following instructions to integrate your Travis CI pipelines with Scribe.
 
-If you are using Travis CI as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your pipeline to protect your projects. 
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-### Installation
-Install the Scribe `valint` CLI tool:
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration. </br></br>
+**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
+
+### 2. Add the API token to the Travis CI secrets
+
+Add the Scribe Hub API token as SCRIBE_TOKEN to your environment by following the [Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables")
+### 3. Install Scribe CLI
+
+**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
+Install Valint on your build runner with the following command
+```
+sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+```
+
+Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
 ```yaml
 install:
   - mkdir ./bin
   - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 ```
+### 4. Instrument your build scripts
 
-### Usage
-```yaml
-jobs:
-  include:
-    - name: 'bom-targets'
-      git:
-        depth: false
-      install:
-        - mkdir ./bin
-        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
-        - export PATH=$PATH:$PWD/bin/
-      env: test_env=test_env_value
-      script:
-        - |
-          valint bom busybox:latest \
-              --context-type travis \
-              --output-directory ./scribe/valint \
-              -f
-```
-
-### Target types - `[target]`
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
-
-> Fields specified as [target] support the following format.
-
-### Format
-
-`[scheme]:[name]:[tag]` 
-
-| Sources | target-type | scheme | Description | example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
-
-| Type  | Description | requirement |
-| --- | --- | --- |
-| scribe | Evidence is stored on scribe service | scribe credentials |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
-
-### Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-> Note the flag set:
->* `-U`, `--scribe.client-id`
->* `-P`, `--scribe.client-secret`
->* `-E`, `--scribe.enable`
-
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Add the credentials (client secret, and product key) to your Travis environment according to the **[Travis CI setting up environment variables instructions](https://docs.travis-ci.com/user/environment-variables/ "Travis CI - setting up environment variables")** to avoid revealing secrets.
-
-* Open your Travis project and make sure you have a YAML file named `.travis-ci.yml`.
-The code in the following examples of a workflow running on the mongo-express image 
-
-* Install `valint` tool using the following command
-```bash
-curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
-```
-
-
-### Usage
+#### Usage
 ```yaml
 install:
   - mkdir ./bin
@@ -119,67 +58,32 @@ script:
         -E -P $SCRIBE_CLIENT_SECRET 
 ```
 
-### Alternative evidence stores
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+Make sure that your Travis project has a file named `.travis-ci.yml` to add the following examples to:
+ 
+### Basic example
 
-<details>
-  <summary> <b> OCI Evidence store </b></summary>
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command.
-
-### Usage
 ```yaml
-services:
-  - docker
-
-install:
-  - mkdir ./bin
-  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
-  - export PATH=$PATH:$PWD/bin/
-
-name: "scribe-travis-oci-job"
-
-script:
-  - |
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
-    
-  # Generating evidence, storing on [my_repo] OCI repo.
-  - |
-    valint bom [bom,slsa,evidence] \
-        --format [attest, statement] \
-        --context-type travis \
-        --output-directory ./scribe/valint \
-        --oci --oci-repo=[my_repo]
-
-  # Verifying evidence, pulling attestation from [my_repo] OCI repo.
-  - |
-    valint verify [target] \
-        --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
-        --context-type travis \
-        --output-directory ./scribe/valint \
-        --oci --oci-repo=[my_repo]
+jobs:
+  include:
+    - name: 'bom-targets'
+      git:
+        depth: false
+      install:
+        - mkdir ./bin
+        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - export PATH=$PATH:$PWD/bin/
+      env: test_env=test_env_value
+      script:
+        - |
+          valint bom busybox:latest \
+              --context-type travis \
+              --output-directory ./scribe/valint \
+              -f
 ```
-</details>
 
-### Basic examples
+### Additional examples
 <details>
-  <summary>  Public registry image (SBOM) </summary>
-
-Create SBOM for remote `busybox:latest` image.
+  <summary> Generate an SBOM for an image in a public registry </summary>
 
 ```YAML
 - |
@@ -192,9 +96,7 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Public registry image (SLSA) </summary>
-
-Create SLSA for remote `busybox:latest` image.
+  <summary> Generate SLSA provenance for an image in a public registry </summary>
 
 ```YAML
 - |
@@ -207,10 +109,7 @@ Create SLSA for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image (SBOM) </summary>
-
-Create SBOM for image built by local docker `image_name:latest` image.
-
+  <summary> Generate an SBOM for for an image built with local docker </summary>
 ```YAML
 - |
   valint bom image_name:latest \
@@ -220,9 +119,7 @@ Create SBOM for image built by local docker `image_name:latest` image.
 ``` 
 </details>
 <details>
-  <summary>  Docker built image (SLSA) </summary>
-
-Create SBOM for image built by local docker `image_name:latest` image.
+  <summary> Generate SLSA provenance for for an image built with local docker </summary>
 
 ```YAML
 - |
@@ -234,11 +131,8 @@ Create SBOM for image built by local docker `image_name:latest` image.
 </details>
 
 <details>
-  <summary>  Private registry image (SBOM) </summary>
-
-Create SBOM for image hosted on private registry.
-
-> Use `docker login` to add access.
+  <summary>  Generate an SBOM for an image in a private registry </summary>
+> Add a `docker login` task before the adding the following step:
 
 ```YAML
 - |
@@ -250,11 +144,9 @@ Create SBOM for image hosted on private registry.
 </details>
 
 <details>
-  <summary>  Private registry image (SLSA) </summary>
+  <summary> Generate SLSA provenance for an image in a private registry </summary>
 
-Create SLSA for image hosted on private registry.
-
-> Use `docker login` to add access.
+> Add a `docker login` task before the adding the following step:
 
 ```YAML
 - |
@@ -266,9 +158,7 @@ Create SLSA for image hosted on private registry.
 </details>
 
 <details>
-  <summary>  Custom metadata (SBOM) </summary>
-
-Custom metadata added to SBOM.
+  <summary>  Add custom metadata to SBOM </summary>
 ```YAML
 - name: 'bom-targets'
   env: test_env=test_env_value
@@ -283,9 +173,7 @@ Custom metadata added to SBOM.
 </details>
 
 <details>
-  <summary>  Custom metadata (SLSA) </summary>
-
-Custom metadata added to SLSA.
+  <summary>  Add custom metadata to SLSA provenance </summary>
 ```YAML
 - name: 'slsa-targets'
   env: test_env=test_env_value
@@ -301,13 +189,10 @@ Custom metadata added to SLSA.
 
 
 <details>
-  <summary> Save as artifact (SBOM) </summary>
-
+  <summary> Export SBOM as an artifact </summary>
 Using command `output-directory` or `output-file` to export evidence as an artifact.
 
-> Use `--format`, `-o` to select between the format.
-
-> and add the following environment variables in the repository settings:
+> Use `format` input argumnet to set the format and add the following environment variables in the repository settings:
 ```
 ARTIFACTS_KEY=(AWS access key id)
 ARTIFACTS_SECRET=(AWS secret access key)
@@ -345,13 +230,9 @@ For more details see **[Artifact documentation](https://docs.travis-ci.com/user/
 </details>
 
 <details>
-  <summary> Save as artifact (SLSA) </summary>
+  <summary> Export SLSA provenance as an artifact </summary>
 
-Using command `output-directory` or `output-file` to export evidence as an artifact.
-
-> Use `--format`, `-o` to select between the format.
-
-> and add the following environment variables in the repository settings:
+Use `format` input argumnet to set the format and add the following environment variables in the repository settings:
 ```
 ARTIFACTS_KEY=(AWS access key id)
 ARTIFACTS_SECRET=(AWS secret access key)
@@ -389,9 +270,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 </details>
 
 <details>
-  <summary> Directory target (SBOM) </summary>
-
-Create SBOM for a local directory.
+  <summary> Generate an SBOM of a local file directory </summary>
 
 ```YAML
 - |
@@ -407,9 +286,8 @@ Create SBOM for a local directory.
 </details>
 
 <details>
-  <summary> Directory target (SLSA) </summary>
+  <summary> Generate SLSA provenance of a local file directory </summary>
 
-Create SLSA for a local directory.
 
 ```YAML
 - |
@@ -426,9 +304,9 @@ Create SLSA for a local directory.
 
 
 <details>
-  <summary> Git target (SBOM) </summary>
+  <summary> Generate an SBOM of a git repo </summary>
 
-Create SBOM for `mongo-express` remote git repository.
+For a remote git repo: </br>
 
 ```YAML
 - |
@@ -438,9 +316,9 @@ Create SBOM for `mongo-express` remote git repository.
       -f
 ``` 
 
-Create SBOM for local git repository. <br />
+For a local git repo: </br>
 
-> When using implicit checkout note the Travis-CI **[git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy)** will effect the commits collected by the SBOM.
+**Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected into the SBOM.
 
 ```YAML
 - |
@@ -452,9 +330,9 @@ Create SBOM for local git repository. <br />
 </details>
 
 <details>
-  <summary> Git target (SLSA) </summary>
+  <summary> Generate SLSA provenance of a git reop </summary>
 
-Create SBOM for `mongo-express` remote git repository.
+  For a remote git repo:</br>
 
 ```YAML
 - |
@@ -464,9 +342,10 @@ Create SBOM for `mongo-express` remote git repository.
       -f
 ``` 
 
-Create SLSA for local git repository. <br />
+For a local git repo: </br>
 
-> When using implicit checkout note the travis-CI [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+**Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected.
+
 
 ```YAML
 - |
@@ -478,12 +357,10 @@ Create SLSA for local git repository. <br />
 </details>
 
 <details>
-  <summary> Verify Policy flow - verify image target (SBOM) </summary>
-
-Generating and verifying CycloneDX SBOM `statement` for image target `busybox:latest`.
+  <summary> Generate and verify an SBOM `statement` for an image </summary>
 
 ```YAML
-# Create CycloneDX SBOM statement
+# Generate CycloneDX SBOM statement
 - |
   valint bom busybox:latest \
     -o statement \
@@ -502,12 +379,10 @@ Generating and verifying CycloneDX SBOM `statement` for image target `busybox:la
 </details>
 
 <details>
-  <summary> Verify Policy flow - verify image target (SLSA) </summary>
-
-Generating and verifying SLSA Provenance `statement` for image target `busybox:latest`.
+  <summary> Generate and verify SLSA provenance `statement` for an image </summary>
 
 ```YAML
-# Create CycloneDX SLSA statement
+# Generate SLSA provenance
 - |
   valint slsa busybox:latest \
     -o statement \
@@ -525,16 +400,14 @@ Generating and verifying SLSA Provenance `statement` for image target `busybox:l
 </details>
 
 <details>
-  <summary> Verify Policy flow - directory target (SBOM) </summary>
-
-Generating and verifying SLSA Provenance `statement` for directory target.
+  <summary> Generate and verify an SBOM `statement` for a file directory </summary>
 
 ```YAML
 - |
   mkdir testdir
   echo "test" > testdir/test.txt
 
-# Create CycloneDX SBOM statement
+# Generate CycloneDX SBOM statement
 - |
   valint bom dir:testdir \
     -o statement \
@@ -552,16 +425,14 @@ Generating and verifying SLSA Provenance `statement` for directory target.
 </details>
 
 <details>
-  <summary> Verify Policy flow - directory target (SLSA) </summary>
-
-Generating and verifying SLSA Provenance `statement` for directory target.
+  <summary> Generate and verify SLSA provenance `statement` for a file directory </summary>
 
 ```YAML
 - |
   mkdir testdir
   echo "test" > testdir/test.txt
 
-# Create CycloneDX SBOM statement
+# Generate SLSA provenance statement
 - |
   valint slsa dir:testdir \
     -o statement-slsa \
@@ -579,9 +450,9 @@ Generating and verifying SLSA Provenance `statement` for directory target.
 </details>
 
 <details>
-  <summary> Verify Policy flow - Git repository target (SBOM) </summary>
+  <summary> Generate and verify an SBOM `statement` for a git repo </summary>
 
-Generating and verifying `statements` for remote git repo target `https://github.com/mongo-express/mongo-express.git`.
+For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</br>
 
 ```yaml
 - |
@@ -599,7 +470,8 @@ Generating and verifying `statements` for remote git repo target `https://github
     --output-directory ./scribe/valint
 ``` 
 
-Or for a local repository
+For a local repo:</br>
+
 ```yaml
 - |
   valint bom git:. \
@@ -618,9 +490,9 @@ Or for a local repository
 </details>
 
 <details>
-  <summary> Verify Policy flow - Git repository target (SLSA) </summary>
+  <summary> Generate and verify SLSA provenance `statement` for a git repo </summary>
 
-Generating and verifying `statements` for remote git repo target `https://github.com/mongo-express/mongo-express.git`.
+For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</br>
 
 ```yaml
 - |
@@ -638,7 +510,8 @@ Generating and verifying `statements` for remote git repo target `https://github
     --output-directory ./scribe/valint
 ``` 
 
-Or for a local repository
+For a local repo:</br>
+
 ```yaml
 - |
   valint slsa git:. \
@@ -655,7 +528,3 @@ Or for a local repository
     --output-directory ./scribe/valint
 ```
 </details>
-
-## Resources
-If you're new to Travis this link should help you get started:
-* **[Travis CI](https://docs.travis-ci.com/user/tutorial/ "Travis tutorial")** - Travis CI Tutorial.
