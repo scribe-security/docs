@@ -4,96 +4,35 @@ title: GitLab CI/CD
 sidebar_position: 3
 ---
 
-Scribe support evidence collecting and integrity verification for GitLab CI/CD.
+Use the following instructions to integrate your GitLab pipelines with Scribe.
 
-Integrations provides several options enabling generation of SBOMs from various sources.
-The usage examples on this page demonstrate several use cases of SBOM collection (SBOM from a publicly available Docker image, SBOM from a Git repository, SBOM from a local directory) as well as several use cases of uploading the evidence either to the GitLab CI/CD workflows or to the Scribe Service.
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration. </br>
+**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
 
-### Installation
-Install the Scribe `valint` CLI tool:
+### 2. Add the API token to GitLab secrets
+
+Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
+
+### 3. Install Scribe CLI
+
+**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
+Install Valint on your build runner with the following command:
+```
+sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+```
+Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
 ```yaml
 before_script:
   - apt update
   - apt install git curl -y
   - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
 ```
+### 4. Instrument your build scripts
 
-### Usage
-```yaml
-before_script:
-  - apt update
-  - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-
-stages:
-    - scribe-gitlab-job
-
-scribe-gitlab-job:
-    stage: scribe-gitlab-job
-    script:
-      - valint bom busybox:latest
-          --context-type gitlab
-          --output-directory ./scribe/valint
-          -f
-```
-
-### Target types - `[target]`
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
-
-> Fields specified as [target] support the following format.
-
-### Format
-
-`[scheme]:[name]:[tag]` 
-
-| Sources | target-type | scheme | Description | example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
-
-| Type  | Description | requirement |
-| --- | --- | --- |
-| scribe | Evidence is stored on scribe service | scribe credentials |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
-
-### Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-> Note the flag set:
->* `-U`, `--scribe.client-id`
->* `-P`, `--scribe.client-secret`
->* `-E`, `--scribe.enable`
-
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Store credentials using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**. 
-
-* Open your GitLab project and make sure you have a yaml file named `.gitlab-ci.yml`.
-
-* Install `valint` tool using the following command:
-```bash
-curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-```
-
-### Usage
+#### Usage
 ```yaml
 image: ubuntu:latest
 before_script:
@@ -120,78 +59,28 @@ scribe-gitlab-job:
           --output-directory ./scribe/valint
           -E -P $SCRIBE_CLIENT_SECRET
 ```
+#### Basic example
 
-> Use `gitlab` as context-type.
-
-### Alternative evidence stores
-
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
-
-<details>
-  <summary> <b> OCI Evidence store </b></summary>
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or **[DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry)**.
-
-### Usage
 ```yaml
-image: docker:latest
-variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: "/certs"
-
-services:
-  - docker:dind
-
 before_script:
   - apt update
   - apt install git curl -y
   - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
 stages:
-    - scribe-gitlab-oci-stage
+    - scribe-gitlab-job
 
 scribe-gitlab-job:
-    stage: scribe-gitlab-oci-stage
+    stage: scribe-gitlab-job
     script:
-      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-
-      - valint [bom,slsa,evidence] [target]
-          -o [attest, statement]
+      - valint bom busybox:latest
           --context-type gitlab
           --output-directory ./scribe/valint
-          --oci --oci-repo=[my_repo]
-
-      - valint verify [target]
-          -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-          --context-type gitlab
-          --output-directory ./scribe/valint
-          --oci --oci-repo=[my_repo]
+          -E -P $SCRIBE_TOKEN
 ```
-
-> Use `gitlab` as context-type.
-
-</details>
-
-### Basic examples
+#### Additional examples
 <details>
-  <summary>  Public registry image (SBOM) </summary>
-
-Create SBOM for remote `busybox:latest` image.
+  <summary> Generate an SBOM for an image in a public registry </summary>
 
 ```YAML
 - valint bom busybox
@@ -203,9 +92,7 @@ Create SBOM for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  NTIA Custom metadata (SBOM) </summary>
-
-Attach custom SBOM NTIA metadata.
+  <summary> Add NTIA metadata to SBOM </summary>
 
 ```YAML
 image: docker:latest
@@ -226,9 +113,7 @@ custom-ntia-metadata:
 </details>
 
 <details>
-  <summary>  Public registry image (SLSA) </summary>
-
-Create SLSA for remote `busybox:latest` image.
+  <summary> Generate SLSA provenance for an image in a public registry </summary>
 
 ```YAML
 
@@ -241,9 +126,7 @@ Create SLSA for remote `busybox:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image (SBOM) </summary>
-
-Create SBOM for image built by local docker `image_name:latest` image.
+  <summary> Generate an SBOM for for an image built with local docker </summary>
 
 ```YAML
 - valint bom image_name:latest
@@ -254,9 +137,7 @@ Create SBOM for image built by local docker `image_name:latest` image.
 </details>
 
 <details>
-  <summary>  Docker built image (SLSA) </summary>
-
-Create SLSA for image built by local docker `image_name:latest` image.
+  <summary> Generate SLSA provenance for for an image built with local docker </summary>
 
 ```YAML
 - valint slsa image_name:latest
@@ -267,11 +148,9 @@ Create SLSA for image built by local docker `image_name:latest` image.
 </details>
 
 <details>
-  <summary>  Private registry image (SBOM) </summary>
+  <summary>  Generate an SBOM for an image in a private  registry </summary>
 
-Create SBOM for image hosted on private registry.
-
-> Use `docker login` to add access.
+> Before the following task add a `docker login` task 
 
 ```YAML
 - valint bom scribesecurity.jfrog.io/scribe-docker-local/example:latest \
@@ -282,11 +161,9 @@ Create SBOM for image hosted on private registry.
 </details>
 
 <details>
-  <summary>  Private registry image (SLSA) </summary>
+  <summary> Generate SLSA provenance for an image in a private registry </summary>
 
-Create SLSA for image hosted on private registry.
-
-> Use `docker login` to add access.
+> Before the following task add a `docker login` task 
 
 ```YAML
 - valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest \
@@ -297,9 +174,7 @@ Create SLSA for image hosted on private registry.
 </details>
 
 <details>
-  <summary>  Custom metadata (SBOM) </summary>
-
-Custom metadata added to SBOM.
+  <summary>  Add custom metadata to SBOM </summary>
 
 ```YAML
 valint_image_job:
@@ -316,9 +191,7 @@ valint_image_job:
 </details>
 
 <details>
-  <summary>  Custom metadata (SLSA) </summary>
-
-Custom metadata added to SLSA.
+  <summary>  Add custom metadata to SLSA provenance </summary>
 
 ```YAML
 valint_image_job:
@@ -336,11 +209,9 @@ valint_image_job:
 
 
 <details>
-  <summary> Save as artifact (SBOM) </summary>
+  <summary> Export SBOM as an artifact </summary>
 
-Using command `output-directory` or `output-file` to export evidence as an artifact.
-
-> Use `--format`, `-o` to select between the format.
+> Use `format` input argumnet to set the format.
 
 ```YAML
 save-artifact-job:
@@ -359,7 +230,7 @@ save-artifact-job:
 </details>
 
 <details>
-  <summary> Save as artifact (SLSA) </summary>
+  <summary> Export SLSA provenance as an artifact </summary>
 
 Using command `output-directory` or `output-file` to export evidence as an artifact.
 
@@ -382,9 +253,7 @@ save-artifact-job:
 </details>
 
 <details>
-  <summary> Archive image (SBOM) </summary>
-
-Create SBOM for local `docker save` output.
+  <summary> Generate an SBOM for 'docker save' </summary>
 
 > Use `oci-archive` target type when creating a OCI archive (`podman save`).
 
@@ -415,9 +284,7 @@ valint-docker-job:
 </details>
 
 <details>
-  <summary> Archive image (SLSA) </summary>
-
-Create SLSA for local `docker save` output.
+  <summary> Generate SLSA provenance for 'docker save' </summary>
 
 > Use `oci-archive` target type when creating a OCI archive (`podman save`).
 
@@ -448,9 +315,8 @@ valint-docker-job:
 </details>
 
 <details>
-  <summary> Directory target (SBOM) </summary>
+  <summary> Generate an SBOM for a local directory </summary>
 
-Create SBOM for a local directory.
 
 ```YAML
 dir-sbom-job:
@@ -465,9 +331,7 @@ dir-sbom-job:
 </details>
 
 <details>
-  <summary> Directory target (SLSA) </summary>
-
-Create SLSA for a local directory.
+  <summary> Generate SLSA provenance for a local directory </summary>
 
 ```YAML
 dir-sbom-job:
@@ -483,9 +347,7 @@ dir-sbom-job:
 
 
 <details>
-  <summary> Git target (SBOM) </summary>
-
-Create SBOM for `mongo-express` remote git repository.
+  <summary> Generate an SBOM for a remote git repository </summary>
 
 ```YAML
 git-remote-job:
@@ -497,9 +359,7 @@ git-remote-job:
 
 ``` 
 
-Create SBOM for local git repository. <br />
-
-> When using implicit checkout note the GitLab-CI **[git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy)** will effect the commits collected by the SBOM.
+**Note** If you use implicit checkout, **[git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy)** affects the commits collected into the SBOM.
 
 ```YAML
 git-remote-job:
@@ -512,10 +372,9 @@ git-remote-job:
 </details>
 
 <details>
-  <summary> Git target (SLSA) </summary>
+  <summary> Generate SLSA provenance for a git repo </summary>
 
-Create SLSA for `mongo-express` remote git repository.
-
+> For a remote git repo
 ```YAML
 git-remote-job:
   script:
@@ -526,9 +385,7 @@ git-remote-job:
 
 ``` 
 
-Create SLSA for local git repository. <br />
-
-> When using implicit checkout note the Gitlab-CI [git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
+> For a local git repo
 
 ```YAML
 git-remote-job:
@@ -539,7 +396,3 @@ git-remote-job:
            -f
 ``` 
 </details>
-
-## Resources
-
-**[GitLab CI Jobs Page](https://docs.gitlab.com/ee/ci/)** - GitLab CI docs.
