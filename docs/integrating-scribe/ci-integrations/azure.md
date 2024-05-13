@@ -7,11 +7,12 @@ sidebar_position: 4
 Use the following instructions to integrate your Azure pipelines with Scribe.
 
 ### 1. Obtain a Scribe Hub API Token
+
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
-
-2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration. </br></br>
-**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
-
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
 ### 2. Add the API token to the Azure DevOps secrets
 
 Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables").
