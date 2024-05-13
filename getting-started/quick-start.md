@@ -6,48 +6,48 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-<!-- ## Try Scribe on a sample Git Project -->
-
-### Using Scribe on a Sample Project
+### Scribe sample project
 
 This is a demo deployment of Scribe on a sample git project consisting of a source code repository and a simple CI pipeline implemented using Git workflows. Running the provided workflow will demonstrate how to use Scribe’s tools to generate signed evidence (AKA attestations) from 3 stages of the CI pipeline.
 
-The evidence created will be uploaded to the Scribe SaaS platform, and allow the platform to validate the integrity of the build, provide a detailed SBOM of the build, scan the build for vulnerabilities, and map the licenses of the software components used in the build. The only pre-requisite for running the demo is a personal GitHub account and a Scribe Hub account. If you don’t have such a GitHub account you can create one **[here](https://github.com/ "github.com")**.
+The evidence created will be uploaded to the Scribe Hub, and allow the platform to validate the integrity of the build, provide a detailed SBOM of the build, scan the build for vulnerabilities, and map the licenses of the software components used in the build. The only pre-requisite for running the demo is a personal GitHub account and a Scribe Hub account. 
 
-To run the demo you need to:
+To run the demo perfoem the follwoing steps:
 
-1. Login to your GitHub account.
+1. Clone the [demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo") to your GitHub account. This repo contains a simple npm ‘Hello-World’ app.
+2. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+3. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
 
-2. Clone the **[demo repo](https://github.com/Scribe-public-demos/demo-project "demo repo")** (this repo contains a simple ‘Hello-World’ app - an NPM based web server).  
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
 
-3. Create a [Scribe Hub API Token] (https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. YOu should copy it to a safe temporary notepad until you finish this demo.
-   
-4. Create a new secret for your cloned repo, and set its value to the Scribe Hub API token value. 
+4. Create a new secret in your cloned repo for the Scribe Hub API token. 
 
-   - On GitHub.com, navigate to the main page of the repository.
+   - On GitHub, go to the main page of the repository.
 
    - Under your repository name, click `Settings`. If you cannot see the `Settings` tab, select the dropdown menu, then click `Settings`.
 
-      <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
+      <img src='/img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
 
    - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Actions`.
 
    - At the top of the page, click `New repository secret`.
 
-   - Type `CLIENT_SECRET` as name for your secret in the `Name` input box.
+   - Type 'SCRIBE_TOKEN' as name for your secret in the `Name` input box.
 
-   - Enter the value for your secret.
+   - Enter the value for your token.
 
    - Click `Add secret`.
 
 5. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
 Click ‘I understand my workflows, go ahead and enable them’.
 
-   <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
+   <img src='/img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
 
 You will be redirected to the 'Actions' tab:   
 
-   <img src='../../../img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>  
+   <img src='/img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>  
 
    From the actions available on the left panel select *`Create signed git commit sbom`* and click `Run workflow`.  Once the workflow finished executing, a signed attestation (an SBOM) has been generated and automatically uploaded to your Scribe Hub account.
 
@@ -57,24 +57,22 @@ You will be redirected to the 'Actions' tab:
 
 ### Quick tour of the Scribe Hub
 
-The first page you see when you log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
+The first page you see when you log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** is your **Products** page.
 
-<img src='../../../img/start/products-start.jpg' alt='Products page'/>
+<img src='/img/start/products-start.jpg' alt='Products page'/>
 
-Even if you have never used Scribe before you'd still be able to see a demo project. Since you have just run the sample project's workflows, running a pipeline, generating evidence, and uploading it to Scribe, you'll see your new project under the default demo project.
+You will see a demo project. Since you have just run the sample project's workflows, running a pipeline, generating evidence, and uploading it to Scribe Hub, you'll see your new project under the default demo project.
 
-The **products** page shows you your products along with some basic information: How many subscribers have you added to this product, when the latest version of it was created (the last pipeline run), how many components were identified in the project, if the source code integrity was verified or not, how many high (or higher) vulnerabilities were identified, and how the project stands in terms of compliance to the SSDF and SLSA frameworks.
+The **Products** page shows you your products along with some basic information: How many subscribers have you added to this product, when the latest version of it was created (the last pipeline run), how many components were identified in the project, if the source code integrity was verified or not, how many high (or higher) vulnerabilities were identified, and how the project stands in terms of compliance to the SSDF and SLSA frameworks.
 
 Clicking on a product will show you all the product's builds and their information:
 
-<img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
+<img src='/img/start/builds-start.jpg' alt='Product builds page'/>
 
 For each build you can see its version ID, the build date, if the source code integrity was verified or not, the number and severity of vulnerabilities, how that build stands in terms of compliance, whether the build was published and if its signature was verified.
 
 for more information click on any of the builds and you'll get to the build dashboard:
 
-<img src='../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+<img src='/img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
 
 The dashboard is your main access to see this build's reports. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
-
-<!-- To learn more about what you can see, learn, and access about your build and your product check out the [reports](../how-to-run-scribe/scribe-hub-reports/) section. -->
