@@ -10,6 +10,7 @@ Use the following instructions to integrate your GitLab pipelines with Scribe.
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
 2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
 :::note Important
 The token is a secret and will not be accessible from the UI after you finalize the token generation. 
 :::
@@ -53,7 +54,6 @@ scribe-gitlab-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           -E -P $SCRIBE_CLIENT_SECRET
-          -f
 
       - valint verify [target]
           -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
@@ -88,7 +88,6 @@ scribe-gitlab-job:
 - valint bom busybox
       --context-type gitlab
       --output-directory ./scribe/valint
-       -f
 ``` 
 
 </details>
@@ -122,7 +121,6 @@ custom-ntia-metadata:
 - valint slsa busybox
       --context-type gitlab
       --output-directory ./scribe/valint
-       -f
 ``` 
 
 </details>
@@ -134,7 +132,6 @@ custom-ntia-metadata:
 - valint bom image_name:latest
       --context-type gitlab
       --output-directory ./scribe/valint
-       -f
 ``` 
 </details>
 
@@ -145,7 +142,6 @@ custom-ntia-metadata:
 - valint slsa image_name:latest
       --context-type gitlab
       --output-directory ./scribe/valint
-       -f
 ``` 
 </details>
 
@@ -158,7 +154,6 @@ custom-ntia-metadata:
 - valint bom scribesecurity.jfrog.io/scribe-docker-local/example:latest \
       --context-type gitlab \
       --output-directory ./scribe/valint \
-       -f
 ```
 </details>
 
@@ -171,7 +166,6 @@ custom-ntia-metadata:
 - valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest \
       --context-type gitlab \
       --output-directory ./scribe/valint \
-       -f
 ```
 </details>
 
@@ -188,7 +182,6 @@ valint_image_job:
       --output-directory ./scribe/valint
       --env test_env
       --label test_label
-       -f
 ```
 </details>
 
@@ -205,7 +198,6 @@ valint_image_job:
       --output-directory ./scribe/valint
       --env test_env
       --label test_label
-       -f
 ```
 </details>
 
@@ -222,7 +214,6 @@ save-artifact-job:
       --context-type gitlab
       --output-directory ./scribe/valint
       --output-file ./my_sbom.json
-       -f
   artifacts:
       paths:
         - ./scribe/valint
@@ -245,7 +236,7 @@ save-artifact-job:
       --context-type gitlab
       --output-directory ./scribe/valint
       --output-file ./my_slsa.json
-       -f
+
   artifacts:
       paths:
         - ./scribe/valint
@@ -281,7 +272,6 @@ valint-docker-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           --output-file ./busybox.json
-           -f
 ``` 
 </details>
 
@@ -312,7 +302,6 @@ valint-docker-job:
           --context-type gitlab
           --output-directory ./scribe/valint
           --output-file ./busybox.json
-           -f
 ``` 
 </details>
 
@@ -328,7 +317,6 @@ dir-sbom-job:
     - valint bom dir:testdir
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
 ``` 
 </details>
 
@@ -343,7 +331,6 @@ dir-sbom-job:
     - valint slsa dir:testdir
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
 ``` 
 </details>
 
@@ -357,7 +344,6 @@ git-remote-job:
     - valint bom git:https://github.com/mongo-express/mongo-express.git
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
 
 ``` 
 
@@ -369,25 +355,22 @@ git-remote-job:
     - valint bom .
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
 ``` 
 </details>
 
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
 
-<p>For a remote git repo</p>
+<p>For a remote git repo:</p>
 ```YAML
 git-remote-job:
   script:
     - valint slsa git:https://github.com/mongo-express/mongo-express.git
           --context-type gitlab
           --output-directory ./scribe/valint
-           -f
-
 ``` 
 
-<p>For a local git repo</p>
+<p>For a local git repo:</p>
 
 ```YAML
 git-remote-job:
