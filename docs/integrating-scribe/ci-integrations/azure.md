@@ -24,7 +24,7 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment according
 ### 4. Instrument your build scripts
 
 ### Basic example
-Generats an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
+Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
 In your Azure DevOps project make sure you have a file named `azure-pipelines.yml` and add the following steps to it after the build step:
 
 ```yaml
