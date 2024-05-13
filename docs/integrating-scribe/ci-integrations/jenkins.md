@@ -9,7 +9,8 @@ Use the following instructions to integrate your Jenkins pipelines with Scribe.
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration </br>
+**Note** the token is a secret and will not be accessible from the UI after you finalize the token generation. 
 
 ### 2. Add the API token to Jenkins secrets
 1. Login to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
@@ -32,7 +33,7 @@ Use the following instructions to integrate your Jenkins pipelines with Scribe.
 
 ### 3. Install Scribe CLI
 
-**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
+**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
 Install Valint on your build runner with the following command
 ```
 sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
@@ -50,11 +51,11 @@ Alternatively, add an instalation stage at the beginning of your relevant builds
 
 ### 4. Instrument your build scripts
 
-#### Basic usage
+#### Basic example
 
-A basic usage generating SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
+Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
 
-Example Jenkinsfile in [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax:
+Jenkinsfile [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax:
 ```javascript
 pipeline {
   agent any
@@ -85,7 +86,7 @@ pipeline {
 ```
 <!--Scripted-->
 
-Example in [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax:
+Jenkinsfile [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax:
 
 ```groovy
 node {
@@ -109,81 +110,79 @@ node {
 }
 ```
 
-#### Additional scenarios 
-Here are more examples of integration of Valint with Jenkins deployed in different forms. In these example we added usage of Valint to generate source code SBOM by calling it in the build script right after the code is checked out:
-
+#### Additional examples 
+Following are more examples of integration of Valint with Jenkins deployed in different forms. In these example we added Valint usage examples that generate source code SBOM by calling it in the build script right after the code is checked out and SLSA provenance generation.
 <details>
-  <summary> <b> Jenkins over Docker </b></summary>
-  <h4>  Prerequisites </h4>
-    
-    Jenkins extensions installed:
-    1. **[Docker pipeline](https://plugins.jenkins.io/docker-workflow/ "Docker Pipeline extension")**
-    1. **[Docker commons](https://plugins.jenkins.io/docker-commons/ "Docker Commons extension")**
-    1. **[Docker plugin](https://plugins.jenkins.io/docker-plugin/ "Docker plugin extension" )**
-    1. **[Docker API](https://plugins.jenkins.io/docker-java-api/ "Docker API extension")**
-    1. **[Workspace Cleanup](https://plugins.jenkins.io/ws-cleanup/ "Workspace Cleanup extension")** (optional)
+  <summary><b>Jenkins over Docker</b></summary>
+  <p>Make sure you have the following Jenkins extensions installed:</p>
 
-  * A `docker` is installed on your build node in Jenkins.
+<p><strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a></p>
+   
+  <ol>
+    <li><a href="https://plugins.jenkins.io/docker-workflow/" title="Docker Pipeline extension">Docker pipeline</a></li>
+    <li><a href="https://plugins.jenkins.io/docker-commons/" title="Docker Commons extension">Docker commons</a></li>
+    <li><a href="https://plugins.jenkins.io/docker-plugin/" title="Docker plugin extension">Docker plugin</a></li>
+    <li><a href="https://plugins.jenkins.io/docker-java-api/" title="Docker API extension">Docker API</a></li>
+    <li><a href="https://plugins.jenkins.io/ws-cleanup/" title="Workspace Cleanup extension">Workspace Cleanup</a> (optional)</li>
+    <li>Docker is installed on your build node in Jenkins.</li>
+  </ol>
 
-  <details>
-    <summary>  <b> Example SBOM generation </b> </summary>
+  <details style="margin-left: 20px;">
+    <summary>Example SBOM generation</summary>
+    <pre><code class="language-javascript">pipeline {
+  agent any
+  stages {
+    stage('checkout') {
+      steps {
+        cleanWs()
+        sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+      }
+    }
 
-  ```javascript
-  pipeline {
-    agent any
-    stages {
-      stage('checkout') {
-        steps {
-            cleanWs()
-            sh 'git clone -b v1.0.0-alpha.4 --single-branch https://github.com/mongo-express/mongo-express.git mongo-express-scm'
+    stage('dir-bom') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
         }
       }
-      
-      stage('dir-bom') {
-        agent {
-          docker {
-            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-            reuseNode true
-            args "--entrypoint="
-          }
-        }
-        steps {        
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
+      steps {        
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
           sh '''
-              valint bom dir:mongo-express-scm \
-              --context-type jenkins \
-              --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
-          }
+            valint bom dir:mongo-express-scm \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -P $SCRIBE_TOKEN '''
         }
       }
+    }
 
-      stage('image-bom') {
-        agent {
-          docker {
-            image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
-            reuseNode true
-            args "--entrypoint="
-          }
+    stage('image-bom') {
+      agent {
+        docker {
+          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          reuseNode true
+          args "--entrypoint="
         }
-        steps {
-              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
-              sh '''
-              valint bom mongo-express:1.0.0-alpha.4 \
-              --context-type jenkins \
-              --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
-            }
+      }
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
+          sh '''
+            valint bom mongo-express:1.0.0-alpha.4 \
+            --context-type jenkins \
+            --output-directory ./scribe/valint \
+            -E -P $SCRIBE_TOKEN '''
         }
       }
     }
   }
-  ```
-
+}</code></pre>
   </details>
+</details>
 
 <details>
-    <summary>  <b> Example SLSA prvenance generation and verification </b> </summary>
+    <summary>   Example SLSA prvenance generation and verification </summary>
 
   ```javascript
   pipeline {
@@ -231,19 +230,17 @@ Here are more examples of integration of Valint with Jenkins deployed in differe
 
 </details>
 
-**See Also** [Jenkins over Docker documentation](https://plugins.jenkins.io/docker-plugin/)
-
 </details>
 
 
 <details>
-  <summary> <b> Jenkins over Kubernetes </b></summary>
+  <summary>  Jenkins over Kubernetes </b></summary>
   <h4>  Prerequisites </h4>
 
 **[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
 
 <details>
-  <summary>  <b> Example SBOM generation </b> </summary>
+  <summary>   Example SBOM generation </summary>
 
 ```javascript
 pipeline {
@@ -313,7 +310,7 @@ spec:
 </details>
 
 <details>
-  <summary>  <b> Example SLSA generationa nd verification </b> </summary>
+  <summary>   Example SLSA generationa nd verification </summary>
 
 ```javascript
 pipeline {
@@ -384,13 +381,13 @@ spec:
 </details>
 
 <details>
-  <summary> <b> Vanilla Jenkins (without an agent) </b></summary>
+  <summary>  Vanilla Jenkins (without an agent) </b></summary>
   <h4>  Prerequisites </h4>
 
  `curl` installed on your build node in Jenkins.
 
 <details>
-  <summary>  <b> Sample integration code </b> </summary>
+  <summary>   Sample integration code </summary>
 
 ```javascript
 pipeline {
@@ -442,7 +439,7 @@ pipeline {
 </details>
 
 <details>
-    <summary>  <b> Example SLSA provenance </b> </summary>
+    <summary> Example SLSA provenance </summary>
 
 ```javascript
 pipeline {
@@ -603,7 +600,7 @@ Related environment:
 > Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
 
 <details>
-  <summary> <b> Example of genrating and verifying a SLSA provenance attestation </b></summary>
+  <summary>  Example of genrating and verifying a SLSA provenance attestation </b></summary>
 
 ```javascript
 withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
