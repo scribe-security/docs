@@ -364,7 +364,7 @@ jobs:
 
 <details>
   <summary> Generate an SBOM of a git repo </summary>
-For a remote git repo: </br>
+<p>For a remote git repo:</p>
   
 ```YAML
 - task: ValintCli@0
@@ -377,7 +377,7 @@ For a remote git repo: </br>
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-For a local git repo: </br>
+<p>For a local git repo:</p>
 **Note** If you use implicit checkout, **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** affects the commits collected into the SBOM.
 
 ```YAML
@@ -396,7 +396,7 @@ For a local git repo: </br>
 </details>
 <details>
   <summary> Generate SLSA provenance of a git reop </summary>
-For a remote git repo:
+<p>For a remote git repo:</p>
   
 ```YAML
 - task: ValintCli@0
