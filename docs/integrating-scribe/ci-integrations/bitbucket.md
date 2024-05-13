@@ -191,7 +191,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 <details>
   <summary> Generate an SBOM of a local file directory </summary>
 
-```YAML
+```yaml
 step:
   name: dir-sbom-step
   script:
@@ -225,20 +225,19 @@ step:
   <summary> Generate an SBOM of a git repo </summary>
   <p>For a remote git repo:</p>
 
-```YAML
+```yaml
 - step:
     name: valint-git-step
     script:
       - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
         variables:
           COMMAND_NAME: bom
-          TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2          
+          TARGET: git:https://github.com/mongo-express/mongo-express.git        
 ```
 
 <p>For a local git repo:</p>
 
-```YAML
+```yaml
     - step:
         name: valint-git-step
         script:
@@ -246,15 +245,14 @@ step:
           - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
             variables:
               COMMAND_NAME: bom
-              TARGET: dir:scm_mongo_express
-              VERBOSE: 2              
+              TARGET: dir:scm_mongo_express   
 ```
 
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
   <p>For a remote git repo:</p>
   
-```YAML
+```yaml
 - step:
     name: valint-git-step
     script:
@@ -262,12 +260,11 @@ step:
         variables:
           COMMAND_NAME: slsa
           TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2          
 ```
 
 <p>For a local git repo:</p>
 
-```YAML
+```yaml
     - step:
         name: valint-git-step
         script:
@@ -276,5 +273,4 @@ step:
             variables:
               COMMAND_NAME: slsa
               TARGET: dir:scm_mongo_express
-              VERBOSE: 2              
 ```
