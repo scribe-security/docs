@@ -14,7 +14,7 @@ Use the following instructions to integrate your Azure pipelines with Scribe.
 
 ### 2. Add the API token to the Azure DevOps secrets
 
-Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**.
+Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables").
 ### 3. Install Scribe CLI
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
@@ -174,9 +174,9 @@ jobs:
 </details>
 
 <details>
-  <summary>  Generate an SBOM for an image in a private  registry </summary>
+  <summary>  Generate an SBOM for an image in a private registry </summary>
 
-> Before the following task add a `docker login` task 
+> Add a `docker login` task before the adding the following task:
 
 ```YAML
 - task: ValintCli@0
