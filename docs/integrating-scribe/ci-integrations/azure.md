@@ -13,7 +13,7 @@ Use the following instructions to integrate your Azure pipelines with Scribe.
 
 ### 2. Add the API token to the Azure DevOps secrets
 
-Add the Scribe Hub API token as SCRIBE_API_TOKEN to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**.
+Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment according to the **[Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables")**.
 ### 3. Install Scribe CLI
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
@@ -42,7 +42,7 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
       format: statement
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
-      scribeClientSecret: $(SCRIBE_API_TOKEN)
+      scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 
 #### About Target types - `[target]`
@@ -80,7 +80,7 @@ These artifacts are typically produced or consumed in your supply chain. Valint 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 
 </details>
@@ -123,7 +123,7 @@ jobs:
       format: statement
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
-      scribeClientSecret: $(SCRIBE_API_TOKEN)
+      scribeClientSecret: $(SCRIBE_TOKEN)
       author-name: $(AUTHOR_NAME)
       author-email: $(AUTHOR_EMAIL)
       author-phone: $(AUTHOR_PHONE)
@@ -139,7 +139,7 @@ jobs:
       inputFormat: statement
       outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
       scribeEnable: true
-      scribeClientSecret: $(SCRIBE_API_TOKEN)
+      scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 </details>
 
@@ -156,7 +156,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 
 </details>
@@ -173,7 +173,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 
@@ -189,7 +189,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 
@@ -207,7 +207,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 
@@ -225,7 +225,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 
@@ -254,7 +254,7 @@ jobs:
       env: test_env
       label: test_label
       scribeEnable: true
-      scribeClientSecret: $(SCRIBE_API_TOKEN)
+      scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 </details>
 <details>
@@ -282,7 +282,7 @@ jobs:
       env: test_env
       label: test_label
       scribeEnable: true
-      scribeClientSecret: $(SCRIBE_API_TOKEN)
+      scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 </details>
 
@@ -301,7 +301,7 @@ jobs:
     outputFile: $(Build.ArtifactStagingDirectory)/my_sbom.json
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 
 # Using `outputDirectory` evidence cache dir
 - publish: $(Build.ArtifactStagingDirectory)/scribe/valint
@@ -328,7 +328,7 @@ jobs:
     outputFile: $(Build.ArtifactStagingDirectory)/my_slsa.json
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 
 # Using `outputDirectory` evidence cache dir
 - publish: $(Build.ArtifactStagingDirectory)/scribe/valint
@@ -356,7 +356,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 
@@ -376,7 +376,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 
 ``` 
 </details>
@@ -393,7 +393,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 
 *When using implicit checkout note the Azure-DevOps **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** will affect the commits collected by the SBOM.
@@ -409,7 +409,7 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
     force: true
     scribeEnable: true
-    scribeClientSecret: $(SCRIBE_API_TOKEN)
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ``` 
 </details>
 <details>
