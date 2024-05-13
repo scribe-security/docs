@@ -30,7 +30,6 @@ Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/
 <details>
   <summary> Generate an SBOM for an image in a public registry </summary>
 
-
 ```YAML
   - pipe: scribe-security/valint-pipe:1.1.0
       variables:
