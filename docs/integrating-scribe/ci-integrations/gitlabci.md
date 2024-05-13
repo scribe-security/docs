@@ -17,7 +17,7 @@ The token is a secret and will not be accessible from the UI after you finalize 
 
 ### 2. Add the API token to GitLab secrets
 
-Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
+Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab project variables](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
 
 ### 3. Install Scribe CLI
 
