@@ -21,7 +21,7 @@ Use the following instructions to integrate your Jenkins pipelines with Scribe.
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
    ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg){: style="width:50%; min-width:300px;"}
 
-4. Copy the Scribe Hub API Token to the **Password** field and set username to `SCRIBE_CLIENT_ID`.
+4. Copy the Scribe Hub API Token to the **Password** field and set username to `SCRIBE_CLIENT`.
    ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg){: style="width:50%; min-width:300px;"}
 
 5. Set **ID** to `scribe-auth-id` (lowercase).
@@ -70,12 +70,12 @@ pipeline {
 
     stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f '''
-              -E -P $SCRIBE_API_TOKEN
+              --output-directory ./scribe/valint -f
+              -E -P $SCRIBE_TOKEN '''
         '''
       }
     }
@@ -97,12 +97,12 @@ node {
     }
     
     stage('bom') {
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f '''
-              -E -P $SCRIBE_API_TOKEN
+              --output-directory ./scribe/valint -f
+              -E -P $SCRIBE_TOKEN '''
         '''
     }
   }
@@ -148,12 +148,12 @@ Here are more examples of integration of Valint with Jenkins deployed in differe
           }
         }
         steps {        
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
           sh '''
               valint bom dir:mongo-express-scm \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN '''
+              -E -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -167,12 +167,12 @@ Here are more examples of integration of Valint with Jenkins deployed in differe
           }
         }
         steps {
-              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
+              withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
               sh '''
               valint bom mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN '''
+              -E -P $SCRIBE_TOKEN '''
             }
         }
       }
@@ -198,12 +198,12 @@ Here are more examples of integration of Valint with Jenkins deployed in differe
         }
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')])       
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')])       
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
       }
     }
 
@@ -216,12 +216,12 @@ Here are more examples of integration of Valint with Jenkins deployed in differe
         }
       }
       steps {
-         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')])
+         withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')])
          sh '''
          valint verify busybox:latest -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN '''
+              -E -P $SCRIBE_TOKEN '''
         }
       }
   }
@@ -261,12 +261,12 @@ pipeline {
         }
         
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
             sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -275,12 +275,12 @@ pipeline {
     stage('image-bom') {
       steps {
         container('valint') {
-           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
+           withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -326,12 +326,12 @@ pipeline {
     stage('slsa-provenance') {
       steps {                
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
             sh '''
             valint slsa mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN '''
+              -E -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -340,12 +340,12 @@ pipeline {
     stage('verify') {
       steps {
         container('valint') {
-          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
             sh '''
             valint verify mongo-express:1.0.0-alpha.4 -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN '''
+              -E -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -413,24 +413,24 @@ pipeline {
     
     stage('dir-bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
         }
       }
     }
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
           }
       }
     }
@@ -457,24 +457,24 @@ pipeline {
     
     stage('slsa-provenance') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
         }
       }
     }
 
     stage('image-bom') {
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {  
+            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {  
             sh '''
             valint verify busybox:latest -i statement-slsa \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_API_TOKEN '''
+            -E -P $SCRIBE_TOKEN '''
           }
       }
     }
@@ -522,7 +522,7 @@ pipeline {
               -o [attest, statement] \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              --oci --oci-repo=[my_repo] '''
+              --oci --oci-repo=[my_repo]
         }
       }
     }
@@ -566,7 +566,7 @@ node {
 
     stage('verify') {
       withCredentials([
-        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')
+        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')
       ]) {
         sh '''
             valint verify [target] \
