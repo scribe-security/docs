@@ -115,7 +115,7 @@ node {
 #### Additional examples 
 Following are more examples of integration of Valint with Jenkins deployed in different forms. In these example we added Valint usage examples that generate source code SBOM by calling it in the build script right after the code is checked out and SLSA provenance generation.
 <details>
-  <summary><b>Jenkins over Docker</b></summary>
+  <summary>Jenkins over Docker</summary>
   <p>Make sure you have the following Jenkins extensions installed:</p>
 
 <p><strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a></p>
@@ -236,7 +236,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
 
 
 <details>
-  <summary>  Jenkins over Kubernetes </b></summary>
+  <summary>Jenkins over Kubernetes</summary>
   <h4>  Prerequisites </h4>
 
 **[Jenkins over Kubernetes](https://plugins.jenkins.io/kubernetes/ "Jenkins over Kubernetes extension")** installed.
@@ -383,7 +383,7 @@ spec:
 </details>
 
 <details>
-  <summary>  Vanilla Jenkins (without an agent) </b></summary>
+  <summary>Vanilla Jenkins (without an agent)</summary>
   <h4>  Prerequisites </h4>
 
  `curl` installed on your build node in Jenkins.
@@ -602,7 +602,7 @@ Related environment:
 > Further secure access to `attest-key` credential is recommended, for example using a Role-Based Access Control plugin.
 
 <details>
-  <summary>  Example of genrating and verifying a SLSA provenance attestation </b></summary>
+  <summary>Example of generating and verifying a SLSA provenance attestation</summary>
 
 ```javascript
 withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
@@ -638,4 +638,4 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
               -f '''
     }
 ```
-<details>
+</details>
