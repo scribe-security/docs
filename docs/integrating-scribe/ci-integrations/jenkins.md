@@ -1,3 +1,4 @@
+
 ---
 sidebar_position: 2
 sidebar_label: "Jenkins"
@@ -9,55 +10,52 @@ Use the following instructions to integrate your Jenkins pipelines with Scribe.
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
-:::note Important
-The token is a secret and will not be accessible from the UI after you finalize the token generation. 
-:::
+2. Create a Scribe Hub API token [here](https://app.scribesecurity.com/settings/tokens). Note that this token is secret and will not be accessible from the UI after you finalize the token generation. You should copy it to a safe temporary notepad until you complete the integration.
 
 ### 2. Add the API token to Jenkins secrets
-1. Login to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
-   ![Jenkins Dashboard - Manage credentials](/img/start/jenkins-1.jpg)
+1. Log in to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
+   <img src="/img/start/jenkins-1.jpg" alt="Jenkins Dashboard - Manage credentials" style="width:50%; min-width:300px;"/>
 
 2. Select 'Global' in the list of domains:
-   ![Jenkins Global domain](/img/start/jenkins-global.jpg)
+   <img src="/img/start/jenkins-global.jpg" alt="Jenkins Global domain" style="width:50%; min-width:300px;"/>
 
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
-   ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg)
+   <img src="/img/start/jenkins-add-credentials.jpg" alt="Jenkins Add Credentials" style="width:50%; min-width:300px;"/>
 
-4. Copy the Scribe Hub API Token to the **Password** field and set username to `SCRIBE_CLIENT`.
-   ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg)
+4. Copy the Scribe Hub API Token to the **Password** field and set the username to `SCRIBE_CLIENT_ID`.
+   <img src="/img/start/jenkins-username.jpg" alt="Jenkins Credentials Username/Password" style="width:50%; min-width:300px;"/>
 
 5. Set **ID** to `scribe-auth-id` (lowercase).
-   ![Jenkins Credentials ID](/img/start/jenkins-auth-id.jpg)
+   <img src="/img/start/jenkins-auth-id.jpg" alt="Jenkins Credentials ID" style="width:50%; min-width:300px;"/>
 
 6. Click **Create**.
-   ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg)
+   <img src="/img/start/jenkins-cred-create.jpg" alt="Jenkins Credentials Create" style="width:50%; min-width:300px;"/>
 
 ### 3. Install Scribe CLI
 
-**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
-Install Valint on your build runner with the following command
-```
+**Valint** - Scribe CLI is required to generate evidence such as SBOMs and SLSA provenance. 
+Install Valint on your build runner with the following command:
+```bash
 sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
 ```
 
 Alternatively, add an installation stage at the beginning of your relevant builds as follows:
 ```javascript
-    stage('install-valint') {
-        steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
-        }
+stage('install-valint') {
+    steps {
+      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
     }
+}
 ```
 **Note:** To avoid potentially costly commits, add the Scribe output directory `**/scribe` to your .gitignore file.
 
 ### 4. Instrument your build scripts
 
-#### Basic example
+#### Basic usage
 
 Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
 
-Jenkinsfile [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax:
+Example Jenkinsfile in [declarative syntax](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline):
 ```javascript
 pipeline {
   agent any
@@ -73,20 +71,18 @@ pipeline {
 
     stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f
-              -E -P $SCRIBE_TOKEN '''
+              --output-directory ./scribe/valint -f '''
+              -E -P $SCRIBE_API_TOKEN
         '''
       }
     }
   }
 }
-
 ```
-<!--Scripted-->
 
 Jenkinsfile [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax:
 
