@@ -76,18 +76,18 @@ pipeline {
     stage('sbom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
       }
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {
+        withCredentials([token(credentialsId: 'scribe-auth-id', variable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -95,18 +95,18 @@ pipeline {
     stage('image-bom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
       }
       steps {
-            withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', usernameVariable: 'SCRIBE_CLIENT_ID', passwordVariable: 'SCRIBE_CLIENT_SECRET')]) {  
+            withCredentials([token(credentialsId: 'scribe-auth-id', variable: 'SCRIBE_TOKEN')]) {  
             sh '''
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_CLIENT_SECRET '''
+            -E -P $SCRIBE_TOKEN '''
           }
       }
     }

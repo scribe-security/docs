@@ -32,7 +32,7 @@ Pull the `valint` release binary wrapped in its relevant docker image. <br />
 Tag value should be the requested version.
 
 ```bash
-docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
+docker pull scribesecurity/valint:latest
 ```
 </details>
 

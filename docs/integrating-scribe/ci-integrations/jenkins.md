@@ -116,9 +116,9 @@ node {
 Following are more examples of integration of Valint with Jenkins deployed in different forms. In these example we added Valint usage examples that generate source code SBOM by calling it in the build script right after the code is checked out and SLSA provenance generation.
 <details>
   <summary>Jenkins over Docker</summary>
-  <p>Make sure you have the following Jenkins extensions installed:</p>
+  Make sure you have the following Jenkins extensions installed:
 
-<!-- <p><strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a></p>
+<!-- <strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a>
    
   <ol>
     <li><a href="https://plugins.jenkins.io/docker-workflow/" title="Docker Pipeline extension">Docker pipeline</a></li>
@@ -144,7 +144,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('dir-bom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -163,7 +163,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('image-bom') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -193,7 +193,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('slsa-provenance') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -211,7 +211,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('verify') {
       agent {
         docker {
-          image 'scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest'
+          image 'scribesecurity/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -299,7 +299,7 @@ spec:
     - name: CONTAINER_ENV_VAR
       value: jnlp
   - name: valint
-    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
+    image: scribesecurity/valint:latest 
     command:
     - cat
     tty: true
@@ -364,7 +364,7 @@ spec:
     - name: CONTAINER_ENV_VAR
       value: jnlp
   - name: valint
-    image: scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
+    image: scribesecurity/valint:latest 
     command:
     - cat
     tty: true

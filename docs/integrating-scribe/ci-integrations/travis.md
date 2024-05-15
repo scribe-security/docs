@@ -49,7 +49,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_CLIENT_SECRET 
+        -E -P $SCRIBE_TOKEN 
 
         
   - |
@@ -57,7 +57,7 @@ script:
         --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_CLIENT_SECRET 
+        -E -P $SCRIBE_TOKEN 
 ```
 
 Make sure that your Travis project has a file named `.travis-ci.yml` to add the following examples to:
@@ -308,7 +308,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 <details>
   <summary> Generate an SBOM of a git repo </summary>
 
-<p>For a remote git repo:</p>
+For a remote git repo:
 
 ```YAML
 - |
@@ -317,7 +317,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
       --output-directory ./scribe/valint \
       -f
 ``` 
-<p>For a local git repo:</p>
+For a local git repo:
 
 **Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected into the SBOM.
 
@@ -333,7 +333,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 <details>
   <summary> Generate SLSA provenance of a git reop </summary>
 
-  <p>For a remote git repo:</p>
+  For a remote git repo:
 
 ```YAML
 - |
@@ -343,7 +343,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
       -f
 ``` 
 
-<p>For a local git repo:</p>
+For a local git repo:
 
 **Note** If you use implicit checkout, [git-strategy](https://docs.travis.com/ee/ci/runners/configure_runners.html#git-strategy) affects the commits collected.
 
@@ -423,6 +423,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
     --context-type travis \
     --output-directory ./scribe/valint
 ```
+
 </details>
 
 <details>
@@ -448,12 +449,13 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
     --context-type travis \
     --output-directory ./scribe/valint
 ```
+
 </details>
 
 <details>
   <summary> Generate and verify an SBOM `statement` for a git repo </summary>
 
-<p>For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</p>
+For remote git repo target `https://github.com/mongo-express/mongo-express.git`:
 
 ```yaml
 - |
@@ -469,9 +471,9 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
     -i statement \
     --context-type travis \
     --output-directory ./scribe/valint
-``` 
+```
 
-For a local repo:</br>
+For a local repo:
 
 ```yaml
 - |
@@ -488,12 +490,13 @@ For a local repo:</br>
     --context-type travis \
     --output-directory ./scribe/valint
 ```
+
 </details>
 
 <details>
   <summary> Generate and verify SLSA provenance `statement` for a git repo </summary>
 
-<p>For remote git repo target `https://github.com/mongo-express/mongo-express.git`:</p>
+For remote git repo target `https://github.com/mongo-express/mongo-express.git`:
 
 ```yaml
 - |
@@ -509,9 +512,9 @@ For a local repo:</br>
     -i statement-slsa \
     --context-type travis \
     --output-directory ./scribe/valint
-``` 
+```
 
-For a local repo:</br>
+For a local repo:
 
 ```yaml
 - |
@@ -528,4 +531,5 @@ For a local repo:</br>
     --context-type travis \
     --output-directory ./scribe/valint
 ```
+
 </details>

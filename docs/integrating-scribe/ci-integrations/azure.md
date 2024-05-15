@@ -6,6 +6,11 @@ sidebar_position: 4
 
 Use the following instructions to integrate your Azure pipelines with Scribe.
 
+### Installation
+**[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** Can be found in Azure marketplace.  <br />
+Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization.  <br />
+Once you have the extension installed you can use the task in your pipeline.
+
 ### 1. Obtain a Scribe Hub API Token
 
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
@@ -25,6 +30,63 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by follow
 2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.
 
 ### 4. Instrument your build scripts
+
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> OCI Evidence store </summary>
+
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `ociRepo` - Evidence store location.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+```yaml
+- job: scribe_azure_job
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  variables:
+    imageName: 'pipelines-javascript-docker'
+
+  steps:
+  - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+
+  - task: scribeInstall@0
+
+  - task: ValintCli@0
+    inputs:
+      commandName: bom
+      target: [target]
+      format: [attest, statement]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+
+  - task: ValintCli@0
+    inputs:
+      commandName: verify
+      target: [target]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+```
+</details>
 
 #### Basic example
 Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
@@ -355,7 +417,8 @@ jobs:
 
 <details>
   <summary> Generate an SBOM of a git repo </summary>
-<p>For a remote git repo:</p>
+  
+For a remote git repo:
   
 ```YAML
 - task: ValintCli@0
@@ -367,7 +430,7 @@ jobs:
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-<p>For a local git repo:</p>
+For a local git repo:
 **Note** If you use implicit checkout, **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** affects the commits collected into the SBOM.
 
 ```YAML
@@ -385,7 +448,7 @@ jobs:
 </details>
 <details>
   <summary> Generate SLSA provenance of a git reop </summary>
-<p>For a remote git repo:</p>
+For a remote git repo:
   
 ```YAML
 - task: ValintCli@0

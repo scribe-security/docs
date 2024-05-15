@@ -93,7 +93,7 @@ helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
   --set certs.tlsCrt="$(cat certs/tls.crt)" \
   --set certs.tlsKey="$(cat certs/tls.key)" \
   --set scribe.enable=true \
-  --set scribe.client_secret=$SCRIBE_CLIENT_SECRET
+  --set scribe.client_secret=$SCRIBE_TOKEN
 ```
 > Credentials will be stored as a secret named `valint-scribe-cred-secret`.
 

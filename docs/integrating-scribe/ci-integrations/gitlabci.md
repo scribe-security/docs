@@ -6,6 +6,33 @@ sidebar_position: 3
 
 Use the following instructions to integrate your GitLab pipelines with Scribe.
 
+### Installation
+Install the Scribe `valint` CLI tool:
+```yaml
+before_script:
+  - apt update
+  - apt install git curl -y
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+```
+
+### Usage
+```yaml
+before_script:
+  - apt update
+  - apt install git curl -y
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+stages:
+    - scribe-gitlab-job
+
+scribe-gitlab-job:
+    stage: scribe-gitlab-job
+    script:
+      - valint bom busybox:latest
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          -f
+```
+
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
@@ -53,14 +80,80 @@ scribe-gitlab-job:
           -o [attest, statement]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_CLIENT_SECRET
+          -E -P $SCRIBE_TOKEN
 
       - valint verify [target]
           -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_CLIENT_SECRET
+          -E -P $SCRIBE_TOKEN
 ```
+
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or **[DOCKER_AUTH_CONFIG field](https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-an-image-from-a-private-container-registry)**.
+
+### Usage
+```yaml
+image: docker:latest
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:dind
+
+before_script:
+  - apt update
+  - apt install git curl -y
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+
+stages:
+    - scribe-gitlab-oci-stage
+
+scribe-gitlab-job:
+    stage: scribe-gitlab-oci-stage
+    script:
+      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+
+      - valint [bom,slsa,evidence] [target]
+          -o [attest, statement]
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          --oci --oci-repo=[my_repo]
+
+      - valint verify [target]
+          -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+          --context-type gitlab
+          --output-directory ./scribe/valint
+          --oci --oci-repo=[my_repo]
+```
+
+> Use `gitlab` as context-type.
+
+</details>
+
 #### Basic example
 
 ```yaml
@@ -361,7 +454,7 @@ git-remote-job:
 <details>
   <summary> Generate SLSA provenance for a git repo </summary>
 
-<p>For a remote git repo:</p>
+For a remote git repo:
 
 ```YAML
 git-remote-job:
@@ -371,7 +464,7 @@ git-remote-job:
           --output-directory ./scribe/valint
 ``` 
 
-<p>For a local git repo:</p>
+For a local git repo:
 
 ```YAML
 git-remote-job:

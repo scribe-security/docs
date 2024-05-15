@@ -218,7 +218,7 @@ After installing the admission you you want to upload evidence .
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
 valint [bom,slsa,evidence] [target] -o [attest, statement] -E \
-  -P $SCRIBE_CLIENT_SECRET
+  -P $SCRIBE_TOKEN
 ```
 
 ### Upload to OCI registry
