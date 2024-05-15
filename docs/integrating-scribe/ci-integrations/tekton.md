@@ -45,119 +45,6 @@ Omit `--namespace` if installing in the `default` namespace.
 
 ### 4. Instrument your build scripts
 
-### Alternative evidence stores
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
-
-<details>
-  <summary> OCI Evidence store </summary>
-
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-
-### Usage
-```yaml
-# Creates a CycloneDX SBOM and verifies its policy.
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-bom
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    params:
-    - name: args
-      value: 
-        - bom 
-        - busybox:latest
-        - -o=statement
-        - --oci
-        - --oci-repo [my_repo]
-
-  - name: valint-verify-bom
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-bom
-    params:
-    - name: args
-      value: 
-        - verify 
-        - busybox:latest 
-        - -i=statement
-        - --oci
-        - --oci-repo [my_repo]
-```
-
-```yaml
-# Creates a SLSA Provanence and verifies its policy.
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-slsa
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-verify-bom
-    params:
-    - name: args
-      value: 
-        - slsa 
-        - busybox:latest
-        - -o=statement
-        - --oci
-        - --oci-repo [my_repo]
-
-  - name: valint-verify-slsa
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-slsa
-    params:
-    - name: args
-      value: 
-        - verify 
-        - busybox:latest 
-        - -i=statement-slsa
-        - --oci
-        - --oci-repo [my_repo]
-```
-
-</details>
-
 #### Basic example
 
 ```yaml
@@ -643,4 +530,119 @@ spec:
         - slsa 
         - git:.
 ``` 
+</details>
+
+
+## Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> OCI Evidence store </summary>
+
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+
+### Usage
+```yaml
+# Creates a CycloneDX SBOM and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-bom
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - bom 
+        - busybox:latest
+        - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
+
+  - name: valint-verify-bom
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-bom
+    params:
+    - name: args
+      value: 
+        - verify 
+        - busybox:latest 
+        - -i=statement
+        - --oci
+        - --oci-repo [my_repo]
+```
+
+```yaml
+# Creates a SLSA Provanence and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-verify-bom
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - busybox:latest
+        - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
+
+  - name: valint-verify-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-slsa
+    params:
+    - name: args
+      value: 
+        - verify 
+        - busybox:latest 
+        - -i=statement-slsa
+        - --oci
+        - --oci-repo [my_repo]
+```
+
 </details>
