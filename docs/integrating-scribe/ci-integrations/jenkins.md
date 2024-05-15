@@ -75,11 +75,11 @@ pipeline {
 
     stage('bom') {
       steps {        
-        withCredentials([usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_API_TOKEN')]) {
+        withCredentials([token(credentialsId: 'scribe-auth-id', variable: 'SCRIBE_TOKEN')]) {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f '''
+              --output-directory ./scribe/valint \
               -E -P $SCRIBE_API_TOKEN
         '''
       }
@@ -104,7 +104,7 @@ node {
         sh '''
             valint bom busybox:latest \
               --context-type jenkins \
-              --output-directory ./scribe/valint -f
+              --output-directory ./scribe/valint \
               -E -P $SCRIBE_TOKEN '''
         '''
     }
@@ -118,7 +118,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
   <summary>Jenkins over Docker</summary>
   <p>Make sure you have the following Jenkins extensions installed:</p>
 
-<p><strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a></p>
+<!-- <p><strong>See Also</strong> <a href="https://plugins.jenkins.io/docker-plugin/">Jenkins over Docker documentation</a></p>
    
   <ol>
     <li><a href="https://plugins.jenkins.io/docker-workflow/" title="Docker Pipeline extension">Docker pipeline</a></li>
@@ -181,7 +181,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
   }
 }</code></pre>
   </details>
-</details>
+</details> -->
 
 <details>
     <summary>   Example SLSA prvenance generation and verification </summary>
@@ -565,7 +565,7 @@ node {
 
     stage('verify') {
       withCredentials([
-        usernamePassword(credentialsId: 'scribe-auth-id', passwordVariable: 'SCRIBE_TOKEN')
+        token(credentialsId: 'scribe-auth-id', variable: 'SCRIBE_TOKEN')
       ]) {
         sh '''
             valint verify [target] \
@@ -618,7 +618,7 @@ withCredentials([file(credentialsId: 'attest-key', variable: 'ATTEST_KEY_PATH'),
               -o attest \
               --attest.default x509 \
               --output-directory ./scribe/valint \
-              -f '''
+              '''
     }
 ```
 
@@ -635,7 +635,7 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
               -i attest-slsa \
               --attest.default x509 \
               --output-directory ./scribe/valint \
-              -f '''
+              '''
     }
 ```
 </details>
