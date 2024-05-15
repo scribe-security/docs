@@ -494,3 +494,57 @@ For a local git repo:
               TARGET: dir:scm_mongo_express
 ```
 </details>
+
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+
+* `OCI` Enable OCI store.
+* `OCI_REPO` - Evidence store location.
+
+### Before you begin
+
+Evidence can be stored in any accusable registry.
+
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+
+```yaml
+pipelines:
+  default:
+    - step:
+        name: scribe-bitbucket-oci-pipeline
+        script:    
+          - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD [my_registry]
+          - pipe: scribe-security/valint-pipe:1.1.0
+            variables:
+              COMMAND_NAME: [bom,slsa,evidence]
+              TARGET:  [target]
+              FORMAT: [attest, statement]
+              OCI: true
+              OCI_REPO: [oci_repo]
+
+          - pipe: scribe-security/valint-pipe:1.1.0
+            variables:
+              COMMAND_NAME: verify
+              TARGET:  [target]
+              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+              OCI: true
+              OCI_REPO: [oci_repo]
+```
+
+</details>

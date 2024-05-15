@@ -518,3 +518,78 @@ For example, using `docker login` command.
       ociRepo: [oci_repo]
 ```
 </details>
+
+### Alternative evidence stores
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `ociRepo` - Evidence store location.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command.
+
+### Usage
+```yaml
+- job: scribe_azure_job
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  variables:
+    imageName: 'pipelines-javascript-docker'
+
+  steps:
+  - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+
+  - task: scribeInstall@0
+
+  - task: ValintCli@0
+    inputs:
+      commandName: bom
+      target: [target]
+      format: [attest, statement]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+
+  - task: ValintCli@0
+    inputs:
+      commandName: verify
+      target: [target]
+      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+      oci: true
+      ociRepo: [oci_repo]
+```
+</details>
+
+### Basic examples
+
+<details>
+  <summary>  Public registry image (SBOM) </summary>
+
+Create SBOM for remote `busybox:latest` image.
+
+```YAML
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SBOM
+  inputs:
+    commandName: bom
+    target: busybox:latest
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    force: true
+``` 
+
+</details>

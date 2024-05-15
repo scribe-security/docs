@@ -184,7 +184,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
 </details> -->
 
 <details>
-    <summary>   Example SLSA prvenance generation and verification </summary>
+    <summary> Example SLSA prvenance generation and verification </summary>
 
   ```javascript
   pipeline {
@@ -638,4 +638,128 @@ withCredentials([file(credentialsId: 'attest-cert', variable: 'ATTEST_CERT_PATH'
               '''
     }
 ```
+</details>
+
+
+### Using custom x509 keys
+x509 signer allows you store utilize file based keys for signing.
+
+Related flags:
+* `--key` x509 Private key path.
+* `--cert` - x509 Certificate path.
+* `--ca` - x509 CA Chain path.
+
+> While using `x509`, for example `valint slsa busybox:latest --attest.default x509 --key my_key.pem ..`
+
+Related environment:
+* `ATTEST_KEY` x509 Private key pem content.
+* `ATTEST_CERT` - x509 Cert pem content.
+* `ATTEST_CA` - x509 CA Chain pem content.
+
+> While using `x509-env`, for example `ATTEST_KEY=$(cat my_key.pem) .. valint slsa busybox:latest --attest.default x509-env`
+
+> While using `x509-env` Refrain from using `slsa` command `--all-env`
+
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or [Docker Pipeline custom registry](https://www.jenkins.io/doc/book/pipeline/docker/#custom-registry).
+
+### Usage
+
+Following is a Jenkinsfile in the [declarative](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline) syntax.
+
+```javascript
+pipeline {
+  agent any
+  environment {
+    PATH="./temp/bin:$PATH"
+  }
+  stages {
+    stage('install') {
+        steps {
+          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+        }
+    }
+    stage('bom') {
+      steps {        
+        sh '''
+            valint [bom,slsa,evidence] [target] \
+              -o [attest, statement] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+      }
+    }
+
+    stage('verify') {
+      steps {
+            sh '''
+                valint verify [target] \
+                  -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+                  --context-type jenkins \
+                  --output-directory ./scribe/valint \
+                  --oci --oci-repo=[my_repo] '''
+      }
+    }
+  }
+}
+
+```
+
+<!--Scripted-->
+Following is a Jenkinsfile in the [scripted](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) syntax.
+
+```groovy
+node {
+  withEnv([
+    "PATH=./temp/bin:$PATH"
+  ]) {
+    stage('install') {
+      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
+    }
+    stage('bom') {
+        sh '''
+            valint [bom,slsa,evidence] [target] \
+              -o [attest, statement] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+    }
+
+    stage('verify') {
+      withCredentials([
+        sh '''
+            valint verify [target] \
+              -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
+              --context-type jenkins \
+              --output-directory ./scribe/valint \
+              --oci --oci-repo=[my_repo] '''
+    }
+  }
+}
+```
+
+> Use `jenkins` as context-type.
+
 </details>
