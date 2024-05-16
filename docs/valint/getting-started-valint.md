@@ -224,7 +224,7 @@ As a more complete example, here's the SBOM for Alpine:
         "version": "0.0.0",
         "externalReferences": [
           {
-            "url": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.0.0",
+            "url": "https://scribesecurity/valint:0.0.0",
             "type": "other"
           }
         ]

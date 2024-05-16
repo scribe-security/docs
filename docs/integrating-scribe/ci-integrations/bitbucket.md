@@ -335,7 +335,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
     name: valint-image-step
     script:
       - export test_env=test_env_value
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: bom
           TARGET: busybox:latest
@@ -354,7 +354,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
       - export test_env=test_env_value
 
 
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: slsa
           TARGET: busybox:latest
@@ -372,7 +372,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 - step:
     name: save-artifact-step
     script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: bom
           OUTPUT_FILE: my_sbom.json
@@ -393,7 +393,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 - step:
     name: save-artifact-step
     script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: slsa
           OUTPUT_FILE: my_slsa.json
@@ -446,7 +446,7 @@ step:
 - step:
     name: valint-git-step
     script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: bom
           TARGET: git:https://github.com/mongo-express/mongo-express.git        
@@ -459,7 +459,7 @@ For a local git repo:
         name: valint-git-step
         script:
           - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+          - pipe: docker://scribesecurity/valint-pipe:latest
             variables:
               COMMAND_NAME: bom
               TARGET: dir:scm_mongo_express   
@@ -475,7 +475,7 @@ For a local git repo:
 - step:
     name: valint-git-step
     script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+      - pipe: docker://scribesecurity/valint-pipe:latest
         variables:
           COMMAND_NAME: slsa
           TARGET: git:https://github.com/mongo-express/mongo-express.git
@@ -488,7 +488,7 @@ For a local git repo:
         name: valint-git-step
         script:
           - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
+          - pipe: docker://scribesecurity/valint-pipe:latest
             variables:
               COMMAND_NAME: slsa
               TARGET: dir:scm_mongo_express

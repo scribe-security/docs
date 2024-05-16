@@ -261,7 +261,7 @@ helm uninstall -n scribe admission-controller
 | webhook.extraArgs.structured | bool | `true` |  |
 | webhook.extraArgs.verbose | int | `2` |  |
 | webhook.image.pullPolicy | string | `"IfNotPresent"` |  |
-| webhook.image.repository | string | `"scribesecuriy.jfrog.io/scribe-docker-public-local/valint"` |  |
+| webhook.image.repository | string | `"scribesecurity/valint"` |  |
 | webhook.image.version | string | `"v0.1.4-1-admission"` |  |
 | webhook.name | string | `"webhook"` |  |
 | webhook.podSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
