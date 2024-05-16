@@ -25,7 +25,7 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your CircleCI environment by fol
 Installation instructions and usage examples can be found on the [Scribe Security Orb page](https://circleci.com/developer/orbs/orb/scribe-security/orbs)
 
 
-## Alternative evidence stores
+### Alternative evidence stores
 
 > You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 

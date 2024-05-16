@@ -341,7 +341,7 @@ jobs:
           scribe-client-secret: ${{ secrets.clientsecret }}
 ```
 
-## Alternative evidence stores
+### Alternative evidence stores
 
 > You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 
