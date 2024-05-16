@@ -75,8 +75,8 @@ Flags for all `valint` subcommands
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
 | | --rule-args | Policy arguments | [] |
-| -U | --scribe.client-id | Scribe Client ID | |
-| -P | --scribe.client-secret | Scribe Client Secret | |
+| -U | --scribe.client-id | Scribe Client ID (deprecated) | |
+| -P | --scribe.client-secret | Scribe Client Token | |
 | -E | --scribe.enable | Enable scribe client | |
 | -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
 | -s | --show | Print evidence to stdout | |

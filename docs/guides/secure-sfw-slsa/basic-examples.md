@@ -211,15 +211,15 @@ Support storage for all targets and both SLSA Provenance and SLSA evidence forma
 ```bash
 
 # Set Scribe credentials
-export SCRIBE_CLIENT_SECRET=**
+export SCRIBE_TOKEN=**
 
 # Generate and push evidence to registry
 valint slsa [target] -o [attest, statement] --f -E \
-  -P $SCRIBE_CLIENT_SECRET
+  -P $SCRIBE_TOKEN
 
 # Pull and validate evidence from registry
 valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
-  -P $SCRIBE_CLIENT_SECRET
+  -P $SCRIBE_TOKEN
 ```
 
 > Note `-f` in the verification command, which skips the local cache evidence lookup.

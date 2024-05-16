@@ -6,40 +6,39 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-### Before you begin
-Integrating Scribe Hub with a generic CI requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
+Use the following instructions to integrate Scribe with your local host or with any CI platform that has no specific reference in Scribe's documentation.
 
-* **Client Secret**
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
+2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
 
-### Procedure
-1. Download `valint`  
-   * Open your *Unix* based command line interface (CLI), such as *bash*.  
-   * Download the Scribe *valint* CLI tool   
-      ```
-      curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
-      ```
-2. Add the credentials to your CI system.
-Here is an example for setting your *client secret* credentials as environment variables:  
+### 2. Add the API token to your environemnt
+  
    ```js
-   export CLIENT-SECRET=<client_secret>
+   export SCRIBE_TOKEN=<scribe_api_token>
    ```
-   Replace <client_secret> with value you received from **Scribe Hub** to set it up as environment variables. 
+Replace '<scribe_api_token>' with the token you obtained in the previous step.
 
-3. Call Scribe `valint` from your build script.
-<!--- Copy from illustration -->
-These are the two points for adding Scribe Hub code:
-* **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. This is an important yet an ___optional___ point. 
+### 3. Download Scribe CLI
 
+**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
+```
+curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+```
+
+### 4. Instrument your build scripts
+Call Valint from your build script.
+
+At Checkout: Generate an SBOM of the source code. 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
 --scribe.client-secret=$CLIENT-SECRET -E -f
 ```
-
-* **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
+At the end of a build: Generate SBOM of the built image is created.
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> -P $SCRIBE_TOKEN -E -f
 ```
-

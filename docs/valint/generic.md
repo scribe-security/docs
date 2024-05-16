@@ -56,7 +56,7 @@ Run the following Valint command to add the report as evidence to the Scribe Ser
 ```bash
 valint evidence report.sarif -o  [attest, statement] \
   -E \
-   -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_TOKEN]
 ```
 
 ### Format

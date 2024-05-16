@@ -14,7 +14,7 @@ In your build script call,
 ```
 valint bom <target> -o [statement, attest] <flags> \
  -E \
- -P [SCRIBE_CLIENT_SECRET]
+ -P [SCRIBE_TOKEN]
 ```
 
 Where `<target>` of either type of container image, file or file directory, or a git repo. It is formatted as `[<image:tag>, <dir path>, <git url>]`.
