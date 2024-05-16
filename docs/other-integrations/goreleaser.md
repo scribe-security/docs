@@ -370,7 +370,7 @@ docker_signs:
 Download your image attestations from your release page, verify the image against Sigstore.
 
 ```shell
-valint verify scribesecuriy.jfrog.io/scribe-docker-public-local/goreleaser-example:v1.2.23 --external external:goreleaser-example_v1.2.23.image.sbom.sig
+valint verify scribesecurity/goreleaser-example:v1.2.23 --external external:goreleaser-example_v1.2.23.image.sbom.sig
 ```
 
 Output:
