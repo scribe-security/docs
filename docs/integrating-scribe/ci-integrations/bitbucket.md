@@ -1,4 +1,3 @@
-
 ---
 sidebar_label: "Bitbucket"
 title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
