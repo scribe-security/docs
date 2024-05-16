@@ -629,7 +629,8 @@ valint:
 
 
 
-## Alterative Evidence Stores - OCI
+### Alterative Evidence Stores
+
 Valint supports both storage and verification flows for `attestations` and `statement` objects using an **OCI* registry as an evidence store. <br />
 Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
 

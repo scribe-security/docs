@@ -31,7 +31,7 @@ Installation instructions and usage examples can be found on the [Scribe Securit
 > You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
-  <summary> OCI Evidence store </summary>
+  <summary> <b> OCI Evidence store </b></summary>
 
 Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
 

@@ -176,6 +176,51 @@ Composite Action can be used on Linux or Windows runners as following
 
 > Use `master` instead of tag to automatically pull latest version.
 
+
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+
+2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
+
+### 2. Add the API token to GitLab secrets
+
+Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab project variables](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
+
+### 3. Instrument your build scripts
+
+#### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          scribe-enable: true
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+
+      - uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          scribe-enable: true
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+```
+
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
 
@@ -265,95 +310,6 @@ jobs:
 
 </details>
 
-### 1. Obtain a Scribe Hub API Token
-1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
-
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
-
-:::note Important
-The token is a secret and will not be accessible from the UI after you finalize the token generation. 
-:::
-
-### 2. Add the API token to GitLab secrets
-
-Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab project variables](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
-
-### 3. Install Scribe CLI
-
-**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
-Install Valint on your build runner with the following command:
-```
-sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
-```
-Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
-```yaml
-before_script:
-  - apt update
-  - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-```
-
-### 4. Instrument your build scripts
-
-
-<details>
-  <summary> Alternative store OCI </summary>
-
-### OCI Evidence store
-Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `oci` Enable OCI store.
-* `oci-repo` - Evidence store location.
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or `docker/login-action` action.
-
-### Usage
-```yaml
-name:  scribe_github_workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.my_registry }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
-
-      - name:  Verify policy step
-        uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
-```
-</details>
 
 ### Running action as non root user
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
@@ -948,6 +904,71 @@ Install Valint as a tool
     valint bom busybox:latest
 ``` 
 </details>
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
+        uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+```
+</details>
+
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
