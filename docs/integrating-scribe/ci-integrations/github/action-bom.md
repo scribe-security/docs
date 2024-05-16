@@ -186,9 +186,9 @@ Composite Action can be used on Linux or Windows runners as following
 The token is a secret and will not be accessible from the UI after you finalize the token generation. 
 :::
 
-### 2. Add the API token to GitLab secrets
+### 2. Add the API token to Github secrets
 
-Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instructed in [GitLab project variables](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui)
+Set your Scribe Hub API token in Github with a key named SCRIBE_TOKEN as instructed in *GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")
 
 ### 3. Instrument your build scripts
 
