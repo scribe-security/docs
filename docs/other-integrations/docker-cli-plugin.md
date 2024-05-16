@@ -109,8 +109,8 @@ You may can use the default Scribe `cocosign` configuration flag.
 **Scribe root cert \<TBD public link\> to verify against.**
 
 ```bash
-docker bom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -o attest -v
-docker verify busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
+docker bom busybox:latest -E -P ${CLIENT_TOKEN} -o attest -v
+docker verify busybox:latest -E -P ${CLIENT_TOKEN} -v
 ```
 </details>
 
@@ -121,7 +121,7 @@ You can use scribe service run  integrity policies against your evidence.
 
 
 ```bash
-docker bom busybox:latest -E --U ${CLIENT_ID} -P ${CLIENT_SECRET} -v
+docker bom busybox:latest -E -P ${CLIENT_TOKEN} -v
 ```
 </details>
 

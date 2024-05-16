@@ -3,9 +3,9 @@ sidebar_label: "Bitbucket"
 title: "Bitbucket Pipelines Pipe: Scribe evidence generator"
 sidebar_position: 7
 ---
-Scribe support evidence collecting and integrity verification for Bitbucket pipelines.
+Use the following instructions to integrate your Bitbucket with Scribe.
 
-### YAML Definition
+# YAML Definition
 
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
@@ -220,85 +220,280 @@ if `COMMAND` is set to `verify`:
     FORCE: "true"
 ```
 
-### Target types - `[target]`
+# Scribe integration
 
----
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+2. Create an API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
 
-> Fields specified as [target] support the following format.
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation.
+:::
 
-### Format
+### 2. Add the API token to the Bitbucket secrets
 
-`[scheme]:[name]:[tag]`
+Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions").
 
-| Sources        | target-type | scheme         | Description                                                     | example                                   |
-| -------------- | ----------- | -------------- | --------------------------------------------------------------- | ----------------------------------------- |
-| Docker Daemon  | image       | docker         | use the Docker daemon                                           | docker:busybox:latest                     |
-| OCI registry   | image       | registry       | use the docker registry directly                                | registry:busybox:latest                   |
-| Docker archive | image       | docker-archive | use a tarball from disk for archives created from "docker save" | image                                     |
-| OCI archive    | image       | oci-archive    | tarball from disk for OCI archives                              | oci-archive:path/to/yourimage.tar         |
-| Remote git     | git         | git            | remote repository git                                           | git:https://github.com/yourrepository.git |
-| Local git      | git         | git            | local repository git                                            | git:path/to/yourrepository                |
-| Directory      | dir         | dir            | directory path on disk                                          | dir:path/to/yourproject                   |
-| File           | file        | file           | file path on disk                                               | file:path/to/yourproject/file             |
+### 3. Install Scribe CLI
 
-### Evidence Stores
+**Valint** - Scribe CLI is required to generate evidence such as SBOMs and SLSA provenance. Install the [Valint-pipe](https://bitbucket.org/scribe-security/valint-pipe/src/master/).
 
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
+### 4. Instrument your build scripts
 
-| Type   | Description                                 | requirement              |
-| ------ | ------------------------------------------- | ------------------------ |
-| scribe | Evidence is stored on scribe service        | scribe credentials       |
-| OCI    | Evidence is stored on a remote OCI registry | access to a OCI registry |
+#### Examples
 
-### Scribe Evidence store
-
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-
-> Note the flag set:
->
-> * `SCRIBE_CLIENT_SECRET`
-> * `SCRIBE_ENABLE`
-
-### Before you begin
-
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='assets/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Set your Scribe credentials as environment variables according to **[Bitbucket instructions](https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/ "Bitbucket instructions")**.
-* Use the Scribe custom pipe as shown in the example bellow
-
-### Usage
+<details>
+  <summary>Generate an SBOM for an image in a public registry</summary>
 
 ```yaml
-pipelines:
-  default:
-    - step:
-        name: scribe-bitbucket-pipeline
-        script:    
-          - pipe: scribe-security/valint-pipe:1.1.0
-            variables:
-              COMMAND_NAME: [bom,slsa,evidence]
-              TARGET:  [target]
-              FORMAT: [attest, statement]
-              SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-
-          - pipe: scribe-security/valint-pipe:1.1.0
-            variables:
-              COMMAND_NAME: verify
-              TARGET:  [target]
-              INPUT_FORMAT: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-              SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: bom
+    TARGET: busybox:latest
 ```
+</details>
+
+<details>
+  <summary>Generate SLSA provenance for an image in a public registry</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: slsa
+    TARGET: busybox:latest
+```
+</details>
+
+<details>
+  <summary>Generate evidence from a third party tool output</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: evidence
+    TARGET: some_security_report.json
+```
+</details>
+
+<details>
+  <summary>Generate an SBOM for an image built with local docker</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: bom
+    TARGET: image_name:latest
+    VERBOSE: 2
+```
+</details>
+
+<details>
+  <summary>Generate SLSA provenance for an image built with local docker</summary>
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: slsa
+    TARGET: image_name:latest
+```
+</details>
+
+<details>
+  <summary>Generate an SBOM for an image in a private registry</summary>
+
+> Add a `docker login` task before adding the following task:
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: bom
+    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+```
+</details>
+
+<details>
+  <summary>Generate SLSA provenance for an image in a private registry</summary>
+
+> Add a `docker login` task before adding the following task:
+
+```yaml
+- pipe: scribe-security/valint-pipe:1.1.0
+  variables:
+    COMMAND: slsa
+    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    VERBOSE: 2
+```
+</details>
+
+<details>
+  <summary>Add custom metadata to SBOM</summary>
+
+```yaml
+- step:
+    name: valint-image-step
+    script:
+      - export test_env=test_env_value
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: busybox:latest
+          ENV: test_env
+          LABEL: test_label
+```
+</details>
+
+<details>
+  <summary>Add custom metadata to SLSA provenance</summary>
+
+```yaml
+- step:
+    name: valint-image-step
+    script:
+      - export test_env=test_env_value
+
+
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: slsa
+          TARGET: busybox:latest
+          ENV: test_env
+          LABEL: test_label
+```
+</details>
+
+<details>
+  <summary>Export SBOM as an artifact</summary>
+
+> Use `FORMAT` input argument to set the format.
+
+```yaml
+- step:
+    name: save-artifact-step
+    script:
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: bom
+          OUTPUT_FILE: my_sbom.json
+          TARGET: busybox:latest
+
+    artifacts:
+      - scribe/**
+      - my_sbom.json
+```
+</details>
+
+<details>
+  <summary>Export SLSA provenance as an artifact</summary>
+
+> Use `format` input argument to set the format.
+
+```yaml
+- step:
+    name: save-artifact-step
+    script:
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: slsa
+          OUTPUT_FILE: my_slsa.json
+          TARGET: busybox:latest
+
+    artifacts:
+      - scribe/**
+      - my_slsa.json
+```
+</details>
+
+<details>
+  <summary> Generate an SBOM of a local file directory </summary>
+
+```yaml
+step:
+  name: dir-sbom-step
+  script:
+  - mkdir testdir
+  - echo "test" > testdir/test.txt
+  - pipe: scribe-security/valint-pipe:1.1.0
+    variables:
+      COMMAND: bom
+      TARGET: dir:./testdir
+      SCRIBE_CLIENT_SECRET: $SCRIBE_TOKEN
+```
+</details>
+<details>
+  <summary> Generate SLSA provenance of a local file directory </summary>
+  
+```YAML
+step:
+  name: dir-sbom-step
+  script:
+  - mkdir testdir
+  - echo "test" > testdir/test.txt
+  - pipe: scribe-security/valint-pipe:1.1.0
+    variables:
+      COMMAND: slsa
+      TARGET: dir:./testdir
+      SCRIBE_CLIENT_SECRET: $SCRIBE_TOKEN
+```
+</details>
+
+<details>
+  <summary> Generate an SBOM of a git repo </summary>
+  For a remote git repo:
+
+```yaml
+- step:
+    name: valint-git-step
+    script:
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: bom
+          TARGET: git:https://github.com/mongo-express/mongo-express.git        
+```
+
+For a local git repo:
+
+```yaml
+    - step:
+        name: valint-git-step
+        script:
+          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
+          - pipe: docker://scribesecurity/valint-pipe:latest
+            variables:
+              COMMAND_NAME: bom
+              TARGET: dir:scm_mongo_express   
+```
+</details>
+
+<details>
+  <summary> Generate SLSA provenance for a git repo </summary>
+  
+  For a remote git repo:
+  
+```yaml
+- step:
+    name: valint-git-step
+    script:
+      - pipe: docker://scribesecurity/valint-pipe:latest
+        variables:
+          COMMAND_NAME: slsa
+          TARGET: git:https://github.com/mongo-express/mongo-express.git
+```
+
+For a local git repo:
+
+```yaml
+    - step:
+        name: valint-git-step
+        script:
+          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
+          - pipe: docker://scribesecurity/valint-pipe:latest
+            variables:
+              COMMAND_NAME: slsa
+              TARGET: dir:scm_mongo_express
+```
+</details>
+
 
 ### Alternative evidence stores
 
@@ -352,290 +547,3 @@ pipelines:
 ```
 
 </details>
-
-## Basic examples
-
-### Public registry image (SBOM)
-
-Create SBOM from remote `busybox:latest` image.
-
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: bom
-        TARGET: busybox:latest
-        FORCE: "true"
-```
-
-### Public registry image (SLSA)
-
-Create slsa from remote `busybox:latest` image.
-
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: slsa
-        TARGET: busybox:latest
-```
-
-### Attach third-parth Evidence (Evidence)
-
-Include some third-parth tool as evidence
-
-```YAML
-  - pipe: scribe-security/valint-pipe:1.1.0
-      variables:
-        COMMAND: evidence
-        TARGET: some_security_report.json
-```
-
-### Docker built image (SBOM)
-
-Create SBOM for image built by local docker `image_name:latest` image.
-
-```YAML
-- pipe: scribe-security/valint-pipe:1.1.0
-  variables:
-    COMMAND: bom
-    TARGET: image_name:latest
-    VERBOSE: 2
-    FORCE: "true"
-```
-
-### Docker built image (SLSA)
-
-Create SLSA for image built by local docker `image_name:latest` image.
-
-```YAML
-- pipe: scribe-security/valint-pipe:1.1.0
-  variables:
-    COMMAND: slsa
-    TARGET: image_name:latest
-    FORCE: "true"
-```
-
-### Private registry image (SBOM)
-
-Create SBOM for image hosted on private registry.
-
-> Use `docker login` to add access.
-
-```YAML
-- pipe: scribe-security/valint-pipe:1.1.0
-  variables:
-    COMMAND: bom
-    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    FORCE: true
-```
-
-### Private registry image (SLSA)
-
-Create SLSA for image hosted on private registry.
-
-> Use `docker login` to add access.
-
-```YAML
-- pipe: scribe-security/valint-pipe:1.1.0
-  variables:
-    COMMAND: slsa
-    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    FORCE: true
-    VERBOSE: 2
-```
-
-### Custom metadata (SBOM)
-
-Custom metadata added to SBOM.
-
-```YAML
-- step:
-    name: valint-image-step
-    script:
-      - export test_env=test_env_value
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: bom
-          TARGET: busybox:latest
-          FORCE: "true"
-          ENV: test_env
-          LABEL: test_label
-```
-
-### Custom metadata (SLSA)
-
-Custom metadata added to SLSA.
-
-```YAML
-- step:
-    name: valint-image-step
-    script:
-      - export test_env=test_env_value
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: slsa
-          TARGET: busybox:latest
-          FORCE: "true"
-          ENV: test_env
-          LABEL: test_label
-```
-
-### Save as artifact SBOM
-
-Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
-
-> Use input variable `FORMAT` to select between supported formats.
-
-```YAML
-- step:
-    name: save-artifact-step
-    script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: bom
-          OUTPUT_FILE: my_sbom.json
-          TARGET: busybox:latest
-          FORCE: "true"
-    artifacts:
-      - scribe/**
-      - my_sbom.json
-```
-
-### Save as artifact SLSA
-
-Using input variable `OUTPUT_DIRECTORY` or `OUTPUT_FILE` to export evidence as an artifact.
-
-> Use input variable `FORMAT` to select between supported formats.
-
-```YAML
-- step:
-    name: save-artifact-step
-    script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: slsa
-          OUTPUT_FILE: my_slsa.json
-          TARGET: busybox:latest
-          FORCE: "true"
-    artifacts:
-      - scribe/**
-      - my_sbom.json
-```
-
-### Directory target (SBOM)
-
-Create SBOM from a local directory.
-
-```YAML
-step:
-  name: dir-sbom-step
-  script:
-  - mkdir testdir
-  - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:1.1.0
-    variables:
-      COMMAND: bom
-      TARGET: dir:./testdir
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-```
-
-### Directory target (SLSA)
-
-Create SLSA from a local directory.
-
-```YAML
-step:
-  name: dir-sbom-step
-  script:
-  - mkdir testdir
-  - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:1.1.0
-    variables:
-      COMMAND: slsa
-      TARGET: dir:./testdir
-      SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
-```
-
-### Git target (SBOM)
-
-Create SBOM for `mongo-express` remote git repository.
-
-```YAML
-- step:
-    name: valint-git-step
-    script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: bom
-          TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2
-          FORCE: "true"
-```
-
-Create SBOM for local git repository.
-
-```YAML
-    - step:
-        name: valint-git-step
-        script:
-          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-            variables:
-              COMMAND_NAME: bom
-              TARGET: dir:scm_mongo_express
-              VERBOSE: 2
-              FORCE: "true"
-```
-
-### Git target (SLSA)
-
-Create SLSA for `mongo-express` remote git repository.
-
-```YAML
-- step:
-    name: valint-git-step
-    script:
-      - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-        variables:
-          COMMAND_NAME: slsa
-          TARGET: git:https://github.com/mongo-express/mongo-express.git
-          VERBOSE: 2
-          FORCE: "true"
-```
-
-Create SLSA for local git repository.
-
-```YAML
-    - step:
-        name: valint-git-step
-        script:
-          - git clone https://github.com/mongo-express/mongo-express.git scm_mongo_express
-          - pipe: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint-pipe:dev-latest
-            variables:
-              COMMAND_NAME: slsa
-              TARGET: dir:scm_mongo_express
-              VERBOSE: 2
-              FORCE: "true"
-```
-
-## Resources
-If you're new to Bitbucket pipelines this link should help you get started:
-
-[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/ "Get started with Bitbucket Pipelines") - Get started with Bitbucket Pipelines.
-
-## Support
-
-If you'd like help with this pipe, or you have an issue or a feature request, [let us know](https://github.com/scribe-security/valint-pipe/issues).
-
-If you are reporting an issue, please include:
-
-- the version of the pipe
-- relevant logs and error messages
-- steps to reproduce
-
-By email or slack, 
-[Contact-us](https://scribesecurity.com/contact-us/).
-
-## License
-
-Copyright (c) 2019 Atlassian and others.
-Apache 2.0 licensed, see [LICENSE](LICENSE.txt) file.

@@ -51,11 +51,11 @@ To overcome the limitation install tool directly - **[installer](https://github.
   format:
     description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
   package-group:
-    description: Select package group, options=all
+    description: Select package group, options=[index install all]
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
   supplier-email:
     description: Set supplier email
   supplier-name:
@@ -98,6 +98,10 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  gate:
+    description: Policy Gate name
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -135,10 +139,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Product Version
   rule-args:
     description: Policy arguments
-  scribe-auth-audience:
-    description: Scribe auth audience
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
   scribe-enable:
     description: Enable scribe client
   scribe-url:
@@ -175,6 +177,51 @@ Composite Action can be used on Linux or Windows runners as following
 ```
 
 > Use `master` instead of tag to automatically pull latest version.
+
+
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+
+2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
+
+### 2. Add the API token to Github secrets
+
+Set your Scribe Hub API token in Github with a key named SCRIBE_TOKEN as instructed in *GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")
+
+### 3. Instrument your build scripts
+
+#### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          scribe-enable: true
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+
+      - uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          scribe-enable: true
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+```
 
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
@@ -265,149 +312,6 @@ jobs:
 
 </details>
 
-### Target types - `[target]`
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
-
-> Fields specified as [target] support the following format.
-
-### Format
-
-`[scheme]:[name]:[tag]` 
-
-> Backwards compatibility: It is still possible to use the `type: [scheme]`, `target: [name]:[tag]` format.
-
-| Sources | target-type | scheme | Description | example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
-
-| Type  | Description | requirement |
-| --- | --- | --- |
-| scribe | Evidence is stored on scribe service | scribe credentials |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
-
-### Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-> Note the flag set:
->* `scribe-client-id`
->* `scribe-client-secret`
->* `scribe-enable`
-
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Add the credentials according to the **[GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")**. Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
-
-* Use the Scribe custom actions as shown in the example bellow
-
-### Usage
-
-```yaml
-name:  scribe_github_workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement]
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-
-      - uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [attest, statement]
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-```
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../../other-evidence-stores)**.
-
-
-<details>
-  <summary> Alternative store OCI </summary>
-
-### OCI Evidence store
-Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `oci` Enable OCI store.
-* `oci-repo` - Evidence store location.
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or `docker/login-action` action.
-
-### Usage
-```yaml
-name:  scribe_github_workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.my_registry }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
-
-      - name:  Verify policy step
-        uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
-```
-</details>
 
 ### Running action as non root user
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
@@ -1002,6 +906,71 @@ Install Valint as a tool
     valint bom busybox:latest
 ``` 
 </details>
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
+        uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+```
+</details>
+
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
