@@ -139,7 +139,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.3.1
+  uses: scribe-security/action-verify@v1.4.2
   with:
       target: 'busybox:latest'
 ```
@@ -147,7 +147,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.3.1
+  uses: scribe-security/action-verify-cli@v1.4.2
   with:
     target: 'hello-world:latest'
 ```
