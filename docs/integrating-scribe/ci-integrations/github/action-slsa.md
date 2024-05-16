@@ -302,67 +302,6 @@ jobs:
 
 </details>
 
-### Alternative evidence stores
-
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
-
-<details>
-  <summary> <b> OCI Evidence store </b></summary>
-Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `oci` Enable OCI store.
-* `oci-repo` - Evidence store location.
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or `docker/login-action` action.
-
-### Usage
-```yaml
-name:  scribe_github_workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.my_registry }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name:  Generate evidence step
-        uses: scribe-security/action-slsa@master
-        with:
-          target: [target]
-          format: [statement attest predicate] (default [statement])
-          oci: true
-          oci-repo: [oci_repo]
-
-      - name:  Verify policy step
-        uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [statement attest predicate] (default [statement])
-          oci: true
-          oci-repo: [oci_repo]
-```
-</details>
-
 ### Running action as non root user
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
 
@@ -974,6 +913,69 @@ Install valint as a tool
     valint bom busybox:latest
 ``` 
 </details>
+
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
+        uses: scribe-security/action-slsa@master
+        with:
+          target: [target]
+          format: [statement attest predicate] (default [statement])
+          oci: true
+          oci-repo: [oci_repo]
+
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [statement attest predicate] (default [statement])
+          oci: true
+          oci-repo: [oci_repo]
+```
+</details>
+
 
 ## .gitignore
 Recommended to add output directory value to your .gitignore file.
