@@ -3,7 +3,7 @@ sidebar_position: 8
 sidebar_label: "Tekton CI/CD"
 title: Integrating Scribe in your Tekton Pipelines
 ---
-Use the following instructions to integrate your Azure pipelines with Scribe.
+Use the following instructions to integrate your Tekton pipelines with Scribe.
 
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
@@ -41,9 +41,36 @@ Omit `--namespace` if installing in the `default` namespace.
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
 1. Install Azure DevOps [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) from the Azure marketplace.  
-2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.  
+2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.
 
 ### 4. Instrument your build scripts
+
+#### Usage
+```yaml
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: valint-test-pipeline
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-bom
+    taskRef:
+      name: valint
+    params:
+    - name: args
+      value: bom busybox:latest
+```
+
+#### Parameters
+
+| Parameter | Description | Default |
+| --- | --- | ---: |
+| `scribe-secret` | The name of the secret that has the scribe security secrets. | scribe-secret |
+| `args` | Arguments of the `valint` CLI | |
+| `image-version-sha` | The ID of the valint image cli to be used. | |
+
 
 #### Basic example
 

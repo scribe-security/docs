@@ -24,6 +24,7 @@ The token is a secret and will not be accessible from the UI after you finalize 
 ### 2. Add the API token to the Azure DevOps secrets
 
 Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables").
+
 ### 3. Install Scribe CLI
 
 **Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
