@@ -35,10 +35,16 @@ The command allows users to verify any target against its evidence.
     description: Default policy allowed emails
   force:
     description: Force skip cache
+  initiative:
+    description: Run only rules with specified initiative
   input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic]
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
+  policy:
+    description: Policy configuration file path (early-availability)
   rule:
     description: Rule configuration file path (early-availability)
+  rule-label:
+    description: Run only rules with specified label
   skip-bundle:
     description: Skip bundle download
   skip-report:
@@ -79,6 +85,10 @@ The command allows users to verify any target against its evidence.
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  gate:
+    description: Policy Gate name
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -116,14 +126,10 @@ The command allows users to verify any target against its evidence.
     description: Product Version
   rule-args:
     description: Policy arguments
-  scribe-auth-audience:
-    description: Scribe auth audience
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:

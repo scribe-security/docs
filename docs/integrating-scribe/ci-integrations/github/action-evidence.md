@@ -38,17 +38,19 @@ The `valint evidence` action is a versatile action designed to include various t
   format:
     description: Evidence format, options=[statement attest]
   format-encoding:
-    description: Format encoding
+    description: Evidence Format encoding
   format-type:
-    description: Format type
+    description: Evidence Format type
   format-version:
-    description: Format version
+    description: Evidence Format version
+  parser:
+    description: Evidence Parser Name
   tool:
-    description: Tool name
+    description: Evidence Tool name
   tool-vendor:
-    description: Tool vendor
+    description: Evidence Tool vendor
   tool-version:
-    description: Tool version
+    description: Evidence Tool version
   allow-expired:
     description: Allow expired certs
   attest-config:
@@ -83,6 +85,10 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  gate:
+    description: Policy Gate name
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -120,14 +126,10 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Product Version
   rule-args:
     description: Policy arguments
-  scribe-auth-audience:
-    description: Scribe auth audience
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:

@@ -90,6 +90,10 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  gate:
+    description: Policy Gate name
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -127,14 +131,10 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Product Version
   rule-args:
     description: Policy arguments
-  scribe-auth-audience:
-    description: Scribe auth audience
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
   scribe-enable:
     description: Enable scribe client
-  scribe-login-url:
-    description: Scribe login url
   scribe-url:
     description: Scribe API Url
   structured:
