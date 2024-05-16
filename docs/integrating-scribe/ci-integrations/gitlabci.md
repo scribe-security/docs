@@ -6,33 +6,6 @@ sidebar_position: 3
 
 Use the following instructions to integrate your GitLab pipelines with Scribe.
 
-### Installation
-Install the Scribe `valint` CLI tool:
-```yaml
-before_script:
-  - apt update
-  - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-```
-
-### Usage
-```yaml
-before_script:
-  - apt update
-  - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
-stages:
-    - scribe-gitlab-job
-
-scribe-gitlab-job:
-    stage: scribe-gitlab-job
-    script:
-      - valint bom busybox:latest
-          --context-type gitlab
-          --output-directory ./scribe/valint
-          -f
-```
-
 ### 1. Obtain a Scribe Hub API Token
 1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
