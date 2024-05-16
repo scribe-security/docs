@@ -596,3 +596,27 @@ Effortlessly configure global variables to tailor the integration to your specif
 | `LOG_LEVEL`                      | Log level to use.                                               |
 | `DEBUG`                          | Enable API trace mode.                                          |
 | `VALINT_LOG_LEVEL`               | Valint log level to use.
+
+## Hosted Runner Setup
+
+**Utilizing Gitlab's Hosted Runner for Platform Jobs**
+
+When orchestrating jobs on the Platforms, Gitlab's Hosted Runner offers a convenient solution. Here's what you need to ensure for a smooth setup:
+
+### 1. Pull Policy Configuration
+
+- **Configuration Check:** Ensure that the `pull_policy` parameter in your job setup aligns with the permissions allowed by your runner's `allowed_pull_policies` configuration.
+
+[Learn More](https://docs.gitlab.com/runner/executors/docker.html#allow-docker-pull-policies)
+
+### 2. Docker-in-Docker (DIND) Setup
+
+- **Certificate Mapping:** When employing Docker-in-Docker (DIND), make sure that communication certificates are correctly mapped to the runner.
+
+[Explore Setup Details](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#docker-in-docker-with-tls-enabled-in-the-docker-executor)
+
+### 3. Distributed Cache Requirement
+
+- **Database Transfer:** A vital requirement involves transporting the database from the Discovery Stage to subsequent stages such as BOM and Policy. This necessitates a distributed cache setup.
+
+[Refer Implementation Guide](https://docs.gitlab.com/runner/configuration/autoscale.html#distributed-runners-caching)
