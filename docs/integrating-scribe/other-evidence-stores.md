@@ -7,8 +7,11 @@ toc_max_heading_level: 5
 ---
 
 ### OCI Evidence store
-In standalone deployments or other cases when you don’t want to connect your SDLC with Scribe Hub, you can use an OCI registry to store and retrieve evidence. This allows you to store evidence from your CI pipeline and retrieve it at the point of admission control into your Kubernetes cluster. 
+
+In standalone deployments or other cases when you don’t want to connect your SDLC with Scribe Hub, you can use an OCI registry to store and retrieve evidence. This allows you to store evidence from your CI pipeline and retrieve it at the point of admission control into your Kubernetes cluster.
+
 #### Flags
+
 * `--oci` Enable OCI store
 * `--oci-repo` Evidence store location
 `oci-repo` setting indicates the location in a registry under which the evidence is stored. It must be a dedicated location in an OCI registry. for example, ```scribesecuriy.jfrog.io/my_docker-registry/evidence```.
