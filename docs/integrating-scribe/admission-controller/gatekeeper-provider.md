@@ -213,7 +213,7 @@ select:
       name: require_signed_images
       rules:
       - name: error_on_unsigned_image
-        uses: sboms/artifact-signed@v1
+        uses: sbom/artifact-signed@v1
         level: error
 ```
 
@@ -536,7 +536,7 @@ select:
       name: default-provider-policy
       rules:
       - name: warn_on_unsigned_image
-        uses: sboms/artifact-signed@v1
+        uses: sbom/artifact-signed@v1
         level: "warning"
 ```
 
@@ -700,7 +700,7 @@ select:
       name: require_signed_images
       rules:
       - name: error_on_unsigned_image
-        uses: sboms/artifact-signed@v1
+        uses: sbom/artifact-signed@v1
         level: error
 ```
 
