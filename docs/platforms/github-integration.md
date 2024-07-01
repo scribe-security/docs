@@ -41,8 +41,9 @@ Further documentation **[Platforms integration](../../../platforms/overview)**.
 - name: Discover k8s assets
   uses: scribe-security/action-platforms@master
   with:
-    cmd: [discover, evidence, bom, verify]
+    command: [discover, evidence, bom, verify]
     platform: [k8s, dockerhub, gitlab, github]
+    args: [FLAGS]
 ```
 
 ## Setting Secret Flags
