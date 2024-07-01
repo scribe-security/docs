@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Platforms Github Integration"
-title: Scribe Platforms CLI Action
+title: Scribe Platforms Github Action
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 5
