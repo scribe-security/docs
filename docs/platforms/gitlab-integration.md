@@ -258,7 +258,7 @@ variables:
 
   ######### DISCOVERY KUBERNETES VARIABLES #########
   K8S_TOKEN: $K8S_TEST_CLUSTER_TOKEN # K8s discovery token
-  K8S_URL: https://56E073BB3D6C84F4E42CEF28C0AEA1CE.sk1.us-west-2.eks.amazonaws.com # K8s discovery URL
+  K8S_URL: https://my_cluster.com # K8s discovery URL
   
   ######### DIND VARIABLES #########
   DOCKER_DRIVER: overlay2
