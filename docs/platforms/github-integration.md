@@ -38,7 +38,7 @@ Further documentation **[Platforms integration](../../../platforms/overview)**.
 
 ### Usage
 ```yaml
-- name: Discover k8s assets
+- name: Platform usage example
   uses: scribe-security/action-platforms@master
   with:
     command: [discover, evidence, bom, verify]
