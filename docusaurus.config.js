@@ -157,6 +157,7 @@ const config = {
                 "scribe-hub-reports/vulnerabilities.md",                                                                               
                 "scribe-api/README.md",
                 "platforms/gitlab-integration.md",
+                "platforms/github-integration.md",
                 "platforms/overview.md",
                 "platforms/discover.md",
                 "platforms/bom.md",

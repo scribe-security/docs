@@ -258,7 +258,7 @@ variables:
 
   ######### DISCOVERY KUBERNETES VARIABLES #########
   K8S_TOKEN: $K8S_TEST_CLUSTER_TOKEN # K8s discovery token
-  K8S_URL: https://56E073BB3D6C84F4E42CEF28C0AEA1CE.sk1.us-west-2.eks.amazonaws.com # K8s discovery URL
+  K8S_URL: https://my_cluster.com # K8s discovery URL
   
   ######### DIND VARIABLES #########
   DOCKER_DRIVER: overlay2
@@ -620,3 +620,15 @@ When orchestrating jobs on the Platforms, Gitlab's Hosted Runner offers a conven
 - **Database Transfer:** A vital requirement involves transporting the database from the Discovery Stage to subsequent stages such as BOM and Policy. This necessitates a distributed cache setup.
 
 [Refer Implementation Guide](https://docs.gitlab.com/runner/configuration/autoscale.html#distributed-runners-caching)
+
+### 4. DNS Failure Issues
+
+- **DNS Service:** To ensure proper DNS functionality for the runners, we recommend using the DNSCache DaemonSet.
+
+[Using NodeLocal DNSCache in Kubernetes Clusters](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
+
+### 5. Enabling `pull_policy`
+
+- **Pull Strategy:** In our examples, we use the pull policy `always`, which requires adding it to the runners' allowed list.
+
+[Set pull policy](https://docs.gitlab.com/runner/executors/kubernetes/#set-a-pull-policy)
