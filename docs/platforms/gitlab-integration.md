@@ -52,7 +52,8 @@ You may find the reusable Jobs in the following location.
 variables:
   ####### PLATFORMS TOOL VERSION #######
   PLATFORMS_VERSION: "latest" # Platform APP Version
-  
+  SCRIBE_PRODUCT_VERSION: "v1.6"
+
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
@@ -65,7 +66,9 @@ variables:
   ATTEST_CA_B64: $ATTEST_CA_B64 # Evidence Signing CA
 
   ######### DISCOVERY GITLAB VARIABLES #########
-  GITLAB_TOKEN: $GITLAB_PAT_TOKEN # Gitlab discovery token
+  GITLAB_TOKEN: $GITLAB_PAT_TOKEN 
+  GITLAB_COMMIT_TIME_SCOPE: 90
+  GITLAB_PIPELINE_TIME_SCOPE: 90
 
 stages:
   - discovery
@@ -76,15 +79,17 @@ include:
   # DISCOVERY
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-gitlab.yml
     inputs:
-      project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
-      organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
+      project-mapping: "*flask-monorepo-project::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs-vue-sample-proj::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
+      organization-mapping: "*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
       gitlab-token: ${GITLAB_TOKEN}
+      scope-commit-days: ${GITLAB_COMMIT_TIME_SCOPE}
+      scope-pipeline-days: ${GITLAB_PIPELINE_TIME_SCOPE}
 
   # POLICY
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-gitlab.yml
     inputs:
-      project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
-      organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
+       project-mapping: "*flask-monorepo-project::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs-vue-sample-proj::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
+      organization-mapping: "*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
 
 discovery-gitlab:
   stage: discovery
@@ -133,7 +138,8 @@ policy-gitlab:
 variables:
   ####### PLATFORMS TOOL VERSION #######
   PLATFORMS_VERSION: "latest" # Platform APP Version
-  
+  SCRIBE_PRODUCT_VERSION: "v1.6"
+
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
@@ -148,6 +154,7 @@ variables:
   ######### DISCOVERY DOCKERHUB VARIABLES #########
   DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
   DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD_B64
+  DOCKERHUB_TIME_SCOPE: 90
 
   ######### DIND VARIABLES #########
   DOCKER_DRIVER: overlay2
@@ -172,19 +179,21 @@ include:
   # DISCOVERY
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-dockerhub.yml
     inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
+      namespace-mapping: "*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
+      repository-mapping: "*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs*::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
       username: ${DOCKERHUB_USERNAME}
       password-b64: ${DOCKERHUB_PASSWORD_B64}
+      scope-days: ${DOCKERHUB_TIME_SCOPE}
 
   # BOM
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-dockerhub.yml
     inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
+      mapping: "*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs*::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
 
   # POLICY
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-dockerhub.yml
     inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
+      image-mapping: "*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs*::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
 
 discovery-dockerhub:
   stage: discovery
@@ -244,7 +253,8 @@ policy-dockerhub:
 variables:
   ####### PLATFORMS TOOL VERSION #######
   PLATFORMS_VERSION: "latest" # Platform APP Version
-  
+  SCRIBE_PRODUCT_VERSION: "v1.6"
+
   ####### VALINT GLOBAL VARIABLES #######
   VALINT_SCRIBE_AUTH_CLIENT_SECRET: $SCRIBE_CLIENT_TOKEN # Scribe Service Client Secret
   VALINT_SCRIBE_ENABLE: true
@@ -278,17 +288,6 @@ stages:
 
 include:
   # DISCOVERY
-  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-gitlab.yml
-    inputs:
-      project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
-      organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
-      gitlab-token: ${GITLAB_TOKEN}
-
-  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-dockerhub.yml
-    inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
-      username: ${DOCKERHUB_USERNAME}
-      password-b64: ${DOCKERHUB_PASSWORD_B64}
 
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-k8s.yml
     inputs:
@@ -298,27 +297,14 @@ include:
       url: ${K8S_TOKEN}
 
   # BOM
-  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-dockerhub.yml
-    inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
-
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-k8s.yml
     inputs:
-      mapping: "*default*::*::*::factory2::V.2"
+      mapping: "default::*service-*::*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION}"
 
   # POLICY
-  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-gitlab.yml
-    inputs:
-      project-mapping: "flask-monorepo-project::Flask::V.2 dhs-vue-sample-proj::dhs-vue-sample-proj::V.2"
-      organization-mapping: "*::Flask::V.2 *::dhs-vue-sample-proj::V.2"
-
-  - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-dockerhub.yml
-    inputs:
-      mapping: "*service-*::Flask::V.2 *dhs*::dhs-vue-sample-proj::V.2"
-
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-k8s.yml
     inputs:
-      mapping: "*default*::*::*::factory2::V.2"
+      image-mapping: "default::*service-*::*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION}"
 
 discovery-gitlab:
   stage: discovery
