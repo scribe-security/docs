@@ -288,7 +288,6 @@ stages:
 
 include:
   # DISCOVERY
-
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/discover-k8s.yml
     inputs:
       namespace-mapping: "*default*::factory2::V.2"
