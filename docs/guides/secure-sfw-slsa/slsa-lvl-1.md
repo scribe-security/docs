@@ -27,7 +27,6 @@ Use command flags to **[customize the content of the provenance document](custom
 Verify downstream that the attestation exists in the **[evidence store](../../integrating-scribe/other-evidence-stores)** by calling:
 ```
   valint verify [target] -i statement-slsa \
-  -E \
    -P [SCRIBE_TOKEN]
 ```
 #### Examples

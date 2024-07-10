@@ -36,7 +36,6 @@ build:
       uses: scribe-security/action-bom@master
       with:
         target: 'git:.'
-        scribe-enable: true
         product-key: ${{ github.repository }}
          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
         label: is_git_commit
