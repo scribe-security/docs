@@ -74,9 +74,8 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                 uses: scribe-security/action-bom@master
                 with:
                     target: 'git:.'
-                    scribe-enable: true
                     product-key: ${{ github.repository }}
-                                 scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
+                    scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                     label: is_git_commit
                     format: attest
                     
@@ -133,7 +132,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     uses: scribe-security/action-bom@master
                     with:
                         target: 'git:.'
-                        scribe-enable: true
                         components: packages,files,dep
                                          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
@@ -147,7 +145,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     uses: scribe-security/action-bom@master
                     with:
                         target: 'docker:scribe-demo-product:${{ github.sha }}'
-                        scribe-enable: true
                         
                         product-key: ${{ github.repository }}:${{ github.sha }}
                                          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
@@ -250,7 +247,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     uses: scribe-security/action-bom@master
                     with:
                         target: 'git:.'
-                        scribe-enable: true
                         components: packages,files,dep
                                          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest
@@ -264,8 +260,6 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                     uses: scribe-security/action-bom@master
                     with:
                         target: 'docker:${{ github.repository }}:${{ github.sha }}'
-                        scribe-enable: true
-                        
                         product-key: ${{ github.repository }}:${{ github.sha }}
                                          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
                         format: attest

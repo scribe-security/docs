@@ -13,7 +13,6 @@ In your build script call,
 
 ```
 valint bom <target> -o [statement, attest] <flags> \
- -E \
  -P [SCRIBE_TOKEN]
 ```
 

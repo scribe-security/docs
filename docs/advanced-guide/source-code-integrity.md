@@ -53,13 +53,13 @@ As an example, here's what you need to do in a general pipeline where you use CL
 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v
+--scribe.client-secret=$CLIENT-SECRET -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
    $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f -v
+   --scribe.client-secret=$CLIENT-SECRET -f -v
    --supplier-phone $SUPPLIER-PHONE   
 ```
 

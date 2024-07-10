@@ -22,7 +22,7 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 ```bash
 usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX]
                                     [--evidence.local_only] [--valint.scribe.client-id CLIENT_ID]
-                                    [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable]
+                                    [--valint.scribe.client-secret CLIENT_SECRET]
                                     [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
                                     [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
                                     [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
@@ -44,8 +44,6 @@ options:
                         Scribe client ID (type: str, default: )
   --valint.scribe.client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
   --valint.log-level LOG_LEVEL

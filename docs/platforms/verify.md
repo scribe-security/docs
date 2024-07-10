@@ -20,7 +20,7 @@ The recommended use of the verify command with the product-mapping capabilities;
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [-h] [--valint.scribe.client-id CLIENT_ID]
-                                  [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable]
+                                  [--valint.scribe.client-secret CLIENT_SECRET]
                                   [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
                                   [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
                                   [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]

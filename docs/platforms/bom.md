@@ -19,7 +19,7 @@ This command enables users to generate SBOMs on scale.
 usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT]
                                [--monitor.threshold THRESHOLD] [--monitor.clean-docker]
                                [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
-                               [--valint.scribe.enable] [--valint.context-type CONTEXT_TYPE]
+                               [--valint.context-type CONTEXT_TYPE]
                                [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
                                [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
                                [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
@@ -43,8 +43,6 @@ options:
                         Scribe client ID (type: str, default: )
   --valint.scribe.client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
   --valint.log-level LOG_LEVEL

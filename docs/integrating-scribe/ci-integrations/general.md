@@ -36,9 +36,9 @@ Call Valint from your build script.
 At Checkout: Generate an SBOM of the source code. 
 ```
 $HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f
+--scribe.client-secret=$CLIENT-SECRET -f
 ```
 At the end of a build: Generate SBOM of the built image is created.
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> -P $SCRIBE_TOKEN -E -f
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> -P $SCRIBE_TOKEN -f
 ```

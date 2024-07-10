@@ -199,14 +199,12 @@ jobs:
         with:
           target: [file]
           format: [attest, statement]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 
       - uses: scribe-security/action-verify@master
         with:
           target: [target]
           input-format: [attest-generic, statement-generic]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 ```
 

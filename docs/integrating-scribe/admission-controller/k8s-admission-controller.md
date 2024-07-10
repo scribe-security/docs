@@ -218,7 +218,7 @@ After installing the admission you you want to upload evidence .
 ### Upload to Scribe service
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint [bom,slsa,evidence] [target] -o [attest, statement] -E \
+valint [bom,slsa,evidence] [target] -o [attest, statement] \
   -P $SCRIBE_TOKEN
 ```
 

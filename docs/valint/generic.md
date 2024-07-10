@@ -74,7 +74,6 @@ trivy image --format sarif -o report.sarif  golang:1.12-alpine
 Run the following Valint command to add the report as evidence to the Scribe Service.
 ```bash
 valint evidence report.sarif -o  [attest, statement] \
-  -E \
    -P [SCRIBE_TOKEN]
 ```
 

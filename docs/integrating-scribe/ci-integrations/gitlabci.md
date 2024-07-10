@@ -54,13 +54,13 @@ scribe-gitlab-job:
           -o [attest, statement]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_TOKEN
+          -P $SCRIBE_TOKEN
 
       - valint verify [target]
           -i [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_TOKEN
+          -P $SCRIBE_TOKEN
 ```
 
 #### Basic example
@@ -80,7 +80,7 @@ scribe-gitlab-job:
       - valint bom busybox:latest
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_TOKEN
+          -P $SCRIBE_TOKEN
 ```
 #### Additional examples
 <details>

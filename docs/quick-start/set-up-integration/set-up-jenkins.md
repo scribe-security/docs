@@ -87,7 +87,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -106,7 +106,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
           }
       }
     }

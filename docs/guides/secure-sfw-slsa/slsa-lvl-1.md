@@ -17,10 +17,9 @@ The general Valint call structure is:
 ```
   # Create an unsigned SLSA Provenance Document
   valint slsa [target] -o statement \
-  -E \
    -P [SCRIBE_TOKEN]
 ```
-Where `[Target]` is the build artifact and `-E` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
+Where `[Target]` is the build artifact and `SCRIBE_TOKEN` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
 
 You can store the Provenance Document in **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**.
 Use command flags to **[customize the content of the provenance document](customizing-provenance)**.
@@ -62,7 +61,7 @@ scribe-gitlab-job:
           -o attest-slsa
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_TOKEN
+          -P $SCRIBE_TOKEN
 ```
 </details>
 
@@ -92,7 +91,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_TOKEN \
+        -P $SCRIBE_TOKEN \
 ```
 </details>
 
