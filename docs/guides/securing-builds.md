@@ -324,13 +324,13 @@ build:
 ```
 2. Verifying checkout - generate an SBOM of your checked-out repo.  Example CLI command (See **[CI/CD Integrations](../integrating-scribe/ci-integrations)** for your specific CI system):
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -f
+$HOME/.scribe/bin/valint bom dir:<path> \
+--scribe.client-secret=$SCRIBE_TOKEN -f
 ```
 3. Generate an SBOM of the final Docker image was built so that Scribe Hub knows the build completed:
 ```
- $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-  --scribe.client-secret=$CLIENT-SECRET -f
+ $HOME/.scribe/bin/valint bom <your_docker_repository:tag> \
+  --scribe.client-secret=$SCRIBE_TOKEN -f
 ```
 
 Scribe Hub compares the checkout SBOM with the SBOM from the relevant commit. Note that the commit SBOM and the checkout SBOM must be generated from separate workflows. If one of these SBOMs isn't found, Scribe skips this integrity check.

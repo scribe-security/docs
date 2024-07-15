@@ -78,7 +78,7 @@ The following are the steps required to create an attestation of your GitHub acc
 ```
 docker run -e GH_TOKEN scribesecurity/gitgat:latest data.github.report.print_report 2> report.md
 $HOME/.scribe/bin/valint bom report.md --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -f -v
+--scribe.client-secret=$SCRIBE_TOKEN -f -v
 ```
 
 <img src='../../../../img/start/gitgat-1.jpg' alt='GitGat run'/>
