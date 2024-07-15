@@ -38,68 +38,38 @@ To overcome the limitation install tool directly - **[installer](https://github.
     required: true
   attach-regex:
     description: Attach files content by regex
+  attest-config:
+    description: Attestation config path
+  attest-default:
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
   author-email:
     description: Set author email
   author-name:
     description: Set author name
   author-phone:
     description: Set author phone
-  components:
-    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  force:
-    description: Force overwrite cache
-  format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
-  package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
-  package-group:
-    description: Select package group, options=[index install all]
-  package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
-  supplier-email:
-    description: Set supplier email
-  supplier-name:
-    description: Set supplier name
-  supplier-phone:
-    description: Set supplier phone
-  supplier-url:
-    description: Set supplier url
-  allow-expired:
-    description: Allow expired certs
-  attest-config:
-    description: Attestation config path
-  attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  backoff:
-    description: Backoff duration
   ca:
     description: x509 CA Chain path
-  cache-enable:
-    description: Enable local cache
   cert:
     description: x509 Cert path
-  config:
-    description: Configuration file path
-  context-dir:
-    description: Context dir
+  components:
+    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
   crl:
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  deliverable:
-    description: Mark as deliverable, options=[true, false]
   depth:
     description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
-  env:
-    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
-  gate:
-    description: Policy Gate name
+  force:
+    description: Force overwrite cache
+  format:
+    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -110,6 +80,40 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Git tag in the repository
   key:
     description: x509 Private key path
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
+  package-exclude-type:
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
+  package-group:
+    description: Select package group, options=[index install all]
+  package-type:
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
+  payload:
+    description: path of the decoded payload
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
+  provenance:
+    description: Include SLSA Provenance evidence
+  supplier-email:
+    description: Set supplier email
+  supplier-name:
+    description: Set supplier name
+  supplier-phone:
+    description: Set supplier phone
+  supplier-url:
+    description: Set supplier url
+  cache-enable:
+    description: Enable local cache
+  config:
+    description: Configuration file path
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
+  env:
+    description: Environment keys to include in evidence
+  gate:
+    description: Policy Gate name
   label:
     description: Add Custom labels
   level:
@@ -118,10 +122,6 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Attach context to all logs
   log-file:
     description: Output log to file
-  oci:
-    description: Enable OCI store
-  oci-repo:
-    description: Select OCI custom attestation repo
   output-directory:
     description: Output directory path
     default: ./scribe/valint
@@ -129,20 +129,20 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  platform:
-    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
-  rule-args:
-    description: Policy arguments
+  scribe-client-id:
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
     description: Scribe Client Token
+  scribe-disable:
+    description: Disable scribe client
   scribe-enable:
-    description: Enable scribe client
+    description: Enable scribe client (deprecated)
   scribe-url:
     description: Scribe API Url
   structured:
