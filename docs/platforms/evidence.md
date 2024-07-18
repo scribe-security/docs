@@ -20,15 +20,16 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX]
-                                    [--evidence.local_only] [--valint.scribe.client-id CLIENT_ID]
-                                    [--valint.scribe.client-secret CLIENT_SECRET]
-                                    [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
-                                    [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
-                                    [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
-                                    [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
-                                    [--valint.disable-evidence-cache] [--valint.sign]
-                                    {gitlab,k8s,dockerhub} ...
+Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', '--help']
+usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only]
+                                    [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
+                                    [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
+                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
+                                    [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
+                                    [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign]
+                                    [--valint.components COMPONENTS]
+                                    {gitlab,k8s,dockerhub,github,jfrog} ...
 
 Export evidence data
 
@@ -44,6 +45,10 @@ options:
                         Scribe client ID (type: str, default: )
   --valint.scribe.client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
+  --valint.scribe.enable
+                        Enable Scribe client (default: False)
+  --valint.cache.disable
+                        Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
   --valint.log-level LOG_LEVEL
@@ -62,6 +67,8 @@ options:
   --valint.disable-evidence-cache
                         Disable evidence cache (default: False)
   --valint.sign         sign evidence (default: False)
+  --valint.components COMPONENTS
+                        components list (type: str, default: )
 
 subcommands:
   For more details of each subcommand, add it as an argument followed by --help.
@@ -70,6 +77,8 @@ subcommands:
     gitlab
     k8s
     dockerhub
+    github
+    jfrog
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -89,6 +98,8 @@ The option `--valint.scribe.client-id` sets the Scribe client ID, with an empty 
 The option `--valint.scribe.client-secret` specifies the Scribe client secret, also defaulting to an empty string. The `valint` tool will use the environment variable `SCRIBE_CLIENT_SECRET` if it exists.
 
 The option `--valint.scribe.enable` allows for enabling the `valint` to upload the evidence to ScribeHub, with an empty string as default indicating it's disabled by default.
+
+The option `--valint.cache.disable` allows to skip local valint cache and use scribe store only. The default value is `false`, can also be set via `VALINT_DISABLE_EVIDENCE_CACHE` environment variable. using this option without `--valint.scribe.enable` will result in an error.
 
 The option `--valint.context-type` sets the Valint context type, with the default potentially sourced from the VALINT_CONTEXT_TYPE environment variable.
 
@@ -125,34 +136,38 @@ platforms evidence gitlab --organization.mapping "my-org::my-product::1.0" --pro
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
+Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'gitlab', '--help']
 usage: platforms [options] evidence [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
                                                      [--types {organization,project,all}]
-                                                     [--scope.organization [ORGANIZATION ...]]
-                                                     [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
-                                                     [--commit.skip] [--pipeline.skip]
-                                                     [--default_product_key_strategy {mapping}] [--organization.many]
-                                                     [--project.many] [--organization.mapping [MAPPING ...]]
-                                                     [--project.mapping [MAPPING ...]]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
+                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                     [--organization.single] [--project.single]
+                                                     [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Gitlab instance string (default: )
   --token TOKEN         Gitlab token (required, default: )
-  --url URL             Gitlab base URL (default: https://gitlab.com/api/v4)
+  --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {organization,project,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: null)
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Gitlab branches wildcards (default: ['*'])
+                        Gitlab branches wildcards (default: null)
+  --scope.tag [TAG ...]
+                        Gitlab tags wildcards (default: null)
   --commit.skip         Skip commits in evidence (default: False)
   --pipeline.skip       Skip pipeline in evidence (default: False)
   --default_product_key_strategy {mapping}
                         Override product key with namespace, pod or image names (default: mapping)
-  --organization.many   Export all organizations (default: True)
-  --project.many        Export all projects (default: True)
+  --organization.single
+                        Export all organizations in a single evidence (default: False)
+  --project.single      Export all projects in a single evidence (default: False)
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
@@ -203,18 +218,17 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE]
-                                                        [--types {token,repository,namespace,all}]
+Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'dockerhub', '--help']
+usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE] [--types {token,repository,namespace,all}]
                                                         [--scope.namespace [NAMESPACE ...]]
                                                         [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
                                                         [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--namespace.mapping [MAPPING ...]]
-                                                        [--repository.mapping [MAPPING ...]]
-                                                        [--token.mapping [MAPPING ...]] [--namespace.many]
-                                                        [--repository.many]
-                                                        [--default_product_key_strategy {mapping,mapping}]
+                                                        [--repository.mapping [MAPPING ...]] [--token.mapping [MAPPING ...]]
+                                                        [--namespace.single] [--repository.single]
+                                                        [--default_product_key_strategy {mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -240,9 +254,9 @@ options:
   --token.mapping [MAPPING ...]
                         Repository tag product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
-  --namespace.many      Export all namespaces (default: True)
-  --repository.many     Export all repositories (default: True)
-  --default_product_key_strategy {mapping,mapping}
+  --namespace.single    Export all namespaces in a single evidence (default: False)
+  --repository.single   Export all repositories in a single evidence (default: False)
+  --default_product_key_strategy {mapping}
                         Override product key with namespace, repository or image names (default: mapping)
 ```
 <!-- { "object-type": "command-output-end" } -->
@@ -287,12 +301,14 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
+Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'k8s', '--help']
 usage: platforms [options] evidence [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}]
                                                   [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
-                                                  [--scope.image [IMAGE ...]] [--exclude.namespace [NAMESPACE ...]]
-                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
-                                                  [--default_product_key_strategy {mapping,mapping}]
-                                                  [--scope.secret.skip] [--namespace.many] [--pod.many]
+                                                  [--scope.image [IMAGE ...]] [--ignore-state]
+                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                  [--exclude.image [IMAGE ...]]
+                                                  [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                                  [--secret.skip] [--namespace.single] [--pod.single]
                                                   [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
 
 options:
@@ -306,17 +322,18 @@ options:
                         Kubernetes pods wildcard list (default: ['*'])
   --scope.image [IMAGE ...]
                         Kubernetes images wildcard list (default: ['*'])
+  --ignore-state        Filter out containers that are not running (default: False)
   --exclude.namespace [NAMESPACE ...]
                         Namespaces to exclude from discovery process (default: [])
   --exclude.pod [POD ...]
                         Pods to exclude from discovery process (default: [])
   --exclude.image [IMAGE ...]
                         Images to exclude from discovery process (default: [])
-  --default_product_key_strategy {mapping,mapping}
+  --default_product_key_strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
-  --scope.secret.skip   Skip secrets information in the evidence (default: False)
-  --namespace.many      Export all namespaces (default: True)
-  --pod.many            Export all pods (default: True)
+  --secret.skip         Skip secrets information in the evidence (default: False)
+  --namespace.single    Export all namespaces (default: False)
+  --pod.single          Export all pods in a single evidence (default: False)
   --namespace.mapping [MAPPING ...]
                         Namespace product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
