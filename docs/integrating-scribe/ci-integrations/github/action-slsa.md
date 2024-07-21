@@ -28,70 +28,34 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ### Input arguments
 ```yaml
   target:
-    description: Target object name format=[<image:tag>, <dir path>, <git url>]
+    description: Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
     required: true
-  all-env:
-    description: Attach all environment variables
-  build-type:
-    description: Set build type
-  builder-id:
-    description: Set builder id
-  by-product:
-    description: Attach by product path
-  components:
-    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
-  external:
-    description: Add build external parameters
-  finished-on:
-    description: Set metadata finished time (YYYY-MM-DDThh:mm:ssZ)
-  force:
-    description: Force overwrite cache
-  format:
-    description: Evidence format, options=[statement attest]
-  invocation:
-    description: Set metadata invocation ID
-  predicate:
-    description: Import predicate path
-  started-on:
-    description: Set metadata started time (YYYY-MM-DDThh:mm:ssZ)
-  statement:
-    description: Import statement path
-  allow-expired:
-    description: Allow expired certs
   attest-config:
     description: Attestation config path
   attest-default:
     description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  backoff:
-    description: Backoff duration
+  attestation:
+    description: Attestation for target
+  bundle:
+    description: Policy bundle uri/path (early-availability)
   ca:
     description: x509 CA Chain path
-  cache-enable:
-    description: Enable local cache
   cert:
     description: x509 Cert path
-  config:
-    description: Configuration file path
-  context-dir:
-    description: Context dir
+  common-name:
+    description: Default policy allowed common names
   crl:
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  deliverable:
-    description: Mark as deliverable, options=[true, false]
   depth:
     description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
-  env:
-    description: Environment keys to include in evidence
-  filter-regex:
-    description: Filter out files by regex
-  filter-scope:
-    description: Filter packages by scope
-  gate:
-    description: Policy Gate name
+  email:
+    description: Default policy allowed emails
+  force:
+    description: Force skip cache
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -100,8 +64,42 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Git commit hash in the repository
   git-tag:
     description: Git tag in the repository
+  initiative:
+    description: Run only rules with specified initiative
+  input-format:
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
   key:
     description: x509 Private key path
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
+  policy:
+    description: Policy configuration file path (early-availability)
+  rule:
+    description: Rule configuration file path (early-availability)
+  rule-args:
+    description: Policy arguments
+  rule-label:
+    description: Run only rules with specified label
+  skip-bundle:
+    description: Skip bundle download
+  skip-report:
+    description: Skip Policy report stage
+  uri:
+    description: Default policy allowed uris
+  cache-enable:
+    description: Enable local cache
+  config:
+    description: Configuration file path
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
+  env:
+    description: Environment keys to include in evidence
+  gate:
+    description: Policy Gate name
   label:
     description: Add Custom labels
   level:
@@ -110,10 +108,6 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Attach context to all logs
   log-file:
     description: Output log to file
-  oci:
-    description: Enable OCI store
-  oci-repo:
-    description: Select OCI custom attestation repo
   output-directory:
     description: Output directory path
     default: ./scribe/valint
@@ -121,20 +115,20 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  platform:
-    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
-  rule-args:
-    description: Policy arguments
+  scribe-client-id:
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
     description: Scribe Client Token
+  scribe-disable:
+    description: Disable scribe client
   scribe-enable:
-    description: Enable scribe client
+    description: Enable scribe client (deprecated)
   scribe-url:
     description: Scribe API Url
   structured:
@@ -204,14 +198,12 @@ jobs:
         with:
           target: [target]
           format: [attest, statement]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 
       - uses: scribe-security/action-verify@master
         with:
           target: [target]
           input-format: [attest-slsa, statement-slsa]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 ```
 

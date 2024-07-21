@@ -57,6 +57,9 @@ Valint collects and formats evidence according to the [in-toto](https://in-toto.
 In order to provide control and a consistent view across different links in the supply chain it is important to maintain context for the different pieces of evidence that are collected. For example, Valint enables piecing together the identity (digest) of an image stored in a container registry by attaching information from the environment variables of the CI system about the build agent that built it, build run ID, git project, commit ID, and so on.
 This allows the application of compound policies that consider different steps in the software’s development life cycle.
 
+### Autodetect Context Type
+Valint will automatically detect the CI environment and add contextual fields to the evidence. For instance, Valint identifies the Build Run Identifier across various CI systems, enabling you to verify the origin of assets.
+
 ## Attestation - signing evidence and verifying it
 Valint signs the evidence with different schemes:
 * PKI - x509

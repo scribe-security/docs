@@ -9,7 +9,7 @@ sidebar_position: 1
 ## What is `platforms`?
 Platforms is a dockerized cli tool, that can be used to scan and evaluate policies on your infrastructure. It is a part of the Scribe suite of tools, which are designed to help you secure your software supply chain.
 
-This version of `platforms` supports Gitlab, DockerHub, and K8s. Under construction, we have support for GitHub, Bitbucket, Jenkins, and AWS-ECR.
+This version of `platforms` supports Gitlab, DockerHub, Jfrog and K8s. Under construction, we have support for GitHub, Bitbucket, Jenkins, and AWS-ECR.
 
 Key Features:
 
@@ -38,7 +38,7 @@ For Example:
 
 * A simple application may be made up of a single code repository and a single CI pipeline that generates a single docker image.
 
-* A complex application may be made up of multiple code repositories, multiple CI pipelines, and multiple docker images. It may also include external assets such as docker images from DockerHub.
+* A complex application may be made up of multiple code repositories, multiple CI pipelines, and multiple docker images. It may also include external assets such as docker images from DockerHub or Jfrog.
 
 * The Product point of view serves the product-security team, while assets are the day-to-day concern of the development and operations teams.
 
@@ -81,8 +81,7 @@ Automation of SBOM Generation of assets.
 
 * This capability enables users to generate SBOMs on scale, and to focus on the in-production assets, thus enabling the security teams to focus on the most critical assets.
 
-> Currently, we support generating SBOMs of DockerHub accounts and K8s clusters.
-
+> Currently, we support generating SBOMs of DockerHub or Jfrog OCI registries or Directly from a Kubernetes clusters resources.
 
 ### Policy Evaluation
 

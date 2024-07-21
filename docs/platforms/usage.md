@@ -43,6 +43,7 @@ platforms [global-options] command [command options] platform [platform options]
     * `gitlab`: To act on Gitlab or Gitlab evidence.
     * `dockerhub`: To act on DockerHub, Dockerhub images, or Dockerhub evidence.
     * `k8s`: To perform the action on K8s or K8s evidence.
+    * `jfrog`: To act on Jfrog, Jfrog images, or Jfrog evidence.
 * `platforms` options are the options that apply to the platform. Most of the platform-specific options are for scoping, filtering, and mapping assets to products.
 
 In the following sections, we shall explain each command in detail, by going through all commands for each platform.
@@ -55,7 +56,9 @@ In the following sections, we shall explain each command in detail, by going thr
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [-h] [--config CONFIG] [--print_config [=flags]] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', '--help']
+usage: platforms [-h] [--config CONFIG] [--print_config [=flags]]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                  [--log-file LOG_FILE] [--db.local.path PATH]
                  {discover,evidence,bom,verify} ...
 
@@ -65,16 +68,20 @@ options:
   -h, --help            Show this help message and exit.
   --config CONFIG       Path to a configuration file.
   --print_config [=flags]
-                        Print the configuration after applying all other arguments and exit. The optional flags
-                        customizes the output and are one or more keywords separated by comma. The supported flags are:
-                        comments, skip_default, skip_null.
+                        Print the configuration after applying all
+                        other arguments and exit. The optional flags
+                        customizes the output and are one or more
+                        keywords separated by comma. The supported
+                        flags are: comments, skip_default,
+                        skip_null.
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level (default: INFO)
   --log-file LOG_FILE   Set the logging file (default: )
   --db.local.path PATH  Local db path (default: platforms.db)
 
 subcommands:
-  For more details of each subcommand, add it as an argument followed by --help.
+  For more details of each subcommand, add it as an argument
+  followed by --help.
 
   Available subcommands:
     discover

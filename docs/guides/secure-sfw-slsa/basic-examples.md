@@ -214,11 +214,11 @@ Support storage for all targets and both SLSA Provenance and SLSA evidence forma
 export SCRIBE_TOKEN=**
 
 # Generate and push evidence to registry
-valint slsa [target] -o [attest, statement] --f -E \
+valint slsa [target] -o [attest, statement] --f \
   -P $SCRIBE_TOKEN
 
 # Pull and validate evidence from registry
-valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
+valint verify [target] -i [attest-slsa, statement-slsa] -f \
   -P $SCRIBE_TOKEN
 ```
 

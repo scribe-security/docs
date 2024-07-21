@@ -243,7 +243,7 @@ INFO enabled: fulcioVerifier, using verifer
 tlog entry created with index: 10855458 c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d
 INFO storer: upload success, Storer: rekorStorer
 sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [user@example.com]
-INFO output: File write to FS, Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+INFO output: File write to FS, Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
 INFO scribe: client disabled
 INFO attest: evidence generated successfully
 ```
@@ -282,7 +282,7 @@ INFO attest: verify success - TRUSTED CA signatures, Verifier trust: fulcioVerif
 INFO rekor: verify offline success (bundle)
 INFO attest: verify attestation success
 INFO attest: verify policy success, Policies: []
-INFO verify: success, Type: attest-cyclonedx-json Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+INFO verify: success, Type: attest-cyclonedx-json Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
    ```
 :::note
 1. The `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [user@example.com], URIs: []` which includes signers identity.
@@ -317,7 +317,6 @@ build:
      uses: scribe-security/action-bom@master
      with:
        target: 'git:.'
-       scribe-enable: true
        product-key: ${{ github.repository }}
        scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
        label: is_git_commit
@@ -325,13 +324,13 @@ build:
 ```
 2. Verifying checkout - generate an SBOM of your checked-out repo.  Example CLI command (See **[CI/CD Integrations](../integrating-scribe/ci-integrations)** for your specific CI system):
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f
+$HOME/.scribe/bin/valint bom dir:<path> \
+--scribe.client-secret=$SCRIBE_TOKEN -f
 ```
 3. Generate an SBOM of the final Docker image was built so that Scribe Hub knows the build completed:
 ```
- $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-  --scribe.client-secret=$CLIENT-SECRET -E -f
+ $HOME/.scribe/bin/valint bom <your_docker_repository:tag> \
+  --scribe.client-secret=$SCRIBE_TOKEN -f
 ```
 
 Scribe Hub compares the checkout SBOM with the SBOM from the relevant commit. Note that the commit SBOM and the checkout SBOM must be generated from separate workflows. If one of these SBOMs isn't found, Scribe skips this integrity check.

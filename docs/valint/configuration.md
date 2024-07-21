@@ -20,6 +20,7 @@ scribe:
     enable: true
   url: https://api.scribesecurity.com
   enable: false
+  disable: false
   retry:
     backoff: 15s
     timeout: 120s
@@ -30,8 +31,7 @@ bom:
   normalizers:
     packagejson:
       enable: true
-  formats:
-  - cyclonedx-json
+  formats: []
   force: false
   components:
   - metadata
@@ -47,15 +47,9 @@ bom:
   attach-regex: []
   final-artifact: false
 slsa:
-  formats:
-  - statement
   components:
   - metadata
   - layers
-evidence:
-  formats:
-  - statement
-  compress: false
 attest:
   config: ""
   bundle: https://github.com/scribe-public/sample-policies
@@ -69,12 +63,6 @@ attest:
     add-passed: true
   cocosign: {}
   x509: {}
-verify:
-  formats: statement-sarif
-  input-format: ""
-  attestation: ""
-  force: false
-  final-artifact: false
 filter:
   filter-regex:
   - '**/*.pyc'

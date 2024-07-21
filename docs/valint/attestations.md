@@ -19,6 +19,15 @@ You can select from a set of prefilled default configuration.
 
 > Use flag `--attest.default`, supported values are `sigstore,sigstore-github,x509,x509-env`.
 
+## Automated Signing Conditions
+`valint` automatically signs the output when the following conditions are met:
+
+* If the `attest.default` or `format` flags are not explicitly set,
+* If the `ATTEST_KEY` environment variable is provided, the `default.attest` is set to `x509-env`.
+* If the `--key` flag is used, the `default.attest` is set to `x509`.
+
+When these conditions are met, Valint will automatically set the output format to `attest`.
+
 ## Sigstore
 Sigstore signer and verifier allow you to use ephemeral short living keys based on OIDC identity (google, microsoft, github).
 Sigstore will also provide a transperancy log for any one to verify your signatures against (`rekor`)
@@ -103,7 +112,7 @@ Flags and Parameters
 * `--cert`: PEM encoded Signer certificate.
 * `--ca`: PEM encoded CA Chain.
 * `--crl`: PEM encoded CRL file.
-* `--attest-deafult` Select `x509` or `x509-env` default configuration.
+* `--attest-default` Select `x509` or `x509-env` default configuration.
 
 > The ca supports multiple CA chains within a single file.
 

@@ -197,14 +197,12 @@ jobs:
         with:
           target: [target]
           format: [attest, statement]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 
       - uses: scribe-security/action-verify@master
         with:
           target: [target]
           input-format: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 ```
 

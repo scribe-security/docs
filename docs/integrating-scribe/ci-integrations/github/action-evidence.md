@@ -33,8 +33,22 @@ The `valint evidence` action is a versatile action designed to include various t
   target:
     description:
     required: true
+  attest-config:
+    description: Attestation config path
+  attest-default:
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
+  ca:
+    description: x509 CA Chain path
+  cert:
+    description: x509 Cert path
   compress:
     description: Compress content)
+  crl:
+    description: x509 CRL path
+  crl-full-chain:
+    description: Enable Full chain CRL verfication
+  disable-crl:
+    description: Disable certificate revocation verificatoin
   format:
     description: Evidence format, options=[statement attest]
   format-encoding:
@@ -43,6 +57,12 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Evidence Format type
   format-version:
     description: Evidence Format version
+  key:
+    description: x509 Private key path
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
   parser:
     description: Evidence Parser Name
   tool:
@@ -51,52 +71,16 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Evidence Tool vendor
   tool-version:
     description: Evidence Tool version
-  allow-expired:
-    description: Allow expired certs
-  attest-config:
-    description: Attestation config path
-  attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  backoff:
-    description: Backoff duration
-  ca:
-    description: x509 CA Chain path
   cache-enable:
     description: Enable local cache
-  cert:
-    description: x509 Cert path
   config:
     description: Configuration file path
-  context-dir:
-    description: Context dir
-  crl:
-    description: x509 CRL path
-  crl-full-chain:
-    description: Enable Full chain CRL verfication
   deliverable:
     description: Mark as deliverable, options=[true, false]
-  depth:
-    description: Git clone depth
-  disable-crl:
-    description: Disable certificate revocation verificatoin
   env:
     description: Environment keys to include in evidence
-  filter-regex:
-    description: Filter out files by regex
-  filter-scope:
-    description: Filter packages by scope
   gate:
     description: Policy Gate name
-  git-auth:
-    description: 'Git repository authentication info, [format: ''username:password'']'
-  git-branch:
-    description: Git branch in the repository
-  git-commit:
-    description: Git commit hash in the repository
-  git-tag:
-    description: Git tag in the repository
-  key:
-    description: x509 Private key path
   label:
     description: Add Custom labels
   level:
@@ -105,10 +89,6 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Attach context to all logs
   log-file:
     description: Output log to file
-  oci:
-    description: Enable OCI store
-  oci-repo:
-    description: Select OCI custom attestation repo
   output-directory:
     description: Output directory path
     default: ./scribe/valint
@@ -116,20 +96,20 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  platform:
-    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
-  rule-args:
-    description: Policy arguments
+  scribe-client-id:
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
     description: Scribe Client Token
+  scribe-disable:
+    description: Disable scribe client
   scribe-enable:
-    description: Enable scribe client
+    description: Enable scribe client (deprecated)
   scribe-url:
     description: Scribe API Url
   structured:
@@ -199,14 +179,12 @@ jobs:
         with:
           target: [file]
           format: [attest, statement]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 
       - uses: scribe-security/action-verify@master
         with:
           target: [target]
           input-format: [attest-generic, statement-generic]
-          scribe-enable: true
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 ```
 
