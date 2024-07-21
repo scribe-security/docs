@@ -18,20 +18,26 @@ Notice that the database created should be accessible for running the other comm
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', '--help']
-usage: platforms [options] discover [-h] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD]
-                                    {gitlab,dockerhub,k8s,github,jfrog} ...
+usage: platforms [options] discover [-h]
+                                    [--db.local.store_policy {update,replace}]
+                                    [--db.update_period UPDATE_PERIOD]
+                                    {gitlab,dockerhub,k8s,github,jfrog}
+                                    ...
 
 Discover assets and save data to a local store
 
 options:
   -h, --help            Show this help message and exit.
   --db.local.store_policy {update,replace}
-                        Policy for local data collection: update or replace (default: update)
+                        Policy for local data collection: update or
+                        replace (default: update)
   --db.update_period UPDATE_PERIOD
-                        Update period in days. 0 for force update (type: int, default: 0)
+                        Update period in days. 0 for force update
+                        (type: int, default: 0)
 
 subcommands:
-  For more details of each subcommand, add it as an argument followed by --help.
+  For more details of each subcommand, add it as an argument
+  followed by --help.
 
   Available subcommands:
     gitlab
@@ -59,25 +65,31 @@ Gitlab discovery samples the following assets: organization, projects, users, to
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'gitlab', '--help']
-usage: platforms [options] discover [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
-                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
-                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
-                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}]
-                                                     [--scope.skip_org_members] [--scope.skip_project_members]
-                                                     [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.skip]
-                                                     [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs]
-                                                     [--scope.pipeline.reports]
+usage: platforms [options] discover [options] gitlab
+       [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+       [--scope.organization [ORGANIZATION ...]]
+       [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
+       [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip]
+       [--default_product_key_strategy {mapping}]
+       [--scope.skip_org_members] [--scope.skip_project_members]
+       [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.skip]
+       [--scope.pipeline.past_days PAST_DAYS]
+       [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Gitlab instance string (default: )
   --token TOKEN         Gitlab token (required, default: )
-  --url URL             Gitlab base URL (default: https://gitlab.com/)
+  --url URL             Gitlab base URL (default:
+                        https://gitlab.com/)
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: null)
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
-                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards.
+                        Default is all projects. Note that a project
+                        name includes as a prefix its namesapce in
+                        the format 'namespace / project_name'
+                        (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -85,21 +97,28 @@ options:
   --commit.skip         Skip commits in evidence (default: False)
   --pipeline.skip       Skip pipeline in evidence (default: False)
   --default_product_key_strategy {mapping}
-                        Override product key with namespace, pod or image names (default: mapping)
+                        Override product key with namespace, pod or
+                        image names (default: mapping)
   --scope.skip_org_members
-                        Skip organization members discovery (default: False)
+                        Skip organization members discovery
+                        (default: False)
   --scope.skip_project_members
-                        Skip project members discovery (default: False)
+                        Skip project members discovery (default:
+                        False)
   --scope.commit.past_days PAST_DAYS
-                        Number of past days to include in the report (type: int, default: 28)
+                        Number of past days to include in the report
+                        (type: int, default: 28)
   --scope.pipeline.skip
                         Skip pipeline information (default: False)
   --scope.pipeline.past_days PAST_DAYS
-                        Number of past days to include in the report (type: int, default: 30)
+                        Number of past days to include in the report
+                        (type: int, default: 30)
   --scope.pipeline.analyzed_logs
-                        Include analyzed pipeline logs (default: False)
+                        Include analyzed pipeline logs (default:
+                        False)
   --scope.pipeline.reports
-                        Include gitlab standard reports (default: False)
+                        Include gitlab standard reports (default:
+                        False)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -107,40 +126,7 @@ Note:
 The discovery includes two experimental features, to add data to the project evidence:
 * `--scope.pipeline.analyzed_logs` which attepmts to analyze logs to detect image building information
 * `--scope.pipeline.reports` which collects GitLab standard secret scanning and sast reports.
-<!--
-To run the discovery process on a Gitlab account:
-```bash
-platforms discover gitlab --token $TOKEN
-```
-The token should have admin permissions (as it is needed for reading secrets information).
 
-#### Gitlab Discovery Options
-The option `--token `is mandatory and used for providing the GitLab token, with a default set from the environment variables CI_JOB_TOKEN or GITLAB_TOKEN.
-
-The option `--url` sets the GitLab base URL, with a default value of "https://gitlab.com/".
-
-The option `--instance` allows specifying a unique GitLab instance string, with an empty string as the default.
-
-The option `--scope.organization` is used to specify GitLab organizations with a default wildcard ["*"] to include all.
-
-The option `--scope.skip_org_members` enables skipping the discovery of organization members.
-
-The option `--scope.project` specifies GitLab projects or repositories to include, using wildcards with a default of ["*"].
-
-The option `--scope.skip_project_members` allows for skipping the discovery of project members.
-
-The option `--scope.branch` is used for specifying GitLab branch wildcards to include, with ["*"] as the default to include all branches.
-
-The option `--commit.skip` enables skipping the discovery of commits.
-
-The option `--scope.commit.past_days` sets the number of past days to include in commit reports, with a default of 30 days.
-
-The option `--scope.pipeline.skip` allows for opting out of pipeline discovery.
-
-The option `--scope.pipeline.past_days` determines the number of past days to include in pipeline reports, also defaulting to 30 days.
-
-The option `--scope.pipeline.analyzed_logs` includes analyzed pipeline logs in the discovery output.
--->
 ## DockerHub Discovery
 DockerHub discovery samples the following assets: namespaces, repositories, and repository_tags.
 <!--
@@ -151,20 +137,23 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'dockerhub', '--help']
-usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
-                                                        [--url URL] [--scope.namespace [NAMESPACE ...]]
-                                                        [--scope.repository [REPOSITORY ...]]
-                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--exclude.repository [REPOSITORY ...]]
-                                                        [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--scope.past_days PAST_DAYS]
+usage: platforms [options] discover [options] dockerhub
+       [-h] [--instance INSTANCE] [--username USERNAME]
+       [--password PASSWORD] [--url URL]
+       [--scope.namespace [NAMESPACE ...]]
+       [--scope.repository [REPOSITORY ...]]
+       [--scope.repository_tags [REPOSITORY_TAGS ...]]
+       [--exclude.repository [REPOSITORY ...]]
+       [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+       [--scope.past_days PAST_DAYS]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Dockerhub instance string (default: )
   --username USERNAME   Dockerhub username (default: null)
   --password PASSWORD   Dockerhub password (default: null)
-  --url URL             Dockerhub base URL (default: https://hub.docker.com)
+  --url URL             Dockerhub base URL (default:
+                        https://hub.docker.com)
   --scope.namespace [NAMESPACE ...]
                         Dockerhub namespaces (default: ['*'])
   --scope.repository [REPOSITORY ...]
@@ -172,11 +161,13 @@ options:
   --scope.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags (default: ['*'])
   --exclude.repository [REPOSITORY ...]
-                        Dockerhub repository wildcards to exclude (default: [])
+                        Dockerhub repository wildcards to exclude
+                        (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
   --scope.past_days PAST_DAYS
-                        Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
+                        Ignore tags pushed earlier that previous to
+                        this number of days (type: int, default: 30)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -218,30 +209,45 @@ Kubernetes discovery samples the following asset types: namespaces, pods, and se
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'k8s', '--help']
-usage: platforms [options] discover [options] k8s [-h] [--instance INSTANCE] [--url URL] [--token TOKEN]
-                                                  [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
-                                                  [--scope.image [IMAGE ...]] [--ignore-state]
-                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
-                                                  [--exclude.image [IMAGE ...]] [--secret.skip]
+usage: platforms [options] discover [options] k8s [-h]
+                                                  [--instance INSTANCE]
+                                                  [--url URL]
+                                                  [--token TOKEN]
+                                                  [--scope.namespace [NAMESPACE ...]]
+                                                  [--scope.pod [POD ...]]
+                                                  [--scope.image [IMAGE ...]]
+                                                  [--ignore-state]
+                                                  [--exclude.namespace [NAMESPACE ...]]
+                                                  [--exclude.pod [POD ...]]
+                                                  [--exclude.image [IMAGE ...]]
+                                                  [--secret.skip]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Kubernetes instance string (default: )
   --url URL             Kubernetes API URL (required, default: )
-  --token TOKEN         Kubernetes token, with access to pods and secrets (required, default: )
+  --token TOKEN         Kubernetes token, with access to pods and
+                        secrets (required, default: )
   --scope.namespace [NAMESPACE ...]
-                        Kubernetes namespaces wildcard list (default: ['*'])
+                        Kubernetes namespaces wildcard list
+                        (default: ['*'])
   --scope.pod [POD ...]
-                        Kubernetes pods wildcard list (default: ['*'])
+                        Kubernetes pods wildcard list (default:
+                        ['*'])
   --scope.image [IMAGE ...]
-                        Kubernetes images wildcard list (default: ['*'])
-  --ignore-state        Filter out containers that are not running (default: False)
+                        Kubernetes images wildcard list (default:
+                        ['*'])
+  --ignore-state        Filter out containers that are not running
+                        (default: False)
   --exclude.namespace [NAMESPACE ...]
-                        Namespaces to exclude from discovery process (default: [])
+                        Namespaces to exclude from discovery process
+                        (default: [])
   --exclude.pod [POD ...]
-                        Pods to exclude from discovery process (default: [])
+                        Pods to exclude from discovery process
+                        (default: [])
   --exclude.image [IMAGE ...]
-                        Images to exclude from discovery process (default: [])
+                        Images to exclude from discovery process
+                        (default: [])
   --secret.skip         Skip secrets discovery (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
@@ -294,14 +300,18 @@ For example `my_company.jfrog.io/my_registry/my_image:latest`
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'jfrog', '--help']
-usage: platforms [options] discover [options] jfrog [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+usage: platforms [options] discover [options] jfrog [-h]
+                                                    [--instance INSTANCE]
+                                                    [--token TOKEN]
+                                                    [--url URL]
                                                     [--scope.jf-repository [JF_REPOSITORY ...]]
                                                     [--scope.repository [REPOSITORY ...]]
                                                     [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                     [--exclude.jf-repository [JF_REPOSITORY ...]]
                                                     [--exclude.repository [REPOSITORY ...]]
                                                     [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                    [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
+                                                    [--scope.past_days PAST_DAYS]
+                                                    [--scope.tag_limit TAG_LIMIT]
 
 options:
   -h, --help            Show this help message and exit.
@@ -315,16 +325,21 @@ options:
   --scope.repository_tags [REPOSITORY_TAGS ...]
                         Jfrog Image tags (default: ['*'])
   --exclude.jf-repository [JF_REPOSITORY ...]
-                        Jfrog repository wildcards to exclude (default: [])
+                        Jfrog repository wildcards to exclude
+                        (default: [])
   --exclude.repository [REPOSITORY ...]
-                        Jfrog Image repository wildcards to exclude (default: [])
+                        Jfrog Image repository wildcards to exclude
+                        (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Jfrog tags to exclude (default: [])
   --scope.past_days PAST_DAYS
-                        Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
+                        Ignore tags pushed earlier that previous to
+                        this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag
-                        list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default:
-                        10)
+                        Limit the number of recent tags to be
+                        discovered. Scoping to tag names is done on
+                        the limited tag list. Limit applies also to
+                        the past_days filter. 0 for no limit,
+                        default is 10. (type: int, default: 10)
 ```
 <!-- { "object-type": "command-output-end" } -->
