@@ -19,7 +19,7 @@ The recommended use of the verify command with the product-mapping capabilities;
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', '--help']
 usage: platforms [options] verify [-h]
                                   [--valint.scribe.client-id CLIENT_ID]
                                   [--valint.scribe.client-secret CLIENT_SECRET]
@@ -64,7 +64,7 @@ options:
                         Local evidence cache directory (type: str,
                         default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default:
-                        /home/mikey/.scribe/bin/valint)
+                        $HOME/.scribe/bin/valint)
   --valint.product-key PRODUCT_KEY
                         Evidence product key (type: str, default:
                         factory)
@@ -163,7 +163,7 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --proje
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'gitlab', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'gitlab', '--help']
 usage: platforms [options] verify [options] gitlab [-h]
                                                    [--instance INSTANCE]
                                                    [--token TOKEN]
@@ -247,7 +247,7 @@ To evaluate policies on DockerHub evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'dockerhub', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'dockerhub', '--help']
 usage: platforms [options] verify [options] dockerhub
        [-h] [--instance INSTANCE] [--username USERNAME]
        [--password PASSWORD] [--url URL]
@@ -337,7 +337,7 @@ The option `--image.policy` sets the image mapping policy file, defaulting to "c
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'k8s', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'k8s', '--help']
 usage: platforms [options] verify [options] k8s [-h]
                                                 [--instance INSTANCE]
                                                 [--url URL]
@@ -454,7 +454,7 @@ To evaluate policies on Jfrog evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'jfrog', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'verify', 'jfrog', '--help']
 usage: platforms [options] verify [options] jfrog [-h]
                                                   [--instance INSTANCE]
                                                   [--token TOKEN]

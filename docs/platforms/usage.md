@@ -56,7 +56,7 @@ In the following sections, we shall explain each command in detail, by going thr
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', '--help']
 usage: platforms [-h] [--config CONFIG] [--print_config [=flags]]
                  [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                  [--log-file LOG_FILE] [--db.local.path PATH]

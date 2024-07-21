@@ -243,7 +243,7 @@ INFO enabled: fulcioVerifier, using verifer
 tlog entry created with index: 10855458 c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d
 INFO storer: upload success, Storer: rekorStorer
 sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [user@example.com]
-INFO output: File write to FS, Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+INFO output: File write to FS, Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
 INFO scribe: client disabled
 INFO attest: evidence generated successfully
 ```
@@ -282,7 +282,7 @@ INFO attest: verify success - TRUSTED CA signatures, Verifier trust: fulcioVerif
 INFO rekor: verify offline success (bundle)
 INFO attest: verify attestation success
 INFO attest: verify policy success, Policies: []
-INFO verify: success, Type: attest-cyclonedx-json Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+INFO verify: success, Type: attest-cyclonedx-json Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
    ```
 :::note
 1. The `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [user@example.com], URIs: []` which includes signers identity.

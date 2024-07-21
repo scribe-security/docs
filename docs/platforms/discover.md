@@ -17,7 +17,7 @@ Notice that the database created should be accessible for running the other comm
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', '--help']
 usage: platforms [options] discover [-h]
                                     [--db.local.store_policy {update,replace}]
                                     [--db.update_period UPDATE_PERIOD]
@@ -64,7 +64,7 @@ Gitlab discovery samples the following assets: organization, projects, users, to
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'gitlab', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'gitlab', '--help']
 usage: platforms [options] discover [options] gitlab
        [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
        [--scope.organization [ORGANIZATION ...]]
@@ -136,7 +136,7 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'dockerhub', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'dockerhub', '--help']
 usage: platforms [options] discover [options] dockerhub
        [-h] [--instance INSTANCE] [--username USERNAME]
        [--password PASSWORD] [--url URL]
@@ -208,7 +208,7 @@ Kubernetes discovery samples the following asset types: namespaces, pods, and se
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'k8s', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'k8s', '--help']
 usage: platforms [options] discover [options] k8s [-h]
                                                   [--instance INSTANCE]
                                                   [--url URL]
@@ -299,7 +299,7 @@ For example `my_company.jfrog.io/my_registry/my_image:latest`
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'jfrog', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'discover', 'jfrog', '--help']
 usage: platforms [options] discover [options] jfrog [-h]
                                                     [--instance INSTANCE]
                                                     [--token TOKEN]

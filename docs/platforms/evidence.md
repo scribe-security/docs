@@ -20,7 +20,7 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', '--help']
 usage: platforms [options] evidence [-h]
                                     [--evidence.local.path PATH]
                                     [--evidence.local.prefix PREFIX]
@@ -71,7 +71,7 @@ options:
                         Local evidence cache directory (type: str,
                         default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default:
-                        /home/mikey/.scribe/bin/valint)
+                        $HOME/.scribe/bin/valint)
   --valint.product-key PRODUCT_KEY
                         Evidence product key (type: str, default:
                         factory)
@@ -158,7 +158,7 @@ platforms evidence gitlab --organization.mapping "my-org::my-product::1.0" --pro
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'gitlab', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'gitlab', '--help']
 usage: platforms [options] evidence [options] gitlab
        [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
        [--types {organization,project,all}]
@@ -254,7 +254,7 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'dockerhub', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'dockerhub', '--help']
 usage: platforms [options] evidence [options] dockerhub
        [-h] [--instance INSTANCE]
        [--types {token,repository,namespace,all}]
@@ -349,7 +349,7 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'k8s', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'evidence', 'k8s', '--help']
 usage: platforms [options] evidence [options] k8s [-h]
                                                   [--instance INSTANCE]
                                                   [--types {namespace,pod,all}]

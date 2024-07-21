@@ -16,7 +16,7 @@ This command enables users to generate SBOMs on scale.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', '--help']
 usage: platforms [options] bom [-h] [--allow-failures]
                                [--save-scan-plan] [--dry-run]
                                [--monitor.mount MOUNT]
@@ -73,7 +73,7 @@ options:
                         Local evidence cache directory (type: str,
                         default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default:
-                        /home/mikey/.scribe/bin/valint)
+                        $HOME/.scribe/bin/valint)
   --valint.product-key PRODUCT_KEY
                         Evidence product key (type: str, default:
                         factory)
@@ -167,7 +167,7 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'dockerhub', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'dockerhub', '--help']
 usage: platforms [options] bom [options] dockerhub [-h]
                                                    [--instance INSTANCE]
                                                    [--default_product_key_strategy {namespace,repository,tag,mapping}]
@@ -248,7 +248,7 @@ Note that the image characterization string is a wildcarded string, with separat
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'k8s', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'k8s', '--help']
 usage: platforms [options] bom [options] k8s [-h]
                                              [--instance INSTANCE]
                                              [--types {namespace,pod,all}]
@@ -346,7 +346,7 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-Autofix arguments ['/home/mikey/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'jfrog', '--help']
+Autofix arguments ['$HOME/scribe/platforms_lib/.tox/docs/bin/platforms', 'bom', 'jfrog', '--help']
 usage: platforms [options] bom [options] jfrog [-h]
                                                [--instance INSTANCE]
                                                [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
