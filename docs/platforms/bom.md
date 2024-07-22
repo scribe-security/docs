@@ -53,7 +53,7 @@ options:
                         Valint log level (type: str, default: )
   --valint.output-directory OUTPUT_DIRECTORY
                         Local evidence cache directory (type: str, default: )
-  --valint.bin BIN      Valint CLI binary path (type: str, default: /home/mikey/.scribe/bin/valint)
+  --valint.bin BIN      Valint CLI binary path (type: str, default: $HOME/.scribe/bin/valint)
   --valint.product-key PRODUCT_KEY
                         Evidence product key (type: str, default: factory)
   --valint.product-version PRODUCT_VERSION
