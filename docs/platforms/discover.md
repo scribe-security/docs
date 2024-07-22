@@ -17,7 +17,8 @@ Notice that the database created should be accessible for running the other comm
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [-h] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD] {gitlab,dockerhub,k8s,github,jfrog} ...
+usage: platforms [options] discover [-h] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD]
+                                    {gitlab,dockerhub,k8s,github,jfrog} ...
 
 Discover assets and save data to a local store
 
@@ -56,9 +57,14 @@ Gitlab discovery samples the following assets: organization, projects, users, to
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
-                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}] [--scope.skip_org_members] [--scope.skip_project_members] [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.skip]
-                                                     [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports]
+usage: platforms [options] discover [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
+                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                     [--scope.skip_org_members] [--scope.skip_project_members]
+                                                     [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.skip]
+                                                     [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs]
+                                                     [--scope.pipeline.reports]
 
 options:
   -h, --help            Show this help message and exit.
@@ -68,7 +74,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: null)
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -98,40 +105,7 @@ Note:
 The discovery includes two experimental features, to add data to the project evidence:
 * `--scope.pipeline.analyzed_logs` which attepmts to analyze logs to detect image building information
 * `--scope.pipeline.reports` which collects GitLab standard secret scanning and sast reports.
-<!--
-To run the discovery process on a Gitlab account:
-```bash
-platforms discover gitlab --token $TOKEN
-```
-The token should have admin permissions (as it is needed for reading secrets information).
 
-#### Gitlab Discovery Options
-The option `--token `is mandatory and used for providing the GitLab token, with a default set from the environment variables CI_JOB_TOKEN or GITLAB_TOKEN.
-
-The option `--url` sets the GitLab base URL, with a default value of "https://gitlab.com/".
-
-The option `--instance` allows specifying a unique GitLab instance string, with an empty string as the default.
-
-The option `--scope.organization` is used to specify GitLab organizations with a default wildcard ["*"] to include all.
-
-The option `--scope.skip_org_members` enables skipping the discovery of organization members.
-
-The option `--scope.project` specifies GitLab projects or repositories to include, using wildcards with a default of ["*"].
-
-The option `--scope.skip_project_members` allows for skipping the discovery of project members.
-
-The option `--scope.branch` is used for specifying GitLab branch wildcards to include, with ["*"] as the default to include all branches.
-
-The option `--commit.skip` enables skipping the discovery of commits.
-
-The option `--scope.commit.past_days` sets the number of past days to include in commit reports, with a default of 30 days.
-
-The option `--scope.pipeline.skip` allows for opting out of pipeline discovery.
-
-The option `--scope.pipeline.past_days` determines the number of past days to include in pipeline reports, also defaulting to 30 days.
-
-The option `--scope.pipeline.analyzed_logs` includes analyzed pipeline logs in the discovery output.
--->
 ## DockerHub Discovery
 DockerHub discovery samples the following assets: namespaces, repositories, and repository_tags.
 <!--
@@ -141,8 +115,13 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--url URL] [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
-                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
+                                                        [--url URL] [--scope.namespace [NAMESPACE ...]]
+                                                        [--scope.repository [REPOSITORY ...]]
+                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--exclude.repository [REPOSITORY ...]]
+                                                        [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--scope.past_days PAST_DAYS]
 
 options:
   -h, --help            Show this help message and exit.
@@ -202,8 +181,11 @@ Kubernetes discovery samples the following asset types: namespaces, pods, and se
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] k8s [-h] [--instance INSTANCE] [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
-                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--secret.skip]
+usage: platforms [options] discover [options] k8s [-h] [--instance INSTANCE] [--url URL] [--token TOKEN]
+                                                  [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                  [--scope.image [IMAGE ...]] [--ignore-state]
+                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                  [--exclude.image [IMAGE ...]] [--secret.skip]
 
 options:
   -h, --help            Show this help message and exit.
@@ -274,8 +256,14 @@ For example `my_company.jfrog.io/my_registry/my_image:latest`
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] jfrog [-h] [--instance INSTANCE] [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                    [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
+usage: platforms [options] discover [options] jfrog [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+                                                    [--scope.jf-repository [JF_REPOSITORY ...]]
+                                                    [--scope.repository [REPOSITORY ...]]
+                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                    [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                                    [--exclude.repository [REPOSITORY ...]]
+                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                    [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
 
 options:
   -h, --help            Show this help message and exit.
@@ -297,6 +285,8 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag
+                        list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default:
+                        10)
 ```
 <!-- { "object-type": "command-output-end" } -->

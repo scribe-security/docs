@@ -19,9 +19,14 @@ The recommended use of the verify command with the product-mapping capabilities;
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [-h] [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
-                                  [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
-                                  [--valint.disable-evidence-cache] [--valint.sign] [--valint.components COMPONENTS] [--valint.bundle BUNDLE] [--valint.git-branch GIT_BRANCH] [--valint.git-commit GIT_COMMIT] [--valint.git-tag GIT_TAG] [--allow-failures]
+usage: platforms [options] verify [-h] [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
+                                  [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
+                                  [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
+                                  [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                                  [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
+                                  [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign]
+                                  [--valint.components COMPONENTS] [--valint.bundle BUNDLE] [--valint.git-branch GIT_BRANCH]
+                                  [--valint.git-commit GIT_COMMIT] [--valint.git-tag GIT_TAG] [--allow-failures]
                                   {k8s,dockerhub,gitlab,github,jfrog} ...
 
 Verify supply chain policies
@@ -133,9 +138,14 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --proje
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
-                                                   [--scope.tag [TAG ...]] [--commit.skip] [--organization.single] [--project.single] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--project.policy [POLICY ...]]
-                                                   [--organization.policy [POLICY ...]] [--org-policy-skip-aggregate] [--project-policy-skip-aggregate]
+usage: platforms [options] verify [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+                                                   [--types {organization,project,all}]
+                                                   [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
+                                                   [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                   [--organization.single] [--project.single]
+                                                   [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
+                                                   [--project.policy [POLICY ...]] [--organization.policy [POLICY ...]]
+                                                   [--org-policy-skip-aggregate] [--project-policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -147,7 +157,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: null)
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -157,13 +168,16 @@ options:
                         Export all organizations in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Organization product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Project product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --project.policy [POLICY ...]
                         Set project policy file (type: str, default: ['ct-2@discovery', 'ct-9@discovery'])
   --organization.policy [POLICY ...]
-                        Set organization policy file (type: str, default: ['ct-1@discovery', 'ct-3@discovery', 'ct-4@discovery'])
+                        Set organization policy file (type: str, default: ['ct-1@discovery', 'ct-3@discovery',
+                        'ct-4@discovery'])
   --org-policy-skip-aggregate
                         Skip Aggregate organization policy results (default: False)
   --project-policy-skip-aggregate
@@ -183,9 +197,17 @@ To evaluate policies on DockerHub evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--url URL] [--types {token,repository,namespace,all}] [--default_product_key_strategy {namespace,repository,tag,mapping}]
-                                                      [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                      [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]] [--policy-skip-aggregate]
+usage: platforms [options] verify [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
+                                                      [--url URL] [--types {token,repository,namespace,all}]
+                                                      [--default_product_key_strategy {namespace,repository,tag,mapping}]
+                                                      [--default_product_version_strategy {tag,short_image_id,image_id}]
+                                                      [--scope.namespace [NAMESPACE ...]]
+                                                      [--scope.repository [REPOSITORY ...]]
+                                                      [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                      [--exclude.repository [REPOSITORY ...]]
+                                                      [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                      [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
+                                                      [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -210,9 +232,11 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --image.policy [POLICY ...]
-                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery', 'ct-13@discovery'])
+                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery',
+                        'ct-12@discovery', 'ct-13@discovery'])
   --policy-skip-aggregate
                         Skip Aggregate policy results (default: False)
 ```
@@ -251,9 +275,15 @@ The option `--image.policy` sets the image mapping policy file, defaulting to "c
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] k8s [-h] [--instance INSTANCE] [--url URL] [--token TOKEN] [--types {namespace,pod,cluster-images,all}] [--default_product_key_strategy {namespace,pod,image,mapping}]
-                                                [--default_product_version_strategy {namespace_hash,pod_hash,image_id}] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state]
-                                                [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--namespace.single] [--pod.single] [--image.mapping [MAPPING ...]] [--cluster-images.policy [POLICY ...]]
+usage: platforms [options] verify [options] k8s [-h] [--instance INSTANCE] [--url URL] [--token TOKEN]
+                                                [--types {namespace,pod,cluster-images,all}]
+                                                [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                                [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
+                                                [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                [--scope.image [IMAGE ...]] [--ignore-state]
+                                                [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                [--exclude.image [IMAGE ...]] [--namespace.single] [--pod.single]
+                                                [--image.mapping [MAPPING ...]] [--cluster-images.policy [POLICY ...]]
                                                 [--namespace.policy [POLICY ...]] [--policy-skip-aggregate]
 
 options:
@@ -283,9 +313,11 @@ options:
   --namespace.single    Export all namespaces (default: False)
   --pod.single          Export all pods in a single evidence (default: False)
   --image.mapping [MAPPING ...]
-                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace;my-pod;my-image:product_key:product_version (type: K8sImageMappingString, default: [])
+                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace;my-pod;my-
+                        image:product_key:product_version (type: K8sImageMappingString, default: [])
   --cluster-images.policy [POLICY ...]
-                        Set image policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery', 'ct-13@discovery'])
+                        Set image policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery',
+                        'ct-13@discovery'])
   --namespace.policy [POLICY ...]
                         Set Kubernetes policy file (type: str, default: [])
   --policy-skip-aggregate
@@ -331,9 +363,17 @@ To evaluate policies on Jfrog evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] jfrog [-h] [--instance INSTANCE] [--token TOKEN] [--url URL] [--types {token,repository,jf-repository,all}] [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
-                                                  [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
+usage: platforms [options] verify [options] jfrog [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+                                                  [--types {token,repository,jf-repository,all}]
+                                                  [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
+                                                  [--default_product_version_strategy {tag,short_image_id,image_id}]
+                                                  [--scope.jf-repository [JF_REPOSITORY ...]]
+                                                  [--scope.repository [REPOSITORY ...]]
+                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                                  [--exclude.repository [REPOSITORY ...]]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
                                                   [--policy-skip-aggregate]
 
 options:
@@ -360,9 +400,11 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Jfrog tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --image.policy [POLICY ...]
-                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery', 'ct-13@discovery'])
+                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery',
+                        'ct-12@discovery', 'ct-13@discovery'])
   --policy-skip-aggregate
                         Skip Aggregate policy results (default: False)
 ```

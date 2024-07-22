@@ -16,9 +16,14 @@ This command enables users to generate SBOMs on scale.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT] [--monitor.threshold THRESHOLD] [--monitor.clean-docker] [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
-                               [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                               [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign] [--valint.components COMPONENTS]
+usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT]
+                               [--monitor.threshold THRESHOLD] [--monitor.clean-docker] [--valint.scribe.client-id CLIENT_ID]
+                               [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable]
+                               [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
+                               [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
+                               [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
+                               [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
+                               [--valint.disable-evidence-cache] [--valint.sign] [--valint.components COMPONENTS]
                                {gitlab,k8s,dockerhub,github,jfrog} ...
 
 Export bom data
@@ -136,8 +141,13 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] dockerhub [-h] [--instance INSTANCE] [--default_product_key_strategy {namespace,repository,tag,mapping}] [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.namespace [NAMESPACE ...]]
-                                                   [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+usage: platforms [options] bom [options] dockerhub [-h] [--instance INSTANCE]
+                                                   [--default_product_key_strategy {namespace,repository,tag,mapping}]
+                                                   [--default_product_version_strategy {tag,short_image_id,image_id}]
+                                                   [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
+                                                   [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                   [--exclude.repository [REPOSITORY ...]]
+                                                   [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                    [--image.mapping [MAPPING ...]]
 
 options:
@@ -158,7 +168,8 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -204,9 +215,13 @@ Note that the image characterization string is a wildcarded string, with separat
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}] [--default_product_key_strategy {namespace,pod,image,mapping}] [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
-                                             [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
-                                             [--image.mapping [MAPPING ...]]
+usage: platforms [options] bom [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}]
+                                             [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                             [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
+                                             [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                             [--scope.image [IMAGE ...]] [--ignore-state]
+                                             [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                             [--exclude.image [IMAGE ...]] [--image.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -231,7 +246,8 @@ options:
   --exclude.image [IMAGE ...]
                         Images to exclude from discovery process (default: [])
   --image.mapping [MAPPING ...]
-                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace;my-pod;my-image:product_key:product_version (type: K8sImageMappingString, default: [])
+                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace;my-pod;my-
+                        image:product_key:product_version (type: K8sImageMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -277,9 +293,16 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] jfrog [-h] [--instance INSTANCE] [--default_product_key_strategy {jf-repository,repository,tag,mapping}] [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.jf-repository [JF_REPOSITORY ...]]
-                                               [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
-                                               [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]]
+usage: platforms [options] bom [options] jfrog [-h] [--instance INSTANCE]
+                                               [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
+                                               [--default_product_version_strategy {tag,short_image_id,image_id}]
+                                               [--scope.jf-repository [JF_REPOSITORY ...]]
+                                               [--scope.repository [REPOSITORY ...]]
+                                               [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                               [--exclude.repository [REPOSITORY ...]]
+                                               [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--image.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -301,6 +324,7 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Jfrog tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->

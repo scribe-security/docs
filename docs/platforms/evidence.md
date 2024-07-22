@@ -20,9 +20,14 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only] [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable]
-                                    [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign] [--valint.components COMPONENTS]
+usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only]
+                                    [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
+                                    [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
+                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
+                                    [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
+                                    [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign]
+                                    [--valint.components COMPONENTS]
                                     {gitlab,k8s,dockerhub,github,jfrog} ...
 
 Export evidence data
@@ -130,9 +135,13 @@ platforms evidence gitlab --organization.mapping "my-org::my-product::1.0" --pro
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
-                                                     [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}] [--organization.single] [--project.single] [--organization.mapping [MAPPING ...]]
-                                                     [--project.mapping [MAPPING ...]]
+usage: platforms [options] evidence [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
+                                                     [--types {organization,project,all}]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
+                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                     [--organization.single] [--project.single]
+                                                     [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -144,7 +153,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: null)
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -157,9 +167,11 @@ options:
                         Export all organizations in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Organization product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Project product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -204,9 +216,16 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE] [--types {token,repository,namespace,all}] [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--token.mapping [MAPPING ...]]
-                                                        [--namespace.single] [--repository.single] [--default_product_key_strategy {mapping}]
+usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE] [--types {token,repository,namespace,all}]
+                                                        [--scope.namespace [NAMESPACE ...]]
+                                                        [--scope.repository [REPOSITORY ...]]
+                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--exclude.repository [REPOSITORY ...]]
+                                                        [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--namespace.mapping [MAPPING ...]]
+                                                        [--repository.mapping [MAPPING ...]] [--token.mapping [MAPPING ...]]
+                                                        [--namespace.single] [--repository.single]
+                                                        [--default_product_key_strategy {mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -224,11 +243,14 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
   --namespace.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --token.mapping [MAPPING ...]
-                        Repository tag product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Repository tag product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --namespace.single    Export all namespaces in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
   --default_product_key_strategy {mapping}
@@ -276,9 +298,14 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
-                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--default_product_key_strategy {namespace,pod,image,mapping}] [--secret.skip] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]]
-                                                  [--pod.mapping [MAPPING ...]]
+usage: platforms [options] evidence [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}]
+                                                  [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                  [--scope.image [IMAGE ...]] [--ignore-state]
+                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                  [--exclude.image [IMAGE ...]]
+                                                  [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                                  [--secret.skip] [--namespace.single] [--pod.single]
+                                                  [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -304,9 +331,11 @@ options:
   --namespace.single    Export all namespaces (default: False)
   --pod.single          Export all pods in a single evidence (default: False)
   --namespace.mapping [MAPPING ...]
-                        Namespace product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Namespace product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --pod.mapping [MAPPING ...]
-                        Pod product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+                        Pod product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
