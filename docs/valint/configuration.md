@@ -19,7 +19,6 @@ scribe:
   auth:
     enable: true
   url: https://api.scribesecurity.com
-  enable: false
   disable: false
   retry:
     backoff: 15s

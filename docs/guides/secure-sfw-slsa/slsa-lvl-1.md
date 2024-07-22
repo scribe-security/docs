@@ -19,7 +19,7 @@ The general Valint call structure is:
   valint slsa [target] -o statement \
    -P [SCRIBE_TOKEN]
 ```
-Where `[Target]` is the build artifact and `SCRIBE_TOKEN` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
+Where `[Target]` is the build artifact and `SCRIBE_TOKEN` is the token for accessing Scribe, when specified the document shall be stored at Scribe.
 
 You can store the Provenance Document in **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**.
 Use command flags to **[customize the content of the provenance document](customizing-provenance)**.
