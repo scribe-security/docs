@@ -43,7 +43,7 @@ platforms [global-options] command [command options] platform [platform options]
     * `gitlab`: To act on Gitlab or Gitlab evidence.
     * `dockerhub`: To act on DockerHub, Dockerhub images, or Dockerhub evidence.
     * `k8s`: To perform the action on K8s or K8s evidence.
-    * `jfrog`: To act on Jfrog, Jfrog images, or Jfrog evidence.
+    * `jfrog`: To act on Jfrog Artifactory images, or Jfrog evidence.
 * `platforms` options are the options that apply to the platform. Most of the platform-specific options are for scoping, filtering, and mapping assets to products.
 
 In the following sections, we shall explain each command in detail, by going through all commands for each platform.
