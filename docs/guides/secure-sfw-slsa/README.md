@@ -1,62 +1,60 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/sb9rxNLaK94z1My2aGxj" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Securing your software builds using SLSA framework"
+
+## sidebar_label: "Securing your software builds using SLSA framework"
 title: "Securing your software builds using SLSA framework"
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 5
----
-
 ### Introduction
-
-**[SLSA](https://slsa.dev/)** (Supply Chain Levels for Software Artifacts) is a security framework for software producers to prevent tampering, improve integrity, and secure packages and infrastructure. 
+[﻿SLSA](https://slsa.dev/) (Supply Chain Levels for Software Artifacts) is a security framework for software producers to prevent tampering, improve integrity, and secure packages and infrastructure.
 Scribe is designed to help you efficiently attain SLSA levels as explained throughout this guide.
-SLSA is organized into levels, each representing incremental progress over the previous one. It has a stable specification, dubbed **[v1.0 release](https://slsa.dev/spec/v1.0/whats-new)**. As SLSA requirements might be challenging to implement we suggest organizations gradually progress through the SLSA levels.
+SLSA is organized into levels, each representing incremental progress over the previous one. It has a stable specification, dubbed [﻿v1.0 release](https://slsa.dev/spec/v1.0/whats-new). As SLSA requirements might be challenging to implement we suggest organizations gradually progress through the SLSA levels.
 
-The major SLSA requirements by level are summarized below:  
-**Level 1:**  
-(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l1)**)  
-* The software producer follows a consistent build process.
-* The build platform automatically generates provenance describing how the artifact was built.
-* The software producer distributes provenance to consumers.
+The major SLSA requirements by level are summarized below:
+**Level 1:**
+(See on [﻿SLSA website](https://slsa.dev/spec/v1.0/levels#build-l1)) 
 
-**Level 2:**  
-(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l2)**)  
-* **Level 1 requirements**.
-* The builds run on a hosted build platform that generates and signs the provenance document.
-* The software consumer can verify the authenticity and integrity of the provenance document with a digital signature.
+- The software producer follows a consistent build process.
+- The build platform automatically generates provenance describing how the artifact was built.
+- The software producer distributes provenance to consumers.
+**Level 2:**
+(See on [﻿SLSA website](https://slsa.dev/spec/v1.0/levels#build-l2)) 
 
-**Level 3:**  
-(See on **[SLSA website](https://slsa.dev/spec/v1.0/levels#build-l3)**)  
+- **Level 1 requirements**.
+- The builds run on a hosted build platform that generates and signs the provenance document.
+- The software consumer can verify the authenticity and integrity of the provenance document with a digital signature.
+**Level 3:**
+(See on [﻿SLSA website](https://slsa.dev/spec/v1.0/levels#build-l3))
 At this level, the framework calls for the generation of a non-forgeable provenance document.
-* **Level 2 requirements**.
-* The build platform implements strong controls as follows:
-  * Prevent runs from influencing one another, even within the same project.
-  * Prevent secret material used to sign the provenance from being accessible by the user-defined build steps.
-* ​The **[build platform is verified](https://slsa.dev/spec/v1.0/verifying-systems)** so that the provenance is **[unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)** and the build is isolated as follows:
-  * If you are using a SaaS CI, verify the trustworthiness of the build with the build platform vendor.
-  * If you self-host the build platform provide a vendor-self-attestation (in addition, we recommend an analysis of the build-platform security posture). For example, the vendor attestation declares the way builds are **[isolated](https://slsa.dev/spec/v1.0/requirements#isolated)** one from another, how diverting from build-isolation can be detected and how this isolation was assessed as part of the security posture analysis.
-  * Verify that the use of the platform does not break the **[unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)** and **[isolated](https://slsa.dev/spec/v1.0/requirements#isolated)** requirements (for example: verify the use of caches).​
 
+- **Level 2 requirements**.
+- The build platform implements strong controls as follows:
+    - Prevent runs from influencing one another, even within the same project.
+    - Prevent secret material used to sign the provenance from being accessible by the user-defined build steps.
+- ​The [﻿build platform is verified](https://slsa.dev/spec/v1.0/verifying-systems)  so that the provenance is [﻿unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)  and the build is isolated as follows:
+    - If you are using a SaaS CI, verify the trustworthiness of the build with the build platform vendor.
+    - If you self-host the build platform provide a vendor-self-attestation (in addition, we recommend an analysis of the build-platform security posture). For example, the vendor attestation declares the way builds are [﻿isolated](https://slsa.dev/spec/v1.0/requirements#isolated)  one from another, how diverting from build-isolation can be detected and how this isolation was assessed as part of the security posture analysis.
+    - Verify that the use of the platform does not break the [﻿unforgeable](https://slsa.dev/spec/v1.0/requirements#provenance-unforgeable)  and [﻿isolated](https://slsa.dev/spec/v1.0/requirements#isolated)  requirements (for example: verify the use of caches).​
 ### How Scribe helps you attain a SLSA level
-
 Scribe automatically gathers evidence and creates a SLSA attestation for every build of your product.
 
 Scribe does this by providing the following capabilities:
+
 1. Scanning your SCM and your build system security configuration by connecting to your systems’ APIs.
 2. Generating a signed provenance document for every build by employing a plugin, Scribe Valint, for your CI systems. 
-3. Ensuring that the provenance document cannot be forged in the build pipeline. 
-
+3. Ensuring that the provenance document cannot be forged in the build pipeline.
 The provenance document includes the following data:
+
 1. Git: git commit ID and git URL.
 2. CI build platform, build ID, build environment variables. 
-3. Artifact name and hash. 
-
+3. Artifact name and hash.
 As SLSA requirements leave room for adding information, Scribe allows you to add custom data to the provenance document.
 
-Scribe Valint generates by default the **[standard provenance document](https://slsa.dev/provenance/v1)** as in the snippet below. It can be better understood by reviewing empirical examples from GitHub and Jenkins that appear below.
+Scribe Valint generates by default the [﻿standard provenance document](https://slsa.dev/provenance/v1) as in the snippet below. It can be better understood by reviewing empirical examples from GitHub and Jenkins that appear below.
 
-<details>
-  <summary> Valint provenance template </summary>
+ Valint provenance template 
 
 ```
 {
@@ -112,12 +110,8 @@ Scribe Valint generates by default the **[standard provenance document](https://
    }
 }
 ```
-</details>
-
 #### Examples
-
-<details>
-  <summary> Provenance Document from GitHub </summary>
+ Provenance Document from GitHub 
 
 ```json
 {
@@ -265,10 +259,7 @@ Scribe Valint generates by default the **[standard provenance document](https://
  }
 }
 ```
-</details>
-
-<details>
-  <summary> Provenance Document from Jenkins </summary>
+ Provenance Document from Jenkins 
 
 ```json
 {
@@ -468,16 +459,15 @@ Scribe Valint generates by default the **[standard provenance document](https://
   }
 }
 ```
-</details>
-
 #### Storing the Provenance Document in an evidence store
-
 You can store, manage, and retrieve Provenance Documents in your supply chain in Scribe Hub (recommended) which facilitates evidence or attestation management, supply chain risk analysis and management, and evidence and attestation sharing hub for software producers and consumers.
 
-You can also use the following **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**:
-* OCI Registry - leverage your image registry for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
-* File System Evidence store​ - Leverages a shared volume for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
+You can also use the following [﻿alternative evidence stores](../../integrating-scribe/other-evidence-stores):
+
+- OCI Registry - leverage your image registry for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
+- File System Evidence store​ - Leverages a shared volume for storing and retrieving evidence or attestations. This integration is practical for standalone deployments.
+You can read more on the SLSA website about [﻿SLSA requirements](https://slsa.dev/spec/v0.1/requirements) and [﻿SLSA provenance specifications](https://slsa.dev/provenance/v1).
 
 
-You can read more on the SLSA website about **[SLSA requirements](https://slsa.dev/spec/v0.1/requirements)** and **[SLSA provenance specifications](https://slsa.dev/provenance/v1)**.
 
+<!--- Eraser file: https://app.eraser.io/workspace/sb9rxNLaK94z1My2aGxj --->

@@ -1,94 +1,108 @@
-## valint discard
+<p><a target="_blank" href="https://app.eraser.io/workspace/pxdZOh0CfkebhBo4l9Xl" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
+## valint discard
 Discard evidence
 
 ### Synopsis
-
 Discard evidence
 
 ```
 valint discard [TARGET] [flags]
 ```
-
-### Optional flags 
+### Optional flags
 Flags for `discard` subcommand
 
-
 | Short | Long | Description | Default |
-| --- | --- | --- | --- |
-| | --current | Discard evidence attached to the current context | |
-| -h | --help | help for discard | |
-| | --interactive | Force interactive mode for the discard list | |
-| | --ref | Evidence store refrence | |
-| | --silent | Automatically accept the discard list | |
-| | --store | Select evidence store | |
-
-
+| ----- | ----- | ----- | ----- |
+|  | --current | Discard evidence attached to the current context |  |
+| -h | --help | help for discard |  |
+|  | --interactive | Force interactive mode for the discard list |  |
+|  | --ref | Evidence store refrence |  |
+|  | --silent | Automatically accept the discard list |  |
+|  | --store | Select evidence store |  |
 ### Global options flags
 Flags for all `valint` subcommands
 
-
 | Short | Long | Description | Default |
-| --- | --- | --- | --- |
-| | --cache-enable | Enable local cache | true |
-| -c | --config | Configuration file path | |
+| ----- | ----- | ----- | ----- |
+|  | --allow-expired | Allow expired certs |  |
+|  | --attest.config | Attestation config path |  |
+|  | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
+|  | --backoff | Backoff duration | "15s" |
+|  | --ca | x509 CA Chain path |  |
+|  | --cache-enable | Enable local cache | true |
+|  | --cert | x509 Cert path |  |
+| -c | --config | Configuration file path |  |
+|  | --context-dir | Context dir |  |
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
-| | --deliverable | Mark as deliverable, options=[true, false] | |
-| -e | --env | Environment keys to include in evidence | |
-| -G | --gate | Policy Gate name | |
-| -L | --label | Add Custom labels | |
-| | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
-| | --log-context | Attach context to all logs | |
-| | --log-file | Output log to file | |
+|  | --crl | x509 CRL path |  |
+|  | --crl-full-chain | Enable Full chain CRL verfication |  |
+|  | --deliverable | Mark as deliverable, options=[true, false] |  |
+|  | --depth | Git clone depth |  |
+|  | --disable-crl | Disable certificate revocation verificatoin |  |
+| -e | --env | Environment keys to include in evidence |  |
+| -F | --filter-regex | Filter out files by regex | <p>[</p><p>**/*.pyc,**</p><p>/.git/**]</p> |
+|  | --filter-scope | Filter packages by scope |  |
+| -G | --gate | Policy Gate name |  |
+|  | --git-auth | Git repository authentication info, [format: 'username:password'] |  |
+|  | --git-branch | Git branch in the repository |  |
+|  | --git-commit | Git commit hash in the repository |  |
+|  | --git-tag | Git tag in the repository |  |
+|  | --key | x509 Private key path |  |
+| -L | --label | Add Custom labels |  |
+| -D | --level | Log depth level, options=[panic fatal error warning info debug trace] |  |
+|  | --log-context | Attach context to all logs |  |
+|  | --log-file | Output log to file |  |
+|  | --oci | Enable OCI store |  |
+| -R | --oci-repo | Select OCI custom attestation repo |  |
 | -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
-| -O | --output-file | Output file name | |
-| -p | --pipeline-name | Pipeline name | |
-| | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
-| -n | --product-key | Product Key | |
-| -V | --product-version | Product Version | |
-| -q | --quiet | Suppress all logging output | |
-| -U | --scribe.client-id | Scribe Client ID (deprecated) | |
-| -P | --scribe.client-secret | Scribe Client Token | |
-| -D | --scribe.disable | Disable scribe client | |
-| -E | --scribe.enable | Enable scribe client (deprecated) | |
-| -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
-| -s | --show | Print evidence to stdout | |
-| | --structured | Enable structured logger | |
-| | --timeout | Timeout duration | "120s" |
-| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
-
-
-### Examples for running `valint discard`
-
+| -O | --output-file | Output file name |  |
+| -p | --pipeline-name | Pipeline name |  |
+|  | --platform | Select target platform, examples=windows/armv6, arm64 ..) |  |
+|  | --predicate-type | Custom Predicate type (generic evidence format) | <p>"</p><p>"</p> |
+| -n | --product-key | Product Key |  |
+| -V | --product-version | Product Version |  |
+| -q | --quiet | Suppress all logging output |  |
+|  | --rule-args | Policy arguments | [] |
+| -U | --scribe.client-id | Scribe Client ID (deprecated) |  |
+| -P | --scribe.client-secret | Scribe Client Token |  |
+| -E | --scribe.enable | Enable scribe client |  |
+| -u | --scribe.url | Scribe API Url | <p>"</p><p>"</p> |
+| -s | --show | Print evidence to stdout |  |
+|  | --structured | Enable structured logger |  |
+|  | --timeout | Timeout duration | "120s" |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug |  |
+### Examples for running `valint discard` 
 ```
-  valint discard <target>
-  
-  <target> Target object name format=[<image:tag>, <dir path>, <git url>]
+valint discard <target>
 
-  valint discard                                                                    discard all evidence in local context
-  valint discard --context-type github                                              discard all evidence in pipeline
-  valint discard alpine:latest                                                      discard all evidence for Docker image
-  valint discard alpine:latest --silent                                             silently discard evidence
-  valint discard alpine:latest --interactive                                        ask user before discarding evidence
-  valint discard alpine:latest --product-key my_product                             discard all evidence in product
-  valint discard alpine:latest -vv --product-key my_product --product-version v0.0.1       discard all evidence in product version
-  valint discard alpine:latest --context-type github                                discard all evidence for Docker images generated by the current pipeline
-  valint discard alpine:latest -vv                                                  show verbose debug information
+<target> Target object name format=[<image:tag>, <dir path>, <git url>]
 
-  Supports the following image sources:
-  valint discard yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+valint discard                                                                    discard all evidence in local context
+valint discard --context-type github                                              discard all evidence in pipeline
+valint discard alpine:latest                                                      discard all evidence for Docker image
+valint discard alpine:latest --silent                                             silently discard evidence
+valint discard alpine:latest --interactive                                        ask user before discarding evidence
+valint discard alpine:latest --product-key my_product                             discard all evidence in product
+valint discard alpine:latest -vv --product-key my_product --product-version v0.0.1       discard all evidence in product version
+valint discard alpine:latest --context-type github                                discard all evidence for Docker images generated by the current pipeline
+valint discard alpine:latest -vv                                                  show verbose debug information
 
-  You can also explicitly specify the scheme to use:
-  valint discard docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-  valint discard docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-  valint discard oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
-  valint discard dir:path/to/yourproject                read directly from a path on disk (any directory)
-  valint discard registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-  valint discard file:path/to/yourproject/file          read directly from a path on disk (any single file)
+Supports the following image sources:
+valint discard yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
 
+You can also explicitly specify the scheme to use:
+valint discard docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
+valint discard docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
+valint discard oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Skopeo or otherwise)
+valint discard dir:path/to/yourproject                read directly from a path on disk (any directory)
+valint discard registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
+valint discard file:path/to/yourproject/file          read directly from a path on disk (any single file)
 ```
-
 ### SEE ALSO
+- [﻿valint](valint.md)  - Validate Supply Chain Integrity
 
-* [valint](valint.md)	 - Validate Supply Chain Integrity
 
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/pxdZOh0CfkebhBo4l9Xl --->

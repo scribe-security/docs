@@ -1,11 +1,12 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/cniM4WT1EQeqOj5sb7eV" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Scribe Hub service"
+
+## sidebar_label: "Scribe Hub service"
 title: Scribe Hub service
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 5
----
-
 Scribe Hub is a platform for managing trust in the software supply chain that functions as a service for handling and sharing SBOMs, a repository for evidence, and a tool for supply chain intelligence and analytics. Scribe comprises Scribe Hub software as a service, an on-premise agent, and other utilities.
 
 There are various ways to upload evidence to Scribe Hub: you can supply API tokens from your development tools like GitHub or Artifactory, deploy Scribe's agent called Valint in your pipeline, or upload third-party evidence through the Scribe Hub's API.
@@ -16,17 +17,14 @@ Scribe's Valint, which stands for "Validate the Integrity of the supply chain", 
 
 Valint sends the evidence it collects to the Scribe Hub. Additionally, Valint can serve as an agent that enforces supply chain policies either at the end of a build, during admission control to your production environment, or on an ad hoc basis. It retrieves evidence and analytic data from Scribe Hub and applies policy-as-code to it.
 
-<!-- :::note
-Scribe software supply chain security capabilities are concentrated around the CI/CD pipeline and the creation of a docker image as a final product of that pipeline.
+You can start using Scribe Hub by opening a free account [﻿here](https://scribesecurity.com/scribe-platform-lp/).
 
-If your project doesn't use a CI/CD pipeline and/or doesn't create a docker image as a final product of that pipeline than you'll not be able to use Scribe effectively at this time. 
-::: -->
+Start here with the [﻿Quickstart](../quick-start/demo) guide.
 
-You can start using Scribe Hub by opening a free account **[here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free")**.
-
-Start here with the **[Quickstart](../quick-start/demo "Quickstart - Demo project")** guide.
-
-<img src='../../../img/start/how-scribe-works.jpg' alt='Scribe Security high-level deployment architecture'/>
+![Scribe Security high-level deployment architecture](../../../img/start/how-scribe-works.jpg "")
 
 
 
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/cniM4WT1EQeqOj5sb7eV --->

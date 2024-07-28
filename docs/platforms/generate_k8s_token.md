@@ -1,13 +1,13 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/CgAg8DT6sTK0UTzHK11F" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Setup Kubernetes Token"
+
+## sidebar_label: "Setup Kubernetes Token"
 title: "Setup Kubernetes Token"
 sidebar_position: 7
----
-
-# Generating a Kubernetes Token for Using with `platforms`
-
+# Generating a Kubernetes Token for Using with `platforms` 
 ## Background
-K8s tokens are generated as part of deploying roles and service accounts in a Kubernetes cluster. 
+K8s tokens are generated as part of deploying roles and service accounts in a Kubernetes cluster.
 The `platforms` tool uses these tokens to access the cluster and retrieve information about namespaces, pods, and secrets.
 
 Note that the `platforms` tool does not store the actual secrets, only metadata.
@@ -16,16 +16,8 @@ Note that the `platforms` tool does not store the actual secrets, only metadata.
 Access to your Kubernetes cluster and the ability to create roles and service accounts using `kubectl`.
 
 ## Steps
-
 1. Create a service account
-Create a `yml` file with the following content:
-<!--
-{
-    "command": "cat scripts/k8s-scripts/service-account.yaml",
-    "output-format": "yml"
-}
--->
-<!-- { "object-type": "command-output-start" } -->
+Create a `yml`  file with the following content:
 ```yml
 apiVersion: v1
 kind: ServiceAccount
@@ -38,17 +30,9 @@ metadata:
 Deploy it using:
 ```bash
 kubectl apply -f scripts/k8s-scripts/service-account.yaml
-``` 
-
-2. Create a role
-Create a `yml` file with the following content:
-<!--
-{
-    "command": "cat scripts/k8s-scripts/role.yaml",
-    "output-format": "yml"
-}
--->
-<!-- { "object-type": "command-output-start" } -->
+```
+1. Create a role
+Create a `yml`  file with the following content:
 ```yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -59,23 +43,13 @@ rules:
   resources: ["secrets", "pods", "namespaces"]
   verbs: ["get", "watch", "list"]
 ```
-<!-- { "object-type": "command-output-end" } -->
-
-
 Deploy it using:
+
 ```bash
 kubectl apply -f scripts/k8s-scripts/role.yaml
 ```
-
-3. Create a role binding
-Create a `yml` file with the following content:
-<!--
-{
-    "command": "cat scripts/k8s-scripts/role-binding.yaml",
-    "output-format": "yml"
-}
--->
-<!-- { "object-type": "command-output-start" } -->
+1. Create a role binding
+Create a `yml`  file with the following content:
 ```yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -91,22 +65,13 @@ roleRef:
   name: secret-reader-role
   apiGroup: rbac.authorization.k8s.io
 ```
-<!-- { "object-type": "command-output-end" } -->
-
 Deploy it using:
+
 ```bash
 kubectl apply -f scripts/k8s-scripts/role-binding.yaml
-``` 
-
-4. Create a cluster role-binding
-Create a `yml` file with the following content:
-<!--
-{
-    "command": "cat scripts/k8s-scripts/cluster-role-binding.yaml",
-    "output-format": "yml"
-}
--->
-<!-- { "object-type": "command-output-start" } -->
+```
+1. Create a cluster role-binding
+Create a `yml`  file with the following content:
 ```yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -121,22 +86,13 @@ roleRef:
   name: secret-reader-role
   apiGroup: rbac.authorization.k8s.io
 ```
-<!-- { "object-type": "command-output-end" } -->
-
-
 Deploy it using:
+
 ```bash
 kubectl apply -f scripts/k8s-scripts/cluster-role-binding.yaml
 ```
-5. Create the secret
-Create a `yml` file with the following content:
-<!--
-{
-    "command": "cat scripts/k8s-scripts/secret.yaml",
-    "output-format": "yml"
-}
--->
-<!-- { "object-type": "command-output-start" } -->
+1. Create the secret
+Create a `yml`  file with the following content:
 ```yml
 apiVersion: v1
 kind: Secret
@@ -152,13 +108,17 @@ Deploy it using:
 ```bash
 kubectl apply -f scripts/k8s-scripts/secret.yaml
 ```
-
-6. Get the token
+1. Get the token
 Get the token using:
 ```bash
 kubectl get secrets  api-service-account-token  -o=jsonpath='{.data.token}' |  base64 -D
 ```
-
 Notes:
-* This secret has high privileges and should be handled with care.
-* Make sure to replace `api-service-account-token` with the name of the secret you created in step 5.
+
+- This secret has high privileges and should be handled with care.
+- Make sure to replace `api-service-account-token`  with the name of the secret you created in step 5.
+
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/CgAg8DT6sTK0UTzHK11F --->

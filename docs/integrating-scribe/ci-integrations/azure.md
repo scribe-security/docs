@@ -1,82 +1,72 @@
----
-sidebar_label: "Azure Pipelines"
-title: Azure Pipelines
-sidebar_position: 4
+<p><a target="_blank" href="https://app.eraser.io/workspace/c1L0PTQ64GXquOe2N0ax" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
 
+## sidebar_label: "Azure Pipelines"
+title: Azure Pipelines
+sidebar_position: 4
 Use the following instructions to integrate your Azure pipelines with Scribe.
 
 ### Installation
-**[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** Can be found in Azure marketplace.  <br />
-Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization.  <br />
+[﻿Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) Can be found in Azure marketplace. 
+
+Follow [﻿install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension) to add the extension to your organization. 
+
 Once you have the extension installed you can use the task in your pipeline.
 
 ### 1. Obtain a Scribe Hub API Token
-
-1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
-
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
-
+1. Sign in to [﻿Scribe Hub](https://app.scribesecurity.com/) . If you don't have an account you can sign up for free [﻿here](https://scribesecurity.com/scribe-platform-lp/) .
+2. Create a API token in [﻿Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens) . Copy it to a safe temporary notepad until you complete the integration.
 :::note Important
-The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+The token is a secret and will not be accessible from the UI after you finalize the token generation.
 :::
 
 ### 2. Add the API token to the Azure DevOps secrets
-
-Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash "Azure DevOps - Set secret variables").
+Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by following the instructions in [﻿Azure DevOps - Set secret variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash).
 
 ### 3. Install Scribe CLI
+**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance.
 
-**Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
-1. Install Azure DevOps [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) from the Azure marketplace.
-2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.
-
+1. Install Azure DevOps [﻿Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)  from the Azure marketplace.
+2. Follow [﻿install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)  to add the extension to your organization and use the task in your pipelines.
 ### 4. Instrument your build scripts
-
 #### Basic example
-Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
+Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build.
 In your Azure DevOps project make sure you have a file named `azure-pipelines.yml` and add the following steps to it after the build step:
 
 ```yaml
-  - job: scribe_azure_job
-    displayName: scribe azure job
+- job: scribe_azure_job
+displayName: scribe azure job
   
-    pool:
-      vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-    steps:
-    - task: ScribeInstall@0
-    - task: ValintCli@0
-      displayName: SBOM image `busybox:latest`.
-      command: bom
-      target: nginx
-      format: statement
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      scribeEnable: true
-      scribeClientSecret: $(SCRIBE_TOKEN)
+steps:
+- task: ScribeInstall@0
+- task: ValintCli@0
+  displayName: SBOM image `busybox:latest`.
+  command: bom
+  target: nginx
+  format: statement
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-
 ### Additional examples
-
-<details>
-  <summary> Generate an SBOM for an image in a public registry </summary>
+ Generate an SBOM for an image in a public registry 
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SBOM
-  inputs:
-    commandName: bom
-    target: busybox:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-
-</details>
-
-<details>
-  <summary> Add NTIA metadata to SBOM </summary>
+displayName: Generate cyclonedx json SBOM
+inputs:
+  commandName: bom
+  target: busybox:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+  
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Add NTIA metadata to SBOM 
 
 ```YAML
 trigger:
@@ -131,148 +121,123 @@ jobs:
       scribeEnable: true
       scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-</details>
-
-
-<details>
-  <summary> Generate SLSA provenance for an image in a public registry </summary>
+ Generate SLSA provenance for an image in a public registry 
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate SLSA provenance
-  inputs:
-    commandName: slsa
-    target: busybox:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-
-</details>
-
-<details>
-  <summary> Generate an SBOM for for an image built with local docker </summary>
+displayName: Generate SLSA provenance
+inputs:
+  commandName: slsa
+  target: busybox:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Generate an SBOM for for an image built with local docker 
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SBOM
-  inputs:
-    commandName: bom
-    target: image_name:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
-
-<details>
-  <summary> Generate SLSA provenance for for an image built with local docker </summary>
+displayName: Generate cyclonedx json SBOM
+inputs:
+  commandName: bom
+  target: image_name:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Generate SLSA provenance for for an image built with local docker 
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate SLSA provenance
-  inputs:
-    commandName: slsa
-    target: image_name:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
+displayName: Generate SLSA provenance
+inputs:
+  commandName: slsa
+  target: image_name:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Generate an SBOM for an image in a private registry 
 
-<details>
-  <summary>  Generate an SBOM for an image in a private registry </summary>
-
-> Add a `docker login` task before the adding the following task:
+>  Add a `docker login` task before the adding the following task: 
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SBOM
-  inputs:
-    commandName: bom
-    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
+displayName: Generate cyclonedx json SBOM
+inputs:
+  commandName: bom
+  target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Generate SLSA provenance for an image in a private registry 
 
-<details>
-  <summary> Generate SLSA provenance for an image in a private registry </summary>
-
-> Before the following task add a `docker login` task 
+>  Before the following task add a `docker login` task  
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate SLSA provenance
-  inputs:
-    commandName: slsa
-    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
-
-<details>
-  <summary>  Add custom metadata to SBOM </summary>
+displayName: Generate SLSA provenance
+inputs:
+  commandName: slsa
+  target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Add custom metadata to SBOM 
 
 ```YAML
 - job: custom_bom
-  displayName: Custom bom
+displayName: Custom bom
 
-  variables:
-    - name: test_env
-      value: test_env_value
+variables:
+  - name: test_env
+    value: test_env_value
 
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  steps:
-  - task: ValintCli@0
-    displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
-    inputs:
-      commandName: bom
-      target: 'busybox:latest'
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
-      env: test_env
-      label: test_label
-      scribeEnable: true
-      scribeClientSecret: $(SCRIBE_TOKEN)
+steps:
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
+  inputs:
+    commandName: bom
+    target: 'busybox:latest'
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
+    env: test_env
+    label: test_label
+    scribeEnable: true
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-</details>
-<details>
-  <summary>  Add custom metadata to SLSA provenance </summary>
+ Add custom metadata to SLSA provenance 
 
 ```YAML
 - job: custom_slsa
-  displayName: Custom slsa
+displayName: Custom slsa
 
-  variables:
-    - name: test_env
-      value: test_env_value
+variables:
+  - name: test_env
+    value: test_env_value
 
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  steps:
-  - task: ValintCli@0
-    displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
-    inputs:
-      commandName: slsa
-      target: 'busybox:latest'
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
-      env: test_env
-      label: test_label
-      scribeEnable: true
-      scribeClientSecret: $(SCRIBE_TOKEN)
+steps:
+- task: ValintCli@0
+  displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
+  inputs:
+    commandName: slsa
+    target: 'busybox:latest'
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint      
+    env: test_env
+    label: test_label
+    scribeEnable: true
+    scribeClientSecret: $(SCRIBE_TOKEN)
 ```
-</details>
+ Export SBOM as an artifact 
 
-<details>
-  <summary> Export SBOM as an artifact </summary>
-
-> Use `format` input argumnet to set the format.
+>  Use `format` input argumnet to set the format. 
 
 ```YAML
 - task: ValintCli@0
@@ -292,13 +257,10 @@ jobs:
 # Using `outputFile` custom path.
 - publish: $(Build.ArtifactStagingDirectory)/my_sbom.json
   artifact: scribe-sbom
-``` 
-</details>
+```
+ Export SLSA provenance as an artifact 
 
-<details>
-  <summary> Export SLSA provenance as an artifact </summary>
-
-> Use `format` input argumnet to set the format.
+>  Use `format` input argumnet to set the format. 
 
 ```YAML
 - task: ValintCli@0
@@ -318,17 +280,13 @@ jobs:
 # Using `outputFile` custom path.
 - publish: $(Build.ArtifactStagingDirectory)/my_slsa.json
   artifact: scribe-slsa
-``` 
-</details>
-
-<details>
-  <summary> Generate an SBOM of a local file directory </summary>
+```
+ Generate an SBOM of a local file directory 
 
 ```YAML
 - bash: |
     mkdir testdir
     echo "test" > testdir/test.txt
-
 - task: ValintCli@0
   displayName: SBOM local directory.
   inputs:
@@ -337,17 +295,13 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
-
-<details>
-  <summary> Generate SLSA provenance of a local file directory </summary>
+```
+ Generate SLSA provenance of a local file directory 
 
 ```YAML
 - bash: |
     mkdir testdir
     echo "test" > testdir/test.txt
-
 - task: ValintCli@0
   displayName: SLSA local directory.
   inputs:
@@ -356,31 +310,26 @@ jobs:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
+```
+ Generate an SBOM of a git repo 
 
-``` 
-</details>
-
-<details>
-  <summary> Generate an SBOM of a git repo </summary>
-  
 For a remote git repo:
-  
+
 ```YAML
 - task: ValintCli@0
-  displayName: SBOM remote git repository.
-  inputs:
-    command: bom
-    target: git:https://github.com/mongo-express/mongo-express.git 
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
-    scribeEnable: true
-    scribeClientSecret: $(SCRIBE_TOKEN)
+displayName: SBOM remote git repository.
+inputs:
+  command: bom
+  target: git:https://github.com/mongo-express/mongo-express.git 
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
+  scribeEnable: true
+  scribeClientSecret: $(SCRIBE_TOKEN)
 ```
 For a local git repo:
-**Note** If you use implicit checkout, **[git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines)** affects the commits collected into the SBOM.
+**Note** If you use implicit checkout, [﻿git-strategy](https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps-checkout?view=azure-pipelines) affects the commits collected into the SBOM.
 
 ```YAML
 - checkout: self
-
 - task: ValintCli@0
   displayName: SBOM local git repository.
   inputs:
@@ -389,152 +338,142 @@ For a local git repo:
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
-``` 
-</details>
-<details>
-  <summary> Generate SLSA provenance of a git reop </summary>
-For a remote git repo:
-  
+```
+ Generate SLSA provenance of a git reop 
+
+ For a remote git repo: 
+
 ```YAML
 - task: ValintCli@0
-  displayName: SBOM remote git repository.
-  inputs:
-    command: slsa
-    target: git:https://github.com/mongo-express/mongo-express.git 
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    
-``` 
-
-> For a local git repo
+displayName: SBOM remote git repository.
+inputs:
+  command: slsa
+  target: git:https://github.com/mongo-express/mongo-express.git 
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+```
+>  For a local git repo 
 
 ```YAML
 - checkout: self
-
 - task: ValintCli@0
   displayName: SLSA local git repository.
   inputs:
     command: slsa
     target: git:. 
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    
-``` 
-</details>
-<details>
-  <summary> Using an OCI registry as an evidence store instead of Scribe Hub </summary>
-For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry <a href="https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores">(learn more)</a>
+```
+ Using an OCI registry as an evidence store instead of Scribe Hub 
+
+ For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry 
+
+[﻿(learn more)](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores) 
 
 Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
 
+- `--oci`  Enable OCI store.
+- `--oci-repo`  - Evidence store location.
 1. Allow Valint Read and Write access to this registry.
-2. Login to the registry, for example by `docker login`.
-
+2. Login to the registry, for example by `docker login` .
 ```yaml
 - job: scribe_azure_job
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  variables:
-    imageName: 'pipelines-javascript-docker'
+variables:
+  imageName: 'pipelines-javascript-docker'
 
-  steps:
-  - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+steps:
+- script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
-  - task: scribeInstall@0
+- task: scribeInstall@0
 
-  - task: ValintCli@0
-    inputs:
-      commandName: bom
-      target: [target]
-      format: [attest, statement]
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      oci: true
-      ociRepo: [oci_repo]
+- task: ValintCli@0
+  inputs:
+    commandName: bom
+    target: [target]
+    format: [attest, statement]
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    oci: true
+    ociRepo: [oci_repo]
 
-  - task: ValintCli@0
-    inputs:
-      commandName: verify
-      target: [target]
-      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      oci: true
-      ociRepo: [oci_repo]
+- task: ValintCli@0
+  inputs:
+    commandName: verify
+    target: [target]
+    inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    oci: true
+    ociRepo: [oci_repo]
 ```
-</details>
-
 ### Basic examples
-
-<details>
-  <summary>  Public registry image (SBOM) </summary>
+ Public registry image (SBOM) 
 
 Create SBOM for remote `busybox:latest` image.
 
 ```YAML
 - task: ValintCli@0
-  displayName: Generate cyclonedx json SBOM
-  inputs:
-    commandName: bom
-    target: busybox:latest
-    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-    force: true
-``` 
-
-</details>
-
-
+displayName: Generate cyclonedx json SBOM
+inputs:
+  commandName: bom
+  target: busybox:latest
+  outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+  force: true
+```
 ### Alternative evidence stores
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+>  You can learn more about alternative stores [﻿here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores). 
 
-<details>
-  <summary> <b> OCI Evidence store </b></summary>
+** OCI Evidence store **
 
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
 
 Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
-* `oci` Enable OCI store.
-* `ociRepo` - Evidence store location.
 
+- `oci`  Enable OCI store.
+- `ociRepo`  - Evidence store location.
 ### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
+Evidence can be stored in any artifact registry.
 
+- Write access is required for upload (generate).
+- Read access is required for download (verify).
 You must first login with the required access privileges to your registry before calling Valint.
 For example, using `docker login` command.
 
 ### Usage
 ```yaml
 - job: scribe_azure_job
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  variables:
-    imageName: 'pipelines-javascript-docker'
+variables:
+  imageName: 'pipelines-javascript-docker'
 
-  steps:
-  - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
+steps:
+- script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
-  - task: scribeInstall@0
+- task: scribeInstall@0
 
-  - task: ValintCli@0
-    inputs:
-      commandName: bom
-      target: [target]
-      format: [attest, statement]
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      oci: true
-      ociRepo: [oci_repo]
+- task: ValintCli@0
+  inputs:
+    commandName: bom
+    target: [target]
+    format: [attest, statement]
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    oci: true
+    ociRepo: [oci_repo]
 
-  - task: ValintCli@0
-    inputs:
-      commandName: verify
-      target: [target]
-      inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
-      outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
-      oci: true
-      ociRepo: [oci_repo]
+- task: ValintCli@0
+  inputs:
+    commandName: verify
+    target: [target]
+    inputFormat: [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic]
+    outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint
+    oci: true
+    ociRepo: [oci_repo]
 ```
-</details>
+
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/c1L0PTQ64GXquOe2N0ax --->

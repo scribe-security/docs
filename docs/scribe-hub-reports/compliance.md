@@ -1,28 +1,31 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/hgTjeSUkoLQNTZrlPWaq" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Compliance"
+
+## sidebar_label: "Compliance"
 title: Compliance
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 5
----
-
-A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe you can examine the SLSA policies **[here](../guides/secure-sfw-slsa/slsapolicies)** and the SSDF policies **[here](../guides/ssdf-compliance/ssdfpolicies)**.
+A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe you can examine the SLSA policies [﻿here](../guides/secure-sfw-slsa/slsapolicies) and the SSDF policies [﻿here](../guides/ssdf-compliance/ssdfpolicies).
 
 To reach the compliance report go to **Products > {Your Product} > {Version} > Compliance**.
 
 This is what the report looks like:
 
-<img src='../../img/start/compliance-start.jpg' alt='Compliance Report'/> 
+![Compliance Report](../../img/start/compliance-start.jpg "")
 
 As you can see, if the policy was checked successfully you'll see a green checkmark next to it. If the check failed you'll see a red exclamation point. 
 
 ### Explanation
-
-* **Status** - Whether the policy check passed or failed 
-* **Compliance** - Which framework does the policy belongs to
-* **Policy** - Each policy under the **policy** column is a link leading to the right policy in the right regulation page such as the **[SLSA Policies](../guides/secure-sfw-slsa/slsapolicies)** or the **[SSDF Policies](../guides/ssdf-compliance/ssdfpolicies)** that Scribe monitors.
-* **Message** - Explains why the policy check was successful or failed. Fix the failure reason to get the policy to pass on the next build run.
-
+- **Status** - Whether the policy check passed or failed 
+- **Compliance** - Which framework does the policy belongs to
+- **Policy** - Each policy under the **policy** column is a link leading to the right policy in the right regulation page such as the [﻿SLSA Policies](../guides/secure-sfw-slsa/slsapolicies)  or the [﻿SSDF Policies](../guides/ssdf-compliance/ssdfpolicies)  that Scribe monitors.
+- **Message** - Explains why the policy check was successful or failed. Fix the failure reason to get the policy to pass on the next build run.
 :::note
-If you're interested in adding any other policies or frameworks to be checked against your products out of the box please **[contact us](https://scribesecurity.com/contact-us/)**.
+If you're interested in adding any other policies or frameworks to be checked against your products out of the box please [﻿contact us](https://scribesecurity.com/contact-us/).
 :::
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/hgTjeSUkoLQNTZrlPWaq --->

@@ -1,12 +1,12 @@
-# Configuration 
+<p><a target="_blank" href="https://app.eraser.io/workspace/yvdFseGi0lWnOEWL3dV6" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
+# Configuration
 Configuration search paths:
 
 - .valint.yaml
 - .valint/valint.yaml
 - ~/.valint.yaml
-- \<k\>/valint/valint.yaml
-
+- <k>/valint/valint.yaml
 For a custom configuration location use `--config` flag with any command.
 
 Configuration format and default values.
@@ -19,7 +19,7 @@ scribe:
   auth:
     enable: true
   url: https://api.scribesecurity.com
-  disable: false
+  enable: false
   retry:
     backoff: 15s
     timeout: 120s
@@ -30,7 +30,8 @@ bom:
   normalizers:
     packagejson:
       enable: true
-  formats: []
+  formats:
+  - cyclonedx-json
   force: false
   components:
   - metadata
@@ -46,9 +47,15 @@ bom:
   attach-regex: []
   final-artifact: false
 slsa:
+  formats:
+  - statement
   components:
   - metadata
   - layers
+evidence:
+  formats:
+  - statement
+  compress: false
 attest:
   config: ""
   bundle: https://github.com/scribe-public/sample-policies
@@ -62,6 +69,12 @@ attest:
     add-passed: true
   cocosign: {}
   x509: {}
+verify:
+  formats: statement-sarif
+  input-format: ""
+  attestation: ""
+  force: false
+  final-artifact: false
 filter:
   filter-regex:
   - '**/*.pyc'
@@ -87,3 +100,8 @@ discard:
   interactive: false
   current: false
 ```
+
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/yvdFseGi0lWnOEWL3dV6 --->

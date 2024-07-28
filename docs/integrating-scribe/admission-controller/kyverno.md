@@ -1,16 +1,16 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/Mg6CMZZll0AwQVtAiGwh" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Using Kyverno"
+
+## sidebar_label: "Using Kyverno"
 title: "Kyverno Verify Images Rules"
 sidebar_position: 8
 toc_min_heading_level: 2
 toc_max_heading_level: 5
----
-
-**[Kyverno](https://https://github.com/kyverno/kyverno)** is an open source policy engine designed for kubernetes. Valint integrates with the Kyverno **[verify-images](https://kyverno.io/docs/writing-policies/verify-images/)** rule; Kyverno can enforce policies requiring the use of signed images, and ```valint``` can be used to generate the required attestations that include the image signature.
+[﻿Kyverno](https://https//github.com/kyverno/kyverno) is an open source policy engine designed for kubernetes. Valint integrates with the Kyverno [﻿verify-images](https://kyverno.io/docs/writing-policies/verify-images/) rule; Kyverno can enforce policies requiring the use of signed images, and `valint` can be used to generate the required attestations that include the image signature.
 
 ### Sigstore Keyless admission
-
-Use Kyverno keyless flow to verify the attestation (see also **[kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)**)
+Use Kyverno keyless flow to verify the attestation (see also [﻿kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures))
 
 ```yaml
 # Generate SLSA Provenance attestation
@@ -44,10 +44,8 @@ spec:
                  rekor:
                    url: https://rekor.sigstore.dev
 ```
-
 ### Verifying using X509 Keys
-
-Use Kyverno X509 flow to verify the attestation (see also **[kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)**)
+Use Kyverno X509 flow to verify the attestation (see also [﻿kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures))
 
 ```yaml
 # Generate SLSA Provenance attestation
@@ -57,7 +55,6 @@ valint slsa my_account/my_image:latest -o attest -f --oci \
  --ca ca-chain.cert.pem \
  --key key.pem
 ```
-
 ### Certificate example
 ```yaml
 apiVersion: kyverno.io/v1
@@ -153,29 +150,31 @@ spec:
                    jhOhPkzpQucSSb4lGZadmts=
                    -----END CERTIFICATE-----
 ```
-
 An explicit `cert` field is not required because Valint attaches certificate to its attestations.
 
 #### X509 Certificate Constraints​
-
-* Certificate must include a **[Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6)** extension.
-    * URI or Email SAN identity.
-* Certificate must include a **[Extended Key Usage](https://datatracker.ietf.org/doc/html/rfc9336)** extension
-    * Code Signing OID **[1.3.6.1.5.5.7.3.3](https://oidref.com/1.3.6.1.5.5.7.3.3)**
-* Certificate isn't expired.
-
+- Certificate must include a [﻿Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6)  extension.
+    - URI or Email SAN identity.
+- Certificate must include a [﻿Extended Key Usage](https://datatracker.ietf.org/doc/html/rfc9336)  extension
+    - Code Signing OID [﻿1.3.6.1.5.5.7.3.3](https://oidref.com/1.3.6.1.5.5.7.3.3) 
+- Certificate isn't expired.
 You can make sure the certificate includes these values using the following command:
+
 ```yaml
 openssl req -noout -text -in cert.pem
 ```
-
 Note the X509v3 extensions, For example:
+
 ```yaml
 X509v3 extensions:
-   X509v3 Extended Key Usage:
-       Code Signing
-   X509v3 Subject Alternative Name: critical
-       email:name@example.com
-   ...
+X509v3 Extended Key Usage:
+    Code Signing
+X509v3 Subject Alternative Name: critical
+    email:name@example.com
+...
 ```
 
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/Mg6CMZZll0AwQVtAiGwh --->

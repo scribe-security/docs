@@ -1,43 +1,49 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/dRjuPjR0HJghu5PPMUNx" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Customizing Provenance"
+
+## sidebar_label: "Customizing Provenance"
 title: "Customizing the Provenance Document"
 sidebar_position: 5
 toc_min_heading_level: 2
 toc_max_heading_level: 5
----
-
 You can customize the provenance object by using the following flags:
-* `--by-product` includes the contents of an external file, such as a log file or an SBOM.
-For example,   
-```valint slsa busybox:latest --by-product /path/to/my_file.txt```
-* `--components` extend `byproduct` when it is an SBOM with detailed target components such as layers packages, and files.
-For example,   
-```valint slsa busybox:latest --components layers,packages,files```
-* Set specific provenance fields such as:
-  * `--invocation`: invocation ID
-  * `--build-type`: build type
-  * `--builder-id`: builder ID
-  * `--started-on`: build start time
-  * `--finished-on`: build finish time
+
+- `--by-product`  includes the contents of an external file, such as a log file or an SBOM.
+For example,
+`valint slsa busybox:latest --by-product /path/to/my_file.txt` 
+
+- `--components`  extend `byproduct`  when it is an SBOM with detailed target components such as layers packages, and files.
+For example,
+`valint slsa busybox:latest --components layers,packages,files` 
+
+- Set specific provenance fields such as:
+    - `--invocation` : invocation ID
+    - `--build-type` : build type
+    - `--builder-id` : builder ID
+    - `--started-on` : build start time
+    - `--finished-on` : build finish time
 For Example,
 ```
 valint slsa busybox:latest --invocation my_invocation --build-type docker --builder-id 12345 --started-on 2023-07-25T15:30:00Z --finished-on 2023-07-25T16:00:00Z
 ```
-* `-env` or `--all-env` adds environment variables to the `internaParameters`.
-For example,   
+- `-env`  or `--all-env`  adds environment variables to the `internaParameters` .
+For example,
 ```yaml
 #Attach all environment variables
 valint slsa busybox:latest --all-env
 # Attach a specific environment variable
 valint slsa busybox:latest --env MY_ENV
 ```
-* `--external` adds parameters to the `externalParameters` in the form of key=value pairs.
-For example,   
-```valint slsa busybox:latest --external my_custom_param=my_custom_value```
-* `--predicate` adds a full or partial SLSA provenance predicate.
-For example,   
-```valint slsa busybox:latest --predicate custom.predicate.json```
+- `--external`  adds parameters to the `externalParameters`  in the form of key=value pairs.
+For example,
+`valint slsa busybox:latest --external my_custom_param=my_custom_value` 
+
+- `--predicate`  adds a full or partial SLSA provenance predicate.
+For example,
+`valint slsa busybox:latest --predicate custom.predicate.json`
 Where `custom.predicate.json` specifies custom `externalParameters`, `builderDependencies`, and metadata.
+
 ```json
 {
  "buildDefinition": {
@@ -72,11 +78,12 @@ Where `custom.predicate.json` specifies custom `externalParameters`, `builderDep
    }
  }
 }
-``` 
-* `--statement` adds a full or partial SLSA provenance statement.
-For example,   
-```valint slsa busybox:latest --statement custom.statement.json```
+```
+- `--statement`  adds a full or partial SLSA provenance statement.
+For example,
+`valint slsa busybox:latest --statement custom.statement.json`
 The following `custom.predicate.json` includes custom subject and byproducts.
+
 ```json
 {
  "_type": "https://in-toto.io/Statement/v0.1",
@@ -107,3 +114,8 @@ The following `custom.predicate.json` includes custom subject and byproducts.
  }
 }
 ```
+
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/dRjuPjR0HJghu5PPMUNx --->

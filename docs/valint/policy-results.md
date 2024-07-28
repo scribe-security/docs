@@ -1,24 +1,23 @@
+<p><a target="_blank" href="https://app.eraser.io/workspace/2fsvneIKpp8ZnzZhMUxr" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 ---
-sidebar_label: "Policy results"
+
+## sidebar_label: "Policy results"
 title: Policy Result Evaluation
 author: Viktor Kartashov - Scribe
 sidebar_position: 6
 date: November 30, 2023
 geometry: margin=2cm
----
-
 ## Introduction to policy results
-
 The policy evaluation outcome is a report in SARIF format, optionally encapsulated as an evidence: in-toto statement (_default_) or attestation. By default, this evidence is pushed to the attestation store and can be referenced by other policies.
 
-In this context, the in-toto statement or attestation has a predicate type of <http://docs.oasis-open.org/sarif/sarif/2.1.0>, target type `policy-results` and contains SARIF under `.predicate.content` path.
+In this context, the in-toto statement or attestation has a predicate type of [﻿http://docs.oasis-open.org/sarif/sarif/2.1.0](http://docs.oasis-open.org/sarif/sarif/2.1.0), target type `policy-results` and contains SARIF under `.predicate.content` path.
 
 The pure SARIF format consists solely of the SARIF output from the policy evaluation, designed for seamless integration with other tools.
 
 In addition to the evidence output, the results are also presented in the log as a table, providing a quick overview of both failed and passed rules.
 
 ## Creating attestations out of policy results
-
 The results of policy evaluation are stored by default as evidence. If you want not to do it, use the `--skip-report` option.
 
 The `--format` option (or `-o` for short) is employed to specify the output format. Supported values include `attest-sarif` (or simply `attest`), `statement-sarif` (also referred to as `statement`) and `sarif` (in JSON format). The default value is `statement`.
@@ -26,18 +25,11 @@ The `--format` option (or `-o` for short) is employed to specify the output form
 Additionally, you have the option to save a local copy of the uploaded statement using the `--output-file /path/to/file` option.
 
 ## Tuning policy results output
-
 It's also possible to determine how policy results are included in the output. The supported options are:
 
-* result-per-violation – each violation is pushed to SARIF as a separate result. This is the default behavior.
-
-* result-per-rule – all rule violations are aggregated into one result per rule. This option can be enabled separately for each rule by specifying `aggregate-results: true` in the rule configuration.
-
-<!-- * `--result.by-rule` – aggregates all rule violations into one result per rule. By default, this option is disabled, meaning that each violation is pushed to SARIF as a separate result.
-* `--result.aggregated` – includes, in addition to the existing results, one aggregated result for every rule being run. This can provide a comprehensive high-level view of all violations of underlying rules for each policy. This option is disabled by default. -->
-
+- result-per-violation – each violation is pushed to SARIF as a separate result. This is the default behavior.
+- result-per-rule – all rule violations are aggregated into one result per rule. This option can be enabled separately for each rule by specifying `aggregate-results: true`  in the rule configuration.
 ## Example
-
 To illustrate the process of creating attestations and evaluating policy results, consider the following example. In this case, we'll create a signed SBOM (Software Bill of Materials) evidence for the busybox image and then evaluate it against a policy named image-fresh.
 
 Create SBOM Evidence:
@@ -45,16 +37,16 @@ Create SBOM Evidence:
 ```bash
 valint bom busybox:latest -o attest
 ```
-
 We first use `valint bom` command generates a signed SBOM evidence for the busybox image using the default output format, which is an in-toto statement (attest).
 
 Evaluate Policy:
 
 ```bash
-valint verify busybox:latest -i attest --rule v1/images/image-fresh.yaml 
+valint verify busybox:latest -i attest --rule v1/images/image-fresh.yaml
 ```
 Next we use `valint verify` command to evaluate the busybox image against the specified policy rule (`image-fresh.yaml`).
-> The `--rule` option is currently in Early Availability.
+
+>  The `--rule` option is currently in Early Availability. 
 
 After executing these commands, the results of the policy evaluation are displayed in the output log as a table, summarizing the evaluation for each rule:
 
@@ -72,26 +64,20 @@ After policy evaluation, the results are shown in the output log as a table:
 │ AGGREGATE POLICY RESULT │        │                        │ PASSED            │                                              │
 └─────────────────────────┴────────┴────────────────────────┴───────────────────┴──────────────────────────────────────────────┘
 ```
-
 Moreover, the Sarif result is produced and dispatched as evidence, providing the option for it to be signed based on specific requirements. This signing capability enhances the integrity and authenticity of the generated evidence, ensuring a secure and verifiable representation of the policy evaluation results.
 
-<details>
-  <summary> Signed Policy Result Example </summary>
+ Signed Policy Result Example 
 
 ```bash
 # Create a signed SBOM (Software Bill of Materials) evidence for the 'busybox' image
 valint bom busybox:latest -o attest 
 
 # Verify signed evidence for 'busybox' and export a signed evidence for Policy results
-valint verify busybox:latest -i attest -o attest 
+valint verify busybox:latest -i attest -o attest
 ```
-
 In this example, we generate a signed SBOM evidence for the 'busybox' image using the valint bom command. Subsequently, the valint verify command evaluates the signed evidence for 'busybox' (`-i attest`) and the -o flag to export a signed evidence for Policy results (`-o attest`).
 
-</details>
-
-<details>
-  <summary> Example Sarif output </summary>
+ Example Sarif output 
 
 Results are also presented as a SARIF report inside an in-toto statement.
 
@@ -705,4 +691,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
 }
 ```
 
-</details>
+
+
+
+<!--- Eraser file: https://app.eraser.io/workspace/2fsvneIKpp8ZnzZhMUxr --->
