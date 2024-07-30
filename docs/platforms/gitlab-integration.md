@@ -184,16 +184,19 @@ include:
       username: ${DOCKERHUB_USERNAME}
       password-b64: ${DOCKERHUB_PASSWORD_B64}
       scope-days: ${DOCKERHUB_TIME_SCOPE}
+      scope-namespace: my_namespace
 
   # BOM
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/bom-dockerhub.yml
     inputs:
       mapping: "*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs*::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
+      scope-namespace: my_namespace
 
   # POLICY
   - remote: https://raw.githubusercontent.com/scribe-public/gitlab_platforms/main/policy-dockerhub.yml
     inputs:
       image-mapping: "*service-*::flask-monorepo-project::${SCRIBE_PRODUCT_VERSION} *dhs*::dhs-vue-sample-proj::${SCRIBE_PRODUCT_VERSION}"
+      scope-namespace: my_namespace
 
 discovery-dockerhub:
   stage: discovery
