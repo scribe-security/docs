@@ -49,7 +49,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_TOKEN 
+        -P $SCRIBE_TOKEN 
 
         
   - |
@@ -57,7 +57,7 @@ script:
         --format [attest, statement, attest-slsa, statement-slsa, attest-generic, statement-generic] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_TOKEN 
+        -P $SCRIBE_TOKEN 
 ```
 
 Make sure that your Travis project has a file named `.travis-ci.yml` to add the following examples to:

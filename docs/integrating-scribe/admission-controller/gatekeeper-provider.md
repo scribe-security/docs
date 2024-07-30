@@ -92,7 +92,6 @@ helm install scribe/gatekeeper-valint --name-template=gatekeeper-valint \
   --set certs.caBundle=$(cat certs/ca.crt | base64 | tr -d '\n') \
   --set certs.tlsCrt="$(cat certs/tls.crt)" \
   --set certs.tlsKey="$(cat certs/tls.key)" \
-  --set scribe.enable=true \
   --set scribe.client_secret=$SCRIBE_TOKEN
 ```
 > Credentials will be stored as a secret named `valint-scribe-cred-secret`.
@@ -591,7 +590,7 @@ helm upgrade scribe/gatekeeper-valint \
 ## Uploading signed evidence
 Using valint `-o attest` flag you can upload signed evidence on the image.
 ```bash
-valint [bom, slsa] my_image -o attest [--oci OR --scribe.enable]
+valint [bom, slsa] my_image -o attest [--oci]
 ```
 
 <!-- ### Bundle managed policies

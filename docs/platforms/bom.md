@@ -17,14 +17,14 @@ This command enables users to generate SBOMs on scale.
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT]
-                               [--monitor.threshold THRESHOLD] [--monitor.clean-docker]
-                               [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
-                               [--valint.scribe.enable] [--valint.context-type CONTEXT_TYPE]
-                               [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
-                               [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                               [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
-                               [--valint.attest ATTEST] [--valint.disable-evidence-cache] [--valint.sign]
-                               {k8s,dockerhub} ...
+                               [--monitor.threshold THRESHOLD] [--monitor.clean-docker] [--valint.scribe.client-id CLIENT_ID]
+                               [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable]
+                               [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
+                               [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
+                               [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
+                               [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
+                               [--valint.disable-evidence-cache] [--valint.sign] [--valint.components COMPONENTS]
+                               {gitlab,k8s,dockerhub,github,jfrog} ...
 
 Export bom data
 
@@ -45,13 +45,15 @@ options:
                         Scribe client Secret (type: str, default: )
   --valint.scribe.enable
                         Enable Scribe client (default: False)
+  --valint.cache.disable
+                        Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
   --valint.log-level LOG_LEVEL
                         Valint log level (type: str, default: )
   --valint.output-directory OUTPUT_DIRECTORY
                         Local evidence cache directory (type: str, default: )
-  --valint.bin BIN      Valint CLI binary path (type: str, default: /home/mikey/.scribe/bin/valint)
+  --valint.bin BIN      Valint CLI binary path (type: str, default: $HOME/.scribe/bin/valint)
   --valint.product-key PRODUCT_KEY
                         Evidence product key (type: str, default: factory)
   --valint.product-version PRODUCT_VERSION
@@ -63,13 +65,18 @@ options:
   --valint.disable-evidence-cache
                         Disable evidence cache (default: False)
   --valint.sign         sign evidence (default: False)
+  --valint.components COMPONENTS
+                        components list (type: str, default: )
 
 subcommands:
   For more details of each subcommand, add it as an argument followed by --help.
 
   Available subcommands:
+    gitlab
     k8s
     dockerhub
+    github
+    jfrog
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -87,6 +94,8 @@ The option `--valint.scribe.client-id` specifies the Scribe client ID, with an e
 The option `--valint.scribe.client-secret` sets the Scribe client secret, also defaulting to an empty string.  The `valint` tool will use the environment variable `SCRIBE_CLIENT_SECRET` if it exists.
 
 The option `--valint.scribe.enable` enables the Scribe client, with an empty string as default indicating it's disabled by default.
+
+The option `--valint.cache.disable` allows to skip local valint cache and use scribe store only. The default value is `false`, can also be set via `VALINT_DISABLE_EVIDENCE_CACHE` environment variable. using this option without `--valint.scribe.enable` will result in an error.
 
 The option `--valint.context-type` sets the Valint context type, with the default potentially sourced from the VALINT_CONTEXT_TYPE environment variable.
 
@@ -135,8 +144,7 @@ Note that the image characterization string is a wildcarded string, some useful 
 usage: platforms [options] bom [options] dockerhub [-h] [--instance INSTANCE]
                                                    [--default_product_key_strategy {namespace,repository,tag,mapping}]
                                                    [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                   [--scope.namespace [NAMESPACE ...]]
-                                                   [--scope.repository [REPOSITORY ...]]
+                                                   [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                    [--exclude.repository [REPOSITORY ...]]
                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]]
@@ -211,9 +219,9 @@ usage: platforms [options] bom [options] k8s [-h] [--instance INSTANCE] [--types
                                              [--default_product_key_strategy {namespace,pod,image,mapping}]
                                              [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
                                              [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
-                                             [--scope.image [IMAGE ...]] [--exclude.namespace [NAMESPACE ...]]
-                                             [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
-                                             [--image.mapping [MAPPING ...]]
+                                             [--scope.image [IMAGE ...]] [--ignore-state]
+                                             [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                             [--exclude.image [IMAGE ...]] [--image.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -230,6 +238,7 @@ options:
                         Kubernetes pods wildcard list (default: ['*'])
   --scope.image [IMAGE ...]
                         Kubernetes images wildcard list (default: ['*'])
+  --ignore-state        Filter out containers that are not running (default: False)
   --exclude.namespace [NAMESPACE ...]
                         Namespaces to exclude from discovery process (default: [])
   --exclude.pod [POD ...]
@@ -265,3 +274,57 @@ The option `--exclude.image` specifies images to exclude from the discovery proc
 
 The option `--image.mapping` defines the mapping for Kubernetes namespace, pod, and image to product key and version.
 -->
+
+## Jfrog BOM
+To generate SBOMs of Jfrog images:
+```bash
+platforms bom jfrog --image.mapping "my_jfrog_registry/my-image:my-tag::my-product::1.0"
+```
+
+Note that the image characterization string is a wildcarded string, some useful valid examples are:
+* `*:latest` - all images with the latest tag.
+* `my_jfrog_registry/*:latest` - all images in the `my_jfrog_registry` with the latest tag.
+* `*postgres*` - all images with the word "postgres" in the name.
+
+<!--
+{
+    "command": "platforms bom jfrog --help"
+}
+-->
+<!-- { "object-type": "command-output-start" } -->
+```bash
+usage: platforms [options] bom [options] jfrog [-h] [--instance INSTANCE]
+                                               [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
+                                               [--default_product_version_strategy {tag,short_image_id,image_id}]
+                                               [--scope.jf-repository [JF_REPOSITORY ...]]
+                                               [--scope.repository [REPOSITORY ...]]
+                                               [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                               [--exclude.repository [REPOSITORY ...]]
+                                               [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--image.mapping [MAPPING ...]]
+
+options:
+  -h, --help            Show this help message and exit.
+  --instance INSTANCE   Jfrog instance string (default: )
+  --default_product_key_strategy {jf-repository,repository,tag,mapping}
+                        Override product key with jf-repository, repository or image names (default: mapping)
+  --default_product_version_strategy {tag,short_image_id,image_id}
+                        Override product version with tag or image id (default: short_image_id)
+  --scope.jf-repository [JF_REPOSITORY ...]
+                        Jfrog repositories (default: ['*'])
+  --scope.repository [REPOSITORY ...]
+                        Jfrog Image repositories (default: ['*'])
+  --scope.repository_tags [REPOSITORY_TAGS ...]
+                        Jfrog Image tags (default: ['*'])
+  --exclude.jf-repository [JF_REPOSITORY ...]
+                        Jfrog repository wildcards to exclude (default: [])
+  --exclude.repository [REPOSITORY ...]
+                        Jfrog Image repository wildcards to exclude (default: [])
+  --exclude.repository_tags [REPOSITORY_TAGS ...]
+                        Jfrog tags to exclude (default: [])
+  --image.mapping [MAPPING ...]
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
+```
+<!-- { "object-type": "command-output-end" } -->

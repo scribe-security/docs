@@ -23,6 +23,8 @@ The token is a secret and will not be accessible from the UI after you finalize 
    ```
 Replace '<scribe_api_token>' with the token you obtained in the previous step.
 
+`valint` supports the use of the `SCRIBE_TOKEN` environment variables, or you can set them using the `-P` or `--scribe.client-secret` flags.
+
 ### 3. Download Scribe CLI
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
@@ -35,10 +37,11 @@ Call Valint from your build script.
 
 At Checkout: Generate an SBOM of the source code. 
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f
+$HOME/.scribe/bin/valint bom dir:<path> -f
 ```
 At the end of a build: Generate SBOM of the built image is created.
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> -P $SCRIBE_TOKEN -E -f
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> -f
 ```
+
+> To explicitly set a secret, you may use the `-P` flag.

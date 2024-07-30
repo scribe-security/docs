@@ -80,7 +80,7 @@ pipeline {
             valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_API_TOKEN
+              -P $SCRIBE_API_TOKEN
         '''
       }
     }
@@ -105,7 +105,7 @@ node {
             valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
+              -P $SCRIBE_TOKEN '''
         '''
     }
   }
@@ -155,7 +155,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -174,7 +174,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -204,7 +204,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
       }
     }
 
@@ -222,7 +222,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
          valint verify busybox:latest -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
+              -P $SCRIBE_TOKEN '''
         }
       }
   }
@@ -265,7 +265,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -279,7 +279,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -330,7 +330,7 @@ pipeline {
             valint slsa mongo-express:1.0.0-alpha.4 \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
+              -P $SCRIBE_TOKEN '''
           }
         }
       }
@@ -344,7 +344,7 @@ pipeline {
             valint verify mongo-express:1.0.0-alpha.4 -i statement-slsa \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -E -P $SCRIBE_TOKEN '''
+              -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -417,7 +417,7 @@ pipeline {
             valint bom dir:mongo-express-scm \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -429,7 +429,7 @@ pipeline {
             valint bom mongo-express:1.0.0-alpha.4 \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
           }
       }
     }
@@ -461,7 +461,7 @@ pipeline {
             valint slsa busybox:latest \
             --context-type jenkins \
             --output-directory ./scribe/valint \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
         }
       }
     }
@@ -473,7 +473,7 @@ pipeline {
             valint verify busybox:latest -i statement-slsa \
             --context-type jenkins \
             --output-directory ./scribe/valint testing \
-            -E -P $SCRIBE_TOKEN '''
+            -P $SCRIBE_TOKEN '''
           }
       }
     }
