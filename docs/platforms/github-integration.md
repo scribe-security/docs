@@ -56,6 +56,7 @@ Platforms CLI supports passing secrets as environment variables:
 - `VALINT_OUTPUT_DIRECTORY`: Set evidence local cache directory.
 - `PLATFORMS_DB_PATH`: Set platforms database path.
 - `GITHUB_TOKEN`: Set GitHub discovery access.
+- `JFROG_TOKEN`: Set Jfrog discovery access.
 - `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD`: Set DockerHub discovery access.
 - `K8S_URL`, `K8S_TOKEN`: Set Kubernetes discovery access.
 - `GITLAB_TOKEN`: Set GitLab discovery access.
