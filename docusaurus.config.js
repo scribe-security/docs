@@ -158,6 +158,7 @@ const config = {
                 "scribe-api/README.md",
                 "platforms/gitlab-integration.md",
                 "platforms/github-integration.md",
+                "platforms/jenkins-integration.md",
                 "platforms/overview.md",
                 "platforms/discover.md",
                 "platforms/bom.md",

@@ -55,8 +55,8 @@ kind: ClusterRole
 metadata:
   name: secret-reader-role
 rules:
-- apiGroups: [""]
-  resources: ["secrets", "pods", "namespaces"]
+- apiGroups: ["", "apps"]
+  resources: ["secrets", "pods", "namespaces", "deployments"]
   verbs: ["get", "watch", "list"]
 ```
 <!-- { "object-type": "command-output-end" } -->
