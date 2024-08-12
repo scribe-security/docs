@@ -282,8 +282,7 @@ pipeline {
           }
       steps {
           sh '''
-          printenv
-          platforms --log-level $LOG_LEVEL discover github --broad \
+          platforms --log-level $LOG_LEVEL discover github \
                     --scope.organization=scribe-security \
                     --scope.repository *mongo* *scribe-training-vue-project \
                     --workflow.skip --commit.skip --scope.branch=main
@@ -339,14 +338,92 @@ pipeline {
 
 </details>
 
-<!-- <details>
+<details>
 <summary> Kubernetes Platform Example (Docker Plugin) </summary>
 
 ```yaml
+pipeline {
+  agent any
+  environment {
+    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+    SCRIBE_TOKEN     = credentials('scribe-staging-token')
+    K8S_TOKEN =  credentials('k8s-token')
+    K8S_URL = "https://my_cluster.com"
+    VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
+    VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
+    VALINT_ATTEST_X509_CA     = credentials('attest-ca-file')
+    SCRIBE_URL = "https://api.staging.scribesecurity.com"
+    DOCKER_GID = """${sh(returnStdout: true, script: 'getent group docker | cut -d: -f3')}""".trim()
+    PLATFORM_DOCKER_CONFIG="$WORKSPACE/.docker"
+    PLATFORMS_DB_PATH="$WORKSPACE/platforms.db"
+    PLATFORMS_DB_STORE_POLICY="replace"
+    VALINT_OUTPUT_DIRECTORY="$WORKSPACE/evidence"
+    LOG_LEVEL="DEBUG"
+  }
+  stages {
+    
+    stage('k8s-discovery') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level $LOG_LEVEL discover k8s --scope.namespace default
 
+          platforms --log-level $LOG_LEVEL evidence --valint.sign k8s \
+              --namespace.mapping=default::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION default::dhs-vue-sample-proj::SCRIBE_PRODUCT_VERSION \
+              --pod.mapping='*service-*::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION *dhs*::dhs-vue-sample-proj::SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('k8s-bom') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+            sh '''
+            platforms --log-level $LOG_LEVEL bom --valint.sign --allow-failures k8s \
+              --image.mapping \
+                *service-*::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+                *dhs*::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('k8s-policy') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level $LOG_LEVEL verify --allow-failures --max-threads 10 --valint.sign k8s \
+              --ignore-state \
+              --image.mapping \
+                default::*service-*::*service-*::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+  }
+
+  post {
+      always {
+          archiveArtifacts artifacts: '**/evidence/*.sarif.*', fingerprint: true 
+      }
+  }
+}
 ```
 
-</details> -->
+</details>
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
