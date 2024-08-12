@@ -17,6 +17,29 @@ Before you integrate Scribe Platforms with Jenkins, ensure the following prerequ
 
 * Docker-in-Docker (DIND) Setup: To issue platforms commands, especially those involving image scanning or evidence collection, your Jenkins pipeline needs to be configured with Docker-in-Docker (DIND). This setup allows the platforms CLI to execute Docker commands within the container, which is essential for interacting with Docker images and registries.
 
+### Signing with x509 Keys
+
+We recommend storing keys as secret files and mapping them to Valint.
+
+Related Valint flags:
+* `--key`: Path to the x509 private key.
+* `--cert`: Path to the x509 certificate.
+* `--ca`: Path to the x509 CA chain.
+
+Platforms will automatically switch to the x509 signing scheme when the following environment variables are set:
+* `VALINT_ATTEST_X509_PRIVATE`: Path to the x509 private key PEM.
+* `VALINT_ATTEST_X509_CERT`: Path to the x509 certificate PEM.
+* `VALINT_ATTEST_X509_CA`: Path to the x509 CA chain PEM.
+
+> If you're using the Docker CLI, ensure that the temporary filesystem for secret files is correctly mapped, e.g., `-v $WORKSPACE@tmp:$WORKSPACE@tmp:rw,z`.
+
+
+### Docker in Docker and Private Registries
+
+Platforms can scan images from various registries. For certain commands, such as platforms bom, the image is pulled and analyzed locally. To optimize this process, we recommend using the Docker Daemon.
+
+Mapping the docker.sock and setting the correct group permissions for the container allows it to access the Docker Daemon. Additionally, to customize the Docker configuration location, you can use the DOCKER_CONFIG environment variable.
+
 ## Setting Secret Flags
 
 Platforms CLI supports passing secrets as environment variables:
@@ -71,7 +94,6 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'jfrog-access', usernameVariable: 'JFROG_URL', passwordVariable: 'JFROG_TOKEN')]) {
           sh '''
-          printenv
           platforms --log-level DEBUG discover jfrog  --scope.tag_limit 2
           platforms --log-level DEBUG evidence --valint.sign jfrog \
             --jf-repository.mapping *::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION'''
@@ -167,8 +189,7 @@ pipeline {
     VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
     VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
     VALINT_ATTEST_X509_CA     = credentials('attest-ca-file')
-    SCRIBE_URL = "https://api.staging.scribesecurity.com"
-    JFROG_URL = "scribesecuriy.jfrog.io"
+    JFROG_URL = https://mycompany.jfrog.io
     DOCKER_GID = """${sh(returnStdout: true, script: 'getent group docker | cut -d: -f3')}""".trim()
     PLATFORM_DOCKER_CONFIG="$WORKSPACE/.docker"
     PLATFORMS_DB_PATH="$WORKSPACE/platforms.db"
@@ -230,8 +251,102 @@ pipeline {
 </details>
 
 <details>
-<summary> Dockerhub Platform Example (Docker Plugin) </summary>
+<summary> Github Platform Example (Docker Plugin) </summary>
+
+```yaml
+pipeline {
+  agent any
+  environment {
+    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+    SCRIBE_TOKEN     = credentials('scribe-staging-token')
+    GITHUB_TOKEN =  credentials('github-pat-token')
+    VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
+    VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
+    VALINT_ATTEST_X509_CA     = credentials('attest-ca-file')
+    DOCKER_GID = """${sh(returnStdout: true, script: 'getent group docker | cut -d: -f3')}""".trim()
+    PLATFORM_DOCKER_CONFIG="$WORKSPACE/.docker"
+    PLATFORMS_DB_PATH="$WORKSPACE/platforms.db"
+    PLATFORMS_DB_STORE_POLICY="replace"
+    VALINT_OUTPUT_DIRECTORY="$WORKSPACE/evidence"
+    LOG_LEVEL="INFO"
+  }
+  stages {
+    
+    stage('github-discovery') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          printenv
+          platforms --log-level $LOG_LEVEL discover github --broad \
+                    --scope.organization=scribe-security \
+                    --scope.repository *mongo* *scribe-training-vue-project \
+                    --workflow.skip --commit.skip --scope.branch=main
+
+          platforms --log-level $LOG_LEVEL evidence --valint.sign github \
+                    --organization.mapping=scribe-security::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION \
+                    --repository.mapping=scribe-security*scribe-training-vue-project::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('github-bom') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+            sh '''
+            platforms --log-level $LOG_LEVEL bom --valint.sign --allow-failures github \
+              --organization.mapping=scribe-security::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION \
+              --repository.mapping=scribe-security*scribe-training-vue-project::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('github-policy') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level $LOG_LEVEL verify --valint.bundle-branch github_posture_policies --max-threads 10 --valint.sign github \
+             --organization.mapping=scribe-security::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION \
+              --repository.mapping=scribe-security*scribe-training-vue-project::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION  \
+              --organization.policy github/ct-1@discovery github/ct-3@discovery \
+              --repository.policy github/ct-2@discovery github/ct-9@discovery'''
+      }
+    }
+  }
+
+  post {
+      always {
+          archiveArtifacts artifacts: '**/evidence/*.sarif.*', fingerprint: true 
+      }
+  }
+}
+```
+
 </details>
+
+<!-- <details>
+<summary> Kubernetes Platform Example (Docker Plugin) </summary>
+
+```yaml
+
+```
+
+</details> -->
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
