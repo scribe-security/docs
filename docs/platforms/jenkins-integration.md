@@ -319,7 +319,7 @@ pipeline {
           }
       steps {
           sh '''
-          platforms --log-level $LOG_LEVEL verify --valint.bundle-branch github_posture_policies --max-threads 10 --valint.sign github \
+          platforms --log-level $LOG_LEVEL verify --max-threads 10 --valint.sign github \
              --organization.mapping=scribe-security::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION \
               --repository.mapping=scribe-security*scribe-training-vue-project::scribe-training-vue-project::$SCRIBE_PRODUCT_VERSION  \
               --organization.policy github/ct-1@discovery github/ct-3@discovery \
