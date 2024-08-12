@@ -1,7 +1,7 @@
 ---
 sidebar_label: "Platforms Jenkins Integration"
 title: Scribe Platforms Jenkins Pipelines
-sidebar_position: 4
+sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
