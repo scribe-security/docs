@@ -262,7 +262,7 @@ Supported Services:
 |-----------------|-----------------------|
 | AWS KMS         | `awskms`           |
 | Azure Key Vault | `azurekms`         |
-| Google Cloud KMS| `gcpkms://`           |
+| Google Cloud KMS| `gcpkms`           |
 | HashiCorp Vault | `hashivault`       |
 | Kubernetes KMS  | `k8s`              |
 
