@@ -270,7 +270,12 @@ For example, AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYI
 
 Usage example:
 ```bash
+# Signing requires signing access
 valint bom busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+
+# Verifying requires public key read access
+valint verify busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+
 ```
 
 ### **Fulcio**
