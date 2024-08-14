@@ -247,7 +247,7 @@ As to the certificate algorithms we support, you can examine a full list [here](
 
 The Sigstore-based KMS signer allows users to sign artifacts using various KMS providers. Refer to the [Sigstore documentation](https://docs.sigstore.dev/key_management/overview/) for more details.
 
-To use KMS with Valint, provide a `kms-ref` in the following format:
+To use KMS with Valint, provide a `kms` reference in the following format:
 
 `<provider>://<key>`
 
@@ -255,6 +255,8 @@ Key Points:
 * Use the `--kms` flag explicitly.
 * Environment variables `ATTEST_KMS` or `KMSREF` can be used to set the KMS reference.
 * Static references can be set via configuration or environment variables.
+* Signer commands (`bom`, `evidence`, `slsa`) require signing permissions.
+* The `verify` command requires public read access to verify the evidence. Additionally, signing permissions are needed if you want to sign the evaluation report evidence.
 
 Supported Services:
 
