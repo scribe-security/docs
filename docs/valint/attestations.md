@@ -268,7 +268,7 @@ Supported Services:
 | HashiCorp Vault | `hashivault`       |
 | Kubernetes KMS  | `k8s`              |
 
-For example, AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYID`.
+For example, AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYID`. Ensure that AWS environment variables such as `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` are properly mapped.
 
 Usage example:
 ```bash
@@ -277,7 +277,6 @@ valint bom busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key
 
 # Verifying requires public key read access
 valint verify busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-
 ```
 
 ### **Fulcio**
