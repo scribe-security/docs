@@ -428,7 +428,6 @@ pipeline {
 
 <details>
 <summary> Dockerhub Platform Example (Docker Plugin) </summary>
-</details>
 
 ```yaml
 pipeline {
@@ -467,15 +466,13 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-access-pat2', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
           sh '''
-          printenv
           platforms --log-level DEBUG discover dockerhub --scope.past_days=60
           platforms --log-level DEBUG evidence --valint.sign dockerhub \
             --namespace.mapping \
-                *::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
-                *::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION \
+                *::sky-mapper::$SCRIBE_PRODUCT_VERSION \
               --repository.mapping \
-                *service-*::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
-                *dhs*::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION'''
+                *star-generator*::sky-mapper::$SCRIBE_PRODUCT_VERSION \
+                *sky-mapper*::sky-mapper::$SCRIBE_PRODUCT_VERSION'''
         }
       }
     }
@@ -523,6 +520,8 @@ pipeline {
 }
 
 ```
+
+</details>
 
 <details>
 <summary> Gitlab Platform Example (Docker Plugin) </summary>
