@@ -61,7 +61,7 @@ Platforms CLI supports passing secrets as environment variables:
 pipeline {
   agent any
   environment {
-    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+    SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
     SCRIBE_TOKEN     = credentials('scribe-staging-token')
     VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
     VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
@@ -184,7 +184,8 @@ def dockerRunPlatforms = { args ->
 pipeline {
   agent any
   environment {
-    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+        SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
+
     SCRIBE_TOKEN     = credentials('scribe-staging-token')
     VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
     VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
@@ -257,7 +258,7 @@ pipeline {
 pipeline {
   agent any
   environment {
-    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+    SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
     SCRIBE_TOKEN     = credentials('scribe-staging-token')
     GITHUB_TOKEN =  credentials('github-pat-token')
     VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
@@ -345,7 +346,7 @@ pipeline {
 pipeline {
   agent any
   environment {
-    SCRIBE_PRODUCT_VERSION     = credentials('scribe-product-key')
+    SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
     SCRIBE_TOKEN     = credentials('scribe-staging-token')
     K8S_TOKEN =  credentials('k8s-token')
     K8S_URL = "https://my_cluster.com"
@@ -424,6 +425,206 @@ pipeline {
 ```
 
 </details>
+
+<details>
+<summary> Dockerhub Platform Example (Docker Plugin) </summary>
+
+```yaml
+pipeline {
+  agent any
+  environment {
+    SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
+    SCRIBE_TOKEN     = credentials('scribe-staging-token')
+    VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
+    VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
+    VALINT_ATTEST_X509_CA     = credentials('attest-ca-file')
+    SCRIBE_URL = "https://api.staging.scribesecurity.com"
+    DOCKER_GID = """${sh(returnStdout: true, script: 'getent group docker | cut -d: -f3')}""".trim()
+    PLATFORM_DOCKER_CONFIG="$WORKSPACE/.docker"
+    PLATFORMS_DB_PATH="$WORKSPACE/platforms.db"
+    PLATFORMS_DB_STORE_POLICY="replace"
+    VALINT_OUTPUT_DIRECTORY="$WORKSPACE/evidence"
+  }
+  stages {
+    stage('docker login')
+    {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-access-pat2', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+          sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+        }
+      }
+    }
+    
+    stage('dockerhub-discovery') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-access-pat2', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+          sh '''
+          platforms --log-level DEBUG discover dockerhub --scope.past_days=60
+          platforms --log-level DEBUG evidence --valint.sign dockerhub \
+            --namespace.mapping \
+                *::sky-mapper::$SCRIBE_PRODUCT_VERSION \
+              --repository.mapping \
+                *star-generator*::sky-mapper::$SCRIBE_PRODUCT_VERSION \
+                *sky-mapper*::sky-mapper::$SCRIBE_PRODUCT_VERSION'''
+        }
+      }
+    }
+
+    stage('dockerhub-bom') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level DEBUG bom --valint.sign --allow-failures --max-threads 10 dockerhub \
+              --image.mapping \
+                *star-generator*::sky-mapper::$SCRIBE_PRODUCT_VERSION \
+                *sky-mapper*::sky-mapper::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('dockerhub-policy') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level DEBUG verify --max-threads 10 --valint.sign dockerhub \
+              --image.mapping \
+                *star-generator*::sky-mapper::$SCRIBE_PRODUCT_VERSION \
+                *sky-mapper*::sky-mapper::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+  }
+
+  post {
+      always {
+          archiveArtifacts artifacts: '**/evidence/*.sarif.*', fingerprint: true 
+      }
+  }
+}
+
+```
+
+</details>
+
+<details>
+<summary> Gitlab Platform Example (Docker Plugin) </summary>
+
+
+```yaml
+pipeline {
+  agent any
+  environment {
+    SCRIBE_PRODUCT_VERSION = "v0.0.2-jenkins"
+    SCRIBE_TOKEN     = credentials('scribe-staging-token')
+    GITLAB_TOKEN =  credentials('gitlab-token')
+    VALINT_ATTEST_X509_PRIVATE     = credentials('attest-key-file')
+    VALINT_ATTEST_X509_CERT     = credentials('attest-cert-file')
+    VALINT_ATTEST_X509_CA     = credentials('attest-ca-file')
+    SCRIBE_URL = "https://api.staging.scribesecurity.com"
+    DOCKER_GID = """${sh(returnStdout: true, script: 'getent group docker | cut -d: -f3')}""".trim()
+    PLATFORM_DOCKER_CONFIG="$WORKSPACE/.docker"
+    PLATFORMS_DB_PATH="$WORKSPACE/platforms.db"
+    PLATFORMS_DB_STORE_POLICY="replace"
+    VALINT_OUTPUT_DIRECTORY="$WORKSPACE/evidence"
+    LOG_LEVEL="DEBUG"
+  }
+  stages {
+    
+    stage('gitlab-discovery') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level $LOG_LEVEL discover gitlab \
+            --scope.commit.past_days 60 \
+            --scope.pipeline.past_days 60 \
+            --token $GITLAB_TOKEN
+
+          platforms --log-level $LOG_LEVEL evidence --valint.sign \
+            gitlab \
+            --organization.mapping \
+               *::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+               *::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION \
+            --project.mapping \
+               Scribe-Test*flask-monorepo-project::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+               Scribe-Test*dhs-vue-sample-proj::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('gitlab-bom') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+            sh '''
+            platforms --log-level $LOG_LEVEL bom --valint.sign --allow-failures gitlab \
+            --organization.mapping \
+               *::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+               *::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION \
+            --project.mapping \
+               Scribe-Test*flask-monorepo-project::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+               Scribe-Test*dhs-vue-sample-proj::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+
+    stage('gitlab-policy') {
+      agent {
+              docker { 
+                  image 'scribesecurity/platforms:dev-latest'
+                  args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
+                  reuseNode true
+              }
+          }
+      steps {
+          sh '''
+          platforms --log-level $LOG_LEVEL verify --max-threads 10 --valint.sign gitlab \
+          --organization.mapping \
+              *::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+              *::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION \
+          --project.mapping \
+              Scribe-Test*flask-monorepo-project::flask-monorepo-project::$SCRIBE_PRODUCT_VERSION \
+              Scribe-Test*dhs-vue-sample-proj::dhs-vue-sample-proj::$SCRIBE_PRODUCT_VERSION'''
+      }
+    }
+  }
+
+  post {
+      always {
+          archiveArtifacts artifacts: '**/evidence/*.sarif.*', fingerprint: true 
+      }
+  }
+}
+
+```
+
+</details>
+
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
