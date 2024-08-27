@@ -18,7 +18,7 @@ Flags for `slsa` subcommand
 | --- | --- | --- | --- |
 | | --all-env | Attach all environment variables | |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | | --build-type | Set build type | |
 | | --builder-id | Set builder id | |
 | | --by-product | Attach by product path | |
@@ -40,12 +40,13 @@ Flags for `slsa` subcommand
 | -h | --help | help for slsa | |
 | | --invocation | Set metadata invocation ID | |
 | | --key | x509 Private key path | |
+| | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate | Import predicate path | |
-| | --rule-args | Policy arguments | [] |
+| | --pubkey | Public key path | |
 | | --started-on | Set metadata started time (YYYY-MM-DDThh:mm:ssZ) | |
 | | --statement | Import statement path | |
 
@@ -58,7 +59,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |

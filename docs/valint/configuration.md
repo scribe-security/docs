@@ -19,13 +19,13 @@ scribe:
   auth:
     enable: true
   url: https://api.scribesecurity.com
+  enable: false
   disable: false
   retry:
     backoff: 15s
     timeout: 120s
 context:
   predicate-type: http://scribesecurity.com/evidence/generic/v0.1
-  context-type: local
 bom:
   normalizers:
     packagejson:
@@ -53,6 +53,12 @@ attest:
   config: ""
   bundle: https://github.com/scribe-public/sample-policies
   skip-bundle: true
+  bundle-args:
+    auth: ""
+    tag: ""
+    branch: ""
+    commit: ""
+    depth: 0
   policy_configs: []
   rule_configs: []
   label_filters: []
@@ -62,6 +68,10 @@ attest:
     add-passed: true
   cocosign: {}
   x509: {}
+  kms:
+    enable: false
+    ref: ""
+  pubkey: {}
 filter:
   filter-regex:
   - '**/*.pyc'
