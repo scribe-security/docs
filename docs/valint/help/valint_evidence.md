@@ -17,7 +17,7 @@ Flags for `evidence` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | | --ca | x509 CA Chain path | |
 | | --cert | x509 Cert path | |
 | | --compress | Compress content) | |
@@ -30,10 +30,11 @@ Flags for `evidence` subcommand
 | | --format-version | Evidence Format version | |
 | -h | --help | help for evidence | |
 | | --key | x509 Private key path | |
+| | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --parser | Evidence Parser Name | |
-| | --rule-args | Policy arguments | [] |
+| | --pubkey | Public key path | |
 | | --tool | Evidence Tool name | |
 | | --tool-vendor | Evidence Tool vendor | |
 | | --tool-version | Evidence Tool version | |
@@ -47,7 +48,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
@@ -125,6 +126,7 @@ Flags for all `valint` subcommands
   * burpgraphql 
   * cargoaudit 
   * checkmarx 
+  * checkmarxone 
   * checkmarxosa 
   * checkov 
   * chefinspect 

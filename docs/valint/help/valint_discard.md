@@ -32,7 +32,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |

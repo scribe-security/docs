@@ -17,9 +17,14 @@ Flags for `verify` subcommand
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | -a | --attestation | Attestation for target | |
 | | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
+| | --bundle-auth | Bundle repository authentication info, [format: 'username:password'] | |
+| | --bundle-branch | Bundle branch in the repository | |
+| | --bundle-commit | Bundle commit hash in the repository | |
+| | --bundle-depth | Bundle clone depth | |
+| | --bundle-tag | Bundle tag in the repository | |
 | | --ca | x509 CA Chain path | |
 | | --cert | x509 Cert path | |
 | | --common-name | Default policy allowed common names | |
@@ -37,10 +42,14 @@ Flags for `verify` subcommand
 | | --initiative | Run only rules with specified initiative | |
 | -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | | --key | x509 Private key path | |
+| | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --policy | Policy configuration file path (early-availability) | |
+| | --provenance | Create target SLSA Provenance evidence | |
+| | --pubkey | Public key path | |
+| | --public-key | Public key path | |
 | | --rule | Rule configuration file path (early-availability) | |
 | | --rule-args | Policy arguments | [] |
 | | --rule-label | Run only rules with specified label | |
@@ -57,7 +66,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |

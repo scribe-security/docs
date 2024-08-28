@@ -18,7 +18,7 @@ Flags for `bom` subcommand
 | --- | --- | --- | --- |
 | -A | --attach-regex | Attach files content by regex | |
 | | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | | --author-email | Set author email | |
 | | --author-name | Set author name | |
 | | --author-phone | Set author phone | |
@@ -39,14 +39,16 @@ Flags for `bom` subcommand
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for bom | |
 | | --key | x509 Private key path | |
+| | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
-| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua] | |
 | | --package-group | Select package group, options=[index install all] | |
-| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel] | |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua] | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
-| | --rule-args | Policy arguments | [] |
+| | --provenance | Include SLSA Provenance evidence | |
+| | --pubkey | Public key path | |
 | | --supplier-email | Set supplier email | |
 | | --supplier-name | Set supplier name | |
 | | --supplier-phone | Set supplier phone | |
@@ -61,7 +63,7 @@ Flags for all `valint` subcommands
 | --- | --- | --- | --- |
 | | --cache-enable | Enable local cache | true |
 | -c | --config | Configuration file path | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
