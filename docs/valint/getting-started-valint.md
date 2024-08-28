@@ -11,6 +11,8 @@ Valint is a tool used to manage `evidence` generation (for directories, file art
 
 Valint also enables you to **capture** any 3rd party report, scan or configuration (any file) into evidence. 
 
+> Latest Version `v1.5.5`.
+
 ### Installing Valint
 
 Choose any of the following command line interface (CLI) installation options:
