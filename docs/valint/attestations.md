@@ -230,31 +230,27 @@ attest:
 
 
 ## Signers and verifiers support
+
 If you do not currently have a PKI or choose not to connect your PKI and certificates to Scribe, you can ask Scribe to issue you a CA, certificate and signing key. Of the various fields that are required for such a certificate we need to get the following:
-* CN (Common Name) - string, unique signer name  
-* Email - string, unique email of the signer 
+
+* CN (Common Name) - string, unique signer name.
+* Email - string, unique email of the signer.
 
 Of course there are lots of other possible subfields but these are the ones we require at a minimum.
-If you already have an existing certificate you'd like us to include in your account to enable you to verify files signed using that certificate, that certificate should also include these two fields at a minimum. 
+If you already have an existing certificate you'd like us to include in your account to enable you to verify files signed using that certificate, that certificate should also include these two fields at a minimum.
 
 Valint can verify these two subfields (CN and Email) in addition to the general cryptographic verification. That means that we check if the certificate is valid within your PKI and we can also check if [at least one of] those two fields matches the verification policy.
 
 As to the certificate algorithms we support, you can examine a full list [here](#x509)
 
-### **KMS**
-Sigstore based KMS signer allows users to sign via kms. <br />
-[doc](https://github.com/sigstore/cosign/blob/main/KMS) for Ref details.
-- Support `KMSREF` environment variable (when configuration field is empty).
-- Support static ref set by configuration or env.
-- Support in-band ref verification flow by using the `REF` signature option.
-
 ### **Fulcio**
+
 Sigstore based fulcio signer allows users to sign InToto statement using fulcio (Sigstore) project.
 
 Simply put you can utilize a OIDC connection to gain a short living certificate signed to your identity.
 
-[keyless](https://github.com/sigstore/cosign/blob/main/KEYLESS)
-[fulcio_doc](https://github.com/sigstore/fulcio)
+* [keyless](https://github.com/sigstore/cosign/blob/main/KEYLESS)
+* [fulcio_doc](https://github.com/sigstore/fulcio)
 
 #### Support
 - Interactive - User must authorize the signature via browser, device or security code url.
@@ -276,7 +272,71 @@ File based key management library, go library abstracting the key type from appl
 | file | | 2048, 4096 | yes | yes |
 | TPM | yes | 2048 | | |
 
- > PEM formatted files 
+ > PEM formatted files
+
+### **KMS (Key Management Service) Integration**
+
+The Sigstore-based KMS signer allows users to sign artifacts using various KMS providers. Refer to the [Sigstore documentation](https://docs.sigstore.dev/key_management/overview/) for more details.
+
+To use KMS with Valint, provide a `kms` reference in the following format:
+
+`<provider>://<key>`
+
+Key Points:
+
+* Use the `--kms` flag explicitly.
+* Environment variables `ATTEST_KMS` or `KMSREF` can be used to set the KMS reference.
+* Static references can be set via configuration or environment variables.
+* Signer commands (`bom`, `evidence`, `slsa`) require signing permissions.
+* The `verify` command requires public read access to verify the evidence. Additionally, signing permissions are needed if you want to sign the evaluation report evidence.
+
+Supported Services:
+
+| Service         | Provider Prefix       |
+|-----------------|-----------------------|
+| AWS KMS         | `awskms`           |
+| Azure Key Vault | `azurekms`         |
+| Google Cloud KMS| `gcpkms`           |
+| HashiCorp Vault | `hashivault`       |
+
+For example, AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYID`. Ensure that AWS environment variables such as `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` are properly mapped.
+
+Supported AWS URI schemes:
+
+| Scheme | Example |
+|--------|---------|
+| Key ID                   | `awskms:///1234abcd-12ab-34cd-56ef-1234567890ab`                                                      |
+| Key ID with endpoint     | `awskms://localhost:4566/1234abcd-12ab-34cd-56ef-1234567890ab`                                        |
+| Key ARN | `awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`                                |
+| Key ARN with endpoint    | `awskms://localhost:4566/arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab` |
+| Alias name               | `awskms:///alias/ExampleAlias`                                                                        |
+| Alias name with endpoint | `awskms://localhost:4566/alias/ExampleAlias`                                                          |
+| Alias ARN                | `awskms:///arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`                                     |
+| Alias ARN with endpoint  | `awskms://localhost:4566/arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`                       |
+
+Usage example:
+
+```bash
+# Signing requires signing access
+valint bom busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+
+# Verifying requires public key read access
+valint verify busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+```
+
+### Local keys
+
+Pubkey signer allows you to sign InToto statement using a locally stored asymmetric key pair. Currently, only PEM-encoded RSA, ECDSA and Ed25519 keys are supported for signing and verifying attestations.
+
+Usage example:
+
+```bash
+# Signing
+valint bom busybox:latest -o attest --attest.default pubkey --key my_key.pem --pubkey my_pubkey.pem
+
+# Verifying
+valint verify busybox:latest --attest.default pubkey --pubkey my_pubkey.pem
+```
 
 ### OCI storer
 Cocosign embeds the oci storer.  
@@ -340,6 +400,10 @@ signer:
 	kms:
 	    enable: <true|false>
 	    ref: <kms_ref>
+  pubkey:
+    enable: <true|false>
+    key: <key_path>
+    pubkey: <pubkey_path>
 verifier:
 	x509:
 	    enable: <true|false>
@@ -351,6 +415,9 @@ verifier:
 	kms:
 	    enable: <true|false>
 	    ref: <kms_ref>
+  pubkey:
+    enable: <true|false>
+    pubkey: <pubkey_path>
 	policies:
 		<list of rego/cue policies>
 	certemail: 
