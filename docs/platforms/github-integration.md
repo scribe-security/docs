@@ -536,6 +536,156 @@ jobs:
 
 </details>
 
+<details>
+<summary> ECR Platform Example </summary>
+
+```yaml
+on:
+  workflow_dispatch:
+
+concurrency: 
+  group: github-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PLATFORMS_VERSION: "latest"
+  LOG_LEVEL: "INFO"
+  VALINT_SCRIBE_ENABLE: true 
+  DOCKER_DRIVER: overlay2
+  SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
+  AWS_ACCESS_KEY_ID: $AWS_TEST_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_TEST_ACCESS_KEY
+  AWS_REGION: "us-west-2"
+  ECR_API_BASE_URL: ****.dkr.ecr.$AWS_REGION.amazonaws.com
+  ECR_URL: https://$ECR_API_BASE_URL
+
+jobs:
+  discovery-ecr:
+    stage: discovery
+    image:
+        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        entrypoint: [""]
+        pull_policy: always
+    cache:
+      - key: ecr.platforms.db
+        paths:
+        - ecr.platforms.db
+      - key: evidence-ecr-discovery
+        paths:
+        - evidence/ecr-discovery
+    before_script:
+        - *show_versions
+        - *init_signing_keys
+        - export PLATFORMS_DB_PATH=ecr.platforms.db
+        - export VALINT_OUTPUT_DIRECTORY=evidence/ecr-discovery
+        - export VALINT_SCRIBE_ENABLE=true
+        - export LOG_LEVEL=DEBUG
+    script:
+        - |
+          export ECR_LOGIN_TOKEN=$(aws ecr get-login-password --region $AWS_REGION)
+          
+        - |
+          platforms discover ecr \
+              --scope.past_days 60
+      
+        - |
+          platforms evidence \
+              --valint.sign \
+              ecr \
+              --repository.mapping \
+                *scribe-service*::scribe-service::${SCRIBE_PRODUCT_VERSION}
+
+
+  bom-sign-ecr:
+    stage: bom-sign
+    needs: ["discovery-ecr"]
+    timeout: 5 hours
+    image:
+        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        entrypoint: [""]
+        pull_policy: always
+    services:
+      - docker:dind
+    cache:
+      - key: ecr.platforms.db
+        paths:
+        - ecr.platforms.db
+      - key: evidence-ecr
+        paths:
+        - evidence/ecr
+    before_script:
+        - *show_versions
+        - *init_signing_keys
+        - *fs-info
+        - *cleanup-docker-cache
+        - *fs-info
+        - export PLATFORMS_DB_PATH=ecr.platforms.db
+        - export VALINT_OUTPUT_DIRECTORY=evidence/ecr
+        - export LOG_LEVEL=DEBUG
+        - export VALINT_LOG_LEVEL=debug
+    after_script:
+        - *cleanup-docker-cache
+    script:
+        - |
+          export ECR_LOGIN_TOKEN=$(aws ecr get-login-password --region $AWS_REGION)
+          echo $ECR_LOGIN_TOKEN | docker login --username AWS --password-stdin $ECR_API_BASE_URL
+
+        - |
+          platforms bom \
+            --valint.sign \
+            --allow-failures \
+            ecr \
+            --image.mapping \
+                *scribe-service*::scribe-service::${SCRIBE_PRODUCT_VERSION}
+  
+
+  policy-ecr:
+    stage: policy
+    needs: ["bom-sign-ecr"] # "policy-gitlab" hack to win some time for the backend to process the SBOMs
+    timeout: 5 hours
+    image:
+        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        entrypoint: [""]
+        pull_policy: always
+    services:
+      - docker:dind
+    cache:
+      - key: ecr.platforms.db
+        paths:
+          - ecr.platforms.db
+      - key: evidence-ecr
+        paths:
+        - evidence/ecr
+    after_script:
+        - *cleanup-docker-cache
+        - *cleanup-evidence-cache
+        - *fs-info
+    before_script:
+        - *show_versions
+        - *init_signing_keys
+        - *fs-info
+        - export PLATFORMS_DB_PATH=ecr.platforms.db
+        - export VALINT_OUTPUT_DIRECTORY=evidence/ecr
+        - export VALINT_DISABLE_EVIDENCE_CACHE=true
+        - export LOG_LEVEL=DEBUG
+    script: 
+        - |
+          platforms verify \
+              --valint.bundle-branch main \
+              --valint.sign \
+              ecr \
+              --image.mapping \
+                *scribe-service*::scribe-service::${SCRIBE_PRODUCT_VERSION}
+
+    artifacts:
+      paths:
+        - evidence/ecr/*sarif*
+      expire_in: 1 week
+
+```
+</details>
+
+
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.
 By default add `**/scribe` to your `.gitignore`.
