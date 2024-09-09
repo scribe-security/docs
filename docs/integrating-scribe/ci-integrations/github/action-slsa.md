@@ -149,7 +149,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.5.5
+  uses: scribe-security/action-slsa@v1.5.7
   with:
     target: 'busybox:latest'
 ```
@@ -157,7 +157,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.5.5
+  uses: scribe-security/action-slsa-cli@v1.5.7
   with:
     target: 'hello-world:latest'
 ```

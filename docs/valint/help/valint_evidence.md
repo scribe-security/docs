@@ -34,6 +34,7 @@ Flags for `evidence` subcommand
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --parser | Evidence Parser Name | |
+| | --pass | Private key password | |
 | | --pubkey | Public key path | |
 | | --tool | Evidence Tool name | |
 | | --tool-vendor | Evidence Tool vendor | |
