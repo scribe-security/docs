@@ -167,7 +167,7 @@ jobs:
           VALINT_SCRIBE_AUTH0_CLIENTSECRET: ${{ secrets.clientsecret }}
           VALINT_SCRIBE_ENABLE: true
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: scribe-evidence
           path: |
@@ -290,7 +290,7 @@ jobs:
           version: latest
           args: release  --debug --rm-dist
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: scribe-evidence
           path: |

@@ -456,12 +456,12 @@ Using action `OUTPUT_PATH` output argument you can access the generated evidence
     target: some_file.json
     output-file: some_file.evidence.json
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: scribe/
@@ -542,7 +542,7 @@ Full job example of a signing and verifying evidence flow.
           target: some_file.json
           input-format: attest-generic
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-evidence-test
           path: scribe/valint
