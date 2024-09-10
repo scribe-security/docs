@@ -215,7 +215,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                 target: 'docker:${{ github.repository }}:${{ github.sha }}'
                 format: statement-slsa
 
-                -uses: actions/upload-artifact@v3
+                -uses: actions/upload-artifact@v4
                  with:
                     name: provenance
                     path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
@@ -271,7 +271,7 @@ To do that, go to settings → Secrets and variables → Actions → New reposit
                         target: 'docker:${{ github.repository }}:${{ github.sha }}'
                         format: statement-slsa
 
-                    -uses: actions/upload-artifact@v3
+                    -uses: actions/upload-artifact@v4
                     with:
                         name: provenance
                         path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}

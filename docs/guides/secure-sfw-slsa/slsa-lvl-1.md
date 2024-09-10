@@ -42,7 +42,7 @@ Verify downstream that the attestation exists in the **[evidence store](../../in
    target: 'busybox:latest'
    format: statement-slsa
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
  with:
    name: provenance
    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}

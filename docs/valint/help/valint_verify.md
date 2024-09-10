@@ -19,6 +19,7 @@ Flags for `verify` subcommand
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | -a | --attestation | Attestation for target | |
+| | --bom | Create target SBOM evidence | |
 | | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
 | | --bundle-auth | Bundle repository authentication info, [format: 'username:password'] | |
 | | --bundle-branch | Bundle branch in the repository | |
@@ -45,6 +46,7 @@ Flags for `verify` subcommand
 | | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
+| | --pass | Private key password | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --policy | Policy configuration file path (early-availability) | |
 | | --provenance | Create target SLSA Provenance evidence | |

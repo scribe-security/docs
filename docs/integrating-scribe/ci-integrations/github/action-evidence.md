@@ -130,7 +130,7 @@ The `valint evidence` action is a versatile action designed to include various t
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence@v1.5.5
+  uses: scribe-security/action-evidence@v1.5.7
   with:
     target: some_file.json
 ```
@@ -138,7 +138,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence-cli@v1.5.5
+  uses: scribe-security/action-evidence-cli@v1.5.7
   with:
     target: some_file.json
 ```
@@ -456,12 +456,12 @@ Using action `OUTPUT_PATH` output argument you can access the generated evidence
     target: some_file.json
     output-file: some_file.evidence.json
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: scribe/
@@ -542,7 +542,7 @@ Full job example of a signing and verifying evidence flow.
           target: some_file.json
           input-format: attest-generic
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-evidence-test
           path: scribe/valint

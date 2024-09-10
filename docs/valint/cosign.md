@@ -8,6 +8,17 @@ toc_max_heading_level: 5
 
 **[Cosign](https://github.com/sigstore/cosign)** is an open source that strives to provide a seamless signing infrastructure. Valint integrates with the cosign CLI tool and the Sigstore verification process.
 
+### Signing and Verifying using cosign keys
+
+Use Valint to sign and verify with Cosign generated keys.
+
+```bash
+cosign generate-key-pair
+valint [slsa,evidence,bom,verify] <target> --key cosign.key --pubkey cosign.pub --pass <key_pass>
+```
+
+For more details see [Signing with Self-Managed Keys](https://docs.sigstore.dev/key_management/signing_with_self-managed_keys/)
+
 ### Verifying using cosign (Keyless)
 
 Use Valint to generate the SLSA provenance document attestation and attach it to an OCI registry, and use cosign keyless flow to verify the attestation.
@@ -51,7 +62,7 @@ cosign verify-attestation --type https://slsa.dev/provenance/v1 \
 * `--insecure-ignore-sct`, skipping Rekor Transparency log Signed Certificate Timestamp.
 * `--certificate-oidc-issuer-regexp='.*`, Ignore the **[Keyless specific](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md)** OIDC extension.
 
-### Both Signing and Verifying using cosign
+### Both Signing and Verifying using cosign (X509)
 
 You can create predicates for any attestation format (`SBOM`, `SLSA`), and then use `Cosign` to verify the attestation.
 

@@ -45,6 +45,7 @@ Flags for `bom` subcommand
 | | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua] | |
 | | --package-group | Select package group, options=[index install all] | |
 | -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua] | |
+| | --pass | Private key password | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --provenance | Include SLSA Provenance evidence | |

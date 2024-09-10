@@ -43,6 +43,7 @@ Flags for `slsa` subcommand
 | | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
+| | --pass | Private key password | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate | Import predicate path | |

@@ -149,7 +149,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.5.5
+  uses: scribe-security/action-slsa@v1.5.7
   with:
     target: 'busybox:latest'
 ```
@@ -157,7 +157,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.5.5
+  uses: scribe-security/action-slsa-cli@v1.5.7
   with:
     target: 'hello-world:latest'
 ```
@@ -451,12 +451,12 @@ Using GitHub's built-in action output argument `OUTPUT_PATH` you can access the 
     target: 'busybox:latest'
     output-file: my_slsa.json
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-slsa
     path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: scribe/
@@ -478,7 +478,7 @@ Using action `OUTPUT_PATH` output argument you can access the generated SLSA pro
     target: 'busybox:latest'
     format: statement-slsa
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: provenance
     path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
@@ -695,7 +695,7 @@ Full job example of a image signing and verifying flow.
         with:
            target: 'busybox:latest'
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-busybox-test
           path: scribe/valint
@@ -736,7 +736,7 @@ Full job example of a image signing and verifying flow.
            target: 'busybox:latest'
            input-format: attest-slsa
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-busybox-test
           path: scribe/valint
@@ -778,7 +778,7 @@ Full job example of a directory signing and verifying flow.
            type: dir
            target: '/GitHub/workspace/'
       
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-workdir-evidence
           path: |
@@ -823,7 +823,7 @@ Full job example of a git repository signing and verifying flow.
            type: git
            target: '/GitHub/workspace/my_repo'
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-git-evidence
           path: |
