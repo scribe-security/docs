@@ -18,7 +18,7 @@ Notice that the database created should be accessible for running the other comm
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] discover [-h] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD]
-                                    {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins} ...
+                                    {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins,bitbucket} ...
 
 Discover assets and save data to a local store
 
@@ -40,6 +40,7 @@ subcommands:
     jfrog
     ecr
     jenkins
+    bitbucket
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -61,16 +62,13 @@ Gitlab discovery samples the following assets: organization, projects, users, to
 ```bash
 usage: platforms [options] discover [options] gitlab [-h] [--instance INSTANCE]
                                                      [--types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,all} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,all} ...]]
-                                                     [--token TOKEN] [--url URL]
-                                                     [--scope.organization [ORGANIZATION ...]]
-                                                     [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
-                                                     [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip]
-                                                     [--default_product_key_strategy {mapping}]
+                                                     [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]]
+                                                     [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]]
+                                                     [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}]
                                                      [--scope.skip_org_members] [--scope.skip_project_members]
                                                      [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.skip]
-                                                     [--scope.pipeline.past_days PAST_DAYS]
-                                                     [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports]
-                                                     [--broad]
+                                                     [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs]
+                                                     [--scope.pipeline.reports] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -82,8 +80,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name
-                        includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -110,10 +108,69 @@ options:
 ```
 <!-- { "object-type": "command-output-end" } -->
 
+
+Note:
+The discovery includes two experimental features, to add data to the project evidence:
+* `--scope.workflow.analyzed_logs` which attepmts to analyze logs to detect image building information
+
+
+## Github Discovery
+Github discovery samples the following assets: organization, repositories, users, tokens, and workflows.
+<!--
+{
+    "command": "platforms discover github --help"
+}
+-->
+<!-- { "object-type": "command-output-start" } -->
+```bash
+usage: platforms [options] discover [options] github [-h] [--instance INSTANCE]
+                                                     [--types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]]
+                                                     [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]]
+                                                     [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
+                                                     [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
+                                                     [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS]
+                                                     [--workflow.skip] [--scope.workflow.past_days PAST_DAYS]
+                                                     [--scope.workflow.analyzed_logs] [--scope.runners] [--scope.sbom] [--broad]
+
+options:
+  -h, --help            Show this help message and exit.
+  --instance INSTANCE   Github instance string (default: )
+  --types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]
+                        Defines which asset to discover, scoped by scope parameters (default: [])
+  --token TOKEN         Github token (required, default: )
+  --url URL             Github base URL (default: https://github.com)
+  --scope.organization [ORGANIZATION ...]
+                        Github organization list (default: ['*'])
+  --scope.repository [REPOSITORY ...]
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
+                        in the format 'namespace / project_name' (default: ['*'])
+  --scope.branch [BRANCH ...]
+                        Github branches wildcards (default: [])
+  --scope.tag [TAG ...]
+                        Github tags wildcards (default: [])
+  --branch.shallow      Shallow branch discovery (default: False)
+  --commit.skip         Skip commits in discovery/evidence (default: False)
+  --default_product_key_strategy {mapping}
+                        Determint product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
+  --scope.commit.past_days PAST_DAYS
+                        Number of past days to include in the report (type: int, default: 30)
+  --workflow.skip       Skip workflows in evidence (default: False)
+  --scope.workflow.past_days PAST_DAYS
+                        Number of past days to include in the report (type: int, default: 30)
+  --scope.workflow.analyzed_logs
+                        Include analyzed workflow logs (default: False)
+  --scope.runners       Include repository allocated runners in evidence (default: False)
+  --scope.sbom          Include repositories SBOM in evidence (default: False)
+  --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
+```
+<!-- { "object-type": "command-output-end" } -->
+
+
 Note:
 The discovery includes two experimental features, to add data to the project evidence:
 * `--scope.pipeline.analyzed_logs` which attepmts to analyze logs to detect image building information
 * `--scope.pipeline.reports` which collects GitLab standard secret scanning and sast reports.
+
 
 ## DockerHub Discovery
 DockerHub discovery samples the following assets: namespaces, repositories, and repository_tags.
@@ -127,13 +184,12 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE]
                                                         [--types {namespace,repository,repository_tag,webhook,token,all} [{namespace,repository,repository_tag,webhook,token,all} ...]]
                                                         [--username USERNAME] [--password PASSWORD] [--url URL]
-                                                        [--scope.namespace [NAMESPACE ...]]
-                                                        [--scope.repository [REPOSITORY ...]]
+                                                        [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
-                                                        [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--scope.past_days PAST_DAYS] [--broad]
+                                                        [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+                                                        [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -200,11 +256,10 @@ Kubernetes discovery samples the following asset types: namespaces, pods, and se
 ```bash
 usage: platforms [options] discover [options] k8s [-h] [--instance INSTANCE]
                                                   [--types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]]
-                                                  [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]]
-                                                  [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state]
-                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
-                                                  [--exclude.image [IMAGE ...]] [--secret.skip] [--deployment.skip]
-                                                  [--broad]
+                                                  [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                  [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
+                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--secret.skip]
+                                                  [--deployment.skip] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -281,16 +336,12 @@ For example `my_company.jfrog.io/my_registry/my_image:latest`
 ```bash
 usage: platforms [options] discover [options] jfrog [-h] [--instance INSTANCE]
                                                     [--types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]]
-                                                    [--token TOKEN] [--url URL]
-                                                    [--scope.jf-repository [JF_REPOSITORY ...]]
-                                                    [--scope.repository [REPOSITORY ...]]
-                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                    [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]]
+                                                    [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                     [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                    [--exclude.jf-repository [JF_REPOSITORY ...]]
-                                                    [--exclude.repository [REPOSITORY ...]]
-                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                    [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
-                                                    [--broad]
+                                                    [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
+                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+                                                    [--scope.tag_limit TAG_LIMIT] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -316,9 +367,8 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited
-                        tag list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type:
-                        int, default: 10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit
+                        applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
   --broad               Retrieves limited information (only jf-repositories and repositories) (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
@@ -342,14 +392,10 @@ For example `<account>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
 usage: platforms [options] discover [options] ecr [-h] [--instance INSTANCE]
                                                   [--types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]]
                                                   [--token TOKEN] [--url URL] [--scope.aws-account [AWS_ACCOUNT ...]]
-                                                  [--scope.repository [REPOSITORY ...]]
-                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.aws-account [AWS_ACCOUNT ...]]
-                                                  [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
-                                                  [--broad]
+                                                  [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]]
+                                                  [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -375,9 +421,60 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited
-                        tag list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type:
-                        int, default: 10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit
+                        applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
   --broad               Retrieves limited information (only aws-account and repository) (default: False)
+```
+<!-- { "object-type": "command-output-end" } -->
+
+
+## BitBucket Discovery
+BitBucket discovery samples the following assets: workspaces, projects, repositories, user, branches, commits, protected_branches and webhooks.
+<!--
+{
+    "command": "platforms discover bitbucket --help"
+}
+-->
+<!-- { "object-type": "command-output-start" } -->
+```bash
+usage: platforms [options] discover [options] bitbucket [-h] [--instance INSTANCE]
+                                                        [--types {workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]]
+                                                        [--app_password APP_PASSWORD] [--username USERNAME]
+                                                        [--workspace_token WORKSPACE_TOKEN] [--workspace_name WORKSPACE_NAME]
+                                                        [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
+                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
+                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
+                                                        [--broad]
+
+options:
+  -h, --help            Show this help message and exit.
+  --instance INSTANCE   BitBucket instance string (default: )
+  --types {workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]
+                        Defines which asset to discover, scoped by scope parameters (default: [])
+  --app_password APP_PASSWORD
+                        BitBucket app_password (default: null)
+  --username USERNAME   BitBucket username (default: null)
+  --workspace_token WORKSPACE_TOKEN
+                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and --username (default:
+                        null)
+  --workspace_name WORKSPACE_NAME
+                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and --username (default:
+                        null)
+  --scope.workspace [WORKSPACE ...]
+                        BitBucket workspace list (default: ['*'])
+  --scope.project [PROJECT ...]
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
+                        in the format 'namespace / project_name' (default: ['*'])
+  --scope.repository [REPOSITORY ...]
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
+  --scope.commit [COMMIT ...]
+                        BitBucket commit wildcards (default: [])
+  --scope.branch [BRANCH ...]
+                        BitBucket branches wildcards (default: [])
+  --scope.webhook [WEBHOOK ...]
+                        BitBucket webhook wildcards (default: [])
+  --commit.skip         Skip commits in discovery/evidence (default: False)
+  --broad               Retrieves limited information (only workspaces, repositories) (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
