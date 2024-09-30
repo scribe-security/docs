@@ -21,10 +21,11 @@ The recommended use of the verify command with the product-mapping capabilities;
 ```bash
 usage: platforms [options] verify [-h] [--valint.scribe.client-id CLIENT_ID] [--valint.scribe.client-secret CLIENT_SECRET]
                                   [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
-                                  [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
-                                  [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
-                                  [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.disable-evidence-cache]
-                                  [--valint.sign] [--valint.components COMPONENTS] [--unique] [--valint.bundle BUNDLE]
+                                  [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
+                                  [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                                  [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
+                                  [--valint.attest ATTEST] [--valint.sign] [--valint.components COMPONENTS]
+                                  [--valint.label LABEL] [--unique] [--valint.bundle BUNDLE]
                                   [--valint.bundle-auth BUNDLE_AUTH] [--valint.bundle-branch BUNDLE_BRANCH]
                                   [--valint.bundle-commit BUNDLE_COMMIT] [--valint.bundle-tag BUNDLE_TAG] [--allow-failures]
                                   [--max-threads MAX_THREADS]
@@ -57,11 +58,10 @@ options:
                         Evidence predicate type (type: str, default: http://scribesecurity.com/evidence/discovery/v0.1)
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
-  --valint.disable-evidence-cache
-                        Disable evidence cache (default: False)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f824aa9b2e0>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.bundle BUNDLE
                         Set bundle git branch (type: str, default: )
@@ -147,9 +147,10 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --proje
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
-                                                   [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]]
-                                                   [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]]
-                                                   [--commit.skip] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
+                                                   [--types {organization,project,all}]
+                                                   [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
+                                                   [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                   [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
                                                    [--project.policy [POLICY ...]] [--organization.policy [POLICY ...]]
                                                    [--org-policy-skip-aggregate] [--project-policy-skip-aggregate]
 
@@ -163,8 +164,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its
-                        namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -174,12 +175,13 @@ options:
                         Organization product key mapping in the format of to organization::product_key::product_version (type:
                         AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
-                        default: [])
+                        Project product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --project.policy [POLICY ...]
                         Set project policy file (type: str, default: ['ct-2@discovery', 'ct-9@discovery'])
   --organization.policy [POLICY ...]
-                        Set organization policy file (type: str, default: ['ct-1@discovery', 'ct-3@discovery', 'ct-4@discovery'])
+                        Set organization policy file (type: str, default: ['ct-1@discovery', 'ct-3@discovery',
+                        'ct-4@discovery'])
   --org-policy-skip-aggregate
                         Skip Aggregate organization policy results (default: False)
   --project-policy-skip-aggregate
@@ -202,13 +204,14 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --repos
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [options] github [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
-                                                   [--types {organization,repository,all}] [--scope.organization [ORGANIZATION ...]]
+                                                   [--types {organization,repository,all}]
+                                                   [--scope.organization [ORGANIZATION ...]]
                                                    [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
-                                                   [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip] [--organization.single]
-                                                   [--repository.single] [--organization.mapping [MAPPING ...]]
-                                                   [--repository.mapping [MAPPING ...]] [--repository.policy [POLICY ...]]
-                                                   [--organization.policy [POLICY ...]] [--org-policy-skip-aggregate]
-                                                   [--repo-policy-skip-aggregate]
+                                                   [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
+                                                   [--organization.single] [--repository.single]
+                                                   [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                   [--repository.policy [POLICY ...]] [--organization.policy [POLICY ...]]
+                                                   [--org-policy-skip-aggregate] [--repo-policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -220,8 +223,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
-                        in the format 'namespace / project_name' (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix
+                        its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: [])
   --scope.tag [TAG ...]
@@ -232,11 +235,11 @@ options:
                         Export all organizations in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of org::product_key::product_version where org is the organization
-                        name, wildcards are supported (type: AssetMappingString, default: [])
+                        Organization product key mapping in the format of org::product_key::product_version where org is the
+                        organization name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository
-                        name, wildcards are supported (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the
+                        repository name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.policy [POLICY ...]
                         Set repository evidence policy file (type: str, default: [])
   --organization.policy [POLICY ...]
@@ -261,15 +264,18 @@ To evaluate policies on DockerHub evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--url URL]
-                                                      [--types {token,repository,namespace,all}]
+usage: platforms [options] verify [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
+                                                      [--url URL] [--types {token,repository,namespace,all}]
                                                       [--default_product_key_strategy {namespace,repository,tag,mapping}]
                                                       [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                      [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
+                                                      [--scope.namespace [NAMESPACE ...]]
+                                                      [--scope.repository [REPOSITORY ...]]
                                                       [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                      [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]]
-                                                      [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]]
-                                                      [--image.policy [POLICY ...]] [--policy-skip-aggregate]
+                                                      [--scope.image_platform [IMAGE_PLATFORM ...]]
+                                                      [--exclude.repository [REPOSITORY ...]]
+                                                      [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                      [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
+                                                      [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -296,11 +302,11 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default:
-                        [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --image.policy [POLICY ...]
-                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery',
-                        'ct-13@discovery'])
+                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery',
+                        'ct-12@discovery', 'ct-13@discovery'])
   --policy-skip-aggregate
                         Skip Aggregate policy results (default: False)
 ```
@@ -343,8 +349,9 @@ usage: platforms [options] verify [options] k8s [-h] [--instance INSTANCE] [--ur
                                                 [--types {namespace,pod,cluster-images,all}]
                                                 [--default_product_key_strategy {namespace,pod,image,mapping}]
                                                 [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
-                                                [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]]
-                                                [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                [--scope.image [IMAGE ...]] [--ignore-state]
+                                                [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
                                                 [--exclude.image [IMAGE ...]] [--namespace.single] [--pod.single]
                                                 [--image.mapping [MAPPING ...]] [--cluster-images.policy [POLICY ...]]
                                                 [--namespace.policy [POLICY ...]] [--policy-skip-aggregate]
@@ -430,12 +437,15 @@ usage: platforms [options] verify [options] jfrog [-h] [--instance INSTANCE] [--
                                                   [--types {token,repository,jf-repository,all}]
                                                   [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
                                                   [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                  [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]]
+                                                  [--scope.jf-repository [JF_REPOSITORY ...]]
+                                                  [--scope.repository [REPOSITORY ...]]
                                                   [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                   [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]]
-                                                  [--image.policy [POLICY ...]] [--policy-skip-aggregate]
+                                                  [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                                  [--exclude.repository [REPOSITORY ...]]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
+                                                  [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -463,11 +473,11 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Jfrog tags to exclude (default: [])
   --image.mapping [MAPPING ...]
-                        Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default:
-                        [])
+                        Image product key mapping in the format of asset::product_key::product_version (type:
+                        AssetMappingString, default: [])
   --image.policy [POLICY ...]
-                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery', 'ct-12@discovery',
-                        'ct-13@discovery'])
+                        Set image mapping policy file (type: str, default: ['ct-8@discovery', 'ct-11@discovery',
+                        'ct-12@discovery', 'ct-13@discovery'])
   --policy-skip-aggregate
                         Skip Aggregate policy results (default: False)
 ```
@@ -487,12 +497,14 @@ platforms verify bitbucket --workspace.mapping "my-workspace::my-product::1.0" -
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] bitbucket [-h] [--instance INSTANCE] [--app_password APP_PASSWORD] [--username USERNAME]
-                                                      [--workspace_token WORKSPACE_TOKEN] [--workspace_name WORKSPACE_NAME]
-                                                      [--types {workspace,project,repository,all}] [--scope.workspace [WORKSPACE ...]]
-                                                      [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
-                                                      [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
-                                                      [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--workspace.mapping [MAPPING ...]]
+usage: platforms [options] verify [options] bitbucket [-h] [--instance INSTANCE] [--app_password APP_PASSWORD]
+                                                      [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
+                                                      [--workspace_name WORKSPACE_NAME]
+                                                      [--types {workspace,project,repository,all}]
+                                                      [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
+                                                      [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
+                                                      [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]]
+                                                      [--commit.skip] [--workspace.mapping [MAPPING ...]]
                                                       [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                       [--repository.policy [POLICY ...]] [--project.policy [POLICY ...]]
                                                       [--workspace.policy [POLICY ...]] [--org-policy-skip-aggregate]
@@ -505,21 +517,21 @@ options:
                         BitBucket app_password (default: null)
   --username USERNAME   BitBucket username (default: null)
   --workspace_token WORKSPACE_TOKEN
-                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and --username (default:
-                        null)
+                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and
+                        --username (default: null)
   --workspace_name WORKSPACE_NAME
-                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and --username (default:
-                        null)
+                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and
+                        --username (default: null)
   --types {workspace,project,repository,all}
                         Defines which evidence to validate, scoped by scope parameters (default: all)
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
-                        in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix
+                        its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its
-                        namesapce in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a
+                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -528,14 +540,14 @@ options:
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
   --workspace.mapping [MAPPING ...]
-                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace
-                        name, wildcards are supported (type: AssetMappingString, default: [])
+                        Workspace product key mapping in the format of workspace::product_key::product_version where org is
+                        the workspace name, wildcards are supported (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of project::product_key::product_version where org is the workspace name,
-                        wildcards are supported (type: AssetMappingString, default: [])
+                        Project product key mapping in the format of project::product_key::product_version where org is the
+                        workspace name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository
-                        name, wildcards are supported (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the
+                        repository name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.policy [POLICY ...]
                         Set repository evidence policy file (type: str, default: [])
   --project.policy [POLICY ...]

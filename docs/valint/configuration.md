@@ -72,6 +72,10 @@ attest:
     enable: false
     ref: ""
   pubkey: {}
+  target-fallback: false
+  target-fallback-name: false
+  target-fallback-hash: false
+  target-fallback-repo-digest: false
 filter:
   filter-regex:
   - '**/*.pyc'
