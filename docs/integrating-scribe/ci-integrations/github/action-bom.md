@@ -41,7 +41,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
   author-email:
     description: Set author email
   author-name:
@@ -80,22 +80,28 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Git tag in the repository
   key:
     description: x509 Private key path
+  kms:
+    description: Provide KMS key reference
   oci:
     description: Enable OCI store
   oci-repo:
     description: Select OCI custom attestation repo
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua]
   package-group:
     description: Select package group, options=[index install all]
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua]
+  pass:
+    description: Private key password
   payload:
     description: path of the decoded payload
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
   provenance:
     description: Include SLSA Provenance evidence
+  pubkey:
+    description: Public key path
   supplier-email:
     description: Set supplier email
   supplier-name:
