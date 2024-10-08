@@ -8,7 +8,7 @@ toc_max_heading_level: 5
 
 A product's build compliance report shows you how the build complies with NIST's SSDF and SLSA up to level 3. You can check out what policies are being checked by Scribe you can examine the SLSA policies **[here](../guides/secure-sfw-slsa/slsapolicies)** and the SSDF policies **[here](../guides/ssdf-compliance/ssdfpolicies)**.
 
-To reach the compliance report go to **Products > {Your Product} > {Version} > Compliance**.
+To reach the compliance report go to **Products > (Your Product) > (Version) > Compliance**.
 
 This is what the report looks like:
 
