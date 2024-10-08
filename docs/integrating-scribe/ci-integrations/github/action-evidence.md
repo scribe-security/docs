@@ -36,7 +36,7 @@ The `valint evidence` action is a versatile action designed to include various t
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
   ca:
     description: x509 CA Chain path
   cert:
@@ -59,12 +59,18 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Evidence Format version
   key:
     description: x509 Private key path
+  kms:
+    description: Provide KMS key reference
   oci:
     description: Enable OCI store
   oci-repo:
     description: Select OCI custom attestation repo
   parser:
     description: Evidence Parser Name
+  pass:
+    description: Private key password
+  pubkey:
+    description: Public key path
   tool:
     description: Evidence Tool name
   tool-vendor:
@@ -130,7 +136,7 @@ The `valint evidence` action is a versatile action designed to include various t
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence@v1.5.7
+  uses: scribe-security/action-evidence@v1.5.10
   with:
     target: some_file.json
 ```
@@ -138,7 +144,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence-cli@v1.5.7
+  uses: scribe-security/action-evidence-cli@v1.5.10
   with:
     target: some_file.json
 ```

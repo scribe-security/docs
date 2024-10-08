@@ -79,6 +79,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
+  DOCKER_CONFIG: $HOME/.docker
   DOCKERHUB_USERNAME: scribesecurity
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
 
@@ -146,6 +147,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
+  DOCKER_CONFIG: $HOME/.docker
   DOCKERHUB_USERNAME: scribesecurity
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
 
@@ -284,6 +286,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
+  DOCKER_CONFIG: $HOME/.docker
   DOCKERHUB_USERNAME: scribesecurity
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
   JFROG_URL: https://mycompany.jfrog.io
@@ -419,6 +422,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
+  DOCKER_CONFIG: $HOME/.docker
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
 
 jobs:
@@ -552,6 +556,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
+  DOCKER_CONFIG: $HOME/.docker
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
   AWS_ACCESS_KEY_ID: $AWS_TEST_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_TEST_ACCESS_KEY

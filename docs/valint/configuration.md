@@ -14,7 +14,7 @@ Configuration format and default values.
 ```yaml
 cache:
   enable: true
-  output_directory: ${XDG_CACHE_HOME}/valint
+  output_directory: $\{XDG_CACHE_HOME\}/valint
 scribe:
   auth:
     enable: true
@@ -72,6 +72,10 @@ attest:
     enable: false
     ref: ""
   pubkey: {}
+  target-fallback: false
+  target-fallback-name: false
+  target-fallback-hash: false
+  target-fallback-repo-digest: false
 filter:
   filter-regex:
   - '**/*.pyc'

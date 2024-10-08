@@ -101,8 +101,8 @@ Class | Method | HTTP request | Description
 *DatasetApi* | get_datasets_action | **POST** /dataset/data | This endpoint is used to retrieve data from a dataset with a filter.
 *DatasetApi* | list_datasets_input_action | **GET** /dataset | This endpoint is used to list the available datasets with their schema.
 *DefaultApi* | dataset | **POST** /dataset/token | This endpoint is used to exchange a team product key with a superset data-access token.
-*EvidenceApi* | delete_evidence_action | **DELETE** /evidence/{file_id} | Delete evidence object.
-*EvidenceApi* | download_evidence_action | **GET** /evidence/{file_id} | Create pre-signed URL to POST file content.
+*EvidenceApi* | delete_evidence_action | **DELETE** /evidence/\{file_id\} | Delete evidence object.
+*EvidenceApi* | download_evidence_action | **GET** /evidence/\{file_id\} | Create pre-signed URL to POST file content.
 *EvidenceApi* | finish_upload_evidence_action | **POST** /evidence/finish | Mark file transfer as finished.
 *EvidenceApi* | list_evidence_action | **POST** /evidence/list | Get a list of processes for specific queries.
 *EvidenceApi* | upload_evidence_action | **POST** /evidence | Create pre-signed URL to POST file content.

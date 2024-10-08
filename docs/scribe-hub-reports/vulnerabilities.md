@@ -8,7 +8,7 @@ toc_max_heading_level: 5
 
 A product's build vulnerabilities report shows you all the vulnerabilities discovered in the build built at the end of the pipeline.
 
-To reach the vulnerabilities report go to **Products > {Your Product} > {Version} > Vulnerabilities**.
+To reach the vulnerabilities report go to **Products > (Your Product) > (Version) > Vulnerabilities**.
 
 <img src='../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
 

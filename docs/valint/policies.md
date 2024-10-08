@@ -87,7 +87,7 @@ with: {} # rule input, depending on the rule type
 
 > For configuration details, see the [configuration](./configuration.md) section.
 
-> For PKI configuration, see the [attestations](./attestations.md) section.
+> For PKI configuration, see the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
 
 ### Policy
 
@@ -769,7 +769,7 @@ To reference a policy/rule in a bundle, the relative path to the bundle root sho
 
 #### Default bundle
 
-By default, `valint` defaults to work with <https://github.com/scribe-public/sample-policies> as a bundle. One can use its rules out of the box by providing the rule name in the `--policy/--rule` flags. If no `--policy` or `--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
+By default, `valint` defaults to work with [scribe-public/sample-policies](https://github.com/scribe-public/sample-policies) as a bundle. One can use its rules out of the box by providing the rule name in the `--policy/--rule` flags. If no `--policy` or `--rule` flag is provided or the `--skip-bundle` flag is used, no bundle will be downloaded.
 
 #### Reusing bundle rules
 

@@ -28,22 +28,26 @@ To overcome the limitation install tool directly - [installer](https://github.co
 ### Input arguments
 ```yaml
   target:
-    description: Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
+    description: Target object name format=[<image:tag>, <dir path>, <git url>]
     required: true
+  all-env:
+    description: Attach all environment variables
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  attestation:
-    description: Attestation for target
-  bundle:
-    description: Policy bundle uri/path (early-availability)
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
+  build-type:
+    description: Set build type
+  builder-id:
+    description: Set builder id
+  by-product:
+    description: Attach by product path
   ca:
     description: x509 CA Chain path
   cert:
     description: x509 Cert path
-  common-name:
-    description: Default policy allowed common names
+  components:
+    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
   crl:
     description: x509 CRL path
   crl-full-chain:
@@ -52,10 +56,14 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
-  email:
-    description: Default policy allowed emails
+  external:
+    description: Add build external parameters
+  finished-on:
+    description: Set metadata finished time (YYYY-MM-DDThh:mm:ssZ)
   force:
-    description: Force skip cache
+    description: Force overwrite cache
+  format:
+    description: Evidence format, options=[statement attest]
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -64,32 +72,30 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Git commit hash in the repository
   git-tag:
     description: Git tag in the repository
-  initiative:
-    description: Run only rules with specified initiative
-  input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
+  invocation:
+    description: Set metadata invocation ID
   key:
     description: x509 Private key path
+  kms:
+    description: Provide KMS key reference
   oci:
     description: Enable OCI store
   oci-repo:
     description: Select OCI custom attestation repo
+  pass:
+    description: Private key password
+  payload:
+    description: path of the decoded payload
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy:
-    description: Policy configuration file path (early-availability)
-  rule:
-    description: Rule configuration file path (early-availability)
-  rule-args:
-    description: Policy arguments
-  rule-label:
-    description: Run only rules with specified label
-  skip-bundle:
-    description: Skip bundle download
-  skip-report:
-    description: Skip Policy report stage
-  uri:
-    description: Default policy allowed uris
+  predicate:
+    description: Import predicate path
+  pubkey:
+    description: Public key path
+  started-on:
+    description: Set metadata started time (YYYY-MM-DDThh:mm:ssZ)
+  statement:
+    description: Import statement path
   cache-enable:
     description: Enable local cache
   config:
@@ -149,7 +155,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.5.7
+  uses: scribe-security/action-slsa@v1.5.10
   with:
     target: 'busybox:latest'
 ```
@@ -157,7 +163,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.5.7
+  uses: scribe-security/action-slsa-cli@v1.5.10
   with:
     target: 'hello-world:latest'
 ```

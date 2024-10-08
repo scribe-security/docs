@@ -530,7 +530,7 @@ cat my_ca-chain.pem | base64
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
-> Explore additional signing options in the [attestations](./attestations.md) section.
+> Explore additional signing options in the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
 
 ## Runner Considerations
 

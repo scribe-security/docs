@@ -25,68 +25,44 @@ The command allows users to verify any target against its evidence.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
     required: true
-  attestation:
-    description: Attestation for target
-  bundle:
-    description: Policy bundle uri/path (early-availability)
-  common-name:
-    description: Default policy allowed common names
-  email:
-    description: Default policy allowed emails
-  force:
-    description: Force skip cache
-  initiative:
-    description: Run only rules with specified initiative
-  input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
-  policy:
-    description: Policy configuration file path (early-availability)
-  rule:
-    description: Rule configuration file path (early-availability)
-  rule-label:
-    description: Run only rules with specified label
-  skip-bundle:
-    description: Skip bundle download
-  skip-report:
-    description: Skip Policy report stage
-  uri:
-    description: Default policy allowed uris
-  allow-expired:
-    description: Allow expired certs
   attest-config:
     description: Attestation config path
   attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  backoff:
-    description: Backoff duration
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
+  attestation:
+    description: Attestation for target
+  bom:
+    description: Create target SBOM evidence
+  bundle:
+    description: Policy bundle uri/path (early-availability)
+  bundle-auth:
+    description: 'Bundle repository authentication info, [format: ''username:password'']'
+  bundle-branch:
+    description: Bundle branch in the repository
+  bundle-commit:
+    description: Bundle commit hash in the repository
+  bundle-depth:
+    description: Bundle clone depth
+  bundle-tag:
+    description: Bundle tag in the repository
   ca:
     description: x509 CA Chain path
-  cache-enable:
-    description: Enable local cache
   cert:
     description: x509 Cert path
-  config:
-    description: Configuration file path
-  context-dir:
-    description: Context dir
+  common-name:
+    description: Default policy allowed common names
   crl:
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  deliverable:
-    description: Mark as deliverable, options=[true, false]
   depth:
     description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
-  env:
-    description: Environment keys to include in evidence
-  filter-regex:
-    description: Filter out files by regex
-  filter-scope:
-    description: Filter packages by scope
-  gate:
-    description: Policy Gate name
+  email:
+    description: Default policy allowed emails
+  force:
+    description: Force skip cache
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -95,8 +71,52 @@ The command allows users to verify any target against its evidence.
     description: Git commit hash in the repository
   git-tag:
     description: Git tag in the repository
+  initiative:
+    description: Run only rules with specified initiative
+  input-format:
+    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
   key:
     description: x509 Private key path
+  kms:
+    description: Provide KMS key reference
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
+  pass:
+    description: Private key password
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
+  policy:
+    description: Policy configuration file path (early-availability)
+  provenance:
+    description: Create target SLSA Provenance evidence
+  pubkey:
+    description: Public key path
+  public-key:
+    description: Public key path
+  rule:
+    description: Rule configuration file path (early-availability)
+  rule-args:
+    description: Policy arguments
+  rule-label:
+    description: Run only rules with specified label
+  skip-bundle:
+    description: Skip bundle download
+  skip-report:
+    description: Skip Policy report stage
+  uri:
+    description: Default policy allowed uris
+  cache-enable:
+    description: Enable local cache
+  config:
+    description: Configuration file path
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
+  env:
+    description: Environment keys to include in evidence
+  gate:
+    description: Policy Gate name
   label:
     description: Add Custom labels
   level:
@@ -105,10 +125,6 @@ The command allows users to verify any target against its evidence.
     description: Attach context to all logs
   log-file:
     description: Output log to file
-  oci:
-    description: Enable OCI store
-  oci-repo:
-    description: Select OCI custom attestation repo
   output-directory:
     description: Output directory path
     default: ./scribe/valint
@@ -116,20 +132,20 @@ The command allows users to verify any target against its evidence.
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  platform:
-    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
-  rule-args:
-    description: Policy arguments
+  scribe-client-id:
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
     description: Scribe Client Token
+  scribe-disable:
+    description: Disable scribe client
   scribe-enable:
-    description: Enable scribe client
+    description: Enable scribe client (deprecated)
   scribe-url:
     description: Scribe API Url
   structured:
@@ -145,7 +161,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.5.7
+  uses: scribe-security/action-verify@v1.5.10
   with:
       target: 'busybox:latest'
 ```
@@ -153,7 +169,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.5.7
+  uses: scribe-security/action-verify-cli@v1.5.10
   with:
     target: 'hello-world:latest'
 ```

@@ -12,7 +12,7 @@ When sharing an SBOM with your stakeholders you might often require to include r
 
 Your team and your stakeholders can download these advisories in a **[VEX format](https://cyclonedx.org/capabilities/vex/)** which is machine readable and can be used by Scribe’s policy agent.
 
-To add an advisory to a vulnerability reported, go to **Products > {Your Product} > {Version} > Advisories**.
+To add an advisory to a vulnerability reported, go to **Products > (Your Product) > (Version) > Advisories**.
 
 Find the vulnerability according to its ID and click ‘+Add’ in its line in the rightmost column. Note that the CVE ID is identical to the one found on the **Vulnerabilities** page.
 

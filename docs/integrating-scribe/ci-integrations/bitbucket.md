@@ -112,7 +112,7 @@ Flags for all `valint` subcommands
 | LOG_FILE        | Output log to file                                                                                                            |                    |
 | OCI             | Enable OCI store                                                                                                              |                    |
 | OCI_REPO        | Select OCI custom attestation repo                                                                                            |                    |
-| OUTPUT_DIRECTORY| Output directory path                                                                                                         | "${XDG_CACHE_HOME}/valint" | any |
+| OUTPUT_DIRECTORY| Output directory path                                                                                                         | "$\{XDG_CACHE_HOME\}/valint" | any |
 | OUTPUT_FILE     | Output file name                                                                                                              |                    |
 | PIPELINE_NAME   | Pipeline name                                                                                                                 |                    |
 | PLATFORM        | Select target platform, examples=windows/armv6, arm64 ..)                                                                     |                    |

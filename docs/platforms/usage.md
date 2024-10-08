@@ -68,9 +68,9 @@ options:
   -h, --help            Show this help message and exit.
   --config CONFIG       Path to a configuration file.
   --print_config [=flags]
-                        Print the configuration after applying all other arguments and exit. The optional flags
-                        customizes the output and are one or more keywords separated by comma. The supported flags
-                        are: comments, skip_default, skip_null.
+                        Print the configuration after applying all other arguments and exit. The optional flags customizes the
+                        output and are one or more keywords separated by comma. The supported flags are: comments,
+                        skip_default, skip_null.
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level (default: INFO)
   --log-file LOG_FILE   Set the logging file (default: )
