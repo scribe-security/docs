@@ -11,7 +11,7 @@ geometry: margin=2cm
 
 The policy evaluation outcome is a report in SARIF format, optionally encapsulated as an evidence: in-toto statement (_default_) or attestation. By default, this evidence is pushed to the attestation store and can be referenced by other policies.
 
-In this context, the in-toto statement or attestation has a predicate type of <http://docs.oasis-open.org/sarif/sarif/2.1.0>, target type `policy-results` and contains SARIF under `.predicate.content` path.
+In this context, the in-toto statement or attestation has a predicate type of `http://docs.oasis-open.org/sarif/sarif/2.1.0`, target type `policy-results` and contains SARIF under `.predicate.content` path.
 
 The pure SARIF format consists solely of the SARIF output from the policy evaluation, designed for seamless integration with other tools.
 

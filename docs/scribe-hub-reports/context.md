@@ -8,7 +8,7 @@ toc_max_heading_level: 5
 
 A product's build context report shows you the context/metadata associated with the build built at the end of the pipeline. 
 
-To reach the build's context go to **Products > {Your Product} > {Version} > Context**.
+To reach the build's context go to **Products > (Your Product) > (Version) > Context**.
 
 <img src='../../img/start/context-start-1.jpg' alt='Build Context Including each build component'/>
 

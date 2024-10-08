@@ -21,7 +21,7 @@ The token is a secret and will not be accessible from the UI after you finalize 
    ```js
    export SCRIBE_TOKEN=<scribe_api_token>
    ```
-Replace '<scribe_api_token>' with the token you obtained in the previous step.
+Replace '\<scribe_api_token\>' with the token you obtained in the previous step.
 
 `valint` supports the use of the `SCRIBE_TOKEN` environment variables, or you can set them using the `-P` or `--scribe.client-secret` flags.
 

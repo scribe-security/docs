@@ -47,7 +47,7 @@ Flags for all `valint` subcommands
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
 | | --log-file | Output log to file | |
-| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -d | --output-directory | Output directory path | "$\{XDG_CACHE_HOME\}/valint" |
 | -p | --pipeline-name | Pipeline name | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
