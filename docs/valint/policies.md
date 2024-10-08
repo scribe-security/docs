@@ -87,7 +87,7 @@ with: {} # rule input, depending on the rule type
 
 > For configuration details, see the [configuration](./configuration.md) section.
 
-> For PKI configuration, see the [attestations](./attestations.md) section.
+> For PKI configuration, see the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
 
 ### Policy
 
