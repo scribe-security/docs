@@ -383,9 +383,9 @@ options:
 
 ## ECR Discovery
 ECR discovery samples the following assets: ECR repositories, Image repositories, and Image Tags.
-For example `<account>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
+For example `\<account\>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
 
-* ``<account>.dkr.ecr.us-west-2.amazonaws.com`: Instance URL
+* ``\<account\>.dkr.ecr.us-west-2.amazonaws.com`: Instance URL
 * `my_image` A image Repository, Includes a set of Image Tags.
 * `my_image:latest` A image Repository.
 
