@@ -29,7 +29,7 @@ usage: platforms [options] verify [-h] [--valint.scribe.client-id CLIENT_ID] [--
                                   [--valint.bundle-auth BUNDLE_AUTH] [--valint.bundle-branch BUNDLE_BRANCH]
                                   [--valint.bundle-commit BUNDLE_COMMIT] [--valint.bundle-tag BUNDLE_TAG] [--allow-failures]
                                   [--max-threads MAX_THREADS]
-                                  {k8s,dockerhub,gitlab,github,jfrog,ecr,bitbucket} ...
+                                  {k8s,dockerhub,gitlab,github,jfrog,ecr,bitbucket,jenkins} ...
 
 Verify supply chain policies
 
@@ -61,7 +61,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f824aa9b2e0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f8df8d50400>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.bundle BUNDLE
                         Set bundle git branch (type: str, default: )
@@ -88,6 +88,7 @@ subcommands:
     jfrog
     ecr
     bitbucket
+    jenkins
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -157,7 +158,7 @@ usage: platforms [options] verify [options] gitlab [-h] [--instance INSTANCE] [-
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Gitlab instance string (default: )
-  --token TOKEN         Gitlab token (required, default: )
+  --token TOKEN         Gitlab token (GITLAB_TOKEN, CI_JOB_TOKEN) (default: )
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {organization,project,all}
                         Defines which evidence to consume, scoped by scope parameters (default: all)
@@ -216,7 +217,7 @@ usage: platforms [options] verify [options] github [-h] [--instance INSTANCE] [-
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Github instance string (default: )
-  --token TOKEN         Github token (required, default: )
+  --token TOKEN         Github token (GITHUB_TOKEN, GH_TOKEN) (default: )
   --url URL             Github base URL (default: https://github.com)
   --types {organization,repository,all}
                         Defines which evidence to validate, scoped by scope parameters (default: all)
@@ -265,23 +266,23 @@ To evaluate policies on DockerHub evidence.
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [options] dockerhub [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
-                                                      [--url URL] [--types {token,repository,namespace,all}]
+                                                      [--token TOKEN] [--url URL] [--types {token,repository,namespace,all}]
                                                       [--default_product_key_strategy {namespace,repository,tag,mapping}]
                                                       [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                      [--scope.namespace [NAMESPACE ...]]
                                                       [--scope.repository [REPOSITORY ...]]
                                                       [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                       [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                       [--exclude.repository [REPOSITORY ...]]
                                                       [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                      [--image.mapping [MAPPING ...]] [--image.policy [POLICY ...]]
-                                                      [--policy-skip-aggregate]
+                                                      [--scope.namespace [NAMESPACE ...]] [--image.mapping [MAPPING ...]]
+                                                      [--image.policy [POLICY ...]] [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Dockerhub instance string (default: )
   --username USERNAME   Dockerhub username (default: null)
-  --password PASSWORD   Dockerhub password (default: null)
+  --password PASSWORD   Dockerhub password (DOCKERHUB_PASSWORD) (default: )
+  --token TOKEN         Dockerhub token (default: )
   --url URL             Dockerhub base URL (default: https://hub.docker.com)
   --types {token,repository,namespace,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
@@ -289,8 +290,6 @@ options:
                         Override product key with namespace, repository or image names (default: mapping)
   --default_product_version_strategy {tag,short_image_id,image_id}
                         Override product version with tag or image id (default: short_image_id)
-  --scope.namespace [NAMESPACE ...]
-                        Dockerhub namespaces (default: ['*'])
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -301,6 +300,8 @@ options:
                         Dockerhub repository wildcards to exclude (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
+  --scope.namespace [NAMESPACE ...]
+                        Dockerhub namespaces (default: ['*'])
   --image.mapping [MAPPING ...]
                         Image product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
@@ -360,7 +361,7 @@ options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Kubernetes instance string (default: )
   --url URL             Kubernetes API URL (required, default: )
-  --token TOKEN         Kubernetes token, with access to pods and secrets (required, default: )
+  --token TOKEN         Kubernetes token, with access to pods and secrets (K8S_TOKEN) (default: )
   --types {namespace,pod,cluster-images,all}
                         Defines which evidence to create, scoped by scope parameters (default: cluster-images)
   --default_product_key_strategy {namespace,pod,image,mapping}
@@ -450,7 +451,7 @@ usage: platforms [options] verify [options] jfrog [-h] [--instance INSTANCE] [--
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Jfrog instance string (default: )
-  --token TOKEN         Jfrog token (default: null)
+  --token TOKEN         Jfrog token (JFROG_TOKEN) (default: )
   --url URL             Jfrog base URL (default: null)
   --types {token,repository,jf-repository,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
@@ -499,7 +500,7 @@ platforms verify bitbucket --workspace.mapping "my-workspace::my-product::1.0" -
 ```bash
 usage: platforms [options] verify [options] bitbucket [-h] [--instance INSTANCE] [--app_password APP_PASSWORD]
                                                       [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
-                                                      [--workspace_name WORKSPACE_NAME]
+                                                      [--workspace_name WORKSPACE_NAME] --url URL
                                                       [--types {workspace,project,repository,all}]
                                                       [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
                                                       [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
@@ -514,14 +515,15 @@ options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   BitBucket instance string (default: )
   --app_password APP_PASSWORD
-                        BitBucket app_password (default: null)
+                        BitBucket app_password (BB_PASSWORD) (default: )
   --username USERNAME   BitBucket username (default: null)
   --workspace_token WORKSPACE_TOKEN
                         BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and
-                        --username (default: null)
+                        --username (BB_WORKSPACE_TOKEN) (default: )
   --workspace_name WORKSPACE_NAME
                         BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and
                         --username (default: null)
+  --url URL             BitBucket URL (required)
   --types {workspace,project,repository,all}
                         Defines which evidence to validate, scoped by scope parameters (default: all)
   --scope.workspace [WORKSPACE ...]

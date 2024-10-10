@@ -67,7 +67,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f98996193a0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7fb5d78c6480>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -148,12 +148,12 @@ Note that the image characterization string is a wildcarded string, some useful 
 usage: platforms [options] bom [options] dockerhub [-h] [--instance INSTANCE]
                                                    [--default_product_key_strategy {namespace,repository,tag,mapping}]
                                                    [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                   [--scope.namespace [NAMESPACE ...]] [--scope.repository [REPOSITORY ...]]
+                                                   [--scope.repository [REPOSITORY ...]]
                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                    [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                    [--exclude.repository [REPOSITORY ...]]
                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                   [--image.mapping [MAPPING ...]]
+                                                   [--scope.namespace [NAMESPACE ...]] [--image.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -162,8 +162,6 @@ options:
                         Override product key with namespace, repository or image names (default: mapping)
   --default_product_version_strategy {tag,short_image_id,image_id}
                         Override product version with tag or image id (default: short_image_id)
-  --scope.namespace [NAMESPACE ...]
-                        Dockerhub namespaces (default: ['*'])
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -174,6 +172,8 @@ options:
                         Dockerhub repository wildcards to exclude (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
+  --scope.namespace [NAMESPACE ...]
+                        Dockerhub namespaces (default: ['*'])
   --image.mapping [MAPPING ...]
                         Image product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
@@ -410,7 +410,7 @@ Note that the image characterization string is a wildcarded string, some useful 
 ```bash
 usage: platforms [options] bom [options] bitbucket [-h] [--instance INSTANCE] [--app_password APP_PASSWORD]
                                                    [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
-                                                   [--workspace_name WORKSPACE_NAME] [--types {repository,all}]
+                                                   [--workspace_name WORKSPACE_NAME] --url URL [--types {repository,all}]
                                                    [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
                                                    [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
                                                    [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]]
@@ -422,14 +422,15 @@ options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   BitBucket instance string (default: )
   --app_password APP_PASSWORD
-                        BitBucket app_password (default: null)
+                        BitBucket app_password (BB_PASSWORD) (default: )
   --username USERNAME   BitBucket username (default: null)
   --workspace_token WORKSPACE_TOKEN
                         BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and
-                        --username (default: null)
+                        --username (BB_WORKSPACE_TOKEN) (default: )
   --workspace_name WORKSPACE_NAME
                         BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and
                         --username (default: null)
+  --url URL             BitBucket URL (required)
   --types {repository,all}
                         Specifies the type of evidence to generate, scoped by scope parameters (default: repository)
   --scope.workspace [WORKSPACE ...]
@@ -491,7 +492,7 @@ usage: platforms [options] bom [options] github [-h] [--instance INSTANCE] [--to
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Github instance string (default: )
-  --token TOKEN         Github token (required, default: )
+  --token TOKEN         Github token (GITHUB_TOKEN, GH_TOKEN) (default: )
   --url URL             Github base URL (default: https://github.com)
   --types {repository,all}
                         Specifies the type of evidence to generate, scoped by scope parameters (default: repository)
@@ -548,7 +549,7 @@ usage: platforms [options] bom [options] gitlab [-h] [--instance INSTANCE] [--to
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Gitlab instance string (default: )
-  --token TOKEN         Gitlab token (required, default: )
+  --token TOKEN         Gitlab token (GITLAB_TOKEN, CI_JOB_TOKEN) (default: )
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {project,all}
                         Specifies the type of evidence to generate, scoped by scope parameters (default: all)
