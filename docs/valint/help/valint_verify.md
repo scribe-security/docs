@@ -35,13 +35,14 @@ Flags for `verify` subcommand
 | | --disable-crl | Disable certificate revocation verificatoin | |
 | | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
+| -o | --format | Policy Result Evidence format, options=[statement-sarif attest-sarif sarif ] | |
 | | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for verify | |
 | | --initiative | Run only rules with specified initiative | |
-| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
+| -i | --input-format | Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | | --key | x509 Private key path | |
 | | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
@@ -76,7 +77,7 @@ Flags for all `valint` subcommands
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
 | | --log-file | Output log to file | |
-| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -d | --output-directory | Output directory path | "$\{XDG_CACHE_HOME\}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
