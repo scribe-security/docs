@@ -69,7 +69,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7fa8e751a980>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7fa2a7167a60>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -152,7 +152,7 @@ usage: platforms [options] evidence [options] gitlab [-h] [--instance INSTANCE] 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Gitlab instance string (default: )
-  --token TOKEN         Gitlab token (required, default: )
+  --token TOKEN         Gitlab token (GITLAB_TOKEN, CI_JOB_TOKEN) (default: )
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {organization,project,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
@@ -237,7 +237,7 @@ usage: platforms [options] evidence [options] github [-h] [--instance INSTANCE] 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Github instance string (default: )
-  --token TOKEN         Github token (required, default: )
+  --token TOKEN         Github token (GITHUB_TOKEN, GH_TOKEN) (default: )
   --url URL             Github base URL (default: https://github.com)
   --types {organization,repository,all,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
@@ -282,13 +282,14 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE] [--types {token,repository,namespace,all}]
-                                                        [--scope.namespace [NAMESPACE ...]]
+usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE]
+                                                        [--types {instance,token,repository,namespace,repository_tag,webhook,all}]
                                                         [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
                                                         [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--scope.namespace [NAMESPACE ...]]
                                                         [--namespace.mapping [MAPPING ...]]
                                                         [--repository.mapping [MAPPING ...]] [--token.mapping [MAPPING ...]]
                                                         [--namespace.single] [--repository.single]
@@ -297,10 +298,8 @@ usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANC
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Dockerhub instance string (default: )
-  --types {token,repository,namespace,all}
+  --types {instance,token,repository,namespace,repository_tag,webhook,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
-  --scope.namespace [NAMESPACE ...]
-                        Dockerhub namespaces (default: ['*'])
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -311,6 +310,8 @@ options:
                         Dockerhub repository wildcards to exclude (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
+  --scope.namespace [NAMESPACE ...]
+                        Dockerhub namespaces (default: ['*'])
   --namespace.mapping [MAPPING ...]
                         Repository product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])

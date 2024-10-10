@@ -35,13 +35,14 @@ Flags for `verify` subcommand
 | | --disable-crl | Disable certificate revocation verificatoin | |
 | | --email | Default policy allowed emails | |
 | -f | --force | Force skip cache | |
+| -o | --format | Policy Result Evidence format, options=[statement-sarif attest-sarif sarif ] | |
 | | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for verify | |
 | | --initiative | Run only rules with specified initiative | |
-| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
+| -i | --input-format | Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | | --key | x509 Private key path | |
 | | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
