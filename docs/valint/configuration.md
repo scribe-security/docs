@@ -14,7 +14,7 @@ Configuration format and default values.
 ```yaml
 cache:
   enable: true
-  output_directory: $\{XDG_CACHE_HOME\}/valint
+  output_directory: ${XDG_CACHE_HOME}/valint
 scribe:
   auth:
     enable: true

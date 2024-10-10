@@ -63,6 +63,8 @@ The command allows users to verify any target against its evidence.
     description: Default policy allowed emails
   force:
     description: Force skip cache
+  format:
+    description: Policy Result Evidence format, options=[statement-sarif attest-sarif sarif ]
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -74,7 +76,7 @@ The command allows users to verify any target against its evidence.
   initiative:
     description: Run only rules with specified initiative
   input-format:
-    description: Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
+    description: Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
   key:
     description: x509 Private key path
   kms:
@@ -161,7 +163,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.5.10
+  uses: scribe-security/action-verify@v1.5.11
   with:
       target: 'busybox:latest'
 ```
@@ -169,7 +171,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.5.10
+  uses: scribe-security/action-verify-cli@v1.5.11
   with:
     target: 'hello-world:latest'
 ```
