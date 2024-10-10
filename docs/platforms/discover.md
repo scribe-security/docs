@@ -75,7 +75,7 @@ options:
   --instance INSTANCE   Gitlab instance string (default: )
   --types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,all} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
-  --token TOKEN         Gitlab token (required, default: )
+  --token TOKEN         Gitlab token (GITLAB_TOKEN, CI_JOB_TOKEN) (default: )
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
@@ -138,7 +138,7 @@ options:
   --instance INSTANCE   Github instance string (default: )
   --types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
-  --token TOKEN         Github token (required, default: )
+  --token TOKEN         Github token (GITHUB_TOKEN, GH_TOKEN) (default: )
   --url URL             Github base URL (default: https://github.com)
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
@@ -184,26 +184,25 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE]
-                                                        [--types {namespace,repository,repository_tag,webhook,token,all} [{namespace,repository,repository_tag,webhook,token,all} ...]]
-                                                        [--username USERNAME] [--password PASSWORD] [--url URL]
-                                                        [--scope.namespace [NAMESPACE ...]]
-                                                        [--scope.repository [REPOSITORY ...]]
+                                                        [--types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]]
+                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN]
+                                                        [--url URL] [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
                                                         [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--scope.past_days PAST_DAYS] [--broad]
+                                                        [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS]
+                                                        [--broad]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Dockerhub instance string (default: )
-  --types {namespace,repository,repository_tag,webhook,token,all} [{namespace,repository,repository_tag,webhook,token,all} ...]
+  --types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
   --username USERNAME   Dockerhub username (default: null)
-  --password PASSWORD   Dockerhub password (default: null)
+  --password PASSWORD   Dockerhub password (DOCKERHUB_PASSWORD) (default: )
+  --token TOKEN         Dockerhub token (default: )
   --url URL             Dockerhub base URL (default: https://hub.docker.com)
-  --scope.namespace [NAMESPACE ...]
-                        Dockerhub namespaces (default: ['*'])
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -214,6 +213,8 @@ options:
                         Dockerhub repository wildcards to exclude (default: [])
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         Dockerhub tags to exclude (default: [])
+  --namespace-list [NAMESPACE_LIST ...]
+                        List of namespaces (default: [])
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --broad               Retrieves limited information (only namespaces and repositories) (default: False)
@@ -270,7 +271,7 @@ options:
   --types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
   --url URL             Kubernetes API URL (required, default: )
-  --token TOKEN         Kubernetes token, with access to pods and secrets (required, default: )
+  --token TOKEN         Kubernetes token, with access to pods and secrets (K8S_TOKEN) (default: )
   --scope.namespace [NAMESPACE ...]
                         Kubernetes namespaces wildcard list (default: ['*'])
   --scope.pod [POD ...]
@@ -353,7 +354,7 @@ options:
   --instance INSTANCE   Jfrog instance string (default: )
   --types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
-  --token TOKEN         Jfrog token (default: null)
+  --token TOKEN         Jfrog token (JFROG_TOKEN) (default: )
   --url URL             Jfrog base URL (default: null)
   --scope.jf-repository [JF_REPOSITORY ...]
                         Jfrog repositories (default: ['*'])
@@ -382,9 +383,9 @@ options:
 
 ## ECR Discovery
 ECR discovery samples the following assets: ECR repositories, Image repositories, and Image Tags.
-For example `<account>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
+For example `\<account\>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
 
-* `<account>.dkr.ecr.us-west-2.amazonaws.com`: Instance URL
+* ``\<account\>.dkr.ecr.us-west-2.amazonaws.com`: Instance URL
 * `my_image` A image Repository, Includes a set of Image Tags.
 * `my_image:latest` A image Repository.
 
@@ -411,7 +412,7 @@ options:
   --instance INSTANCE   ECR instance string (default: )
   --types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
-  --token TOKEN         ECR token (default: null)
+  --token TOKEN         ECR token (ECR_LOGIN_TOKEN) (default: )
   --url URL             ECR base URL (default: null)
   --scope.aws-account [AWS_ACCOUNT ...]
                         ECR repositories (default: ['*'])
@@ -448,28 +449,29 @@ BitBucket discovery samples the following assets: workspaces, projects, reposito
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] discover [options] bitbucket [-h] [--instance INSTANCE]
-                                                        [--types {workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]]
+                                                        [--types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]]
                                                         [--app_password APP_PASSWORD] [--username USERNAME]
                                                         [--workspace_token WORKSPACE_TOKEN] [--workspace_name WORKSPACE_NAME]
-                                                        [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
-                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
-                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]]
-                                                        [--commit.skip] [--broad]
+                                                        --url URL [--scope.workspace [WORKSPACE ...]]
+                                                        [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
+                                                        [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
+                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   BitBucket instance string (default: )
-  --types {workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,member,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]
+  --types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
   --app_password APP_PASSWORD
-                        BitBucket app_password (default: null)
+                        BitBucket app_password (BB_PASSWORD) (default: )
   --username USERNAME   BitBucket username (default: null)
   --workspace_token WORKSPACE_TOKEN
                         BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and
-                        --username (default: null)
+                        --username (BB_WORKSPACE_TOKEN) (default: )
   --workspace_name WORKSPACE_NAME
                         BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and
                         --username (default: null)
+  --url URL             BitBucket URL (required)
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
@@ -512,7 +514,7 @@ options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Jenkins instance string (default: )
   --username USERNAME   Jenkins username (default: )
-  --password PASSWORD   Jenkins token (default: )
+  --password PASSWORD   Jenkins token (JENKINS_PASSWORD) (default: )
   --url URL             Jenkins base URL (default: null)
   --broad               Perform a fast broad discovery instead of a detailed one (default: False)
   --types {all,computer_set,users,jobs,job_runs,credential_stores,all} [{all,computer_set,users,jobs,job_runs,credential_stores,all} ...]
