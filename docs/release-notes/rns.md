@@ -1,4 +1,4 @@
-# Scribe Hub Release Notes
+# Scribe Hub
 *Last modified November 3, 2024*
 ## Scribe Hub Version 1.23.0 
 *Novemeber 4, 2024*
