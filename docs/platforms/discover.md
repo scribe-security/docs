@@ -80,8 +80,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
-                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -128,10 +128,9 @@ usage: platforms [options] discover [options] github [-h] [--instance INSTANCE]
                                                      [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]]
                                                      [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
                                                      [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
-                                                     [--default_product_key_strategy {mapping}]
-                                                     [--scope.commit.past_days PAST_DAYS] [--workflow.skip]
-                                                     [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs]
-                                                     [--scope.runners] [--scope.sbom] [--broad]
+                                                     [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS]
+                                                     [--workflow.skip] [--scope.workflow.past_days PAST_DAYS]
+                                                     [--scope.workflow.analyzed_logs] [--scope.runners] [--scope.sbom] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -143,8 +142,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix
-                        its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: [])
   --scope.tag [TAG ...]
@@ -152,8 +151,7 @@ options:
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
-                        Determint product key by mapping. In the future - we shall support by reopsitory name too. (default:
-                        mapping)
+                        Determint product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --scope.commit.past_days PAST_DAYS
                         Number of past days to include in the report (type: int, default: 30)
   --workflow.skip       Skip workflows in evidence (default: False)
@@ -185,14 +183,13 @@ DockerHub discovery samples the following assets: namespaces, repositories, and 
 ```bash
 usage: platforms [options] discover [options] dockerhub [-h] [--instance INSTANCE]
                                                         [--types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]]
-                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN]
-                                                        [--url URL] [--scope.repository [REPOSITORY ...]]
+                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL]
+                                                        [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
                                                         [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS]
-                                                        [--broad]
+                                                        [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -260,10 +257,10 @@ Kubernetes discovery samples the following asset types: namespaces, pods, and se
 ```bash
 usage: platforms [options] discover [options] k8s [-h] [--instance INSTANCE]
                                                   [--types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]]
-                                                  [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]]
-                                                  [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state]
-                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
-                                                  [--exclude.image [IMAGE ...]] [--secret.skip] [--deployment.skip] [--broad]
+                                                  [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
+                                                  [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
+                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--secret.skip]
+                                                  [--deployment.skip] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -341,13 +338,11 @@ For example `my_company.jfrog.io/my_registry/my_image:latest`
 usage: platforms [options] discover [options] jfrog [-h] [--instance INSTANCE]
                                                     [--types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]]
                                                     [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]]
-                                                    [--scope.repository [REPOSITORY ...]]
-                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                    [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                     [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                    [--exclude.jf-repository [JF_REPOSITORY ...]]
-                                                    [--exclude.repository [REPOSITORY ...]]
-                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                    [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad]
+                                                    [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
+                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+                                                    [--scope.tag_limit TAG_LIMIT] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -373,9 +368,8 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag
-                        list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default:
-                        10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit
+                        applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
   --broad               Retrieves limited information (only jf-repositories and repositories) (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
@@ -399,13 +393,11 @@ For example `\<account\>.dkr.ecr.us-west-2.amazonaws.com/my_image:latest`
 usage: platforms [options] discover [options] ecr [-h] [--instance INSTANCE]
                                                   [--types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]]
                                                   [--token TOKEN] [--url URL] [--scope.aws-account [AWS_ACCOUNT ...]]
-                                                  [--scope.repository [REPOSITORY ...]]
-                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.aws-account [AWS_ACCOUNT ...]]
+                                                  [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]]
                                                   [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+                                                  [--scope.tag_limit TAG_LIMIT] [--broad]
 
 options:
   -h, --help            Show this help message and exit.
@@ -431,9 +423,8 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag
-                        list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default:
-                        10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit
+                        applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
   --broad               Retrieves limited information (only aws-account and repository) (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
@@ -449,37 +440,37 @@ BitBucket discovery samples the following assets: workspaces, projects, reposito
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] discover [options] bitbucket [-h] [--instance INSTANCE]
-                                                        [--types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]]
+                                                        [--types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} ...]]
                                                         [--app_password APP_PASSWORD] [--username USERNAME]
-                                                        [--workspace_token WORKSPACE_TOKEN] [--workspace_name WORKSPACE_NAME]
-                                                        --url URL [--scope.workspace [WORKSPACE ...]]
-                                                        [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
-                                                        [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
-                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--broad]
+                                                        [--workspace_token WORKSPACE_TOKEN] [--workspace_name WORKSPACE_NAME] --url URL
+                                                        [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
+                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
+                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
+                                                        [--broad]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   BitBucket instance string (default: )
-  --types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,all} ...]
+  --types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: [])
   --app_password APP_PASSWORD
                         BitBucket app_password (BB_PASSWORD) (default: )
   --username USERNAME   BitBucket username (default: null)
   --workspace_token WORKSPACE_TOKEN
-                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and
-                        --username (BB_WORKSPACE_TOKEN) (default: )
+                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and --username
+                        (BB_WORKSPACE_TOKEN) (default: )
   --workspace_name WORKSPACE_NAME
-                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and
-                        --username (default: null)
+                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and --username
+                        (default: null)
   --url URL             BitBucket URL (required)
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix
-                        its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a
-                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -501,14 +492,14 @@ Jenkins discovery samples the following assets: instance, folders, jobs, job_run
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] jenkins [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD]
-                                                      [--url URL] [--broad]
-                                                      [--types {all,computer_set,users,jobs,job_runs,credential_stores,all} [{all,computer_set,users,jobs,job_runs,credential_stores,all} ...]]
-                                                      [--credential_stores.skip] [--users.skip] [--computer_set.skip]
-                                                      [--jobs.skip] [--scope.folder [FOLDER ...]]
-                                                      [--exclude.folder [FOLDER ...]] [--scope.job_runs.past_days PAST_DAYS]
-                                                      [--scope.job_runs.max MAX] [--scope.job_runs.analyzed_logs]
-                                                      [--job_runs.skip]
+usage: platforms [options] discover [options] jenkins [-h] [--instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--url URL]
+                                                      [--broad]
+                                                      [--types {all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} [{all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} ...]]
+                                                      [--credential_stores.skip] [--users.skip] [--plugins.skip]
+                                                      [--security_settings.skip] [--computer_set.skip] [--jobs.skip]
+                                                      [--scope.folder [FOLDER ...]] [--exclude.folder [FOLDER ...]]
+                                                      [--scope.job_runs.past_days PAST_DAYS] [--scope.job_runs.max MAX]
+                                                      [--scope.job_runs.analyzed_logs] [--job_runs.skip]
 
 options:
   -h, --help            Show this help message and exit.
@@ -517,27 +508,29 @@ options:
   --password PASSWORD   Jenkins token (JENKINS_PASSWORD) (default: )
   --url URL             Jenkins base URL (default: null)
   --broad               Perform a fast broad discovery instead of a detailed one (default: False)
-  --types {all,computer_set,users,jobs,job_runs,credential_stores,all} [{all,computer_set,users,jobs,job_runs,credential_stores,all} ...]
+  --types {all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} [{all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: ['all'])
   --credential_stores.skip
-                        Skip credential stores in discovery/evidence (default: False)
-  --users.skip          Skip users in discovery/evidence (default: False)
+                        Skip credential stores (default: False)
+  --users.skip          Skip users (default: False)
+  --plugins.skip        Skip plugins (default: False)
+  --security_settings.skip
+                        Skip security_settings (default: False)
   --computer_set.skip   Skip computer sets in discovery/evidence (default: False)
-  --jobs.skip           Skip jobs in discovery/evidence (default: False)
+  --jobs.skip           Skip jobs (default: False)
   --scope.folder [FOLDER ...]
-                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders
-                        and can include the job name in order to scope specific jobs. Wildcard is supported only as a suffix.
-                        examples: folder-a* will discover all folders that are included in a root folder that starts with
-                        folder-a. folder-a/* will discover all folders and jobs under the root folder folder-a (type:
-                        JenkinsFolderScope, default: ['*'])
+                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can
+                        include the job name in order to scope specific jobs. Wildcard is supported only as a suffix. examples: folder-a*
+                        will discover all folders that are included in a root folder that starts with folder-a. folder-a/* will discover
+                        all folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default: ['*'])
   --exclude.folder [FOLDER ...]
                         Jenkins folder/job list to exclude from discovery. Format is like the --scope.folder argument (type:
                         JenkinsFolderScope, default: [])
   --scope.job_runs.past_days PAST_DAYS
                         Number of past days to include in the job run discovery, 0 for no time limit (type: int, default: 30)
   --scope.job_runs.max MAX
-                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job
-                        runs in the past_days range. 0 for no limit (type: int, default: 10)
+                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in
+                        the past_days range. 0 for no limit (type: int, default: 10)
   --scope.job_runs.analyzed_logs
                         Include analyzed job run logs (default: False)
   --job_runs.skip       Skip commits in discovery/evidence (default: False)
