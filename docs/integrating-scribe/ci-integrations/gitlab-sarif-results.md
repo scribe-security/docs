@@ -1,7 +1,7 @@
 ---
-sidebar_label: "GitLab CI/CD"
-title: GitLab CI/CD
-sidebar_position: 3
+sidebar_label: "SARIF Conversion to GitLab SAST"
+title: Converting SARIF Files to GitLab SAST Results
+sidebar_position: 10
 ---
 
 # GitLab SARIF Converter Script
