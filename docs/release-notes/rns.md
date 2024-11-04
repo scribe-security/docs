@@ -10,7 +10,7 @@
 
 - Added 'More' link to asset line for extended info.
 - Canceled the Lineage tab which became redundant as a result of the above change.
-- Improved loading time. 
+- Improved loading time of tables, filter, and graph. 
 
 ## Scribe Hub Version 1.21.0
 ### Improvements
