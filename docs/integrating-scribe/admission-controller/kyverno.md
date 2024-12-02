@@ -18,7 +18,7 @@ To generate signed attestations using Valint, the OCI store must be enabled with
 
 
 ```bash
-# Generate Cyclonedx attestation
+# Generate Evidence attestation
 valint [bom,slsa] image -o attest --oci [--oci-repo repo]
 ```
 
