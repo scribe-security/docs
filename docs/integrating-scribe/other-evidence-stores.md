@@ -77,7 +77,7 @@ To disable the cache store, use `--cache-enable=false`.
 
 ```bash
 # Generating evidence and storing it in the [my_dir] local directory
-valint slsa [target] -o [attest, statement] --output-directory=[my_dir]
+valint [bom, slsa] [target] -o [attest, statement] --output-directory=[my_dir]
 
 # Verifying evidence by retrieving it from the [my_dir] local directory
 valint verify [target] -i [attest-slsa, statement-slsa] --output-directory=[my_dir]
