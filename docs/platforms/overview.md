@@ -9,14 +9,7 @@ sidebar_position: 1
 ## What is `platforms`?
 Platforms is a dockerized cli tool, that can be used to scan and evaluate policies on your infrastructure. It is a part of the Scribe suite of tools, which are designed to help you secure your software supply chain.
 
-This version of `platforms` supports,
-* Gitlab
-* Github
-* DockerHub
-* Kuberneties
-* Bitbucket (cloud and datacenter)
-* Jenkins
-* AWS-ECR
+This version of `platforms` supports Gitlab, DockerHub, and K8s. Under construction, we have support for GitHub, Bitbucket, Jenkins, and AWS-ECR.
 
 Key Features:
 

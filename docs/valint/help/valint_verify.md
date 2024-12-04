@@ -48,6 +48,7 @@ Flags for `verify` subcommand
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --pass | Private key password | |
+| | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --policy | Policy configuration file path (early-availability) | |
 | | --provenance | Create target SLSA Provenance evidence | |
