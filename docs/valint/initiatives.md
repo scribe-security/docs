@@ -11,32 +11,85 @@ geometry: margin=2cm
 
 ### What is an initiative?
 
-Initiative is a representation of a supply chain security framework. It is a collection of controls, rules, and gates that define the security policy for a product or a set of products. Initiatives are versioned and can be adopted by multiple products.
+Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` that your supply chain must comply with. The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluatoin results and references to the verified assets and evidences.  
+
+An initiative consists of a set of `controls`, each of which in turn consists of a set of `rules` and is verified if all of them are evaluated and verified.
+A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
+
+Rules can be reused from the existing rule in the bundle or defined inline.
 
 ### Initiative config format
 
 ```yaml
 config-type: initiative
-id: initiative-id
-name: "Initiative name"
-version: "1.0.0"
-description: "Initiative description"
+id: <initiative-id>
+name: <initiative-name>
+version: <initiative-version>
+description: <initiative-description>
 url: <http://help_uri>
 
 # optional set of params to override the existing evidence lookup params
 # for each rule in the initiative
 defaults:
-    evidence:
-        signed: true
+  labels: []
+  evidence:
+    signed: false
+    content_body_type: content_body_type>
+    filter-by: []
+
+env: # File-wise environment variables for the template engine (see below)
+  <ENV_VAR_NAME>: <value>
 
 controls:
-    - name: "Control-1"
-      description: "Control description"
+    - name: <control-name>
+      id: <control-id> # if no ID is provided, the ID is generated from the name
+      description: <control-description>
       when: # optional filters
-        gate: "Build" # type of gate to run the control on
+        gate: <gate-type> # type of gate to run the control on
       rules:
-        - name: "my-rule-1"
-          uses: sbom/blocklist-packages@v2/rules # reuse an existing rule from the bundle
+        - name: <rule-name>
+          id: <rule-id> # if no ID is provided, the ID is generated from the name
+          path: <path_to_rego> # specify if a custom external script is used
+          uses: <bundle-rule-reference> # reuse an existing rule from the bundle
+          description: <rule-description>
+          aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
+          labels: [] # list of user-specified labels
+          evidence: #Evidence lookup parameters
+            signed: true | false
+            content_body_type: <content_body_type>
+            filter-by: [] # A group of Context fields to use for the evidence lookup
+          with: {} # rule input, depending on the rule type
+```
+
+> Fields `id` and `name` are required. The `version` field is optional and can be used to easily track the changes in the initiative.
+>
+> The `url` field is optional and can be used to provide a link to the documentation.
+>
+> `id` for the initiative/control/rule can be specified by the user, but they cannot contain forward slashes `/`.
+
+> For configuration details, see the [configuration](./configuration.md) section.
+>
+> For PKI configuration, see the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
+
+An example of an initiative could be:
+
+```yaml
+config-type: initiative
+id: my-initiative
+name: "My Initiative"
+version: "v1.0.0"
+description: "This initiative enforces a couple of simple checks on a Docker image"
+
+defaults:
+  evidence:
+    signed: true
+
+controls:
+    - name: "My Control"
+      when:
+        gate: "Build"
+      rules:
+          uses: sbom/blocklist-packages@v2/rules
           with:
             blocklist:
                 - "liblzma5@5.6.0"
@@ -51,40 +104,77 @@ controls:
                 - "GPL-2.0"
                 - "GPL-3.0"
     - name: "Control-2"
-        description: "Control description"
-        when:
-            gate: "Deploy"
-        rules:
-            - name: "my-rule-3"
-            uses: sbom/evidence-exists@v2/rules
+      when:
+        gate: "Deploy"
+      rules:
+        - name: "my-rule-3"
+          uses: sbom/evidence-exists@v2/rules
 ```
 
-Fields `id` and `name` are required. The `version` field is optional and can be used to easily track the changes in the initiative.
-The `url` field is optional and can be used to provide a link to the documentation.
-
-`id` for the initiative/control/rule can be specified by the user, but they cannot contain forward slashes `/`.
-
-Each initiative can have one or more controls. Each control can have one or more rules. Rules can be reused from the existing rule in the bundle or defined inline.
+More examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
 ### How to adopt an initiative?
 
-An initiative is defined as a file that can be consumed locally or from a git bundle. To run the initiative from a local file, use the following command:
+An initiative is defined as a file that can be consumed locally or from a git bundle. To run the initiative from a local file, first one needs to create the required evidences:
+
+1. Generate an SBOM
+```bash
+valint bom <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+```
+
+2. Generate SLSA Provenance
+```bash
+valint slsa <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+```
+
+3. Create generic evidences from 3rd party tool reports:
+```bash
+valint evidence <path-to-report> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+```
+-------------------
+Then, the initiative can be run with the following command:
 
 ```bash
-valint verify --initiative initiative.yaml --product-key <product-key> --product-version <product-version>
+valint verify --initiative initiative.yaml --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
 
 To run an initiative from a git bundle, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version>
+valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
 
 To run a part of an initiative filtered by gate, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> --gate-type Build --gate-name "Build of My Product"
+valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret> --gate-type Build --gate-name "Build of My Product"
 ```
+
+### Using private bundle
+
+Rules and initiatives can be provided locally, reused from the public Scribe bundle or from a private bundle. To use a private bundle, the following rules should be followed:
+
+1. The private bundle should be a git repository referenced in `valint` command with the `--bundle` flag, for example:
+
+```bash
+valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
+```
+
+2. If git authentication is required, it can be provided either in the git url or through the `--bundle-auth` flag.
+
+3. A specific branch, tag or commit can be specified with the `--bundle-branch`, `--bundle-tag` or `--bundle-commit` flags respectively.
+
+4. File structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep, for example:
+
+```yaml
+...
+rules:
+  - uses: sbom/blocklist-packages@v2/rules
+...
+```
+
+means that the rule path within the bundle is `v2/rules/sbom/blocklist-packages.yaml`.
+Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
 
 ### Additional features
 
