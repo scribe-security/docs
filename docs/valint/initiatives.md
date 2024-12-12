@@ -176,6 +176,11 @@ rules:
 means that the rule path within the bundle is `v2/rules/sbom/blocklist-packages.yaml`.
 Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
 
+### Rule configuration
+
+Rules are defined as a combination of a `.yaml` configuration file and a `.rego` script. The `.yaml` file contains the rule configuration, while the `.rego` script contains the rule logic.
+The rule configuration is described above along with the initiative configuration. The rego script
+
 ### Additional features
 
 #### Template arguments
@@ -189,7 +194,7 @@ with:
   api_token: '{{ .Args.Token }}'
   owner: '{{ .Args.Owner }}'
   repo: '{{ .Args.Repo }}'
-  branch: '{{ .Args.Branch }}
+  branch: '{{ .Args.Branch }}'
 ...
 ```
 
