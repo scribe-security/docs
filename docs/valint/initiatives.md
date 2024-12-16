@@ -16,12 +16,13 @@ Each `initiative` proposes to enforce a set of requirements (aka `rules`) groupe
 An initiative consists of a set of `controls`, each of which in turn consists of a set of `rules` and is verified if all of them are evaluated and verified.
 A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
-Rules can be reused from the existing rule in the bundle or defined inline.
+Rules can reuse from the existing ones from a bundle or be defined inline.
 
 ### Initiative config format
 
 ```yaml
 config-type: initiative
+required-valint-version: "2.0.0" # minimum valint version required to run the initiative
 id: <initiative-id>
 name: <initiative-name>
 version: <initiative-version>
@@ -61,11 +62,11 @@ controls:
           with: {} # rule input, depending on the rule type
 ```
 
-> Fields `id` and `name` are required. The `version` field is optional and can be used to easily track the changes in the initiative.
+> The `id` and `name` fields are required. The `version` field is optional and can be used to easily track the changes in the initiative.
 >
 > The `url` field is optional and can be used to provide a link to the documentation.
 >
-> `id` for the initiative/control/rule can be specified by the user, but they cannot contain forward slashes `/`.
+> The `id` of an initiative, control or rule cannot contain forward slashes `/`.
 
 > For configuration details, see the [configuration](./configuration.md) section.
 >
@@ -75,6 +76,7 @@ An example of an initiative could be:
 
 ```yaml
 config-type: initiative
+required-valint-version: "2.0.0"
 id: my-initiative
 name: "My Initiative"
 version: "v1.0.0"
@@ -100,6 +102,9 @@ controls:
           uses: sbom/banned-licenses@v2/rules
           level: warning
           with:
+            identity:
+                emails:
+                    - my@email.com
             banned-licenses:
                 - "GPL-2.0"
                 - "GPL-3.0"
@@ -115,24 +120,28 @@ More examples of rules and initiatives can be found in the [sample-policies bund
 
 ### How to adopt an initiative?
 
-An initiative is defined as a file that can be consumed locally or from a git bundle. To run the initiative from a local file, first one needs to create the required evidences:
+An initiative is defined as a file that can be consumed locally or from a git bundle. To run an initiative, one first needs to create the required evidences:
 
 1. Generate an SBOM
+
 ```bash
 valint bom <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
 
 2. Generate SLSA Provenance
+
 ```bash
 valint slsa <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
 
 3. Create generic evidences from 3rd party tool reports:
+
 ```bash
 valint evidence <path-to-report> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
+
 -------------------
-Then, the initiative can be run with the following command:
+Then, a local initiative can be run with the following command:
 
 ```bash
 valint verify --initiative initiative.yaml --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
@@ -144,7 +153,7 @@ To run an initiative from a git bundle, use the following command:
 valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
 ```
 
-To run a part of an initiative filtered by gate, use the following command:
+To run a part of an initiative filtered by gate type, use the following command:
 
 ```bash
 valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret> --gate-type Build --gate-name "Build of My Product"
@@ -152,7 +161,8 @@ valint verify --initiative my-initiative@v2/initiatives --product-key <product-k
 
 ### Using private bundle
 
-Rules and initiatives can be provided locally, reused from the public Scribe bundle or from a private bundle. To use a private bundle, the following rules should be followed:
+Rules and initiatives can be provided locally or reused either from the public Scribe bundle or a private bundle managed by the user. By default, the public Scribe bundle is used.
+To use a private bundle instead, the following rules should be followed:
 
 1. The private bundle should be a git repository referenced in `valint` command with the `--bundle` flag, for example:
 
@@ -162,9 +172,10 @@ valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
 
 2. If git authentication is required, it can be provided either in the git url or through the `--bundle-auth` flag.
 
-3. A specific branch, tag or commit can be specified with the `--bundle-branch`, `--bundle-tag` or `--bundle-commit` flags respectively.
+3. A specific branch, tag or commit can be provided using the `--bundle-branch`, `--bundle-tag` or `--bundle-commit` flags respectively.
 
-4. File structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep, for example:
+4. File structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep.
+For example, this is how to reference a rule from the public Scribe bundle:
 
 ```yaml
 ...
@@ -173,15 +184,46 @@ rules:
 ...
 ```
 
-means that the rule path within the bundle is `v2/rules/sbom/blocklist-packages.yaml`.
+Here `sbom/blocklist-packages@v2/rules` means that the rule path within the bundle is`v2/rules/sbom/blocklist-packages.yaml`.
 Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
 
 ### Rule configuration
 
 Rules are defined as a combination of a `.yaml` configuration file and a `.rego` script. The `.yaml` file contains the rule configuration, while the `.rego` script contains the rule logic.
-The rule configuration is described above along with the initiative configuration. The rego script
+The rule configuration is described above along with the initiative configuration.
 
-### Additional features
+The rego script gets two inputs: the verifying evidence as `input.evidence` and configurable args as `input.config.args`, the latter is specified in the rule config as `with` object.
+
+Rego script should produce an output object of the following format:
+
+```go
+package verify
+default allow = false
+
+verify = {
+    "allow": true | false,
+    "violation": {
+      "type": "violation_type",
+      "details": [{}], // arbitrary object list
+    },
+    "asset": asset,
+    "summary": [{
+      "allow": true | false,
+      "violations": count(violations),
+      "reason": "some reason string"
+    }],
+}
+```
+
+To generate the asset object, the script should call the built-in function `get_asset_data()`, providing it with the input evidence like this:
+
+```go
+import data.scribe as scribe
+default asset = {}
+asset := scribe.get_asset_data(input.evidence)
+```
+
+### Advanced features
 
 #### Template arguments
 
