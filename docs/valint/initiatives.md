@@ -248,7 +248,7 @@ By default, the "target" and "product" groups are enabled for each rule.
 3. `product` context group specifies product parameters that can be derived from the command line arguments. Those parameters are:
     * `name` - name of the product
     * `product_version` - version of the product
-    * `predicate_type` - type of the predicate (e.g., <https://cyclonedx.org/bom>, <https://slsa.dev/provenance/v0.1>, etc.)
+    * `predicate_type` - type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
 
 User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
 By default `target` and `product` groups are used.
