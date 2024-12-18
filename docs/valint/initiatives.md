@@ -166,9 +166,9 @@ To use a private bundle instead, the following rules should be followed:
 
 1. The private bundle should be a git repository referenced in `valint` command with the `--bundle` flag, for example:
 
-```bash
-valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
-```
+  ```bash
+  valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
+  ```
 
 2. If git authentication is required, it can be provided either in the git url or through the `--bundle-auth` flag.
 
@@ -177,12 +177,12 @@ valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
 4. File structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep.
 For example, this is how to reference a rule from the public Scribe bundle:
 
-```yaml
-...
-rules:
-  - uses: sbom/blocklist-packages@v2/rules
-...
-```
+  ```yaml
+  ...
+  rules:
+    - uses: sbom/blocklist-packages@v2/rules
+  ...
+  ```
 
 Here `sbom/blocklist-packages@v2/rules` means that the rule path within the bundle is`v2/rules/sbom/blocklist-packages.yaml`.
 Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
@@ -224,6 +224,57 @@ asset := scribe.get_asset_data(input.evidence)
 ```
 
 ### Advanced features
+
+#### Evidence Lookup
+
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters.
+These parameters can be set manually by the user or automatically derived from the context.
+Parameters that can be derived automatically are categorized into three context groups: "target," "pipeline", and "product".
+By default, the "target" and "product" groups are enabled for each rule.
+
+1. `target` context group specifies parameters that can be derived from the provided target. Those parameters are:
+    * `target_type` - the type of the target provided (e.g., image, git, generic etc.)
+    * `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
+
+    > If no target is provided, the rule is disabled with a warning.
+
+2. `pipeline` context group specifies parameters that can be derived from the running environment. Those parameters are:
+    * `context_type` - type of the environment (e.g., local, github, etc.)
+    * `git_url` - git url of the repository (if any)
+    * `git_commit` - git commit of the current repository state (if any)
+    * `run_id` - run id
+    * `build_num` - build number
+
+3. `product` context group specifies product parameters that can be derived from the command line arguments. Those parameters are:
+    * `name` - name of the product
+    * `product_version` - version of the product
+    * `predicate_type` - type of the predicate (e.g., <https://cyclonedx.org/bom>, <https://slsa.dev/provenance/v0.1>, etc.)
+
+User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
+By default `target` and `product` groups are used.
+The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file.
+
+In addition, one can manually specify any parameters that they want to be matched by an evidence. For example, these can be `git_url` or `timestamp`.
+
+If more than one evidence is found, the newest one is used.
+
+<details>
+  <summary> Usage </summary>
+
+An example of using the `target` context group and a specific timestamp value is shown below:
+
+```yaml
+config-type: rule
+name: my_rule
+evidence:
+  signed: true
+  content_body_type: cyclonedx
+  timestamp: "2023-11-16T09:46:25+02:00" # manually specified timestamp
+  filter-by:
+    - target
+```
+
+</details>
 
 #### Template arguments
 
