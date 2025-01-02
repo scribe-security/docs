@@ -169,7 +169,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.5.14
+  uses: scribe-security/action-bom@v1.5.15
   with:
     target: 'busybox:latest'
 ```
@@ -177,7 +177,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.5.14
+  uses: scribe-security/action-bom-cli@v1.5.15
   with:
     target: 'hello-world:latest'
 ```
@@ -472,10 +472,66 @@ steps:
   - name: Generate cyclonedx json SBOM
     uses: scribe-security/action-bom@master
     with:
-      target: 'scribesecurity.jfrog.io/scribe-docker-local/example:latest'
+      target: 'scribesecurity/example:latest'
       force: true
 ```
 </details>
+
+<details>
+  <summary>  SBOM with SLSA Provenance </summary>
+
+Generate an SBOM and SLSA Provenance for a container image.
+
+```yaml
+- name: Generate SBOM with SLSA Provenance
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    provenance: true
+```
+
+</details>
+
+<details>
+  <summary>  SBOM with Base Image Analysis </summary>
+
+Generate an SBOM for a container image while analyzing its base image.
+
+```yaml
+- name: Generate SBOM with Base Image Analysis
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    base-image: alpine:latest
+```
+
+</details>
+
+<details>
+  <summary>  SBOM with Additional Inputs </summary>
+
+Create an SBOM for a container image by including supplementary inputs like SARIF reports, Git repositories, or additional images.
+
+```yaml
+- name: Generate SBOM with Additional Inputs
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    input: |
+      sarif:test.json,
+      git:git:https://github.com/mongo-express/mongo-express.git,
+      alpine:latest
+```
+
+</details>
+
+
 
 <details>
   <summary>  Custom metadata </summary>
@@ -560,7 +616,7 @@ Create SBOM for local `docker save ...` output.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate cyclonedx json SBOM
@@ -582,7 +638,7 @@ Create SBOM for the local OCI archive.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate cyclonedx json SBOM

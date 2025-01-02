@@ -190,7 +190,7 @@ jobs:
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
-    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    target: scribesecurity/example:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)
@@ -207,7 +207,7 @@ jobs:
   displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
-    target: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    target: scribesecurity/example:latest
     outputDirectory: $(Build.ArtifactStagingDirectory)/scribe/valint    
     scribeEnable: true
     scribeClientSecret: $(SCRIBE_TOKEN)

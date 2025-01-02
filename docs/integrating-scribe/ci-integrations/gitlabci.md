@@ -153,7 +153,7 @@ custom-ntia-metadata:
 > Before the following task add a `docker login` task 
 
 ```YAML
-- valint bom scribesecurity.jfrog.io/scribe-docker-local/example:latest \
+- valint bom scribesecurity/example:latest \
       --context-type gitlab \
       --output-directory ./scribe/valint \
 ```
@@ -165,7 +165,7 @@ custom-ntia-metadata:
 > Before the following task add a `docker login` task 
 
 ```YAML
-- valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest \
+- valint slsa scribesecurity/example:latest \
       --context-type gitlab \
       --output-directory ./scribe/valint \
 ```
