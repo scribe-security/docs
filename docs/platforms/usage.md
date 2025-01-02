@@ -35,16 +35,19 @@ platforms [global-options] command [command options] platform [platform options]
 * The global `options` are the global options that apply to all the commands.
 * The `command` is the action that you want to perform. It can be one of the following:
     * `discover`: To discover assets.
-    * `evidence`: To generate evidence.
+    * `evidence`: To generate evidence (**deprecated** use `discover` command instead).
     * `bom`: To generate SBOMs.
     * `verify`: To evaluate policies.
 * command options are the options that apply to the command.
 * platform is the platform on which you want to act. It can be one of the following:
-    * `gitlab`: To act on Gitlab or Gitlab evidence.
-    * `dockerhub`: To act on DockerHub, Dockerhub images, or Dockerhub evidence.
-    * `k8s`: To perform the action on K8s or K8s evidence.
-    * `jfrog`: To act on Jfrog, Jfrog images, or Jfrog evidence.
-    * `ecr`: To act on ECR, ECR images, or ECR evidence.
+    * `github`: Act on GitHub SCM and CI pipelines.
+    * `gitlab`: Act on GitLab SCM and CI pipelines.
+    * `dockerhub`: Act on DockerHub images.
+    * `k8s`: Act on Kubernetes deployments.
+    * `jfrog`: Act on JFrog, Artifactory images.
+    * `ecr`: Act on ECR images.
+    * `bitbucket`: Act on Bitbucket SCM and CI pipelines.
+    * `jenkins`: Act on Jenkins CI pipelines.
 
 * `platforms` options are the options that apply to the platform. Most of the platform-specific options are for scoping, filtering, and mapping assets to products.
 
@@ -58,26 +61,32 @@ In the following sections, we shall explain each command in detail, by going thr
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [-h] [--config CONFIG] [--print_config [=flags]] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+usage: platforms [-h] [--config CONFIG] [--print_config [=flags]]
+                 [--log-level {TRACE,DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                  [--log-file LOG_FILE] [--db.local.path PATH]
                  {discover,evidence,bom,verify} ...
 
-CLI tool for interacting with platforms APIs
+CLI tool for collecting evidence and enforcing policies via CI/CD
+platform APIs
 
 options:
   -h, --help            Show this help message and exit.
   --config CONFIG       Path to a configuration file.
   --print_config [=flags]
-                        Print the configuration after applying all other arguments and exit. The optional flags customizes the
-                        output and are one or more keywords separated by comma. The supported flags are: comments,
-                        skip_default, skip_null.
-  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Print the configuration after applying all
+                        other arguments and exit. The optional flags
+                        customizes the output and are one or more
+                        keywords separated by comma. The supported
+                        flags are: comments, skip_default,
+                        skip_null.
+  --log-level {TRACE,DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level (default: INFO)
   --log-file LOG_FILE   Set the logging file (default: )
   --db.local.path PATH  Local db path (default: platforms.db)
 
 subcommands:
-  For more details of each subcommand, add it as an argument followed by --help.
+  For more details of each subcommand, add it as an argument
+  followed by --help.
 
   Available subcommands:
     discover
