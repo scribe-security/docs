@@ -308,7 +308,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: bom
-    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    TARGET: scribesecurity/example:latest
 ```
 </details>
 
@@ -321,7 +321,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 - pipe: scribe-security/valint-pipe:1.1.0
   variables:
     COMMAND: slsa
-    TARGET: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    TARGET: scribesecurity/example:latest
     VERBOSE: 2
 ```
 </details>

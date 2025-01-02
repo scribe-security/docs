@@ -11,7 +11,7 @@ Valint is a tool used to manage `evidence` generation (for directories, file art
 
 Valint also enables you to **capture** any 3rd party report, scan or configuration (any file) into evidence. 
 
-> Latest Version `v1.5.14`.
+> Latest Version `v1.5.15`.
 
 ### Installing Valint
 
@@ -123,6 +123,7 @@ Other using one of the commands `bom` or `slsa` you should add the flag `-o` to 
    Attestation is written by default to the local cache provided by the `--output-directory` flag (default `$HOME/.cache/valint`), you can also use `--output-file` flag to provide a custom path for the attestation.
 
    Note in the logs that the signed attestation is now saved on your machine in the default location. The path is specified in the result. In the example above it's saved in: `$HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json`.
+
 ### Using Valint to retrieve and verify a signed SBOM
 
 Once you have signed something into an attestation you can later verify that the object you're checking is identical to the one you have signed. For example, if we signed the `busybox:latest` image I can later compare that image to the signed attestation we have saved.

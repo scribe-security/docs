@@ -138,7 +138,7 @@ jobs:
 
 ```YAML
 - |
-  valint bom scribesecurity.jfrog.io/scribe-docker-local/example:latest \
+  valint bom scribesecurity/example:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
@@ -152,7 +152,7 @@ jobs:
 
 ```YAML
 - |
-  valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest \
+  valint slsa scribesecurity/example:latest \
       --context-type travis \
       --output-directory ./scribe/valint \
       -f
