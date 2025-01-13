@@ -24,7 +24,7 @@ Flags for `slsa` subcommand
 | | --by-product | Attach by product path | |
 | | --ca | x509 CA Chain path | |
 | | --cert | x509 Cert path | |
-| | --components | Select by products components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers] |
+| | --components | Select by products components groups, options=[metadata layers packages syft files dep commits base_image] | [metadata,layers] |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --depth | Git clone depth | |
@@ -64,6 +64,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
+| | --input | Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
