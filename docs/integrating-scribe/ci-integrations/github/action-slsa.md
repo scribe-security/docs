@@ -47,7 +47,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   cert:
     description: x509 Cert path
   components:
-    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
+    description: Select by products components groups, options=[metadata layers packages syft files dep commits base_image]
   crl:
     description: x509 CRL path
   crl-full-chain:
@@ -106,6 +106,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Environment keys to include in evidence
   gate:
     description: Policy Gate name
+  input:
+    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
   label:
     description: Add Custom labels
   level:
@@ -143,7 +145,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Timeout duration
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
-```
+``
 
 ### Output arguments
 ```yaml

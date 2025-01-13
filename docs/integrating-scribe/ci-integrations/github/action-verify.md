@@ -31,6 +31,8 @@ The command allows users to verify any target against its evidence.
     description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
   attestation:
     description: Attestation for target
+  base-image:
+    description: Base image for the target
   bom:
     description: Create target SBOM evidence
   bundle:
@@ -87,6 +89,8 @@ The command allows users to verify any target against its evidence.
     description: Select OCI custom attestation repo
   pass:
     description: Private key password
+  payload:
+    description: path of the decoded payload
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
   policy:
@@ -119,6 +123,8 @@ The command allows users to verify any target against its evidence.
     description: Environment keys to include in evidence
   gate:
     description: Policy Gate name
+  input:
+    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
   label:
     description: Add Custom labels
   level:

@@ -48,12 +48,14 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Set author name
   author-phone:
     description: Set author phone
+  base-image:
+    description: Base image for the target
   ca:
     description: x509 CA Chain path
   cert:
     description: x509 Cert path
   components:
-    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
+    description: Select sbom components groups, options=[metadata layers packages syft files dep commits base_image]
   crl:
     description: x509 CRL path
   crl-full-chain:
@@ -69,7 +71,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
   force:
     description: Force overwrite cache
   format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
+    description: Evidence format, options=[json statement attest]
   git-auth:
     description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
@@ -120,6 +122,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Environment keys to include in evidence
   gate:
     description: Policy Gate name
+  input:
+    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
   label:
     description: Add Custom labels
   level:
