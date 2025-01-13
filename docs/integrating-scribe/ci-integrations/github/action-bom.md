@@ -123,7 +123,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
   gate:
     description: Policy Gate name
   input:
-    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:

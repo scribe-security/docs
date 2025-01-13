@@ -107,7 +107,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   gate:
     description: Policy Gate name
   input:
-    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:
@@ -465,7 +465,7 @@ Generate SLSA Provenance and a Bill of Materials (BOM) for a container image.
 </details>
 
 <details>
-  <summary> SLSA Provenance with SBOM and Base Image Analysis
+  <summary> SLSA Provenance with SBOM and Base Image Analysis </summary>
 
 Generate SLSA Provenance with SBOM by product including Base Image analysis.
 
