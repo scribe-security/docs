@@ -88,7 +88,7 @@ The `valint evidence` action is a versatile action designed to include various t
   gate:
     description: Policy Gate name
   input:
-    description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:
