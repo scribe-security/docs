@@ -123,14 +123,14 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 import_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
     cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
@@ -139,14 +139,14 @@ import_action_extra() {
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
