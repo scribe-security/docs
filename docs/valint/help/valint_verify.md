@@ -19,6 +19,7 @@ Flags for `verify` subcommand
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | -a | --attestation | Attestation for target | |
+| | --base-image | Base image for the target | |
 | | --bom | Create target SBOM evidence | |
 | | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
 | | --bundle-auth | Bundle repository authentication info, [format: 'username:password'] | |
@@ -74,6 +75,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |

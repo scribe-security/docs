@@ -47,7 +47,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
   cert:
     description: x509 Cert path
   components:
-    description: Select by products components groups, options=[metadata layers packages syft files dep commits]
+    description: Select by products components groups, options=[metadata layers packages syft files dep commits base_image]
   crl:
     description: x509 CRL path
   crl-full-chain:
@@ -106,6 +106,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Environment keys to include in evidence
   gate:
     description: Policy Gate name
+  input:
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:
@@ -143,7 +145,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Timeout duration
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
-```
+``
 
 ### Output arguments
 ```yaml
@@ -155,7 +157,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.5.14
+  uses: scribe-security/action-slsa@v1.5.15
   with:
     target: 'busybox:latest'
 ```
@@ -163,7 +165,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.5.14
+  uses: scribe-security/action-slsa-cli@v1.5.15
   with:
     target: 'hello-world:latest'
 ```
@@ -366,6 +368,7 @@ Docker is configured by default to pull images matching the runner's platform. F
 ```
 
 ### Basic examples
+
 <details>
   <summary>  Public registry image </summary>
 
@@ -418,9 +421,67 @@ steps:
   - name: Generate SLSA provenance
     uses: scribe-security/action-slsa@master
     with:
-      target: 'scribesecurity.jfrog.io/scribe-docker-local/example:latest'
+      target: 'scribesecurity/example:latest'
       force: true
 ```
+</details>
+
+
+<details>
+  <summary> SLSA Provenance with By-Product Asset Evidence </summary>
+
+Generate SLSA Provenance while adding by-product asset **evidence** using the `--input` flag. Example assets might include configuration files, additional images, or SARIF reports.
+
+```yaml
+- name: Generate SLSA Provenance with By-Products
+  uses: scribe-security/action-slsa@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    input: |
+      sarif:test.json,
+      git:git:https://github.com/mongo-express/mongo-express.git
+```
+</details>
+
+<details>
+  <summary> SLSA Provenance with BOM </summary>
+
+Generate SLSA Provenance and a Bill of Materials (BOM) for a container image.
+
+> Note example uses **action-bom** action.
+
+```yaml
+- name: Generate SLSA Provenance with BOM
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    provenance: true
+```
+
+</details>
+
+<details>
+  <summary> SLSA Provenance with SBOM and Base Image Analysis </summary>
+
+Generate SLSA Provenance with SBOM by product including Base Image analysis.
+
+> Note example uses **action-bom** action.
+
+```yaml
+- name: Generate SLSA Provenance with Base Image Analysis
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    provenance: true
+    base-image: alpine:latest
+```
+
 </details>
 
 <details>
@@ -502,7 +563,7 @@ Create SLSA for local `docker save ...` output.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate SLSA provenance
@@ -524,7 +585,7 @@ Create SLSA for the local oci archive.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate SLSA provenance

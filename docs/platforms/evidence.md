@@ -6,6 +6,9 @@ sidebar_position: 4
 
 
 # The Evidence Command
+
+> **Note:** The `evidence` command is deprecated. Please use the `discover` command instead.
+
 This command is used for uploading evidence, based on the assets discovered in the previous step, to the attestation store.
 This command is for creating platform evidence; creating SBOMs of assets such as DockerHub images is done through the `bom` command.
 
@@ -21,17 +24,16 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only]
-                                    [--max-threads MAX_THREADS] [--valint.scribe.client-id CLIENT_ID]
-                                    [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable]
-                                    [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
-                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
-                                    [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
-                                    [--valint.attest ATTEST] [--valint.sign] [--valint.components COMPONENTS]
-                                    [--valint.label LABEL] [--unique]
+                                    [--max-threads MAX_THREADS] [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY]
+                                    [--allow-failures] [--export-partial] [--skip-evidence] [--valint.scribe.client-secret CLIENT_SECRET]
+                                    [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
+                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
+                                    [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
+                                    [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
+                                    [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
                                     {gitlab,k8s,dockerhub,github,jfrog,ecr,jenkins,bitbucket} ...
 
-Export evidence data
+Export evidence data (Deprecated)
 
 options:
   -h, --help            Show this help message and exit.
@@ -42,9 +44,14 @@ options:
   --evidence.local_only
                         Only export local evidence (default: False)
   --max-threads MAX_THREADS
-                        Number of threads used to run valint (type: int, default: 2)
-  --valint.scribe.client-id CLIENT_ID
-                        Scribe client ID (type: str, default: )
+                        Main Pool max threads used to parallelize evidence collection (type: int, default: 10)
+  --thread-timeout THREAD_TIMEOUT
+                        Thread timeout in seconds (type: float, default: 20.0)
+  --rate-limit-retry RATE_LIMIT_RETRY
+                        Retry on rate limit (type: int, default: 3)
+  --allow-failures      Allow failures without returning an error code (default: False)
+  --export-partial      Upload Partial Discover evidence (default: False)
+  --skip-evidence       Skip evidence upload (default: False)
   --valint.scribe.client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
   --valint.scribe.enable
@@ -69,7 +76,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f9f7325ca40>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f0e6f9bd440>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -87,45 +94,7 @@ subcommands:
 ```
 <!-- { "object-type": "command-output-end" } -->
 
-<!--
-The option `--db.local.path` sets the path for local report storage, with a default specified by default_db_path.
 
-The option `--evidence.local.path` specifies the directory path for exporting local copies of the evidence, defaulting to "output".
-
-The option `--evidence.local.prefix` allows for a prefix to be added to the exported local report filenames, with an empty string as the default.
-
-The option `--evidence.local_only` enables the exclusive export of local evidence, without uploading them to any attestation store.
-
-Following are options that configure Scribe's `valint` tool:
-
-The option `--valint.scribe.client-id` sets the Scribe client ID, with an empty string as the default. The `valint` tool will use the environment variable `SCRIBE_CLIENT_ID` if it exists.
-
-The option `--valint.scribe.client-secret` specifies the Scribe client secret, also defaulting to an empty string. The `valint` tool will use the environment variable `SCRIBE_CLIENT_SECRET` if it exists.
-
-The option `--valint.scribe.enable` allows for enabling the `valint` to upload the evidence to ScribeHub, with an empty string as default indicating it's disabled by default.
-
-The option `--valint.cache.disable` allows to skip local valint cache and use scribe store only. The default value is `false`, can also be set via `VALINT_DISABLE_EVIDENCE_CACHE` environment variable. using this option without `--valint.scribe.enable` will result in an error.
-
-The option `--valint.context-type` sets the Valint context type, with the default potentially sourced from the VALINT_CONTEXT_TYPE environment variable.
-
-The option `--valint.log-level` specifies the log level for Valint, defaulting to an empty string.
-
-The option `--valint.output-directory` sets the directory for local evidence caching, with a default defined by default_valint_output_directory. These evidence files include the wrappers and signatures as applied by the `valint` tool, while the ones stored in `--evidence.local.path` are raw evidence files.
-
-The option `--valint.bin specifies` the path to the Valint CLI binary, defaulting to a path under the user's home directory.
-
-The option `--valint.product-key` sets the evidence product key, with "factory" as the default.
-
-The option `--valint.product-version` specifies the version of the evidence product, defaulting to an empty string.
-
-The option `--valint.predicate-type` sets the evidence predicate type, with a default URL specifying the evidence version.
-
-The option `--valint.attest` specifies the type of evidence signing mechanism to use, defaulting to "x509-env".
-
-The option `--valint.disable-evidence-cache` disables the caching of evidence, enhancing privacy or security concerns.
-
-The option `--valint.sign` enables the signing of evidence to verify its integrity and source.
--->
 ## Gitlab Evidence
 Gitlab evidence supports the generation of organization evidence and project evidence. 
 
@@ -142,10 +111,9 @@ platforms evidence gitlab --organization.mapping "my-org::my-product::1.0" --pro
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] gitlab [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
-                                                     [--types {organization,project,all}]
-                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
-                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
-                                                     [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                     [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]]
+                                                     [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]]
+                                                     [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}]
                                                      [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
                                                      [--organization.single] [--project.single]
 
@@ -159,22 +127,22 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a
-                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
                         Gitlab tags wildcards (default: null)
   --commit.skip         Skip commits in evidence (default: False)
-  --pipeline.skip       Skip pipeline in evidence (default: False)
+  --pipeline.skip       Skip pipeline (default: False)
   --default_product_key_strategy {mapping}
                         Override product key with namespace, pod or image names (default: mapping)
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of to organization::product_key::product_version (type:
                         AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Project product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --organization.single
                         Export all organizations in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
@@ -182,33 +150,6 @@ options:
 <!-- { "object-type": "command-output-end" } -->
 
 
-
-<!--
-#### Gitlab Evidence Options
-The option `--types` defines which types of evidence to create, allowing choices among "all", "organization", or "project", with "all" as the default.
-
-The option `--instance` specifies a unique GitLab instance string, with an empty string as the default.
-
-The option `--scope.organization` allows for specifying a list of GitLab organizations to include in evidence collection, with a default of None implying all organizations.
-
-The option `--scope.project` sets the GitLab projects or repositories to include, using wildcards with a default of ["*"] for all projects.
-
-The option `--scope.branch` specifies the GitLab branch wildcards to include in evidence collection, with ["*"] as the default for all branches.
-
-The option `--organization.many` enables exporting separate organization evidence for each organization, set to false by default to true.
-
-The option `--project.many` enables exporting separate evidence for each project, set by default to true.
-
-The option `--commit.skip` enables skipping the inclusion of commits in the project evidence.
-
-The option `--pipeline.skip` allows for omitting pipeline information from the evidence.
-
-The option `--default_product_key_strategy` sets the strategy for overriding product keys with "mapping" as the default and currently, the only option.
-
-The option `--organization.mapping` specifies the mappings of organization assets to product keys and versions, expecting a format of "wildcarded-organization::product_key::product_version".
-
-The option `--project.mapping defines the mappings for project assets to product keys and versions, also in the format of "wildcareded-project::product_key::product_version".
--->
 
 ## Github Evidence
 Github evidence supports the generation of organization evidence and repository evidence. 
@@ -226,13 +167,11 @@ platforms evidence github --organization.mapping "my-org::my-product::1.0" --rep
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] github [-h] [--instance INSTANCE] [--token TOKEN] [--url URL]
-                                                     [--types {organization,repository,all,all}]
-                                                     [--scope.organization [ORGANIZATION ...]]
+                                                     [--types {organization,repository,all,all}] [--scope.organization [ORGANIZATION ...]]
                                                      [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
                                                      [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
-                                                     [--default_product_key_strategy {mapping}] [--organization.single]
-                                                     [--repository.single] [--organization.mapping [MAPPING ...]]
-                                                     [--repository.mapping [MAPPING ...]]
+                                                     [--default_product_key_strategy {mapping}] [--organization.mapping [MAPPING ...]]
+                                                     [--repository.mapping [MAPPING ...]] [--organization.single] [--repository.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -244,8 +183,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix
-                        its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
+                        in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: [])
   --scope.tag [TAG ...]
@@ -253,17 +192,16 @@ options:
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
-                        Determint product key by mapping. In the future - we shall support by reopsitory name too. (default:
-                        mapping)
+                        Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
+  --organization.mapping [MAPPING ...]
+                        Organization product key mapping in the format of org::product_key::product_version where org is the organization
+                        name, wildcards are supported (type: AssetMappingString, default: [])
+  --repository.mapping [MAPPING ...]
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository
+                        name, wildcards are supported (type: AssetMappingString, default: [])
   --organization.single
                         Export all organizations in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
-  --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of org::product_key::product_version where org is the
-                        organization name, wildcards are supported (type: AssetMappingString, default: [])
-  --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the
-                        repository name, wildcards are supported (type: AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -284,22 +222,26 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 ```bash
 usage: platforms [options] evidence [options] dockerhub [-h] [--instance INSTANCE]
                                                         [--types {instance,token,repository,namespace,repository_tag,webhook,all}]
+                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL]
                                                         [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                         [--exclude.repository [REPOSITORY ...]]
                                                         [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--scope.namespace [NAMESPACE ...]]
-                                                        [--namespace.mapping [MAPPING ...]]
+                                                        [--scope.namespace [NAMESPACE ...]] [--namespace.mapping [MAPPING ...]]
                                                         [--repository.mapping [MAPPING ...]] [--token.mapping [MAPPING ...]]
                                                         [--namespace.single] [--repository.single]
-                                                        [--default_product_key_strategy {mapping}]
+                                                        [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   Dockerhub instance string (default: )
   --types {instance,token,repository,namespace,repository_tag,webhook,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
+  --username USERNAME   Dockerhub username (default: null)
+  --password PASSWORD   Dockerhub password (DOCKERHUB_PASSWORD) (default: null)
+  --token TOKEN         Dockerhub token (default: null)
+  --url URL             Dockerhub base URL (default: https://hub.docker.com)
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -313,47 +255,22 @@ options:
   --scope.namespace [NAMESPACE ...]
                         Dockerhub namespaces (default: ['*'])
   --namespace.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --token.mapping [MAPPING ...]
-                        Repository tag product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Repository tag product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --namespace.single    Export all namespaces in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {mapping}
+  --default_product_key_strategy {mapping,mapping,mapping,mapping}
                         Override product key with namespace, repository or image names (default: mapping)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
-<!--
-#### DockerHub Evidence Options
-The option `--instance` specifies a unique DockerHub instance string, with an empty string as the default.
 
-The option `--types` defines the scope of evidence creation with options "all", "token", "repository", or "namespace", defaulting to "all".
-
-The option `--scope.namespace` allows for specifying DockerHub namespaces to include, with a default wildcard ["*"] for all namespaces.
-
-The option `--scope.repository` sets the DockerHub repositories to include, using wildcards with a default of ["*"] for all repositories.
-
-The option `--scope.repository_tags` specifies the DockerHub tags to include, with a default of ["*"] for all tags.
-
-The option `--exclude.repository provides` for specifying DockerHub repository wildcards to exclude from evidence.
-
-The option `--exclude.repository_tags` allows for specifying DockerHub tags to exclude from the evidence collection.
-
-The option `--namespace.many` enables the export of separate evidence for each namespace, defaulting to true.
-
-The option `--repository.many` controls the export of separate evidence for each repository, defaulting to true.
-
-The option `--default_product_key_strategy` sets the strategy for overriding product keys with "mapping" as the default and only option.
-
-The option `--repository.mapping` specifies the mapping of repository assets to product keys and versions, expecting a format of "asset::product_key::product_version".
-
-The option `--token.mapping` defines the mapping for repository tags to product keys and versions, also in the format of "asset::product_key::product_version".
--->
 ## K8s Evidence
 K8s evidence generation supports the generation of namespace and pod evidence. Namespace evidence includes secrets metadata (if it was not scoped out)
 To generate evidence for a K8s cluster:
@@ -369,12 +286,11 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] k8s [-h] [--instance INSTANCE] [--types {namespace,pod,all}]
-                                                  [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
-                                                  [--scope.image [IMAGE ...]] [--ignore-state]
-                                                  [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                  [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]]
+                                                  [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
                                                   [--exclude.image [IMAGE ...]]
-                                                  [--default_product_key_strategy {namespace,pod,image,mapping}]
-                                                  [--secret.skip] [--namespace.single] [--pod.single]
+                                                  [--default_product_key_strategy {namespace,pod,image,mapping}] [--secret.skip]
+                                                  [--url URL] [--token TOKEN] [--namespace.single] [--pod.single]
                                                   [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
 
 options:
@@ -398,49 +314,20 @@ options:
   --default_product_key_strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
   --secret.skip         Skip secrets information in the evidence (default: False)
+  --url URL             Kubernetes API URL (required, default: )
+  --token TOKEN         Kubernetes token, with access to pods and secrets (K8S_TOKEN) (default: )
   --namespace.single    Export all namespaces (default: False)
   --pod.single          Export all pods in a single evidence (default: False)
   --namespace.mapping [MAPPING ...]
-                        Namespace product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Namespace product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --pod.mapping [MAPPING ...]
-                        Pod product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Pod product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default:
+                        [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
-<!--
-#### K8s Evidence Options
-```markdown
-- The option `--instance` specifies a unique Kubernetes instance string, with an empty string as the default.
 
-The option `--types` defines the scope of evidence creation with options "all", "namespace", or "pod", defaulting to "all".
-
-The option `--scope.namespace` allows for specifying Kubernetes namespaces to include, with a default wildcard ["*"] for all namespaces.
-
-The option `--scope.pod` sets the Kubernetes pods to include, using wildcards with a default of ["*"] for all pods.
-
-The option `--scope.image` specifies the Kubernetes images to include, with a default of ["*"] for all images.
-
-The option `--scope.secrets.skip` enables skipping the inclusion of secrets information in the evidence.
-
-The option `--namespace.many` enables the export of a separate evidence for each namespace.
-
-The option `--pod.many` allows for the export of a separate evidence for each pod.
-
-The option `--exclude.namespace` provides for specifying namespaces to exclude from the discovery process.
-
-The option `--exclude.pod` allows for specifying pods to exclude from the discovery process.
-
-The option `--exclude.image` specifies images to exclude from the discovery process.
-
-The option `--default_product_key_strategy` sets the strategy for overriding product keys with "mapping" as the default and currently the only option. This is noted to require improvement for more choices.
-
-The option `--namespace.mapping` specifies the mapping of namespace assets to product keys and versions, expecting a format of "asset::product_key::product_version".
-
-The option `--pod.mapping` defines the mapping for pod assets to product keys and versions, also in the format of "asset::product_key::product_version".
-```
--->
 
 ## Jfrog evidence
 Jfrog evidence generation supports the generation of namespace and repository evidence. The evidence includes information about the repositories, tags, and access tokens.
@@ -457,14 +344,11 @@ platforms evidence jfrog --jf-repository.mapping "*::my-product::1.0" --namespac
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--types {instance,aws-account,repository,all}]
-                                                  [--scope.aws-account [AWS_ACCOUNT ...]]
-                                                  [--scope.repository [REPOSITORY ...]]
+usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}]
+                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
                                                   [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.aws-account [AWS_ACCOUNT ...]]
-                                                  [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]]
+                                                  [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                   [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                   [--aws-account.single] [--repository.single]
                                                   [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
@@ -472,6 +356,7 @@ usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   ECR instance string (default: )
+  --url URL             ECR base URL (default: null)
   --types {instance,aws-account,repository,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
   --scope.aws-account [AWS_ACCOUNT ...]
@@ -489,8 +374,8 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         ECR tags to exclude (default: [])
   --aws-account.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --repository.mapping [MAPPING ...]
                         Repository image_tags product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
@@ -517,14 +402,11 @@ platforms evidence ecr --repository.mapping "*my-service*::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--types {instance,aws-account,repository,all}]
-                                                  [--scope.aws-account [AWS_ACCOUNT ...]]
-                                                  [--scope.repository [REPOSITORY ...]]
+usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}]
+                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
                                                   [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.aws-account [AWS_ACCOUNT ...]]
-                                                  [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]]
+                                                  [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                   [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                   [--aws-account.single] [--repository.single]
                                                   [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
@@ -532,6 +414,7 @@ usage: platforms [options] evidence [options] ecr [-h] [--instance INSTANCE] [--
 options:
   -h, --help            Show this help message and exit.
   --instance INSTANCE   ECR instance string (default: )
+  --url URL             ECR base URL (default: null)
   --types {instance,aws-account,repository,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
   --scope.aws-account [AWS_ACCOUNT ...]
@@ -549,8 +432,8 @@ options:
   --exclude.repository_tags [REPOSITORY_TAGS ...]
                         ECR tags to exclude (default: [])
   --aws-account.mapping [MAPPING ...]
-                        Repository product key mapping in the format of asset::product_key::product_version (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString,
+                        default: [])
   --repository.mapping [MAPPING ...]
                         Repository image_tags product key mapping in the format of asset::product_key::product_version (type:
                         AssetMappingString, default: [])
@@ -577,15 +460,13 @@ platforms evidence bitbucker --workspace.mapping "my-workspace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] bitbucket [-h] [--instance INSTANCE]
-                                                        [--types {workspace,project,repository,all,all}]
+usage: platforms [options] evidence [options] bitbucket [-h] [--instance INSTANCE] [--types {workspace,project,repository,all,all}]
                                                         [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
                                                         [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
-                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]]
-                                                        [--commit.skip] [--default_product_key_strategy {mapping}]
-                                                        [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
-                                                        [--repository.mapping [MAPPING ...]] [--workspace.single]
-                                                        [--project.single] [--repository.single]
+                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
+                                                        [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
+                                                        [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                        [--workspace.single] [--project.single] [--repository.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -595,11 +476,11 @@ options:
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix
-                        its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce
+                        in the format 'namespace / project_name' (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a
-                        prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its
+                        namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -608,17 +489,16 @@ options:
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
-                        Determint product key by mapping. In the future - we shall support by reopsitory name too. (default:
-                        mapping)
+                        Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --workspace.mapping [MAPPING ...]
-                        Workspace product key mapping in the format of workspace::product_key::product_version where org is
-                        the workspace name, wildcards are supported (type: AssetMappingString, default: [])
+                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace
+                        name, wildcards are supported (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of project::product_key::product_version where org is the
-                        project name, wildcards are supported (type: AssetMappingString, default: [])
+                        Project product key mapping in the format of project::product_key::product_version where org is the project name,
+                        wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the
-                        repository name, wildcards are supported (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository
+                        name, wildcards are supported (type: AssetMappingString, default: [])
   --workspace.single    Export all workspaces in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
@@ -642,14 +522,13 @@ platforms evidence jenkins --instance-mapping "my-instance::my-product::1.0" --f
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] jenkins [-h] [--instance INSTANCE] [--types {instance,folder,all,all}]
-                                                      [--credential_stores.skip] [--users.skip] [--plugins.skip]
-                                                      [--security_settings.skip] [--computer_set.skip] [--jobs.skip]
-                                                      [--scope.folder [FOLDER ...]] [--exclude.folder [FOLDER ...]]
-                                                      [--scope.job_runs.past_days PAST_DAYS] [--scope.job_runs.max MAX]
-                                                      [--scope.job_runs.analyzed_logs] [--job_runs.skip]
+                                                      [--credential_stores.skip] [--users.skip] [--plugins.skip] [--security_settings.skip]
+                                                      [--computer_set.skip] [--jobs.skip] [--scope.folder [FOLDER ...]]
+                                                      [--exclude.folder [FOLDER ...]] [--scope.job_runs.past_days PAST_DAYS]
+                                                      [--scope.job_runs.max MAX] [--scope.job_runs.analyzed_logs] [--job_runs.skip]
                                                       [--default_product_key_strategy {mapping}]
-                                                      [--instance-mapping [INSTANCE_MAPPING ...]]
-                                                      [--folder.mapping [MAPPING ...]] [--folder.single]
+                                                      [--instance-mapping [INSTANCE_MAPPING ...]] [--folder.mapping [MAPPING ...]]
+                                                      [--folder.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -665,31 +544,29 @@ options:
   --computer_set.skip   Skip computer sets in discovery/evidence (default: False)
   --jobs.skip           Skip jobs (default: False)
   --scope.folder [FOLDER ...]
-                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders
-                        and can include the job name in order to scope specific jobs. Wildcard is supported only as a suffix.
-                        examples: folder-a* will discover all folders that are included in a root folder that starts with
-                        folder-a. folder-a/* will discover all folders and jobs under the root folder folder-a (type:
-                        JenkinsFolderScope, default: ['*'])
+                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can include
+                        the job name in order to scope specific jobs. Wildcard is supported only as a suffix. examples: folder-a* will
+                        discover all folders that are included in a root folder that starts with folder-a. folder-a/* will discover all
+                        folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default: ['*'])
   --exclude.folder [FOLDER ...]
                         Jenkins folder/job list to exclude from discovery. Format is like the --scope.folder argument (type:
                         JenkinsFolderScope, default: [])
   --scope.job_runs.past_days PAST_DAYS
                         Number of past days to include in the job run discovery, 0 for no time limit (type: int, default: 30)
   --scope.job_runs.max MAX
-                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job
-                        runs in the past_days range. 0 for no limit (type: int, default: 10)
+                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in the
+                        past_days range. 0 for no limit (type: int, default: 10)
   --scope.job_runs.analyzed_logs
                         Include analyzed job run logs (default: False)
   --job_runs.skip       Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
-                        Determint product key by mapping. In the future - we shall support by folder name too. (default:
-                        mapping)
+                        Deferment product key by mapping. In the future - we shall support by folder name too. (default: mapping)
   --instance-mapping [INSTANCE_MAPPING ...]
-                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported
-                        (type: AssetMappingString, default: [])
+                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported (type:
+                        AssetMappingString, default: [])
   --folder.mapping [MAPPING ...]
-                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are
-                        supported (type: AssetMappingString, default: [])
+                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are supported
+                        (type: AssetMappingString, default: [])
   --folder.single       Export all repos in a single evidence (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->

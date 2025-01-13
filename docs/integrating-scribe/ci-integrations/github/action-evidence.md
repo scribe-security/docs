@@ -87,6 +87,8 @@ The `valint evidence` action is a versatile action designed to include various t
     description: Environment keys to include in evidence
   gate:
     description: Policy Gate name
+  input:
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:
@@ -136,7 +138,7 @@ The `valint evidence` action is a versatile action designed to include various t
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence@v1.5.14
+  uses: scribe-security/action-evidence@v1.5.15
   with:
     target: some_file.json
 ```
@@ -144,7 +146,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Include evidence derived from a file
-  uses: scribe-security/action-evidence-cli@v1.5.14
+  uses: scribe-security/action-evidence-cli@v1.5.15
   with:
     target: some_file.json
 ```

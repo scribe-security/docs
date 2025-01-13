@@ -7,87 +7,94 @@ sidebar_position: 1
 # Platforms: Scribe's Scanning and Policy Evaluation Engine
 
 ## What is `platforms`?
-Platforms is a dockerized cli tool, that can be used to scan and evaluate policies on your infrastructure. It is a part of the Scribe suite of tools, which are designed to help you secure your software supply chain.
+`platforms` is a Dockerized CLI tool designed to scan and evaluate policies on your infrastructure. It is part of the Scribe suite of tools, which aim to secure your software supply chain.
 
-This version of `platforms` supports Gitlab, DockerHub, and K8s. Under construction, we have support for GitHub, Bitbucket, Jenkins, and AWS-ECR.
+## Important Note
+> The `evidence` command is deprecated and will be removed in future releases. All functionality is now included in the merged `discover` command. Users are encouraged to transition to this unified approach for consistency and expanded capabilities. [Learn how to migrate](#migration-guide-for-v0.3.0-and-above).
 
-Key Features:
+## Supported Platforms
+- GitLab SCM and CI
+- GitHub SCM and CI
+- DockerHub Image Registry
+- Kubernetes CD
+- Bitbucket Cloud SCM and CI
+- Bitbucket Data Center SCM and CI
+- Jenkins CI
+- AWS ECR Image Registry
+- JFrog Artifactory Image Registry
 
-* Discovery of assets
+### Key Features
+**Asset Discovery**: Identify resources in your infrastructure.
 
-* Measuring security posture, activity,
-and volume data of assets
+**Security Posture Measurement**: Evaluate activity and volume data of assets.
 
-* Powerful scoping and filtering capabilities
+**Advanced Scoping and Filtering**: Customize views and focus on relevant data.
 
-* Powerful capabilities to map assets to Scribe Products
+**Asset-to-Product Mapping**: Align resources with Scribe products.
 
-* Experimental: Extracting data from build logs.
+**Experimental**: Extract data from build logs to gain deeper insights.
 
 ## Concepts
 
 ### Assets
-
-Assets are the resources that are being scanned. They can be anything from a docker image to a git repository.
+Assets are the resources being scanned, such as Docker images or Git repositories.
 
 ### Products
+Products are software solutions composed of multiple assets. For example, a simple application might include one code repository, one CI pipeline, and one Docker image. A complex application might span multiple repositories, pipelines, and Docker images, plus external assets like DockerHub images.
 
-Products are software products that are made up of multiple assets. 
-
-For Example:
-
-* A simple application may be made up of a single code repository and a single CI pipeline that generates a single docker image.
-
-* A complex application may be made up of multiple code repositories, multiple CI pipelines, and multiple docker images. It may also include external assets such as docker images from DockerHub.
-
-* The Product point of view serves the product-security team, while assets are the day-to-day concern of the development and operations teams.
-
-* Scribe's platform tool enables and helps users to map assets to products.
+`platforms` helps users map assets to products, aligning day-to-day operations with product security goals.
 
 ### Mapping
-Mapping is the process of mapping evidence or SBOMs to products.
+Mapping links evidence or SBOMs to products. The simplest approach is specifying which assets belong to which products. Advanced use cases include automated strategies, such as creating a Scribe Product for each Kubernetes namespace using the `--default_product_key_strategy` option.
 
-* Mapping can done in various ways, the simplest - to specify which assets belong to which products.
-
-* For some of the use cases, the mapping can be done automatically, for example - to create a Scribe Product for each K8s namespace. The mapping strategy is defined using the `--default_product_key_strategy` option, available in many sub-commands.
-
-> mapping is many to many relation, a single asset can be part of multiple products (e.g. a microservice) and a single product can have multiple assets (e.g. a product that consists of multiple microservices).
+> Mapping is a many-to-many relationship: an asset can belong to multiple products (e.g., a microservice), and a product can include multiple assets.
 
 ### Evidence
+Evidence is data generated from assets, such as metadata from source code repositories, SBOMs for Docker images, or secrets metadata for Kubernetes clusters. Evidence is stored in an attestation store (default: ScribeHub, but local and OCI storage options are also supported).
 
-Evidence is the data that is generated from the assets. It can be anything from metadata and settings of source-code-repo, an SBOM of a docker image, or a list of secrets metadata of a K8s cluster.
-
-> To secure the evidence from being falsified, tampered with, or denied, attestations can be signed. Scribe tools provide the capability to sign the evidence using various signing mechanisms (PKI, Sigstore)
+> Attestations can be signed for integrity and authenticity using PKI or Sigstore mechanisms.
 
 ### Discovery
-
-Discovery is the process of sampling asset data from various sources.
-
-* The input to the discovery process is access data to the resources and scoping information.
-
-* The output of the discovery process is an internal database of assets.
-
-### Evidence Generation
-
-Evidence generation is the process of generating evidence from the assets sampled data. 
-
-* The input to the evidence-generation process is the internal database of assets, scoping, and product mapping information.
-
-* The output of the evidence generation process is a set of evidence uploaded to an attestation store, which by default is ScribeHub.
+Discovery involves sampling asset data from various sources. The input is resource access data and scoping details, and the output is evidence generated from sampled data.
 
 ### SBOM Generation
+Automates the generation of SBOMs for assets at scale. A common use case involves automating SBOM creation and analysis for an entire Kubernetes cluster or for all images across a set of Artifactory registries.
 
-Automation of SBOM Generation of assets.
-
-* This capability enables users to generate SBOMs on scale, and to focus on the in-production assets, thus enabling the security teams to focus on the most critical assets.
-
-> Currently, we support generating SBOMs of DockerHub accounts and K8s clusters.
-
+* **Image SBOM**: Currently supported platforms include DockerHub, ECR, JFrog Artifactory, and Kubernetes clusters.  
+* **Source SBOM**: Currently supported platforms include GitHub, GitLab, and Bitbucket.
 
 ### Policy Evaluation
+Policy evaluation assesses evidence against defined policies using Scribe's policy-as-code framework. It includes out-of-the-box policies and custom policy creation. For example, evaluating source code repositories for limited admin access, secret expiration, and PR review requirements.
 
-Policy evaluation is the process of evaluating policies on the evidence generated.
+> Output: Policy results in SARIF format.
 
-* Scribe provides a policy-as-code framework, which provides users with out-of-the-box policies and the ability to write custom policies.
+### Migration Guide for `v0.3.0` and Above
+If you are using `platforms` versions below `v0.3.0`, the `evidence` command needs to be migrated to the `discover` command instead.
 
-* Policies are applied to evidence; the policy evaluation process involves pulling the relevant attestations from the attestation store and evaluating the policies on the evidence. For example, to verify the security of a source-code repo, the policy evaluation process will consume evidence about the repo and the account, and evaluate policies such as "limited admins", "all secrets have an expiration date", "at least 2 reviewers are required for merging a PR", etc.
+For Example, previously you may have used:
+
+```bash
+platforms discover github \
+    --scope.organization=scribe-security
+    --scope.repository *mongo* *example_repo
+    --workflow.skip --commit.skip --scope.branch=main
+
+platforms evidence github \
+    --organization.mapping=scribe-security::example_repo::v1
+    --repository.mapping=scribe-security*example_repo::example_repo::v1
+```
+
+With `v0.3.0` or above, you should update to:
+
+```bash
+platforms discover github \
+    --scope.organization=scribe-security
+    --scope.repository *mongo* *example_repo
+    --workflow.skip --commit.skip --scope.branch=main
+    --organization.mapping=scribe-security::example_repo::v1
+    --repository.mapping=scribe-security*example_repo::example_repo::v1
+```
+
+> Note: Asset `single` flags are no longer supported.
+
+> Note: To disable evidence export from discover command run `platforms discover --skip-evidence ...`.
