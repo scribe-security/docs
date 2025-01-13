@@ -53,6 +53,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
@@ -81,7 +82,6 @@ Flags for all `valint` subcommands
   valint evidence <file>
 
   <file> File Path to add as evidence
-
   valint evidence file.json                                                                   Attach a file as evidence
   valint evidence file.json -o attest                                                         Sign evidence
   valint evidence file.json --tool my_tool --tool-version 0.0.1 --vendor="My Company Inc"     Customize tool information
@@ -89,6 +89,7 @@ Flags for all `valint` subcommands
   valint evidence file.json --predicate-type https:/my_company.com/my_predicate/v1            Customize predicate type
   valint evidence file.json --compress                                                        Compress content
   valint evidence file.json --parser trivy                                                    Select Supported Report Parser
+  valint evidence --file trivy:report.json --file semgrep:./report.semgrep.json            Multiple file mapping
 
   Supported Parsers:
   * acunetix 

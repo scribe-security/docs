@@ -26,8 +26,41 @@ Create SLSA Provenance for images hosted by a private registry.
 
 ```bash
 docker login
-valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest
+valint slsa scribesecurity/example:latest
 ```
+</details>
+
+<details>
+  <summary>  Create SBOM and SLSA evidence </summary>
+
+Generate a Software Bill of Materials (SBOM) and corresponding SLSA evidence for a container image.
+
+```bash
+valint bom scribesecurity/example:latest --provenance
+```
+
+</details>
+
+<details>
+  <summary>  Create SBOM with Base Image And SLSA evidence </summary>
+
+Generate an SBOM and corresponding SLSA evidence for a container image, including analysis of the specified base image.      
+
+```bash
+valint bom scribesecurity/example:latest --provenance --base-image ./Dockerfile
+```
+
+</details>
+
+<details>
+  <summary> Create SLSA provenance with by-product asset evidence </summary>
+
+Generate SLSA Provenance for a container image, incorporating by-product asset evidence using the `--input` flag.
+
+```bash
+valint bom scribesecurity/example:latest --provenance --input sarif:my_report.json --input git:https://github.com/example/repo.git --input sqllite:latest
+```
+
 </details>
 
 <details>
