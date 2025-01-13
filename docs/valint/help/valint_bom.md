@@ -22,9 +22,10 @@ Flags for `bom` subcommand
 | | --author-email | Set author email | |
 | | --author-name | Set author name | |
 | | --author-phone | Set author phone | |
+| | --base-image | Base image for the target | |
 | | --ca | x509 CA Chain path | |
 | | --cert | x509 Cert path | |
-| | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits] | [metadata,layers,packages,syft,dep,commits] |
+| | --components | Select sbom components groups, options=[metadata layers packages syft files dep commits base_image] | [metadata,layers,packages,syft,dep,commits] |
 | | --crl | x509 CRL path | |
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --depth | Git clone depth | |
@@ -32,7 +33,7 @@ Flags for `bom` subcommand
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | -f | --force | Force overwrite cache | |
-| -o | --format | Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic] | |
+| -o | --format | Evidence format, options=[json statement attest] | |
 | | --git-auth | Git repository authentication info, [format: 'username:password'] | |
 | | --git-branch | Git branch in the repository | |
 | | --git-commit | Git commit hash in the repository | |
@@ -68,6 +69,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
+| | --input | Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
@@ -122,17 +124,9 @@ Flags for all `valint` subcommands
   valint bom alpine:latest -o attest
   valint bom alpine:latest -o statement
 
-  SLSA-Example:
-  valint bom alpine:latest -o attest-slsa
-  valint bom alpine:latest -o statement-slsa
-
-  Generic-Example:
-  valint bom file.json -o attest-slsa
-  valint bom file.json -o statement-slsa
 
   Format-aliases:
   * json=attest-cyclonedx-json
-  * predicate=predicate-cyclonedx-json
   * statement=statement-cyclonedx-json
   * attest=attest-cyclonedx-json
 
