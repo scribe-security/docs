@@ -233,6 +233,7 @@ labels: []
 
 require-scribe-api: <true | false>
 fail-on-missing-evidence: <true | false>
+skip-evidence: <true | false>
 
 evidence: {}
 
@@ -296,6 +297,12 @@ with: {}
 - **Required:** No
 - **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the open result if no evidence is found.
 
+#### `skip-evidence`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the rule should skip evidence downloading and go straight to the rule evaluation. Can be helpful for rules that don't require evidence, like API rules.
+
 #### `evidence`
 
 - **Type:** Object
@@ -306,7 +313,7 @@ with: {}
 
 - **Type:** List of Strings
 - **Required:** No
-- **Description:** A list of parameters in the environment to filter the evidence by. If the value `target` is used, the rule will require a target (otherwise, it will be disabled with a warning) and use the target parameters for evidence lookup. If the value `pipeline` is used, the rule will use the pipeline parameters for evidence lookup.  If the value `none` is used, the rule will not filter the evidence by any parameters except for the product ones.
+- **Description:** A list of parameters in the environment to filter the evidence by (see [Evidence Lookup](#evidence-lookup)).
 
 #### `with`
 
@@ -434,7 +441,7 @@ By default, the "target" and "product" groups are enabled for each rule.
     * `target_type` - the type of the target provided (e.g., image, git, generic etc.)
     * `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
-    > If no target is provided, the rule is disabled with a warning.
+    > If this parameter is set and no target provided, the rule is disabled with a warning.
 
 2. `pipeline` context group specifies parameters that can be derived from the running environment. Those parameters are:
     * `context_type` - type of the environment (e.g., local, github, etc.)
