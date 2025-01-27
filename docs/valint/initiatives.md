@@ -5,6 +5,7 @@ author: viktor kartashov - Scribe
 sidebar_position: 5
 date: December 10, 2024
 geometry: margin=2cm
+toc_max_heading_level: 3
 ---
 
 ## Initiatives
