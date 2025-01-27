@@ -5,12 +5,10 @@ author: viktor kartashov - Scribe
 sidebar_position: 5
 date: December 10, 2024
 geometry: margin=2cm
-toc_max_heading_level: 3
+toc_max_heading_level: 4
 ---
 
-## Initiatives
-
-### What is an initiative?
+## What is an initiative?
 
 Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` that your supply chain must comply with. The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluatoin results and references to the verified assets and evidences.  
 
@@ -19,7 +17,7 @@ A `rule` is verified if ANY `evidence` is found that complies with the `rule` co
 
 Rules can reuse from the existing ones from a bundle or be defined inline.
 
-### Initiative config format
+## Initiative config format
 
 ```yaml
 config-type: initiative
@@ -59,6 +57,8 @@ controls:
             filter-by: []
           with: {}
 ```
+
+### Initiative configuration fields
 
 #### `config-type`
 
@@ -216,7 +216,7 @@ controls:
           uses: sbom/evidence-exists@v2/rules
 ```
 
-### Rule config format
+## Rule config format
 
 Every rule that is used separately via the `--rule` arg or as part of an initiative should be defined as YAML:
 
@@ -238,6 +238,8 @@ evidence: {}
 
 with: {}
 ```
+
+### Rule configuration fields
 
 #### `config-type`
 
@@ -314,7 +316,7 @@ with: {}
 
 Examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
-### How to adopt an initiative?
+## How to adopt an initiative?
 
 An initiative is defined as a file that can be consumed locally or from a git bundle. To run an initiative, one first needs to create the required evidences:
 
@@ -355,7 +357,7 @@ To run a part of an initiative filtered by gate type, use the following command:
 valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret> --gate-type Build --gate-name "Build of My Product"
 ```
 
-### Using private bundle
+## Using private bundle
 
 Rules and initiatives can be provided locally or reused either from the public Scribe bundle or a private bundle managed by the user. By default, the public Scribe bundle is used.
 To use a private bundle instead, the following rules should be followed:
@@ -383,7 +385,7 @@ For example, this is how to reference a rule from the public Scribe bundle:
 Here `sbom/blocklist-packages@v2/rules` means that the rule path within the bundle is`v2/rules/sbom/blocklist-packages.yaml`.
 Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
 
-### Rule configuration
+## Rule configuration
 
 Rules are defined as a combination of a `.yaml` configuration file and a `.rego` script. The `.yaml` file contains the rule configuration, while the `.rego` script contains the rule logic.
 The rule configuration is described above along with the initiative configuration.
@@ -419,9 +421,9 @@ default asset = {}
 asset := scribe.get_asset_data(input.evidence)
 ```
 
-### Advanced features
+## Advanced features
 
-#### Evidence Lookup
+### Evidence Lookup
 
 In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters.
 These parameters can be set manually by the user or automatically derived from the context.
@@ -472,7 +474,7 @@ evidence:
 
 </details>
 
-#### Template arguments
+### Template arguments
 
 Rules can have template arguments that can be used to simplify the rule configuration. For example, `github/api/branch-protection@v2/rules` relies on several arguments provided in the runtime:
 
@@ -491,7 +493,7 @@ To specify those, `valint` should be run with args `--rule-args Token=MyToken,Ow
 
 When required template arg is not specified, the rule will be disabled with a warning.
 
-##### Built-in functions
+#### Built-in functions
 
 To simplify the rule-args input, the rules template engine has built-in functions that can be used to define the rule arguments. Another use of such functions is to disable filtering when the `--all-evidence` flag is used, see below.
 
@@ -502,7 +504,7 @@ List of supported functions:
 * `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used
 * `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead
 
-#### Whole product evaluation
+### Whole product evaluation
 
 One can run an initiative to verify all the existing evidences in a product. In this case, the initiative will try to find all matching evidences for every rule and verify those. To do that, the `--all-evidence` flag should be used:
 
@@ -522,7 +524,7 @@ with:
 ...
 ```
 
-#### Rules that don't require evidence
+### Rules that don't require evidence
 
 If a rule doesn't require any evidence to be verified, the `skip-evidence` flag can be used in the rule config:
 
@@ -532,7 +534,7 @@ skip-evidence: true
 ...
 ```
 
-#### Rules that require Scribe API
+### Rules that require Scribe API
 
 If a rule requires an API call to be verified, it can use the `require-scribe-api` flag to ensure that all the uploaded attestations are processed and the API is ready to be used:
 
@@ -542,7 +544,7 @@ require-scribe-api: true
 ...
 ```
 
-#### Rules that should fail on missing evidence
+### Rules that should fail on missing evidence
 
 By default, if no evidence for a rule found, it returns an "open" result, meaning that there was insufficient information to decide whether there are any violations. If a rule should fail in that case, the `fail-on-missing-evidence` flag can be used:
 
@@ -552,6 +554,6 @@ fail-on-missing-evidence: true
 ...
 ```
 
-#### Unicode symbols in rule results
+### Unicode symbols in rule results
 
 To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag in the runtime. THis would result in replacing rule levels and results in `valint` logs with emojis.
