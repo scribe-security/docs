@@ -22,55 +22,154 @@ Rules can reuse from the existing ones from a bundle or be defined inline.
 
 ```yaml
 config-type: initiative
-required-valint-version: "2.0.0" # minimum valint version required to run the initiative
+required-valint-version: "2.0.0"
 id: <initiative-id>
 name: <initiative-name>
 version: <initiative-version>
 description: <initiative-description>
 url: <http://help_uri>
 
-# optional set of params to override the existing evidence lookup params
-# for each rule in the initiative
 defaults:
-  labels: []
   evidence:
     signed: false
     content_body_type: content_body_type>
     filter-by: []
 
-env: # File-wise environment variables for the template engine (see below)
+env:
   <ENV_VAR_NAME>: <value>
 
 controls:
     - name: <control-name>
-      id: <control-id> # if no ID is provided, the ID is generated from the name
+      id: <control-id>
       description: <control-description>
-      when: # optional filters
-        gate: <gate-type> # type of gate to run the control on
+      when:
+        gate: <gate-type>
       rules:
         - name: <rule-name>
-          id: <rule-id> # if no ID is provided, the ID is generated from the name
-          path: <path_to_rego> # specify if a custom external script is used
-          uses: <bundle-rule-reference> # reuse an existing rule from the bundle
+          id: <rule-id>
+          path: <path_to_rego>
+          uses: <bundle-rule-reference>
           description: <rule-description>
-          aggregate-results: false # Aggregate all of the rule violations to a single SARIF result
-          labels: [] # list of user-specified labels
-          evidence: #Evidence lookup parameters
+          aggregate-results: false
+          labels: []
+          evidence:
             signed: true | false
             content_body_type: <content_body_type>
-            filter-by: [] # A group of Context fields to use for the evidence lookup
-          with: {} # rule input, depending on the rule type
+            filter-by: []
+          with: {}
 ```
 
-> The `id` and `name` fields are required. The `version` field is optional and can be used to easily track the changes in the initiative.
->
-> The `url` field is optional and can be used to provide a link to the documentation.
->
-> The `id` of an initiative, control or rule cannot contain forward slashes `/`.
+#### `config-type`
 
-> For configuration details, see the [configuration](./configuration.md) section.
+- **Type:** String
+- **Required:** Yes
+- **Description:** Specifies the type of configuration. For initiatives, this should be set to `initiative`.
+
+#### `required-valint-version`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The minimum version of Valint required to run the initiative.
+- **Example:** `"2.0.0"`
+
+#### `id`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A unique identifier for the initiative. Cannot contain the `::` symbol. If no ID is provided, it is generated from the name.
+
+#### `name`
+
+- **Type:** String
+- **Required:** Yes
+- **Description:** The name of the initiative.
+
+#### `version`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The version of the initiative.
+
+#### `description`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A brief description of the initiative.
+
+#### `url`
+
+- **Type:** String (URL)
+- **Required:** No
+- **Description:** A URL pointing to the help or documentation for the initiative.
+
+#### `defaults`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative.
+
+##### `defaults.level`
+
+- **Type:** String
+- **Required:** No
+- **Description:** Rule level to use for all rules in the initiative
+
+##### `defaults.evidence`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** Evidence lookup parameters. Any parameters supported by the `rule.evidence` field can be used here.
+
+#### `env`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** File-wise environment variables for the template engine.
+
+#### `controls`
+
+- **Type:** Array of Objects
+- **Required:** Yes
+- **Description:** A list of controls for the initiative.
+
+##### `controls[].name`
+
+- **Type:** String
+- **Required:** Yes
+- **Description:** The name of the control.
+
+##### `controls[].id`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A unique identifier for the control. Cannot contain the `::` symbol. If no ID is provided, it is generated from the name.
+
+##### `controls[].description`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A brief description of the control.
+
+##### `controls[].when`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** Optional filters for when the control should be run.
+
+###### `controls[].when.gate`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The type of gate to run the control on.
+
+##### `controls[].rules`
+
+- **Type:** Array of Objects
+- **Description:** A list of rules for the control. For the details, see the `rules` section below.
+
+> For `valint` configuration details, see the [configuration](./configuration.md) section.
 >
-> For PKI configuration, see the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
+> For PKI configuration, see the [attestations](./attestations.md) section.
 
 An example of an initiative could be:
 
@@ -116,7 +215,103 @@ controls:
           uses: sbom/evidence-exists@v2/rules
 ```
 
-More examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
+### Rule config format
+
+Every rule that is used separately via the `--rule` arg or as part of an initiative should be defined as YAML:
+
+```yaml
+config-type: rule
+required-valint-version: "2.0.0"
+id: <rule-id>
+name: <rule-name>
+path: <path_to_rego>
+
+description: <rule-description>
+
+labels: []
+
+require-scribe-api: <true | false>
+fail-on-missing-evidence: <true | false>
+
+evidence: {}
+
+with: {}
+```
+
+#### `config-type`
+
+- **Type:** String
+- **Required:** Yes
+- **Description:** Specifies the type of configuration. For rules, this should be set to `rule`.
+
+#### `required-valint-version`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The minimum version of Valint required to run the initiative.
+- **Example:** `"2.0.0"`
+
+#### `id`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A unique identifier for the rule. Cannot contain the `::` symbol. Must be unique within the initiative. If no ID is provided, it is generated from the name.
+
+#### `name`
+
+- **Type:** String
+- **Required:** Yes
+- **Description:** The name of the rule. This should be unique within the initiative.
+
+#### `path`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The path to a custom external script, if used. Should be relative to the rule file.
+
+#### `description`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A brief description of the rule.
+
+#### `labels`
+
+- **Type:** Array of Strings
+- **Required:** No
+- **Description:** A list of user-specified labels for the rule itself.
+
+#### `require-scribe-api`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the Scribe API is required.
+
+#### `fail-on-missing-evidence`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the open result if no evidence is found.
+
+#### `evidence`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** Evidence lookup parameters. Any field from the evidence context can be used here.
+
+##### `evidence.filter-by`
+
+- **Type:** List of Strings
+- **Required:** No
+- **Description:** A list of parameters in the environment to filter the evidence by. If the value `target` is used, the rule will require a target (otherwise, it will be disabled with a warning) and use the target parameters for evidence lookup. If the value `pipeline` is used, the rule will use the pipeline parameters for evidence lookup.  If the value `none` is used, the rule will not filter the evidence by any parameters except for the product ones.
+
+#### `with`
+
+- **Type:** Object
+- **Required:** No
+- **Description:** Rule input, depending on the rule script.
+
+Examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
 ### How to adopt an initiative?
 
