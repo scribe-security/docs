@@ -1,6 +1,6 @@
 ---
-sidebar_label: "Applying Policies to your SDLC"
-title: Applying Policies to your SDLC
+sidebar_label: "Applying Initiatives to your SDLC"
+title: Applying Initiatives to your SDLC
 sidebar_position: 3
 toc_min_heading_level: 2
 toc_max_heading_level: 5
@@ -14,7 +14,7 @@ For example, at the end of a build or at the admission control point to the prod
 - Tagged sources must be signed and verified by a set of individuals or processes.
 - Released binaries must be built by Azure DevOps from a specific git repository and have unsigned SLSA provenance.
 
-For the detailed policy description, see **[policies](../valint/policies)** section.
+For the detailed initiative description, see **[initiatives](../valint/initiatives)** section.
 
 ## Sample Rule Bundle
 
@@ -44,6 +44,34 @@ The following is a description of a sample rule bundle that can be used to build
    valint verify busybox:latest --rule sbom/complete-licenses@v2/rules # path within a repo
    ```
 
+   As a result, you will see the output table of the rule verification:
+
+   ```bash
+   ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ Control "default. Default" Evaluation Summary                                                                                                   │
+   ├───────────────────────────────────┬───────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────┬────────────────┤
+   │ RULE ID                           │ RULE NAME                         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                    │ TARGET         │
+   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────┤
+   │ sbom-require-complete-license-set │ Enforce SBOM License Completeness │ error │ false    │ pass   │ All packages have licenses │ busybox:1.36.1 │
+   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────┤
+   │ CONTROL RESULT                    │                                   │       │          │ PASS   │                            │                │
+   └───────────────────────────────────┴───────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────┴────────────────┘
+   ```
+
+   You will also see the result table of the initiative evaluation:
+
+   ```bash
+   ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ Initiative "client-initiative. client-initiative" Evaluation Summary                        │
+   ├───────────────────┬───────────────┬────────────────────────────────────────────────┬────────┤
+   │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                                      │ RESULT │
+   ├───────────────────┼───────────────┼────────────────────────────────────────────────┼────────┤
+   │ default           │ Default       │ sbom-require-complete-license-set(error->pass) │ pass   │
+   ├───────────────────┼───────────────┼────────────────────────────────────────────────┼────────┤
+   │ INITIATIVE RESULT │               │                                                │ PASS   │
+   └───────────────────┴───────────────┴────────────────────────────────────────────────┴────────┘
+   ```
+
    If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--bundle-tag` flag for `valint`:
 
    ```bash
@@ -54,19 +82,103 @@ The following is a description of a sample rule bundle that can be used to build
 
 ### Targetless Run
 
-   Some of the rules in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based on the product name and version and options specified in the rule config. To try this out, first create an SBOM providing these values:
+   Some of the rules in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config. No target for premilinary analysis needed. This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../platforms/overview).
+
+   As an example, let's run `trivy` to create a SARIF report:
 
    ```bash
-   valint bom busybox:latest -o statement --product-name busybox --product-version v1.36.1
+   trivy image --format sarif --output results.sarif ubuntu:latest
    ```
 
-   Then, run
+   Then, create an evidence from this report:
 
    ```bash
-   valint verify --rule sbom/complete-licenses@v2/rules --product-name busybox --product-version v1.36.1
+   valint evidence results.sarif --product-name ubuntu --product-version 24.04
    ```
 
-   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
+   And finally, verify the evidence against the rule. Note that we don't need to provide `valint `with the target report:
+
+   ```bash
+   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules --product-name ubuntu --product-version 24.04
+   ```
+
+   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements. In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool, so `valint` was able to find it just by this partial context:
+
+   ```bash
+   ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ Control "default. Default" Evaluation Summary                                                                                      │
+   ├────────────────┬──────────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────┬───────────────┤
+   │ RULE ID        │ RULE NAME                            │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                        │ TARGET        │
+   ├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
+   │ trivy-report   │ Verify Trivy SARIF Report Compliance │ error │ false    │ fail   │ 113 violations | 0 max allowed │ results.sarif │
+   ├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
+   │ CONTROL RESULT │                                      │       │          │ FAIL   │                                │               │
+   └────────────────┴──────────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────┴───────────────┘
+
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │ Initiative "client-initiative. client-initiative" Evaluation Summary   │
+   ├───────────────────┬───────────────┬───────────────────────────┬────────┤
+   │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                 │ RESULT │
+   ├───────────────────┼───────────────┼───────────────────────────┼────────┤
+   │ default           │ Default       │ trivy-report(error->fail) │ fail   │
+   ├───────────────────┼───────────────┼───────────────────────────┼────────┤
+   │ INITIATIVE RESULT │               │                           │ FAIL   │
+   └───────────────────┴───────────────┴───────────────────────────┴────────┘
+   ```
+
+### Verify Initiative
+
+Similar to a single rule, one can verify an initiative. The following command will verify all rules in the SSDF initiative:
+
+```bash
+valint verify busybox:latest --initiative ssdf@v2/initiatives
+```
+
+The results would look like:
+
+```bash
+[2025-01-28 17:28:29]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
+│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ PS.2           │ Image-verifiable │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ PS.3.2         │ SBOM archived    │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
+└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
+Evaluation Target Name 'index.docker.io/library/busybox:latest'
+
+[2025-01-28 17:28:29]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary:
+┌──────────────────────────────────────────────────────────────────┐
+│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary     │
+├───────────────────┬───────────────┬─────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
+├───────────────────┼───────────────┼─────────────────────┼────────┤
+│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),  │ pass   │
+│                   │               │ PS.3.2(error->pass) │        │
+├───────────────────┼───────────────┼─────────────────────┼────────┤
+│ INITIATIVE RESULT │               │                     │ PASS   │
+└───────────────────┴───────────────┴─────────────────────┴────────┘
+```
+
+Note that only the rules that are applicable to the target and provided inputs were be verified. Other rules were disabled with a warning:
+
+```syslog
+[2025-01-28 17:28:27]  WARN rule: [PS.1.1::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
+[2025-01-28 17:28:27]  WARN rule: [PS.1.3::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
+[2025-01-28 17:28:27]  WARN rule: [PS.1.5::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
+[2025-01-28 17:28:27]  WARN control: [SSDF-ORG::SSDF] no rules enabled, skipping control
+[2025-01-28 17:28:27]  WARN rule: [PS.1.2::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
+[2025-01-28 17:28:27]  WARN rule: [PS.1.4::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
+```
+
+## Reading the Results
+
+The results of the verification are presented in a table format. The table consists of the following columns:
+
 
 ## Modifying Rules in This Catalogue
 
