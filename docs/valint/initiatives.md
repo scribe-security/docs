@@ -26,11 +26,11 @@ id: <initiative-id>
 name: <initiative-name>
 version: <initiative-version>
 description: <initiative-description>
-url: <http://help_uri>
+help: <http://help_uri>
 
 defaults:
   evidence:
-    signed: false
+    signed: <true | false>
     content_body_type: content_body_type>
     filter-by: []
 
@@ -41,21 +41,10 @@ controls:
     - name: <control-name>
       id: <control-id>
       description: <control-description>
+      disable: <true | false>
       when:
         gate: <gate-type>
-      rules:
-        - name: <rule-name>
-          id: <rule-id>
-          path: <path_to_rego>
-          uses: <bundle-rule-reference>
-          description: <rule-description>
-          aggregate-results: false
-          labels: []
-          evidence:
-            signed: true | false
-            content_body_type: <content_body_type>
-            filter-by: []
-          with: {}
+      rules: []
 ```
 
 ### Initiative configuration fields
@@ -97,7 +86,7 @@ controls:
 - **Required:** No
 - **Description:** A brief description of the initiative.
 
-#### `url`
+#### `help`
 
 - **Type:** String (URL)
 - **Required:** No
@@ -151,6 +140,12 @@ controls:
 - **Required:** No
 - **Description:** A brief description of the control.
 
+##### `controls[].disable`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the control should be disabled. If set to `true`, the control will not be evaluated.
+
 ##### `controls[].when`
 
 - **Type:** Object
@@ -166,7 +161,7 @@ controls:
 ##### `controls[].rules`
 
 - **Type:** Array of Objects
-- **Description:** A list of rules for the control. For the details, see the `rules` section below.
+- **Description:** A list of rules for the control. For the details, see the [Rules](#rule-config-format) section below.
 
 > For `valint` configuration details, see the [configuration](./configuration.md) section.
 >
@@ -223,17 +218,22 @@ Every rule that is used separately via the `--rule` arg or as part of an initiat
 ```yaml
 config-type: rule
 required-valint-version: "2.0.0"
+disable: <true | false>
 id: <rule-id>
 name: <rule-name>
 path: <path_to_rego>
-
+uses: <bundle-rule-reference>
 description: <rule-description>
+help: <http://help_uri>
 
 labels: []
+
+level: <error | warning | note>
 
 require-scribe-api: <true | false>
 fail-on-missing-evidence: <true | false>
 skip-evidence: <true | false>
+aggregate-results: <true | false>
 
 evidence: {}
 
@@ -255,6 +255,12 @@ with: {}
 - **Description:** The minimum version of Valint required to run the initiative.
 - **Example:** `"2.0.0"`
 
+#### `disable`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the rule should be disabled. If set to `true`, the rule will not be evaluated.
+
 #### `id`
 
 - **Type:** String
@@ -273,17 +279,35 @@ with: {}
 - **Required:** No
 - **Description:** The path to a custom external script, if used. Should be relative to the rule file.
 
+#### `uses`
+
+- **Type:** String
+- **Required:** No
+- **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<bundle-path>@<version>/rules`.
+
 #### `description`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A brief description of the rule.
 
+#### `help`
+
+- **Type:** String (URL)
+- **Required:** No
+- **Description:** A URL pointing to the help or documentation for the rule.
+
 #### `labels`
 
 - **Type:** Array of Strings
 - **Required:** No
 - **Description:** A list of user-specified labels for the rule itself.
+
+#### `level`
+
+- **Type:** String
+- **Required:** No
+- **Description:** The level of the rule. Can be `error`, `warning`, or `note`. Default is `error`.
 
 #### `require-scribe-api`
 
@@ -302,6 +326,12 @@ with: {}
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule should skip evidence downloading and go straight to the rule evaluation. Can be helpful for rules that don't require evidence, like API rules.
+
+#### `aggregate-results`
+
+- **Type:** Boolean
+- **Required:** No
+- **Description:** Indicates whether the rule results should be aggregated. If set to `true`, the rule will return a single result for all the violations found.
 
 #### `evidence`
 
