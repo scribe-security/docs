@@ -175,6 +175,166 @@ Note that only the rules that are applicable to the target and provided inputs w
 [2025-01-28 17:28:27]  WARN rule: [PS.1.4::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
 ```
 
+In the SSDF example, to enable other rules verification we need to rune [platforms discovery](../platforms/overview) for GitHub organizations and repositories first. After the discovery is ready, we need to also use the `platforms` util to verify the initiative on them. `platforms` will provide the necessary arguments to `valint` to verify the discovered assets.
+
+<details>
+
+<summary>Initiative results</summary>
+
+```bash
+[2025-01-28 17:50:36]  INFO Control "SSDF-ORG. SSDF ORG" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-ORG. SSDF ORG" Evaluation Summary                                                                                                              │
+├────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
+│ RULE ID        │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.1         │ Enforce 2FA                    │ error │ true     │ pass   │ 2FA authentication is enabled          │ my-org (github organization)          │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.3         │ Limit admins                   │ error │ true     │ fail   │ 9 admins | 3 max allowed               │ my-org (github organization)          │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.5         │ Require signoff on web commits │ error │ true     │ fail   │ web_commit_signoff_required is NOT set │ my-org (github organization)          │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ CONTROL RESULT │                                │       │          │ FAIL   │                                        │                                       │
+└────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
+
+[2025-01-28 17:50:36]  INFO Control "SSDF-REPO. SSDF REPO" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-REPO. SSDF REPO" Evaluation Summary                                                                                                                                                │
+├────────────────┬───────────────┬───────┬──────────┬────────┬──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────┤
+│ RULE ID        │ RULE NAME     │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                                          │ TARGET                                                           │
+├────────────────┼───────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ output/github_my-org__my-repo_repository_attestation.json        │
+│                │               │       │          │        │ ed to run from a workflow in a repository.                       │                                                                  │
+├────────────────┼───────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ CONTROL RESULT │               │       │          │ PASS   │                                                                  │                                                                  │
+└────────────────┴───────────────┴───────┴──────────┴────────┴──────────────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────┘
+
+[2025-01-28 17:50:36]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
+┌───────────────────────────────────────────────────────────────────┐
+│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary      │
+├───────────────────┬───────────────┬──────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(error->pass), │ fail   │
+│                   │               │ PS.1.3(error->fail), │        │
+│                   │               │ PS.1.5(error->fail)  │        │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ SSDF-REPO         │ SSDF REPO     │ PS.3.1(error->pass)  │ pass   │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ INITIATIVE RESULT │               │                      │ FAIL   │
+└───────────────────┴───────────────┴──────────────────────┴────────┘
+
+```
+
+</details>
+
+Note that in this case `valint` filtered out `SSDF-IMAGE` rules because it wasn't provided with the right target.
+
+## Whole initiative verification
+
+If one wants to verify an initiative on all the existing evidences, they need to provide `valint` with the `--all-evidence` flag. It disables most of rule filterings and for each rule verifies all the matching evidences.
+
+```bash
+valint verify --initiative ssdf@v2/initiatives --all-evidence  --product-name busybox --product-version v1.36.1
+```
+
+<details>
+
+<summary>Initiative results</summary>
+
+```bash
+[2025-01-28 18:13:23]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
+│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ PS.2           │ Image-verifiable │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ PS.3.2         │ SBOM archived    │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+│ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
+└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
+
+[2025-01-28 18:13:23]  INFO Control "SSDF-ORG. SSDF ORG" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-ORG. SSDF ORG" Evaluation Summary                                                                                                              │
+├────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
+│ RULE ID        │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.1         │ Enforce 2FA                    │ error │ true     │ pass   │ 2FA authentication is enabled          │ my-org (github organization)          │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.3         │ Limit admins                   │ error │ true     │ fail   │ 9 admins | 3 max allowed               │ my-org (github organization)          │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ PS.1.5         │ Require signoff on web commits │ error │ true     │ fail   │ web_commit_signoff_required is NOT set │ my-org (github organization           │
+├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ CONTROL RESULT │                                │       │          │ FAIL   │                                        │                                       │
+└────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
+
+[2025-01-28 18:13:23]  INFO Control "SSDF-REPO. SSDF REPO" Evaluation Summary: 
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Control "SSDF-REPO. SSDF REPO" Evaluation Summary                                                                                                                                                   │
+├────────────────┬──────────────────┬───────┬──────────┬────────┬──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────┤
+│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                                          │ TARGET                                                           │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.1.2         │ Branch protected │ error │ true     │ fail   │ 1 unprotected branches | 0 max allowed                           │ my-org/scribot (github repo)                                     │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.1.4         │ Repo private     │ error │ true     │ pass   │ The repository is private                                        │ my-org/scribot (github repo)                                     │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived    │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ 33842 (scribe sarif evidence)                                    │
+│                │                  │       │          │        │ ed to run from a workflow in a repository.                       │                                                                  │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived    │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ 33843 (scribe sarif evidence)                                    │
+│                │                  │       │          │        │ ed to run from a workflow in a repository.                       │                                                                  │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived    │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ busybox:latest                                                   │
+│                │                  │       │          │        │ ed to run from a workflow in a repository.                       │                                                                  │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived    │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ output/github_my-org__my-repo_repository_attestation.js          │
+│                │                  │       │          │        │ ed to run from a workflow in a repository.                       │ on                                                               │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ PS.3.1         │ Code archived    │ error │ true     │ pass   │ The code is archived in a repository. This is a demo rule, plann │ output/github_my-org_organization_attestation.json               │
+│                │                  │       │          │        │ ed to run from a workflow in a repository.                       │                                                                  │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼──────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ CONTROL RESULT │                  │       │          │ FAIL   │                                                                  │                                                                  │
+└────────────────┴──────────────────┴───────┴──────────┴────────┴──────────────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────┘
+
+[2025-01-28 18:13:23]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
+┌───────────────────────────────────────────────────────────────────┐
+│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary      │
+├───────────────────┬───────────────┬──────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),   │ pass   │
+│                   │               │ PS.3.2(error->pass)  │        │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(error->pass), │ fail   │
+│                   │               │ PS.1.1(error->pass), │        │
+│                   │               │ PS.1.3(error->fail), │        │
+│                   │               │ PS.1.3(error->fail), │        │
+│                   │               │ PS.1.5(error->fail), │        │
+│                   │               │ PS.1.5(error->fail)  │        │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ SSDF-REPO         │ SSDF REPO     │ PS.3.1(error->pass), │ fail   │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.3.1(error->pass), │        │
+│                   │               │ PS.1.2(error->fail), │        │
+│                   │               │ PS.1.2(error->fail), │        │
+│                   │               │ PS.1.4(error->pass), │        │
+│                   │               │ PS.1.4(error->pass)  │        │
+├───────────────────┼───────────────┼──────────────────────┼────────┤
+│ INITIATIVE RESULT │               │                      │ FAIL   │
+└───────────────────┴───────────────┴──────────────────────┴────────┘
+```
+
+</details>
+
+In this case no rule was disabled and all of them were verified.
+
 ## Reading the Results
 
 The results of the verification are presented in a table format. The table consists of the following columns:
