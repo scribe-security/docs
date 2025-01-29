@@ -68,6 +68,13 @@ attest:
     add-passed: true
   cocosign: {}
   x509: {}
+  fulcio:
+    enable: false
+    url: ""
+    oidc:
+      auth: ""
+      issuer: ""
+      clientid: ""
   kms:
     enable: false
     ref: ""
