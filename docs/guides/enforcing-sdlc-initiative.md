@@ -264,7 +264,7 @@ In the SSDF example, to enable other rules verification we need to rune [platfor
 
 Note that in this case `valint` filtered out `SSDF-IMAGE` rules because it wasn't provided with the right target.
 
-## Whole initiative verification
+### Whole initiative verification
 
 If one wants to verify an initiative on all the existing evidences, they need to provide `valint` with the `--all-evidence` flag. It disables most of rule filterings and for each rule verifies all the matching evidences.
 
@@ -342,10 +342,24 @@ valint verify --initiative ssdf@v2/initiatives --all-evidence  --product-name bu
 
 In this case no rule was disabled and all of them were verified.
 
-## Reading the Results
+### Reading the Results
 
-The results of the verification are presented in a table format. The table consists of the following columns:
+The results of the control verification are presented in a table format. The table consists of the following columns:
 
+- `RULE ID`: The unique identifier of the rule.
+- `RULE NAME`: The name of the rule.
+- `LEVEL`: The severity level of the rule. Only rules with the "error" level can fail the control.
+- `VERIFIED`: The boolean value indicating whether the evidence signature was verified. It may or may not fail the rule, based on the rule's requirements.
+- `RESULT`: The result of the rule verification. It can be "pass", "fail" or "open".
+- `SUMMARY`: The reason for the rule result.
+- `TARGET`: The target asset of the rule verification.
+
+The results of the initiative verification are also presented in a table format. The table consists of the following columns:
+
+- `CONTROL ID`: The unique identifier of the control.
+- `CONTROL NAME`: The name of the control.
+- `RULE LIST`: The list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In the parentheses, the rule's result is shown in the format `rule_id(level->result)`.
+- `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
 ## Modifying Rules in This Catalogue
 
