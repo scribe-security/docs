@@ -44,7 +44,11 @@ The following is a description of a sample rule bundle that can be used to build
    valint verify busybox:latest --rule sbom/complete-licenses@v2/rules # path within a repo
    ```
 
-   As a result, you will see the output table of the rule verification:
+   As a result, you will see the output table of the rule verification.
+
+   <details>
+
+   <summary>Rule evaluation results</summary>
 
    ```bash
    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -71,6 +75,8 @@ The following is a description of a sample rule bundle that can be used to build
    │ INITIATIVE RESULT │               │                                                │ PASS   │
    └───────────────────┴───────────────┴────────────────────────────────────────────────┴────────┘
    ```
+
+   </details>
 
    If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--bundle-tag` flag for `valint`:
 
@@ -102,7 +108,12 @@ The following is a description of a sample rule bundle that can be used to build
    valint verify --rule sarif/trivy/verify-trivy-report@v2/rules --product-name ubuntu --product-version 24.04
    ```
 
-   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements. In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool, so `valint` was able to find it just by this partial context:
+   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
+   In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool, so `valint` was able to find it just by this partial context.
+
+   <details>
+
+   <summary>Initiative results</summary>
 
    ```bash
    ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -126,15 +137,20 @@ The following is a description of a sample rule bundle that can be used to build
    └───────────────────┴───────────────┴───────────────────────────┴────────┘
    ```
 
+   </details>
+
 ### Verify Initiative
 
-Similar to a single rule, one can verify an initiative. The following command will verify all rules in the SSDF initiative:
+Similar to a single rule, one can verify an initiative. Let's take as an example the SSDF initiative available in the sample bundle as `ssdf@v2/initiatives`.
+The following command will *try to* verify all rules in the initiative:
 
 ```bash
 valint verify busybox:latest --initiative ssdf@v2/initiatives
 ```
 
-The results would look like:
+<details>
+
+<summary>Initiative results</summary>
 
 ```bash
 [2025-01-28 17:28:29]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
@@ -163,6 +179,8 @@ Evaluation Target Name 'index.docker.io/library/busybox:latest'
 │ INITIATIVE RESULT │               │                     │ PASS   │
 └───────────────────┴───────────────┴─────────────────────┴────────┘
 ```
+
+</details>
 
 Note that only the rules that are applicable to the target and provided inputs were be verified. Other rules were disabled with a warning:
 
