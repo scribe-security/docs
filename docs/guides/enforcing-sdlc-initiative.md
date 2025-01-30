@@ -16,11 +16,9 @@ For example, at the end of a build or at the admission control point to the prod
 
 For the detailed initiative description, see **[initiatives](../../valint/initiatives)** section.
 
-## Sample Rule Bundle
-
-The following is a description of a sample rule bundle that can be used to build a policy for your SDLC.
-
 ## Quickstart
+
+### Running a single rule verification
 
 1. Install `valint`:
 
@@ -38,13 +36,13 @@ The following is a description of a sample rule bundle that can be used to build
    - To explore other evidence types, use commands `valint slsa` or `valint evidence`.
    - Specify `-o attest` for signed evidence.
 
-3. Verify the SBOM against a rule. The current catalogue will be used as a default bundle for `valint`.
+3. Verify the SBOM against a rule. [Scribe Sample Rule Catalogue](#sample-rule-catalogue) will be used as a default rule bundle for `valint`.
 
    ```bash
-   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules # path within a repo
+   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules
    ```
 
-   As a result, you will see the output table of the rule verification.
+   As a result, you will see the output table of the rule verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
 
    <details>
 
@@ -78,7 +76,7 @@ The following is a description of a sample rule bundle that can be used to build
 
    </details>
 
-   If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--bundle-tag` flag for `valint`:
+   If you want to use a specific (say, early-access) version of this catalogue, use `--bundle-tag` flag for `valint`:
 
    ```bash
    valint verify busybox:latest --bundle-tag v2.0.0 --rule sbom/complete-licenses@v2/rules
@@ -88,7 +86,10 @@ The following is a description of a sample rule bundle that can be used to build
 
 ### Targetless Run
 
-   Some of the rules in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config. No target for premilinary analysis needed. This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../../platforms/overview).
+   Some of the rules in this catalogue can also be run in "targetless" mode,
+   meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config.
+   No target for premilinary analysis needed.
+   This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../../platforms/overview).
 
    As an example, let's run `trivy` to create a SARIF report:
 
@@ -109,7 +110,8 @@ The following is a description of a sample rule bundle that can be used to build
    ```
 
    Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
-   In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool, so `valint` was able to find it just by this partial context.
+   In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool,
+   so `valint` was able to find it just by this partial context.
 
    <details>
 
@@ -182,7 +184,7 @@ Evaluation Target Name 'index.docker.io/library/busybox:latest'
 
 </details>
 
-Note that only the rules that are applicable to the target and provided inputs were be verified. Other rules were disabled with a warning:
+Note that only the rules that are applicable to the target and the provided inputs were verified. Other rules were disabled with a warning:
 
 ```syslog
 [2025-01-28 17:28:27]  WARN rule: [PS.1.1::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
@@ -193,7 +195,9 @@ Note that only the rules that are applicable to the target and provided inputs w
 [2025-01-28 17:28:27]  WARN rule: [PS.1.4::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
 ```
 
-In the SSDF example, to enable other rules verification we need to rune [platforms discovery](../../platforms/overview) for GitHub organizations and repositories first. After the discovery is ready, we need to also use the `platforms` util to verify the initiative on them. `platforms` will provide the necessary arguments to `valint` to verify the discovered assets.
+In the SSDF example, to enable other rules verification we need to run [platforms discovery](../../platforms/overview) for GitHub organizations and repositories first.
+After the discovery is ready, we need to also use the `platforms` util to verify the initiative on them.
+`platforms` will provide the necessary arguments for `valint` to verify the discovered assets.
 
 <details>
 
@@ -266,7 +270,8 @@ Note that in this case `valint` filtered out `SSDF-IMAGE` rules because it wasn'
 
 ### Whole initiative verification
 
-If one wants to verify an initiative on all the existing evidences, they need to provide `valint` with the `--all-evidence` flag. It disables most of rule filterings and for each rule verifies all the matching evidences.
+If one wants to verify an initiative on all the existing evidences, they need to provide `valint` with the `--all-evidence` flag.
+It disables most of rule filterings and for each rule verifies all the matching evidences.
 
 ```bash
 valint verify --initiative ssdf@v2/initiatives --all-evidence  --product-name busybox --product-version v1.36.1
@@ -372,7 +377,7 @@ If you fork this ruleset or create your own, in order to use it you need to spec
 valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule sbom/complete-licenses@v2/rules
 ```
 
-## Policy Rule Catalogue
+## Sample Rule Catalogue
 
 | Rule | Description | Additional Info |
 | --- | --- | --- |
