@@ -51,6 +51,7 @@ Flags for `bom` subcommand
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --provenance | Include SLSA Provenance evidence | |
 | | --pubkey | Public key path | |
+| -y | --skip-confirmation | Skip Sigstore Confirmation | |
 | | --supplier-email | Set supplier email | |
 | | --supplier-name | Set supplier name | |
 | | --supplier-phone | Set supplier phone | |
@@ -69,7 +70,7 @@ Flags for all `valint` subcommands
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
 | -G | --gate | Policy Gate name | |
-| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
+| | --input | Input Evidence target, format (\<parser\>:\<file\> or \<scheme\>:\<name\>:\<tag\>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
