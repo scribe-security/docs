@@ -60,12 +60,14 @@ controls:
 - **Required:** No
 - **Description:** The minimum version of Valint required to run the initiative.
 - **Example:** `"2.0.0"`
+- **Default**: No `valint` version matching check is performed
 
 #### `id`
 
 - **Type:** String
 - **Required:** No
-- **Description:** A unique identifier for the initiative. Cannot contain the `::` symbol. If no ID is provided, it is generated from the name.
+- **Description:** A unique identifier for the initiative. Cannot contain the `::` string. If no ID is provided, it is generated from the name.
+- **Default**: No `id` is provided, the value is calculated from the `name` field
 
 #### `name`
 
@@ -78,42 +80,49 @@ controls:
 - **Type:** String
 - **Required:** No
 - **Description:** The version of the initiative.
+- **Default**: If no value is provided, iniitiative versioning is not applied.
 
 #### `description`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A brief description of the initiative.
+- **Default**: If no value is provided, the value is ommited in the output data.
 
 #### `help`
 
 - **Type:** String (URL)
 - **Required:** No
 - **Description:** A URL pointing to the help or documentation for the initiative.
+- **Default**: If no value is provided, the value is ommited in the output data.
 
 #### `defaults`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative.
+- **Default**: If no value is provided, the rules' values are used.
 
 ##### `defaults.level`
 
 - **Type:** String
 - **Required:** No
 - **Description:** Rule level to use for all rules in the initiative
+- **Default**: If no value is provided, the original rules' levels are used.
 
 ##### `defaults.evidence`
 
 - **Type:** Object
 - **Required:** No
-- **Description:** Evidence lookup parameters. Any parameters supported by the `rule.evidence` field can be used here.
+- **Description:** Evidence lookup parameters. Any field from the evidence context can be used here.
+- **Default**: If no value is provided, the rules' values are used.
 
 #### `env`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** File-wise environment variables for the template engine.
+- **Default**: If no value is provided, only the vars from the actual environment are used.
 
 #### `controls`
 
@@ -131,7 +140,7 @@ controls:
 
 - **Type:** String
 - **Required:** No
-- **Description:** A unique identifier for the control. Cannot contain the `::` symbol. If no ID is provided, it is generated from the name.
+- **Description:** A unique identifier for the control. Cannot contain the `::` string. If no ID is provided, it is generated from the name.
 
 ##### `controls[].description`
 
@@ -143,6 +152,7 @@ controls:
 
 - **Type:** Boolean
 - **Required:** No
+- **Default:** `false`
 - **Description:** Indicates whether the control should be disabled. If set to `true`, the control will not be evaluated.
 
 ##### `controls[].when`
@@ -150,12 +160,14 @@ controls:
 - **Type:** Object
 - **Required:** No
 - **Description:** Optional filters for when the control should be run.
+- **Default**: If no value is provided, no user-defined control filters are applied.
 
 ###### `controls[].when.gate`
 
 - **Type:** String
 - **Required:** No
 - **Description:** The type of gate to run the control on.
+- **Default**: If no value is provided, the control will run on all gates.
 
 ##### `controls[].rules`
 
@@ -252,19 +264,22 @@ with: {}
 - **Type:** String
 - **Required:** No
 - **Description:** The minimum version of Valint required to run the initiative.
+- **Default**: No `valint` version matching check is performed.
 - **Example:** `"2.0.0"`
 
 #### `disable`
 
 - **Type:** Boolean
 - **Required:** No
+- **Default:** `false`
 - **Description:** Indicates whether the rule should be disabled. If set to `true`, the rule will not be evaluated.
 
 #### `id`
 
 - **Type:** String
 - **Required:** No
-- **Description:** A unique identifier for the rule. Cannot contain the `::` symbol. Must be unique within the initiative. If no ID is provided, it is generated from the name.
+- **Description:** A unique identifier for the rule. Cannot contain the `::` string. Must be unique within the initiative. If no ID is provided, it is generated from the name.
+- **Default**: If no value is provided, it is generated from the name.
 
 #### `name`
 
@@ -277,78 +292,91 @@ with: {}
 - **Type:** String
 - **Required:** No
 - **Description:** The path to a custom external script, if used. Should be relative to the rule file.
+- **Default**: If no value is provided, no external script file is used for the rule.
 
 #### `uses`
 
 - **Type:** String
 - **Required:** No
-- **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<bundle-path>@<version>/rules`.
+- **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<path-to-rule-in-catalog>@<version>/rules`. When used, the current rule's values will  override the external rule's ones.
+- **Default**: If no value is provided, no external rule is used as a base rule.
 
 #### `description`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A brief description of the rule.
+- **Default**: If no value is provided, the value is ommited in the output data.
 
 #### `help`
 
 - **Type:** String (URL)
 - **Required:** No
 - **Description:** A URL pointing to the help or documentation for the rule.
+- **Default**: If no value is provided, the value is ommited in the output data.
 
 #### `labels`
 
 - **Type:** Array of Strings
 - **Required:** No
 - **Description:** A list of user-specified labels for the rule itself.
+- **Default**: No labels used.
 
 #### `level`
 
 - **Type:** String
 - **Required:** No
 - **Description:** The level of the rule. Can be `error`, `warning`, or `note`. Default is `error`.
+- **Default**: `error`
 
 #### `require-scribe-api`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the Scribe API is required.
+- **Default**: `false`
 
 #### `fail-on-missing-evidence`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the open result if no evidence is found.
+- **Default**: `false`
 
 #### `skip-evidence`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule should skip evidence downloading and go straight to the rule evaluation. Can be helpful for rules that don't require evidence, like API rules.
+- **Default**: `false`
 
 #### `aggregate-results`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule results should be aggregated. If set to `true`, the rule will return a single result for all the violations found.
+- **Default**: `false
 
 #### `evidence`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Evidence lookup parameters. Any field from the evidence context can be used here.
+- **Default**: No user specified options will be used for the evidence lookup.
 
 ##### `evidence.filter-by`
 
 - **Type:** List of Strings
 - **Required:** No
 - **Description:** A list of parameters in the environment to filter the evidence by (see [Evidence Lookup](#evidence-lookup)).
+- **Default**: `[target, product]`
 
 #### `with`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Rule input, depending on the rule script.
+- **Default**: Depends on the rule script.
 
 Examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
