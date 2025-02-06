@@ -12,7 +12,6 @@ For example, at the end of a build or at the admission control point to the prod
 - Images must be signed, and they must have a matching CycloneDX SBOM.
 - Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
 - Tagged sources must be signed and verified by a set of individuals or processes.
-- Released binaries must be built by Azure DevOps from a specific git repository and have unsigned SLSA provenance.
 
 For the detailed initiative description, see **[initiatives](../../valint/initiatives)** section.
 
@@ -36,7 +35,7 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
    - To explore other evidence types, use commands `valint slsa` or `valint evidence`.
    - Specify `-o attest` for signed evidence.
 
-3. Verify the SBOM against a rule. [Scribe Sample Rule Catalogue](#sample-rule-catalogue) will be used as a default rule bundle for `valint`.
+3. Verify the SBOM against an existing rule from a catalog. [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as a default rule bundle for `valint`.
 
    ```bash
    valint verify busybox:latest --rule sbom/complete-licenses@v2/rules
@@ -76,7 +75,7 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
 
    </details>
 
-   If you want to use a specific (say, early-access) version of this catalogue, use `--bundle-tag` flag for `valint`:
+   If you want to use a specific (say, early-access) version of this catalog, use `--bundle-tag` flag for `valint`:
 
    ```bash
    valint verify busybox:latest --bundle-tag v2.0.0 --rule sbom/complete-licenses@v2/rules
@@ -86,7 +85,7 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
 
 ### Targetless Run
 
-   Some of the rules in this catalogue can also be run in "targetless" mode,
+   Some of the rules in this catalog can also be run in "targetless" mode,
    meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config.
    No target for premilinary analysis needed.
    This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../../platforms/overview).
@@ -366,9 +365,9 @@ The results of the initiative verification are also presented in a table format.
 - `RULE LIST`: The list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In the parentheses, the rule's result is shown in the format `rule_id(level->result)`.
 - `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
-## Modifying Rules in This Catalogue
+## Modifying Rules in This Catalog
 
-Each rule in this catalogue consists of a `rego` script and `yaml` configuration file.
+Each rule in this catalog consists of a `rego` script and `yaml` configuration file.
 In order to run a rule, its script file should be referred by a rule config. Each `.yaml` represents such a config and is ready for use. If you modify or add your own rules, don't forget to fulfill this requirement.
 
 If you fork this ruleset or create your own, in order to use it you need to specify its location in `valint` flag `--bundle` either in cmd args or a `valint.yaml` config file:
@@ -377,7 +376,7 @@ If you fork this ruleset or create your own, in order to use it you need to spec
 valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule sbom/complete-licenses@v2/rules
 ```
 
-## Sample Rule Catalogue
+## Sample Rule Catalog
 
 | Rule | Description | Additional Info |
 | --- | --- | --- |

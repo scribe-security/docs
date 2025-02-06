@@ -13,9 +13,8 @@ toc_max_heading_level: 3
 Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` that your supply chain must comply with. The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluatoin results and references to the verified assets and evidences.  
 
 An initiative consists of a set of `controls`, each of which in turn consists of a set of `rules` and is verified if all of them are evaluated and verified.
-A `rule` is verified if ANY `evidence` is found that complies with the `rule` configuration and setting.
 
-Rules can reuse from the existing ones from a bundle or be defined inline.
+Rules can reuse the existing ones from a bundle or be defined inline.
 
 ## Initiative config format
 
@@ -591,6 +590,6 @@ fail-on-missing-evidence: true
 ...
 ```
 
-### Unicode symbols in rule results
+### Unicode strings in rule results
 
 To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag in the runtime. THis would result in replacing rule levels and results in `valint` logs with emojis.
