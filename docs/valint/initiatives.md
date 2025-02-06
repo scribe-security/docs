@@ -319,7 +319,7 @@ with: {}
 
 - **Type:** Array of Strings
 - **Required:** No
-- **Description:** A list of user-specified labels for the rule itself.
+- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag.
 - **Default**: No labels used.
 
 #### `level`
@@ -382,7 +382,7 @@ Examples of rules and initiatives can be found in the [sample-policies bundle](h
 
 ## How to adopt an initiative?
 
-An initiative is defined as a file that can be consumed locally or from a git bundle. To run an initiative, one first needs to create the required evidences:
+An initiative is defined as a file that can be consumed locally or from an external bundle. To run an initiative, one first needs to create the required evidences:
 
 1. Generate an SBOM
 
@@ -421,7 +421,7 @@ To run a part of an initiative filtered by gate type, use the following command:
 valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret> --gate-type Build --gate-name "Build of My Product"
 ```
 
-## Using private bundle
+## Using a private bundle
 
 Rules and initiatives can be provided locally or reused either from the public Scribe bundle or a private bundle managed by the user. By default, the public Scribe bundle is used.
 To use a private bundle instead, the following rules should be followed:
@@ -620,4 +620,4 @@ fail-on-missing-evidence: true
 
 ### Unicode strings in rule results
 
-To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag in the runtime. THis would result in replacing rule levels and results in `valint` logs with emojis.
+To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag in the runtime. This would result in replacing rule levels and results in `valint` logs with emojis.
