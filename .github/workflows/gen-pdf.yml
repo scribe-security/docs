@@ -21,7 +21,7 @@ jobs:
     - name: create markdown file
       run: |
         pip install markitdown
-        markitdown scribe-guide.pdf -o scribe-guide.md
+        markitdown scribe-guide.pdf > scribe-guide.md
 
     - name: upload artifact
       uses: actions/upload-artifact@v4.6.0
