@@ -19,7 +19,7 @@ jobs:
       run: npx docusaurus-prince-pdf -u https://scribe-security.netlify.app/docs/introducing-scribe/what-is-scribe --output scribe-guide.pdf
 
     - name: upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.6.0
       with:
         name: scribe-guide-pdf
         path: scribe-guide.pdf
