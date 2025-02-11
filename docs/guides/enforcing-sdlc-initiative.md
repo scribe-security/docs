@@ -28,19 +28,25 @@ For the detailed initiative description, see **[initiatives](../valint/initiativ
 2. Create an SBOM of a type you want to verify. For a Docker image the command would be:
 
    ```bash
-   valint bom busybox:latest -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint bom busybox:latest -o statement \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    It's also possible to create an SBOM from a git repository (if git authentication is required, provide it with the `--git-auth` flag):
 
    ```bash
-   valint bom git:path/togit/repo -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint bom git:path/togit/repo -o statement \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    And from a file:
 
    ```bash
-   valint bom file:/path/to/file.artifact -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint bom file:/path/to/file.artifact -o statement \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
 Alternatively, you can use GitHub actions, as described in details in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
@@ -52,7 +58,9 @@ Alternatively, you can use GitHub actions, as described in details in [Setting u
 2. Verify the SBOM against an initiative. Let's take the SSDF initiative provided in the [Scribe Sample Catalog](#sample-rule-catalog):
 
    ```bash
-   valint verify busybox:latest --initiative ssdf@v2/initiatives --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint verify busybox:latest --initiative ssdf@v2/initiatives \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    As a result, you will see the output table of the initiative verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
@@ -103,7 +111,9 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 2. Verify the SBOM against an existing rule from the bundle. [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as a default rule bundle for `valint`.
 
    ```bash
-   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    As a result, you will see the output table of the rule verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
@@ -159,13 +169,17 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    Then, create an evidence from this report:
 
    ```bash
-   valint evidence results.sarif --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint evidence results.sarif \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    And finally, verify the evidence against the rule. Note that we don't need to provide `valint `with the target report:
 
    ```bash
-   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules \
+      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+      --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    `valint` will use the latest evidence for the specified product name and version that meets the other rule requirements.
@@ -206,7 +220,9 @@ If you want to verify an initiative on all the existing evidences, provide `vali
 It disables most of rule filterings and for each rule verifies all the matching evidences.
 
 ```bash
-valint verify --initiative ssdf@v2/initiatives --all-evidence --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+valint verify --initiative ssdf@v2/initiatives --all-evidence \
+   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+   --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 <details>
