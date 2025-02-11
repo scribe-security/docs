@@ -148,7 +148,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    Some of the rules in this catalog can also be run in "targetless" mode,
    meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config.
    No target for premilinary analysis needed.
-   This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../../platforms/overview).
+   This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../platforms/overview).
 
    As an example, let's run `trivy` to create a SARIF report:
 
