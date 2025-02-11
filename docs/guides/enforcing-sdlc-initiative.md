@@ -13,11 +13,11 @@ For example, at the end of a build or at the admission control point to the prod
 - Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
 - Tagged sources must be signed and verified by a set of individuals or processes.
 
-For the detailed initiative description, see **[initiatives](../../valint/initiatives)** section.
+For the detailed initiative description, see **[initiatives](../valint/initiatives)** section.
 
 ## Quickstart
 
-### Running a single rule verification
+### Creating an SBOM
 
 1. Install `valint`:
 
@@ -25,20 +25,85 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
    curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
 
-2. Create an SBOM of a type you want to verify
+2. Create an SBOM of a type you want to verify. For a Docker image the command would be:
 
    ```bash
-   valint bom busybox:latest -o statement
+   valint bom busybox:latest -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   Additional options:
-   - To explore other evidence types, use commands `valint slsa` or `valint evidence`.
-   - Specify `-o attest` for signed evidence.
-
-3. Verify the SBOM against an existing rule from a catalog. [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as a default rule bundle for `valint`.
+   It's also possible to create an SBOM from a git repository (if git authentication is required, provide it with the `--git-auth` flag):
 
    ```bash
-   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules
+   valint bom git:path/togit/repo -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   ```
+
+   And from a file:
+
+   ```bash
+   valint bom file:/path/to/file.artifact -o statement --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   ```
+
+Alternatively, you can use GitHub actions, as described in details in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
+
+### Verifying an initiative
+
+1. Create an image SBOM as described in [Creating an SBOM](#creating-an-sbom).
+
+2. Verify the SBOM against an initiative. Let's take the SSDF initiative provided in the [Scribe Sample Catalog](#sample-rule-catalog):
+
+   ```bash
+   valint verify busybox:latest --initiative ssdf@v2/initiatives --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
+   ```
+
+   As a result, you will see the output table of the initiative verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
+
+   <details>
+
+   <summary>Initiative results</summary>
+
+   ```bash
+   [2025-01-28 17:28:29]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
+   ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+   ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
+   │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
+   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+   │ PS.2           │ Image-verifiable │ error │ false    │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+   │ PS.3.2         │ SBOM archived    │ error │ false    │ pass   │ Evidence signature verified │ busybox:1.36.1 │
+   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
+   │ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
+   └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
+   Evaluation Target Name 'index.docker.io/library/busybox:latest'
+
+   [2025-01-28 17:28:29]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary:
+   ┌──────────────────────────────────────────────────────────────────┐
+   │ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary     │
+   ├───────────────────┬───────────────┬─────────────────────┬────────┤
+   │ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
+   ├───────────────────┼───────────────┼─────────────────────┼────────┤
+   │ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),  │ pass   │
+   │                   │               │ PS.3.2(error->pass) │        │
+   ├───────────────────┼───────────────┼─────────────────────┼────────┤
+   │ INITIATIVE RESULT │               │                     │ PASS   │
+   └───────────────────┴───────────────┴─────────────────────┴────────┘
+   ```
+
+   </details>
+
+   > Note that only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically and no result was generated for them.
+   > To verify the whole SSDF initiative, you need to run GitHub discovery, see [platforms discovery](../platforms/overview).
+
+### Running a single rule verification
+
+Similar to [initiatives](#verifying-an-initiative), you can verify a single rule. Let's take as an example the `sbom-require-complete-license-set` rule from the [Scribe Sample Catalog](#sample-rule-catalog):
+
+1. Create an image SBOM as described in [Creating an SBOM](#creating-an-sbom).
+
+2. Verify the SBOM against an existing rule from the bundle. [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as a default rule bundle for `valint`.
+
+   ```bash
+   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    As a result, you will see the output table of the rule verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
@@ -75,13 +140,8 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
 
    </details>
 
-   If you want to use a specific (say, early-access) version of this catalog, use `--bundle-tag` flag for `valint`:
-
-   ```bash
-   valint verify busybox:latest --bundle-tag v2.0.0 --rule sbom/complete-licenses@v2/rules
-   ```
-
-   > By default, `valint` uses the version of the catalog matching the version of the `valint` binary.
+   > Note that the rule was put in the `client-initiative` initiative. To change that, you can use the `--initiative-name` and `--initiative-id` flags.
+   > It was also put in the `default` control. This cannot be changed unless you provide a full initiative config with custom names and IDs for your controls.
 
 ### Targetless Run
 
@@ -99,17 +159,17 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
    Then, create an evidence from this report:
 
    ```bash
-   valint evidence results.sarif --product-name ubuntu --product-version 24.04
+   valint evidence results.sarif --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
    And finally, verify the evidence against the rule. Note that we don't need to provide `valint `with the target report:
 
    ```bash
-   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules --product-name ubuntu --product-version 24.04
+   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
-   In our example, the rule required for an evidence created by the "Trivy Vulnerability Scanner" tool,
+   `valint` will use the latest evidence for the specified product name and version that meets the other rule requirements.
+   In our example, the rule needs an evidence created by the "Trivy Vulnerability Scanner" tool,
    so `valint` was able to find it just by this partial context.
 
    <details>
@@ -140,140 +200,13 @@ For the detailed initiative description, see **[initiatives](../../valint/initia
 
    </details>
 
-### Verify Initiative
-
-Similar to a single rule, one can verify an initiative. Let's take as an example the SSDF initiative available in the sample bundle as `ssdf@v2/initiatives`.
-The following command will *try to* verify all rules in the initiative:
-
-```bash
-valint verify busybox:latest --initiative ssdf@v2/initiatives
-```
-
-<details>
-
-<summary>Initiative results</summary>
-
-```bash
-[2025-01-28 17:28:29]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
-├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
-│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ PS.2           │ Image-verifiable │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ PS.3.2         │ SBOM archived    │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
-└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
-Evaluation Target Name 'index.docker.io/library/busybox:latest'
-
-[2025-01-28 17:28:29]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary:
-┌──────────────────────────────────────────────────────────────────┐
-│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary     │
-├───────────────────┬───────────────┬─────────────────────┬────────┤
-│ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
-├───────────────────┼───────────────┼─────────────────────┼────────┤
-│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),  │ pass   │
-│                   │               │ PS.3.2(error->pass) │        │
-├───────────────────┼───────────────┼─────────────────────┼────────┤
-│ INITIATIVE RESULT │               │                     │ PASS   │
-└───────────────────┴───────────────┴─────────────────────┴────────┘
-```
-
-</details>
-
-Note that only the rules that are applicable to the target and the provided inputs were verified. Other rules were disabled with a warning:
-
-```syslog
-[2025-01-28 17:28:27]  WARN rule: [PS.1.1::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
-[2025-01-28 17:28:27]  WARN rule: [PS.1.3::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
-[2025-01-28 17:28:27]  WARN rule: [PS.1.5::SSDF-ORG::SSDF] failed to evaluate rule args, Err: no policy args found
-[2025-01-28 17:28:27]  WARN control: [SSDF-ORG::SSDF] no rules enabled, skipping control
-[2025-01-28 17:28:27]  WARN rule: [PS.1.2::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
-[2025-01-28 17:28:27]  WARN rule: [PS.1.4::SSDF-REPO::SSDF] failed to evaluate rule args, Err: no policy args found
-```
-
-In the SSDF example, to enable other rules verification we need to run [platforms discovery](../../platforms/overview) for GitHub organizations and repositories first.
-After the discovery is ready, we need to also use the `platforms` util to verify the initiative on them.
-`platforms` will provide the necessary arguments for `valint` to verify the discovered assets.
-
-<details>
-
-<summary>Initiative results</summary>
-
-### For GitHub organization
-
-```bash
-[2025-01-28 17:50:36]  INFO Control "SSDF-ORG. SSDF ORG" Evaluation Summary: 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-ORG. SSDF ORG" Evaluation Summary                                                                                                              │
-├────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
-│ RULE ID        │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.1         │ Enforce 2FA                    │ error │ true     │ pass   │ 2FA authentication is enabled          │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.3         │ Limit admins                   │ error │ true     │ fail   │ 9 admins | 3 max allowed               │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.5         │ Require signoff on web commits │ error │ true     │ fail   │ web_commit_signoff_required is NOT set │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ CONTROL RESULT │                                │       │          │ FAIL   │                                        │                                       │
-└────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
-
-[2025-01-28 17:50:36]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
-┌───────────────────────────────────────────────────────────────────┐
-│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary      │
-├───────────────────┬───────────────┬──────────────────────┬────────┤
-│ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(error->pass), │ fail   │
-│                   │               │ PS.1.3(error->fail), │        │
-│                   │               │ PS.1.5(error->fail)  │        │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ INITIATIVE RESULT │               │                      │ FAIL   │
-└───────────────────┴───────────────┴──────────────────────┴────────┘
-```
-
-### For GitHub repository
-
-```bash
-[2025-01-28 17:50:36]  INFO Control "SSDF-REPO. SSDF REPO" Evaluation Summary: 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-REPO. SSDF REPO" Evaluation Summary                                                                                                       │
-├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────────────────────────┬───────────────────────────────────────┤
-│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                         │ TARGET                                │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.2         │ Branch protected │ error │ true     │ fail   │ 1 unprotected branches | 0 max allowed          │ my-org/my-repo (github repo)          │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.4         │ Repo private     │ error │ true     │ pass   │ The repository is private                       │ my-org/my-repo (github repo)          │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ CONTROL RESULT │                  │       │          │ FAIL   │                                                 │                                       │
-└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────────────────────────┴───────────────────────────────────────┘
-
-[2025-01-28 17:50:36]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
-┌───────────────────────────────────────────────────────────────────┐
-│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary      │
-├───────────────────┬───────────────┬──────────────────────┬────────┤
-│ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-REPO         │ SSDF REPO     │ PS.1.2(error->fail), │ fail   │
-│                   │               │ PS.1.4(error->pass)  │        │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ INITIATIVE RESULT │               │                      │ FAIL   │
-└───────────────────┴───────────────┴──────────────────────┴────────┘
-```
-
-</details>
-
-Note that in this case `valint` filtered out `SSDF-IMAGE` rules because it wasn't provided with the right target.
-
 ### Whole initiative verification
 
-If one wants to verify an initiative on all the existing evidences, they need to provide `valint` with the `--all-evidence` flag.
+If you want to verify an initiative on all the existing evidences, provide `valint` with the `--all-evidence` flag.
 It disables most of rule filterings and for each rule verifies all the matching evidences.
 
 ```bash
-valint verify --initiative ssdf@v2/initiatives --all-evidence  --product-name busybox --product-version v1.36.1
+valint verify --initiative ssdf@v2/initiatives --all-evidence --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 <details>
@@ -365,18 +298,12 @@ The results of the initiative verification are also presented in a table format.
 - `RULE LIST`: The list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In the parentheses, the rule's result is shown in the format `rule_id(level->result)`.
 - `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
-## Modifying Rules in This Catalog
-
-Each rule in this catalog consists of a `rego` script and `yaml` configuration file.
-In order to run a rule, its script file should be referred by a rule config. Each `.yaml` represents such a config and is ready for use. If you modify or add your own rules, don't forget to fulfill this requirement.
-
-If you fork this ruleset or create your own, in order to use it you need to specify its location in `valint` flag `--bundle` either in cmd args or a `valint.yaml` config file:
-
-```bash
-valint verify busybox:latest --bundle https://github.com/scribe-public/sample-policies --rule sbom/complete-licenses@v2/rules
-```
-
 ## Sample Rule Catalog
+
+We provide a set of sample rules that can be used to verify the compliance of your software supply chain. This catalog is used by `valint` by default.
+To use a different version of this catalog, use the `--bundle-tag` valint flag.
+
+To use a custom rule catalog, you can specify the path to the catalog in the `--bundle` flag (may it be a local path or a git repo). Additionally, `--bundle-branch` and `--bundle-tag` flags can be used to specify the branch or tag of the catalog git repo.
 
 | Rule | Description | Additional Info |
 | --- | --- | --- |
@@ -414,6 +341,11 @@ Most of the policy rules in this bundle consist of two files: a `.yaml` and a `.
 
 The first is a rule configuration file that should be referenced by on runtime or merged to the actual `valint.yaml`.
 The second is a rego script that contains the actual verifyer code. It can be used as is or merged to the `.yaml` using `script` option.
+
+#### Modifying rules in the Catalog
+
+Each rule in this catalog consists of a `rego` script and `yaml` configuration file.
+In order to run a rule, its script file should be referred by a rule config. Each `.yaml` represents such a config and is ready for use.
 
 ### SBOM
 
