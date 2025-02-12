@@ -387,38 +387,51 @@ An initiative is defined as a file that can be consumed locally or from an exter
 1. Generate an SBOM
 
 ```bash
-valint bom <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+valint bom <image>:<tag> \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 2. Generate SLSA Provenance
 
 ```bash
-valint slsa <image>:<tag> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+valint slsa <image>:<tag> \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 3. Create generic evidences from 3rd party tool reports:
 
 ```bash
-valint evidence <path-to-report> --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+valint evidence <path-to-report> \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 -------------------
 Then, a local initiative can be run with the following command:
 
 ```bash
-valint verify --initiative initiative.yaml --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+valint verify --initiative initiative.yaml \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 To run an initiative from a git bundle, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret>
+valint verify --initiative my-initiative@v2/initiatives \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 To run a part of an initiative filtered by gate type, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> -P <scribe-client-secret> --gate-type Build --gate-name "Build of My Product"
+valint verify --initiative my-initiative@v2/initiatives \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN> \
+  --gate-type Build --gate-name "Build of My Product"
 ```
 
 ## Using a private bundle
@@ -573,7 +586,9 @@ List of supported functions:
 One can run an initiative to verify all the existing evidences in a product. In this case, the initiative will try to find all matching evidences for every rule and verify those. To do that, the `--all-evidence` flag should be used:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --product-key <product-key> --product-version <product-version> --all-evidence
+valint verify --initiative my-initiative@v2/initiatives --all-evidence \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
 If template args are used within the initiative, they should be defined through built-in functions that disable filtering when the `--all-evidence` flag is used. For example, the following example filters evidence by label only when the `--all-evidence` flag is not used:
