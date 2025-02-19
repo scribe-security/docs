@@ -17,7 +17,7 @@ For working usage examples, visit our **[GitHub repository](https://github.com/s
 Follow these steps to authenticate and start using the Scribe API:  
 
 1. **Generate an API Token**  
-   - Navigate to **[Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens)**.  
+   - Navigate to **[Scribe Hub > Account > Tokens](https://app.scribesecurity.com/account/tokens)**.  
    - Create a new API token.  
 
 2. **Obtain a JWT Token**  
