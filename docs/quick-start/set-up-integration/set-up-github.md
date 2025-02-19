@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 ### Steps to integrate your GitHub repository with Scribe Hub
-This is a basic example of generating a **signed SBOM** and a **signed Provenance document** for your builds using **Valint,** Scribe’s CI/CD agent. Valint enables you to **generate SBOMs, collect security evidence, perform integrity checks, and enforce security guardrails** in your build pipelines.
+This is a basic example of generating a **signed SBOM** and a **signed provenance document** for your builds using **Valint,** Scribe’s CI/CD agent. Valint enables you to **generate SBOMs, collect security evidence, perform integrity checks, and enforce security guardrails** in your build pipelines.
 1. Set Up Your Project
    * Choose a GitHub project that builds container images, or fork our [demo project](https://github.com/Scribe-public-demos/demo-project) to get started quickly.  
   *(Using GitLab, Azure Pipelines, or another CI platform?*  [See here](https://scribe-security.netlify.app/docs/integrating-scribe/ci-integrations/))
