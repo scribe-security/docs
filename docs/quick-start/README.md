@@ -4,7 +4,6 @@ title: Quickstarting with a basic example
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 5
-
 ---
 
 # **Get Started with a Simple Example**  
