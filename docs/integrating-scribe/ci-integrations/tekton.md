@@ -6,9 +6,9 @@ title: Integrating Scribe in your Tekton Pipelines
 Use the following instructions to integrate your Tekton pipelines with Scribe.
 
 ### 1. Obtain a Scribe Hub API Token
-1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
 
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+Create an API token in [Scribe Hub > Account > Tokens](https://app.scribesecurity.com/account/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
 :::note Important
 The token is a secret and will not be accessible from the UI after you finalize the token generation. 
 :::

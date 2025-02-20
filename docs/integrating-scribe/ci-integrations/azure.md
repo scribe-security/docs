@@ -9,13 +9,11 @@ Use the following instructions to integrate your Azure pipelines with Scribe.
 ### Installation
 **[Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli)** Can be found in Azure marketplace.  <br />
 Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization.  <br />
-Once you have the extension installed you can use the task in your pipeline.
+Once you have the extension installed, you can use the task in your pipeline.
 
 ### 1. Obtain a Scribe Hub API Token
 
-1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
-
-2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+Create an API token in [Scribe Hub > Account > Tokens](https://app.scribesecurity.com/account/tokens). Copy it to a safe temporary notepad until you complete the integration.
 
 :::note Important
 The token is a secret and will not be accessible from the UI after you finalize the token generation. 
@@ -35,7 +33,7 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your Azure environment by follow
 
 #### Basic example
 Generate an SBOM of an image built in the pipeline by adding a step to call Valint at the end of the build. 
-In your Azure DevOps project make sure you have a file named `azure-pipelines.yml` and add the following steps to it after the build step:
+In your Azure DevOps project, make sure you have a file named `azure-pipelines.yml` and add the following steps to it after the build step:
 
 ```yaml
   - job: scribe_azure_job
@@ -166,7 +164,7 @@ jobs:
 </details>
 
 <details>
-  <summary> Generate SLSA provenance for for an image built with local docker </summary>
+  <summary> Generate SLSA provenance for an image built with local docker </summary>
 
 ```YAML
 - task: ValintCli@0
@@ -183,7 +181,7 @@ jobs:
 <details>
   <summary>  Generate an SBOM for an image in a private registry </summary>
 
-> Add a `docker login` task before the adding the following task:
+> Add a `docker login` task before adding the following task:
 
 ```YAML
 - task: ValintCli@0
@@ -200,7 +198,7 @@ jobs:
 <details>
   <summary> Generate SLSA provenance for an image in a private registry </summary>
 
-> Before the following task add a `docker login` task 
+> Before the following task, add a `docker login` task 
 
 ```YAML
 - task: ValintCli@0
@@ -489,9 +487,9 @@ Create SBOM for remote `busybox:latest` image.
 <details>
   <summary> <b> OCI Evidence store </b></summary>
 
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing the OCI registry as an evidence store.
 
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+Using the OCI registry as an evidence store allows you to upload, download, and verify evidence across your supply chain in a seamless manner.
 
 Related flags:
 * `oci` Enable OCI store.
