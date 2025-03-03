@@ -504,14 +504,14 @@ asset := scribe.get_asset_data(input.evidence)
 
 In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters.
 These parameters can be set manually by the user or automatically derived from the context.
-Parameters that can be derived automatically are categorized into three context groups: "target," "pipeline", and "product".
-By default, the "target" and "product" groups are enabled for each rule.
+Parameters that can be derived automatically are categorized into three context groups: `target,` `pipeline`, and `product`.
+By default, the `target` and `product` groups are enabled for each rule.
 
 1. `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo, etc). These parameters are:
     - `target_type` - the type of the target provided (e.g., image, git, generic etc.)
     - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
-    > If this parameter is set and no target provided, the rule is disabled with a warning.
+    > _If this parameter is set and no target provided, the rule is disabled with a warning._
 
 2. `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
     - `context_type` - type of the environment (e.g., local, github, etc.)
@@ -529,13 +529,17 @@ User can specify any combination of these three groups or a special value `none`
 By default, `target` and `product` groups are used.
 The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file.
 
-In addition, one can manually specify any parameters that they want to be matched by an evidence.
-In the most rules, the following parameters would be used to define the type of the attestation:
+---
 
-- `signed` -- to specify if the evidence is required to be signed (when set to `false`, both signed and unsigned evidences are accepted and signature verification for the signed ones failure doesn't affect the rule result)
-- `content_body_type` -- to defined the content type of the attestation, for example, `cyclonedx-json`, `generic`, `slsa`.
-- `target_type` -- the type of the target that was used to create the evidence, for example, `container` for docker images, `git` for git repositories, `policy-results` for `valint` SARIF attestations, `data` for generic data files.
-- `predicate_type`: the type of the predicate used in a `generic` evidence, usually a URI, for example, `http://scribesecurity.com/evidence/discovery/v0.1`, `http://docs.oasis-open.org/sarif/sarif/2.1.0`.
+In addition, one can ***manually*** specify any parameters that they want to be matched by an evidence.
+In most of the rules, the following parameters would be used to define the type of the attestation:
+
+| Field              | Description                                                                                                                | Examples                                                                                       |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| `signed`           | Specifies if the evidence is required to be signed.<br>When set to `false`, both signed and unsigned evidences are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
+| `content_body_type`| Defines the content type of the attestation.                                                                                | `cyclonedx-json`, `generic`, `slsa`                                                            |
+| `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br>`git` for Git repositories<br>`policy-results` for `valint` SARIF attestations<br>`data` for generic data files |
+| `predicate_type`   | The type of the predicate used in a `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
 
 The following example requires an unsigned attestation of a Scribe Security discovery evidence:
 
@@ -550,9 +554,9 @@ evidence:
 ```
 
 <details>
-  <summary> Full list of specified parameters </summary>
+  <summary> Full list of supported parameters </summary>
 
-The parameters are named the same way as they are in the evidence context. 
+The parameters are named the same way as they are in the evidence context.
 
 ```yaml
 name
@@ -613,17 +617,34 @@ If more than one evidence is found, the newest one is used.
 <details>
   <summary> Usage </summary>
 
-An example of using the `target` context group and a specific timestamp value is shown below:
+An example of a rule that requires a signed CycloneDX SBOM evidence and uses target and product contexts would look like this:
 
 ```yaml
 config-type: rule
-name: my_rule
+name: "My Rule"
+id: my-rule
+
 evidence:
   signed: true
-  content_body_type: cyclonedx
-  timestamp: "2023-11-16T09:46:25+02:00" # manually specified timestamp
+  content_body_type: "cyclonedx-json"
+  target_type: "container"
   filter-by:
-    - target
+  - target
+  - product
+```
+
+When running this rule on the `alpine:latest` image target for the `MyProduct` product of the `v1.0.0` version, the evidence lookup would be performed with the following parameters:
+
+```json
+{
+ "name": "MyProduct",
+ "product_version": "v1.0.0",
+ "content_body_type": "cyclonedx-json",
+ "signed": true,
+ "predicate_type": "https://cyclonedx.org/bom/v1.5",
+ "target_type": "container",
+ "sbomversion": "sha256:8ca4688f4f356596b5ae539337c9941abc78eda10021d35cbc52659c74d9b443"
+}
 ```
 
 </details>
@@ -699,8 +720,8 @@ with:
 ...
 ```
 
-Also, in this mode the target provided doesn't affect evidence lookup, as `valint` tries to find all the matching evidence for the rules.
-For the rules that failed to find any evidence, the `open` result is returned.
+Also, in this mode, the provided target doesn't affect evidence lookup, as `valint` tries to find all matching evidence for the rules.
+For the rules that fail to find any evidence, the `open` result is returned.
 
 ### Rules that don't require evidence
 
