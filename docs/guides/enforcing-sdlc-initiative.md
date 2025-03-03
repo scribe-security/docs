@@ -7,13 +7,13 @@ toc_max_heading_level: 5
 ---
 
 You can use Scribe to apply policies at different points along your SDLC.
-For example, at the end of a build or at the admission control point to the production cluster. Use cases for example:
+For example, at the end of a build or at the admission control point to the production cluster. Use cases include:
 
 - Images must be signed, and they must have a matching CycloneDX SBOM.
-- Images must be built by a CircleCI workflow and produce a signed SLSA provenance.
+- Images must be built by a CircleCI workflow and produce signed SLSA provenance.
 - Tagged sources must be signed and verified by a set of individuals or processes.
 
-For the detailed initiative description, see **[initiatives](../valint/initiatives)** section.
+For a detailed initiative description, see the **[initiatives](../valint/initiatives)** section.
 
 ## Quickstart
 
@@ -25,7 +25,7 @@ For the detailed initiative description, see **[initiatives](../valint/initiativ
    curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
    ```
 
-2. Create an SBOM of a type you want to verify. For a Docker image the command would be:
+2. Create an SBOM of the type you want to verify. For a Docker image, the command would be:
 
    ```bash
    valint bom busybox:latest -o statement \
@@ -36,7 +36,7 @@ For the detailed initiative description, see **[initiatives](../valint/initiativ
    It's also possible to create an SBOM from a git repository (if git authentication is required, provide it with the `--git-auth` flag):
 
    ```bash
-   valint bom git:path/togit/repo -o statement \
+   valint bom git:path/to/git/repo -o statement \
       --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
@@ -49,7 +49,7 @@ For the detailed initiative description, see **[initiatives](../valint/initiativ
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-Alternatively, you can use GitHub actions, as described in details in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
+Alternatively, you can use GitHub actions, as described in detail in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
 
 ### Verifying an initiative
 
@@ -63,7 +63,7 @@ Alternatively, you can use GitHub actions, as described in details in [Setting u
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   As a result, you will see the output table of the initiative verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
+   As a result, you will see the output table of the initiative verification. A detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
 
    <details>
 
@@ -99,8 +99,8 @@ Alternatively, you can use GitHub actions, as described in details in [Setting u
 
    </details>
 
-   > Note that only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically and no result was generated for them.
-   > To verify the whole SSDF initiative, you need to run GitHub discovery, see [platforms discovery](../platforms/overview).
+   > Note that only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically, and no result was generated for them.
+   > To verify the whole SSDF initiative, you need to run GitHub discovery. See [platforms discovery](../platforms/overview).
 
 ### Running a single rule verification
 
@@ -108,7 +108,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
 1. Create an image SBOM as described in [Creating an SBOM](#creating-an-sbom).
 
-2. Verify the SBOM against an existing rule from the bundle. [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as a default rule bundle for `valint`.
+2. Verify the SBOM against an existing rule from the bundle. The [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as the default rule bundle for `valint`.
 
    ```bash
    valint verify busybox:latest --rule sbom/complete-licenses@v2/rules \
@@ -116,7 +116,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   As a result, you will see the output table of the rule verification. Detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
+   As a result, you will see the output table of the rule verification. A detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
 
    <details>
 
@@ -134,7 +134,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    └───────────────────────────────────┴───────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────┴────────────────┘
    ```
 
-   You will also see the result table of the initiative evaluation:
+   You will also see the results table of the initiative evaluation:
 
    ```bash
    ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -156,9 +156,9 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 ### Targetless Run
 
    Some of the rules in this catalog can also be run in "targetless" mode,
-   meaning that the evidence will be looked up based only on the product name and version and options specified in the rule config.
-   No target for premilinary analysis needed.
-   This is usually helpful for 3rd party reports, such as security scans and [platforms discoveries](../platforms/overview).
+   meaning that the evidence will be looked up based only on the product name, version, and options specified in the rule config.
+   No target for preliminary analysis is needed.
+   This is usually helpful for third-party reports, such as security scans and [platform discoveries](../platforms/overview).
 
    As an example, let's run `trivy` to create a SARIF report:
 
@@ -166,7 +166,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    trivy image --format sarif --output results.sarif ubuntu:latest
    ```
 
-   Then, create an evidence from this report:
+   Then, create evidence from this report:
 
    ```bash
    valint evidence results.sarif \
@@ -174,7 +174,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   And finally, verify the evidence against the rule. Note that we don't need to provide `valint `with the target report:
+   Finally, verify the evidence against the rule. Note that we don't need to provide `valint` with the target report:
 
    ```bash
    valint verify --rule sarif/trivy/verify-trivy-report@v2/rules \
@@ -216,8 +216,8 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
 ### Whole initiative verification
 
-If you want to verify an initiative on all the existing evidences, provide `valint` with the `--all-evidence` flag.
-It disables most of rule filterings and for each rule verifies all the matching evidences.
+If you want to verify an initiative on all existing attestations, provide `valint` with the `--all-evidence` flag.
+It disables using of target for evidence filtering and verifies all matching attestations for each rule.
 
 ```bash
 valint verify --initiative ssdf@v2/initiatives --all-evidence \
@@ -293,7 +293,7 @@ valint verify --initiative ssdf@v2/initiatives --all-evidence \
 
 </details>
 
-In this case no rule was disabled and all of them were verified.
+In this case, no rule was disabled, and all of them were verified.
 
 ### Reading the Results
 
@@ -311,7 +311,7 @@ The results of the initiative verification are also presented in a table format.
 
 - `CONTROL ID`: The unique identifier of the control.
 - `CONTROL NAME`: The name of the control.
-- `RULE LIST`: The list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In the parentheses, the rule's result is shown in the format `rule_id(level->result)`.
+- `RULE LIST`: A list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In parentheses, the rule's result is shown with consideration of the rule level.
 - `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
 ## Sample Rule Catalog
@@ -319,7 +319,7 @@ The results of the initiative verification are also presented in a table format.
 We provide a set of sample rules that can be used to verify the compliance of your software supply chain. This catalog is used by `valint` by default.
 To use a different version of this catalog, use the `--bundle-tag` valint flag.
 
-To use a custom rule catalog, you can specify the path to the catalog in the `--bundle` flag (may it be a local path or a git repo). Additionally, `--bundle-branch` and `--bundle-tag` flags can be used to specify the branch or tag of the catalog git repo.
+To use a custom rule catalog, you can specify the path to the catalog in the `--bundle` flag (it may be a local path or a git repo). Additionally, `--bundle-branch` and `--bundle-tag` flags can be used to specify the branch or tag of the catalog git repo.
 
 | Rule | Description | Additional Info |
 | --- | --- | --- |
