@@ -537,10 +537,10 @@ In most of the rules, the following parameters would be used to define the type 
 
 | Field              | Description                                                                                                                | Examples                                                                                       |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `signed`           | Specifies if the evidence is required to be signed.<br>When set to `false`, both signed and unsigned attestations are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
+| `signed`           | Specifies if the evidence is required to be signed.<br/>When set to `false`, both signed and unsigned attestations are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
 | `content_body_type`| Defines the content type of the attestation.                                                                                | `cyclonedx-json`, `generic`, `slsa`                                                            |
-| `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br>`git` for Git repositories<br>`policy-results` for `valint` SARIF attestations<br>`data` for generic data files |
-| `predicate_type`   | The type of the predicate used in `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
+| `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br/>`git` for Git repositories<br/>`policy-results` for `valint` SARIF attestations<br/>`data` for generic data files |
+| `predicate_type`   | The type of the predicate used in `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br/>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
 
 The following example requires an unsigned attestation of Scribe Security discovery evidence:
 
