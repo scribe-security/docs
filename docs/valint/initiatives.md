@@ -1,6 +1,6 @@
 ---
-sidebar_label: "Adopting intiatives"
-title: Adopting intiatives
+sidebar_label: "Adopting initiatives"
+title: Adopting initiatives
 author: viktor kartashov - Scribe
 sidebar_position: 5
 date: December 10, 2024
@@ -10,11 +10,12 @@ toc_max_heading_level: 3
 
 ## What is an initiative?
 
-Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` that your supply chain must comply with. The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluatoin results and references to the verified assets and evidences.  
+Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` with which your supply chain must comply.
+The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluation results and references the verified assets and attestations.
 
 An initiative consists of a set of `controls`, each of which in turn consists of a set of `rules` and is verified if all of them are evaluated and verified.
 
-Rules can reuse the existing ones from a bundle or be defined inline.
+Rules can reuse existing ones from a bundle or be defined inline.
 
 ## Initiative config format
 
@@ -30,7 +31,7 @@ help: <http://help_uri>
 defaults:
   evidence:
     signed: <true | false>
-    content_body_type: content_body_type>
+    content_body_type: <content_body_type>
     filter-by: []
 
 env:
@@ -60,14 +61,14 @@ controls:
 - **Required:** No
 - **Description:** The minimum version of Valint required to run the initiative.
 - **Example:** `"2.0.0"`
-- **Default**: No `valint` version matching check is performed
+- **Default:** No `valint` version matching check is performed.
 
 #### `id`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A unique identifier for the initiative. Cannot contain the `::` string. If no ID is provided, it is generated from the name.
-- **Default**: No `id` is provided, the value is calculated from the `name` field
+- **Default:** If no `id` is provided, the value is calculated from the `name` field.
 
 #### `name`
 
@@ -80,49 +81,49 @@ controls:
 - **Type:** String
 - **Required:** No
 - **Description:** The version of the initiative.
-- **Default**: If no value is provided, iniitiative versioning is not applied.
+- **Default:** If no value is provided, initiative versioning is not applied.
 
 #### `description`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A brief description of the initiative.
-- **Default**: If no value is provided, the value is ommited in the output data.
+- **Default:** If no value is provided, it is omitted in the output data.
 
 #### `help`
 
 - **Type:** String (URL)
 - **Required:** No
 - **Description:** A URL pointing to the help or documentation for the initiative.
-- **Default**: If no value is provided, the value is ommited in the output data.
+- **Default:** If no value is provided, it is omitted in the output data.
 
 #### `defaults`
 
 - **Type:** Object
 - **Required:** No
-- **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative. it is recommended to start adopting initiative with the `defaults.signed` value set to `false` and move it to `true` when certificates and keys are deployed.
-- **Default**: If no value is provided, the rules' values are used.
+- **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative. It is recommended to start adopting the initiative with the `defaults.signed` value set to `false` and set it to `true` when certificates and keys are deployed.
+- **Default:** If no value is provided, the rules' values are used.
 
 ##### `defaults.level`
 
 - **Type:** String
 - **Required:** No
-- **Description:** Rule level to use for all rules in the initiative. It is recommended to start with a `warning` level and only after the security controls have been adopted move it to "error".
-- **Default**: If no value is provided, the original rules' levels are used.
+- **Description:** Rule level to use for all rules in the initiative. It is recommended to start with a `warning` level and only after the security controls have been adopted, set it to "error".
+- **Default:** If no value is provided, the original rules' levels are used.
 
 ##### `defaults.evidence`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Evidence lookup parameters. Any field from the evidence context can be used here.
-- **Default**: If no value is provided, the rules' values are used.
+- **Default:** If no value is provided, the rules' values are used.
 
 #### `env`
 
 - **Type:** Object
 - **Required:** No
-- **Description:** File-wise environment variables for the template engine.
-- **Default**: If no value is provided, only the vars from the actual environment are used.
+- **Description:** File-wide environment variables for the template engine.
+- **Default:** If no value is provided, only the variables from the actual environment are used.
 
 #### `controls`
 
@@ -160,25 +161,25 @@ controls:
 - **Type:** Object
 - **Required:** No
 - **Description:** Optional filters for when the control should be run.
-- **Default**: If no value is provided, no user-defined control filters are applied.
+- **Default:** If no value is provided, no user-defined control filters are applied.
 
 ###### `controls[].when.gate`
 
 - **Type:** String
 - **Required:** No
-- **Description:** The type of gate to run the control on.
-- **Default**: If no value is provided, the control will run on all gates.
+- **Description:** The type of gate on which to run the control.
+- **Default:** If no value is provided, the control will run on all gates.
 
 ##### `controls[].rules`
 
 - **Type:** Array of Objects
-- **Description:** A list of rules for the control. For the details, see the [Rules](#rule-config-format) section below.
+- **Description:** A list of rules for the control. For details, see the [Rules](#rule-configuration-format) section below.
 
 > For `valint` configuration details, see the [configuration](./configuration.md) section.
 >
 > For PKI configuration, see the [attestations](./attestations.md) section.
 
-An example of an initiative could be:
+An example of an initiative is:
 
 ```yaml
 config-type: initiative
@@ -186,7 +187,7 @@ required-valint-version: "2.0.0"
 id: my-initiative
 name: "My Initiative"
 version: "v1.0.0"
-description: "This initiative enforces a couple of simple checks on a Docker image"
+description: "This initiative enforces a couple of simple checks on Docker images"
 
 defaults:
   evidence:
@@ -209,8 +210,8 @@ controls:
           level: warning
           with:
             identity:
-                emails:
-                    - my@email.com
+              emails:
+                - my@email.com
             banned-licenses:
                 - "GPL-2.0"
                 - "GPL-3.0"
@@ -222,9 +223,9 @@ controls:
           uses: sbom/evidence-exists@v2/rules
 ```
 
-## Rule config format
+## Rule configuration format
 
-Every rule that is used separately via the `--rule` arg or as part of an initiative should be defined as YAML:
+Each rule that is used separately via the `--rule` argument or as part of an initiative should be defined in YAML:
 
 ```yaml
 config-type: rule
@@ -264,7 +265,7 @@ with: {}
 - **Type:** String
 - **Required:** No
 - **Description:** The minimum version of Valint required to run the initiative.
-- **Default**: No `valint` version matching check is performed.
+- **Default:** No `valint` version matching check is performed.
 - **Example:** `"2.0.0"`
 
 #### `disable`
@@ -279,7 +280,7 @@ with: {}
 - **Type:** String
 - **Required:** No
 - **Description:** A unique identifier for the rule. Cannot contain the `::` string. Must be unique within the initiative. If no ID is provided, it is generated from the name.
-- **Default**: If no value is provided, it is generated from the name.
+- **Default:** If no value is provided, it is generated from the name.
 
 #### `name`
 
@@ -292,97 +293,97 @@ with: {}
 - **Type:** String
 - **Required:** No
 - **Description:** The path to a custom external script, if used. Should be relative to the rule file.
-- **Default**: If no value is provided, no external script file is used for the rule.
+- **Default:** If no value is provided, no external script file is used for the rule.
 
 #### `uses`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<path-to-rule-in-catalog>@<version>/rules`. When used, the current rule's values will  override the external rule's ones.
-- **Default**: If no value is provided, no external rule is used as a base rule.
+- **Default:** If no value is provided, no external rule is used as a base rule.
 
 #### `description`
 
 - **Type:** String
 - **Required:** No
 - **Description:** A brief description of the rule.
-- **Default**: If no value is provided, the value is ommited in the output data.
+- **Default:** If no value is provided, the value is omitted in the output data.
 
 #### `help`
 
 - **Type:** String (URL)
 - **Required:** No
 - **Description:** A URL pointing to the help or documentation for the rule.
-- **Default**: If no value is provided, the value is ommited in the output data.
+- **Default:** If no value is provided, it is omitted in the output data.
 
 #### `labels`
 
 - **Type:** Array of Strings
 - **Required:** No
-- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be ran if at least one of it's labels matches one of the `--rule-label` values.
-- **Default**: No labels used.
+- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be run if at least one of its labels matches one of the `--rule-label` values.
+- **Default:** No labels used.
 
 #### `level`
 
 - **Type:** String
 - **Required:** No
 - **Description:** The level of the rule. Can be `error`, `warning`, or `note`. Default is `error`. The levels affect how rule results affect the overall initiative result: `valint` run overall would fail only if there are `error` level violations. Results on Scribe Hub are also displayed according to the levels.
-- **Default**: `error`
+- **Default:** `error`
 
 #### `require-scribe-api`
 
 - **Type:** Boolean
 - **Required:** No
-- **Description:** Indicates whether the Scribe API is required. See the details in the [Rules that require Scribe API](#rules-that-require-scribe-api) section.
-- **Default**: `false`
+- **Description:** Indicates whether the Scribe API is required. See the details in the [Rules that require the Scribe API](#rules-that-require-the-scribe-api) section.
+- **Default:** `false`
 
 #### `fail-on-missing-evidence`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the `open` result if no evidence is found.
-- **Default**: `false`
+- **Default:** `false`
 
 #### `skip-evidence`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule should skip evidence downloading and go straight to the rule evaluation. Can be helpful for rules that don't require evidence, like API rules.
-- **Default**: `false`
+- **Default:** `false`
 
 #### `aggregate-results`
 
 - **Type:** Boolean
 - **Required:** No
 - **Description:** Indicates whether the rule results should be aggregated. If set to `true`, the rule will return a single result for all the violations found.
-- **Default**: `false
+- **Default:** `false`
 
 #### `evidence`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Evidence lookup parameters. Any field from the evidence context can be used here. See the [Evidence Lookup](#evidence-lookup) section for more details.
-- **Default**: No user specified options will be used for the evidence lookup.
+- **Default:** No user-specified options will be used for the evidence lookup.
 
 ##### `evidence.filter-by`
 
 - **Type:** List of Strings
 - **Required:** No
 - **Description:** A list of parameters in the environment to filter the evidence by (see [Evidence Lookup](#evidence-lookup)).
-- **Default**: `[target, product]`
+- **Default:** `[target, product]`
 
 #### `with`
 
 - **Type:** Object
 - **Required:** No
 - **Description:** Rule input, depending on the rule script.
-- **Default**: Depends on the rule script.
+- **Default:** Depends on the rule script.
 
 Examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
 ## How to adopt an initiative?
 
-An initiative is defined as a file that can be consumed locally or from an external bundle. To run an initiative, one first needs to create the required evidences:
+An initiative is defined as a file that can be consumed locally or from an external bundle. To run an initiative, one first needs to create the required attestations:
 
 1. Generate an SBOM
 
@@ -445,11 +446,11 @@ To use a private bundle instead, the following rules should be followed:
   valint verify ... --bundle https://github.com/scribe-public/sample-policies ...
   ```
 
-2. If git authentication is required, it can be provided either in the git url or through the `--bundle-auth` flag.
+2. If git authentication is required, it can be provided either in the git URL or through the `--bundle-auth` flag.
 
-3. A specific branch, tag or commit can be provided using the `--bundle-branch`, `--bundle-tag` or `--bundle-commit` flags respectively.
+3. A specific branch, tag, or commit can be provided using the `--bundle-branch`, `--bundle-tag`, or `--bundle-commit` flags respectively.
 
-4. File structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep.
+4. The file structure within the bundle is up to the administrator, but when referencing the rules in initiative configs, the path should be relative to the bundle root and at least one level deep.
 For example, this is how to reference a rule from the public Scribe bundle:
 
   ```yaml
@@ -467,9 +468,9 @@ Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, 
 Rules are defined as a combination of a `.yaml` configuration file and a `.rego` script. The `.yaml` file contains the rule configuration, while the `.rego` script contains the rule logic.
 The rule configuration is described above along with the initiative configuration.
 
-The rego script gets two inputs: the verifying evidence as `input.evidence` and configurable args as `input.config.args`, the latter is specified in the rule config as `with` object.
+The rego script gets two inputs: verifying evidence as `input.evidence` and configurable args as `input.config.args`, the latter is specified in the rule config as a `with` object.
 
-Rego script should produce an output object of the following format:
+The rego script should produce an output object in the following format:
 
 ```go
 package verify
@@ -502,46 +503,46 @@ asset := scribe.get_asset_data(input.evidence)
 
 ### Evidence Lookup
 
-In order to run a policy rule, `valint` requires relevant evidence, which can be found in a storage using a number of parameters.
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in storage using a number of parameters.
 These parameters can be set manually by the user or automatically derived from the context.
-Parameters that can be derived automatically are categorized into three context groups: `target,` `pipeline`, and `product`.
+Parameters that can be derived automatically are categorized into three context groups: `target`, `pipeline`, and `product`.
 By default, the `target` and `product` groups are enabled for each rule.
 
-1. `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo, etc). These parameters are:
+1. The `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo, etc). These parameters are:
     - `target_type` - the type of the target provided (e.g., image, git, generic etc.)
     - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
-    > _If this parameter is set and no target provided, the rule is disabled with a warning._
+    > _If this parameter is set and no target is provided, the rule is disabled with a warning._
 
-2. `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
-    - `context_type` - type of the environment (e.g., local, github, etc.)
-    - `git_url` - git url of the repository (if any)
-    - `git_commit` - git commit of the current repository state (if any)
-    - `run_id` - run id
-    - `build_num` - build number
+2. The `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
+    - `context_type` - the type of the environment (e.g., local, github, etc.)
+    - `git_url` - the git URL of the repository (if any)
+    - `git_commit` - the git commit of the current repository state (if any)
+    - `run_id` - the run ID
+    - `build_num` - the build number
 
-3. `product` context group specifies product parameters that can be derived from the command line arguments. These parameters are:
-    - `name` - name of the product
-    - `product_version` - version of the product
-    - `predicate_type` - type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
+3. The `product` context group specifies product parameters that can be derived from the command line arguments. These parameters are:
+    - `name` - the name of the product
+    - `product_version` - the version of the product
+    - `predicate_type` - the type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
 
-User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
-By default, `target` and `product` groups are used.
+Users can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
+By default, the `target` and `product` groups are used.
 The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file.
 
----
+-------------------
 
-In addition, one can ***manually*** specify any parameters that they want to be matched by an evidence.
-In most of the rules, the following parameters would be used to define the type of the attestation:
+In addition, one can _**manually**_ specify any parameters that they want to be matched by evidence.
+In most of the rules, the following parameters would be used to define the type of attestation:
 
 | Field              | Description                                                                                                                | Examples                                                                                       |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `signed`           | Specifies if the evidence is required to be signed.<br>When set to `false`, both signed and unsigned evidences are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
+| `signed`           | Specifies if the evidence is required to be signed.<br>When set to `false`, both signed and unsigned attestations are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
 | `content_body_type`| Defines the content type of the attestation.                                                                                | `cyclonedx-json`, `generic`, `slsa`                                                            |
 | `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br>`git` for Git repositories<br>`policy-results` for `valint` SARIF attestations<br>`data` for generic data files |
-| `predicate_type`   | The type of the predicate used in a `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
+| `predicate_type`   | The type of the predicate used in `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
 
-The following example requires an unsigned attestation of a Scribe Security discovery evidence:
+The following example requires an unsigned attestation of Scribe Security discovery evidence:
 
 ```yaml
 ...
@@ -554,7 +555,7 @@ evidence:
 ```
 
 <details>
-  <summary> Full list of supported parameters </summary>
+  <summary>Full list of supported parameters</summary>
 
 The parameters are named the same way as they are in the evidence context.
 
@@ -611,13 +612,12 @@ target_type
 
 </details>
 
-
-If more than one evidence is found, the newest one is used.
+If more than one piece of evidence is found, the newest one is used.
 
 <details>
-  <summary> Usage </summary>
+  <summary>Usage</summary>
 
-An example of a rule that requires a signed CycloneDX SBOM evidence and uses target and product contexts would look like this:
+An example of a rule that requires signed CycloneDX SBOM evidence and uses target and product contexts would look like this:
 
 ```yaml
 config-type: rule
@@ -651,7 +651,7 @@ When running this rule on the `alpine:latest` image target for the `MyProduct` p
 
 ### Template arguments
 
-Rules can have template arguments that can be used to simplify the rule configuration. For example, `github/api/branch-protection@v2/rules` relies on several arguments provided in the runtime:
+Rules can have template arguments that can be used to simplify rule configuration. For example, `github/api/branch-protection@v2/rules` relies on several arguments provided at runtime:
 
 ```yaml
 
@@ -666,23 +666,23 @@ with:
 
 To specify those, `valint` should be run with args `--rule-args Token=MyToken,Owner=MyOwner,Repo=MyRepo,Branch=MyBranch`.
 
-When required template arg is not specified, the rule will be disabled with a warning.
+When a required template argument is not specified, the rule will be disabled with a warning.
 
 #### Built-in functions
 
-To simplify the rule-args input, the rules template engine has built-in functions that can be used to define the rule arguments. Another use of such functions is to disable filtering when the `--all-evidence` flag is used, see below.
+To simplify the rule-args input, the rules template engine has built-in functions that can be used to define the rule arguments. Another use of these functions is to disable filtering when the `--all-evidence` flag is used, see below.
 
 List of supported functions:
 
 - `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
-- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`
-- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used
-- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead
+- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`.
+- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used.
+- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead.
 
 <details>
   <summary>Example</summary>
 
-In the following rule, `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
+In the following rule, the `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
 
 ```yaml
 ...
@@ -725,7 +725,7 @@ For the rules that fail to find any evidence, the `open` result is returned.
 
 ### Rules that don't require evidence
 
-If a rule doesn't require any evidence to be verified, the `skip-evidence` flag can be used in the rule config:
+If a rule doesn't require any evidence to be verified, the `skip-evidence` flag can be used in the rule configuration:
 
 ```yaml
 ...
@@ -733,7 +733,7 @@ skip-evidence: true
 ...
 ```
 
-### Rules that require Scribe API
+### Rules that require the Scribe API
 
 If a rule requires an API call to be verified, it can use the `require-scribe-api` flag to ensure that all the uploaded attestations are processed and the API is ready to be used:
 
@@ -743,12 +743,12 @@ require-scribe-api: true
 ...
 ```
 
-`valint` will try to reach the Scribe API and wait for it to be ready. Waiting timeout is set by the `--timeout` flag and defaults to 2 minutes.
+`valint` will try to reach the Scribe API and wait for it to be ready. The waiting timeout is set by the `--timeout` flag and defaults to 2 minutes.
 If the API is not ready, the rule will produce the `open` result the same way as when no evidence is found. This can be changed with the `fail-on-missing-evidence` flag, see the [Rules that should fail on missing evidence](#rules-that-should-fail-on-missing-evidence) section.
 
 ### Rules that should fail on missing evidence
 
-By default, if no evidence for a rule found, it returns an "open" result, meaning that there was insufficient information to decide whether there are any violations. If a rule should fail in that case, the `fail-on-missing-evidence` flag can be used:
+By default, if no evidence for a rule is found, it returns an "open" result, meaning that there was insufficient information to decide whether there are any violations. If a rule should fail in that case, the `fail-on-missing-evidence` flag can be used:
 
 ```yaml
 ...
@@ -758,4 +758,4 @@ fail-on-missing-evidence: true
 
 ### Unicode strings in rule results
 
-To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag in the runtime. This would result in replacing rule levels and results in `valint` logs with emojis.
+To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag at runtime. This would result in replacing rule levels and results in `valint` logs with emojis.
