@@ -100,14 +100,14 @@ controls:
 
 - **Type:** Object
 - **Required:** No
-- **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative.
+- **Description:** Optional parameters to override the existing evidence lookup and other parameters for each rule in the initiative. it is recommended to start adopting initiative with the `defaults.signed` value set to `false` and move it to `true` when certificates and keys are deployed.
 - **Default**: If no value is provided, the rules' values are used.
 
 ##### `defaults.level`
 
 - **Type:** String
 - **Required:** No
-- **Description:** Rule level to use for all rules in the initiative
+- **Description:** Rule level to use for all rules in the initiative. It is recommended to start with a `warning` level and only after the security controls have been adopted move it to "error".
 - **Default**: If no value is provided, the original rules' levels are used.
 
 ##### `defaults.evidence`
@@ -319,28 +319,28 @@ with: {}
 
 - **Type:** Array of Strings
 - **Required:** No
-- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag.
+- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be ran if at least one of it's labels matches one of the `--rule-label` values.
 - **Default**: No labels used.
 
 #### `level`
 
 - **Type:** String
 - **Required:** No
-- **Description:** The level of the rule. Can be `error`, `warning`, or `note`. Default is `error`.
+- **Description:** The level of the rule. Can be `error`, `warning`, or `note`. Default is `error`. The levels affect how rule results affect the overall initiative result: `valint` run overall would fail only if there are `error` level violations. Results on Scribe Hub are also displayed according to the levels.
 - **Default**: `error`
 
 #### `require-scribe-api`
 
 - **Type:** Boolean
 - **Required:** No
-- **Description:** Indicates whether the Scribe API is required.
+- **Description:** Indicates whether the Scribe API is required. See the details in the [Rules that require Scribe API](#rules-that-require-scribe-api) section.
 - **Default**: `false`
 
 #### `fail-on-missing-evidence`
 
 - **Type:** Boolean
 - **Required:** No
-- **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the open result if no evidence is found.
+- **Description:** Indicates whether the rule should fail if evidence is missing. If set to `false` (default), the rule will have the `open` result if no evidence is found.
 - **Default**: `false`
 
 #### `skip-evidence`
@@ -361,7 +361,7 @@ with: {}
 
 - **Type:** Object
 - **Required:** No
-- **Description:** Evidence lookup parameters. Any field from the evidence context can be used here.
+- **Description:** Evidence lookup parameters. Any field from the evidence context can be used here. See the [Evidence Lookup](#evidence-lookup) section for more details.
 - **Default**: No user specified options will be used for the evidence lookup.
 
 ##### `evidence.filter-by`
@@ -507,29 +507,106 @@ These parameters can be set manually by the user or automatically derived from t
 Parameters that can be derived automatically are categorized into three context groups: "target," "pipeline", and "product".
 By default, the "target" and "product" groups are enabled for each rule.
 
-1. `target` context group specifies parameters that can be derived from the provided target. Those parameters are:
-    * `target_type` - the type of the target provided (e.g., image, git, generic etc.)
-    * `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
+1. `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo, etc). These parameters are:
+    - `target_type` - the type of the target provided (e.g., image, git, generic etc.)
+    - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
     > If this parameter is set and no target provided, the rule is disabled with a warning.
 
-2. `pipeline` context group specifies parameters that can be derived from the running environment. Those parameters are:
-    * `context_type` - type of the environment (e.g., local, github, etc.)
-    * `git_url` - git url of the repository (if any)
-    * `git_commit` - git commit of the current repository state (if any)
-    * `run_id` - run id
-    * `build_num` - build number
+2. `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
+    - `context_type` - type of the environment (e.g., local, github, etc.)
+    - `git_url` - git url of the repository (if any)
+    - `git_commit` - git commit of the current repository state (if any)
+    - `run_id` - run id
+    - `build_num` - build number
 
-3. `product` context group specifies product parameters that can be derived from the command line arguments. Those parameters are:
-    * `name` - name of the product
-    * `product_version` - version of the product
-    * `predicate_type` - type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
+3. `product` context group specifies product parameters that can be derived from the command line arguments. These parameters are:
+    - `name` - name of the product
+    - `product_version` - version of the product
+    - `predicate_type` - type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
 
 User can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
-By default `target` and `product` groups are used.
+By default, `target` and `product` groups are used.
 The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file.
 
-In addition, one can manually specify any parameters that they want to be matched by an evidence. For example, these can be `git_url` or `timestamp`.
+In addition, one can manually specify any parameters that they want to be matched by an evidence.
+In the most rules, the following parameters would be used to define the type of the attestation:
+
+- `signed` -- to specify if the evidence is required to be signed (when set to `false`, both signed and unsigned evidences are accepted and signature verification for the signed ones failure doesn't affect the rule result)
+- `content_body_type` -- to defined the content type of the attestation, for example, `cyclonedx-json`, `generic`, `slsa`.
+- `target_type` -- the type of the target that was used to create the evidence, for example, `container` for docker images, `git` for git repositories, `policy-results` for `valint` SARIF attestations, `data` for generic data files.
+- `predicate_type`: the type of the predicate used in a `generic` evidence, usually a URI, for example, `http://scribesecurity.com/evidence/discovery/v0.1`, `http://docs.oasis-open.org/sarif/sarif/2.1.0`.
+
+The following example requires an unsigned attestation of a Scribe Security discovery evidence:
+
+```yaml
+...
+evidence:
+  signed: false
+  content_body_type: generic
+  target_type: data
+  predicate_type: http://scribesecurity.com/evidence/discovery/v0.1
+...
+```
+
+<details>
+  <summary> Full list of specified parameters </summary>
+
+The parameters are named the same way as they are in the evidence context. 
+
+```yaml
+name
+context_type
+input_scheme
+input_name
+input_tag
+predicate_type
+product_version
+pipeline_name
+gate_type
+gate_name
+deliverable
+tool
+parser
+tool_version
+tool_vendor
+content_body_type
+format_type
+format_version
+format_encoding
+labels
+signed
+
+workflow
+job_name
+run_id
+build_num
+actor
+
+git_url
+git_branch
+git_tag
+git_commit
+git_ref
+git_uuid
+
+sbomtype
+sbomgroup
+sbomname
+sbomversion
+sbompurl
+sbomcomponents
+
+target_git_url
+target_git_branch
+target_git_tag
+target_git_commit
+target_git_ref
+target_type
+```
+
+</details>
+
 
 If more than one evidence is found, the newest one is used.
 
@@ -576,10 +653,29 @@ To simplify the rule-args input, the rules template engine has built-in function
 
 List of supported functions:
 
-* `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
-* `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`
-* `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used
-* `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead
+- `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
+- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`
+- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used
+- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead
+
+<details>
+  <summary>Example</summary>
+
+In the following rule, `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
+
+```yaml
+...
+with:
+  defaults:
+    evidence:
+      labels:
+        - '{{ asset .Args.MyAsset }}'
+...
+```
+
+When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will use the `asset=MyAssetValue` label for the evidence lookup.
+
+</details>
 
 ### Whole product evaluation
 
@@ -603,6 +699,9 @@ with:
 ...
 ```
 
+Also, in this mode the target provided doesn't affect evidence lookup, as `valint` tries to find all the matching evidence for the rules.
+For the rules that failed to find any evidence, the `open` result is returned.
+
 ### Rules that don't require evidence
 
 If a rule doesn't require any evidence to be verified, the `skip-evidence` flag can be used in the rule config:
@@ -622,6 +721,9 @@ If a rule requires an API call to be verified, it can use the `require-scribe-ap
 require-scribe-api: true
 ...
 ```
+
+`valint` will try to reach the Scribe API and wait for it to be ready. Waiting timeout is set by the `--timeout` flag and defaults to 2 minutes.
+If the API is not ready, the rule will produce the `open` result the same way as when no evidence is found. This can be changed with the `fail-on-missing-evidence` flag, see the [Rules that should fail on missing evidence](#rules-that-should-fail-on-missing-evidence) section.
 
 ### Rules that should fail on missing evidence
 
