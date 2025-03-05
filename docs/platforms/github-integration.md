@@ -79,7 +79,7 @@ env:
   LOG_LEVEL: "INFO"
   VALINT_SCRIBE_ENABLE: true 
   DOCKER_DRIVER: overlay2
-  DOCKER_CONFIG: $HOME/.docker
+  DOCKER_CONFIG: ${{ github.workspace }}/.docker
   DOCKERHUB_USERNAME: scribesecurity
   SCRIBE_PRODUCT_VERSION: "v0.0.2-github"
 
