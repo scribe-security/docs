@@ -33,21 +33,7 @@ For a detailed initiative description, see the **[initiatives](../valint/initiat
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   It's also possible to create an SBOM from a git repository (if git authentication is required, provide it with the `--git-auth` flag):
-
-   ```bash
-   valint bom git:path/to/git/repo -o statement \
-      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
-      --scribe.client-secret <SCRIBE_TOKEN>
-   ```
-
-   And from a file:
-
-   ```bash
-   valint bom file:/path/to/file.artifact -o statement \
-      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
-      --scribe.client-secret <SCRIBE_TOKEN>
-   ```
+See [Getting started with valint](../valint/getting-started-valint.md) for more information on the `bom` command.
 
 Alternatively, you can use GitHub actions, as described in detail in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
 
@@ -58,7 +44,7 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
 2. Verify the SBOM against an initiative. Let's take the SSDF initiative provided in the [Scribe Sample Catalog](#sample-rule-catalog):
 
    ```bash
-   valint verify busybox:latest --initiative ssdf@v2/initiatives \
+   valint verify busybox:latest --initiative ssdf@v2 \
       --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
@@ -111,7 +97,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 2. Verify the SBOM against an existing rule from the bundle. The [Scribe Sample Rule Catalog](#sample-rule-catalog) will be used as the default rule bundle for `valint`.
 
    ```bash
-   valint verify busybox:latest --rule sbom/complete-licenses@v2/rules \
+   valint verify busybox:latest --rule sbom/complete-licenses@v2 \
       --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
@@ -177,7 +163,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    Finally, verify the evidence against the rule. Note that we don't need to provide `valint` with the target report:
 
    ```bash
-   valint verify --rule sarif/trivy/verify-trivy-report@v2/rules \
+   valint verify --rule sarif/trivy/verify-trivy-report@v2 \
       --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
@@ -220,7 +206,7 @@ If you want to verify an initiative on all existing attestations, provide `valin
 It disables using of target for evidence filtering and verifies all matching attestations for each rule.
 
 ```bash
-valint verify --initiative ssdf@v2/initiatives --all-evidence \
+valint verify --initiative ssdf@v2 --all-evidence \
    --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
    --scribe.client-secret <SCRIBE_TOKEN>
 ```
@@ -374,7 +360,7 @@ valint bom ubuntu:latest -o statement
 To verify the evidence against the rule, run:
 
 ```bash
-valint verify ubuntu:latest -i statement-cyclonedx-json --rule sbom/rule_config@v2/rules
+valint verify ubuntu:latest -i statement-cyclonedx-json --rule sbom/rule_config@v2
 ```
 
 #### Require SBOM Signature
@@ -472,7 +458,7 @@ valint bom ubuntu:latest -o statement
 To verify the evidence against the rule:
 
 ```bash
-valint verify ubuntu:latest -i statement --rule images/rule_config@v2/rules
+valint verify ubuntu:latest -i statement --rule images/rule_config@v2
 ```
 
 #### Disallow Container Shell Entrypoint
@@ -539,7 +525,7 @@ valint bom git:https://github.com/golang/go -o statement
 To verify the evidence against the rule:
 
 ```bash
-valint verify git:https://github.com/golang/go -i statement --rule git/rule_config@v2/rules
+valint verify git:https://github.com/golang/go -i statement --rule git/rule_config@v2
 ```
 
 #### Restrict Coding Permissions
@@ -580,7 +566,7 @@ valint slsa ubuntu:latest -o statement
 Example of verifying a SLSA statement:
 
 ```bash
-valint verify ubuntu:latest -i statement-slsa --rule slsa/rule_config@v2/rules
+valint verify ubuntu:latest -i statement-slsa --rule slsa/rule_config@v2
 ```
 
 #### Verify that artifact was created by the specified builder
@@ -683,7 +669,7 @@ valint evidence ubuntu-cve.json  -o statement
 Verify the attestation against the rule:
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v2/rules
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v2
 ```
 
 ###### Running Trivy On Docker Container Rootfs
@@ -773,7 +759,7 @@ valint evidence my-image-dockerfile.json -o statement
 Verify the attestation against the rule:
 
 ```bash
-valint verify my-image-dockerfile.json -i statement-generic --rule sarif/report-iac-errors@v2/rules
+valint verify my-image-dockerfile.json -i statement-generic --rule sarif/report-iac-errors@v2
 ```
 
 The only configurable parameter in [report-iac-errors.yaml](https://github.com/scribe-public/sample-policies/tree/v2/v2/rules/sarif/report-iac-errors.yaml) is `violations_threshold`, which is the maximum number of errors allowed in the report:
@@ -814,7 +800,7 @@ with:
 Then, run `valint verify` as usual:
 
 ```bash
-valint verify semgrep-report.sarif -i statement-generic --rule sarif/verify-semgrep-report@v2/rules
+valint verify semgrep-report.sarif -i statement-generic --rule sarif/verify-semgrep-report@v2
 ```
 
 If any violations found, the output will contain their description, including the violated rule and the file where the violation was found.
@@ -824,7 +810,7 @@ If any violations found, the output will contain their description, including th
 This rule ([verify-tool-evidence.yaml](https://github.com/scribe-public/sample-policies/tree/v2/v2/rules/sarif/verify-tool-evidence.yaml)) allows to verify the existence of an evidence of SARIF report created by a specified tool. By default, the rule checks for an evidence created out of _any_ SARIF report. To specify a tool, use the `tool` parameter in the `evidence` section of the rule configuration. For example, to verify that there is an evidence of a SARIF report created by `trivy`, use the following configuration:
 
 ```yaml
-uses: sarif/verify-tool-evidence@v2/rules
+uses: sarif/verify-tool-evidence@v2
 evidence:
    tool: "Trivy Vulnerability Scanner"
 ```
@@ -842,5 +828,5 @@ Rego policy rules can be written either as snippets in the yaml file, or as sepa
 An example of such a rego script is given in the [verify-sarif.rego](https://github.com/scribe-public/sample-policies/tree/v2/v2/rules/sarif/verify-sarif.rego) file, that is consumed by the [verify-sarif.yaml](https://github.com/scribe-public/sample-policies/tree/v2/v2/rules/sarif/verify-sarif.yaml) configuraion. To evaluate the rule, run
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v2/rules
+valint verify ubuntu-cve.json -i statement-generic --rule sarif/verify-sarif@v2
 ```

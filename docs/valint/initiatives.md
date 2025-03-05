@@ -198,7 +198,7 @@ controls:
       when:
         gate: "Build"
       rules:
-          uses: sbom/blocklist-packages@v2/rules
+          uses: sbom/blocklist-packages@v2
           with:
             blocklist:
                 - "liblzma5@5.6.0"
@@ -206,7 +206,7 @@ controls:
                 - "xz-utils@5.6.0"
                 - "xz-utils@5.6.1"
         - name: "my-rule-2"
-          uses: sbom/banned-licenses@v2/rules
+          uses: sbom/banned-licenses@v2
           level: warning
           with:
             identity:
@@ -220,7 +220,7 @@ controls:
         gate: "Deploy"
       rules:
         - name: "my-rule-3"
-          uses: sbom/evidence-exists@v2/rules
+          uses: sbom/evidence-exists@v2
 ```
 
 ## Rule configuration format
@@ -421,7 +421,7 @@ valint verify --initiative initiative.yaml \
 To run an initiative from a git bundle, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives \
+valint verify --initiative my-initiative@v2 \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
@@ -429,7 +429,7 @@ valint verify --initiative my-initiative@v2/initiatives \
 To run a part of an initiative filtered by gate type, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives \
+valint verify --initiative my-initiative@v2 \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN> \
   --gate-type Build --gate-name "Build of My Product"
@@ -456,11 +456,11 @@ For example, this is how to reference a rule from the public Scribe bundle:
   ```yaml
   ...
   rules:
-    - uses: sbom/blocklist-packages@v2/rules
+    - uses: sbom/blocklist-packages@v2
   ...
   ```
 
-Here `sbom/blocklist-packages@v2/rules` means that the rule path within the bundle is`v2/rules/sbom/blocklist-packages.yaml`.
+Here `sbom/blocklist-packages@v2` means that the rule path within the bundle is`v2/rules/sbom/blocklist-packages.yaml`.
 Note that the `.yaml` extension is omitted in the path and replaced with `@v2`, which is used here as a version tag.
 
 ## Rule configuration
@@ -651,7 +651,7 @@ When running this rule on the `alpine:latest` image target for the `MyProduct` p
 
 ### Template arguments
 
-Rules can have template arguments that can be used to simplify rule configuration. For example, `github/api/branch-protection@v2/rules` relies on several arguments provided at runtime:
+Rules can have template arguments that can be used to simplify rule configuration. For example, `github/api/branch-protection@v2` relies on several arguments provided at runtime:
 
 ```yaml
 
@@ -703,7 +703,7 @@ When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will u
 One can run an initiative to verify all the existing evidences in a product. In this case, the initiative will try to find all matching evidences for every rule and verify those. To do that, the `--all-evidence` flag should be used:
 
 ```bash
-valint verify --initiative my-initiative@v2/initiatives --all-evidence \
+valint verify --initiative my-initiative@v2 --all-evidence \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```

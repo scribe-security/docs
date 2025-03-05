@@ -212,7 +212,7 @@ select:
       name: require_signed_images
       rules:
       - name: error_on_unsigned_image
-        uses: sbom/artifact-signed@v2/rules
+        uses: sbom/artifact-signed@v2
         level: error
 ```
 
@@ -364,7 +364,7 @@ select:
       name: cluster-policy
       rules:
       - name: fresh-image
-        uses: images/fresh-image@v2/rules
+        uses: images/fresh-image@v2
         level: warning
         with:
           max_days: 356
@@ -390,7 +390,7 @@ select:
       name: cluster-policy
       rules:
       - name: fresh-image
-        uses: images/fresh-image@v2/rules
+        uses: images/fresh-image@v2
         level: warning
         with:
           max_days: 356
@@ -415,7 +415,7 @@ select:
       name: pipeline-scanners
       rules:
       - name: check-vulnerabilities
-        uses: sarif/verify-sarif@v2/rules
+        uses: sarif/verify-sarif@v2
         evidence:
           tool: "Trivy Vulnerability Scanner"
         with:
@@ -464,7 +464,7 @@ select:
       name: pipeline-scanners
       rules:
       - name: check-vulnerabilities
-        uses: sarif/verify-sarif@v2/rules
+        uses: sarif/verify-sarif@v2
         evidence:
           tool: "Trivy Vulnerability Scanner"
         with:
@@ -535,7 +535,7 @@ select:
       name: default-provider-policy
       rules:
       - name: warn_on_unsigned_image
-        uses: sbom/artifact-signed@v2/rules
+        uses: sbom/artifact-signed@v2
         level: "warning"
 ```
 
@@ -699,7 +699,7 @@ select:
       name: require_signed_images
       rules:
       - name: error_on_unsigned_image
-        uses: sbom/artifact-signed@v2/rules
+        uses: sbom/artifact-signed@v2
         level: error
 ```
 
