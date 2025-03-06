@@ -49,7 +49,7 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   As a result, you will see the output table of the initiative verification. A detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
+   As a result, you will see the output table of the initiative verification. A detailed description of the fields is provided in the corresponding section of the [Policy Results](../valint/policy-results.md#policy-results-in-valint-logs) page.
 
    <details>
 
@@ -102,7 +102,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
 
-   As a result, you will see the output table of the rule verification. A detailed description of the fields is provided in the [Reading the Results](#reading-the-results) section.
+   As a result, you will see the output table of the rule verification. A detailed description of the fields is provided in the corresponding section of the [Policy Results](../valint/policy-results.md#policy-results-in-valint-logs) page.
 
    <details>
 
@@ -280,25 +280,6 @@ valint verify --initiative ssdf@v2 --all-evidence \
 </details>
 
 In this case, no rule was disabled, and all of them were verified.
-
-### Reading the Results
-
-The results of the control verification are presented in a table format. The table consists of the following columns:
-
-- `RULE ID`: The unique identifier of the rule.
-- `RULE NAME`: The name of the rule.
-- `LEVEL`: The severity level of the rule. Only rules with the "error" level can fail the control.
-- `VERIFIED`: A boolean value indicating whether the evidence signature was verified. Verification failure causes the rule to fail only if the rule requires a signed attestation.
-- `RESULT`: The result of the rule verification. It can be "pass", "fail" or "open".
-- `SUMMARY`: The reason for the rule result.
-- `TARGET`: The target asset of the rule verification.
-
-The results of the initiative verification are also presented in a table format. The table consists of the following columns:
-
-- `CONTROL ID`: The unique identifier of the control.
-- `CONTROL NAME`: The name of the control.
-- `RULE LIST`: A list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In parentheses, the rule's result is shown with consideration of the rule level: for example, if the rule failed, but the level was set to `warning`, the result of the rule evaluation will also be `warning`.
-- `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
 ## Sample Rule Catalog
 
