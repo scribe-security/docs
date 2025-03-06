@@ -76,8 +76,8 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    ├───────────────────┬───────────────┬─────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
    ├───────────────────┼───────────────┼─────────────────────┼────────┤
-   │ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),  │ pass   │
-   │                   │               │ PS.3.2(error->pass) │        │
+   │ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(pass),         │ pass   │
+   │                   │               │ PS.3.2(pass)        │        │
    ├───────────────────┼───────────────┼─────────────────────┼────────┤
    │ INITIATIVE RESULT │               │                     │ PASS   │
    └───────────────────┴───────────────┴─────────────────────┴────────┘
@@ -128,7 +128,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    ├───────────────────┬───────────────┬────────────────────────────────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                                      │ RESULT │
    ├───────────────────┼───────────────┼────────────────────────────────────────────────┼────────┤
-   │ default           │ Default       │ sbom-require-complete-license-set(error->pass) │ pass   │
+   │ default           │ Default       │ sbom-require-complete-license-set(pass)        │ pass   │
    ├───────────────────┼───────────────┼────────────────────────────────────────────────┼────────┤
    │ INITIATIVE RESULT │               │                                                │ PASS   │
    └───────────────────┴───────────────┴────────────────────────────────────────────────┴────────┘
@@ -192,7 +192,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    ├───────────────────┬───────────────┬───────────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                 │ RESULT │
    ├───────────────────┼───────────────┼───────────────────────────┼────────┤
-   │ default           │ Default       │ trivy-report(error->fail) │ fail   │
+   │ default           │ Default       │ trivy-report(fail)        │ fail   │
    ├───────────────────┼───────────────┼───────────────────────────┼────────┤
    │ INITIATIVE RESULT │               │                           │ FAIL   │
    └───────────────────┴───────────────┴───────────────────────────┴────────┘
@@ -263,15 +263,15 @@ valint verify --initiative ssdf@v2 --all-evidence \
 ├───────────────────┬───────────────┬──────────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
 ├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(error->pass),   │ pass   │
-│                   │               │ PS.3.2(error->pass)  │        │
+│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(pass),          │ pass   │
+│                   │               │ PS.3.2(pass)         │        │
 ├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(error->pass), │ fail   │
-│                   │               │ PS.1.3(error->fail), │        │
-│                   │               │ PS.1.5(error->fail)  │        │
+│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(pass),        │ fail   │
+│                   │               │ PS.1.3(fail),        │        │
+│                   │               │ PS.1.5(fail)         │        │
 ├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-REPO         │ SSDF REPO     │ PS.1.2(error->fail), │ fail   │
-│                   │               │ PS.1.4(error->pass)  │        │
+│ SSDF-REPO         │ SSDF REPO     │ PS.1.2(fail),        │ fail   │
+│                   │               │ PS.1.4(pass)         │        │
 ├───────────────────┼───────────────┼──────────────────────┼────────┤
 │ INITIATIVE RESULT │               │                      │ FAIL   │
 └───────────────────┴───────────────┴──────────────────────┴────────┘
@@ -288,7 +288,7 @@ The results of the control verification are presented in a table format. The tab
 - `RULE ID`: The unique identifier of the rule.
 - `RULE NAME`: The name of the rule.
 - `LEVEL`: The severity level of the rule. Only rules with the "error" level can fail the control.
-- `VERIFIED`: The boolean value indicating whether the evidence signature was verified. It may or may not fail the rule, based on the rule's requirements.
+- `VERIFIED`: A boolean value indicating whether the evidence signature was verified. Verification failure causes the rule to fail only if the rule requires a signed attestation.
 - `RESULT`: The result of the rule verification. It can be "pass", "fail" or "open".
 - `SUMMARY`: The reason for the rule result.
 - `TARGET`: The target asset of the rule verification.
@@ -297,7 +297,7 @@ The results of the initiative verification are also presented in a table format.
 
 - `CONTROL ID`: The unique identifier of the control.
 - `CONTROL NAME`: The name of the control.
-- `RULE LIST`: A list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In parentheses, the rule's result is shown with consideration of the rule level.
+- `RULE LIST`: A list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In parentheses, the rule's result is shown with consideration of the rule level: for example, if the rule failed, but the level was set to `warning`, the result of the rule evaluation will also be `warning`.
 - `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
 
 ## Sample Rule Catalog

@@ -10,10 +10,9 @@ toc_max_heading_level: 3
 
 ## What is an initiative?
 
-Each `initiative` proposes to enforce a set of requirements (aka `rules`) grouped into `controls` with which your supply chain must comply.
-The outcome of an initiative evaluation is an initiative result attestation, a report that details the rule evaluation results and references the verified assets and attestations.
+An `initiative` is a high-level, abstract requirement that is comprised of a set of `controls`. For example, a security framework such as SSDF can be represented as an `initiative`. A `control` is an abstract requirement that is comprised of a set of `rules`. For example, the SSDF.PS framework (initiative) requires a `control` of protecting access to the source code. This `control` can be materialized by requiring MFA, limiting the number and identity of admins, and requiring the source code repository to be private -- each of the requirements is a `rule`.
 
-An initiative consists of a set of `controls`, each of which in turn consists of a set of `rules` and is verified if all of them are evaluated and verified.
+The outcome of an initiative evaluation is an initiative result report that details the rule evaluation results and references the verified assets and statements/attestations. `valint` produces initiative results in the SARIF format and uploads them as an in-toto statement of SARIF to Scribe Hub.
 
 Rules can reuse existing ones from a bundle or be defined inline.
 
@@ -381,11 +380,31 @@ with: {}
 
 Examples of rules and initiatives can be found in the [sample-policies bundle](https://github.com/scribe-public/sample-policies).
 
+An example of a rule is:
+
+```yaml
+config-type: rule
+id: require-sbom
+name: Require SBOM Existence
+path: require-sbom.rego
+
+description: Verify the SBOM exists as evidence.
+
+fail-on-missing-evidence: true
+
+evidence:
+  filter-by:
+    - product
+    - target
+  content_body_type: cyclonedx-json
+  signed: false
+```
+
+This rule requires a CycloneDX SBOM to be present as evidence for the product and target. The rule accepts both signed and unsigned SBOMs and fails if no SBOM is found. It uses an external `rego` script to provide some additional logic (in this specific case, it's just used to fetch some additional data from the SBOM and return it in the result).
+
 ## How to adopt an initiative?
 
-An initiative is defined as a file that can be consumed locally or from an external bundle. To run an initiative, one first needs to create the required attestations:
-
-1. Generate an SBOM
+An initiative is defined as a file that can be consumed locally or from an external bundle. To run an initiative, one first needs to create the required statements and attestations, for example:
 
 ```bash
 valint bom <image>:<tag> \
@@ -393,7 +412,13 @@ valint bom <image>:<tag> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
-2. Generate SLSA Provenance
+<details>
+
+<summary>Additional options</summary>
+
+In addition, other type of statements can be created. See the [Getting started with valint](./getting-started-valint.md) guide for more details.
+
+- SLSA Provenance
 
 ```bash
 valint slsa <image>:<tag> \
@@ -401,13 +426,15 @@ valint slsa <image>:<tag> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
-3. Create generic evidences from 3rd party tool reports:
+- Generic evidence from a 3rd party tool report:
 
 ```bash
 valint evidence <path-to-report> \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
+
+</details>
 
 -------------------
 Then, a local initiative can be run with the following command:
@@ -533,16 +560,16 @@ The list of groups to be used should be provided to the `<rule>.evidence.filter-
 -------------------
 
 In addition, one can _**manually**_ specify any parameters that they want to be matched by evidence.
-In most of the rules, the following parameters would be used to define the type of attestation:
+In most of the rules, the following parameters would be used to define the type of statement:
 
 | Field              | Description                                                                                                                | Examples                                                                                       |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `signed`           | Specifies if the evidence is required to be signed.<br/>When set to `false`, both signed and unsigned attestations are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
+| `signed`           | Specifies whether the evidence is required to be signed.<br/>When set to `false`, both unsigned (statements) and signed (attestations) are accepted, and signature verification failure for the signed ones doesn't affect the rule result. | `true`, `false`                                                                                |
 | `content_body_type`| Defines the content type of the attestation.                                                                                | `cyclonedx-json`, `generic`, `slsa`                                                            |
-| `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br/>`git` for Git repositories<br/>`policy-results` for `valint` SARIF attestations<br/>`data` for generic data files |
+| `target_type`      | The type of the target that was used to create the evidence.                                                                | `container` for Docker images<br/>`git` for Git repositories<br/>`policy-results` for `valint` SARIFs<br/>`data` for generic data files |
 | `predicate_type`   | The type of the predicate used in `generic` evidence, usually a URI.                                                      | `http://scribesecurity.com/evidence/discovery/v0.1`<br/>`http://docs.oasis-open.org/sarif/sarif/2.1.0` |
 
-The following example requires an unsigned attestation of Scribe Security discovery evidence:
+The following example requires an unsigned statement of Scribe Security discovery evidence:
 
 ```yaml
 ...
