@@ -166,7 +166,7 @@ controls:
 
 - **Type:** String
 - **Required:** No
-- **Description:** The type of gate on which to run the control. This value is used to filter controls when the `--gate-type` input is provided to `valint`.
+- **Description:** The type of gate on which to run the control. This value is used to filter controls when the `--gate-type` input is provided to `valint`. See the [Rule filtering](#rule-filtering) section below for more details.
 - **Default:** If no value is provided, the control will run on all gates.
 
 ##### `controls[].rules`
@@ -319,7 +319,7 @@ with: {}
 
 - **Type:** Array of Strings
 - **Required:** No
-- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be run if at least one of its labels matches one of the `--rule-label` values. Label filters are used within the whole initiative, regardless of the controls.
+- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be run if at least one of its labels matches one of the `--rule-label` values. Label filters are used within the whole initiative, regardless of the controls. See the [Rule filtering](#rule-filtering) section below for more details.
 - **Default:** No labels used.
 
 #### `level`
