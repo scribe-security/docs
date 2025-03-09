@@ -568,7 +568,7 @@ See the usage example below for more details.
 
 -------------------
 
-In addition, one can _**manually**_ specify any parameters that they want to be matched by evidence.
+In addition, one can specify other parameters that they want to be matched by evidence.
 In most of the rules, the following parameters would be used to define the type of statement:
 
 | Field              | Description                                                                                                                | Examples                                                                                       |
