@@ -10,13 +10,21 @@ toc_max_heading_level: 3
 
 ## What is an initiative?
 
-An `initiative` is a high-level, abstract requirement that is comprised of a set of `controls`. For example, a security framework such as SSDF can be represented as an `initiative`. A `control` is an abstract requirement that is comprised of a set of `rules`. For example, the SSDF framework (initiative) requires a `control` of protecting access to the source code. This `control` can be materialized by requiring MFA, limiting the number and identity of admins, and requiring the source code repository to be private -- each of the requirements is a `rule`.
+An `initiative` is a high-level, abstract requirement that comprises a set of `controls`. For example, a security framework such as SSDF can be represented as an `initiative`. A `control` is an abstract requirement that comprises a set of `rules`. For example, the SSDF framework (initiative) requires a `control` of protecting access to the source code. This `control` can be materialized by requiring MFA, limiting the number and identity of admins, and requiring the source code repository to be private -- each of the requirements is a `rule`.
 
-The outcome of an initiative evaluation is an initiative result report that details the rule evaluation results and references the verified assets and statements/attestations. `valint` produces initiative results in the SARIF format and uploads them as an in-toto statement of SARIF to Scribe Hub.
+The outcome of an initiative evaluation is an initiative result report that details the rule evaluation results and references the verified assets and statements/attestations. `valint` produces initiative results in the SARIF format and uploads them as an in-toto statement of SARIF to Scribe Hub. For more details on this, see the [Initi] [Policy Results](./policy-results.md) page.
 
-Rules can reuse existing ones from a bundle or be defined inline.
+Rules can be defined inline in the initiative config or reuse existing ones from a bundle. See the [Rule configuration](#rule-configuration-format), [Initiative configuration](#initiative-configuration), and [Using a private bundle](#using-a-private-bundle) sections for more details.
 
-## Initiative config format
+### Evidence
+
+Scribe rules operate on evidence; each rule consumes evidence previously created. Each rule specifies which evidence it requires by providing criteria for fetching the evidence. This allows for abstracting the rules and avoiding the need to know an exact evidence id; so instead of specifying "use the SBOM of alpine@sha:ab87ehk..." the user can specify "use the SBOM created in this pipeline", or "use the SBOM of this product". See the [Evidence Lookup](#evidence-lookup) section for more details.
+
+### Gates
+
+Initiative evaluation may require evaluating different rules in different locations in the supply chain. For example, an SBOM of a built image would be tested for vulnerabilities on the build pipeline, while evaluating DAST results would happen on a different testing pipeline. Scribe initiatives support specifying for each control the gate it should be evaluated at; when evaluating an initiative the user can specify the "current location" - the gate that should be evaluated. A gate is defined by its name (serves for human readability of the results, optional) and type (required to use the filtering feature). See the [Rule filtering](#rule-filtering) section for more details.
+
+## Initiative configuration
 
 ```yaml
 config-type: initiative
@@ -298,7 +306,7 @@ with: {}
 
 - **Type:** String
 - **Required:** No
-- **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<path-to-rule-in-catalog>@<version>/rules`. When used, the current rule's values will  override the external rule's ones.
+- **Description:** A reference to a rule in a bundle that should be used as a base rule. The format is `<path-to-rule-in-catalog>@<config-interface-version>`. When used, the current rule's values will  override the external rule's ones.
 - **Default:** If no value is provided, no external rule is used as a base rule.
 
 #### `description`
