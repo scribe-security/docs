@@ -62,7 +62,7 @@ An in-toto Statement is almost identical to an in-toto attestation. The only dif
 
 ### Policy Bundle
 
-A policy bundle is a collection of [rules](#policy-rule) and [initiatives](#policy-initiative) that can be used to evaluate evidence. For example, a policy bundle could be a collection of security frameworks that are used to evaluate the security posture of an application. Scribe provides a [Sample Policy Bundle](https://github.com/scribe-public/sample-policies) that includes the SSDF.PS, SLSA L1 and L2 frameworks as well as a set of rules to verify a variety of security requirements on different types of attestations.
+A policy bundle is a collection of [rules](#policy-rule) and [initiatives](#policy-initiative) that can be used to evaluate evidence. For example, a policy bundle could be a collection of security frameworks that are used to evaluate the security posture of an application. Scribe provides a [Sample Policy Bundle](https://github.com/scribe-public/sample-policies) that includes the SSDF, SLSA L1 and L2 frameworks as well as a set of rules to verify a variety of security requirements on different types of attestations.
 
 ### Policy Initiative
 
@@ -70,7 +70,7 @@ An initiative is a high-level, abstract requirement that is comprised of a set o
 
 ### Policy Control
 
-A control is an abstract requirement that is comprised of a set of [rules](#policy-rule). For example, the SSDF.PS framework (initiative) requires a control for protecting access to the source code.
+A control is an abstract requirement that is comprised of a set of [rules](#policy-rule). For example, the SSDF framework (initiative) requires a control for protecting access to the source code.
 
 ### Policy Rule
 

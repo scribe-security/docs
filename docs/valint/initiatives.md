@@ -10,7 +10,7 @@ toc_max_heading_level: 3
 
 ## What is an initiative?
 
-An `initiative` is a high-level, abstract requirement that is comprised of a set of `controls`. For example, a security framework such as SSDF can be represented as an `initiative`. A `control` is an abstract requirement that is comprised of a set of `rules`. For example, the SSDF.PS framework (initiative) requires a `control` of protecting access to the source code. This `control` can be materialized by requiring MFA, limiting the number and identity of admins, and requiring the source code repository to be private -- each of the requirements is a `rule`.
+An `initiative` is a high-level, abstract requirement that is comprised of a set of `controls`. For example, a security framework such as SSDF can be represented as an `initiative`. A `control` is an abstract requirement that is comprised of a set of `rules`. For example, the SSDF framework (initiative) requires a `control` of protecting access to the source code. This `control` can be materialized by requiring MFA, limiting the number and identity of admins, and requiring the source code repository to be private -- each of the requirements is a `rule`.
 
 The outcome of an initiative evaluation is an initiative result report that details the rule evaluation results and references the verified assets and statements/attestations. `valint` produces initiative results in the SARIF format and uploads them as an in-toto statement of SARIF to Scribe Hub.
 

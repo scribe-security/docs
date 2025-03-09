@@ -75,7 +75,7 @@ Evaluate Initiative:
 valint verify busybox:latest --initiative ssdf@v2
 ```
 
-Next we use `valint verify` command to evaluate the busybox image against the corresponding set of rules from the SSDF.PS initiative.
+Next we use `valint verify` command to evaluate the busybox image against the corresponding set of rules from the SSDF initiative.
 
 After executing these commands, the results of the evaluation are displayed in the output log as a table, summarizing the evaluation for each rule:
 
