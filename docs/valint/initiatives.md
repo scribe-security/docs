@@ -66,7 +66,7 @@ controls:
 
 - **Type:** String
 - **Required:** No
-- **Description:** A unique identifier for the initiative. Cannot contain the `::` string. If no ID is provided, it is generated from the name.
+- **Description:** A unique identifier for the initiative. It cannot contain the `::` string. IDs can be seen in the UI and are needed in Scribe Hub to define rule uniqueness. If no ID is provided, it is generated from the name.
 - **Default:** If no `id` is provided, the value is calculated from the `name` field.
 
 #### `name`
@@ -159,14 +159,14 @@ controls:
 
 - **Type:** Object
 - **Required:** No
-- **Description:** Optional filters for when the control should be run.
+- **Description:** Optional filters for when the control should be run. Currently only `gate` filters are supported (see below).
 - **Default:** If no value is provided, no user-defined control filters are applied.
 
 ###### `controls[].when.gate`
 
 - **Type:** String
 - **Required:** No
-- **Description:** The type of gate on which to run the control.
+- **Description:** The type of gate on which to run the control. This value is used to filter controls when the `--gate-type` input is provided to `valint`.
 - **Default:** If no value is provided, the control will run on all gates.
 
 ##### `controls[].rules`
@@ -319,7 +319,7 @@ with: {}
 
 - **Type:** Array of Strings
 - **Required:** No
-- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be run if at least one of its labels matches one of the `--rule-label` values.
+- **Description:** A list of user-specified labels for the rule itself. These labels can be used for filtering out the rules to be run with the `--rule-label` valint flag. A rule will be run if at least one of its labels matches one of the `--rule-label` values. Label filters are used within the whole initiative, regardless of the controls.
 - **Default:** No labels used.
 
 #### `level`
@@ -445,10 +445,10 @@ valint verify --initiative initiative.yaml \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
-To run an initiative from a git bundle, use the following command:
+To run an initiative from the [Scribe sample bundle](https://github.com/scribe-public/sample-policies), use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2 \
+valint verify --initiative ssdf@v2 \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
@@ -456,7 +456,7 @@ valint verify --initiative my-initiative@v2 \
 To run a part of an initiative filtered by gate type, use the following command:
 
 ```bash
-valint verify --initiative my-initiative@v2 \
+valint verify --initiative ssdf@v2 \
   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
   --scribe.client-secret <SCRIBE_TOKEN> \
   --gate-type Build --gate-name "Build of My Product"
@@ -530,13 +530,14 @@ asset := scribe.get_asset_data(input.evidence)
 
 ### Evidence Lookup
 
-In order to run a policy rule, `valint` requires relevant evidence, which can be found in storage using a number of parameters.
+In order to run a policy rule, `valint` requires relevant evidence, which can be found in storage using several parameters.
 These parameters can be set manually by the user or automatically derived from the context.
-Parameters that can be derived automatically are categorized into three context groups: `target`, `pipeline`, and `product`.
+
+Parameters that can be derived automatically by `valint` are categorized into three context groups: `target`, `pipeline`, and `product`.
 By default, the `target` and `product` groups are enabled for each rule.
 
-1. The `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo, etc). These parameters are:
-    - `target_type` - the type of the target provided (e.g., image, git, generic etc.)
+1. The `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo or a file). These parameters are:
+    - `target_type` - the type of the target provided (e.g., image, git, generic, etc.)
     - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
     > _If this parameter is set and no target is provided, the rule is disabled with a warning._
@@ -545,17 +546,17 @@ By default, the `target` and `product` groups are enabled for each rule.
     - `context_type` - the type of the environment (e.g., local, github, etc.)
     - `git_url` - the git URL of the repository (if any)
     - `git_commit` - the git commit of the current repository state (if any)
-    - `run_id` - the run ID
-    - `build_num` - the build number
+    - `run_id` - the run ID (if any)
+    - `build_num` - the build number (if any)
 
 3. The `product` context group specifies product parameters that can be derived from the command line arguments. These parameters are:
-    - `name` - the name of the product
-    - `product_version` - the version of the product
-    - `predicate_type` - the type of the predicate (e.g., [CycloneDX](https://cyclonedx.org/bom), [SLSA](https://slsa.dev/provenance/v0.1), etc.)
+    - `name` - the name of the product (provided to `valint` as a `--product-key` argument)
+    - `product_version` - the version of the product (provided to `valint` as a `--product-version` argument)
 
 Users can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
 By default, the `target` and `product` groups are used.
-The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file.
+The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file. Any value provided overrides the default list.
+See the usage example below for more details.
 
 -------------------
 
@@ -673,6 +674,13 @@ When running this rule on the `alpine:latest` image target for the `MyProduct` p
  "sbomversion": "sha256:8ca4688f4f356596b5ae539337c9941abc78eda10021d35cbc52659c74d9b443"
 }
 ```
+
+In this example,
+
+- The `name` (stands for _product name_) and `product_version` fields were fetched from the `valint` input because the `filter-by: product` value was set in the rule config.
+- The `sbomversion` field was set as a result of target analysis because the `filter-by: target` value was set in the rule config.
+- The `content_body_type`, `target_type`, and `signed` fields were explicitly specified in the rule config.
+- The `predicate_type` field was set to the default value for CycloneDX SBOMs (based on the `cyclonedx-json` value for `content_body_type`).
 
 </details>
 
