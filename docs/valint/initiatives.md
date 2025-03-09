@@ -733,6 +733,196 @@ When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will u
 
 </details>
 
+### Rule filtering
+
+When running an initiative, there are several options to decide which rules will be evaluated. Some of the criteria are used by `valint` automatically based on the context, while others can be specified by the user.
+
+The following criteria are used by `valint` automatically:
+
+- Rules that have the `filter-by: target` value set in the config (see the [Evidence Lookup](#evidence-lookup) section) are disabled if no target is provided to the `valint verify` command.
+- Rules that use some of the built-in functions for template arguments are disabled if the required arguments are not provided, see the [Built-in functions](#built-in-functions) section above.
+
+The only exception for both of these is when the `--all-evidence` flag is used, see the [Whole product evaluation](#whole-product-evaluation) section below.
+
+The following criteria can be specified by the user:
+
+- The `when.gate` field is used to filter the controls by the gate type provided to the `valint verify` command using the `--gate-type` flag. When this flag is used, only controls with the matching gate and controls that don't have a gate filter are run. This feature works on the control level only.
+- The `rule.labels` field is used to filter the rules by the labels provided to the `valint verify` command using the `--rule-label` flag. This feature works on the rule level only and filters out the rules that don't have any matching labels regardless of the control they belong to.
+
+<details>
+  <summary>Gate Filtering Example</summary>
+
+In the following initiative example,
+
+- The "MyBuildControl" control will be evaluated only when the `--gate-type Build` flag is used or no gate type is provided.
+- The "MyDeployControl" control will be evaluated only when the `--gate-type Deploy` flag is used or no gate type is provided.
+- The "MyGenericControl" control will be evaluated regardless of the gate type.
+
+```yaml
+config-type: initiative
+id: "my-initiative"
+name: "My Initiative"
+
+controls:
+# The following control matches the Build gate type
+  - name: "Any critical or high severity vulnerability breaks the build"
+    id: "MyBuildControl"
+    when:
+      gate: Build
+    rules:
+      - uses: api/scribe-api-cve@v2
+        with:
+          superset:
+            cve:
+              severity: 6
+              max: 0
+
+# The following control matches the Deploy gate type
+  - name: "Root and Admin users prevent image deployment"
+    id: "MyDeployControl"
+    when:
+      gate: Deploy
+    rules:
+      - uses: images/banned-users@v2
+        with:
+          users:
+            - "root"
+            - "admin"
+
+# The following control doesn't have a gate filter and will be evaluated regardless of the gate type
+  - name: "Require signed SBOM"
+    id: "MyGenericControl"
+    rules:
+      - uses: sbom/artifact-signed@v2
+```
+
+```bash
+# Running on the Build gate type
+$ valint verify alpine:latest --initiative my-initiative@v2 --gate-type Build
+...
+INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Initiative "my-initiative. My Initiative" Evaluation Summary                                                  │
+├───────────────────┬──────────────────────────────────────────────────────────────┬───────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME                                                 │ RULE LIST         │ RESULT │
+├───────────────────┼──────────────────────────────────────────────────────────────┼───────────────────┼────────┤
+│ MyBuildControl    │ Any critical or high severity vulnerability breaks the build │ scribe-cve(pass)  │ pass   │
+├───────────────────┼──────────────────────────────────────────────────────────────┼───────────────────┼────────┤
+│ MyGenericControl  │ Require signed SBOM                                          │ sbom-signed(pass) │ pass   │
+├───────────────────┼──────────────────────────────────────────────────────────────┼───────────────────┼────────┤
+│ INITIATIVE RESULT │                                                              │                   │ PASS   │
+└───────────────────┴──────────────────────────────────────────────────────────────┴───────────────────┴────────┘
+```
+
+```bash
+# Running on the Deploy gate type
+$ valint verify alpine:latest --initiative my-initiative@v2 --gate-type Deploy
+...
+INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Initiative "my-initiative. My Initiative" Evaluation Summary                                             │
+├───────────────────┬───────────────────────────────────────────────┬─────────────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME                                  │ RULE LIST                   │ RESULT │
+├───────────────────┼───────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ MyDeployControl   │ Root and Admin users prevent image deployment │ sbom-disallowed-users(pass) │ pass   │
+├───────────────────┼───────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ MyGenericControl  │ Require signed SBOM                           │ sbom-signed(pass)           │ pass   │
+├───────────────────┼───────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ INITIATIVE RESULT │                                               │                             │ PASS   │
+└───────────────────┴───────────────────────────────────────────────┴─────────────────────────────┴────────┘
+```
+
+```bash
+# Running without the gate type
+$ valint verify alpine:latest --initiative my-initiative@v2
+...
+INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Initiative "my-initiative. My Initiative" Evaluation Summary                                                            │
+├───────────────────┬──────────────────────────────────────────────────────────────┬─────────────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME                                                 │ RULE LIST                   │ RESULT │
+├───────────────────┼──────────────────────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ MyBuildControl    │ Any critical or high severity vulnerability breaks the build │ scribe-cve(pass)            │ pass   │
+├───────────────────┼──────────────────────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ MyDeployControl   │ Root and Admin users prevent image deployment                │ sbom-disallowed-users(pass) │ pass   │
+├───────────────────┼──────────────────────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ MyGenericControl  │ Require signed SBOM                                          │ sbom-signed(pass)           │ pass   │
+├───────────────────┼──────────────────────────────────────────────────────────────┼─────────────────────────────┼────────┤
+│ INITIATIVE RESULT │                                                              │                             │ PASS   │
+└───────────────────┴──────────────────────────────────────────────────────────────┴─────────────────────────────┴────────┘
+```
+
+</details>
+
+<details>
+  <summary>Rule Label Filtering Example</summary>
+
+In the following initiative example, the "MyRule" rule will be evaluated only when the `--rule-label` flag is used with the `MyLabel` value or no label is provided.
+
+```yaml
+config-type: initiative
+id: "my-initiative"
+name: "My Initiative"
+
+controls:
+  - name: "My Control"
+    rules:
+      - name: "My Rule"
+        id: "MyRule"
+        labels:
+          - "MyLabel"
+        uses: sbom/blocklist-packages@v2
+        with:
+          blocklist:
+            - "liblzma5@5.6.0"
+            - "liblzma5@5.6.1"
+            - "xz-utils@5.6.0"
+            - "xz-utils@5.6.1"
+      - name: "My Rule 2"
+        id: "MyRule2"
+        uses: sbom/banned-licenses@v2
+        level: warning
+        with:
+          blocklist:
+            - "GPL-2.0"
+            - "GPL-3.0"
+```
+
+```bash
+# Running with the rule label
+$ valint verify alpine:latest --initiative my-initiative@v2 --rule-label MyLabel
+...
+INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+┌───────────────────────────────────────────────────────────────┐
+│ Initiative "my-initiative. My Initiative" Evaluation Summary  │
+├───────────────────┬───────────────┬──────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST        │ RESULT │
+├───────────────────┼───────────────┼──────────────────┼────────┤
+│ My Control        │ My Control    │ MyRule(pass),    │ pass   │
+├───────────────────┼───────────────┼──────────────────┼────────┤
+│ INITIATIVE RESULT │               │                  │ PASS   │
+└───────────────────┴───────────────┴──────────────────┴────────┘
+```
+
+```bash
+# Running without the rule label
+$ valint verify alpine:latest --initiative my-initiative@v2
+...
+INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+┌───────────────────────────────────────────────────────────────┐
+│ Initiative "my-initiative. My Initiative" Evaluation Summary  │
+├───────────────────┬───────────────┬──────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST        │ RESULT │
+├───────────────────┼───────────────┼──────────────────┼────────┤
+│ My Control        │ My Control    │ MyRule(pass),    │ pass   │
+│                   │               │ MyRule2(warning) │        │
+├───────────────────┼───────────────┼──────────────────┼────────┤
+│ INITIATIVE RESULT │               │                  │ PASS   │
+└───────────────────┴───────────────┴──────────────────┴────────┘
+```
+
+</details>
+
 ### Whole product evaluation
 
 One can run an initiative to verify all the existing evidences in a product. In this case, the initiative will try to find all matching evidences for every rule and verify those. To do that, the `--all-evidence` flag should be used:
