@@ -265,7 +265,7 @@ with: {}
 
 - **Type:** String
 - **Required:** Yes
-- **Description:** Specifies the type of configuration. For rules, this should be set to `rule`.
+- **Description:** Specifies the type of configuration. For rule configuration files, this should be set to `rule`. For rules defined inline in the initiative config, this field is omitted.
 
 #### `required-valint-version`
 
