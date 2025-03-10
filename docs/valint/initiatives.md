@@ -808,9 +808,9 @@ controls:
 # Running on the Build gate type
 $ valint verify alpine:latest --initiative my-initiative@v2 --gate-type Build
 ...
-INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Initiative "my-initiative. My Initiative" Evaluation Summary                                                  │
+│ [my-initiative] Initiative "My Initiative" Evaluation Summary                                                 │
 ├───────────────────┬──────────────────────────────────────────────────────────────┬───────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME                                                 │ RULE LIST         │ RESULT │
 ├───────────────────┼──────────────────────────────────────────────────────────────┼───────────────────┼────────┤
@@ -826,9 +826,9 @@ INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
 # Running on the Deploy gate type
 $ valint verify alpine:latest --initiative my-initiative@v2 --gate-type Deploy
 ...
-INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Initiative "my-initiative. My Initiative" Evaluation Summary                                             │
+│ [my-initiative] Initiative "My Initiative" Evaluation Summary                                            │
 ├───────────────────┬───────────────────────────────────────────────┬─────────────────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME                                  │ RULE LIST                   │ RESULT │
 ├───────────────────┼───────────────────────────────────────────────┼─────────────────────────────┼────────┤
@@ -844,9 +844,9 @@ INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
 # Running without the gate type
 $ valint verify alpine:latest --initiative my-initiative@v2
 ...
-INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Initiative "my-initiative. My Initiative" Evaluation Summary                                                            │
+│ [my-initiative] Initiative "My Initiative" Evaluation Summary                                                           │
 ├───────────────────┬──────────────────────────────────────────────────────────────┬─────────────────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME                                                 │ RULE LIST                   │ RESULT │
 ├───────────────────┼──────────────────────────────────────────────────────────────┼─────────────────────────────┼────────┤
@@ -900,9 +900,9 @@ controls:
 # Running with the rule label
 $ valint verify alpine:latest --initiative my-initiative@v2 --rule-label MyLabel
 ...
-INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 ┌───────────────────────────────────────────────────────────────┐
-│ Initiative "my-initiative. My Initiative" Evaluation Summary  │
+│ [my-initiative] Initiative "My Initiative" Evaluation Summary │
 ├───────────────────┬───────────────┬──────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME  │ RULE LIST        │ RESULT │
 ├───────────────────┼───────────────┼──────────────────┼────────┤
@@ -916,9 +916,9 @@ INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
 # Running without the rule label
 $ valint verify alpine:latest --initiative my-initiative@v2
 ...
-INFO Initiative "my-initiative. My Initiative" Evaluation Summary:
+INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 ┌───────────────────────────────────────────────────────────────┐
-│ Initiative "my-initiative. My Initiative" Evaluation Summary  │
+│ [my-initiative] Initiative "My Initiative" Evaluation Summary │
 ├───────────────────┬───────────────┬──────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME  │ RULE LIST        │ RESULT │
 ├───────────────────┼───────────────┼──────────────────┼────────┤

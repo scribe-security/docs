@@ -82,9 +82,9 @@ After executing these commands, the results of the evaluation are displayed in t
 After policy evaluation, the results are shown in the output log as a table:
 
 ```bash
-INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary: 
+INFO SSDF-IMAGE: Control "SSDF IMAGE" Evaluation Summary:
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+│ [SSDF-IMAGE] Control "SSDF IMAGE" Evaluation Summary                                                         │
 ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
 │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
 ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
@@ -94,20 +94,20 @@ INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
 ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
 │ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
 └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
-Evaluation Target Name 'index.docker.io/library/busybox:latest'
 
-INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
-┌───────────────────────────────────────────────────────────┐
-│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summ │
-│ ary                                                       │
-├───────────────────┬───────────────┬──────────────┬────────┤
-│ CONTROL ID        │ CONTROL NAME  │ RULE LIST    │ RESULT │
-├───────────────────┼───────────────┼──────────────┼────────┤
-│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(pass),  │ pass   │
-│                   │               │ PS.3.2(pass) │        │
-├───────────────────┼───────────────┼──────────────┼────────┤
-│ INITIATIVE RESULT │               │              │ PASS   │
-└───────────────────┴───────────────┴──────────────┴────────┘
+INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
+┌───────────────────────────────────────────────────────────────┐
+│ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary │
+│                                                               │
+├───────────────────────┬───────────────┬──────────────┬────────┤
+│ CONTROL ID            │ CONTROL NAME  │ RULE LIST    │ RESULT │
+├───────────────────────┼───────────────┼──────────────┼────────┤
+│ SSDF-IMAGE            │ SSDF IMAGE    │ PS.2(pass),  │ pass   │
+│                       │               │ PS.3.2(pass) │        │
+├───────────────────────┼───────────────┼──────────────┼────────┤
+│ INITIATIVE RESULT     │               │              │ PASS   │
+└───────────────────────┴───────────────┴──────────────┴────────┘
+Evaluation Target Name 'index.docker.io/library/busybox:latest'
 ```
 
 Moreover, the Sarif result is produced and dispatched as evidence, providing the option for it to be signed based on specific requirements. This signing capability enhances the integrity and authenticity of the generated evidence, ensuring a secure and verifiable representation of the policy evaluation results.
@@ -117,10 +117,10 @@ Moreover, the Sarif result is produced and dispatched as evidence, providing the
 
 ```bash
 # Create a signed SBOM (Software Bill of Materials) evidence for the 'busybox' image
-valint bom busybox:latest -o attest 
+valint bom busybox:latest -o attest
 
 # Verify signed evidence for 'busybox' and export a signed evidence for Policy results
-valint verify busybox:latest -i attest -o attest 
+valint verify busybox:latest -i attest -o attest
 ```
 
 In this example, we generate a signed SBOM evidence for the 'busybox' image using the valint bom command. Subsequently, the valint verify command evaluates the signed evidence for 'busybox' (`-i attest`) and the -o flag to export a signed evidence for Policy results (`-o attest`).

@@ -56,9 +56,9 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    <summary>Initiative results</summary>
 
    ```bash
-   [2025-01-28 17:28:29]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary:
+   INFO SSDF-IMAGE: Control "SSDF IMAGE" Evaluation Summary:
    ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+   │ [SSDF-IMAGE] Control "SSDF IMAGE" Evaluation Summary                                                         │
    ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
    │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
    ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
@@ -68,11 +68,10 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
    │ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
    └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
-   Evaluation Target Name 'index.docker.io/library/busybox:latest'
 
-   [2025-01-28 17:28:29]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary:
+   INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
    ┌──────────────────────────────────────────────────────────────────┐
-   │ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary     │
+   │ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary    │
    ├───────────────────┬───────────────┬─────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
    ├───────────────────┼───────────────┼─────────────────────┼────────┤
@@ -81,6 +80,7 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    ├───────────────────┼───────────────┼─────────────────────┼────────┤
    │ INITIATIVE RESULT │               │                     │ PASS   │
    └───────────────────┴───────────────┴─────────────────────┴────────┘
+   Evaluation Target Name 'index.docker.io/library/busybox:latest'
    ```
 
    </details>
@@ -110,7 +110,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
    ```bash
    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ Control "default. Default" Evaluation Summary                                                                                                   │
+   │ [default] Control "Default" Evaluation Summary                                                                                                  │
    ├───────────────────────────────────┬───────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────┬────────────────┤
    │ RULE ID                           │ RULE NAME                         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                    │ TARGET         │
    ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────┤
@@ -124,7 +124,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
    ```bash
    ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ Initiative "client-initiative. client-initiative" Evaluation Summary                        │
+   │ [client-initiative] Initiative "client-initiative" Evaluation Summary                       │
    ├───────────────────┬───────────────┬────────────────────────────────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                                      │ RESULT │
    ├───────────────────┼───────────────┼────────────────────────────────────────────────┼────────┤
@@ -178,7 +178,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
    ```bash
    ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ Control "default. Default" Evaluation Summary                                                                                      │
+   │ [default] Control "Default" Evaluation Summary                                                                                     │
    ├────────────────┬──────────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────┬───────────────┤
    │ RULE ID        │ RULE NAME                            │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                        │ TARGET        │
    ├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
@@ -188,7 +188,7 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    └────────────────┴──────────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────┴───────────────┘
 
    ┌────────────────────────────────────────────────────────────────────────┐
-   │ Initiative "client-initiative. client-initiative" Evaluation Summary   │
+   │ [client-initiative] Initiative "client-initiative" Evaluation Summary  │
    ├───────────────────┬───────────────┬───────────────────────────┬────────┤
    │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                 │ RESULT │
    ├───────────────────┼───────────────┼───────────────────────────┼────────┤
@@ -216,9 +216,9 @@ valint verify --initiative ssdf@v2 --all-evidence \
 <summary>Initiative results</summary>
 
 ```bash
-[2025-01-28 18:13:23]  INFO Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary: 
+INFO SSDF-IMAGE: Control "SSDF IMAGE" Evaluation Summary:
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-IMAGE. SSDF IMAGE" Evaluation Summary                                                          │
+│ [SSDF-IMAGE] Control "SSDF IMAGE" Evaluation Summary                                                         │
 ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
 │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
 ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
@@ -229,9 +229,9 @@ valint verify --initiative ssdf@v2 --all-evidence \
 │ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
 └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
 
-[2025-01-28 18:13:23]  INFO Control "SSDF-ORG. SSDF ORG" Evaluation Summary: 
+INFO SSDF-ORG: Control "SSDF ORG" Evaluation Summary:
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-ORG. SSDF ORG" Evaluation Summary                                                                                                              │
+│ [SSDF-ORG] Control "SSDF ORG" Evaluation Summary                                                                                                             │
 ├────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
 │ RULE ID        │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
 ├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
@@ -244,9 +244,9 @@ valint verify --initiative ssdf@v2 --all-evidence \
 │ CONTROL RESULT │                                │       │          │ FAIL   │                                        │                                       │
 └────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
 
-[2025-01-28 18:13:23]  INFO Control "SSDF-REPO. SSDF REPO" Evaluation Summary: 
+INFO SSDF-REPO: Control "SSDF REPO" Evaluation Summary:
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Control "SSDF-REPO. SSDF REPO" Evaluation Summary                                                                                                       |
+│ [SSDF-REPO] Control "SSDF REPO" Evaluation Summary                                                                                                      |
 ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────────────────────────┬───────────────────────────────────────|
 │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                         │ TARGET                                |
 ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
@@ -257,9 +257,9 @@ valint verify --initiative ssdf@v2 --all-evidence \
 │ CONTROL RESULT │                  │       │          │ FAIL   │                                                 │                                       │
 └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────────────────────────┴───────────────────────────────────────┘
 
-[2025-01-28 18:13:23]  INFO Initiative "SSDF. SSDF Client Initiative" Evaluation Summary: 
+INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
 ┌───────────────────────────────────────────────────────────────────┐
-│ Initiative "SSDF. SSDF Client Initiative" Evaluation Summary      │
+│ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary     │
 ├───────────────────┬───────────────┬──────────────────────┬────────┤
 │ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
 ├───────────────────┼───────────────┼──────────────────────┼────────┤
