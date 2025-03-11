@@ -24,6 +24,16 @@ Here are the respective roles of Valint and Scribe Hub:
 
 While Valint works integrally with Scribe Hub it can also be deployed as a standalone by utilizing an on-prem file server or an OCI registry as an evidence store in lieu of Scribe Hub for uploading and retrieving evidence.
 
+:::tip
+mmmmmmmmmmmmmmmmmmmmm
+:::
+
+:::tip
+
+mmmmmmmmmmmmmmmmmmmmm2
+
+:::
+
 ## Integration with the supply chain
 
 ### Integration with your SCM
