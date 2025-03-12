@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify secret scanning.
+title: Verify secret scanning.
+---  
 # Verify secret scanning.  
 **Type:** Rule  
 **ID:** `github-repo-validity-checks`  

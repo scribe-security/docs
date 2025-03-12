@@ -1,3 +1,7 @@
+---
+sidebar_label: Run Secrets Scanning in GitLab Project
+title: Run Secrets Scanning in GitLab Project
+---  
 # Run Secrets Scanning in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-secrets-scanning`  

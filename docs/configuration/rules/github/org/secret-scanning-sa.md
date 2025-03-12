@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Secret_Scanning Setting in Security_And_Analysis
+title: Verify Secret_Scanning Setting in Security_And_Analysis
+---  
 # Verify Secret_Scanning Setting in Security_And_Analysis  
 **Type:** Rule  
 **ID:** `github-org-secret-scanning-sa`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Require SBOM Signature
+title: Require SBOM Signature
+---  
 # Require SBOM Signature  
 **Type:** Rule  
 **ID:** `sbom-signed`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Reset Approvals on Push in GitLab Project
+title: Reset Approvals on Push in GitLab Project
+---  
 # Reset Approvals on Push in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-reset-pprovals-on-push`  

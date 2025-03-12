@@ -1,3 +1,7 @@
+---
+sidebar_label: Forbid Unused Tokens in GitLab Organization
+title: Forbid Unused Tokens in GitLab Organization
+---  
 # Forbid Unused Tokens in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-unused-tokens`  

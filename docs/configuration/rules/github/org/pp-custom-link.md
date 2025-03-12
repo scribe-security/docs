@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Secret_Scanning_Push_Protection_Custom_Link_Enabled Setting
+title: Verify Secret_Scanning_Push_Protection_Custom_Link_Enabled Setting
+---  
 # Verify Secret_Scanning_Push_Protection_Custom_Link_Enabled Setting  
 **Type:** Rule  
 **ID:** `github-org-pp-custom-link`  

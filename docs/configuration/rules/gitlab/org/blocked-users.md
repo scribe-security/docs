@@ -1,3 +1,7 @@
+---
+sidebar_label: Block Users in GitLab Organization
+title: Block Users in GitLab Organization
+---  
 # Block Users in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-blocked-users`  

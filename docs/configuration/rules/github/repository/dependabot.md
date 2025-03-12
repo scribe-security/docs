@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Dependabot security updates setting
+title: Verify Dependabot security updates setting
+---  
 # Verify Dependabot security updates setting  
 **Type:** Rule  
 **ID:** `github-repo-dependabot`  

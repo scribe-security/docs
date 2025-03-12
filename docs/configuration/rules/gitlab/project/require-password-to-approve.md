@@ -1,3 +1,7 @@
+---
+sidebar_label: Require Password for Approvals in GitLab Project
+title: Require Password for Approvals in GitLab Project
+---  
 # Require Password for Approvals in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-require-password-to-approve`  

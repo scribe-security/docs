@@ -1,3 +1,7 @@
+---
+sidebar_label: Merge approval policy check for GitLab project
+title: Merge approval policy check for GitLab project
+---  
 # Merge approval policy check for GitLab project  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-approval`  

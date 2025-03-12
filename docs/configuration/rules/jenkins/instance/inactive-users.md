@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Inactive Users
+title: Verify Inactive Users
+---  
 # Verify Inactive Users  
 **Type:** Rule  
 **ID:** `jenkins-inactive-users`  

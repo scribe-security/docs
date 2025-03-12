@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Users in GitLab Organization
+title: Allowed Users in GitLab Organization
+---  
 # Allowed Users in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-allowed-users`  

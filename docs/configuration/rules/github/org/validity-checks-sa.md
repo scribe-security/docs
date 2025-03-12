@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Secret_Scanning_Validity_Checks Setting in Security_And_Analysis
+title: Verify Secret_Scanning_Validity_Checks Setting in Security_And_Analysis
+---  
 # Verify Secret_Scanning_Validity_Checks Setting in Security_And_Analysis  
 **Type:** Rule  
 **ID:** `github-org-validity-checks-sa`  

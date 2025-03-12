@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Push Protection Setting
+title: Verify Push Protection Setting
+---  
 # Verify Push Protection Setting  
 **Type:** Rule  
 **ID:** `github-repo-push-protection`  

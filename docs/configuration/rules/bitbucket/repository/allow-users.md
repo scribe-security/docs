@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Repository Users
+title: Allowed Repository Users
+---  
 # Allowed Repository Users  
 **Type:** Rule  
 **ID:** `bb-repo-allowed-repository-users`  

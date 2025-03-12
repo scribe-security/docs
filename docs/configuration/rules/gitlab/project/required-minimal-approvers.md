@@ -1,3 +1,7 @@
+---
+sidebar_label: Require Minimal Approvers in GitLab Project
+title: Require Minimal Approvers in GitLab Project
+---  
 # Require Minimal Approvers in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-required-minimal-approvers`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Disallow Force Push in GitLab Project
+title: Disallow Force Push in GitLab Project
+---  
 # Disallow Force Push in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-disallow-force-push`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify secret_scanning setting
+title: Verify secret_scanning setting
+---  
 # Verify secret_scanning setting  
 **Type:** Rule  
 **ID:** `github-repo-secret-scanning`  

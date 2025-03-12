@@ -1,3 +1,7 @@
+---
+sidebar_label: Validate All Commits in GitLab Project
+title: Validate All Commits in GitLab Project
+---  
 # Validate All Commits in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-all-commits-validated`  

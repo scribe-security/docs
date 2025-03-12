@@ -1,3 +1,7 @@
+---
+sidebar_label: Run SAST Scanning in GitLab Project
+title: Run SAST Scanning in GitLab Project
+---  
 # Run SAST Scanning in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-sast-scanning`  

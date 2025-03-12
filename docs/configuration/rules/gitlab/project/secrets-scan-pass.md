@@ -1,3 +1,7 @@
+---
+sidebar_label: Ensure Secrets Scanning Passes
+title: Ensure Secrets Scanning Passes
+---  
 # Ensure Secrets Scanning Passes  
 **Type:** Rule  
 **ID:** `gitlab-project-secrets-scan-pass`  

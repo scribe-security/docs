@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Branch Protection Setting
+title: Verify Branch Protection Setting
+---  
 # Verify Branch Protection Setting  
 **Type:** Rule  
 **ID:** `github-repo-branch-protection`  

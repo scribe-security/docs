@@ -1,3 +1,7 @@
+---
+sidebar_label: Ensure Active Projects in GitLab Organization
+title: Ensure Active Projects in GitLab Organization
+---  
 # Ensure Active Projects in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-inactive-projects`  

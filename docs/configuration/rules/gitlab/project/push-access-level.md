@@ -1,3 +1,7 @@
+---
+sidebar_label: Set Push Access Level in GitLab Project
+title: Set Push Access Level in GitLab Project
+---  
 # Set Push Access Level in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-push-access-level`  

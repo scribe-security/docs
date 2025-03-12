@@ -1,3 +1,7 @@
+---
+sidebar_label: Scribe Published Policy
+title: Scribe Published Policy
+---  
 # Scribe Published Policy  
 **Type:** Rule  
 **ID:** `scribe-published-policy`  

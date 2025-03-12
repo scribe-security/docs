@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Only Ephemeral Runners Exist in Repository
+title: Verify Only Ephemeral Runners Exist in Repository
+---  
 # Verify Only Ephemeral Runners Exist in Repository  
 **Type:** Rule  
 **ID:** `github-repo-ephemeral-runners-only`  

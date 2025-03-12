@@ -1,3 +1,8 @@
+---
+sidebar_label: Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories
+  Setting
+title: Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories Setting
+---  
 # Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories Setting  
 **Type:** Rule  
 **ID:** `github-org-push-protection`  

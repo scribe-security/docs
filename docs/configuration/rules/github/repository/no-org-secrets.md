@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify No Organization Secrets Exist in Repository
+title: Verify No Organization Secrets Exist in Repository
+---  
 # Verify No Organization Secrets Exist in Repository  
 **Type:** Rule  
 **ID:** `github-repo-no-org-secrets`  

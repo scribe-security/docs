@@ -1,3 +1,7 @@
+---
+sidebar_label: Check Message Substring
+title: Check Message Substring
+---  
 # Check Message Substring  
 **Type:** Rule  
 **ID:** `gitlab-project-message-substring-check`  

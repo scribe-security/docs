@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Secret_Scanning_Push_Protection Setting
+title: Verify Secret_Scanning_Push_Protection Setting
+---  
 # Verify Secret_Scanning_Push_Protection Setting  
 **Type:** Rule  
 **ID:** `github-org-push-protection-sa`  

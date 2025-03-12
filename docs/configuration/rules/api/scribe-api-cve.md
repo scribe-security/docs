@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify No Critical or High Vulnerabilities
+title: Verify No Critical or High Vulnerabilities
+---  
 # Verify No Critical or High Vulnerabilities  
 **Type:** Rule  
 **ID:** `scribe-cve`  

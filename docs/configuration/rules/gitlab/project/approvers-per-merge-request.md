@@ -1,3 +1,7 @@
+---
+sidebar_label: Restrict Approvers Per Merge Request
+title: Restrict Approvers Per Merge Request
+---  
 # Restrict Approvers Per Merge Request  
 **Type:** Rule  
 **ID:** `gitlab-project-approvers-per-merge-request`  

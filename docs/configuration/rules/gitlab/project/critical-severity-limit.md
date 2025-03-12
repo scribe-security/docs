@@ -1,3 +1,7 @@
+---
+sidebar_label: Enforce Critical Severity Limit
+title: Enforce Critical Severity Limit
+---  
 # Enforce Critical Severity Limit  
 **Type:** Rule  
 **ID:** `gitlab-project-critical-severity-limit`  

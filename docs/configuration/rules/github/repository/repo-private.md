@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Repository Is Private
+title: Verify Repository Is Private
+---  
 # Verify Repository Is Private  
 **Type:** Rule  
 **ID:** `github-repo-private`  

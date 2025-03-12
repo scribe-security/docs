@@ -1,3 +1,7 @@
+---
+sidebar_label: Require Code Owner Approval in GitLab Project
+title: Require Code Owner Approval in GitLab Project
+---  
 # Require Code Owner Approval in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-code-owner-approval`  

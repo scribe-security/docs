@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Artifact Signature in SARIF
+title: Verify Artifact Signature in SARIF
+---  
 # Verify Artifact Signature in SARIF  
 **Type:** Rule  
 **ID:** `sarif-artifact-signed`  

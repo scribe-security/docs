@@ -1,3 +1,7 @@
+---
+sidebar_label: Enable Secrets Prevention in GitLab Project
+title: Enable Secrets Prevention in GitLab Project
+---  
 # Enable Secrets Prevention in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-prevent_secrets`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Limit Admins in GitLab Organization
+title: Limit Admins in GitLab Organization
+---  
 # Limit Admins in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-max-admins`  

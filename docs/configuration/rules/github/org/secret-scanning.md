@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify secret_scanning_enabled_for_new_repositories setting
+title: Verify secret_scanning_enabled_for_new_repositories setting
+---  
 # Verify secret_scanning_enabled_for_new_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-secret-scanning`  

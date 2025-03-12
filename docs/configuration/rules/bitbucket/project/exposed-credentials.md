@@ -1,3 +1,7 @@
+---
+sidebar_label: Prevent Credential Exposure
+title: Prevent Credential Exposure
+---  
 # Prevent Credential Exposure  
 **Type:** Rule  
 **ID:** `bb-project-exposed-credentials`  

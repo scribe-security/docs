@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Default Branch Protection Setting Is Configured
+title: Verify Default Branch Protection Setting Is Configured
+---  
 # Verify Default Branch Protection Setting Is Configured  
 **Type:** Rule  
 **ID:** `bb-repo-branch-protection`  

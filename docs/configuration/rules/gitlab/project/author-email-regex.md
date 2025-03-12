@@ -1,3 +1,7 @@
+---
+sidebar_label: Set Author Email Regex in GitLab Project
+title: Set Author Email Regex in GitLab Project
+---  
 # Set Author Email Regex in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-author-email-regex`  

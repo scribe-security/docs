@@ -1,3 +1,7 @@
+---
+sidebar_label: Enable Commit Committer Check in GitLab Project
+title: Enable Commit Committer Check in GitLab Project
+---  
 # Enable Commit Committer Check in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-commit_committer_check`  

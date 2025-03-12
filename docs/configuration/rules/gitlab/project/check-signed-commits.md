@@ -1,3 +1,7 @@
+---
+sidebar_label: Ensure All Commits Are Signed in GitLab Project
+title: Ensure All Commits Are Signed in GitLab Project
+---  
 # Ensure All Commits Are Signed in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-signed-commits`  

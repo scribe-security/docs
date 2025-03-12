@@ -1,3 +1,7 @@
+---
+sidebar_label: Check Description Substring
+title: Check Description Substring
+---  
 # Check Description Substring  
 **Type:** Rule  
 **ID:** `gitlab-project-description-substring-check`  

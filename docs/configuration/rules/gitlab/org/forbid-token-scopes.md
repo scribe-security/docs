@@ -1,3 +1,7 @@
+---
+sidebar_label: Forbid Token Scopes in GitLab Organization
+title: Forbid Token Scopes in GitLab Organization
+---  
 # Forbid Token Scopes in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-disallowed-token-scope`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Restrict Public Visibility in GitLab Organization
+title: Restrict Public Visibility in GitLab Organization
+---  
 # Restrict Public Visibility in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-allowed-visible-projects`  

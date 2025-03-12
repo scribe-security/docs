@@ -1,3 +1,7 @@
+---
+sidebar_label: Ensure SAST Scanning Passes
+title: Ensure SAST Scanning Passes
+---  
 # Ensure SAST Scanning Passes  
 **Type:** Rule  
 **ID:** `gitlab-project-sast-scan-pass`  

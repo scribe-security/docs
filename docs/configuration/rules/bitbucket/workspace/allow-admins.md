@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Workspace Admins
+title: Allowed Workspace Admins
+---  
 # Allowed Workspace Admins  
 **Type:** Rule  
 **ID:** `bb-workspace-allowed-workspace-admins`  

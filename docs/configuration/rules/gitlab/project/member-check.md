@@ -1,3 +1,7 @@
+---
+sidebar_label: Enable Member Check for GitLab Project
+title: Enable Member Check for GitLab Project
+---  
 # Enable Member Check for GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-member_check`  

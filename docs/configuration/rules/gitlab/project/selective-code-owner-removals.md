@@ -1,3 +1,7 @@
+---
+sidebar_label: Restrict Selective Code Owner Removals in GitLab
+title: Restrict Selective Code Owner Removals in GitLab
+---  
 # Restrict Selective Code Owner Removals in GitLab  
 **Type:** Rule  
 **ID:** `gitlab-project-selective-code-owner-removals`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify All Commits Are Signed in Repository
+title: Verify All Commits Are Signed in Repository
+---  
 # Verify All Commits Are Signed in Repository  
 **Type:** Rule  
 **ID:** `github-repo-signed-commits`  

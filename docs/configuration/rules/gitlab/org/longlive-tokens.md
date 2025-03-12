@@ -1,3 +1,7 @@
+---
+sidebar_label: Forbid Long-Lived Tokens in GitLab Organization
+title: Forbid Long-Lived Tokens in GitLab Organization
+---  
 # Forbid Long-Lived Tokens in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-token-excessive-lifespan`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Disallow Unused Users
+title: Disallow Unused Users
+---  
 # Disallow Unused Users  
 **Type:** Rule  
 **ID:** `jenkins-unused-users`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Restrict Commit Authors in GitLab Project
+title: Restrict Commit Authors in GitLab Project
+---  
 # Restrict Commit Authors in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-commit-authors`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Set Push Rules for GitLab Project
+title: Set Push Rules for GitLab Project
+---  
 # Set Push Rules for GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-push_rules`  

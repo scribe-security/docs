@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Project Activity
+title: Verify Project Activity
+---  
 # Verify Project Activity  
 **Type:** Rule  
 **ID:** `gitlab-project-abandoned-project`  

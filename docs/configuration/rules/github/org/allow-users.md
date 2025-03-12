@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed GitHub Organization Users
+title: Allowed GitHub Organization Users
+---  
 # Allowed GitHub Organization Users  
 **Type:** Rule  
 **ID:** `github-org-allowed-users`  

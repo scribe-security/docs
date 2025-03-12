@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify File Integrity
+title: Verify File Integrity
+---  
 # Verify File Integrity  
 **Type:** Rule  
 **ID:** `file-integrity`  

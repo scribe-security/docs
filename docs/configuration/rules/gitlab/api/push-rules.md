@@ -1,3 +1,7 @@
+---
+sidebar_label: Set Push Rules in GitLab
+title: Set Push Rules in GitLab
+---  
 # Set Push Rules in GitLab  
 **Type:** Rule  
 **ID:** `gitlab-api-push-rules`  

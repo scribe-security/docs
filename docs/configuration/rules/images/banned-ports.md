@@ -1,3 +1,7 @@
+---
+sidebar_label: Banned Ports
+title: Banned Ports
+---  
 # Banned Ports  
 **Type:** Rule  
 **ID:** `images-banned-ports`  

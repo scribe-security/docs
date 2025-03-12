@@ -1,3 +1,7 @@
+---
+sidebar_label: Enforce Medium Severity Limit
+title: Enforce Medium Severity Limit
+---  
 # Enforce Medium Severity Limit  
 **Type:** Rule  
 **ID:** `gitlab-project-medium-severity-limit`  

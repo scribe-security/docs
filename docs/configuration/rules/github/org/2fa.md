@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify two_factor_requirement_enabled setting
+title: Verify two_factor_requirement_enabled setting
+---  
 # Verify two_factor_requirement_enabled setting  
 **Type:** Rule  
 **ID:** `github-org-2fa`  

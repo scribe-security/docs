@@ -1,3 +1,7 @@
+---
+sidebar_label: Disallow Banned Approvers
+title: Disallow Banned Approvers
+---  
 # Disallow Banned Approvers  
 **Type:** Rule  
 **ID:** `gitlab-project-disallowed-banned-approvers`  

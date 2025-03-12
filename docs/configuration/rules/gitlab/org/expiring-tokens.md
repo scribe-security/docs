@@ -1,3 +1,7 @@
+---
+sidebar_label: Prevent Token Expiration in GitLab Organization
+title: Prevent Token Expiration in GitLab Organization
+---  
 # Prevent Token Expiration in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-token-about-to-expire`  

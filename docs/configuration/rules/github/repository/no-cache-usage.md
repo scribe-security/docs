@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify No Cache Usage Exists in Repository
+title: Verify No Cache Usage Exists in Repository
+---  
 # Verify No Cache Usage Exists in Repository  
 **Type:** Rule  
 **ID:** `github-repo-no-cache-usage`  

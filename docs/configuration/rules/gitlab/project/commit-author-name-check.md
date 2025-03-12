@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Commit Authors in GitLab Project
+title: Allowed Commit Authors in GitLab Project
+---  
 # Allowed Commit Authors in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-commit-author-names`  

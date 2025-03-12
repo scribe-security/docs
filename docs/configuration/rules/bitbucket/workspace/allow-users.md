@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Workspace Users
+title: Allowed Workspace Users
+---  
 # Allowed Workspace Users  
 **Type:** Rule  
 **ID:** `bb-workspace-allowed-workspace-users`  

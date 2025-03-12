@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Admins in GitLab Organization
+title: Allowed Admins in GitLab Organization
+---  
 # Allowed Admins in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-allowed-admins`  

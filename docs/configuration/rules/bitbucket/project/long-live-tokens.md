@@ -1,3 +1,7 @@
+---
+sidebar_label: Prevent Long-Lived Tokens
+title: Prevent Long-Lived Tokens
+---  
 # Prevent Long-Lived Tokens  
 **Type:** Rule  
 **ID:** `bb-project-long-live-tokens`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Branch protection enabled in GitHub repository
+title: Branch protection enabled in GitHub repository
+---  
 # Branch protection enabled in GitHub repository  
 **Type:** Rule  
 **ID:** `github-api-branch-protection`  

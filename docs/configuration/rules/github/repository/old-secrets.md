@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify No Old Secrets Exist in Repository
+title: Verify No Old Secrets Exist in Repository
+---  
 # Verify No Old Secrets Exist in Repository  
 **Type:** Rule  
 **ID:** `github-repo-old-secrets`  

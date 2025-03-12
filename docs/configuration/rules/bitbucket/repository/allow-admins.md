@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Repository Admins
+title: Allowed Repository Admins
+---  
 # Allowed Repository Admins  
 **Type:** Rule  
 **ID:** `bb-repo-allowed-repository-admins`  

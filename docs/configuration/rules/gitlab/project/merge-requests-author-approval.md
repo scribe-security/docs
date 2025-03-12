@@ -1,3 +1,7 @@
+---
+sidebar_label: Disable Author Approval for Merge Requests in GitLab
+title: Disable Author Approval for Merge Requests in GitLab
+---  
 # Disable Author Approval for Merge Requests in GitLab  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-requests-author-approval`  

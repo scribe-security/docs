@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Repo Visibility Setting
+title: Verify Repo Visibility Setting
+---  
 # Verify Repo Visibility Setting  
 **Type:** Rule  
 **ID:** `github-org-repo-visibility`  

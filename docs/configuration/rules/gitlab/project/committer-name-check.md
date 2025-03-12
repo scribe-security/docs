@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Committer Names in GitLab Project
+title: Allowed Committer Names in GitLab Project
+---  
 # Allowed Committer Names in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-committer-names`  

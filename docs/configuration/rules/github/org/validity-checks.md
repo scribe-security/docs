@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Secret_Scanning_Validity_Checks_Enabled Setting
+title: Verify Secret_Scanning_Validity_Checks_Enabled Setting
+---  
 # Verify Secret_Scanning_Validity_Checks_Enabled Setting  
 **Type:** Rule  
 **ID:** `github-org-validity-checks`  

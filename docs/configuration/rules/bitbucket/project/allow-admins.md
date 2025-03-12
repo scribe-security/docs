@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Project Admins
+title: Allowed Project Admins
+---  
 # Allowed Project Admins  
 **Type:** Rule  
 **ID:** `bb-project-allowed-project-admins`  

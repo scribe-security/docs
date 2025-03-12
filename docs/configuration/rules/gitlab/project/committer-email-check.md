@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Committer Emails in GitLab Project
+title: Allowed Committer Emails in GitLab Project
+---  
 # Allowed Committer Emails in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-committer-emails`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify GitLab Pipeline Labels
+title: Verify GitLab Pipeline Labels
+---  
 # Verify GitLab Pipeline Labels  
 **Type:** Rule  
 **ID:** `gitlab-pipeline-verify-labels`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Public Repositories
+title: Allowed Public Repositories
+---  
 # Allowed Public Repositories  
 **Type:** Rule  
 **ID:** `github-repo-visibility`  

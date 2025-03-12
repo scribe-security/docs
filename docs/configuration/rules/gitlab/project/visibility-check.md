@@ -1,3 +1,7 @@
+---
+sidebar_label: Set Visibility Level in GitLab Project
+title: Set Visibility Level in GitLab Project
+---  
 # Set Visibility Level in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-project-visibility-level`  

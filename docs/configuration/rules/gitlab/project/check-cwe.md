@@ -1,3 +1,7 @@
+---
+sidebar_label: Check CWE Compliance
+title: Check CWE Compliance
+---  
 # Check CWE Compliance  
 **Type:** Rule  
 **ID:** `gitlab-project-check-cwe`  

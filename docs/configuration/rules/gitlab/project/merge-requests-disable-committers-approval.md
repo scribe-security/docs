@@ -1,3 +1,7 @@
+---
+sidebar_label: Disable Committers' Approval for Merge Requests in GitLab
+title: Disable Committers' Approval for Merge Requests in GitLab
+---  
 # Disable Committers' Approval for Merge Requests in GitLab  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-requests-disable-committers-approval`  

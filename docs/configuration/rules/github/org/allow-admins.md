@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed GitHub Organization Admins
+title: Allowed GitHub Organization Admins
+---  
 # Allowed GitHub Organization Admins  
 **Type:** Rule  
 **ID:** `github-orgallowed-admins`  

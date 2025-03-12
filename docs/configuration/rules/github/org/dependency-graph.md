@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify dependency_graph_enabled_for_new_repositories setting
+title: Verify dependency_graph_enabled_for_new_repositories setting
+---  
 # Verify dependency_graph_enabled_for_new_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-dependency-graph`  

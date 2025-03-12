@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify advanced security setting is enabled
+title: Verify advanced security setting is enabled
+---  
 # Verify advanced security setting is enabled  
 **Type:** Rule  
 **ID:** `github-org-advanced-security`  

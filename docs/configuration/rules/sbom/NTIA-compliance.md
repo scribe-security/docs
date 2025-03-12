@@ -1,3 +1,7 @@
+---
+sidebar_label: NTIA SBOM Compliance Check
+title: NTIA SBOM Compliance Check
+---  
 # NTIA SBOM Compliance Check  
 **Type:** Rule  
 **ID:** `NTIA-compliance`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Default Branch Protection
+title: Verify Default Branch Protection
+---  
 # Verify Default Branch Protection  
 **Type:** Rule  
 **ID:** `github-repo-default-branch-protection`  

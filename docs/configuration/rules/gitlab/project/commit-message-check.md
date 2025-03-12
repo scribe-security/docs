@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Commit Message Format
+title: Verify Commit Message Format
+---  
 # Verify Commit Message Format  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-commit_message_check`  

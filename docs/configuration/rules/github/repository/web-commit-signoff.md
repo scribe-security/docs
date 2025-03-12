@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Repository Requires Commit Signoff
+title: Verify Repository Requires Commit Signoff
+---  
 # Verify Repository Requires Commit Signoff  
 **Type:** Rule  
 **ID:** `github-repo-web-commit-signoff`  

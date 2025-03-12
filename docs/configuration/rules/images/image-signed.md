@@ -1,3 +1,7 @@
+---
+sidebar_label: Require Signed Container Image
+title: Require Signed Container Image
+---  
 # Require Signed Container Image  
 **Type:** Rule  
 **ID:** `images-require-signed-image`  

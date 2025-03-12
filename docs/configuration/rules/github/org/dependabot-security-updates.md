@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify dependabot_security_updates_enabled_for_new_repositories setting
+title: Verify dependabot_security_updates_enabled_for_new_repositories setting
+---  
 # Verify dependabot_security_updates_enabled_for_new_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-dependabot-security-updates`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Reject Unsigned Commits in GitLab Project
+title: Reject Unsigned Commits in GitLab Project
+---  
 # Reject Unsigned Commits in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-disallow-unsigned-commits`  

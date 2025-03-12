@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify GitHub Organization Secrets Are Not Too Old
+title: Verify GitHub Organization Secrets Are Not Too Old
+---  
 # Verify GitHub Organization Secrets Are Not Too Old  
 **Type:** Rule  
 **ID:** `github-org-old-secrets`  

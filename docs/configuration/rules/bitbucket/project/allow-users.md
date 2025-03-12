@@ -1,3 +1,7 @@
+---
+sidebar_label: Allowed Project Users
+title: Allowed Project Users
+---  
 # Allowed Project Users  
 **Type:** Rule  
 **ID:** `bb-project-allowed-project-users`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Enforce Merge Access Level Policy for GitLab Project
+title: Enforce Merge Access Level Policy for GitLab Project
+---  
 # Enforce Merge Access Level Policy for GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-access-level`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify that provenance is authenticated
+title: Verify that provenance is authenticated
+---  
 # Verify that provenance is authenticated  
 **Type:** Rule  
 **ID:** `SLSA.L2`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify GitHub Organization Requires Signoff on Web Commits
+title: Verify GitHub Organization Requires Signoff on Web Commits
+---  
 # Verify GitHub Organization Requires Signoff on Web Commits  
 **Type:** Rule  
 **ID:** `github-org-web-commit-signoff`  

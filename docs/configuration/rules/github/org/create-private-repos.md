@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify members_can_create_private_repositories setting
+title: Verify members_can_create_private_repositories setting
+---  
 # Verify members_can_create_private_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-create-private-repos`  

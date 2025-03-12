@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify dependabot_security_updates setting in security_and_analysis
+title: Verify dependabot_security_updates setting in security_and_analysis
+---  
 # Verify dependabot_security_updates setting in security_and_analysis  
 **Type:** Rule  
 **ID:** `github-org-dependabot-security-updates-sa`  

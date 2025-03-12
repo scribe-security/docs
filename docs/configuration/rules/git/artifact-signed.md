@@ -1,3 +1,7 @@
+---
+sidebar_label: Git Artifact Signed
+title: Git Artifact Signed
+---  
 # Git Artifact Signed  
 **Type:** Rule  
 **ID:** `git-artifact-signed`  

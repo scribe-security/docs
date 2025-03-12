@@ -1,3 +1,7 @@
+---
+sidebar_label: Protect CI Secrets in GitLab Project
+title: Protect CI Secrets in GitLab Project
+---  
 # Protect CI Secrets in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-protect-ci-secrets`  

@@ -1,3 +1,7 @@
+---
+sidebar_label: Limit Admin Number in GitHub Organization
+title: Limit Admin Number in GitHub Organization
+---  
 # Limit Admin Number in GitHub Organization  
 **Type:** Rule  
 **ID:** `github-org-max-admins`  

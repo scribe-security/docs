@@ -1,3 +1,7 @@
+---
+sidebar_label: Verify Branch Verification Setting
+title: Verify Branch Verification Setting
+---  
 # Verify Branch Verification Setting  
 **Type:** Rule  
 **ID:** `github-repo-branch-verification`  
