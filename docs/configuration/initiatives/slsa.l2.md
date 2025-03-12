@@ -1,8 +1,8 @@
 ---
-sidebar_label: SLSA L2 Framework2
-title: SLSA L2 Framework2
+sidebar_label: SLSA L2 Framework
+title: SLSA L2 Framework
 ---  
-# SLSA L2 Framework2  
+# SLSA L2 Framework  
 **Type:** Initiative  
 **ID:** `SLSA.L2`  
 **Version:** `1.0.0`  
