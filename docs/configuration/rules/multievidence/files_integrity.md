@@ -29,5 +29,5 @@ his rule requires evaluation with a target; without one, the rule will be **disa
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| ref_sbom | {{ .Env.REF_SBOM_DATA }} |
+| ref_sbom | `{{ .Env.REF_SBOM_DATA }}` |
 | path_prefix | pkg:file/ |

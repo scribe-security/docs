@@ -29,4 +29,4 @@ This rule scoped by pipeline and product.
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| id | {{ .Env.HOSTNAME }} |
+| id | `{{ .Env.HOSTNAME }}` |
