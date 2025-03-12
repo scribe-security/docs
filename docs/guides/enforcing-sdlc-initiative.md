@@ -89,7 +89,7 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    Only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically, and no result was generated for them.
    :::
    :::info
-   To verify the whole SSDF initiative, you need to run GitHub discovery. See [platforms discovery](../platforms/overview).
+   To verify the whole SSDF initiative, you need to run SCM platform discovery. See [platforms discovery](../platforms/overview).
    :::
 
 ### Running a single rule verification
@@ -147,64 +147,64 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
 ### Targetless Run
 
-   Some of the rules in this catalog can also be run in "targetless" mode,
-   meaning that the evidence will be looked up based only on the product name, version, and options specified in the rule config.
-   No target for preliminary analysis is needed.
-   This is usually helpful for third-party reports, such as security scans and [platform discoveries](../platforms/overview).
+Some of the rules in this catalog can also be run in "targetless" mode,
+meaning that the evidence will be looked up based only on the product name, version, and options specified in the rule config.
+No target for preliminary analysis is needed.
+This is usually helpful for third-party reports, such as security scans and [platform discoveries](../platforms/overview).
 
-   As an example, let's run `trivy` to create a SARIF report:
+As an example, let's run `trivy` to create a SARIF report:
 
-   ```bash
-   trivy image --format sarif --output results.sarif ubuntu:latest
-   ```
+```bash
+trivy image --format sarif --output results.sarif ubuntu:latest
+```
 
-   Then, create evidence from this report:
+Then, create evidence from this report:
 
-   ```bash
-   valint evidence results.sarif \
-      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
-      --scribe.client-secret <SCRIBE_TOKEN>
-   ```
+```bash
+valint evidence results.sarif \
+   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+   --scribe.client-secret <SCRIBE_TOKEN>
+```
 
-   Finally, verify the evidence against the rule. Note that we don't need to provide `valint` with the target report:
+Finally, verify the evidence against the rule. Note that we don't need to provide `valint` with the target report:
 
-   ```bash
-   valint verify --rule sarif/trivy/verify-trivy-report@v2 \
-      --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
-      --scribe.client-secret <SCRIBE_TOKEN>
-   ```
+```bash
+valint verify --rule sarif/trivy/verify-trivy-report@v2 \
+   --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+   --scribe.client-secret <SCRIBE_TOKEN>
+```
 
-   `valint` will use the latest evidence for the specified product name and version that meets the other rule requirements.
-   In our example, the rule needs an evidence created by the "Trivy Vulnerability Scanner" tool,
-   so `valint` was able to find it just by this partial context.
+`valint` will use the latest evidence for the specified product name and version that meets the other rule requirements.
+In our example, the rule needs an evidence created by the "Trivy Vulnerability Scanner" tool,
+so `valint` was able to find it just by this partial context.
 
-   <details>
+<details>
 
-   <summary>Initiative results</summary>
+<summary>Initiative results</summary>
 
-   ```bash
-   ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ [default] Control "Default" Evaluation Summary                                                                                     │
-   ├────────────────┬──────────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────┬───────────────┤
-   │ RULE ID        │ RULE NAME                            │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                        │ TARGET        │
-   ├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
-   │ trivy-report   │ Verify Trivy SARIF Report Compliance │ error │ false    │ fail   │ 113 violations | 0 max allowed │ results.sarif │
-   ├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
-   │ CONTROL RESULT │                                      │       │          │ FAIL   │                                │               │
-   └────────────────┴──────────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────┴───────────────┘
+```bash
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [default] Control "Default" Evaluation Summary                                                                                     │
+├────────────────┬──────────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────┬───────────────┤
+│ RULE ID        │ RULE NAME                            │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                        │ TARGET        │
+├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
+│ trivy-report   │ Verify Trivy SARIF Report Compliance │ error │ false    │ fail   │ 113 violations | 0 max allowed │ results.sarif │
+├────────────────┼──────────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────┼───────────────┤
+│ CONTROL RESULT │                                      │       │          │ FAIL   │                                │               │
+└────────────────┴──────────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────┴───────────────┘
 
-   ┌────────────────────────────────────────────────────────────────────────┐
-   │ [client-initiative] Initiative "client-initiative" Evaluation Summary  │
-   ├───────────────────┬───────────────┬───────────────────────────┬────────┤
-   │ CONTROL ID        │ CONTROL NAME  │ RULE LIST                 │ RESULT │
-   ├───────────────────┼───────────────┼───────────────────────────┼────────┤
-   │ default           │ Default       │ trivy-report(fail)        │ fail   │
-   ├───────────────────┼───────────────┼───────────────────────────┼────────┤
-   │ INITIATIVE RESULT │               │                           │ FAIL   │
-   └───────────────────┴───────────────┴───────────────────────────┴────────┘
-   ```
+┌────────────────────────────────────────────────────────────────────────┐
+│ [client-initiative] Initiative "client-initiative" Evaluation Summary  │
+├───────────────────┬───────────────┬───────────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME  │ RULE LIST                 │ RESULT │
+├───────────────────┼───────────────┼───────────────────────────┼────────┤
+│ default           │ Default       │ trivy-report(fail)        │ fail   │
+├───────────────────┼───────────────┼───────────────────────────┼────────┤
+│ INITIATIVE RESULT │               │                           │ FAIL   │
+└───────────────────┴───────────────┴───────────────────────────┴────────┘
+```
 
-   </details>
+</details>
 
 ### Whole initiative verification
 
