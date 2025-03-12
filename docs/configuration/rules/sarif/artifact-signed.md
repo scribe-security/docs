@@ -46,4 +46,4 @@ Additionally, the rule validates that the signature corresponds to one of the ex
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| identity | {'common-names': [], 'emails': []} |
+| identity | `{'common-names': [], 'emails': []}` |

@@ -37,5 +37,5 @@ This rule scoped by product and target.
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| required_author | {} |
-| required_supplier | {} |
+| required_author | `{}` |
+| required_supplier | `{}` |

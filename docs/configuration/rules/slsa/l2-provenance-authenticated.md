@@ -37,4 +37,4 @@ This rule scoped by product and target.
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| identity | {'common-names': [], 'emails': []} |
+| identity | `{'common-names': [], 'emails': []}` |

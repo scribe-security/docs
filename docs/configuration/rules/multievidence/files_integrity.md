@@ -31,4 +31,3 @@ his rule requires evaluation with a target; without one, the rule will be **disa
 |-----------|---------|
 | ref_sbom | `{{ .Env.REF_SBOM_DATA }}` |
 | path_prefix | pkg:file/ |
-

@@ -36,4 +36,4 @@ This rule scoped by product and target.
 | Parameter | Default |
 |-----------|---------|
 | skip_image_regex | ['.*alpine.*'] |
-| identity | {'emails': [], 'common-names': []} |
+| identity | `{'emails': [], 'common-names': []}` |

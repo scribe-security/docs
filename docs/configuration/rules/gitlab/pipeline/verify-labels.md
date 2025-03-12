@@ -30,4 +30,4 @@ his rule requires evaluation with a target; without one, the rule will be **disa
 ## Rule Parameters (`with`)  
 | Parameter | Default |
 |-----------|---------|
-| labels | {'app.kubernetes.io/instance': 'defaul1t'} |
+| labels | `{'app.kubernetes.io/instance': 'defaul1t'}` |
