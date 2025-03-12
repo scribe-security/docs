@@ -85,8 +85,12 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
 
    </details>
 
-   > Note that only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically, and no result was generated for them.
-   > To verify the whole SSDF initiative, you need to run GitHub discovery. See [platforms discovery](../platforms/overview).
+   :::info
+   Only the rules that are applicable to the target (the `busybox:latest` docker image) were verified. Other rules were disabled automatically, and no result was generated for them.
+   :::
+   :::info
+   To verify the whole SSDF initiative, you need to run GitHub discovery. See [platforms discovery](../platforms/overview).
+   :::
 
 ### Running a single rule verification
 
@@ -136,8 +140,10 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
 
    </details>
 
-   > Note that the rule was put in the `client-initiative` initiative. To change that, you can use the `--initiative-name` and `--initiative-id` flags.
-   > It was also put in the `default` control. This cannot be changed unless you provide a full initiative config with custom names and IDs for your controls.
+   :::info
+   The rule was put in the `client-initiative` initiative. To change that, you can use the `--initiative-name` and `--initiative-id` flags.
+   It was also put in the `default` control. This cannot be changed unless you provide a full initiative config with custom names and IDs for your controls.
+   :::
 
 ### Targetless Run
 
@@ -355,7 +361,9 @@ edit policy parameters ```attest.cocosign.policies.rules.input identity``` to re
 
 You can also edit `target_type` to refelct the artifact type.
 
-> Optional target types are `git`,`directory`, `image`, `file`, `generic`.
+:::info
+Optional target types are `git`,`directory`, `image`, `file`, `generic`.
+:::
 
 ```yaml
 evidence:

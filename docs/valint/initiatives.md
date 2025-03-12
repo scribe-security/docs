@@ -182,9 +182,12 @@ controls:
 - **Type:** Array of Objects
 - **Description:** A list of rules for the control. For details, see the [Rules](#rule-configuration-format) section below.
 
-> For `valint` configuration details, see the [configuration](./configuration.md) section.
->
-> For PKI configuration, see the [attestations](./attestations.md) section.
+:::info
+For `valint` configuration details, see the [configuration](./configuration.md) section.
+:::
+:::info
+For PKI configuration, see the [attestations](./attestations.md) section.
+:::
 
 An example of an initiative is:
 
@@ -548,7 +551,9 @@ By default, the `target` and `product` groups are enabled for each rule.
     - `target_type` - the type of the target provided (e.g., image, git, generic, etc.)
     - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
-    > _If this parameter is set and no target is provided, the rule is disabled with a warning._
+    :::info
+    If this parameter is set and no target is provided, the rule is disabled with a warning._
+    :::
 
 2. The `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
     - `context_type` - the type of the environment (e.g., local, github, etc.)
