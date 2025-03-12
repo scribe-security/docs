@@ -7,7 +7,7 @@ title: Blueprint for Secure Pipelines
 **ID:** `blueprint-securesoftwarepipeline`  
 **Version:** `1.0.0`  
 **Bundle-Version:** `v2`  
-**Source:** [v2/initiatives/bp1.yaml](https://github.com/scribe-public/sample-policies/v2/initiatives/bp1.yaml)  
+**Source:** [v2/initiatives/bp1.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/bp1.yaml)  
 **Help:** https://github.com/Venafi/blueprint-securesoftwarepipeline  
 
 Blueprint for secure pipelines - Gitlab
@@ -118,8 +118,6 @@ Restrict automation accounts to read-only access, following the principle of lea
 ### **Description**
 
 CI systems should have read access only to source code repositories to limit the risk from compromised automation accounts.
-
-> :bulb: Tokens explicitly approved via the `approved_tokens` parameter are skipped from this check, allowing trusted tokens to bypass the blocklist.
 
 > :skull: Attackers who gain write access via automation credentials can bypass review processes; restricting access reduces this risk.
 
