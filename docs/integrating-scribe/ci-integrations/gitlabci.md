@@ -111,6 +111,8 @@ custom-ntia-metadata:
       - valint bom busybox
             --context-type gitlab
             --output-directory ./scribe/valint
+            --author-name bom --author-email bob@company.com
+            --supplier-name alice --supplier-url company2.com --supplier-email alice@company2.com --supplier-phone 001
 ```
 </details>
 
