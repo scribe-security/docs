@@ -17,7 +17,10 @@ Verify that the Provenance document evidence exists.
 > Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::note 
-This rule requires Unsigned SLSA Provenance.  
+This rule requires SLSA Provenance.  
+::: 
+:::tip 
+> Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

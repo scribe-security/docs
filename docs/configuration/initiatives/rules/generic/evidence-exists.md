@@ -16,7 +16,10 @@ Verify required evidence exists.
 > Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::note 
-This rule requires Unsigned Generic Statement.  
+This rule requires Generic Statement.  
+::: 
+:::tip 
+> Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

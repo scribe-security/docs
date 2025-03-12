@@ -16,7 +16,10 @@ Verify all required evidence exists as defined by the SARIF policy.
 > Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::note 
-This rule requires Unsigned SARIF Evidence.  
+This rule requires SARIF Evidence.  
+::: 
+:::tip 
+> Evidence **IS** required for this rule and will fail if missing.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
