@@ -25,7 +25,7 @@ his rule requires evaluation with a target; without one, the rule will be **disa
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - platform=bitbucket<br>- asset_type=workspace |
+| labels | - platform=bitbucket<br/>- asset_type=workspace |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |

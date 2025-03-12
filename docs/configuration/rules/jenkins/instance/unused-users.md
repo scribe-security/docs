@@ -24,5 +24,5 @@ his rule requires evaluation with a target; without one, the rule will be **disa
 | signed | False |
 | content_body_type | generic |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - asset_type=instance<br>- platform=jenkins |
+| labels | - asset_type=instance<br/>- platform=jenkins |
 

@@ -45,7 +45,7 @@ layer of security against unauthorized access.
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - platform=github<br>- asset_type=organization |
+| labels | - platform=github<br/>- asset_type=organization |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |
