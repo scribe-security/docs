@@ -32,7 +32,6 @@ Both the SBOM and the provenance artifacts must be cryptographically signed to m
 | Enforce SBOM License Completeness | Verify all dependencies in the artifact have a license. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Require SBOM Signature | Verify the SBOM is signed. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Apply Scribe Template Policy | Verify XX using the Scribe API template rule. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
-| Scribe Published Policy | Verify image Scribe Publish flag is set for container image. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Require Image Labels | Verify the image has the specified labels. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Disallow Container Shell Entrypoint | Verify the container image disallows shell entrypoint. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Allowed Base Image | Verifies that every base image is from an approved source. The rule returns a summary
