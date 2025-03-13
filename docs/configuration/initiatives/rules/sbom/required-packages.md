@@ -13,6 +13,7 @@ title: Enforce SBOM Dependencies
 Verify the artifact includes all required dependencies specified as a list of PURLs.
 
 :::note 
+This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
   
 Ensure that the SBOM includes all required dependencies to meet compliance requirements.
 
@@ -27,7 +28,6 @@ Ensure that the SBOM includes all required dependencies to meet compliance requi
     violations_limit: 0
 ```
 
-This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

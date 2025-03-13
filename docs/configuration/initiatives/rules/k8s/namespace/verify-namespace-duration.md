@@ -13,6 +13,7 @@ title: Verify Namespace Runtime Duration
 Verify Kubernetes namespaces adhere to a specified runtime duration to enforce lifecycle limits.
 
 :::note 
+This rule requires K8s Namespace Discovery Evidence.  
   
 **Input Example:**
 
@@ -22,7 +23,6 @@ Verify Kubernetes namespaces adhere to a specified runtime duration to enforce l
     threshold_date: "1970-01-01T00:00:00Z"
 ```
 
-This rule requires K8s Namespace Discovery Evidence.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

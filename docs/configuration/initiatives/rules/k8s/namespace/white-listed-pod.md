@@ -13,6 +13,7 @@ title: Allowed Pods in Namespace
 Verify only pods explicitly listed in the Allowed List run within a Kubernetes namespace.
 
 :::note 
+This rule requires K8s Namespace Discovery Evidence.  
   
 **Input**
 `white_listed_pod` is a list of allowed pods.
@@ -27,7 +28,6 @@ Verify only pods explicitly listed in the Allowed List run within a Kubernetes n
       - my-pod-2.*
 ```
 
-This rule requires K8s Namespace Discovery Evidence.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

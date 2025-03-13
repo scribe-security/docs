@@ -13,6 +13,7 @@ title: Allowed Namespaces
 Verify only namespaces specified in the Allowed List are allowed within the cluster.
 
 :::note 
+This rule requires K8s Namespace Discovery Evidence.  
   
 **Input**
 `namespaces` is a list of allowed namespaces.
@@ -27,7 +28,6 @@ Verify only namespaces specified in the Allowed List are allowed within the clus
       - kube-system
 ```
 
-This rule requires K8s Namespace Discovery Evidence.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -65,5 +65,5 @@ It performs the following steps:
 ## Input Definitions  
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| namespaces | array | False | A list of allowed namespaces. |
+| namespaces | array | True | A list of allowed namespaces. |
 

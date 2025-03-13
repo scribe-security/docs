@@ -13,6 +13,7 @@ title: Git Artifact Signed
 Verify the Git artifact is signed.
 
 :::note 
+This rule requires Signed [Git SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
   
 **Input Example:**
   ```yaml
@@ -26,7 +27,6 @@ Verify the Git artifact is signed.
     - .*alpine.*
 ```
 
-This rule requires Signed [Git SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  
@@ -45,7 +45,7 @@ Rule is scoped by product and target.
 :::  
 
 ## Mitigation  
-Ensure that only Git artifacts with valid cryptographic signatures are deployed to prevent source code tampering.
+Ensures that only Git artifacts with valid cryptographic signatures are deployed prevents source code tampering.
 
 
 ## Evidence Requirements  
