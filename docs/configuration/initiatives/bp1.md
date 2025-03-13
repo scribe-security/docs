@@ -151,7 +151,7 @@ Early detection reduces remediation costs, but also requires a well-defined vuln
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [scribe-cve](https://scribe-security.netlify.app/docs/docs/configuration/initiatives/rules/api/scribe-api-cve) | [Verify No Critical or High Vulnerabilities](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| api/scribe-api-cve@v2 | api/scribe-api-cve@v2 |  |
 
 ## [CT-8] Validate artifact digest
 
@@ -214,7 +214,7 @@ Container images must be scanned before deployment to prevent the inclusion of i
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [scribe-cve](https://scribe-security.netlify.app/docs/docs/configuration/initiatives/rules/api/scribe-api-cve) | [Verify No Critical or High Vulnerabilities](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| api/scribe-api-cve@v2 | api/scribe-api-cve@v2 |  |
 
 ## [CT-12] Validate artifact signatures and digests
 
@@ -258,4 +258,4 @@ Production images should be validated to ensure that controls enforced during ea
 |---------|-----------|------------------|
 | [sbom-signed](https://scribe-security.netlify.app/docs/docs/configuration/initiatives/rules/sbom/artifact-signe) | [Require SBOM Signature](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
 | [sbom-disallow-dependencies](https://scribe-security.netlify.app/docs/docs/configuration/initiatives/rules/sbom/blocklist-packages) | [Restrict Disallowed Dependencies](rules/sbom/blocklist-packages.md) | Verify the number of disallowed dependencies remains below the specified threshold. |
-| [scribe-cve](https://scribe-security.netlify.app/docs/docs/configuration/initiatives/rules/api/scribe-api-cve) | [Verify No Critical or High Vulnerabilities](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| api/scribe-api-cve@v2 | api/scribe-api-cve@v2 |  |

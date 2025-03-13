@@ -32,7 +32,6 @@ Both the SBOM and the provenance artifacts must be cryptographically signed to m
 | Enforce SBOM License Completeness | Verify all dependencies in the artifact have a license. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Require SBOM Signature | Verify the SBOM is signed. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Apply Scribe Template Policy | Verify XX using the Scribe API template rule. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
-| Scribe Published Policy | Verify image Scribe Publish flag is set for container image. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Require Image Labels | Verify the image has the specified labels. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Disallow Container Shell Entrypoint | Verify the container image disallows shell entrypoint. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Allowed Base Image | Verifies that every base image is from an approved source. The rule returns a summary
@@ -61,7 +60,6 @@ It fails if any banned port is exposed or if no banned ports list is provided.
  |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Verify File Integrity | Verify the checksum of each file in one SBOM matches the checksum in a second SBOM. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Restrict Disallowed Dependencies | Verify the number of disallowed dependencies remains below the specified threshold. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
-| Verify No Critical or High Vulnerabilities | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Disallow Unsigned Commits | Verify all commits are signed. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Required Git Evidence Exists | Verify required Git evidence exists. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
 | Disallow Commits to Main Branch | Verify commits made directly to the main branch are disallowed. |  See [here](https://scribe-security.netlify.app/docs/valint/sbom) |
