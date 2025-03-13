@@ -32,7 +32,17 @@ valint bom my_company/my_image:latest \
 ```
   
 ::: 
-:::note[Usage example]
+:::tip 
+Signed Evidence for this rule **IS NOT** required by default but is recommended.  
+::: 
+:::warning  
+Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
+
+## Usage example
 
 ```yaml
 uses: sbom/NTIA-compliance@v2/rules
@@ -44,17 +54,6 @@ with:
     name: "alice"
   
 ```
-
-::: 
-:::tip 
-Signed Evidence for this rule **IS NOT** required by default but is recommended.  
-::: 
-:::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
-::: 
-:::info  
-Rule is scoped by product and target.  
-:::  
 
 ## Mitigation  
 Ensures that the SBOM metadata meets NTIA requirements, reducing the risk of incomplete or inaccurate information about authors and suppliers.
