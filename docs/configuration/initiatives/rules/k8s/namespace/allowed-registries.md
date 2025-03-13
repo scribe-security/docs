@@ -13,18 +13,7 @@ title: Allowed Namespace Registries
 Verify container images in Kubernetes namespaces originate from registries in the Allowed List.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence.  
-  
-**Input Example:**
-
-```yaml
-- uses: k8s/namespace/allowed-registries@v2/rules
-  with:
-    allowed_registries:
-      - docker.io/*
-      - gcr.io/*
-```
-
+This rule requires K8s Namespace Discovery Evidence. See [here](https://scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -32,6 +21,16 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 :::warning  
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+
+## Usage example
+
+```yaml
+uses: k8s/namespace/allowed-registries@v2/rules
+with:
+  allowed_registries:
+    - docker.io/*
+    - gcr.io/*
+```
 
 ## Mitigation  
 Ensures that only approved container registries are used within the Kubernetes namespace, reducing the risk of introducing vulnerabilities or unapproved software.

@@ -14,20 +14,7 @@ Enforces that container images (target_type=container) are cryptographically sig
 
 
 :::note 
-This rule requires [Image SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
-  
-**Input Example:**
-
-```yaml
-- uses: images/image-signed@v2/rules
-  with:
-    identity:
-      emails:
-      - bob@company.com
-      - alice@company.com
-    skip_image_regex:
-    - .*alpine.*
-```
+This rule requires Image SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -38,6 +25,19 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by product and target.  
 :::  
+
+## Usage example
+
+```yaml
+uses: images/image-signed@v2/rules
+with:
+  identity:
+    emails:
+    - bob@company.com
+    - alice@company.com
+  skip_image_regex:
+  - .*alpine.*
+```
 
 ## Mitigation  
 Ensures that only container images with valid cryptographic signatures are deployed, mitigating the risk of tampering. By requiring evidence in the CycloneDX attest-cyclonedx-json format, this rule confirms that images have been signed by trusted entities.

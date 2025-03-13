@@ -8,23 +8,12 @@ title: Enforce SBOM Freshness
 **Uses:** `sbom/fresh-sbom@v2/rules`  
 **Source:** [v2/rules/sbom/fresh-sbom.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/fresh-sbom.yaml)  
 **Rego Source:** [fresh-sbom.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/fresh-sbom.rego)  
-**Labels:** SBOM, Image, Source  
+**Labels:** SBOM, Image, Git  
 
 Verify the SBOM is not older than the specified duration.
 
 :::note 
-This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
-  
-Ensure that the SBOM includes a creation date to verify its freshness.
-
-**Input Example:**
-
-```yaml
-- uses: sbom/fresh-sbom@v2/rules
-  with:
-    max_days: 30
-```
-
+This rule requires SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -35,6 +24,14 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by product and target.  
 :::  
+
+## Usage example
+
+```yaml
+uses: sbom/fresh-sbom@v2/rules
+with:
+  max_days: 30
+```
 
 ## Mitigation  
 Ensures that the SBOM is up-to-date, reducing the risk of outdated information and ensuring accurate tracking of components.

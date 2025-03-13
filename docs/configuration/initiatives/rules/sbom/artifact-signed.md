@@ -8,12 +8,12 @@ title: Require SBOM Signature
 **Uses:** `sbom/artifact-signed@v2/rules`  
 **Source:** [v2/rules/sbom/artifact-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/artifact-signed.yaml)  
 **Rego Source:** [artifact-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/artifact-signed.rego)  
-**Labels:** SBOM, Blueprint, Source  
+**Labels:** SBOM, Blueprint, Git  
 
 Verify the SBOM is signed.
 
 :::note 
-This rule requires Signed [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
+This rule requires Signed SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

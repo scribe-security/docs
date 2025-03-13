@@ -13,20 +13,7 @@ title: Allowed Pods
 Verify only pods explicitly listed in the Allowed List are allowed to run.
 
 :::note 
-This rule requires K8s Pod Discovery Evidence.  
-  
-**Input Example:**
-
-```yaml
-- uses: k8s/pods/white-listed-pod@v2/rules
-  with:
-    white_listed_pod:
-      - my-pod-1.*
-      - my-pod-2.*
-    verify_namespaces:
-      - ".*"
-```
-
+This rule requires K8s Pod Discovery Evidence. See [here](https://scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -34,6 +21,18 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 :::warning  
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+
+## Usage example
+
+```yaml
+uses: k8s/pods/white-listed-pod@v2/rules
+with:
+  white_listed_pod:
+    - my-pod-1.*
+    - my-pod-2.*
+  verify_namespaces:
+    - ".*"
+```
 
 ## Mitigation  
 Ensures that only approved pods are running within the Kubernetes cluster, reducing the risk of unauthorized or misconfigured pods.

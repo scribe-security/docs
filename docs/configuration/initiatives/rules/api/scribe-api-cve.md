@@ -12,6 +12,9 @@ title: Verify No Critical or High Vulnerabilities
 
 Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.).
 
+:::note 
+Rule Uses Scribe API to check for CVEs in the target artifact, Ensure usage of Scribe Token in the environment.  
+::: 
 :::tip 
 Rule requires the Scribe API to be enabled.  
 ::: 
@@ -25,6 +28,25 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 Rule is scoped by product and target.  
 :::  
 
+## Usage example
+
+```yaml
+uses: api/scribe-api-cve@v2/rules
+with:
+  superset:
+    cve:
+      max: 0
+      severity: 6
+```
+
+## Mitigation  
+Ensure that all critical or high severity vulnerabilities are addressed before delivering the product.
+
+
+## Description  
+This rule ensures that there are no critical or high severity vulnerabilities in any deliverable component of the product by verifying via the Scribe API.
+
+
 ## Evidence Requirements  
 | Field | Value |
 |-------|-------|
@@ -33,8 +55,8 @@ Rule is scoped by product and target.
 | content_body_type | cyclonedx-json |
 | target_type | container |
 
-## Rule Parameters (`with`)  
-| Parameter | Default |
-|-----------|---------|
-| superset | `{'cve': {'max': 0, 'severity': 6}}` |
+## Input Definitions  
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| superset | object | False | The superset of CVEs to check for, including the following format {cve: {max: <int>, severity: <int}} |
 

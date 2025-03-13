@@ -13,16 +13,7 @@ title: Verify Namespace Runtime Duration
 Verify Kubernetes namespaces adhere to a specified runtime duration to enforce lifecycle limits.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence.  
-  
-**Input Example:**
-
-```yaml
-- uses: k8s/namespace/verify-namespace-duration@v2/rules
-  with:
-    threshold_date: "1970-01-01T00:00:00Z"
-```
-
+This rule requires K8s Namespace Discovery Evidence. See [here](https://scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -30,6 +21,14 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 :::warning  
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+
+## Usage example
+
+```yaml
+uses: k8s/namespace/verify-namespace-duration@v2/rules
+with:
+  threshold_date: "1970-01-01T00:00:00Z"
+```
 
 ## Mitigation  
 Ensures that namespaces do not exceed their intended lifecycle, maintaining cluster hygiene and resource efficiency.

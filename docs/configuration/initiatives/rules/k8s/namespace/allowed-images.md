@@ -13,21 +13,7 @@ title: Allowed Container Images
 Verify only container images specified in the Allowed List run within the Kubernetes namespace.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence.  
-  
-**Input**
-`images_to_include` is a list of image repository names.
-
-**Input Example:**
-
-```yaml
-- uses: k8s/namespace/allowed-images@v2/rules
-  with:
-    images_to_include:
-      - docker.io/my_org/my_image1
-      - docker.io/my_org/my_image2
-```
-
+This rule requires K8s Namespace Discovery Evidence. See [here](https://scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -36,8 +22,19 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 
+## Usage example
+
+```yaml
+uses: k8s/namespace/allowed-images@v2/rules
+with:
+  images_to_include:
+    - docker.io/my_org/my_image1
+    - docker.io/my_org/my_image2  
+```
+
 ## Mitigation  
 Ensures that only approved container images are running within the Kubernetes namespace, reducing the risk of introducing vulnerabilities or unapproved software.
+
 
 
 ## Description  

@@ -16,19 +16,7 @@ It fails if any banned port is exposed or if no banned ports list is provided.
 
 
 :::note 
-This rule requires [Image SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
-  
-**Input Example:**
-
-```yaml
-- uses: images/banned-ports@v2/rules
-  with:
-    banned_ports:
-      - port: "3000"
-        protocol: "tcp"
-      - port: "8080"
-        protocol: "tcp"
-```
+This rule requires Image SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -39,6 +27,18 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by target and product.  
 :::  
+
+## Usage example
+
+```yaml
+uses: images/banned-ports@v2/rules
+with:
+  banned_ports:
+    - port: "3000"
+      protocol: "tcp"
+    - port: "8080"
+      protocol: "tcp"
+```
 
 ## Mitigation  
 Prevents deployment of container images that expose disallowed ports, reducing the risk of unauthorized network access  and potential exploitation. This check ensures that only images with approved port configurations are deployed.

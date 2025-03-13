@@ -13,21 +13,7 @@ title: Enforce SBOM Dependencies
 Verify the artifact includes all required dependencies specified as a list of PURLs.
 
 :::note 
-This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
-  
-Ensure that the SBOM includes all required dependencies to meet compliance requirements.
-
-**Input Example:**
-
-```yaml
-- uses: sbom/required-packages@v2/rules
-  with:
-    required_pkgs:
-      - "pkg:maven/org.apache.commons/commons-lang3@3.9"
-      - "pkg:npm/lodash@4.17.15"
-    violations_limit: 0
-```
-
+This rule requires SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -38,6 +24,17 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by product and target.  
 :::  
+
+## Usage example
+
+```yaml
+uses: sbom/required-packages@v2/rules
+with:
+  required_pkgs:
+    - "pkg:maven/org.apache.commons/commons-lang3@3.9"
+    - "pkg:npm/lodash@4.17.15"
+  violations_limit: 0
+```
 
 ## Mitigation  
 Ensures that all required dependencies are included in the SBOM, reducing the risk of missing critical components and ensuring compliance with dependency requirements.

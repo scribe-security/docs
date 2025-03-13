@@ -8,26 +8,15 @@ title: Require Specified SBOM Licenses
 **Uses:** `sbom/verify-huggingface-license@v2/rules`  
 **Source:** [v2/rules/sbom/verify-huggingface-license.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/verify-huggingface-license.yaml)  
 **Rego Source:** [verify-hf-license.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/verify-hf-license.rego)  
-**Labels:** SBOM, Image, Source  
+**Labels:** SBOM, Image, Git  
 
 Verify the artifact includes all specified licenses.
 
 :::note 
-This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
-  
-Ensure that the SBOM includes all specified licenses to meet compliance requirements.
-This rule accesses the Hugging Face API to validate the licenses.
-
-**Input Example:**
-
-```yaml
-- uses: sbom/verify-huggingface-license@v2/rules
-  with:
-    licenses:
-      - "MIT"
-      - "Apache-2.0"
-```
-
+This rule requires SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
+::: 
+:::note 
+Ensure that the SBOM includes all specified licenses to meet compliance requirements. This rule accesses the Hugging Face API to validate the licenses.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -38,6 +27,16 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by product and target.  
 :::  
+
+## Usage example
+
+```yaml
+uses: sbom/verify-huggingface-license@v2/rules
+with:
+  licenses:
+    - "MIT"
+    - "Apache-2.0"
+```
 
 ## Mitigation  
 Ensures that all specified licenses are included in the SBOM, reducing the risk of legal issues and ensuring compliance with open-source licenses.

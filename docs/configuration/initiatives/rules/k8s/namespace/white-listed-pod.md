@@ -13,21 +13,7 @@ title: Allowed Pods in Namespace
 Verify only pods explicitly listed in the Allowed List run within a Kubernetes namespace.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence.  
-  
-**Input**
-`white_listed_pod` is a list of allowed pods.
-
-**Input Example:**
-
-```yaml
-- uses: k8s/namespace/white-listed-pod@v2/rules
-  with:
-    white_listed_pod:
-      - my-pod-1.*
-      - my-pod-2.*
-```
-
+This rule requires K8s Namespace Discovery Evidence. See [here](https://scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -35,6 +21,16 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 :::warning  
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+
+## Usage example
+
+```yaml
+uses: k8s/namespace/white-listed-pod@v2/rules
+with:
+  white_listed_pod:
+    - my-pod-1.*
+    - my-pod-2.*
+```
 
 ## Mitigation  
 Ensures that only approved pods are running within the Kubernetes namespace, reducing the risk of unauthorized or misconfigured pods.

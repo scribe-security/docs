@@ -8,12 +8,12 @@ title: Enforce SBOM License Completeness
 **Uses:** `sbom/complete-licenses@v2/rules`  
 **Source:** [v2/rules/sbom/complete-licenses.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/complete-licenses.yaml)  
 **Rego Source:** [complete-licenses.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/complete-licenses.rego)  
-**Labels:** SBOM, Image, Source  
+**Labels:** SBOM, Image, Git  
 
 Verify all dependencies in the artifact have a license.
 
 :::note 
-This rule requires [SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
+This rule requires SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

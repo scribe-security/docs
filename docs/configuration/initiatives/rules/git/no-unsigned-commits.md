@@ -13,7 +13,7 @@ title: Disallow Unsigned Commits
 Verify all commits are signed.
 
 :::note 
-This rule requires [Git SBOM](https://scribe-security.netlify.app/docs/valint/sbom).  
+This rule requires Git SBOM. See [here](https://scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -24,6 +24,23 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 :::info  
 Rule is scoped by product and target.  
 :::  
+
+## Mitigation  
+Enforcing signed commits ensures reduced risk of unauthorized changes to the repository.
+
+
+## Description  
+This rule ensures that all commits are signed.
+It performs the following steps:
+
+1. Iterates over the commits in the repository.
+2. For each Commit Rule inspects the 'PGPSignature' property of the commit, if it is not present, the rule flags it as a violation.
+
+**Evidence Requirements:**
+- The Source SBOM evidence must be provided in the `cyclonedx-json` format.
+- The Source SBOM should include a `metadata.component.properties` array containing properties that identify base images.
+- The Source SBOM (Software Bill of Materials) must include the `PGPSignature` property for each commit Component.
+
 
 ## Evidence Requirements  
 | Field | Value |
