@@ -255,22 +255,33 @@ export_orbs() {
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
-
 import_sample-policies() {
     repo="sample-policies"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/guides"
+
+    # Copy sample policy docs
     cp -r "${repo_dir}/docs/v2/" "docs/configuration/"
 
-#     echo '---
-# sidebar_label: "Applying Policies to your SDLC"
-# title: Applying Policies to your SDLC
-# sidebar_position: 3
-# toc_min_heading_level: 2
-# toc_max_heading_level: 5
-# ---' > "${dst_dir}/enforcing-sdlc-policy.md"
+    # Create a temporary file to hold the table content from index.md
+    tmpfile=$(mktemp)
 
-#     tail -n +2 "${repo_dir}/README.md" >> "${dst_dir}/enforcing-sdlc-policy.md"
+    # Extract everything between <!-- START TABLE --> and <!-- END TABLE --> from index.md
+    # (excluding the markers themselves) into tmpfile
+    sed -n '/<!-- START TABLE -->/,/<!-- END TABLE -->/ {
+        /<!-- START TABLE -->/d
+        /<!-- END TABLE -->/d
+        p
+    }' docs/configuration/initiatives/index.md > "${tmpfile}"
+
+    # Replace the block in enforcing-sdlc-initiative.md with the table content from tmpfile
+    sed -i '/<!-- START TABLE -->/,/<!-- END TABLE -->/{
+        /<!-- START TABLE -->/!{ /<!-- END TABLE -->/!d; }
+        /<!-- START TABLE -->/r '"${tmpfile}"'
+    }' "${dst_dir}/enforcing-sdlc-initiative.md"
+
+    # Clean up
+    rm "${tmpfile}"
 }
 
 export_sample-policies() {
