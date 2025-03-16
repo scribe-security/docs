@@ -28,7 +28,7 @@ Rule is scoped by target and product.
 ## Usage example
 
 ```yaml
-uses: images/allowed-image-source@v2/rules
+uses: images/allowed-image-source@v2
 with:
   approved_sources:
     - "docker.io/library/*"

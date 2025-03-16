@@ -30,7 +30,7 @@ Rule is scoped by product and target.
 ## Usage example
 
 ```yaml
-uses: git/artifact-signed@v2/rules
+uses: git/artifact-signed@v2
 with:
   identity:
     emails:

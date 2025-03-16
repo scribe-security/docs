@@ -24,6 +24,12 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 Rule is scoped by product and target.  
 :::  
 
+## Usage example
+
+```yaml
+uses: git/coding-permissions@v2
+```
+
 ## Mitigation  
 Prevent unauthorized users from committing to the repository by restricting commit permissions to allowed users only.
 
