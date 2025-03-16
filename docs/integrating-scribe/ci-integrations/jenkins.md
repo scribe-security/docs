@@ -26,7 +26,7 @@ The token is a secret and will not be accessible from the UI after you finalize 
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
    <img src="/img/start/jenkins-add-credentials.jpg" alt="Jenkins Add Credentials"/>
 
-4. Copy the Scribe Hub API Token to the **Password** field and set the username to `SCRIBE_CLIENT_ID`.
+4. Copy the Scribe Hub API Token to the **Password**/
    <img src="/img/start/jenkins-username.jpg" alt="Jenkins Credentials Username/Password"/>
 
 5. Set **ID** to `scribe-auth-id` (lowercase).
@@ -80,7 +80,7 @@ pipeline {
             valint bom busybox:latest \
               --context-type jenkins \
               --output-directory ./scribe/valint \
-              -P $SCRIBE_API_TOKEN
+              -P $SCRIBE_TOKEN
         '''
       }
     }
