@@ -2,7 +2,6 @@
 
 ## Initiatives
 
-<!-- START TABLE -->
 | Name | Description |
 |------|-------------|
 | [SLSA L1 Framework](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/slsa.l1) | Evaluate SLSA Level 1 |
