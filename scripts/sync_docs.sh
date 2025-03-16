@@ -261,7 +261,7 @@ import_sample-policies() {
     dst_dir="docs/guides"
 
     # Copy sample policy docs
-    cp -r "${repo_dir}/docs/v2/" "docs/configuration/"
+    cp -r "${repo_dir}/docs/v2/*" "docs/configuration/"
 
     # Create a temporary file to hold the table content from index.md
     tmpfile=$(mktemp)
