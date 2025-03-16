@@ -5,7 +5,6 @@ title: Generic Artifact Signed
 # Generic Artifact Signed  
 **Type:** Rule  
 **ID:** `generic-artifact-signed`  
-**Uses:** `generic/artifact-signed@v2/rules`  
 **Source:** [v2/rules/generic/artifact-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/generic/artifact-signed.yaml)  
 **Rego Source:** [artifact-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/generic/artifact-signed.rego)  
 **Labels:** 3rd-party  
@@ -13,7 +12,7 @@ title: Generic Artifact Signed
 Verify required evidence is signed.
 
 :::note 
-This rule requires Signed Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/generic) for more details.  
+This rule requires Signed Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/generic) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

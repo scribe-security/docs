@@ -5,14 +5,13 @@ title: Required Trivy Evidence Exists
 # Required Trivy Evidence Exists  
 **Type:** Rule  
 **ID:** `required-trivy-evidence`  
-**Uses:** `generic/trivy-exists@v2/rules`  
 **Source:** [v2/rules/generic/trivy-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/generic/trivy-exists.yaml)  
 **Labels:** 3rd-party  
 
 Verify required Trivy evidence exists
 
 :::note 
-This rule requires Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/generic) for more details.  
+This rule requires Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/generic) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

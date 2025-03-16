@@ -5,7 +5,6 @@ title: Verify DockerHub Tokens are Active
 # Verify DockerHub Tokens are Active  
 **Type:** Rule  
 **ID:** `dockerhub-token-expiration`  
-**Uses:** `dockerhub/token-expiration@v2/rules`  
 **Source:** [v2/rules/dockerhub/token-expiration.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/dockerhub/token-expiration.yaml)  
 **Rego Source:** [token-expiration.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/dockerhub/token-expiration.rego)  
 **Labels:** Dockerhub  
@@ -13,7 +12,7 @@ title: Verify DockerHub Tokens are Active
 Verify that all discovered Dockerhub tokens are set to Active in Dockerhub.
 
 :::note 
-This rule requires Dockerhub Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#dockerhub-discovery) for more details.  
+This rule requires Dockerhub Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#dockerhub-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

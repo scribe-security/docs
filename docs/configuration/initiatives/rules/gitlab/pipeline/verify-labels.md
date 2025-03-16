@@ -5,7 +5,6 @@ title: Verify GitLab Pipeline Labels
 # Verify GitLab Pipeline Labels  
 **Type:** Rule  
 **ID:** `gitlab-pipeline-verify-labels`  
-**Uses:** `gitlab/pipeline/verify-labels@v2/rules`  
 **Source:** [v2/rules/gitlab/pipeline/verify-labels.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/pipeline/verify-labels.yaml)  
 **Rego Source:** [verify-labels.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/pipeline/verify-labels.rego)  
 **Labels:** Gitlab, Pipeline  
@@ -13,7 +12,7 @@ title: Verify GitLab Pipeline Labels
 Verify the pipeline includes all required label keys and values.
 
 :::note 
-This rule requires Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover) for more details.  
+This rule requires Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

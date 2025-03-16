@@ -5,7 +5,6 @@ title: Verify Provenance Document Exists
 # Verify Provenance Document Exists  
 **Type:** Rule  
 **ID:** `SLSA.L1`  
-**Uses:** `slsa/l1-provenance-exists@v2/rules`  
 **Source:** [v2/rules/slsa/l1-provenance-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/l1-provenance-exists.yaml)  
 **Rego Source:** [l1-provenance-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/l1-provenance-exists.rego)  
 **Help:** https://slsa.dev/spec/v1.0/requirements  
@@ -14,7 +13,7 @@ title: Verify Provenance Document Exists
 Verify that the Provenance document evidence exists.
 
 :::note 
-This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/help/valint_slsa) for more details.  
+This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/help/valint_slsa) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

@@ -5,7 +5,6 @@ title: Block Users in GitLab Organization
 # Block Users in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-blocked-users`  
-**Uses:** `gitlab/org/blocked-users@v2/rules`  
 **Source:** [v2/rules/gitlab/org/blocked-users.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/blocked-users.yaml)  
 **Rego Source:** [blocked-users.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/blocked-users.rego)  
 **Labels:** Gitlab, Organization  
@@ -13,7 +12,7 @@ title: Block Users in GitLab Organization
 Verify no users in the GitLab organization are on the block list.
 
 :::note 
-This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

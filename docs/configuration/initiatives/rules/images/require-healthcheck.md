@@ -5,7 +5,6 @@ title: Require Healthcheck
 # Require Healthcheck  
 **Type:** Rule  
 **ID:** `images-require-healthcheck`  
-**Uses:** `images/require-healthcheck@v2/rules`  
 **Source:** [v2/rules/images/require-healthcheck.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/require-healthcheck.yaml)  
 **Rego Source:** [require-healthcheck.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/require-healthcheck.rego)  
 **Labels:** SBOM, Images  
@@ -14,7 +13,7 @@ Checks that the container image includes at least one healthcheck property.
 
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

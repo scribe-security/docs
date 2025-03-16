@@ -5,14 +5,13 @@ title: SBOM archived
 # SBOM archived  
 **Type:** Rule  
 **ID:** `PS.3.2`  
-**Uses:** `ssdf/ps-3.2-archived-sbom@v2/rules`  
 **Source:** [v2/rules/ssdf/ps-3.2-archived-sbom.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/ssdf/ps-3.2-archived-sbom.yaml)  
 **Labels:** SSDF  
 
 PS.3.2 Archive SBOM
 
 :::note 
-This rule requires Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/generic) for more details.  
+This rule requires Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/generic) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

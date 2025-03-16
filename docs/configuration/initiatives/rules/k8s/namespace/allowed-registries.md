@@ -5,7 +5,6 @@ title: Allowed Namespace Registries
 # Allowed Namespace Registries  
 **Type:** Rule  
 **ID:** `k8s-namespace-allowed-registries`  
-**Uses:** `k8s/namespace/allowed-registries@v2/rules`  
 **Source:** [v2/rules/k8s/namespace/allowed-registries.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/allowed-registries.yaml)  
 **Rego Source:** [allowed-registries.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/allowed-registries.rego)  
 **Labels:** K8s, Namespace  
@@ -13,7 +12,7 @@ title: Allowed Namespace Registries
 Verify container images in Kubernetes namespaces originate from registries in the Allowed List.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

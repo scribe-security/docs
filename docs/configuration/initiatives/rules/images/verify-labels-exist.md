@@ -5,7 +5,6 @@ title: Require Image Labels
 # Require Image Labels  
 **Type:** Rule  
 **ID:** `required-image-labels`  
-**Uses:** `images/verify-labels-exist@v2/rules`  
 **Source:** [v2/rules/images/verify-labels-exist.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/verify-labels-exist.yaml)  
 **Rego Source:** [verify-labels-exist.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/verify-labels-exist.rego)  
 **Labels:** SBOM, Images  
@@ -13,7 +12,7 @@ title: Require Image Labels
 Verify the image has the specified labels.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

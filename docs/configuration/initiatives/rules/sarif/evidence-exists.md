@@ -5,7 +5,6 @@ title: Verify Required Evidence in SARIF
 # Verify Required Evidence in SARIF  
 **Type:** Rule  
 **ID:** `required-sarif-evidence`  
-**Uses:** `sarif/evidence-exists@v2/rules`  
 **Source:** [v2/rules/sarif/evidence-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/evidence-exists.yaml)  
 **Rego Source:** [evidence-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/evidence-exists.rego)  
 **Labels:** SARIF  
@@ -13,7 +12,7 @@ title: Verify Required Evidence in SARIF
 Verify all required evidence exists as defined by the SARIF policy.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

@@ -5,7 +5,6 @@ title: Allowed Namespaces
 # Allowed Namespaces  
 **Type:** Rule  
 **ID:** `k8s-namespace-white-listed-namespaces`  
-**Uses:** `k8s/namespace/white-listed-namespaces@v2/rules`  
 **Source:** [v2/rules/k8s/namespace/white-listed-namespaces.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/white-listed-namespaces.yaml)  
 **Rego Source:** [white-listed-namespaces.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/white-listed-namespaces.rego)  
 **Labels:** K8s, Namespace  
@@ -13,7 +12,7 @@ title: Allowed Namespaces
 Verify only namespaces specified in the Allowed List are allowed within the cluster.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Prevent Token Expiration in GitLab Organization
 # Prevent Token Expiration in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-token-about-to-expire`  
-**Uses:** `gitlab/org/expiring-tokens@v2/rules`  
 **Source:** [v2/rules/gitlab/org/expiring-tokens.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/expiring-tokens.yaml)  
 **Rego Source:** [expiring-tokens.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/expiring-tokens.rego)  
 **Labels:** Gitlab, Organization  
@@ -13,7 +12,7 @@ title: Prevent Token Expiration in GitLab Organization
 Verify no GitLab organization tokens are about to expire.
 
 :::note 
-This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

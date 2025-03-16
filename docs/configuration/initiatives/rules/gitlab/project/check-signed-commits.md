@@ -5,7 +5,6 @@ title: Ensure All Commits Are Signed in GitLab Project
 # Ensure All Commits Are Signed in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-signed-commits`  
-**Uses:** `gitlab/project/check-signed-commits@v2/rules`  
 **Source:** [v2/rules/gitlab/project/check-signed-commits.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/check-signed-commits.yaml)  
 **Rego Source:** [check-signed-commits.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/check-signed-commits.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Ensure All Commits Are Signed in GitLab Project
 Verify all commits in the GitLab project are signed.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

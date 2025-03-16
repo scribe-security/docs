@@ -5,7 +5,6 @@ title: Require Minimal Approvers in GitLab Project
 # Require Minimal Approvers in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-required-minimal-approvers`  
-**Uses:** `gitlab/project/required-minimal-approvers@v2/rules`  
 **Source:** [v2/rules/gitlab/project/required-minimal-approvers.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/required-minimal-approvers.yaml)  
 **Rego Source:** [required-minimal-approvers.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/required-minimal-approvers.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Require Minimal Approvers in GitLab Project
 Verify the required number of approvers for the GitLab project is met.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

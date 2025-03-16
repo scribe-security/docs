@@ -5,7 +5,6 @@ title: Allowed Committer Names in GitLab Project
 # Allowed Committer Names in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-committer-names`  
-**Uses:** `gitlab/project/committer-name-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/committer-name-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/committer-name-check.yaml)  
 **Rego Source:** [committer-name-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/committer-name-check.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Allowed Committer Names in GitLab Project
 Verify only users in the Allowed List commit by name in the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

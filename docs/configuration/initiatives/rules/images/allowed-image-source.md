@@ -5,7 +5,6 @@ title: Allowed Main Image Source
 # Allowed Main Image Source  
 **Type:** Rule  
 **ID:** `images-allowed-image-source`  
-**Uses:** `images/allowed-image-source@v2/rules`  
 **Source:** [v2/rules/images/allowed-image-source.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/allowed-image-source.yaml)  
 **Rego Source:** [allowed-image-source.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/allowed-image-source.rego)  
 **Labels:** SBOM, Images  
@@ -14,7 +13,7 @@ Ensures the main container image referenced in the SBOM is from an approved sour
 
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

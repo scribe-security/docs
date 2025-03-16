@@ -5,7 +5,6 @@ title: Verify Dependabot security updates setting
 # Verify Dependabot security updates setting  
 **Type:** Rule  
 **ID:** `github-repo-dependabot`  
-**Uses:** `github/repository/dependabot@v2/rules`  
 **Source:** [v2/rules/github/repository/dependabot.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/dependabot.yaml)  
 **Rego Source:** [dependabot.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/dependabot.rego)  
 **Labels:** GitHub, Repository  
@@ -13,7 +12,7 @@ title: Verify Dependabot security updates setting
 Verify Dependabot security updates are configured in the GitHub repository.
 
 :::note 
-This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

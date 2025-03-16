@@ -5,7 +5,6 @@ title: Enforce Allowed SBOM Components
 # Enforce Allowed SBOM Components  
 **Type:** Rule  
 **ID:** `sbom-allowed-components`  
-**Uses:** `sbom/allowed-components@v2/rules`  
 **Source:** [v2/rules/sbom/allowed-components.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/allowed-components.yaml)  
 **Rego Source:** [allowed-components.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/allowed-components.rego)  
 **Labels:** SBOM, Image, Git  
@@ -13,7 +12,7 @@ title: Enforce Allowed SBOM Components
 Verify the artifact contains only allowed components.
 
 :::note 
-This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::note 
 Components type reference: https://cyclonedx.org/docs/1.6/json/#components_items_type  

@@ -5,7 +5,6 @@ title: Verify that artifact was created by the specified builder
 # Verify that artifact was created by the specified builder  
 **Type:** Rule  
 **ID:** `slsa-verify-builder`  
-**Uses:** `slsa/verify-builder@v2/rules`  
 **Source:** [v2/rules/slsa/verify-builder.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/verify-builder.yaml)  
 **Rego Source:** [verify-builder.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/verify-builder.rego)  
 **Labels:** SLSA, Image  
@@ -13,7 +12,7 @@ title: Verify that artifact was created by the specified builder
 Verify the artifact was created by the specified builder.
 
 :::note 
-This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/help/valint_slsa) for more details.  
+This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/help/valint_slsa) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

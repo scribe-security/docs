@@ -5,7 +5,6 @@ title: Enforce Merge Access Level Policy for GitLab Project
 # Enforce Merge Access Level Policy for GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-access-level`  
-**Uses:** `gitlab/project/merge-access-level@v2/rules`  
 **Source:** [v2/rules/gitlab/project/merge-access-level.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/merge-access-level.yaml)  
 **Rego Source:** [merge-access-level.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/merge-access-level.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Enforce Merge Access Level Policy for GitLab Project
 Verify the GitLab project's merge access level complies with requirements.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

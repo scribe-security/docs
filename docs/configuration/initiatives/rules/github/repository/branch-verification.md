@@ -5,7 +5,6 @@ title: Verify Branch Verification Setting
 # Verify Branch Verification Setting  
 **Type:** Rule  
 **ID:** `github-repo-branch-verification`  
-**Uses:** `github/repository/branch-verification@v2/rules`  
 **Source:** [v2/rules/github/repository/branch-verification.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/branch-verification.yaml)  
 **Rego Source:** [branch-verification.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/branch-verification.rego)  
 **Labels:** GitHub, Repository  
@@ -13,7 +12,7 @@ title: Verify Branch Verification Setting
 Verify branch verification in the GitHub repository matches the value defined in the configuration file.
 
 :::note 
-This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

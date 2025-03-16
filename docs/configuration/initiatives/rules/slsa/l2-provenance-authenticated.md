@@ -5,7 +5,6 @@ title: Verify that provenance is authenticated
 # Verify that provenance is authenticated  
 **Type:** Rule  
 **ID:** `SLSA.L2`  
-**Uses:** `slsa/l2-provenance-authenticated@v2/rules`  
 **Source:** [v2/rules/slsa/l2-provenance-authenticated.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/l2-provenance-authenticated.yaml)  
 **Rego Source:** [l2-provenance-authenticated.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/l2-provenance-authenticated.rego)  
 **Help:** https://slsa.dev/spec/v1.0/requirements  
@@ -14,7 +13,7 @@ title: Verify that provenance is authenticated
 Verify the artifact is signed.
 
 :::note 
-This rule requires Signed SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/help/valint_slsa) for more details.  
+This rule requires Signed SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/help/valint_slsa) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

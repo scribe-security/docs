@@ -5,7 +5,6 @@ title: Verify Namespace Runtime Duration
 # Verify Namespace Runtime Duration  
 **Type:** Rule  
 **ID:** `k8s-namespace-verify-namespace-duration`  
-**Uses:** `k8s/namespace/verify-namespace-duration@v2/rules`  
 **Source:** [v2/rules/k8s/namespace/verify-namespace-duration.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/verify-namespace-duration.yaml)  
 **Rego Source:** [verify-namespace-duration.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/verify-namespace-duration.rego)  
 **Labels:** K8s, Namespace  
@@ -13,7 +12,7 @@ title: Verify Namespace Runtime Duration
 Verify Kubernetes namespaces adhere to a specified runtime duration to enforce lifecycle limits.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Require Specified SBOM Licenses
 # Require Specified SBOM Licenses  
 **Type:** Rule  
 **ID:** `sbom-hf-license`  
-**Uses:** `sbom/verify-huggingface-license@v2/rules`  
 **Source:** [v2/rules/sbom/verify-huggingface-license.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/verify-huggingface-license.yaml)  
 **Rego Source:** [verify-hf-license.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/verify-hf-license.rego)  
 **Labels:** SBOM, Image, Git  
@@ -13,7 +12,7 @@ title: Require Specified SBOM Licenses
 Verify the artifact includes all specified licenses.
 
 :::note 
-This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::note 
 Ensure that the SBOM includes all specified licenses to meet compliance requirements. This rule accesses the Hugging Face API to validate the licenses.  

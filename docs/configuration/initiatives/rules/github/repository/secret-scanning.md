@@ -5,7 +5,6 @@ title: Verify secret_scanning setting
 # Verify secret_scanning setting  
 **Type:** Rule  
 **ID:** `github-repo-secret-scanning`  
-**Uses:** `github/repository/secret-scanning@v2/rules`  
 **Source:** [v2/rules/github/repository/secret-scanning.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/secret-scanning.yaml)  
 **Rego Source:** [secret-scanning.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/secret-scanning.rego)  
 **Labels:** GitHub, Repository  
@@ -13,7 +12,7 @@ title: Verify secret_scanning setting
 Verify `secret_scanning` is configured in the GitHub repository.
 
 :::note 
-This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Forbid Long-Lived Tokens in GitLab Organization
 # Forbid Long-Lived Tokens in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-token-excessive-lifespan`  
-**Uses:** `gitlab/org/longlive-tokens@v2/rules`  
 **Source:** [v2/rules/gitlab/org/longlive-tokens.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/longlive-tokens.yaml)  
 **Rego Source:** [longlive-tokens.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/longlive-tokens.rego)  
 **Labels:** Blueprint, Gitlab, Organization  
@@ -13,7 +12,7 @@ title: Forbid Long-Lived Tokens in GitLab Organization
 Verify no GitLab organization tokens have an excessively long lifespan.
 
 :::note 
-This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

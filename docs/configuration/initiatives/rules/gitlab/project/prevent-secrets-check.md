@@ -5,7 +5,6 @@ title: Enable Secrets Prevention in GitLab Project
 # Enable Secrets Prevention in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-prevent_secrets`  
-**Uses:** `gitlab/project/prevent-secrets-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/prevent-secrets-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/prevent-secrets-check.yaml)  
 **Rego Source:** [prevent-secrets-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/prevent-secrets-check.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Enable Secrets Prevention in GitLab Project
 Verify `prevent_secrets` is enabled for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

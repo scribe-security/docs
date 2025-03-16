@@ -5,7 +5,6 @@ title: Verify dependabot_security_updates_enabled_for_new_repositories setting
 # Verify dependabot_security_updates_enabled_for_new_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-dependabot-security-updates`  
-**Uses:** `github/org/dependabot-security-updates@v2/rules`  
 **Source:** [v2/rules/github/org/dependabot-security-updates.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependabot-security-updates.yaml)  
 **Rego Source:** [dependabot-security-updates.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependabot-security-updates.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify dependabot_security_updates_enabled_for_new_repositories setting
 Verify Dependabot security updates for new repositories are configured in the GitHub organization.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

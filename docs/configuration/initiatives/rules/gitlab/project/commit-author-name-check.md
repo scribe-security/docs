@@ -5,7 +5,6 @@ title: Allowed Commit Authors in GitLab Project
 # Allowed Commit Authors in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-commit-author-names`  
-**Uses:** `gitlab/project/commit-author-name-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/commit-author-name-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commit-author-name-check.yaml)  
 **Rego Source:** [commit-author-name-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commit-author-name-check.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Allowed Commit Authors in GitLab Project
 Verify only users in the Allowed List author commits in the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

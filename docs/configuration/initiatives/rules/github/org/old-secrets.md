@@ -5,7 +5,6 @@ title: Verify GitHub Organization Secrets Are Not Too Old
 # Verify GitHub Organization Secrets Are Not Too Old  
 **Type:** Rule  
 **ID:** `github-org-old-secrets`  
-**Uses:** `github/org/old-secrets@v2/rules`  
 **Source:** [v2/rules/github/org/old-secrets.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/old-secrets.yaml)  
 **Rego Source:** [old-secrets.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/old-secrets.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify GitHub Organization Secrets Are Not Too Old
 Verify secrets in the GitHub organization are not older than the specified threshold.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

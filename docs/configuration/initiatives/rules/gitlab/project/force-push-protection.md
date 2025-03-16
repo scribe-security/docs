@@ -5,7 +5,6 @@ title: Disallow Force Push in GitLab Project
 # Disallow Force Push in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-disallow-force-push`  
-**Uses:** `gitlab/project/force-push-protection@v2/rules`  
 **Source:** [v2/rules/gitlab/project/force-push-protection.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/force-push-protection.yaml)  
 **Rego Source:** [force-push-protection.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/force-push-protection.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Disallow Force Push in GitLab Project
 Verify force pushes in the GitLab project are disallowed to maintain repository integrity.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

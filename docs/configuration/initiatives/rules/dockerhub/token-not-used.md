@@ -5,7 +5,6 @@ title: Verify no unused Dockerhub
 # Verify no unused Dockerhub  
 **Type:** Rule  
 **ID:** `dockerhub-token-not-used`  
-**Uses:** `dockerhub/token-not-used@v2/rules`  
 **Source:** [v2/rules/dockerhub/token-not-used.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/dockerhub/token-not-used.yaml)  
 **Rego Source:** [token-not-used.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/dockerhub/token-not-used.rego)  
 **Labels:** Dockerhub  
@@ -13,7 +12,7 @@ title: Verify no unused Dockerhub
 Verify that there are no unused Dockerhub.
 
 :::note 
-This rule requires Dockerhub Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#dockerhub-discovery) for more details.  
+This rule requires Dockerhub Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#dockerhub-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

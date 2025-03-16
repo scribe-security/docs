@@ -5,7 +5,6 @@ title: Restrict Coding Permissions
 # Restrict Coding Permissions  
 **Type:** Rule  
 **ID:** `git-coding-permissions`  
-**Uses:** `git/coding-permissions@v2/rules`  
 **Source:** [v2/rules/git/coding-permissions.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/coding-permissions.yaml)  
 **Rego Source:** [coding-permissions.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/coding-permissions.rego)  
 **Labels:** SBOM, Git  
@@ -13,7 +12,7 @@ title: Restrict Coding Permissions
 Verify only allowed users committed to the repository.
 
 :::note 
-This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

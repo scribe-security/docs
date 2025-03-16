@@ -5,7 +5,6 @@ title: Verify Rule Compliance in SARIF
 # Verify Rule Compliance in SARIF  
 **Type:** Rule  
 **ID:** `sarif-policy`  
-**Uses:** `sarif/verify-sarif@v2/rules`  
 **Source:** [v2/rules/sarif/verify-sarif.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/verify-sarif.yaml)  
 **Rego Source:** [verify-sarif.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/verify-sarif.rego)  
 **Labels:** SARIF  
@@ -13,7 +12,7 @@ title: Verify Rule Compliance in SARIF
 Verify the SARIF report complies with defined generic rules for compliance and security.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

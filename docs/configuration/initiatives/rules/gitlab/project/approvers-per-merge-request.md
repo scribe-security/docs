@@ -5,7 +5,6 @@ title: Restrict Approvers Per Merge Request
 # Restrict Approvers Per Merge Request  
 **Type:** Rule  
 **ID:** `gitlab-project-approvers-per-merge-request`  
-**Uses:** `gitlab/project/approvers-per-merge-request@v2/rules`  
 **Source:** [v2/rules/gitlab/project/approvers-per-merge-request.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/approvers-per-merge-request.yaml)  
 **Rego Source:** [approvers-per-merge-request.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/approvers-per-merge-request.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Restrict Approvers Per Merge Request
 Verify the binary field `disable_overriding_approvers_per_merge_request` is set for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Disallow Container Shell Entrypoint
 # Disallow Container Shell Entrypoint  
 **Type:** Rule  
 **ID:** `images-disallow-shell-access`  
-**Uses:** `images/restrict-shell-entrypoint@v2/rules`  
 **Source:** [v2/rules/images/restrict-shell-entrypoint.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/restrict-shell-entrypoint.yaml)  
 **Rego Source:** [restrict-shell-entrypoint.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/restrict-shell-entrypoint.rego)  
 **Labels:** SBOM, Images  
@@ -13,7 +12,7 @@ title: Disallow Container Shell Entrypoint
 Verify the container image disallows shell entrypoint.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

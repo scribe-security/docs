@@ -5,7 +5,6 @@ title: Verify Trivy SARIF Report Compliance
 # Verify Trivy SARIF Report Compliance  
 **Type:** Rule  
 **ID:** `trivy-report`  
-**Uses:** `sarif/trivy/verify-trivy-report@v2/rules`  
 **Source:** [v2/rules/sarif/trivy/verify-trivy-report.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/verify-trivy-report.yaml)  
 **Rego Source:** [../verify-sarif.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/../verify-sarif.rego)  
 **Help:** https://scribe-security.netlify.app/docs/valint/generic#trivy-integration-example  
@@ -14,7 +13,7 @@ title: Verify Trivy SARIF Report Compliance
 Verify the Trivy SARIF report complies with predefined rules to ensure compliance and detect issues.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

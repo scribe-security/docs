@@ -5,7 +5,6 @@ title: Allowed Repository Admins
 # Allowed Repository Admins  
 **Type:** Rule  
 **ID:** `bb-repo-allowed-repository-admins`  
-**Uses:** `bitbucket/repository/allow-admins@v2/rules`  
 **Source:** [v2/rules/bitbucket/repository/allow-admins.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/repository/allow-admins.yaml)  
 **Rego Source:** [allow-admins.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/repository/allow-admins.rego)  
 **Labels:** Bitbucket, Repository  
@@ -13,7 +12,7 @@ title: Allowed Repository Admins
 Verify only users specified in the Allowed List have admin privileges in the Bitbucket repository.
 
 :::note 
-This rule requires Bitbucket Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#bitbucket-discovery) for more details.  
+This rule requires Bitbucket Repository Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#bitbucket-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

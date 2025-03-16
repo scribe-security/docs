@@ -5,7 +5,6 @@ title: Trivy Blocklist CVE Check
 # Trivy Blocklist CVE Check  
 **Type:** Rule  
 **ID:** `trivy-blocklist-cve`  
-**Uses:** `sarif/trivy/blocklist-cve@v2/rules`  
 **Source:** [v2/rules/sarif/trivy/blocklist-cve.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/blocklist-cve.yaml)  
 **Rego Source:** [../blocklist-report.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/../blocklist-report.rego)  
 **Help:** https://scribe-security.netlify.app/docs/valint/generic#trivy-integration-example  
@@ -14,7 +13,7 @@ title: Trivy Blocklist CVE Check
 Verify a CVE Blocklist against a SARIF report
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

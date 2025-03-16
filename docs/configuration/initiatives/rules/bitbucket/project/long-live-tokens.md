@@ -5,7 +5,6 @@ title: Prevent Long-Lived Tokens
 # Prevent Long-Lived Tokens  
 **Type:** Rule  
 **ID:** `bb-project-long-live-tokens`  
-**Uses:** `bitbucket/project/long-live-tokens@v2/rules`  
 **Source:** [v2/rules/bitbucket/project/long-live-tokens.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/project/long-live-tokens.yaml)  
 **Rego Source:** [long-live-tokens.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/project/long-live-tokens.rego)  
 **Labels:** Bitbucket, Project  
@@ -13,7 +12,7 @@ title: Prevent Long-Lived Tokens
 Verify Bitbucket API tokens expire before the maximum time to live.
 
 :::note 
-This rule requires Bitbucket Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#bitbucket-discovery) for more details.  
+This rule requires Bitbucket Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#bitbucket-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

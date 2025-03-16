@@ -5,7 +5,6 @@ title: Prevent Credential Exposure
 # Prevent Credential Exposure  
 **Type:** Rule  
 **ID:** `bb-project-exposed-credentials`  
-**Uses:** `bitbucket/project/exposed-credentials@v2/rules`  
 **Source:** [v2/rules/bitbucket/project/exposed-credentials.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/project/exposed-credentials.yaml)  
 **Rego Source:** [exposed-credentials.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/bitbucket/project/exposed-credentials.rego)  
 **Labels:** Bitbucket, Project  
@@ -13,7 +12,7 @@ title: Prevent Credential Exposure
 Verify access to the Bitbucket project is blocked if exposed credentials are detected.
 
 :::note 
-This rule requires Bitbucket Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#bitbucket-discovery) for more details.  
+This rule requires Bitbucket Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#bitbucket-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

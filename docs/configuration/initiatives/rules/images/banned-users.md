@@ -5,7 +5,6 @@ title: Disallow Specific Users in SBOM
 # Disallow Specific Users in SBOM  
 **Type:** Rule  
 **ID:** `sbom-disallowed-users`  
-**Uses:** `images/banned-users@v2/rules`  
 **Source:** [v2/rules/images/banned-users.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/banned-users.yaml)  
 **Rego Source:** [banned-users.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/banned-users.rego)  
 **Labels:** SBOM, Image  
@@ -13,7 +12,7 @@ title: Disallow Specific Users in SBOM
 Verify specific users are not allowed in an SBOM.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

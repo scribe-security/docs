@@ -5,7 +5,6 @@ title: Verify build time
 # Verify build time  
 **Type:** Rule  
 **ID:** `slsa-build-time`  
-**Uses:** `slsa/build-time@v2/rules`  
 **Source:** [v2/rules/slsa/build-time.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/build-time.yaml)  
 **Rego Source:** [build-time.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/build-time.rego)  
 **Labels:** SLSA, Image  
@@ -13,7 +12,7 @@ title: Verify build time
 Verify the artifact was created within the specified time window.
 
 :::note 
-This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/help/valint_slsa) for more details.  
+This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/help/valint_slsa) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

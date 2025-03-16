@@ -5,7 +5,6 @@ title: Verify Semgrep Rule in SARIF
 # Verify Semgrep Rule in SARIF  
 **Type:** Rule  
 **ID:** `sarif-semgrep-report`  
-**Uses:** `sarif/verify-semgrep-report@v2/rules`  
 **Source:** [v2/rules/sarif/verify-semgrep-report.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/verify-semgrep-report.yaml)  
 **Rego Source:** [blocklist-report.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/blocklist-report.rego)  
 **Labels:** SARIF, Semgrep  
@@ -13,7 +12,7 @@ title: Verify Semgrep Rule in SARIF
 Verify the Semgrep SARIF report complies with predefined rules to ensure compliance and detect issues.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

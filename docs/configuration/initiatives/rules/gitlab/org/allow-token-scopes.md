@@ -5,7 +5,6 @@ title: Restrict Token Scopes in GitLab
 # Restrict Token Scopes in GitLab  
 **Type:** Rule  
 **ID:** `gitlab-org-allowed-token-scope`  
-**Uses:** `gitlab/org/allow-token-scopes@v2/rules`  
 **Source:** [v2/rules/gitlab/org/allow-token-scopes.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/allow-token-scopes.yaml)  
 **Rego Source:** [allow-token-scopes.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/allow-token-scopes.rego)  
 **Labels:** Gitlab, Organization  
@@ -13,7 +12,7 @@ title: Restrict Token Scopes in GitLab
 Verify all tokens in the GitLab organization are restricted to allowed scopes to prevent excessive permission.
 
 :::note 
-This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

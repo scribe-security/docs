@@ -5,7 +5,6 @@ title: Verify Exposed Credentials
 # Verify Exposed Credentials  
 **Type:** Rule  
 **ID:** `jenkins-exposed-credentials`  
-**Uses:** `jenkins/folder/exposed-credentials@v2/rules`  
 **Source:** [v2/rules/jenkins/folder/exposed-credentials.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/jenkins/folder/exposed-credentials.yaml)  
 **Rego Source:** [exposed-credentials.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/jenkins/folder/exposed-credentials.rego)  
 **Labels:** Jenkins, Folder  
@@ -13,7 +12,7 @@ title: Verify Exposed Credentials
 Verify there are no exposed credentials.
 
 :::note 
-This rule requires Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover) for more details.  
+This rule requires Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

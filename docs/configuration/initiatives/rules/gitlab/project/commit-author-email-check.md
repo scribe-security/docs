@@ -5,7 +5,6 @@ title: Restrict Commit Authors in GitLab Project
 # Restrict Commit Authors in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-allowed-commit-authors`  
-**Uses:** `gitlab/project/commit-author-email-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/commit-author-email-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commit-author-email-check.yaml)  
 **Rego Source:** [commit-author-email-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commit-author-email-check.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Restrict Commit Authors in GitLab Project
 Verify only GitLab project users in the Allowed List have commit author permissions.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

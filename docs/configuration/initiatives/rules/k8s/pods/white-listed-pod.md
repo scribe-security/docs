@@ -5,7 +5,6 @@ title: Allowed Pods
 # Allowed Pods  
 **Type:** Rule  
 **ID:** `k8s-pods-white-listed-pod`  
-**Uses:** `k8s/pods/white-listed-pod@v2/rules`  
 **Source:** [v2/rules/k8s/pods/white-listed-pod.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/pods/white-listed-pod.yaml)  
 **Rego Source:** [white-listed-pod.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/pods/white-listed-pod.rego)  
 **Labels:** K8s, Pod  
@@ -13,7 +12,7 @@ title: Allowed Pods
 Verify only pods explicitly listed in the Allowed List are allowed to run.
 
 :::note 
-This rule requires K8s Pod Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Pod Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

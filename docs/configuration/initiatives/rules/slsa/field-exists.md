@@ -5,7 +5,6 @@ title: SLSA Field Exists in Provenance Document
 # SLSA Field Exists in Provenance Document  
 **Type:** Rule  
 **ID:** `slsa-field-exists`  
-**Uses:** `slsa/field-exists@v2/rules`  
 **Source:** [v2/rules/slsa/field-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/field-exists.yaml)  
 **Rego Source:** [field-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/field-exists.rego)  
 **Labels:** SLSA, Image  
@@ -13,7 +12,7 @@ title: SLSA Field Exists in Provenance Document
 Verify the specified field exists in the provenance document.
 
 :::note 
-This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/help/valint_slsa) for more details.  
+This rule requires SLSA Provenance. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/help/valint_slsa) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

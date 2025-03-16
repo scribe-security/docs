@@ -5,7 +5,6 @@ title: Ensure Secrets Scanning Passes
 # Ensure Secrets Scanning Passes  
 **Type:** Rule  
 **ID:** `gitlab-project-secrets-scan-pass`  
-**Uses:** `gitlab/project/secrets-scan-pass@v2/rules`  
 **Source:** [v2/rules/gitlab/project/secrets-scan-pass.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/secrets-scan-pass.yaml)  
 **Rego Source:** [secrets-scan-pass.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/secrets-scan-pass.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Ensure Secrets Scanning Passes
 Verify secrets scanning is successful for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Verify dependabot_alerts_enabled_for_new_repositories setting
 # Verify dependabot_alerts_enabled_for_new_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-dependabot-alerts`  
-**Uses:** `github/org/dependabot-alerts@v2/rules`  
 **Source:** [v2/rules/github/org/dependabot-alerts.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependabot-alerts.yaml)  
 **Rego Source:** [dependabot-alerts.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependabot-alerts.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify dependabot_alerts_enabled_for_new_repositories setting
 Verify Dependabot alerts for new repositories are enabled in the GitHub organization.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

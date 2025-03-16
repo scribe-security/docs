@@ -5,7 +5,6 @@ title: Validate All Commits in GitLab Project
 # Validate All Commits in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-all-commits-validated`  
-**Uses:** `gitlab/project/commits-validated@v2/rules`  
 **Source:** [v2/rules/gitlab/project/commits-validated.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commits-validated.yaml)  
 **Rego Source:** [commits-validated.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/commits-validated.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Validate All Commits in GitLab Project
 Verify all commits in the GitLab project are validated.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

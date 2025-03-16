@@ -5,7 +5,6 @@ title: Verify Image Labels
 # Verify Image Labels  
 **Type:** Rule  
 **ID:** `image-labels`  
-**Uses:** `images/verify-labels@v2/rules`  
 **Source:** [v2/rules/images/verify-labels.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/verify-labels.yaml)  
 **Rego Source:** [verify-labels.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/verify-labels.rego)  
 **Labels:** SBOM, Images  
@@ -13,7 +12,7 @@ title: Verify Image Labels
 Verify specified labels key-value pairs exist in the image.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

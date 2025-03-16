@@ -5,7 +5,6 @@ title: Require Signed Container Image
 # Require Signed Container Image  
 **Type:** Rule  
 **ID:** `images-require-signed-image`  
-**Uses:** `images/image-signed@v2/rules`  
 **Source:** [v2/rules/images/image-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/image-signed.yaml)  
 **Rego Source:** [image-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/image-signed.rego)  
 **Labels:** Images, Blueprint  
@@ -14,7 +13,7 @@ Enforces that container images (target_type=container) are cryptographically sig
 
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Verify GitHub Organization Requires Signoff on Web Commits
 # Verify GitHub Organization Requires Signoff on Web Commits  
 **Type:** Rule  
 **ID:** `github-org-web-commit-signoff`  
-**Uses:** `github/org/web-commit-signoff@v2/rules`  
 **Source:** [v2/rules/github/org/web-commit-signoff.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/web-commit-signoff.yaml)  
 **Rego Source:** [web-commit-signoff.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/web-commit-signoff.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify GitHub Organization Requires Signoff on Web Commits
 Verify contributors sign commits through the GitHub web interface.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

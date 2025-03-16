@@ -5,7 +5,6 @@ title: SARIF Update Needed
 # SARIF Update Needed  
 **Type:** Rule  
 **ID:** `sarif-update-needed`  
-**Uses:** `sarif/patcheck/updates-needed@v2/rules`  
 **Source:** [v2/rules/sarif/patcheck/updates-needed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/patcheck/updates-needed.yaml)  
 **Rego Source:** [updates-needed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/patcheck/updates-needed.rego)  
 **Labels:** SARIF  
@@ -13,7 +12,7 @@ title: SARIF Update Needed
 Verify no security packages require updates.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

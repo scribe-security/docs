@@ -5,7 +5,6 @@ title: Allowed Container Images
 # Allowed Container Images  
 **Type:** Rule  
 **ID:** `k8s-namespace-blocked-images`  
-**Uses:** `k8s/namespace/allowed-images@v2/rules`  
 **Source:** [v2/rules/k8s/namespace/allowed-images.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/allowed-images.yaml)  
 **Rego Source:** [blocked-images.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/blocked-images.rego)  
 **Labels:** K8s, Namespace  
@@ -13,7 +12,7 @@ title: Allowed Container Images
 Verify only container images specified in the Allowed List run within the Kubernetes namespace.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

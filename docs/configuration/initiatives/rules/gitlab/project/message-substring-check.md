@@ -5,7 +5,6 @@ title: Check Message Substring
 # Check Message Substring  
 **Type:** Rule  
 **ID:** `gitlab-project-message-substring-check`  
-**Uses:** `gitlab/project/message-substring-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/message-substring-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/message-substring-check.yaml)  
 **Rego Source:** [message-substring-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/message-substring-check.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Check Message Substring
 Verify a specific substring is not found in the message attribute of vulnerabilities for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

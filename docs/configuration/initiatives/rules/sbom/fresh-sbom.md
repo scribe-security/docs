@@ -5,7 +5,6 @@ title: Enforce SBOM Freshness
 # Enforce SBOM Freshness  
 **Type:** Rule  
 **ID:** `fresh-sbom`  
-**Uses:** `sbom/fresh-sbom@v2/rules`  
 **Source:** [v2/rules/sbom/fresh-sbom.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/fresh-sbom.yaml)  
 **Rego Source:** [fresh-sbom.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/fresh-sbom.rego)  
 **Labels:** SBOM, Image, Git  
@@ -13,7 +12,7 @@ title: Enforce SBOM Freshness
 Verify the SBOM is not older than the specified duration.
 
 :::note 
-This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

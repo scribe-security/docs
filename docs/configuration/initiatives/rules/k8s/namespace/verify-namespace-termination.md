@@ -5,7 +5,6 @@ title: Verify Namespace Termination
 # Verify Namespace Termination  
 **Type:** Rule  
 **ID:** `k8s-namespace-verify-namespace-termination`  
-**Uses:** `k8s/namespace/verify-namespace-termination@v2/rules`  
 **Source:** [v2/rules/k8s/namespace/verify-namespace-termination.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/verify-namespace-termination.yaml)  
 **Rego Source:** [verify-namespace-termination.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/k8s/namespace/verify-namespace-termination.rego)  
 **Labels:** K8s, Namespace  
@@ -13,7 +12,7 @@ title: Verify Namespace Termination
 Verify Kubernetes namespaces are properly terminated to prevent lingering resources and maintain cluster hygiene.
 
 :::note 
-This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#k8s-discovery) for more details.  
+This rule requires K8s Namespace Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#k8s-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

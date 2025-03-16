@@ -5,7 +5,6 @@ title: Merge approval policy check for GitLab project
 # Merge approval policy check for GitLab project  
 **Type:** Rule  
 **ID:** `gitlab-project-merge-approval`  
-**Uses:** `gitlab/project/approvals-policy-check@v2/rules`  
 **Source:** [v2/rules/gitlab/project/approvals-policy-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/approvals-policy-check.yaml)  
 **Rego Source:** [approvals-policy-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/approvals-policy-check.rego)  
 **Labels:** Blueprint, Gitlab, Project  
@@ -13,7 +12,7 @@ title: Merge approval policy check for GitLab project
 Verify the project's merge approval policy complies with requirements.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Required Git Evidence Exists
 # Required Git Evidence Exists  
 **Type:** Rule  
 **ID:** `required-git-evidence`  
-**Uses:** `git/evidence-exists@v2/rules`  
 **Source:** [v2/rules/git/evidence-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/evidence-exists.yaml)  
 **Rego Source:** [evidence-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/evidence-exists.rego)  
 **Labels:** SBOM, Git  
@@ -13,7 +12,7 @@ title: Required Git Evidence Exists
 Verify required Git evidence exists.
 
 :::note 
-This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

@@ -5,7 +5,6 @@ title: Forbid Large Images
 # Forbid Large Images  
 **Type:** Rule  
 **ID:** `images-project-large-image`  
-**Uses:** `images/forbid-large-images@v2/rules`  
 **Source:** [v2/rules/images/forbid-large-images.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/forbid-large-images.yaml)  
 **Rego Source:** [forbid-large-images.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/forbid-large-images.rego)  
 **Labels:** SBOM, Images  
@@ -13,7 +12,7 @@ title: Forbid Large Images
 Verify the image size is below the specified threshold.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

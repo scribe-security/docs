@@ -5,14 +5,13 @@ title: Branch protected
 # Branch protected  
 **Type:** Rule  
 **ID:** `PS.1.2`  
-**Uses:** `ssdf/ps-1-branch-protection@v2/rules`  
 **Source:** [v2/rules/ssdf/ps-1-branch-protection.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/ssdf/ps-1-branch-protection.yaml)  
 **Labels:** SSDF  
 
 PS.1 Require branch protection for the repository
 
 :::note 
-This rule requires Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/generic) for more details.  
+This rule requires Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/generic) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

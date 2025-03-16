@@ -5,7 +5,6 @@ title: Verify Secret_Scanning_Validity_Checks_Enabled Setting
 # Verify Secret_Scanning_Validity_Checks_Enabled Setting  
 **Type:** Rule  
 **ID:** `github-org-validity-checks`  
-**Uses:** `github/org/validity-checks@v2/rules`  
 **Source:** [v2/rules/github/org/validity-checks.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/validity-checks.yaml)  
 **Rego Source:** [validity-checks.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/validity-checks.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify Secret_Scanning_Validity_Checks_Enabled Setting
 Verify `secret_scanning_validity_checks` is configured in the GitHub repository.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

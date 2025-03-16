@@ -5,7 +5,6 @@ title: Disallow Commits to Main Branch
 # Disallow Commits to Main Branch  
 **Type:** Rule  
 **ID:** `git-disallow-commits-to-main`  
-**Uses:** `git/no-commit-to-main@v2/rules`  
 **Source:** [v2/rules/git/no-commit-to-main.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/no-commit-to-main.yaml)  
 **Rego Source:** [no-commit-to-main.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/no-commit-to-main.rego)  
 **Labels:** SBOM, Git  
@@ -13,7 +12,7 @@ title: Disallow Commits to Main Branch
 Verify commits made directly to the main branch are disallowed.
 
 :::note 
-This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

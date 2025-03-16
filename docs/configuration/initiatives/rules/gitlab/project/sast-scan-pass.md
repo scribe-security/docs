@@ -5,7 +5,6 @@ title: Ensure SAST Scanning Passes
 # Ensure SAST Scanning Passes  
 **Type:** Rule  
 **ID:** `gitlab-project-sast-scan-pass`  
-**Uses:** `gitlab/project/sast-scan-pass@v2/rules`  
 **Source:** [v2/rules/gitlab/project/sast-scan-pass.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/sast-scan-pass.yaml)  
 **Rego Source:** [sast-scan-pass.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/sast-scan-pass.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Ensure SAST Scanning Passes
 Verify SAST scanning is successful for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

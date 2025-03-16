@@ -5,7 +5,6 @@ title: Fresh Image
 # Fresh Image  
 **Type:** Rule  
 **ID:** `fresh-image`  
-**Uses:** `images/fresh-image@v2/rules`  
 **Source:** [v2/rules/images/fresh-image.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/fresh-image.yaml)  
 **Rego Source:** [fresh-image.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/images/fresh-image.rego)  
 **Labels:** SBOM, Images  
@@ -13,7 +12,7 @@ title: Fresh Image
 Verify the image is not older than the specified threshold.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

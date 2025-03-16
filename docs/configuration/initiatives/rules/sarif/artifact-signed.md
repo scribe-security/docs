@@ -5,7 +5,6 @@ title: Verify Artifact Signature Using SARIF Report
 # Verify Artifact Signature Using SARIF Report  
 **Type:** Rule  
 **ID:** `sarif-artifact-signed`  
-**Uses:** `sarif/artifact-signed@v2/rules`  
 **Source:** [v2/rules/sarif/artifact-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/artifact-signed.yaml)  
 **Rego Source:** [artifact-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/artifact-signed.rego)  
 **Labels:** SARIF  
@@ -13,7 +12,7 @@ title: Verify Artifact Signature Using SARIF Report
 Verify the artifact referenced in the SARIF report is signed to confirm its integrity.
 
 :::note 
-This rule requires Signed SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires Signed SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

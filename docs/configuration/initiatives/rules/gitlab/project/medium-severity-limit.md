@@ -5,7 +5,6 @@ title: Enforce Medium Severity Limit
 # Enforce Medium Severity Limit  
 **Type:** Rule  
 **ID:** `gitlab-project-medium-severity-limit`  
-**Uses:** `gitlab/project/medium-severity-limit@v2/rules`  
 **Source:** [v2/rules/gitlab/project/medium-severity-limit.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/medium-severity-limit.yaml)  
 **Rego Source:** [medium-severity-limit.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/medium-severity-limit.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Enforce Medium Severity Limit
 Verify the maximum allowed medium severity alerts for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

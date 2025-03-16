@@ -5,7 +5,6 @@ title: Verify Attack Vector Threshold in Trivy SARIF
 # Verify Attack Vector Threshold in Trivy SARIF  
 **Type:** Rule  
 **ID:** `trivy-attack-vectors`  
-**Uses:** `sarif/trivy/verify-trivy-attack-vector@v2/rules`  
 **Source:** [v2/rules/sarif/trivy/verify-trivy-attack-vector.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/verify-trivy-attack-vector.yaml)  
 **Rego Source:** [../verify-attack-vector.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/../verify-attack-vector.rego)  
 **Labels:** SARIF, Trivy  
@@ -13,7 +12,7 @@ title: Verify Attack Vector Threshold in Trivy SARIF
 Verify no attack vector in the Trivy SARIF report exceeds the specified threshold.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

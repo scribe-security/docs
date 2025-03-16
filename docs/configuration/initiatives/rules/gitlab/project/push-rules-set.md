@@ -5,7 +5,6 @@ title: Set Push Rules for GitLab Project
 # Set Push Rules for GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-verify-push_rules`  
-**Uses:** `gitlab/project/push-rules-set@v2/rules`  
 **Source:** [v2/rules/gitlab/project/push-rules-set.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/push-rules-set.yaml)  
 **Rego Source:** [push-rules-set.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/push-rules-set.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Set Push Rules for GitLab Project
 Verify push rules are set for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

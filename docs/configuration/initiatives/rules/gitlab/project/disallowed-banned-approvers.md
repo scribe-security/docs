@@ -5,7 +5,6 @@ title: Disallow Banned Approvers
 # Disallow Banned Approvers  
 **Type:** Rule  
 **ID:** `gitlab-project-disallowed-banned-approvers`  
-**Uses:** `gitlab/project/disallowed-banned-approvers@v2/rules`  
 **Source:** [v2/rules/gitlab/project/disallowed-banned-approvers.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/disallowed-banned-approvers.yaml)  
 **Rego Source:** [disallowed-banned-approvers.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/disallowed-banned-approvers.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Disallow Banned Approvers
 Verify approvers in the GitLab project are not on the banned list.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -6,7 +6,6 @@ title: Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories Setti
 # Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories Setting  
 **Type:** Rule  
 **ID:** `github-org-push-protection`  
-**Uses:** `github/org/push-protection@v2/rules`  
 **Source:** [v2/rules/github/org/push-protection.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/push-protection.yaml)  
 **Rego Source:** [push-protection.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/push-protection.rego)  
 **Labels:** GitHub, Organization  
@@ -14,7 +13,7 @@ title: Verify Secret_Scanning_Push_Protection_Enabled_For_New_Repositories Setti
 Verify `secret_scanning_push_protection` is enabled for new repositories in the GitHub organization.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

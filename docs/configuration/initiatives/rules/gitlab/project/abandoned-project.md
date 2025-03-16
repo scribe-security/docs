@@ -5,7 +5,6 @@ title: Verify Project Activity
 # Verify Project Activity  
 **Type:** Rule  
 **ID:** `gitlab-project-abandoned-project`  
-**Uses:** `gitlab/project/abandoned-project@v2/rules`  
 **Source:** [v2/rules/gitlab/project/abandoned-project.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/abandoned-project.yaml)  
 **Rego Source:** [abandoned-project.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/abandoned-project.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Verify Project Activity
 Verify the GitLab project is active for a specified duration.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

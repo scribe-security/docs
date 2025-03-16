@@ -5,7 +5,6 @@ title: Disallow Unsigned Commits
 # Disallow Unsigned Commits  
 **Type:** Rule  
 **ID:** `git-disallow-unsigned-commits`  
-**Uses:** `git/no-unsigned-commits@v2/rules`  
 **Source:** [v2/rules/git/no-unsigned-commits.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/no-unsigned-commits.yaml)  
 **Rego Source:** [no-unsigned-commits.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/no-unsigned-commits.rego)  
 **Labels:** Git  
@@ -13,7 +12,7 @@ title: Disallow Unsigned Commits
 Verify all commits are signed.
 
 :::note 
-This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires Git SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

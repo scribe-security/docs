@@ -5,7 +5,6 @@ title: Verify members_can_create_private_repositories setting
 # Verify members_can_create_private_repositories setting  
 **Type:** Rule  
 **ID:** `github-org-create-private-repos`  
-**Uses:** `github/org/create-private-repos@v2/rules`  
 **Source:** [v2/rules/github/org/create-private-repos.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/create-private-repos.yaml)  
 **Rego Source:** [create-private-repos.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/create-private-repos.rego)  
 **Labels:** GitHub, Organization  
@@ -13,7 +12,7 @@ title: Verify members_can_create_private_repositories setting
 Verify `members_can_create_private_repositories` is configured in the GitHub organization (supported only in GitHub Enterprise).
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

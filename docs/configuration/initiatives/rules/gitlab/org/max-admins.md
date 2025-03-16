@@ -5,7 +5,6 @@ title: Limit Admins in GitLab Organization
 # Limit Admins in GitLab Organization  
 **Type:** Rule  
 **ID:** `gitlab-org-max-admins`  
-**Uses:** `gitlab/org/max-admins@v2/rules`  
 **Source:** [v2/rules/gitlab/org/max-admins.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/max-admins.yaml)  
 **Rego Source:** [max-admins.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/org/max-admins.rego)  
 **Labels:** Blueprint, GitLab, Organization  
@@ -13,7 +12,7 @@ title: Limit Admins in GitLab Organization
 Verify the maximum number of admins for the GitLab project is restricted.
 
 :::note 
-This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

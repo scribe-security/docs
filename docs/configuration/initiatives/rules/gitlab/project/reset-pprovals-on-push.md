@@ -5,7 +5,6 @@ title: Reset Approvals on Push in GitLab Project
 # Reset Approvals on Push in GitLab Project  
 **Type:** Rule  
 **ID:** `gitlab-project-reset-pprovals-on-push`  
-**Uses:** `gitlab/project/reset-pprovals-on-push@v2/rules`  
 **Source:** [v2/rules/gitlab/project/reset-pprovals-on-push.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/reset-pprovals-on-push.yaml)  
 **Rego Source:** [reset-pprovals-on-push.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/reset-pprovals-on-push.rego)  
 **Labels:** Gitlab, Project  
@@ -13,7 +12,7 @@ title: Reset Approvals on Push in GitLab Project
 Verify `reset_approvals_on_push` is set for the GitLab project.
 
 :::note 
-This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#gitlab-discovery) for more details.  
+This rule requires Gitlab Project Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#gitlab-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

@@ -5,7 +5,6 @@ title: Verify IaC Misconfiguration Threshold in Trivy SARIF
 # Verify IaC Misconfiguration Threshold in Trivy SARIF  
 **Type:** Rule  
 **ID:** `trivy-iac-findings`  
-**Uses:** `sarif/trivy/report-trivy-iac-errors@v2/rules`  
 **Source:** [v2/rules/sarif/trivy/report-trivy-iac-errors.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/report-trivy-iac-errors.yaml)  
 **Rego Source:** [../report-iac-errors.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/../report-iac-errors.rego)  
 **Help:** https://scribe-security.netlify.app/docs/valint/generic#trivy-integration-example  
@@ -14,7 +13,7 @@ title: Verify IaC Misconfiguration Threshold in Trivy SARIF
 Verify the number of infrastructure-as-code (IaC) errors in the Trivy SARIF report remains below the specified threshold.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

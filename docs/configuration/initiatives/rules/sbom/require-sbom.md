@@ -5,7 +5,6 @@ title: Require SBOM Existence
 # Require SBOM Existence  
 **Type:** Rule  
 **ID:** `require-sbom`  
-**Uses:** `sbom/require-sbom@v2/rules`  
 **Source:** [v2/rules/sbom/require-sbom.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/require-sbom.yaml)  
 **Rego Source:** [require-sbom.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/require-sbom.rego)  
 **Labels:** SBOM, Blueprint, Image, Git  
@@ -13,7 +12,7 @@ title: Require SBOM Existence
 Verify the SBOM exists as evidence.
 
 :::note 
-This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/sbom) for more details.  
+This rule requires SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

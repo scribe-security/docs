@@ -5,7 +5,6 @@ title: Required Generic Evidence Exists
 # Required Generic Evidence Exists  
 **Type:** Rule  
 **ID:** `generic-required-evidence`  
-**Uses:** `generic/evidence-exists@v2/rules`  
 **Source:** [v2/rules/generic/evidence-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/generic/evidence-exists.yaml)  
 **Rego Source:** [evidence-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/generic/evidence-exists.rego)  
 **Labels:** 3rd-party  
@@ -13,7 +12,7 @@ title: Required Generic Evidence Exists
 Verify required evidence exists.
 
 :::note 
-This rule requires Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/valint/generic) for more details.  
+This rule requires Generic Statement. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/generic) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  
