@@ -167,7 +167,7 @@
 ### Github Repository Discovery Evidence
 **Evidence Type:** [Github Repository Discovery Evidence](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery)
 
-| Rule Name | Description |
+| <div style="width:290px">Rule Name</div>| <div style="width:290px">Description</div>|
 |-----------|-------------|
 | [Verify Branch Verification Setting](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-verification) | Verify branch verification in the GitHub repository matches the value defined in the configuration file. |
 | [Verify Branch Protection Setting](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection) | Verify branch protection is configured in the GitHub repository. |
