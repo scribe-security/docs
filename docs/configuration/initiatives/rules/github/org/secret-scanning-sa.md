@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: github/org/secret-scanning-sa@v2
+
+## Usage example
+
+```yaml
+with: github/org/secret-scanning-sa@v2
 ```
 
 ## Evidence Requirements  

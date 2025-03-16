@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: k8s/pods/verify-pod-termination@v2
+
+## Usage example
+
+```yaml
+with: k8s/pods/verify-pod-termination@v2
 ```
 
 ## Mitigation  

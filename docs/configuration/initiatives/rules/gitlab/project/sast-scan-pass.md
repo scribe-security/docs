@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: gitlab/project/sast-scan-pass@v2
+
+## Usage example
+
+```yaml
+with: gitlab/project/sast-scan-pass@v2
 ```
 
 ## Evidence Requirements  

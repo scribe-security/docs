@@ -24,6 +24,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: ssdf/ps-3.2-archived-sbom@v2
+
+## Usage example
+
+```yaml
+with: ssdf/ps-3.2-archived-sbom@v2
 ```
 
 ## Mitigation  

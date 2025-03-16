@@ -24,6 +24,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: ssdf/ps-2-image-verifiable@v2
+
+## Usage example
+
+```yaml
+with: ssdf/ps-2-image-verifiable@v2
 ```
 
 ## Mitigation  

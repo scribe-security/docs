@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: bitbucket/project/exposed-credentials@v2
+
+## Usage example
+
+```yaml
+with: bitbucket/project/exposed-credentials@v2
 ```
 
 ## Evidence Requirements  

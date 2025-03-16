@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: images/restrict-shell-entrypoint@v2
+
+## Usage example
+
+```yaml
+with: images/restrict-shell-entrypoint@v2
 ```
 
 ## Mitigation  

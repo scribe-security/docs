@@ -28,6 +28,11 @@ Rule is scoped by product and target.
 
 ```yaml
 uses: sbom/complete-licenses@v2
+
+## Usage example
+
+```yaml
+with: sbom/complete-licenses@v2
 ```
 
 ## Mitigation  

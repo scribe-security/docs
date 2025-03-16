@@ -31,6 +31,11 @@ Rule is scoped by product and target.
 
 ```yaml
 uses: git/evidence-exists@v2
+
+## Usage example
+
+```yaml
+with: git/evidence-exists@v2
 ```
 
 ## Mitigation  

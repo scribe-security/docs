@@ -28,6 +28,11 @@ Rule is scoped by product and target.
 
 ```yaml
 uses: git/no-commit-to-main@v2
+
+## Usage example
+
+```yaml
+with: git/no-commit-to-main@v2
 ```
 
 ## Mitigation  

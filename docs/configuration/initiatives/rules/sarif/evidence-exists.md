@@ -28,6 +28,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: sarif/evidence-exists@v2
+
+## Usage example
+
+```yaml
+with: sarif/evidence-exists@v2
 ```
 
 ## Mitigation  

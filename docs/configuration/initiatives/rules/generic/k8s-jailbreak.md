@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: generic/k8s-jailbreak@v2
+
+## Usage example
+
+```yaml
+with: generic/k8s-jailbreak@v2
 ```
 
 ## Evidence Requirements  

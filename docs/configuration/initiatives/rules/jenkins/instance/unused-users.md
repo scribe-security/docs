@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: jenkins/instance/unused-users@v2
+
+## Usage example
+
+```yaml
+with: jenkins/instance/unused-users@v2
 ```
 
 ## Evidence Requirements  

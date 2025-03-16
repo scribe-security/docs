@@ -25,6 +25,11 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 
 ```yaml
 uses: github/repository/signed-commits@v2
+
+## Usage example
+
+```yaml
+with: github/repository/signed-commits@v2
 ```
 
 ## Evidence Requirements  

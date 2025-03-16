@@ -31,6 +31,11 @@ Rule is scoped by product and target.
 
 ```yaml
 uses: sbom/require-sbom@v2
+
+## Usage example
+
+```yaml
+with: sbom/require-sbom@v2
 ```
 
 ## Mitigation  

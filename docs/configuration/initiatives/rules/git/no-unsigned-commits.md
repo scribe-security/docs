@@ -28,6 +28,11 @@ Rule is scoped by product and target.
 
 ```yaml
 uses: git/no-unsigned-commits@v2
+
+## Usage example
+
+```yaml
+with: git/no-unsigned-commits@v2
 ```
 
 ## Mitigation  
