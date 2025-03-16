@@ -141,7 +141,7 @@
 ### Github Organization Discovery Evidence
 **Evidence Type:** [Github Organization Discovery Evidence](https://deploy-preview-299--scribe-security.netlify.app/platforms/discover#github-discovery)
 
-| Rule Name | Description |
+| <div style="width:100px">Rule Name</div> | Description |
 |-----------|-------------|
 | [Verify Secret_Scanning_Validity_Checks Setting in Security_And_Analysis](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/validity-checks-sa) | Verify `secret_scanning_validity_checks` is configured in the GitHub organization. |
 | [Allowed GitHub Organization Users](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/allow-users) | Verify only users in the Allowed List have user access to the GitHub organization. |
