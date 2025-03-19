@@ -26,10 +26,10 @@ The token is a secret and will not be accessible from the UI after you finalize 
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
    <img src="/img/start/jenkins-add-credentials.jpg" alt="Jenkins Add Credentials"/>
 
-4. Copy the Scribe Hub API Token to the **Password**/
+4. Copy the Scribe Hub API Token to the **Password**,  and **Username** with anything:
    <img src="/img/start/jenkins-username.jpg" alt="Jenkins Credentials Username/Password"/>
 
-5. Set **ID** to `scribe-auth-id` (lowercase).
+5. Set **ID** to `scribe-auth-id` (lowercase)
    <img src="/img/start/jenkins-auth-id.jpg" alt="Jenkins Credentials ID"/>
 
 6. Click **Create**.
