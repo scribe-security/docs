@@ -5,9 +5,9 @@ title: Require SBOM Existence
 # Require SBOM Existence  
 **Type:** Rule  
 **ID:** `require-sbom`  
-**Source:** [v2/rules/sbom/require-sbom.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/require-sbom.yaml)  
-**Rego Source:** [require-sbom.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/require-sbom.rego)  
-**Labels:** SBOM, Blueprint, Image, Git  
+**Source:** [v2/rules/sbom/evidence-exists.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/evidence-exists.yaml)  
+**Rego Source:** [evidence-exists.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sbom/evidence-exists.rego)  
+**Labels:** SBOM, Blueprint  
 
 Verify the SBOM exists as evidence.
 
@@ -30,22 +30,8 @@ Rule is scoped by product and target.
 ## Usage example
 
 ```yaml
-uses: sbom/require-sbom@v2
+uses: sbom/evidence-exists@v2
 ```
-
-## Mitigation  
-Ensures that an SBOM is present, which is essential for tracking and managing software components and their dependencies.
-
-
-## Description  
-This rule verifies the existence of an SBOM as evidence.
-It performs the following steps:
-
-1. Checks for the presence of an SBOM.
-   - If the SBOM is missing, the rule flags it as a violation.
-
-**Evidence Requirements:**
-- Evidence must be provided in the CycloneDX JSON format.
 
 ## Evidence Requirements  
 | Field | Value |
