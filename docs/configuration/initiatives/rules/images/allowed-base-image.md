@@ -14,7 +14,6 @@ including the component names and versions of valid base images, or lists the in
 This rule requires Dockerfile context; for example, run it with:
 `valint my_image --base-image Dockerfile`.
 
-
 :::note 
 This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
 ::: 
