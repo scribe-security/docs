@@ -77,7 +77,6 @@ Minimizes the risk of code tampering and unauthorized modifications by enforcing
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [PS.3.1](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-3.1-code-archive) | [Code archived](rules/ssdf/ps-3.1-code-archived.md) | PS.3.1 Verify that the software release data is archived.
-We assume running in Github thus the code is allways stored in a repository |
+| [PS.3.1](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-3.1-code-archive) | [Code archived](rules/ssdf/ps-3.1-code-archived.md) | PS.3.1 Verify that the software release data is archived. We assume running in Github thus the code is allways stored in a repository |
 | [PS.1.2](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-branch-protection) | [Branch protected](rules/ssdf/ps-1-branch-protection.md) | PS.1 Require branch protection for the repository |
 | [PS.1.4](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-repo-private) | [Repo private](rules/ssdf/ps-1-repo-private.md) | PS.1 Assure the repository is private |
