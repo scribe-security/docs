@@ -287,6 +287,84 @@ INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
 
 In this case, no rule was disabled, and all of them were verified.
 
+### Migration from an older version
+
+Before initiatives were introduced in `valint v2.0.0`, a slightly different format of configs was used for the policy engine. Essentially, there were only `rule` and `policy` configs, so if you're using one of those, here's how you can migrate to the new format.
+
+#### Rule configs migration
+
+In general, older rule configs can be used in `valint v2.0.0` and newer with some minor changes. The main difference is that, from now on, `valint` requires each config to state its format. The only change needed is to add this line to your rule config:
+
+```yaml
+config-type: rule
+```
+
+After that, you can pass the rule config to `valint` using the same `--rule` flag as before.
+
+#### Policy configs migration
+
+Policy configs were deprecated in `valint v2.0.0`. Policies themselves were renamed to _controls_ and are now consumed as part of the _initiative_ config. The migration process is slightly more complex but still quite straightforward.
+
+If you use a single policy config, you can copy it entirely under the `controls` key in the new initiative config. For example, if you have a policy config like this:
+
+```yaml
+name: "MyPolicy"
+rules:
+  - uses: images/blocklist-build-scripts@v1
+    level: error
+    with:
+      blocklist:
+      - "wget"
+      - "curl"
+```
+
+then the new initiative config will look like this:
+
+```yaml
+config-type: "initiative"
+name: "MyInitiative"
+controls:
+  - name: "MyControl"
+    rules:
+      - uses: images/blocklist-build-scripts@v1
+        level: error
+        with:
+          blocklist:
+          - "wget"
+          - "curl"
+```
+
+If you use multiple policies at once, you can copy all of them under the `controls` key in the new initiative config.
+
+The next important step is to ensure that the referenced rules work with the new `valint` version. If you use rules from the [Scribe Sample Catalog](#sample-policy-catalog), you only need to change the referenced rule version from `@v1` to `@v2`. If your rule is not listed in the updated catalog, please check whether it was renamed or moved to a different folder. As a result, the initiative configuration will look like this:
+
+```yaml
+config-type: "initiative"
+name: "MyInitiative"
+controls:
+  - name: "MyControl"
+    rules:
+      - uses: images/blocklist-build-scripts@v2
+        level: error
+        with:
+          blocklist:
+          - "wget"
+          - "curl"
+```
+
+This configuration can be passed to `valint` using the `--initiative` flag.
+
+If you're using custom rules, update them as shown in the section above.
+
+:::tip
+Note that initiatives provide more flexibility and control over rules and controls than policies,
+including smart filtering as shown in the [Rule Filtering](../valint/initiatives#rule-filtering) section. Depending on the scenario, it might be useful to place all controls in a single initiative and filter them by gate or target.
+:::
+
+:::note
+Starting with `valint v2.0.0`, some initiatives are shipped as part of the Scribe Catalog. See [here](#sample-policy-catalog) for more details.
+:::
+
 ## Sample Policy Catalog
 
 We provide a set of sample initiatives and rules that can be used to verify the compliance of your software supply chain. This catalog is used by `valint` by default.
