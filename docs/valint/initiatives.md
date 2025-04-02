@@ -537,7 +537,7 @@ default asset = {}
 asset := scribe.get_asset_data(input.evidence)
 ```
 
-## Advanced features
+## Technical Details
 
 ### Evidence Lookup
 
@@ -697,55 +697,6 @@ In this example,
 
 </details>
 
-### Template arguments
-
-Rules can have template arguments that can be used to simplify rule configuration. For example, `github/api/branch-protection@v2` relies on several arguments provided at runtime:
-
-```yaml
-
-...
-with:
-  api_token: '{{ .Args.Token }}'
-  owner: '{{ .Args.Owner }}'
-  repo: '{{ .Args.Repo }}'
-  branch: '{{ .Args.Branch }}'
-...
-```
-
-To specify those, `valint` should be run with args `--rule-args Token=MyToken,Owner=MyOwner,Repo=MyRepo,Branch=MyBranch`.
-
-When a required template argument is not specified, the rule will be disabled with a warning.
-
-#### Built-in functions
-
-To simplify the rule-args input, the rules template engine has built-in functions that can be used to define the rule arguments. Another use of these functions is to disable filtering when the `--all-evidence` flag is used, see below.
-
-List of supported functions:
-
-- `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
-- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`.
-- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used.
-- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead.
-
-<details>
-  <summary>Example</summary>
-
-In the following rule, the `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
-
-```yaml
-...
-with:
-  defaults:
-    evidence:
-      labels:
-        - '{{ asset .Args.MyAsset }}'
-...
-```
-
-When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will use the `asset=MyAssetValue` label for the evidence lookup.
-
-</details>
-
 ### Rule filtering
 
 When running an initiative, there are several options to decide which rules will be evaluated. Some of the criteria are used by `valint` automatically based on the context, while others can be specified by the user.
@@ -753,14 +704,14 @@ When running an initiative, there are several options to decide which rules will
 The following criteria are used by `valint` automatically:
 
 - Rules that have the `filter-by: target` value set in the config (see the [Evidence Lookup](#evidence-lookup) section) are disabled if no target is provided to the `valint verify` command.
-- Rules that use some of the built-in functions for template arguments are disabled if the required arguments are not provided, see the [Built-in functions](#built-in-functions) section above.
+- Rules that use some of the built-in functions for template arguments are disabled if the required arguments are not provided, see the [Built-in functions](#built-in-functions) for more details.
 
-The only exception for both of these is when the `--all-evidence` flag is used, see the [Whole product evaluation](#whole-product-evaluation) section below.
+The only exception for both of these is when the `--all-evidence` flag is used, see the [Whole product evaluation](#whole-product-evaluation) section.
 
 The following criteria can be specified by the user:
 
-- The `when.gate` field is used to filter the controls by the gate type provided to the `valint verify` command using the `--gate-type` flag. When this flag is used, only controls with the matching gate and controls that don't have a gate filter are run. This feature works on the control level only.
-- The `rule.labels` field is used to filter the rules by the labels provided to the `valint verify` command using the `--rule-label` flag. This feature works on the rule level only and filters out the rules that don't have any matching labels regardless of the control they belong to.
+- The `when.gate` field is used to filter _***controls***_ by the gate type provided to the `valint verify` command using the `--gate-type` flag. When this flag is used, only controls with a matching gate and controls without a gate filter are executed. This feature operates at the _***control***_ level only.
+- The `rule.labels` field is used to filter _***rules***_ by the labels provided to the `valint verify` command using the `--rule-label` flag. This feature operates at the _***rule***_ level only and excludes rules that do not have any matching labels, regardless of the control they belong to.
 
 <details>
   <summary>Gate Filtering Example</summary>
@@ -933,6 +884,57 @@ INFO [my-initiative] Initiative "My Initiative" Evaluation Summary:
 │ INITIATIVE RESULT │               │                  │ PASS   │
 └───────────────────┴───────────────┴──────────────────┴────────┘
 ```
+
+</details>
+
+## Advanced features
+
+### Template arguments
+
+Rules can have template arguments that can be used to simplify rule configuration. For example, `github/api/branch-protection@v2` relies on several arguments provided at runtime:
+
+```yaml
+
+...
+with:
+  api_token: '{{ .Args.Token }}'
+  owner: '{{ .Args.Owner }}'
+  repo: '{{ .Args.Repo }}'
+  branch: '{{ .Args.Branch }}'
+...
+```
+
+To specify those, `valint` should be run with args `--rule-args Token=MyToken,Owner=MyOwner,Repo=MyRepo,Branch=MyBranch`.
+
+When a required template argument is not specified, the rule will be disabled with a warning.
+
+#### Built-in functions
+
+To simplify the rule-args input, the rules template engine has built-in functions that can be used to define the rule arguments. Another use of these functions is to disable filtering when the `--all-evidence` flag is used, see below.
+
+List of supported functions:
+
+- `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
+- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`.
+- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used.
+- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead.
+
+<details>
+  <summary>Example</summary>
+
+In the following rule, the `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
+
+```yaml
+...
+with:
+  defaults:
+    evidence:
+      labels:
+        - '{{ asset .Args.MyAsset }}'
+...
+```
+
+When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will use the `asset=MyAssetValue` label for the evidence lookup.
 
 </details>
 
