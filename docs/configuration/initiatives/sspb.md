@@ -61,7 +61,7 @@ Both host and application-layer access to CI/CD tools should be protected with m
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [max-admins](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/org/max-admins) | [max-admins](rules/gitlab/org/max-admins.md) | Verify the maximum number of admins for the GitLab project is restricted. |
+| [max-admins](rules/gitlab/org/max-admins.md) | [max-admins](rules/gitlab/org/max-admins.md) | Verify the maximum number of admins for the GitLab project is restricted. |
 
 ## [CTL-2] Only accept commits signed with a developer GPG key
 
@@ -81,8 +81,8 @@ Unsigned code commits are difficult to trace and pose a risk to the integrity of
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [disallow-committing-unsigned](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/project/reject-unsigned-commits) | [disallow-committing-unsigned](rules/gitlab/project/reject-unsigned-commits.md) | Verify `reject_unsigned_commits` is enabled for the GitLab project. |
-| [all-commits-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/project/check-signed-commits) | [all-commits-signed](rules/gitlab/project/check-signed-commits.md) | Verify all commits in the GitLab project are signed. |
+| [disallow-committing-unsigned](rules/gitlab/project/reject-unsigned-commits.md) | [disallow-committing-unsigned](rules/gitlab/project/reject-unsigned-commits.md) | Verify `reject_unsigned_commits` is enabled for the GitLab project. |
+| [all-commits-signed](rules/gitlab/project/check-signed-commits.md) | [all-commits-signed](rules/gitlab/project/check-signed-commits.md) | Verify all commits in the GitLab project are signed. |
 
 ## [CTL-3] Automation access keys expire automatically
 
@@ -102,7 +102,7 @@ Ensuring that access keys used by automation expire periodically reduces the ris
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [token-excessive-lifespan](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/org/longlive-tokens) | [token-excessive-lifespan](rules/gitlab/org/longlive-tokens.md) | Verify no GitLab organization tokens have an excessively long lifespan. |
+| [token-excessive-lifespan](rules/gitlab/org/longlive-tokens.md) | [token-excessive-lifespan](rules/gitlab/org/longlive-tokens.md) | Verify no GitLab organization tokens have an excessively long lifespan. |
 
 ## [CTL-4] Reduce automation access to read-only
 
@@ -122,7 +122,7 @@ CI systems should have read access only to source code repositories to limit the
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [disallowed-token-scope](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/org/forbid-token-scopes) | [disallowed-token-scope](rules/gitlab/org/forbid-token-scopes.md) | Verify no GitLab organization tokens have disallowed scopes. |
+| [disallowed-token-scope](rules/gitlab/org/forbid-token-scopes.md) | [disallowed-token-scope](rules/gitlab/org/forbid-token-scopes.md) | Verify no GitLab organization tokens have disallowed scopes. |
 
 ## [CTL-6] Any critical or high severity vulnerability breaks the build
 
@@ -146,7 +146,7 @@ Early detection reduces remediation costs, but also requires a well-defined vuln
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [stop-critical-or-high-vuln](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/api/scribe-api-cve) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 
 ## [CTL-8] Validate artifact digest
 
@@ -166,7 +166,7 @@ Before deployment, an artifact’s digest is checked against the expected value 
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [require-sbom](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/evidence-exists) | [Require SBOM Existence](rules/sbom/evidence-exists.md) | Verify the SBOM exists as evidence. |
+| [require-sbom](rules/sbom/evidence-exists.md) | [Require SBOM Existence](rules/sbom/evidence-exists.md) | Verify the SBOM exists as evidence. |
 
 ## [CTL-9] Pull-requests require two reviewers (including one default reviewer) and a passing build to be merged
 
@@ -186,7 +186,7 @@ Requiring multiple code reviews and successful tests helps ensure that no change
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [merge-approval](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/gitlab/project/approvals-policy-check) | [merge-approval](rules/gitlab/project/approvals-policy-check.md) | Verify the project's merge approval policy complies with requirements. |
+| [merge-approval](rules/gitlab/project/approvals-policy-check.md) | [merge-approval](rules/gitlab/project/approvals-policy-check.md) | Verify the project's merge approval policy complies with requirements. |
 
 ## [CTL-11] Available container images don’t have any high or critical vulnerabilities
 
@@ -206,7 +206,7 @@ Container images must be scanned before deployment to prevent the inclusion of i
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [stop-critical-or-high-vuln](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/api/scribe-api-cve) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 
 ## [CTL-12] Validate artifact signatures and digests
 
@@ -226,7 +226,7 @@ Validating the signature and digest of an artifact ensures that it has not been 
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
+| [sbom-is-signed](rules/sbom/artifact-signed.md) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
 
 ## [CTL-13] Scan deployed images in production
 
@@ -246,6 +246,6 @@ Production images should be validated to ensure that controls enforced during ea
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
-| [disallow-dependencies](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/blocklist-packages) | [disallow-dependencies](rules/sbom/blocklist-packages.md) | Verify the number of disallowed dependencies remains below the specified threshold. |
-| [stop-critical-or-high-vuln](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/api/scribe-api-cve) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| [sbom-is-signed](rules/sbom/artifact-signed.md) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
+| [disallow-dependencies](rules/sbom/blocklist-packages.md) | [disallow-dependencies](rules/sbom/blocklist-packages.md) | Verify the number of disallowed dependencies remains below the specified threshold. |
+| [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |

@@ -12,7 +12,7 @@ title: Require Signed Container Image
 Enforces that container images (target_type=container) are cryptographically signed.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

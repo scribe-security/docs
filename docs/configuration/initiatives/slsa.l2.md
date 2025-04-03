@@ -44,5 +44,5 @@ Authentication of provenance data prevents attackers from forging or modifying b
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [provenance-exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Ensure that provenance metadata is present for each build artifact, enabling traceability and verification. |
-| [provenance-authn](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticate) | [Provenance authenticated](rules/slsa/l2-provenance-authenticated.md) | Verify that provenance metadata is cryptographically authenticated, ensuring it has not been tampered with. |
+| [provenance-exists](rules/slsa/l1-provenance-exists.md) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Ensure that provenance metadata is present for each build artifact, enabling traceability and verification. |
+| [provenance-authn](rules/slsa/l2-provenance-authenticated.md) | [Provenance authenticated](rules/slsa/l2-provenance-authenticated.md) | Verify that provenance metadata is cryptographically authenticated, ensuring it has not been tampered with. |

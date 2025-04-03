@@ -12,7 +12,7 @@ title: Verify `secret_scanning_validity_checks` Setting in `security_and_analysi
 Verify validity checks for secrets are configured for the GitHub organization.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

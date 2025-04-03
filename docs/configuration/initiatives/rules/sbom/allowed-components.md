@@ -12,7 +12,7 @@ title: Enforce Allowed SBOM Components
 Verify the artifact contains only allowed components.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.  
 ::: 
 :::note 
 Components type reference: https://cyclonedx.org/docs/1.6/json/#components_items_type  

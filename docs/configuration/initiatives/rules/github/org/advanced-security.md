@@ -12,7 +12,7 @@ title: Verify `advanced_security_enabled_for_new_repositories` setting
 Verify Advanced Security is enabled for new repositories in the GitHub organization.
 
 :::note 
-This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
+This rule requires Github Organization Discovery Evidence. See [here](/docs/platforms/discover#github-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

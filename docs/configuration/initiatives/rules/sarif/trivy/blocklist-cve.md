@@ -13,7 +13,7 @@ title: Trivy Blocklist CVE Check
 Verify a CVE Blocklist against a SARIF report
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

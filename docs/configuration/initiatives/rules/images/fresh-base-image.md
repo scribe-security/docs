@@ -12,7 +12,7 @@ title: Fresh Base Image
 Verifies that each base image is not older than the specified threshold (max_days) from its creation date.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

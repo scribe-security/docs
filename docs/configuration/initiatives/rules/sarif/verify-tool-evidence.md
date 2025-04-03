@@ -12,7 +12,7 @@ title: Verify Tool Evidence in SARIF
 Verify required tools were used to generate the SARIF report.
 
 :::note 
-This rule requires SARIF Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sarif) for more details.  
+This rule requires SARIF Evidence. See [here](/docs/valint/sarif) for more details.  
 ::: 
 :::tip 
 > Evidence **IS** required for this rule and will fail if missing.  

@@ -12,7 +12,7 @@ title: Banned Ports
 Ensures that the container image does not expose ports that are disallowed by organizational policy. The rule examines properties in the SBOM metadata and checks each value (expected in the format "port/protocol") against a provided banned ports list. It fails if any banned port is exposed or if no banned ports list is provided.
 
 :::note 
-This rule requires Image SBOM. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/valint/sbom) for more details.  
+This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  

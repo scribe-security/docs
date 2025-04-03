@@ -53,11 +53,11 @@ Implement strict access controls, enforce multi-factor authentication (MFA), and
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [2fa](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/2fa) | [Enforce 2FA](rules/github/org/2fa.md) | PS.1 Require 2FA for accessing code |
-| [max-admins](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/max-admins) | [Limit admins](rules/github/org/max-admins.md) | PS.1 Restrict the maximum number of organization admins |
-| [web-commit-signoff](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/web-commit-signoff) | [Require signoff on web commits](rules/github/org/web-commit-signoff.md) | PS.1 Require contributors to sign when committing to Github through the web interface |
-| [branch-protection](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection) | [Branch protected](rules/github/repository/branch-protection.md) | PS.1 Require branch protection for the repository |
-| [repo-is-private](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/repo-private) | [Repo private](rules/github/repository/repo-private.md) | PS.1 Assure the repository is private |
+| [2fa](rules/github/org/2fa.md) | [Enforce 2FA](rules/github/org/2fa.md) | PS.1 Require 2FA for accessing code |
+| [max-admins](rules/github/org/max-admins.md) | [Limit admins](rules/github/org/max-admins.md) | PS.1 Restrict the maximum number of organization admins |
+| [web-commit-signoff](rules/github/org/web-commit-signoff.md) | [Require signoff on web commits](rules/github/org/web-commit-signoff.md) | PS.1 Require contributors to sign when committing to Github through the web interface |
+| [branch-protection](rules/github/repository/branch-protection.md) | [Branch protected](rules/github/repository/branch-protection.md) | PS.1 Require branch protection for the repository |
+| [repo-is-private](rules/github/repository/repo-private.md) | [Repo private](rules/github/repository/repo-private.md) | PS.1 Assure the repository is private |
 
 ## [PS/PS.2/PS.2.1] Make software integrity verification information available to software acquirers
 
@@ -73,7 +73,7 @@ Use cryptographic signatures to sign software releases and provide a way for use
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [Image-verifiable](rules/sbom/artifact-signed.md) | PS.2 Provide a mechanism to verify the integrity of the image |
+| [sbom-is-signed](rules/sbom/artifact-signed.md) | [Image-verifiable](rules/sbom/artifact-signed.md) | PS.2 Provide a mechanism to verify the integrity of the image |
 
 ## [PS/PS.3/PS.3.1] Securely archive the necessary files and supporting data to be retained for each software release
 
@@ -89,7 +89,7 @@ Use secure, version-controlled repositories to store software releases and their
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [provenance-exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | PS.3 Provenance exists
+| [provenance-exists](rules/slsa/l1-provenance-exists.md) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | PS.3 Provenance exists
 Ensure that provenance information is available for each software release
  |
 
@@ -107,4 +107,4 @@ Use software bill of materials (SBOM) to document the provenance of each softwar
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [SBOM archived](rules/sbom/artifact-signed.md) | PS.3 Archive SBOM |
+| [sbom-is-signed](rules/sbom/artifact-signed.md) | [SBOM archived](rules/sbom/artifact-signed.md) | PS.3 Archive SBOM |
