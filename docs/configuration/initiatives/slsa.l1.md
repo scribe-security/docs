@@ -20,7 +20,7 @@ This initiative ensures that every critical build artifact includes the minimum 
 
 | Control Name | Control Description | Mitigation |
 |--------------|---------------------|------------|
-| [[prov_exists] Provenance exists](#prov_exists-provenance-exists) | This control verifies that essential provenance metadata is present for each build artifact. | Ensure that provenance metadata is present for critical build artifacts to support supply chain integrity. |
+| [[provenance] Provenance exists](#provenance-provenance-exists) | This control verifies that essential provenance metadata is present for each build artifact. | Ensure that provenance metadata is present for critical build artifacts to support supply chain integrity. |
 
 ## Evidence Defaults
 
@@ -32,7 +32,7 @@ This initiative ensures that every critical build artifact includes the minimum 
 
 # Detailed Controls
 
-## [prov_exists] Provenance exists
+## [provenance] Provenance exists
 
 This control verifies that essential provenance metadata is present for each build artifact.
 
@@ -44,4 +44,4 @@ Ensure that provenance metadata is present for critical build artifacts to suppo
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [prov_exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
+| [provenance-exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |

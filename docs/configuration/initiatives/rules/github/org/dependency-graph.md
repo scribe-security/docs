@@ -9,7 +9,7 @@ title: Verify dependency_graph_enabled_for_new_repositories setting
 **Rego Source:** [dependency-graph.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependency-graph.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `dependency_graph` is enabled for new repositories in the GitHub organization.
+Verify dependency graph is enabled for new repositories in the GitHub organization.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

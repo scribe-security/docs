@@ -9,7 +9,7 @@ title: Verify secret_scanning_enabled_for_new_repositories setting
 **Rego Source:** [secret-scanning.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/secret-scanning.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `secret_scanning` is enabled for new repositories in the GitHub organization.
+Verify secret scanning is configured for new repositories in the GitHub organization.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

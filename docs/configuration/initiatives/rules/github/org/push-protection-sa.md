@@ -9,7 +9,7 @@ title: Verify `secret_scanning_push_protection` Setting
 **Rego Source:** [push-protection-sa.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/push-protection-sa.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `secret_scanning_push_protection` is configured in the GitHub repository.
+Verify secret scanning push protection is configured in the GitHub repository.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

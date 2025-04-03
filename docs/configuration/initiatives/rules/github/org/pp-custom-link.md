@@ -9,7 +9,7 @@ title: Verify `secret_scanning_push_protection_custom_link_enabled` Setting
 **Rego Source:** [pp-custom-link.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/pp-custom-link.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `secret_scanning_push_protection_custom_link` is enabled in the GitHub organization.
+Verify secret scanning push protection custom link is enabled in the GitHub organization.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

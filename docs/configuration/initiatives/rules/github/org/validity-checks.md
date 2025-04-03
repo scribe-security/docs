@@ -9,7 +9,7 @@ title: Verify `secret_scanning_validity_checks_enabled` Setting
 **Rego Source:** [validity-checks.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/validity-checks.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `secret_scanning_validity_checks` is configured in the GitHub repository.
+Verify validity checks for secrets are configured for the GitHub repository.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

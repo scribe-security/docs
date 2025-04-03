@@ -9,7 +9,7 @@ title: Verify members_can_create_repositories setting
 **Rego Source:** [create-repos.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/create-repos.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `members_can_create_repositories` is appropriately configured in the GitHub repository.
+Verify only allowed users can create repositories in the GitHub organization.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  
@@ -38,8 +38,8 @@ This rule ensures that only users specified in the allowed list can create repos
 It performs the following steps:
 
 1. Iterates over the users in the GitHub organization.
-2. Checks each user's permissions to create repositories against the allowed list specified in the `with.allowed_users` configuration.
-   - If a user not in the allowed list has permissions to create repositories, the rule flags it as a violation.
+2. Checks users' permissions to create repositories against the allowed list specified in the `with.allowed_users` configuration.
+   - If a user not in the allowed list has permission to create repositories, the rule flags it as a violation.
 
 **Evidence Requirements:**
 - Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources.

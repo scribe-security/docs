@@ -12,17 +12,22 @@ title: SSDF Client Initiative
 
 Evaluate PS rules from the SSDF initiative
 
-## **Description**
-
-This initiative enforces key controls from the Secure Software Development Framework (SSDF) to ensure  the integrity and security of your software supply chain. It evaluates critical process (PS) rules  to detect vulnerabilities, enforce proper access and commit practices, and secure code repositories.
-
 ## Controls Overview
 
 | Control Name | Control Description | Mitigation |
 |--------------|---------------------|------------|
-| [SSDF-IMAGE](#ssdf-image) | Ensures that container images are verifiable and that their build metadata is archived for supply chain integrity. | Mitigates the risk of deploying untrusted or compromised container images by enforcing rules  that verify image build integrity and preserve critical SBOM metadata. |
-| [SSDF-ORG](#ssdf-org) | Verifies that organizational security policies, such as multi-factor authentication and admin limitations, are enforced. | Reduces risks of unauthorized access and changes by ensuring strong organizational security practices  and process signoffs. |
-| [SSDF-REPO](#ssdf-repo) | Ensures repository-level controls are in place, including branch protection, code archiving, and repository privacy. | Minimizes the risk of code tampering and unauthorized modifications by enforcing strict repository controls  and preserving code history. |
+| [[PS/PS.1/PS.1.1] Store all forms of code based on the principle of least privilege](#psps1ps11-store-all-forms-of-code-based-on-the-principle-of-least-privilege) | Store all forms of code – including source code, executable code, and configuration-as-code – based on the principle of least privilege so that only authorized personnel, tools, services, etc. have access.
+ | Implement strict access controls, enforce multi-factor authentication (MFA), and regularly audit access logs to ensure only authorized personnel can access and modify the code. Use branch protection rules, require signed commits, and make repositories private to prevent unauthorized access and tampering.
+ |
+| [[PS/PS.2/PS.2.1] Make software integrity verification information available to software acquirers](#psps2ps21-make-software-integrity-verification-information-available-to-software-acquirers) | Help software acquirers ensure that the software they acquire is legitimate and has not been tampered with.
+ | Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Ensure that the signing keys are stored securely and that access to them is restricted. Implement automated processes to sign releases and verify their integrity before distribution. Regularly audit the signing process and keys to ensure their security and integrity.
+ |
+| [[PS/PS.3/PS.3.1] Securely archive the necessary files and supporting data to be retained for each software release](#psps3ps31-securely-archive-the-necessary-files-and-supporting-data-to-be-retained-for-each-software-release) | Securely archive the necessary files and supporting data (e.g., integrity verification information, provenance data) to be retained for each software release
+ | Use secure, version-controlled repositories to store software releases and their supporting data. Implement access controls to restrict who can modify or delete these repositories. Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Regularly back up the repositories to prevent data loss and ensure that software releases are preserved even in the event of a system failure.
+ |
+| [[PS/PS.3/PS.3.2] Collect, safeguard, maintain, and share provenance data for all components of each software release](#psps3ps32-collect-safeguard-maintain-and-share-provenance-data-for-all-components-of-each-software-release) | Collect, safeguard, maintain, and share provenance data for all components of each software release (e.g., in a software bill of materials [SBOM])
+ | Use software bill of materials (SBOM) to document the provenance of each software release and its components. Store SBOMs in a secure, version-controlled repository to ensure they can be retrieved and analyzed in the future. Implement access controls to restrict who can modify or delete SBOMs. Use cryptographic signatures to sign SBOMs and provide a way for users to verify these signatures. Regularly back up the repository to prevent data loss and ensure that SBOMs are preserved even in the event of a system failure. Document the SBOM creation process and train personnel on its importance and proper handling procedures.
+ |
 
 ## Evidence Defaults
 
@@ -34,49 +39,72 @@ This initiative enforces key controls from the Secure Software Development Frame
 
 # Detailed Controls
 
-## SSDF-IMAGE
+## [PS/PS.1/PS.1.1] Store all forms of code based on the principle of least privilege
 
-Ensures that container images are verifiable and that their build metadata is archived for supply chain integrity.
+Store all forms of code – including source code, executable code, and configuration-as-code – based on the principle of least privilege so that only authorized personnel, tools, services, etc. have access.
+
 
 
 ### Mitigation  
-Mitigates the risk of deploying untrusted or compromised container images by enforcing rules  that verify image build integrity and preserve critical SBOM metadata.
+Implement strict access controls, enforce multi-factor authentication (MFA), and regularly audit access logs to ensure only authorized personnel can access and modify the code. Use branch protection rules, require signed commits, and make repositories private to prevent unauthorized access and tampering.
+
 
 ### Rules
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [PS.2](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-2-image-verifiable) | [Image-verifiable](rules/ssdf/ps-2-image-verifiable.md) | PS.2 Provide a mechanism to verify the integrity of the image |
-| [PS.3.2](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-3.2-archived-sbo) | [SBOM archived](rules/ssdf/ps-3.2-archived-sbom.md) | PS.3.2 Archive SBOM |
+| [2fa](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/2fa) | [Enforce 2FA](rules/github/org/2fa.md) | PS.1 Require 2FA for accessing code |
+| [max-admins](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/max-admins) | [Limit admins](rules/github/org/max-admins.md) | PS.1 Restrict the maximum number of organization admins |
+| [web-commit-signoff](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/web-commit-signoff) | [Require signoff on web commits](rules/github/org/web-commit-signoff.md) | PS.1 Require contributors to sign when committing to Github through the web interface |
+| [branch-protection](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection) | [Branch protected](rules/github/repository/branch-protection.md) | PS.1 Require branch protection for the repository |
+| [repo-is-private](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/repo-private) | [Repo private](rules/github/repository/repo-private.md) | PS.1 Assure the repository is private |
 
-## SSDF-ORG
+## [PS/PS.2/PS.2.1] Make software integrity verification information available to software acquirers
 
-Verifies that organizational security policies, such as multi-factor authentication and admin limitations, are enforced.
+Help software acquirers ensure that the software they acquire is legitimate and has not been tampered with.
+
 
 
 ### Mitigation  
-Reduces risks of unauthorized access and changes by ensuring strong organizational security practices  and process signoffs.
+Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Ensure that the signing keys are stored securely and that access to them is restricted. Implement automated processes to sign releases and verify their integrity before distribution. Regularly audit the signing process and keys to ensure their security and integrity.
+
 
 ### Rules
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [PS.1.1](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-2fa) | [Enforce 2FA](rules/ssdf/ps-1-2fa.md) | PS.1 Require 2FA for accessing code |
-| [PS.1.3](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-limit-admins) | [Limit admins](rules/ssdf/ps-1-limit-admins.md) | PS.1 Restrict the maximum number of organization admins |
-| [PS.1.5](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-web-commit-signoff) | [Require signoff on web commits](rules/ssdf/ps-1-web-commit-signoff.md) | PS.1 Require contributors to sign when committing to Github through the web interface |
+| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [Image-verifiable](rules/sbom/artifact-signed.md) | PS.2 Provide a mechanism to verify the integrity of the image |
 
-## SSDF-REPO
+## [PS/PS.3/PS.3.1] Securely archive the necessary files and supporting data to be retained for each software release
 
-Ensures repository-level controls are in place, including branch protection, code archiving, and repository privacy.
+Securely archive the necessary files and supporting data (e.g., integrity verification information, provenance data) to be retained for each software release
+
 
 
 ### Mitigation  
-Minimizes the risk of code tampering and unauthorized modifications by enforcing strict repository controls  and preserving code history.
+Use secure, version-controlled repositories to store software releases and their supporting data. Implement access controls to restrict who can modify or delete these repositories. Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Regularly back up the repositories to prevent data loss and ensure that software releases are preserved even in the event of a system failure.
+
 
 ### Rules
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [PS.3.1](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-3.1-code-archive) | [Code archived](rules/ssdf/ps-3.1-code-archived.md) | PS.3.1 Verify that the software release data is archived. We assume running in Github thus the code is allways stored in a repository |
-| [PS.1.2](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-branch-protection) | [Branch protected](rules/ssdf/ps-1-branch-protection.md) | PS.1 Require branch protection for the repository |
-| [PS.1.4](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/ssdf/ps-1-repo-private) | [Repo private](rules/ssdf/ps-1-repo-private.md) | PS.1 Assure the repository is private |
+| [provenance-exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | PS.3 Provenance exists
+Ensure that provenance information is available for each software release
+ |
+
+## [PS/PS.3/PS.3.2] Collect, safeguard, maintain, and share provenance data for all components of each software release
+
+Collect, safeguard, maintain, and share provenance data for all components of each software release (e.g., in a software bill of materials [SBOM])
+
+
+
+### Mitigation  
+Use software bill of materials (SBOM) to document the provenance of each software release and its components. Store SBOMs in a secure, version-controlled repository to ensure they can be retrieved and analyzed in the future. Implement access controls to restrict who can modify or delete SBOMs. Use cryptographic signatures to sign SBOMs and provide a way for users to verify these signatures. Regularly back up the repository to prevent data loss and ensure that SBOMs are preserved even in the event of a system failure. Document the SBOM creation process and train personnel on its importance and proper handling procedures.
+
+
+### Rules
+
+| Rule ID | Rule Name | Rule Description |
+|---------|-----------|------------------|
+| [sbom-is-signed](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signe) | [SBOM archived](rules/sbom/artifact-signed.md) | PS.3 Archive SBOM |

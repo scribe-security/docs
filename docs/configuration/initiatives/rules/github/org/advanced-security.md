@@ -9,7 +9,7 @@ title: Verify `advanced_security_enabled_for_new_repositories` setting
 **Rego Source:** [advanced-security.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/advanced-security.rego)  
 **Labels:** GitHub, Organization  
 
-Verify `advanced_security` is enabled for new repositories in the GitHub organization.
+Verify Advanced Security is enabled for new repositories in the GitHub organization.
 
 :::note 
 This rule requires Github Organization Discovery Evidence. See [here](https://deploy-preview-299--scribe-security.netlify.app/docs/platforms/discover#github-discovery) for more details.  

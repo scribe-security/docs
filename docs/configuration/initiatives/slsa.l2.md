@@ -20,7 +20,7 @@ Evaluate SLSA L2 and ensure that provenance information is both recorded and aut
 
 | Control Name | Control Description | Mitigation |
 |--------------|---------------------|------------|
-| [[prov_authn] Provenance authenticated](#prov_authn-provenance-authenticated) | Ensure that provenance metadata for build artifacts is authenticated, confirming that it originates from a trusted source. | Authentication of provenance data prevents attackers from forging or modifying build metadata, ensuring the integrity of the software supply chain. |
+| [[provenance] Provenance authenticated](#provenance-provenance-authenticated) | Ensure that provenance metadata for build artifacts is authenticated, confirming that it originates from a trusted source. | Authentication of provenance data prevents attackers from forging or modifying build metadata, ensuring the integrity of the software supply chain. |
 
 ## Evidence Defaults
 
@@ -32,7 +32,7 @@ Evaluate SLSA L2 and ensure that provenance information is both recorded and aut
 
 # Detailed Controls
 
-## [prov_authn] Provenance authenticated
+## [provenance] Provenance authenticated
 
 Ensure that provenance metadata for build artifacts is authenticated, confirming that it originates from a trusted source.
 
@@ -44,5 +44,5 @@ Authentication of provenance data prevents attackers from forging or modifying b
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [prov_exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Ensure that provenance metadata is present for each build artifact, enabling traceability and verification. |
-| [prov_authn](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticate) | [Provenance authenticated](rules/slsa/l2-provenance-authenticated.md) | Verify that provenance metadata is cryptographically authenticated, ensuring it has not been tampered with. |
+| [provenance-exists](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists) | [Provenance exists](rules/slsa/l1-provenance-exists.md) | Ensure that provenance metadata is present for each build artifact, enabling traceability and verification. |
+| [provenance-authn](https://deploy-preview-299--scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticate) | [Provenance authenticated](rules/slsa/l2-provenance-authenticated.md) | Verify that provenance metadata is cryptographically authenticated, ensuring it has not been tampered with. |
