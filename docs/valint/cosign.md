@@ -106,3 +106,92 @@ X509v3 extensions:
    ...
 ```
 
+Below is an **example** of how you can fill in three new headings regarding verifying SBOMs, SLSA, and policy results with Cosign. Each section uses **keyless** signing as an example, though the same commands can be adapted for key-based or certificate-based flows.
+
+---
+
+### Verifying SBOMs with Cosign
+
+If you’ve generated an SBOM (for example, CycloneDX) and pushed it to the registry as an attestation, you can verify its authenticity with Cosign. In this **keyless** example, Cosign retrieves the SBOM attestation from the registry and checks its signature:
+
+```bash
+# Generate and attach SBOM attestation with Valint
+valint bom my_account/my_image:latest --oci -o attest
+
+# Verify the SBOM attestation using cosign
+cosign verify-attestation my_account/my_image:latest \
+  --type https://cyclonedx.org/bom/v1.5 \
+  --certificate-identity="name@example.com" \
+  --certificate-oidc-issuer="https://github.com/login/oauth"
+```
+
+> **Note**: `--type https://cyclonedx.org/bom/v1.5` tells Cosign to fetch only SBOM attestations of that type.
+> **Reminder**: These examples use Cosign **keyless** signing. 
+---
+
+### Verifying SLSA with Cosign
+
+Valint can generate an **SLSA** (Supply chain Levels for Software Artifacts) provenance statement. After signing and pushing it to your OCI registry, you can confirm its validity with Cosign:
+
+```bash
+# Generate and attach SLSA provenance
+valint slsa my_account/my_image:latest --oci -o attest
+
+# Verify the SLSA attestation using cosign (keyless flow)
+cosign verify-attestation my_account/my_image:latest \
+  --type https://slsa.dev/provenance/v1 \
+  --certificate-identity="name@example.com" \
+  --certificate-oidc-issuer="https://github.com/login/oauth"
+```
+
+This ensures your SLSA provenance is signed by the correct subject and issuer.
+
+> **Reminder**: These examples use Cosign **keyless** signing. 
+---
+
+### Verifying Policy Results with Cosign
+
+You might also store policy or compliance results (e.g., from Valint scanning) as an attestation—often in SARIF format. Cosign can verify these policy-result attestations, ensuring they’re both **trusted** and **unaltered**:
+
+```bash
+# Generate and push SARIF-based policy results
+valint verify my_account/my_image:latest --oci  \
+  --predicate results.sarif \
+  --type "http://docs.oasis-open.org/sarif/sarif/2.1.0" \
+  -o attest
+
+# Verify the SARIF attestation with Cosign (keyless)
+cosign verify-attestation my_account/my_image:latest \
+  --type http://docs.oasis-open.org/sarif/sarif/2.1.0 \
+  --certificate-identity="name@example.com" \
+  --certificate-oidc-issuer="https://github.com/login/oauth"
+```
+
+By confirming the attestation’s signature, you ensure the **policy results** remain **authentic** and tamper-free when consumed by other parts of your supply chain (e.g., an admission controller).
+
+> **Reminder**: These examples use Cosign **keyless** signing. 
+---
+
+### Using `--oci-repo` and the `COSIGN_REPOSITORY` Environment Variable
+
+When using **Valint** with the `--oci-repo` flag to push evidence (SBOMs, SLSA, policy results) to an OCI registry, you typically need to align your **Cosign** settings accordingly. Specifically, **Cosign** references an environment variable called `COSIGN_REPOSITORY` to know which path in the registry to store or fetch attestation artifacts.  
+
+1. **Valint** pushes evidence to `--oci-repo`, suffixed with `"/container"` for container artifacts.  
+2. **Cosign** must have `COSIGN_REPOSITORY` set to **`<oci-repo> + "/container"`** so it looks in the correct path.
+
+For example, if you run:
+
+```bash
+valint [bom, verify, slsa, etc.] my_account/my_image:latest \
+  --oci \
+  --oci-repo my_account/evidence \
+  -o attest
+```
+Valint will place container artifacts under `my_account/evidence/container` in the registry.  
+To ensure Cosign sees them correctly, set:
+```bash
+export COSIGN_REPOSITORY="my_account/evidence/container"
+```
+
+> **Why the `/container` suffix?**  
+> Valint (and many OCI-based workflows) distinguish different artifact types (like source code vs. container images) by placing them in subdirectories. This lets you store other assets (e.g., “source” or “sbom” paths) in the same repository without collisions.
