@@ -156,9 +156,7 @@ You might also store policy or compliance results (e.g., from Valint scanning) a
 ```bash
 # Generate and push SARIF-based policy results
 valint verify my_account/my_image:latest --oci  \
-  --predicate results.sarif \
-  --type "http://docs.oasis-open.org/sarif/sarif/2.1.0" \
-  -o attest
+  -o attest --initiative my_initative.yaml
 
 # Verify the SARIF attestation with Cosign (keyless)
 cosign verify-attestation my_account/my_image:latest \
