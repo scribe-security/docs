@@ -1028,6 +1028,7 @@ fail-on-missing-evidence: true
 ...
 ```
 
-### Unicode strings in rule results
+### Rich text support in rule results
 
-To make the rule results more readable, one can use Unicode emojis in the rule results by specifying the `--allow-unicode` flag at runtime. This would result in replacing rule levels and results in `valint` logs with emojis.
+To make rule results more readable, one can specify the `--beautify` flag at runtime. This allows `valint` to use emojis and hyperlinks in result tables.  
+It affects both `valint` logs and other outputs, except for SARIF.
