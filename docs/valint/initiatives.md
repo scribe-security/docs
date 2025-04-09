@@ -671,9 +671,6 @@ content_type
 organization
 sbomtype
 
-ref
-store
-
 warning
 allow
 
