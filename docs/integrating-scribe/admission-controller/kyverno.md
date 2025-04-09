@@ -28,10 +28,10 @@ valint [bom,slsa] image -o attest --oci [--oci-repo repo]
 #### **Example**
 
 ```bash
-valint my_account/my_image:latest -o attest --oci --oci-repo my_account/evidence --provenance
+valint [bom, slsa, verify] [image] -o attest --oci --oci-repo my_account/evidence --provenance
 ```
 
-This command generates both SBOM and SLSA provenance and attaches them to the OCI store.
+This command generates both SBOM and SLSA provenance or Policy Results and attaches them to the image on the OCI store.
 
 ---
 
@@ -43,6 +43,8 @@ Use Valint to verify attestations or validate them against specific Kyverno poli
 # Verify Cyclonedx or Provenance attestation
 valint verify [image] -i [attest, attest-slsa] --oci [--oci-repo evidence_repo]
 ```
+
+
 
 ## Step 3 **Setting Kyverno `verifyImages` Rules**
 
@@ -83,6 +85,7 @@ spec:
                         rekor:
                           url: https://rekor.sigstore.dev
 ```
+
 
 ### **X509 Key-Based Verification**
 
@@ -222,3 +225,69 @@ X509v3 extensions:
    ...
 ```
 
+### Verifying Policy Initiative Results
+
+When Valint produces SARIF attestations, you may want to **enforce** that a specific **initiative** or **control** has passed before the image can run. For instance, you might block images unless their **`initiative-id`** is `"SP-800-190"` and **`initiative-result`** is `"pass"`, or you might need a particular control ID—like `"SP-800-190/4.1"`—to pass.
+
+Below is an example **Kyverno** policy snippet showing how to reference these fields under `conditions` in the `verifyImages` rule. **Uncomment or edit** the checks that meet your needs:
+
+```yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-keyless-evidence
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-evidence
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "my_account/my_image*"
+          repository: "my_account/evidence/container"
+          attestations:
+            - predicateType: "http://docs.oasis-open.org/sarif/sarif/2.1.0"
+              attestors:
+                - entries:
+                    - keyless:
+                        subject: "mdstrauss91@gmail.com"
+                        issuer: "https://github.com/login/oauth"
+                        rekor:
+                          url: "https://rekor.sigstore.dev"
+              conditions:
+                - all:
+                  # Uncomment the checks you wish to enforce:
+
+                  # 1) Ensure the initiative result is "pass":
+                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"initiative-result\" }}"
+                    operator: Equals
+                    value: "pass"
+
+                  # 2) Verify the initiative ID is "SP-800-190":
+                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"initiative-id\" }}"
+                    operator: Equals
+                    value: "SP-800-190"
+
+                  # 3) Confirm a specific control ID—"SP-800-190/4.1"—passed:
+                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"control-result\".\"control-id:SP-800-190/4.1\" }}"
+                    operator: Equals
+                    value: "pass"
+```
+
+To generate and evaluate evidence for `sp-800-190` in this example, run:
+
+```bash
+trivy image --format sarif -o my_image_trivy_report.sarif my_account/my_image:latest
+
+valint verify my_account/my_image:latest  \
+  --bom \ # Required for container-targeted rules
+  --input my_image_trivy_report.sarif \ # Required for CVE rules
+  --oci --oci-repo my_account/evidence/container \
+  --initiative sp-800-190@v2 \
+  -o attest
+```
