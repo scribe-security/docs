@@ -8,7 +8,8 @@ title: Apply Scribe Template Policy
 **Source:** [v2/rules/api/scribe-api.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api.yaml)  
 **Labels:** Scribe  
 
-Verify the application of the Scribe Template Policy using the Scribe API template rule.
+Verify XX using the Scribe API template rule.
+
 :::tip 
 Rule requires the Scribe API to be enabled. Ensure that you provide the Scribe Token to the `valint` utility.  
 ::: 

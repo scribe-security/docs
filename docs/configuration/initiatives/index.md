@@ -5,12 +5,12 @@
 <!-- START TABLE -->
 | Name | Description |
 |------|-------------|
-| [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
+| [NIST Application Container Security Initiative](/docs/configuration/initiatives/sp-800-190.md) | This initiative enforces container security controls as outlined in  NIST SP 800-190. It ensures that containerized applications follow  security best practices, including vulnerability scanning, trusted  image sources, registry security, and proper configuration to minimize risk. The initiative enables policy-driven enforcement of security controls  throughout the software development lifecycle (SDLC), providing real-time  feedback to developers and enforcement in CI/CD pipelines. |
 | [NIST Supply Chain Integrity Initiative](/docs/configuration/initiatives/sp-800-53.md) | This initiative enforces key supply chain requirements from NIST SP 800-53. It mandates that container builds include:   - A Software Bill of Materials (SBOM) to ensure component inventory and traceability,     addressing requirements from SR-4 and CM-8.   - Provenance data to support architectural traceability, as outlined in SA-8. Both the SBOM and the provenance artifacts must be cryptographically signed to meet integrity requirements specified in SA-12. |
+| [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
+| [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 | [SSDF Client Initiative](/docs/configuration/initiatives/ssdf.md) | Evaluate PS rules from the SSDF initiative |
 | [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb.md) | Blueprint for secure pipelines - Gitlab |
-| [NIST Application Container Security Initiative](/docs/configuration/initiatives/sp-800-190.md) | This initiative enforces container security controls as outlined in  NIST SP 800-190. It ensures that containerized applications follow  security best practices, including vulnerability scanning, trusted  image sources, registry security, and proper configuration to minimize risk. The initiative enables policy-driven enforcement of security controls  throughout the software development lifecycle (SDLC), providing real-time  feedback to developers and enforcement in CI/CD pipelines. |
-| [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 
 ## Rules
 
@@ -47,7 +47,7 @@
 | [Fresh Image](/docs/configuration/initiatives/rules/images/fresh-image.md) | Verify the image is not older than the specified threshold. |
 | [Allowed Main Image Source](/docs/configuration/initiatives/rules/images/allowed-image-source.md) | Ensures the main container image referenced in the SBOM is from an approved source. |
 | [Require Signed Container Image](/docs/configuration/initiatives/rules/images/image-signed.md) | Enforces that container images (target_type=container) are cryptographically signed. |
-| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 | [Disallow Specific Users in SBOM](/docs/configuration/initiatives/rules/sbom/banned-users.md) | Verify specific users are not allowed in an SBOM. |
 | [Enforce SBOM Dependencies](/docs/configuration/initiatives/rules/sbom/required-packages.md) | Verify the artifact includes all required dependencies. |
 | [Enforce SBOM License Completeness](/docs/configuration/initiatives/rules/sbom/complete-licenses.md) | Verify all dependencies in the artifact have a license. |
@@ -303,4 +303,6 @@
 | [Sign Selected Commits in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-list.md) | Verify the selected commits are signed in the GitLab organization. |
 | [Set Push Rules in GitLab](/docs/configuration/initiatives/rules/gitlab/api/push-rules.md) | Verify GitLab push rules are configured via the API. |
 | [Sign Selected Commit Range in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-range.md) | Verify the selected range of commits is signed via the GitLab API. |
-| [Verify No Critical or High Vulnerabilities in Product](/docs/configuration/initiatives/rules/api/scribe-api-cve-product.md) | Verify via Scribe API that there no critical or high severity vulnerabilities in any deliverable component of the product. |
+| [Verify No Critical or High Vulnerabilities in Product](/docs/configuration/initiatives/rules/api/scribe-api-cve-product.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in any deliverable component of the product. |
+
+<!-- END TABLE -->

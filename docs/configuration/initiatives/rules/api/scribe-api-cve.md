@@ -10,6 +10,7 @@ title: Verify No Critical or High Vulnerabilities
 **Labels:** SCA, Blueprint, Scribe  
 
 Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.).
+
 :::tip 
 Rule requires the Scribe API to be enabled. Ensure that you provide the Scribe Token to the `valint` utility.  
 ::: 
