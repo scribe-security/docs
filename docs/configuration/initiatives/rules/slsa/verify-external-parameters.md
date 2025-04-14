@@ -27,7 +27,7 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 uses: slsa/verify-external-parameters@v2
 with:
   parameters:
-    - "key": "value"
+    "key": "value"
 ```
 
 ## Mitigation  
@@ -48,5 +48,5 @@ The parameters are passed as key-value pairs.
 ## Input Definitions  
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| parameters | array | False | The expected external parameters to match in the provenance document. |
+| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. |
 
