@@ -700,6 +700,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified exterenal parameters value match in the provenance document. |
 | [Verify that provenance is authenticated](/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticated.md) | Verify the artifact is signed. |
 | [SLSA Field Exists in Provenance Document](/docs/configuration/initiatives/rules/slsa/field-exists.md) | Verify the specified field exists in the provenance document. |
 | [Verify Provenance Document Exists](/docs/configuration/initiatives/rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
@@ -707,6 +708,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Verify build time](/docs/configuration/initiatives/rules/slsa/build-time.md) | Verify the artifact was created within the specified time window. |
 | [Verify that artifact was created by the specified builder](/docs/configuration/initiatives/rules/slsa/verify-builder.md) | Verify the artifact was created by the specified builder. |
 | [Verify that artifact has no disallowed builder dependencies](/docs/configuration/initiatives/rules/slsa/verify-byproducts.md) | Verify the artifact has no disallowed builder dependencies. |
+| [SLSA Field Value Matches in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-custom-fields.md) | Verify the specified field value matches in the provenance document. |
 
 ### Statement
 
