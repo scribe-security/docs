@@ -362,8 +362,36 @@ including smart filtering as shown in the [Rule Filtering](../valint/initiatives
 :::
 
 :::note
-Starting with `valint v2.0.0`, some initiatives are shipped as part of the Scribe Catalog. See [here](#sample-policy-catalog) for more details.
+Starting with `valint v2.0.0`, some initiatives are shipped as part of the Scribe Catalog. See [this section](#example) and [this section](#sample-policy-catalog) for more details.
 :::
+
+#### Example
+
+Let's take SLSA L2 as an example. Prior to `valint v2.0.0`, one could verify a single SLSA L2 rule using the following command:
+
+```bash
+valint verify alpine:latest --rule slsa/l2-provenance-authenticated@v1 --product-key <PRODUCT_KEY> --product-version <PRODUCT_VERSION>
+```
+
+This command would verify the `alpine:latest` image against the `slsa/l2-provenance-authenticated` rule.
+
+To run v2 of the same rule, you could simply replace `@v1` with `@v2` in the command shown above.
+However, with the initiatives available, it is recommended to run the following command:
+
+```bash
+valint verify alpine:latest --initiative slsa.l2@v2 --product-key <PRODUCT_KEY> --product-version <PRODUCT_VERSION>
+```
+
+This command will verify the `alpine:latest` image against all rules in the SLSA L2 initiative, including `slsa/l2-provenance-authenticated`.
+
+We recommend using the initiative configuration also for SLSA L1, as it provides better result descriptions and integration with the Scribe service.
+In that case, the command will look like this:
+
+```bash
+valint verify alpine:latest --initiative slsa.l1@v2 --product-key <PRODUCT_KEY> --product-version <PRODUCT_VERSION>
+```
+
+To get more information about initiatives provided in the Scribe Policy Catalog, see the [Sample Policy Catalog](#sample-policy-catalog) section.
 
 ## Sample Policy Catalog
 
