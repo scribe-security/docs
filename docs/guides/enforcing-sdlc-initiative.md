@@ -28,7 +28,7 @@ For a detailed initiative description, see the **[initiatives](../valint/initiat
 2. Create an SBOM of the type you want to verify. For a Docker image, the command would be:
 
    ```bash
-   valint bom busybox:latest -o statement \
+   valint bom busybox:latest -o attest \
       --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
       --scribe.client-secret <SCRIBE_TOKEN>
    ```
@@ -56,30 +56,56 @@ Alternatively, you can use GitHub actions, as described in detail in [Setting up
    <summary>Initiative results</summary>
 
    ```bash
-   INFO SSDF-IMAGE: Control "SSDF IMAGE" Evaluation Summary:
-   ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ [SSDF-IMAGE] Control "SSDF IMAGE" Evaluation Summary                                                         │
-   ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
-   │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
-   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-   │ PS.2           │ Image-verifiable │ error │ false    │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-   │ PS.3.2         │ SBOM archived    │ error │ false    │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-   │ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
-   └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
-
-   INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
-   ┌──────────────────────────────────────────────────────────────────┐
-   │ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary    │
-   ├───────────────────┬───────────────┬─────────────────────┬────────┤
-   │ CONTROL ID        │ CONTROL NAME  │ RULE LIST           │ RESULT │
-   ├───────────────────┼───────────────┼─────────────────────┼────────┤
-   │ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(pass),         │ pass   │
-   │                   │               │ PS.3.2(pass)        │        │
-   ├───────────────────┼───────────────┼─────────────────────┼────────┤
-   │ INITIATIVE RESULT │               │                     │ PASS   │
-   └───────────────────┴───────────────┴─────────────────────┴────────┘
+   INFO PS/PS.2/PS.2.1: Control "Make software integrity verification information available to software acquirers" Evaluation Summary: 
+   ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ [PS/PS.2/PS.2.1] Control "Make software integrity verification information available to software acquirers" Evaluati │
+   │ on Summary                                                                                                           │
+   ├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────────────┤
+   │ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET                 │
+   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+   │ sbom-is-signed │ Image-verifiable │ none  │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 (image) │
+   ├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+   │ CONTROL RESULT │                  │       │          │ PASS   │                             │                        │
+   └────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────────────┘
+   INFO PS/PS.3/PS.3.1: Control "Securely archive the necessary files and supporting data to be retained for each software release" Evaluation Summary: 
+   ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ [PS/PS.3/PS.3.1] Control "Securely archive the necessary files and supporting data to be retained for each software  │
+   │ release" Evaluation Summary                                                                                          │
+   ├───────────────────┬───────────────────┬───────┬──────────┬────────┬─────────────────────────┬────────────────────────┤
+   │ RULE ID           │ RULE NAME         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                 │ TARGET                 │
+   ├───────────────────┼───────────────────┼───────┼──────────┼────────┼─────────────────────────┼────────────────────────┤
+   │ provenance-exists │ Provenance exists │ error │ false    │ fail   │ SLSA Provenance missing │ busybox:1.36.1 (image) │
+   ├───────────────────┼───────────────────┼───────┼──────────┼────────┼─────────────────────────┼────────────────────────┤
+   │ CONTROL RESULT    │                   │       │          │ FAIL   │                         │                        │
+   └───────────────────┴───────────────────┴───────┴──────────┴────────┴─────────────────────────┴────────────────────────┘
+   INFO PS/PS.3/PS.3.2: Control "Collect, safeguard, maintain, and share provenance data for all components of each software release" Evaluation Summary: 
+   ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ [PS/PS.3/PS.3.2] Control "Collect, safeguard, maintain, and share provenance data for all components of each soft │
+   │ ware release" Evaluation Summary                                                                                  │
+   ├────────────────┬───────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────────────┤
+   │ RULE ID        │ RULE NAME     │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET                 │
+   ├────────────────┼───────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+   │ sbom-is-signed │ SBOM archived │ none  │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 (image) │
+   ├────────────────┼───────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+   │ CONTROL RESULT │               │       │          │ PASS   │                             │                        │
+   └────────────────┴───────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────────────┘
+   INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary: 
+   ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary                                                              │
+   ├───────────────────┬──────────────────────────────────────────────────────────────────┬────────────────────────────┬────────┤
+   │ CONTROL ID        │ CONTROL NAME                                                     │ RULE LIST                  │ RESULT │
+   ├───────────────────┼──────────────────────────────────────────────────────────────────┼────────────────────────────┼────────┤
+   │ PS/PS.2/PS.2.1    │ Make software integrity verification information available to so │ - Image-verifiable (pass)  │ pass   │
+   │                   │ ftware acquirers                                                 │                            │        │
+   ├───────────────────┼──────────────────────────────────────────────────────────────────┼────────────────────────────┼────────┤
+   │ PS/PS.3/PS.3.1    │ Securely archive the necessary files and supporting data to be r │ - Provenance exists (fail) │ fail   │
+   │                   │ etained for each software release                                │                            │        │
+   ├───────────────────┼──────────────────────────────────────────────────────────────────┼────────────────────────────┼────────┤
+   │ PS/PS.3/PS.3.2    │ Collect, safeguard, maintain, and share provenance data for all  │ - SBOM archived (pass)     │ pass   │
+   │                   │ components of each software release                              │                            │        │
+   ├───────────────────┼──────────────────────────────────────────────────────────────────┼────────────────────────────┼────────┤
+   │ INITIATIVE RESULT │                                                                  │                            │ FAIL   │
+   └───────────────────┴──────────────────────────────────────────────────────────────────┴────────────────────────────┴────────┘
    Evaluation Target Name 'index.docker.io/library/busybox:latest'
    ```
 
@@ -113,15 +139,15 @@ Similar to [initiatives](#verifying-an-initiative), you can verify a single rule
    <summary>Rule evaluation results</summary>
 
    ```bash
-   ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-   │ [default] Control "Default" Evaluation Summary                                                                                                  │
-   ├───────────────────────────────────┬───────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────┬────────────────┤
-   │ RULE ID                           │ RULE NAME                         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                    │ TARGET         │
-   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────┤
-   │ sbom-require-complete-license-set │ Enforce SBOM License Completeness │ error │ false    │ pass   │ All packages have licenses │ busybox:1.36.1 │
-   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────┤
-   │ CONTROL RESULT                    │                                   │       │          │ PASS   │                            │                │
-   └───────────────────────────────────┴───────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────┴────────────────┘
+   ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+   │ [default] Control "Default" Evaluation Summary                                                                                                          │
+   ├───────────────────────────────────┬───────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────┬────────────────────────┤
+   │ RULE ID                           │ RULE NAME                         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                    │ TARGET                 │
+   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────────────┤
+   │ sbom-require-complete-license-set │ Enforce SBOM License Completeness │ error │ false    │ pass   │ All packages have licenses │ busybox:1.36.1 (image) │
+   ├───────────────────────────────────┼───────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────┼────────────────────────┤
+   │ CONTROL RESULT                    │                                   │       │          │ PASS   │                            │                        │
+   └───────────────────────────────────┴───────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────┴────────────────────────┘
    ```
 
    You will also see the results table of the initiative evaluation:
@@ -222,65 +248,80 @@ valint verify --initiative ssdf@v2 --all-evidence \
 <summary>Initiative results</summary>
 
 ```bash
-INFO SSDF-IMAGE: Control "SSDF IMAGE" Evaluation Summary:
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ [SSDF-IMAGE] Control "SSDF IMAGE" Evaluation Summary                                                         │
-├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────┤
-│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET         │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ PS.2           │ Image-verifiable │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ PS.3.2         │ SBOM archived    │ error │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────┤
-│ CONTROL RESULT │                  │       │          │ PASS   │                             │                │
-└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────┘
-
-INFO SSDF-ORG: Control "SSDF ORG" Evaluation Summary:
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ [SSDF-ORG] Control "SSDF ORG" Evaluation Summary                                                                                                             │
-├────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
-│ RULE ID        │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.1         │ Enforce 2FA                    │ error │ true     │ pass   │ 2FA authentication is enabled          │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.3         │ Limit admins                   │ error │ true     │ fail   │ 9 admins | 3 max allowed               │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.5         │ Require signoff on web commits │ error │ true     │ fail   │ web_commit_signoff_required is NOT set │ my-org (github organization)          │
-├────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
-│ CONTROL RESULT │                                │       │          │ FAIL   │                                        │                                       │
-└────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
-
-INFO SSDF-REPO: Control "SSDF REPO" Evaluation Summary:
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ [SSDF-REPO] Control "SSDF REPO" Evaluation Summary                                                                                                      |
-├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────────────────────────┬───────────────────────────────────────|
-│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                         │ TARGET                                |
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.2         │ Branch protected │ error │ true     │ fail   │ 1 unprotected branches | 0 max allowed          │ my-org/my-repo (github repo)          │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ PS.1.4         │ Repo private     │ error │ true     │ pass   │ The repository is private                       │ my-org/my-repo (github repo)          │
-├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────────────────────────┼───────────────────────────────────────┤
-│ CONTROL RESULT │                  │       │          │ FAIL   │                                                 │                                       │
-└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────────────────────────┴───────────────────────────────────────┘
-
-INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary:
-┌───────────────────────────────────────────────────────────────────┐
-│ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary     │
-├───────────────────┬───────────────┬──────────────────────┬────────┤
-│ CONTROL ID        │ CONTROL NAME  │ RULE LIST            │ RESULT │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-IMAGE        │ SSDF IMAGE    │ PS.2(pass),          │ pass   │
-│                   │               │ PS.3.2(pass)         │        │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-ORG          │ SSDF ORG      │ PS.1.1(pass),        │ fail   │
-│                   │               │ PS.1.3(fail),        │        │
-│                   │               │ PS.1.5(fail)         │        │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ SSDF-REPO         │ SSDF REPO     │ PS.1.2(fail),        │ fail   │
-│                   │               │ PS.1.4(pass)         │        │
-├───────────────────┼───────────────┼──────────────────────┼────────┤
-│ INITIATIVE RESULT │               │                      │ FAIL   │
-└───────────────────┴───────────────┴──────────────────────┴────────┘
+INFO PS/PS.3/PS.3.1: Control "Securely archive the necessary files and supporting data to be retained for each software release" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [PS/PS.3/PS.3.1] Control "Securely archive the necessary files and supporting data to be retained for each software  │
+│ release" Evaluation Summary                                                                                          │
+├───────────────────┬───────────────────┬───────┬──────────┬────────┬─────────────────────────┬────────────────────────┤
+│ RULE ID           │ RULE NAME         │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                 │ TARGET                 │
+├───────────────────┼───────────────────┼───────┼──────────┼────────┼─────────────────────────┼────────────────────────┤
+│ provenance-exists │ Provenance exists │ error │ false    │ fail   │ SLSA Provenance missing │ busybox:1.36.1 (image) │
+├───────────────────┼───────────────────┼───────┼──────────┼────────┼─────────────────────────┼────────────────────────┤
+│ CONTROL RESULT    │                   │       │          │ FAIL   │                         │                        │
+└───────────────────┴───────────────────┴───────┴──────────┴────────┴─────────────────────────┴────────────────────────┘
+INFO PS/PS.3/PS.3.2: Control "Collect, safeguard, maintain, and share provenance data for all components of each software release" Evaluation Summary: 
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [PS/PS.3/PS.3.2] Control "Collect, safeguard, maintain, and share provenance data for all components of each soft │
+│ ware release" Evaluation Summary                                                                                  │
+├────────────────┬───────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────────────┤
+│ RULE ID        │ RULE NAME     │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET                 │
+├────────────────┼───────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+│ sbom-is-signed │ SBOM archived │ none  │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 (image) │
+├────────────────┼───────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+│ CONTROL RESULT │               │       │          │ PASS   │                             │                        │
+└────────────────┴───────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────────────┘
+INFO PS/PS.1/PS.1.1: Control "Store all forms of code based on the principle of least privilege" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [PS/PS.1/PS.1.1] Control "Store all forms of code based on the principle of least privilege" Evaluation Summary                                                  │
+├────────────────────┬────────────────────────────────┬───────┬──────────┬────────┬────────────────────────────────────────┬───────────────────────────────────────┤
+│ RULE ID            │ RULE NAME                      │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                                │ TARGET                                │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ 2fa                │ Enforce 2FA                    │ error │ true     │ fail   │ 2FA authentication is NOT enabled      │ my-org (github organization)          │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ branch-protection  │ Branch protected               │ error │ true     │ fail   │ 1 unprotected branches | 0 max allowed │ my-repo (github repo)                 │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ max-admins         │ Limit admins                   │ error │ true     │ fail   │ 6 admins | 3 max allowed               │ my-org (github organization)          │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ repo-is-private    │ Repo private                   │ none  │ true     │ pass   │ The repository is private              │ my-repo (github repo)                 │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ web-commit-signoff │ Require signoff on web commits │ error │ true     │ fail   │ web_commit_signoff_required is NOT set │ my-org (github organization)          │
+├────────────────────┼────────────────────────────────┼───────┼──────────┼────────┼────────────────────────────────────────┼───────────────────────────────────────┤
+│ CONTROL RESULT     │                                │       │          │ FAIL   │                                        │                                       │
+└────────────────────┴────────────────────────────────┴───────┴──────────┴────────┴────────────────────────────────────────┴───────────────────────────────────────┘
+INFO PS/PS.2/PS.2.1: Control "Make software integrity verification information available to software acquirers" Evaluation Summary: 
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [PS/PS.2/PS.2.1] Control "Make software integrity verification information available to software acquirers" Evaluati │
+│ on Summary                                                                                                           │
+├────────────────┬──────────────────┬───────┬──────────┬────────┬─────────────────────────────┬────────────────────────┤
+│ RULE ID        │ RULE NAME        │ LEVEL │ VERIFIED │ RESULT │ SUMMARY                     │ TARGET                 │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+│ sbom-is-signed │ Image-verifiable │ none  │ true     │ pass   │ Evidence signature verified │ busybox:1.36.1 (image) │
+├────────────────┼──────────────────┼───────┼──────────┼────────┼─────────────────────────────┼────────────────────────┤
+│ CONTROL RESULT │                  │       │          │ PASS   │                             │                        │
+└────────────────┴──────────────────┴───────┴──────────┴────────┴─────────────────────────────┴────────────────────────┘
+INFO SSDF: Initiative "SSDF Client Initiative" Evaluation Summary: 
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [SSDF] Initiative "SSDF Client Initiative" Evaluation Summary                                                                           │
+├───────────────────┬──────────────────────────────────────────────────────────────────┬─────────────────────────────────────────┬────────┤
+│ CONTROL ID        │ CONTROL NAME                                                     │ RULE LIST                               │ RESULT │
+├───────────────────┼──────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼────────┤
+│ PS/PS.1/PS.1.1    │ Store all forms of code based on the principle of least privileg │ - Branch protected (fail),              │ fail   │
+│                   │ e                                                                │ - Repo private (pass),                  │        │
+│                   │                                                                  │ - Enforce 2FA (fail),                   │        │
+│                   │                                                                  │ - Limit admins (fail),                  │        │
+│                   │                                                                  │ - Require signoff on web commits (fail) │        │
+├───────────────────┼──────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼────────┤
+│ PS/PS.2/PS.2.1    │ Make software integrity verification information available to so │ - Image-verifiable (pass)               │ pass   │
+│                   │ ftware acquirers                                                 │                                         │        │
+├───────────────────┼──────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼────────┤
+│ PS/PS.3/PS.3.1    │ Securely archive the necessary files and supporting data to be r │ - Provenance exists (fail)              │ fail   │
+│                   │ etained for each software release                                │                                         │        │
+├───────────────────┼──────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼────────┤
+│ PS/PS.3/PS.3.2    │ Collect, safeguard, maintain, and share provenance data for all  │ - SBOM archived (pass)                  │ pass   │
+│                   │ components of each software release                              │                                         │        │
+├───────────────────┼──────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼────────┤
+│ INITIATIVE RESULT │                                                                  │                                         │ FAIL   │
+└───────────────────┴──────────────────────────────────────────────────────────────────┴─────────────────────────────────────────┴────────┘
 ```
 
 </details>
