@@ -567,7 +567,7 @@ By default, the `target` and `product` groups are enabled for each rule.
     - `product_version` - the version of the product (provided to `valint` as a `--product-version` argument)
 
 Users can specify any combination of these three groups or a special value `none` to indicate that the parameter should not be derived automatically.
-By default, the `target` and `product` groups are used.
+By default, the `product` group is used.
 The list of groups to be used should be provided to the `<rule>.evidence.filter-by` field in the configuration file. Any value provided overrides the default list.
 See the usage example below for more details.
 
