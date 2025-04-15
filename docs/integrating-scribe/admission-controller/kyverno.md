@@ -264,17 +264,17 @@ spec:
                   # Uncomment the checks you wish to enforce:
 
                   # 1) Ensure the initiative result is "pass":
-                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"initiative-result\" }}"
+                  - key: "{{ content.runs[0].invocations[0].properties.\"initiative-result\" }}"
                     operator: Equals
                     value: "pass"
 
                   # 2) Verify the initiative ID is "SP-800-190":
-                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"initiative-id\" }}"
+                  - key: "{{ content.runs[0].invocations[0].properties.\"initiative-id\" }}"
                     operator: Equals
                     value: "SP-800-190"
 
                   # 3) Confirm a specific control ID—"SP-800-190/4.1"—passed:
-                  - key: "{{ content.runs[0].invocations[0].properties.properties.\"control-result\".\"control-id:SP-800-190/4.1\" }}"
+                  - key: "{{ content.runs[0].invocations[0].properties.\"control-result\".\"control-id:SP-800-190/4.1\" }}"
                     operator: Equals
                     value: "pass"
 ```
