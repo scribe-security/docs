@@ -20,6 +20,9 @@ Signed Evidence for this rule **IS NOT** required by default but is recommended.
 :::warning  
 Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+:::info  
+Rule is scoped by target and product.  
+:::  
 
 ## Usage example
 
@@ -46,6 +49,7 @@ If a match is found, the rule generates a violation indicating that a disallowed
 | signed | False |
 | content_body_type | cyclonedx-json |
 | target_type | container |
+| filter-by | ['target', 'product'] |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |

@@ -9,7 +9,7 @@ title: SLSA External Parameters Match in Provenance Document
 **Rego Source:** [verify-external-parameters.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/slsa/verify-external-parameters.rego)  
 **Labels:** SLSA  
 
-Verify the specified exterenal parameters value match in the provenance document.
+Verify the specified external parameters value match in the provenance document.
 
 :::note 
 This rule requires SLSA Provenance. See [here](/docs/valint/help/valint_slsa) for more details.  
@@ -27,17 +27,29 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 uses: slsa/verify-external-parameters@v2
 with:
   parameters:
-    "key": "value"
+    "key_1": "value_1"  # match the value exactly
+    "key_2":            # match any of the values in the array
+      - "value_2"
+      - "value_3"
+    "key_3":            # match any of the values in the numeric array
+      - 4
+      - 5
+    "key_4":            # match a number between min and max
+      "min": 1
+      "max": 10
 ```
 
 ## Mitigation  
-Ensure that the external parameters field is present in the provenance document and that its value matches the expected value. To add such field, pass it as `key=value` in the `--external` flag for `valint slsa` command.
+Ensure that the external parameters field is present in the provenance document and that its value matches the expected value. To add such a field, pass it as `key=value` in the `--external` flag for the `valint slsa` command.
 
 
 ## Description  
 This rule verifies that the specified external parameters value matches in the provenance document.
 It checks if the external parameters field exists and if its value matches the expected value.
-The parameters are passed as key-value pairs.
+The allowed parameters values can be passed to the rule in the `key: value` format, where `value` can be:
+- `string` or `number` -- requires a direct match
+- `array` of `strings` or `numbers` -- requires the actual value to match one of the values in the array
+- `object` with `min` and `max` -- requires the actual value to be a number between the min and max values
 
 ## Evidence Requirements  
 | Field | Value |
