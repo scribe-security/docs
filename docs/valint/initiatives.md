@@ -545,14 +545,17 @@ In order to run a policy rule, `valint` requires relevant evidence, which can be
 These parameters can be set manually by the user or automatically derived from the context.
 
 Parameters that can be derived automatically by `valint` are categorized into three context groups: `target`, `pipeline`, and `product`.
-By default, the `target` and `product` groups are enabled for each rule.
+By default, the `product` group is enabled for each rule.
 
 1. The `target` context group specifies parameters that can be derived from the target provided to the `valint verify` command (a docker image, a git repo or a file). These parameters are:
     - `target_type` - the type of the target provided (e.g., image, git, generic, etc.)
     - `sbomversion` - the version of the SBOM provided (usually it's sha256 or sha1 hash)
 
     :::info
-    If this parameter is set and no target is provided, the rule is disabled with a warning._
+    If this parameter is set and no target is provided, the rule is disabled with a warning.
+    :::
+    :::info
+    If `target_type` is set manually in the rule config and a target of a different type is provided, the rule is disabled with a warning.
     :::
 
 2. The `pipeline` context group specifies parameters that can be derived from the running environment. These parameters are:
