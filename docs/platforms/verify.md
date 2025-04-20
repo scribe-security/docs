@@ -19,13 +19,12 @@ The recommended use of the verify command with the product-mapping capabilities;
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [-h] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
-                                  [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                                  [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
-                                  [--valint.components COMPONENTS] [--valint.label LABEL] [--unique] [--valint.bundle BUNDLE] [--valint.bundle-auth BUNDLE_AUTH]
-                                  [--valint.bundle-branch BUNDLE_BRANCH] [--valint.bundle-commit BUNDLE_COMMIT] [--valint.bundle-tag BUNDLE_TAG] [--allow-failures]
-                                  [--max-threads MAX_THREADS]
-                                  {k8s,dockerhub,gitlab,github,jfrog,ecr,bitbucket,jenkins} ...
+usage: platforms [options] verify [-h] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
+                                  [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
+                                  [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+                                  [--valint.bundle BUNDLE] [--valint.bundle-auth BUNDLE_AUTH] [--valint.bundle-branch BUNDLE_BRANCH] [--valint.bundle-commit BUNDLE_COMMIT]
+                                  [--valint.bundle-tag BUNDLE_TAG] [--allow-failures] [--max-threads MAX_THREADS]
+                                  {k8s,dockerhub,gitlab,github,jfrog,ecr,bitbucket,jenkins,azure} ...
 
 Verify supply chain policies
 
@@ -33,8 +32,6 @@ options:
   -h, --help            Show this help message and exit.
   --valint.scribe.client-secret CLIENT_SECRET, --scribe-token CLIENT_SECRET, --scribe-client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.cache.disable
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
@@ -49,13 +46,13 @@ options:
   --valint.product-version PRODUCT_VERSION
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
-                        Evidence predicate type (type: str, default: http://scribesecurity.com/evidence/discovery/v0.1)
+                        Evidence predicate type (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x747b9cb90a40>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x79445b369c60>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.bundle BUNDLE
                         Set bundle git branch (type: str, default: )
@@ -83,6 +80,7 @@ subcommands:
     ecr
     bitbucket
     jenkins
+    azure
 ```
 <!-- { "object-type": "command-output-end" } -->
 

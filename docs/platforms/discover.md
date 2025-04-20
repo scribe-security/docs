@@ -22,18 +22,20 @@ The evidence generation process uses Scribe's `valint` tool to upload and option
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [-h] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX]
-                                    [--evidence.local_only] [--max-threads MAX_THREADS] [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY] [--allow-failures]
-                                    [--export-partial] [--skip-evidence] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable]
-                                    [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
-                                    [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
-                                    [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
-                                    {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins,bitbucket} ...
+usage: platforms [options] discover [-h] [--check-token-permissions] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD] [--evidence.local.path PATH]
+                                    [--evidence.local.prefix PREFIX] [--evidence.local_only] [--max-threads MAX_THREADS] [--thread-timeout THREAD_TIMEOUT]
+                                    [--rate-limit-retry RATE_LIMIT_RETRY] [--allow-failures] [--export-partial] [--skip-evidence] [--valint.scribe.client-secret CLIENT_SECRET]
+                                    [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY]
+                                    [--valint.bin BIN] [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE]
+                                    [--valint.attest ATTEST] [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+                                    {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins,bitbucket,azure} ...
 
 Discover assets and save data to a local store
 
 options:
   -h, --help            Show this help message and exit.
+  --check-token-permissions
+                        Check token permissions (default: False)
   --db.local.store_policy {update,replace}
                         Policy for local data collection: update or replace (default: update)
   --db.update_period UPDATE_PERIOD
@@ -49,14 +51,12 @@ options:
   --thread-timeout THREAD_TIMEOUT
                         Thread timeout in seconds (type: float, default: 20.0)
   --rate-limit-retry RATE_LIMIT_RETRY
-                        Retry on rate limit (type: int, default: 3)
+                        Retry on rate limit (default disabled) (type: int, default: 0)
   --allow-failures      Allow failures without returning an error code (default: False)
   --export-partial      Upload Partial Discover evidence (default: False)
   --skip-evidence       Skip evidence upload (default: False)
   --valint.scribe.client-secret CLIENT_SECRET, --scribe-token CLIENT_SECRET, --scribe-client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.cache.disable
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
@@ -71,13 +71,13 @@ options:
   --valint.product-version PRODUCT_VERSION
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
-                        Evidence predicate type (type: str, default: http://scribesecurity.com/evidence/discovery/v0.1)
+                        Evidence predicate type (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7697d3755a80>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x77386aaf9bc0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -92,6 +92,7 @@ subcommands:
     ecr
     jenkins
     bitbucket
+    azure
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -140,7 +141,7 @@ usage: platforms [options] discover [options] gitlab [-h] [--instance.instance I
                                                      [--default_product_key_strategy {mapping}] [--scope.skip_org_members] [--scope.skip_project_members]
                                                      [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs]
                                                      [--scope.pipeline.reports] [--broad] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
-                                                     [--organization.single] [--project.single]
+                                                     [--organization.single] [--project.single] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -185,6 +186,11 @@ options:
   --organization.single
                         Export all organizations in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
+  --skip-cache, -f      Skip Scribe Evidence cache lookup (default: False)
+  --cache-ttl CACHE_TTL
+                        time to live for cache (default: 2d)
+  --cache-group CACHE_GROUP
+                        Scribe cache group, default to runners pipeline ID, empty to use global context (default: by_pipeline)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -241,7 +247,9 @@ usage: platforms [options] discover [options] github [-h] [--instance.instance I
                                                      [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
                                                      [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS] [--workflow.skip]
                                                      [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.runners] [--scope.sbom] [--broad]
-                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                     [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
+                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache] [--cache-ttl CACHE_TTL]
+                                                     [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -276,12 +284,23 @@ options:
   --scope.runners       Include repository allocated runners in evidence (default: False)
   --scope.sbom          Include repositories SBOM in evidence (default: False)
   --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: ggshield, ggshield. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --repository.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are supported (type:
                         AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
                         Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type:
                         AssetMappingString, default: [])
+  --skip-cache, -f      Skip Scribe Evidence cache lookup (default: False)
+  --cache-ttl CACHE_TTL
+                        time to live for cache (default: 2d)
+  --cache-group CACHE_GROUP
+                        Scribe cache group, default to runners pipeline ID, empty to use global context (default: by_pipeline)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -330,7 +349,8 @@ usage: platforms [options] discover [options] dockerhub [-h] [--instance.instanc
                                                         [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS] [--broad] [--namespace.single] [--repository.single]
                                                         [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]]
-                                                        [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                        [--default_product_key_strategy {mapping,mapping,mapping,mapping}] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]]
+                                                        [--hook.skip] [--namespace.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -369,6 +389,12 @@ options:
                         Repository tag product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --default_product_key_strategy {mapping,mapping,mapping,mapping}
                         Override product key with namespace, repository or image names (default: mapping)
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy, scout, grype. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --namespace.hook [HOOK ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -692,7 +718,8 @@ usage: platforms [options] discover [options] bitbucket [-h] [--instance.instanc
                                                         [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
                                                         [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--broad]
                                                         [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                        [--default_product_key_strategy {mapping}] [--workspace.single] [--project.single] [--repository.single]
+                                                        [--default_product_key_strategy {mapping}] [--workspace.single] [--project.single] [--repository.single] [--skip-cache]
+                                                        [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -738,6 +765,11 @@ options:
   --workspace.single    Export all workspaces in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
+  --skip-cache, -f      Skip Scribe Evidence cache lookup (default: False)
+  --cache-ttl CACHE_TTL
+                        time to live for cache (default: 2d)
+  --cache-group CACHE_GROUP
+                        Scribe cache group, default to runners pipeline ID, empty to use global context (default: by_pipeline)
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -794,7 +826,7 @@ options:
                         Jenkins instance string (default: )
   --username USERNAME   Jenkins username (default: )
   --password PASSWORD   Jenkins token (JENKINS_PASSWORD) (default: )
-  --url URL             Jenkins base URL (default: null)
+  --url URL             Jenkins base URL (default: )
   --broad               Perform a fast broad discovery instead of a detailed one (default: False)
   --types {all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} [{all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} ...]
                         Defines which asset to discover, scoped by scope parameters (default: ['all'])
