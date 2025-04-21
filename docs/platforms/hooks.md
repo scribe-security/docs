@@ -94,14 +94,25 @@ These hooks are provided by the `platforms` container along with required config
 }
 -->
 <!-- { "object-type": "command-output-start" } -->
+### `platform discover` Command Hooks
 | Name | ID | Type | Platform | Tool | Parser |
 | --- | --- | --- | --- | --- | --- |
-| Trivy Vulnerability Scan | trivy_image | image | dockerhub |  | sarif |
-| Trivy IaC and Secrets Scan (Local) | trivy_iac_and_secrets | repository | github | trivy | trivy |
-| GitGuardian Secret Scan (Local) | ggshield_secret_local | repository | github | ggshield | ggshield |
+| GitGuardian Secret Scan | ggshield_secret_remote | repository | github | ggshield | ggshield |
+| Trivy IaC and Secrets Scan | trivy_iac_and_secrets_remote | repository | github | trivy | trivy |
+
+> Use `platforms discover [platform] --hook [hook_id]` to enable the hook.
+
+
+### `platform bom` Command Hooks
+| Name | ID | Type | Platform | Tool | Parser |
+| --- | --- | --- | --- | --- | --- |
+| Trivy Vulnerability Scan | trivy_image | image | dockerhub | trivy | sarif |
+| GitGuardian Secret Scan | ggshield_secret_local | repository | github | ggshield | ggshield |
 | Hadolint Dockerfile Linter | hadolint | repository | github | hadolint | sarif |
-| Trivy IaC and Secrets Scan (Remote) | trivy_iac_and_secrets_remote | repository | github | trivy | trivy |
-| GitGuardian Secret Scan (Remote) | ggshield_secret_remote | repository | github | ggshield | ggshield |
+| Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy |
+
+> Use `platforms bom [platform] --hook [hook_id]` to enable the hook.
+
 
 
 <!-- { "object-type": "command-output-end" } -->
