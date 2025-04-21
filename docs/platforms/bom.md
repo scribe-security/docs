@@ -62,7 +62,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x71eef619b6a0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7b28a5f739c0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -176,7 +176,7 @@ options:
                         Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy, scout, grype. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
   --hook.skip           Skip hooks (default: False)
   --image.hook [HOOK ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
@@ -504,7 +504,7 @@ options:
                         AssetMappingString, default: [])
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: ggshield, ggshield. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_iac_and_secrets, ggshield_secret_local, hadolint. (default: [])
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])

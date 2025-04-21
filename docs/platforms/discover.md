@@ -77,7 +77,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x77386aaf9bc0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x745741579ee0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -286,7 +286,7 @@ options:
   --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: ggshield, ggshield. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_iac_and_secrets_remote, ggshield_secret_remote. (default: [])
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
@@ -391,7 +391,7 @@ options:
                         Override product key with namespace, repository or image names (default: mapping)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy, scout, grype. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: . (default: [])
   --hook.skip           Skip hooks (default: False)
   --namespace.hook [HOOK ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])

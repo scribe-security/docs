@@ -13,7 +13,7 @@ Hooks are user-defined scripts or commands executed during asset discovery or SB
 
 ### Hook Configuration
 Hooks are configured using a YAML file or via CLI flags. Each hook specifies:
-- **Name**: Identifier for the hook.
+- **Name**: Hook Name.
 - **Type**: Asset type (e.g., repository, namespace, image).
 - **Platform**: Platform to execute the hook on (e.g., GitHub, Kubernetes).
 - **Command**: Platform command target (e.g., `discover`, `bom`); defaults to `discover`.
@@ -27,7 +27,7 @@ Hook configurations can be provided using the `--hook-config` flag and activated
 ### Example Hook Configuration
 ```yaml
 hooks:
-  - name: "github_repository_static_analysis"
+  - name: "Semgrep Static Analysis"
     type: "repository"
     platform: "github"
     command: discover
@@ -54,6 +54,8 @@ When running hooks, `platforms` provides useful environment variables:
 - `LOCAL_SOURCE_DIR`: Local source directory (Avaliable for BOM comamnd on SCM platforms)
 
 #### CI and Git Context
+These variables represent the CI and Git environment in which platforms is executed:
+
 - `GIT_COMMIT`: Git commit SHA.
 - `GIT_BRANCH`: Git branch name.
 - `GIT_TAG`: Git tag, if applicable.
@@ -64,13 +66,16 @@ When running hooks, `platforms` provides useful environment variables:
 - `RUN_ID`: CI run identifier.
 - `JOB_NAME`: CI job name.
 
-## Adding Hooks via CLI
-Hooks can also be specified inline when running `platforms` commands:
 
+### Adding Hooks via CLI
+
+You can specify hooks inline when running `platforms` commands using the format:
+`run command::tool::parser::name`
+
+For example, to add a Semgrep static analysis hook for GitHub:
 ```bash
 platforms discover github \
-  --repository.hooks "semgrep scan --sarif --config auto::{tool_name}::sarif::{hook_name}" \
-  --select-tool {tool_name}
+  --repository.hooks "semgrep scan --sarif --config auto"::semgrep::sarif::"Semgrep Static Analysis"
 ```
 
 ## Controlling Hook Execution
@@ -91,11 +96,12 @@ These hooks are provided by the `platforms` container along with required config
 <!-- { "object-type": "command-output-start" } -->
 | Name | ID | Type | Platform | Tool | Parser |
 | --- | --- | --- | --- | --- | --- |
-| Trivy Image Vulnrability Scan | trivy | image | dockerhub | trivy | trivy |
-| Dockerhub-Scout-Policy-Scan | scout | image | dockerhub | scout |  |
-| Grype Image Vulnrability Scan | grype | image | dockerhub | grype | anchoregrype |
-| Bom Stage GitGuardian Secret Scan | ggshield | repository | github | ggshield | ggshield |
-| Discovery Stage GitGuardian Secret Scan | ggshield | repository | github | ggshield | ggshield |
+| Trivy Vulnerability Scan | trivy_image | image | dockerhub |  | sarif |
+| Trivy IaC and Secrets Scan (Local) | trivy_iac_and_secrets | repository | github | trivy | trivy |
+| GitGuardian Secret Scan (Local) | ggshield_secret_local | repository | github | ggshield | ggshield |
+| Hadolint Dockerfile Linter | hadolint | repository | github | hadolint | sarif |
+| Trivy IaC and Secrets Scan (Remote) | trivy_iac_and_secrets_remote | repository | github | trivy | trivy |
+| GitGuardian Secret Scan (Remote) | ggshield_secret_remote | repository | github | ggshield | ggshield |
 
 
 <!-- { "object-type": "command-output-end" } -->
@@ -103,7 +109,7 @@ These hooks are provided by the `platforms` container along with required config
 
 Example:
 ```bash
-docker run -it scribesecurity/platforms:latest discover github --hook ggshield
+docker run -it scribesecurity/platforms:latest discover github --hook trivy_iac_and_secrets_remote
 ```
 
 ## Evidence from Hooks
