@@ -119,7 +119,9 @@ These hooks are provided by the `platforms` container along with required config
 
 
 ## Default hook Examples
-<details><summary>Trivy IaC and Secrets Scan</summary>
+<details>
+
+<summary>Trivy IaC and Secrets Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -136,7 +138,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>GitGuardian Secret Scan</summary>
+<details>
+
+<summary>GitGuardian Secret Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -154,7 +158,9 @@ use-stdout-evidence: true
 ```
 </details>
 
-<details><summary>Trivy IaC and Secrets Scan</summary>
+<details>
+
+<summary>Trivy IaC and Secrets Scan</summary>
 
 ```yaml
 allow_failure: true
@@ -171,7 +177,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>GitGuardian Secret Scan</summary>
+<details>
+
+<summary>GitGuardian Secret Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -189,7 +197,9 @@ use-stdout-evidence: true
 ```
 </details>
 
-<details><summary>Hadolint Dockerfile Lint Scan</summary>
+<details>
+
+<summary>Hadolint Dockerfile Lint Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -207,7 +217,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>Gitleaks Secret Scan</summary>
+<details>
+
+<summary>Gitleaks Secret Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -225,7 +237,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>KICS IaC Security Scan</summary>
+<details>
+
+<summary>KICS IaC Security Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -243,7 +257,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>Trivy Vulnerability Scan</summary>
+<details>
+
+<summary>Trivy Vulnerability Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -261,7 +277,9 @@ use-stdout-evidence: false
 ```
 </details>
 
-<details><summary>Trivy Vulnerability Scan</summary>
+<details>
+
+<summary>Trivy Vulnerability Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -280,7 +298,9 @@ use-stdout-evidence: false
 </details>
 
 ## General hook Examples
-<details><summary>CodeQL Static Analysis Scan</summary>
+<details>
+
+<summary>CodeQL Static Analysis Scan</summary>
 
 ```yaml
 allow_failure: false
@@ -299,7 +319,9 @@ use-stdout-evidence: true
 ```
 </details>
 
-<details><summary>Grype Vulnrability Scan</summary>
+<details>
+
+<summary>Grype Vulnrability Scan</summary>
 
 ```yaml
 allow_failure: true
