@@ -13,13 +13,14 @@ Hooks are user-defined scripts or commands executed during asset discovery or SB
 
 ### Hook Configuration
 Hooks are configured using a YAML file or via CLI flags. Each hook specifies:
+- **ID**: Hook identifier (defaults to the value of **Tool** if not specified).
 - **Name**: Hook Name.
+- **Tool**: Name of the external tool used.
 - **Type**: Asset type (e.g., repository, namespace, image).
 - **Platform**: Platform to execute the hook on (e.g., GitHub, Kubernetes).
 - **Command**: Platform command target (e.g., `discover`, `bom`); defaults to `discover`.
-- **Tool**: Name of the external tool used.
-- **ID**: Hook identifier (defaults to the value of **Tool** if not specified).
 - **Parser**: Output format parser (e.g., JSON, SARIF).
+- **use-stdout-evidence**: Use the Command Stdout as evidence.
 - **Run**: Command executed, using environment variables for dynamic input.
 
 Hook configurations can be provided using the `--hook-config` flag and activated via the `--hook` flag referencing the Hook ID.
@@ -82,7 +83,7 @@ platforms discover github \
 ## Controlling Hook Execution
 Control hook execution with these flags:
 - `--hook-config`: Specify a YAML file containing hook configurations.
-- `--select-tool`: Runs only specified hooks by tool name.
+- `--hook`: Runs only specified hooks by tool name.
 - `--hook.skip`: Skips execution of hooks entirely.
 
 ## Embedded Supported Hooks
