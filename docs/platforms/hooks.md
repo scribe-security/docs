@@ -112,6 +112,7 @@ These hooks are provided by the `platforms` container along with required config
 | GitGuardian Secret Scan | ggshield_secrets | repository | github | ggshield | ggshield |
 | Gitleaks Secret Scan | gitleaks_secrets | repository | github | gitleaks | gitleaks |
 | Hadolint Dockerfile Lint Scan | hadolint | repository | github | hadolint | hadolint |
+| KICS IaC Security Scan | kics_scan | repository | github | kics | kics |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy |
 
 > Use `platforms bom [platform] --hook [hook_id]` to enable the hook.
@@ -219,6 +220,24 @@ run: "gitleaks detect \\\n  --source \"$LOCAL_SOURCE_DIR\" \\\n  --report-path \
   $HOOK_OUTPUT_FILE\" \\\n  --report-format json \\\n  --redact \\\n  --verbose\n"
 timeout: 600
 tool: gitleaks
+type: repository
+use-stdout-evidence: false
+```
+</details>
+
+<details><summary>KICS IaC Security Scan</summary>
+
+```yaml
+allow_failure: false
+command: bom
+id: kics_scan
+name: KICS IaC Security Scan
+parser: kics
+platform: github
+run: "kics scan \\\n  -p \"$LOCAL_SOURCE_DIR\" \\\n  -o \"$HOOK_OUTPUT_DIR\" \\\n\
+  \  --output-name \"$HOOK_OUTPUT_FILE_NAME\" \\\n  --report-formats json \\\n  --no-progress\
+  \ \\\n  --log-level INFO \n"
+tool: kics
 type: repository
 use-stdout-evidence: false
 ```
