@@ -63,7 +63,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x78cbcdb27f60>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x70c29d9907c0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -420,8 +420,8 @@ usage: platforms [options] bom [options] bitbucket [-h] [--instance.instance INS
                                                    [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--types {repository,all}]
                                                    [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
                                                    [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
-                                                   [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
-                                                   [--repository.mapping [MAPPING ...]]
+                                                   [--branch-protection.skip] [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
+                                                   [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -452,6 +452,8 @@ options:
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --branch-protection.skip
+                        Skip Branch protection in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --workspace.mapping [MAPPING ...]

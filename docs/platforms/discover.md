@@ -78,7 +78,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7259cb533740>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x779096502ca0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -728,8 +728,8 @@ usage: platforms [options] discover [options] bitbucket [-h] [--instance.instanc
                                                         [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
                                                         [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
                                                         [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
-                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--broad] [--workspace.mapping [MAPPING ...]]
-                                                        [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--broad]
+                                                        [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                         [--default_product_key_strategy {mapping}] [--workspace.single] [--project.single] [--repository.single]
                                                         [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
@@ -762,6 +762,8 @@ options:
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --branch-protection.skip
+                        Skip Branch protection in discovery/evidence (default: False)
   --broad               Retrieves limited information (only workspaces, repositories) (default: False)
   --workspace.mapping [MAPPING ...]
                         Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are

@@ -56,6 +56,8 @@ When running hooks, `platforms` provides useful environment variables:
 - `LOCAL_SOURCE_DIR`: Local source directory (Avaliable for BOM comamnd on SCM platforms)
 - `PLATFORMS_KUBECONFIG`: Kubeconfig path with the provided `url` and `token` to platforms command (avilable for `k8s`).
 - `CLUSTER_URL`: Provided `url` to platforms command (avilable for `k8s`).
+- `NAMESPACE`: Target asset namespace (avilable for `k8s`).
+- `POD`: Target asset namespace (avilable for `k8s`).
 
 Of course! Here's a cleaner, more formal rephrasing for the Kubernetes (K8s) parts you added, while keeping the structure and meaning you intended:
 
@@ -129,12 +131,12 @@ These hooks are provided by the `platforms` container along with required config
 | --- | --- | --- | --- | --- | --- | --- |
 | Trivy Vulnerability Scan | trivy_image | image | dockerhub | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | dockerhub | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
-| Opengrep Static Analysis Scan | opengrep | repository | github |  | sarif | [GNU-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE) |
+| Opengrep Static Analysis Scan | opengrep | repository | github |  | sarif | [LGPL-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE) |
 | Gitleaks Secret Scan | gitleaks_secrets | repository | github | gitleaks | gitleaks | [MIT](https://github.com/gitleaks/gitleaks/blob/master/LICENSE) |
 | KICS IaC Security Scan | kics_scan | repository | github | kics | kics | [Apache-2.0](https://github.com/Checkmarx/kics/blob/master/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy Vulnerability Scan K8s | trivy_k8s_image | image | k8s |  | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
-| Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | k8s | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
+| Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | k8s | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 
 > Use `platforms bom [platform] --hook [hook_id]` to enable the hook.
 
@@ -179,7 +181,7 @@ tool: ''
 parser: sarif
 allow_failure: false
 use-stdout-evidence: false
-license: '[GNU-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE)'
+license: '[LGPL-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE)'
 predicate-type: auto
 timeout: 300
 run: |
@@ -440,7 +442,7 @@ run: |
 ```yaml
 name: Trivy IaC and Secrets Scan
 id: trivy_iac_and_secrets
-type: repository
+type: image
 platform: k8s
 command: bom
 tool: trivy

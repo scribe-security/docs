@@ -53,7 +53,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7ade102ba7a0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x794f0f486fc0>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.bundle BUNDLE
                         Set bundle git branch (type: str, default: )
@@ -470,7 +470,7 @@ usage: platforms [options] verify [options] bitbucket [-h] [--instance.instance 
                                                       [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL]
                                                       [--types {workspace,project,repository,all}] [--scope.workspace [WORKSPACE ...]]
                                                       [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
-                                                      [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
+                                                      [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip]
                                                       [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                       [--repository.policy [POLICY ...]] [--project.policy [POLICY ...]] [--workspace.policy [POLICY ...]]
                                                       [--org-policy-skip-aggregate] [--repo-policy-skip-aggregate]
@@ -504,6 +504,8 @@ options:
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --branch-protection.skip
+                        Skip Branch protection in discovery/evidence (default: False)
   --workspace.mapping [MAPPING ...]
                         Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are
                         supported (type: AssetMappingString, default: [])
