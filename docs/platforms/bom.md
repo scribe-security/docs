@@ -63,7 +63,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x742b06b2fd80>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x78cbcdb27f60>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -178,7 +178,7 @@ options:
                         Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image, trivy_iac_and_secrets. (default: [])
   --hook.skip           Skip hooks (default: False)
   --image.hook [HOOK ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
@@ -232,6 +232,7 @@ usage: platforms [options] bom [options] k8s [-h] [--instance.instance INSTANCE]
                                              [--default_product_version_strategy {namespace_hash,pod_hash,image_id}] [--scope.namespace [NAMESPACE ...]]
                                              [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
                                              [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--image.mapping [MAPPING ...]]
+                                             [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--image.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -261,6 +262,12 @@ options:
   --image.mapping [MAPPING ...]
                         K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace::my-pod::my-image::product_key::product_version (type:
                         K8sImageMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_k8s_image, trivy_iac_and_secrets. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --image.hook [HOOK ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -512,8 +519,7 @@ options:
                         (type: AssetMappingString, default: [])
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_iac_and_secrets, ggshield_secrets, hadolint, gitleaks_secrets,
-                        kics_scan. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: opengrep, trivy_iac_and_secrets, gitleaks_secrets, kics_scan. (default: [])
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])

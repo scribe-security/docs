@@ -78,7 +78,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x735f97b36480>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7259cb533740>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -287,7 +287,7 @@ options:
   --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_iac_and_secrets, ggshield_secrets. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_iac_and_secrets. (default: [])
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
@@ -392,7 +392,7 @@ options:
                         Override product key with namespace, repository or image names (default: mapping)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
-  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image, trivy_iac_and_secrets. (default: [])
   --hook.skip           Skip hooks (default: False)
   --repository.hook [HOOK ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
@@ -438,7 +438,8 @@ usage: platforms [options] discover [options] k8s [-h] [--instance.instance INST
                                                   [--token TOKEN] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]]
                                                   [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
                                                   [--secret.skip] [--deployment.skip] [--broad] [--namespace.single] [--pod.single]
-                                                  [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
+                                                  [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]]
+                                                  [--hook [HOOK ...]] [--hook.skip] [--namespace.hooks [HOOKS ...]]
                                                   [--default_product_key_strategy {namespace,pod,image,mapping}]
 
 options:
@@ -473,6 +474,12 @@ options:
                         Namespace product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --pod.mapping [MAPPING ...]
                         Pod product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: kubescape_cluster, apparmor_namespace. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --namespace.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
   --default_product_key_strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
 ```
