@@ -53,7 +53,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x794f0f486fc0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7fd39cf92fc0>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.bundle BUNDLE
                         Set bundle git branch (type: str, default: )

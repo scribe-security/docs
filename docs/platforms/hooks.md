@@ -131,11 +131,11 @@ These hooks are provided by the `platforms` container along with required config
 | --- | --- | --- | --- | --- | --- | --- |
 | Trivy Vulnerability Scan | trivy_image | image | dockerhub | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | dockerhub | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
-| Opengrep Static Analysis Scan | opengrep | repository | github |  | sarif | [LGPL-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE) |
+| Opengrep Static Analysis Scan | opengrep | repository | github | opengrep | sarif | [LGPL-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE) |
 | Gitleaks Secret Scan | gitleaks_secrets | repository | github | gitleaks | gitleaks | [MIT](https://github.com/gitleaks/gitleaks/blob/master/LICENSE) |
 | KICS IaC Security Scan | kics_scan | repository | github | kics | kics | [Apache-2.0](https://github.com/Checkmarx/kics/blob/master/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
-| Trivy Vulnerability Scan K8s | trivy_k8s_image | image | k8s |  | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
+| Trivy Vulnerability Scan K8s | trivy_k8s_image | image | k8s | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | k8s | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 
 > Use `platforms bom [platform] --hook [hook_id]` to enable the hook.

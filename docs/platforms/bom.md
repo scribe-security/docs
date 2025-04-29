@@ -63,7 +63,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x70c29d9907c0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7ece7edf87c0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
