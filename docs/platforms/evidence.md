@@ -25,11 +25,11 @@ The evidence command uses Scribe's `valint` tool to upload the evidence and to s
 ```bash
 usage: platforms [options] evidence [-h] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only] [--max-threads MAX_THREADS]
                                     [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY] [--allow-failures] [--export-partial] [--skip-evidence]
-                                    [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
+                                    [--valint.scribe.client-secret CLIENT_SECRET] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
                                     [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
                                     [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
                                     [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
-                                    {gitlab,k8s,dockerhub,github,jfrog,ecr,jenkins,bitbucket} ...
+                                    {gitlab,k8s,dockerhub,github,jfrog,ecr,jenkins,bitbucket,azure} ...
 
 Export evidence data (Deprecated)
 
@@ -46,14 +46,12 @@ options:
   --thread-timeout THREAD_TIMEOUT
                         Thread timeout in seconds (type: float, default: 20.0)
   --rate-limit-retry RATE_LIMIT_RETRY
-                        Retry on rate limit (type: int, default: 3)
+                        Retry on rate limit (default disabled) (type: int, default: 0)
   --allow-failures      Allow failures without returning an error code (default: False)
   --export-partial      Upload Partial Discover evidence (default: False)
   --skip-evidence       Skip evidence upload (default: False)
   --valint.scribe.client-secret CLIENT_SECRET, --scribe-token CLIENT_SECRET, --scribe-client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.cache.disable
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
@@ -68,13 +66,13 @@ options:
   --valint.product-version PRODUCT_VERSION
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
-                        Evidence predicate type (type: str, default: http://scribesecurity.com/evidence/discovery/v0.1)
+                        Evidence predicate type (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7b9df7c3ff60>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7f0fc74b5800>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -89,6 +87,7 @@ subcommands:
     ecr
     jenkins
     bitbucket
+    azure
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -109,9 +108,10 @@ platforms evidence gitlab --organization.mapping "my-org::my-product::1.0" --pro
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] gitlab [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,project,all}]
-                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]]
-                                                     [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}] [--organization.mapping [MAPPING ...]]
-                                                     [--project.mapping [MAPPING ...]] [--organization.single] [--project.single]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
+                                                     [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                     [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--organization.single]
+                                                     [--project.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -124,8 +124,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
-                        project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
+                        'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -164,7 +164,8 @@ platforms evidence github --organization.mapping "my-org::my-product::1.0" --rep
 usage: platforms [options] evidence [options] github [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,repository,all,all}]
                                                      [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
                                                      [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip] [--default_product_key_strategy {mapping}]
-                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--organization.single] [--repository.single]
+                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--organization.single]
+                                                     [--repository.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -177,8 +178,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name'
-                        (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace
+                        / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: [])
   --scope.tag [TAG ...]
@@ -188,11 +189,11 @@ options:
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are
+                        supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
+                        (type: AssetMappingString, default: [])
   --organization.single
                         Export all organizations in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
@@ -214,12 +215,14 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] dockerhub [-h] [--instance.instance INSTANCE] [--types {instance,token,repository,namespace,repository_tag,webhook,all}]
-                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]]
+usage: platforms [options] evidence [options] dockerhub [-h] [--instance.instance INSTANCE]
+                                                        [--types {instance,token,repository,namespace,repository_tag,webhook,all}] [--username USERNAME]
+                                                        [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                        [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.namespace [NAMESPACE ...]]
-                                                        [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]]
-                                                        [--namespace.single] [--repository.single] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                        [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                        [--scope.namespace [NAMESPACE ...]] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                        [--instance.mapping [MAPPING ...]] [--namespace.single] [--repository.single]
+                                                        [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -271,10 +274,11 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] k8s [-h] [--instance.instance INSTANCE] [--types {namespace,pod,all}] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]]
-                                                  [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
-                                                  [--exclude.image [IMAGE ...]] [--default_product_key_strategy {namespace,pod,image,mapping}] [--secret.skip] [--url URL]
-                                                  [--token TOKEN] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
+usage: platforms [options] evidence [options] k8s [-h] [--instance.instance INSTANCE] [--types {namespace,pod,all}] [--scope.namespace [NAMESPACE ...]]
+                                                  [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
+                                                  [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
+                                                  [--default_product_key_strategy {namespace,pod,image,mapping}] [--secret.skip] [--url URL] [--token TOKEN]
+                                                  [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -327,10 +331,12 @@ platforms evidence jfrog --jf-repository.mapping "*::my-product::1.0" --namespac
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] ecr [-h] [--instance.instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}]
-                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                  [--aws-account.single] [--repository.single] [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
+                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
+                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
+                                                  [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]]
+                                                  [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
+                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -381,10 +387,12 @@ platforms evidence ecr --repository.mapping "*my-service*::my-product::1.0"
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] ecr [-h] [--instance.instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}]
-                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                                  [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                  [--aws-account.single] [--repository.single] [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
+                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
+                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
+                                                  [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]]
+                                                  [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
+                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -434,11 +442,14 @@ platforms evidence bitbucker --workspace.mapping "my-workspace::my-product::1.0"
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] bitbucket [-h] [--instance.instance INSTANCE] [--types {workspace,project,repository,all,all}] [--scope.workspace [WORKSPACE ...]]
-                                                        [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
-                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--default_product_key_strategy {mapping}]
-                                                        [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                        [--workspace.single] [--project.single] [--repository.single]
+usage: platforms [options] evidence [options] bitbucket [-h] [--instance.instance INSTANCE] [--types {workspace,project,repository,all,all}]
+                                                        [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
+                                                        [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
+                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
+                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip]
+                                                        [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
+                                                        [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--workspace.single]
+                                                        [--project.single] [--repository.single]
 
 options:
   -h, --help            Show this help message and exit.
@@ -446,14 +457,22 @@ options:
                         BitBucket instance string (default: )
   --types {workspace,project,repository,all,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
+  --app_password APP_PASSWORD
+                        BitBucket app_password (BB_PASSWORD) (default: )
+  --username USERNAME   BitBucket username (default: null)
+  --workspace_token WORKSPACE_TOKEN
+                        BitBucket workspace_token can be used with --workspace_name flag instead of --app_password and --username (BB_WORKSPACE_TOKEN) (default: )
+  --workspace WORKSPACE
+                        BitBucket workspace_name can be used with --workspace_token flag instead of --app_password and --username (default: )
+  --url URL             BitBucket URL (required, default: https://api.bitbucket.org)
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name'
-                        (default: ['*'])
-  --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
                         project_name' (default: ['*'])
+  --scope.repository [REPOSITORY ...]
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
+                        'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -461,17 +480,19 @@ options:
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --branch-protection.skip
+                        Skip Branch protection in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --workspace.mapping [MAPPING ...]
-                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are
+                        supported (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported
+                        (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
+                        (type: AssetMappingString, default: [])
   --workspace.single    Export all workspaces in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)
@@ -494,8 +515,9 @@ platforms evidence jenkins --instance-mapping "my-instance::my-product::1.0" --f
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] evidence [options] jenkins [-h] [--instance.instance INSTANCE] [--types {instance,folder,all,all}] [--credential_stores.skip] [--users.skip]
-                                                      [--plugins.skip] [--security_settings.skip] [--computer_set.skip] [--jobs.skip] [--scope.folder [FOLDER ...]]
+usage: platforms [options] evidence [options] jenkins [-h] [--instance.instance INSTANCE] [--types {instance,folder,all,all}] [--username USERNAME]
+                                                      [--password PASSWORD] [--url URL] [--credential_stores.skip] [--users.skip] [--plugins.skip]
+                                                      [--security_settings.skip] [--computer_set.skip] [--jobs.skip] [--scope.folder [FOLDER ...]]
                                                       [--exclude.folder [FOLDER ...]] [--scope.job_runs.past_days PAST_DAYS] [--scope.job_runs.max MAX]
                                                       [--scope.job_runs.analyzed_logs] [--job_runs.skip] [--default_product_key_strategy {mapping}]
                                                       [--instance-mapping [INSTANCE_MAPPING ...]] [--folder.mapping [MAPPING ...]] [--folder.single]
@@ -506,6 +528,9 @@ options:
                         Jenkins instance string (default: )
   --types {instance,folder,all,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
+  --username USERNAME   Jenkins username (default: )
+  --password PASSWORD   Jenkins token (JENKINS_PASSWORD) (default: )
+  --url URL             Jenkins base URL (default: )
   --credential_stores.skip
                         Skip credential stores (default: False)
   --users.skip          Skip users (default: False)
@@ -515,25 +540,28 @@ options:
   --computer_set.skip   Skip computer sets in discovery/evidence (default: False)
   --jobs.skip           Skip jobs (default: False)
   --scope.folder [FOLDER ...]
-                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can include the job name in order to scope specific
-                        jobs. Wildcard is supported only as a suffix. examples: folder-a* will discover all folders that are included in a root folder that starts with folder-a.
-                        folder-a/* will discover all folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default: ['*'])
+                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can include the job name in order to
+                        scope specific jobs. Wildcard is supported only as a suffix. examples: folder-a* will discover all folders that are included in a root folder
+                        that starts with folder-a. folder-a/* will discover all folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default:
+                        ['*'])
   --exclude.folder [FOLDER ...]
                         Jenkins folder/job list to exclude from discovery. Format is like the --scope.folder argument (type: JenkinsFolderScope, default: [])
   --scope.job_runs.past_days PAST_DAYS
                         Number of past days to include in the job run discovery, 0 for no time limit (type: int, default: 30)
   --scope.job_runs.max MAX
-                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in the past_days range. 0 for no limit (type: int,
-                        default: 10)
+                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in the past_days range. 0 for no
+                        limit (type: int, default: 10)
   --scope.job_runs.analyzed_logs
                         Include analyzed job run logs (default: False)
   --job_runs.skip       Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by folder name too. (default: mapping)
   --instance-mapping [INSTANCE_MAPPING ...]
-                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported (type: AssetMappingString, default: [])
+                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported (type: AssetMappingString, default:
+                        [])
   --folder.mapping [MAPPING ...]
-                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are supported (type: AssetMappingString, default: [])
+                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are supported (type: AssetMappingString,
+                        default: [])
   --folder.single       Export all repos in a single evidence (default: False)
 ```
 <!-- { "object-type": "command-output-end" } -->
