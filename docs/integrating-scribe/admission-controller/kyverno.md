@@ -127,6 +127,10 @@ spec:
            attestors:
            - entries:
              - certificates:
+                 rekor:
+                   ignoreTlog: true 
+                 ctlog:
+                   ignoreSCT: true
                  certChain: |-
                    -----BEGIN CERTIFICATE-----
                    MIIF8jCCA9qgAwIBAgICEjQwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNVBAYTAklM
