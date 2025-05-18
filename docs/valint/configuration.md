@@ -59,6 +59,7 @@ attest:
     branch: ""
     commit: ""
     depth: 0
+    clone-path: ""
   policy_configs: []
   rule_configs: []
   label_filters: []

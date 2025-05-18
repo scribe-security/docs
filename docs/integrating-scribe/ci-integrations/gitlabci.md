@@ -63,6 +63,40 @@ scribe-gitlab-job:
           -P $SCRIBE_TOKEN
 ```
 
+#### Using custom x509 keys
+
+Utilizing X509 Keys on Gitlab CI.
+
+- Prepare the X509 key in PEM format, including the Certificate and CA-chain.
+
+- Encode the keys using the commands below:
+
+```yaml
+cat my_key.pem | base64
+cat my_cert.pem | base64
+cat my_ca-chain.pem | base64
+```
+
+- Store The following Secrets as project variable using **[GitLab  project variable](https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project)**.
+
+<img src='../../../../img/ci/platforms_gitlab_keys.png' alt='Signing Variables'/>
+
+- `ATTEST_KEY_B64` Base64 encoded x509 Private key pem content, make sure to mask the value.
+- `ATTEST_CERT_B64` - Base64 encoded x509 Cert pem content.
+- `ATTEST_CA_B64` - Base64 encoded x509 CA Chain pem content
+
+We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
+
+> Explore additional signing options in the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
+
+Lastly Use the masked environment variables with Valint by decoding them:
+```yaml
+   - export ATTEST_KEY=$(echo $ATTEST_KEY_B64 | base64 -d | tr -d '\r' )
+   - export ATTEST_CERT=$(echo $ATTEST_CERT_B64 | base64 -d | tr -d '\r' )
+   - export ATTEST_CA=$(echo $ATTEST_CA_B64 | base64 -d | tr -d '\r' )
+   - valint bom my_image:latest -o attest
+```
+
 #### Basic example
 
 ```yaml

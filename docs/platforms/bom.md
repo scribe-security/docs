@@ -16,12 +16,13 @@ This command enables users to generate SBOMs on scale.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT] [--monitor.threshold THRESHOLD] [--monitor.clean-docker]
-                               [--max-threads MAX_THREADS] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.scribe.enable] [--valint.cache.disable]
-                               [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN]
-                               [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST]
-                               [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
-                               {gitlab,k8s,dockerhub,github,jfrog,ecr,bitbucket} ...
+usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT] [--monitor.threshold THRESHOLD]
+                               [--monitor.clean-docker] [--max-threads MAX_THREADS] [--evidence.local.path PATH] [--valint.scribe.client-secret CLIENT_SECRET]
+                               [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
+                               [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                               [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
+                               [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+                               {gitlab,k8s,dockerhub,github,jfrog,ecr,bitbucket,azure} ...
 
 Export bom data
 
@@ -38,10 +39,10 @@ options:
                         Monitor disk usage - auto clean docker cache (default: False)
   --max-threads MAX_THREADS
                         Number of threads used to run valint (type: int, default: 10)
+  --evidence.local.path PATH
+                        Local report export directory path (type: str, default: output)
   --valint.scribe.client-secret CLIENT_SECRET, --scribe-token CLIENT_SECRET, --scribe-client-secret CLIENT_SECRET
                         Scribe client Secret (type: str, default: )
-  --valint.scribe.enable
-                        Enable Scribe client (default: False)
   --valint.cache.disable
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
@@ -56,13 +57,13 @@ options:
   --valint.product-version PRODUCT_VERSION
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
-                        Evidence predicate type (type: str, default: http://scribesecurity.com/evidence/discovery/v0.1)
+                        Evidence predicate type (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x705649776b60>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7ece7edf87c0>, default: [])
   --unique              Allow unique assets (default: False)
 
 subcommands:
@@ -76,6 +77,7 @@ subcommands:
     jfrog
     ecr
     bitbucket
+    azure
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -144,8 +146,9 @@ usage: platforms [options] bom [options] dockerhub [-h] [--instance.instance INS
                                                    [--default_product_key_strategy {namespace,repository,tag,mapping}]
                                                    [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.repository [REPOSITORY ...]]
                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                   [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.namespace [NAMESPACE ...]]
-                                                   [--image.mapping [MAPPING ...]]
+                                                   [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                                   [--scope.namespace [NAMESPACE ...]] [--image.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]]
+                                                   [--hook [HOOK ...]] [--hook.skip] [--image.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -173,6 +176,12 @@ options:
                         Dockerhub namespaces (default: ['*'])
   --image.mapping [MAPPING ...]
                         Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image, trivy_iac_and_secrets. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --image.hook [HOOK ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -219,9 +228,11 @@ Note that the image characterization string is a wildcarded string, with separat
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] bom [options] k8s [-h] [--instance.instance INSTANCE] [--url URL] [--token TOKEN] [--types {namespace,pod,all}]
-                                             [--default_product_key_strategy {namespace,pod,image,mapping}] [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
-                                             [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state]
-                                             [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--image.mapping [MAPPING ...]]
+                                             [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                             [--default_product_version_strategy {namespace_hash,pod_hash,image_id}] [--scope.namespace [NAMESPACE ...]]
+                                             [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]]
+                                             [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--image.mapping [MAPPING ...]]
+                                             [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--image.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -249,8 +260,14 @@ options:
   --exclude.image [IMAGE ...]
                         Images to exclude from discovery process (default: [])
   --image.mapping [MAPPING ...]
-                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace::my-pod::my-image::product_key::product_version (type: K8sImageMappingString,
-                        default: [])
+                        K8s namespace;pod;image to product_key:product_version mappinge.g. my-namespace::my-pod::my-image::product_key::product_version (type:
+                        K8sImageMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_k8s_image, trivy_iac_and_secrets. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --image.hook [HOOK ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -296,10 +313,12 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] jfrog [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
+usage: platforms [options] bom [options] jfrog [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL]
+                                               [--default_product_key_strategy {jf-repository,repository,tag,mapping}]
                                                [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.jf-repository [JF_REPOSITORY ...]]
-                                               [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                               [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                               [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.jf-repository [JF_REPOSITORY ...]]
+                                               [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
                                                [--image.mapping [MAPPING ...]]
 
 options:
@@ -348,8 +367,9 @@ platforms bom ecr --image.mapping "*.dkr.ecr.*.amazonaws.com/my-image*::my-produ
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] bom [options] ecr [-h] [--instance.instance INSTANCE] [--default_product_key_strategy {aws-account,repository,tag,mapping}]
-                                             [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
-                                             [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
+                                             [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
+                                             [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
+                                             [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
                                              [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--url URL] [--image.mapping [MAPPING ...]]
 
 options:
@@ -396,11 +416,12 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] bitbucket [-h] [--instance.instance INSTANCE] [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
-                                                   [--workspace WORKSPACE] [--url URL] [--types {repository,all}] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
-                                                   [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]]
-                                                   [--commit.skip] [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
-                                                   [--repository.mapping [MAPPING ...]]
+usage: platforms [options] bom [options] bitbucket [-h] [--instance.instance INSTANCE] [--app_password APP_PASSWORD] [--username USERNAME]
+                                                   [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--types {repository,all}]
+                                                   [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
+                                                   [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip]
+                                                   [--branch-protection.skip] [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
+                                                   [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -419,11 +440,11 @@ options:
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name'
-                        (default: ['*'])
-  --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
                         project_name' (default: ['*'])
+  --scope.repository [REPOSITORY ...]
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
+                        'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -431,17 +452,19 @@ options:
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --branch-protection.skip
+                        Skip Branch protection in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --workspace.mapping [MAPPING ...]
-                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are
+                        supported (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported
+                        (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
+                        (type: AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -463,9 +486,11 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] github [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {repository,all}] [--scope.organization [ORGANIZATION ...]]
-                                                [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
-                                                [--default_product_key_strategy {mapping}] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+usage: platforms [options] bom [options] github [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {repository,all}]
+                                                [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
+                                                [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip] [--default_product_key_strategy {mapping}]
+                                                [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]]
+                                                [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -478,8 +503,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name'
-                        (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace
+                        / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: [])
   --scope.tag [TAG ...]
@@ -489,11 +514,17 @@ options:
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are
+                        supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type:
-                        AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
+                        (type: AssetMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: opengrep, trivy_iac_and_secrets, gitleaks_secrets, kics_scan. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --repository.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -515,9 +546,10 @@ Note that the image characterization string is a wildcarded string, some useful 
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] bom [options] gitlab [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {project,all}] [--scope.organization [ORGANIZATION ...]]
-                                                [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip]
-                                                [--default_product_key_strategy {mapping}] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
+usage: platforms [options] bom [options] gitlab [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {project,all}]
+                                                [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]]
+                                                [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}]
+                                                [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -530,8 +562,8 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
-                        project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
+                        'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]

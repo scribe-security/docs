@@ -50,7 +50,7 @@ global flag for all commands
 | -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
-| -d | --output-directory | Output directory path | "$\{XDG_CACHE_HOME\}/valint" |
+| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
 | -q | --quiet | Suppress all logging output | |
