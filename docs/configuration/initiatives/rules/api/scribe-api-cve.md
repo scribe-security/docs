@@ -6,7 +6,7 @@ title: Verify No Critical or High Vulnerabilities
 **Type:** Rule  
 **ID:** `scribe-cve`  
 **Source:** [v2/rules/api/scribe-api-cve.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api-cve.yaml)  
-**Rego Source:** [scribe-api.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api.rego)  
+**Rego Source:** [scribe-api-cve.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api-cve.rego)  
 **Labels:** SCA, Blueprint, Scribe  
 
 Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.).

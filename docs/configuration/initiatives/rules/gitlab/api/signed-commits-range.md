@@ -14,9 +14,6 @@ Verify the selected range of commits is signed via the GitLab API.
 :::tip 
 Evidence **IS NOT** required for this rule.  
 ::: 
-:::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
-::: 
 
 ## Usage example
 

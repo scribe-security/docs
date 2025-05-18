@@ -305,6 +305,7 @@
 | [Sign Selected Commits in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-list.md) | Verify the selected commits are signed in the GitLab organization. |
 | [Set Push Rules in GitLab](/docs/configuration/initiatives/rules/gitlab/api/push-rules.md) | Verify GitLab push rules are configured via the API. |
 | [Sign Selected Commit Range in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-range.md) | Verify the selected range of commits is signed via the GitLab API. |
+| [Verify No 3rd Party Findings via Scribe API](/docs/configuration/initiatives/rules/api/scribe-api-findings.md) | Verify via Scribe API that there are no findings reported by 3rd party tools in the target product. |
 | [Verify No Critical or High Vulnerabilities in Product](/docs/configuration/initiatives/rules/api/scribe-api-cve-product.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in any deliverable component of the product. |
 
 <!-- END TABLE -->
