@@ -164,6 +164,7 @@ const config = {
                 "platforms/verify.md",
                 "platforms/generate_k8s_token.md",
                 "platforms/usage.md",
+                "platforms/hooks.md",
                 "release-notes/rns.md",
 
                 // "advanced-guide/generating-sboms.md",
