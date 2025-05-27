@@ -260,7 +260,7 @@ import_sample-policies() {
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/guides"
 
-# Copy sample policy docs
+
     cp -r "${repo_dir}/docs/v2/*" "docs/configuration/"
 
     # Create a temporary file to hold the table content from index.md

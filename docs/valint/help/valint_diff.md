@@ -2,13 +2,13 @@
 
 Compare differences between source and destination sboms
 
-```
+```bash
 valint diff [SOURCE_SBOM] [DESTINATION_SBOM] [flags]
 ```
 
 ### Examples for running `valint diff`
 
-```
+```bash
   valint diff <source sbom file> <destination sbom file>
   valint diff <source sbom file> <destination sbom file> --integrity validated,modified
   valint diff <source sbom file> <destination sbom file> --package npm,deb
@@ -22,7 +22,8 @@ valint diff [SOURCE_SBOM] [DESTINATION_SBOM] [flags]
 
 ```
 
-### Options flags 
+### Options flags
+
 specific flags for command
 
 | Short | Long | Description | Default |
@@ -37,8 +38,8 @@ specific flags for command
 | | --regex-src | Select diff scope regex source paths | |
 | | --synopsis | Enable synopsis | true |
 
-
 ### Global options flags
+
 global flag for all commands
 
 
@@ -49,7 +50,7 @@ global flag for all commands
 | -C | --context-type | CI context type, options=[jenkins github circleci local gitlab] | "local" |
 | -L | --label | Add Custom labels | |
 | -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
-| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -d | --output-directory | Output directory path | "$\{XDG_CACHE_HOME\}/valint" |
 | -O | --output-file | Output file name | |
 | -n | --product-key | Scribe Project Key | |
 | -q | --quiet | Suppress all logging output | |
@@ -59,7 +60,6 @@ global flag for all commands
 | -u | --scribe.url | Scribe API Url | "https://airflow.scribesecurity.com" |
 | -v | --verbose | Log verbosity level (-v = info, -vv = debug) | |
 
-
 ### SEE ALSO
 
-* [valint](valint.md)	 - supply chain integrity tool
+* [valint](valint.md) - supply chain integrity tool
