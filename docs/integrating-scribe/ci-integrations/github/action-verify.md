@@ -25,6 +25,8 @@ The command allows users to verify any target against its evidence.
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>] (Optional)
     required: true
+  all-evidence:
+    description: Run all evidence verification
   attest-config:
     description: Attestation config path
   attest-default:
@@ -33,6 +35,8 @@ The command allows users to verify any target against its evidence.
     description: Attestation for target
   base-image:
     description: Base image for the target
+  beautify:
+    description: Enhance the output using ANSI and Unicode characters
   bom:
     description: Create target SBOM evidence
   bundle:
@@ -76,13 +80,19 @@ The command allows users to verify any target against its evidence.
   git-tag:
     description: Git tag in the repository
   initiative:
-    description: Run only rules with specified initiative
+    description: Initiative configuration file path (early-availability)
+  initiative-id:
+    description: Initiative id
+  initiative-name:
+    description: Initiative name
   input-format:
     description: Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ]
   key:
     description: x509 Private key path
   kms:
     description: Provide KMS key reference
+  md:
+    description: Output Initiative result markdown report file
   oci:
     description: Enable OCI store
   oci-repo:
@@ -93,8 +103,6 @@ The command allows users to verify any target against its evidence.
     description: path of the decoded payload
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy:
-    description: Policy configuration file path (early-availability)
   provenance:
     description: Create target SLSA Provenance evidence
   pubkey:
@@ -109,6 +117,8 @@ The command allows users to verify any target against its evidence.
     description: Run only rules with specified label
   skip-bundle:
     description: Skip bundle download
+  skip-confirmation:
+    description: Skip Sigstore Confirmation
   skip-report:
     description: Skip Policy report stage
   uri:
@@ -121,8 +131,10 @@ The command allows users to verify any target against its evidence.
     description: Mark as deliverable, options=[true, false]
   env:
     description: Environment keys to include in evidence
-  gate:
+  gate-name:
     description: Policy Gate name
+  gate-type:
+    description: Policy Gate type
   input:
     description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
@@ -162,6 +174,7 @@ The command allows users to verify any target against its evidence.
     description: Timeout duration
   verbose:
     description: Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug
+
 ```
 
 ### Usage
@@ -169,7 +182,7 @@ Containerized action can be used on Linux runners as following
 ```yaml
 - name: valint verify
   id: valint_verify
-  uses: scribe-security/action-verify@v1.5.19
+  uses: scribe-security/action-verify@v2.0.0
   with:
       target: 'busybox:latest'
 ```
@@ -177,7 +190,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-verify-cli@v1.5.19
+  uses: scribe-security/action-verify-cli@v2.0.0
   with:
     target: 'hello-world:latest'
 ```

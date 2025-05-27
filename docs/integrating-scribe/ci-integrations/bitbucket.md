@@ -10,10 +10,13 @@ Use the following instructions to integrate your Bitbucket with Scribe.
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND_NAME: "<string>"
     TARGET: "<string>"
+    # INITIATIVE: "<string>"
+    # INITIATIVE_ID: "<string>"
+    # INITIATIVE_NAME: "<string>"
     # VERBOSE: '<string>' # Optional
     # CONFIG:'<string>' # Optional
     # FORMAT: '<string>' # Optional
@@ -71,6 +74,8 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     # SCRIBE_URL: '<string>' # Optional
     # STRUCTURED: '<string>' # Optional
     # TIMEOUT: '<string>' # Optional
+    # BOM: '<boolean>' # Optional
+    # PROVENANCE: '<boolean>' # Optional
 ```
 
 ### Required Variables
@@ -116,7 +121,6 @@ Flags for all `valint` subcommands
 | OUTPUT_FILE     | Output file name                                                                                                              |                    |
 | PIPELINE_NAME   | Pipeline name                                                                                                                 |                    |
 | PLATFORM        | Select target platform, examples=windows/armv6, arm64 ..)                                                                     |                    |
-| POLICY_ARGS     | Policy arguments                                                                                                              | []                 |
 | PREDICATE_TYPE  | Custom Predicate type (generic evidence format)                                                                               | "http://scribesecurity.com/evidence/generic/v0.1" | any |
 | PRODUCT_KEY     | Product Key                                                                                                                   |                    |
 | PRODUCT_VERSION | Product Version                                                                                                               |                    |
@@ -190,29 +194,45 @@ if `COMMAND` is set to `evidence`:
 | TOOL_VENDOR      | Tool vendor                                 |         |
 | TOOL_VERSION     | Tool version                                |         |
 | (*) = required variable. |                                     |         |
+Ah, I see! You want to include the **initiative flags** (e.g., `INITIATIVE`, `INITIATIVE_ID`, `INITIATIVE_NAME`) in the **Verify Command Variables** section. Here's the updated table with the initiative flags included:
+
+---
 
 ### Verify Command Variables
 
-if `COMMAND` is set to `verify`:
+If `COMMAND` is set to `verify`:
 
-| Variable       | Usage                                                          | Default |
-| -------------- | -------------------------------------------------------------- | --- |
-| ATTESTATION    | Attestation for target                                         | |
-| BUNDLE         | Policy bundle uri/path (early-availability)                   | "https://github.com/scribe-public/sample-policies" |
-| COMMON_NAME    | Default policy allowed common names                            | |
-| EMAIL          | Default policy allowed emails                                  | |
-| FORCE          | Force skip cache                                               | |
-| HELP           | Show help message                                              | |
-| INPUT_FORMAT   | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic] | "attest-cyclonedx-json" |
-| RULE           | Rule configuration file path (early-availability)             | |
-| SKIP_BUNDLE    | Skip bundle download                                           | |
-| SKIP_REPORT    | Skip Policy report stage                                       | |
-| URI            | Default policy allowed uris                                    | |
+| Variable          | Usage                                                                                                                                         | Default                                            |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `ATTESTATION`     | Attestation for target                                                                                                                        | Required                                           |
+| `BUNDLE`          | Policy bundle URI/path (early-availability)                                                                                                   | `https://github.com/scribe-public/sample-policies` |
+| `COMMON_NAME`     | Default policy allowed common names                                                                                                           | Optional                                           |
+| `EMAIL`           | Default policy allowed emails                                                                                                                 | Optional                                           |
+| `FORCE`           | Force skip cache                                                                                                                              | Optional                                           |
+| `HELP`            | Show help message                                                                                                                             | Optional                                           |
+| `INPUT_FORMAT`    | Evidence format, options: `[attest-cyclonedx-json, attest-slsa, statement-slsa, statement-cyclonedx-json, statement-generic, attest-generic]` | `attest-cyclonedx-json`                            |
+| `RULE`            | Rule configuration file path (early-availability)                                                                                             | Optional                                           |
+| `SKIP_BUNDLE`     | Skip bundle download                                                                                                                          | Optional                                           |
+| `SKIP_REPORT`     | Skip policy report stage                                                                                                                      | Optional                                           |
+| `URI`             | Default policy allowed URIs                                                                                                                   | Optional                                           |
+| `INITIATIVE`      | Initiative name (optional)                                                                                                                    | Optional                                           |
+| `INITIATIVE_ID`   | Initiative ID (optional)                                                                                                                      | Optional                                           |
+| `INITIATIVE_NAME` | Full name of the initiative (optional)                                                                                                        | Optional                                           |
+
+---
+
+### Key Updates:
+
+* Added the **initiative flags**: `INITIATIVE`, `INITIATIVE_ID`, and `INITIATIVE_NAME` as optional fields.
+* Kept the rest of the flags consistent with their usage and defaults.
+
+Let me know if you need any further modifications!
+
 
 ### Usage
 
 ```yaml
- - pipe: scribe-security/valint-pipe:1.1.0
+ - pipe: scribe-security/valint-pipe:2.0.0
    variables:
     COMMAND_NAME: bom
     TARGET: busybox:latest
@@ -247,7 +267,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
   <summary>Generate an SBOM for an image in a public registry</summary>
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: bom
     TARGET: busybox:latest
@@ -258,7 +278,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
   <summary>Generate SLSA provenance for an image in a public registry</summary>
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: slsa
     TARGET: busybox:latest
@@ -269,7 +289,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
   <summary>Generate evidence from a third party tool output</summary>
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: evidence
     TARGET: some_security_report.json
@@ -280,7 +300,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
   <summary>Generate an SBOM for an image built with local docker</summary>
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: bom
     TARGET: image_name:latest
@@ -292,7 +312,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
   <summary>Generate SLSA provenance for an image built with local docker</summary>
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: slsa
     TARGET: image_name:latest
@@ -305,7 +325,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 > Add a `docker login` task before adding the following task:
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: bom
     TARGET: scribesecurity/example:latest
@@ -318,7 +338,7 @@ Add the Scribe Hub API token as `SCRIBE_TOKEN` by following the [Bitbucket instr
 > Add a `docker login` task before adding the following task:
 
 ```yaml
-- pipe: scribe-security/valint-pipe:1.1.0
+- pipe: scribe-security/valint-pipe:2.0.0
   variables:
     COMMAND: slsa
     TARGET: scribesecurity/example:latest
@@ -413,7 +433,7 @@ step:
   script:
   - mkdir testdir
   - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:1.1.0
+  - pipe: scribe-security/valint-pipe:2.0.0
     variables:
       COMMAND: bom
       TARGET: dir:./testdir
@@ -429,7 +449,7 @@ step:
   script:
   - mkdir testdir
   - echo "test" > testdir/test.txt
-  - pipe: scribe-security/valint-pipe:1.1.0
+  - pipe: scribe-security/valint-pipe:2.0.0
     variables:
       COMMAND: slsa
       TARGET: dir:./testdir
@@ -529,7 +549,7 @@ pipelines:
         name: scribe-bitbucket-oci-pipeline
         script:    
           - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD [my_registry]
-          - pipe: scribe-security/valint-pipe:1.1.0
+          - pipe: scribe-security/valint-pipe:2.0.0
             variables:
               COMMAND_NAME: [bom,slsa,evidence]
               TARGET:  [target]
@@ -537,7 +557,7 @@ pipelines:
               OCI: true
               OCI_REPO: [oci_repo]
 
-          - pipe: scribe-security/valint-pipe:1.1.0
+          - pipe: scribe-security/valint-pipe:2.0.0
             variables:
               COMMAND_NAME: verify
               TARGET:  [target]

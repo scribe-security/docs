@@ -45,8 +45,8 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
       vmImage: 'ubuntu-latest'
 
     steps:
-    - task: ScribeInstall@0
-    - task: ValintCli@0
+    - task: ScribeInstall@2
+    - task: ValintCli@2
       displayName: SBOM image `busybox:latest`.
       command: bom
       target: nginx
@@ -62,7 +62,7 @@ In your Azure DevOps project make sure you have a file named `azure-pipelines.ym
   <summary> Generate an SBOM for an image in a public registry </summary>
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
@@ -104,9 +104,9 @@ jobs:
     SUPPLIER_PHONE: 001-001-0011
 
   steps:
-  - task: scribeInstall@0
+  - task: ScribeInstall@2
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       command: bom
       target: nginx
@@ -122,7 +122,7 @@ jobs:
       supplier-email: $(SUPPLIER_EMAIL)
       supplier-phone: $(SUPPLIER_PHONE)
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       command: verify
       target: nginx
@@ -138,7 +138,7 @@ jobs:
   <summary> Generate SLSA provenance for an image in a public registry </summary>
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
@@ -154,7 +154,7 @@ jobs:
   <summary> Generate an SBOM for for an image built with local docker </summary>
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
@@ -169,7 +169,7 @@ jobs:
   <summary> Generate SLSA provenance for for an image built with local docker </summary>
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
@@ -186,7 +186,7 @@ jobs:
 > Add a `docker login` task before the adding the following task:
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
@@ -203,7 +203,7 @@ jobs:
 > Before the following task add a `docker login` task 
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate SLSA provenance
   inputs:
     commandName: slsa
@@ -229,7 +229,7 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: ValintCli@0
+  - task: ValintCli@2
     displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
     inputs:
       commandName: bom
@@ -256,7 +256,7 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: ValintCli@0
+  - task: ValintCli@2
     displayName: Generate cyclonedx json SBOM - add metadata - labels, envs, name
     inputs:
       commandName: slsa
@@ -275,7 +275,7 @@ jobs:
 > Use `format` input argumnet to set the format.
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SBOM image `busybox:latest`.
   inputs:
     command: bom
@@ -301,7 +301,7 @@ jobs:
 > Use `format` input argumnet to set the format.
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SLSA image `busybox:latest`.
   inputs:
     command: slsa
@@ -329,7 +329,7 @@ jobs:
     mkdir testdir
     echo "test" > testdir/test.txt
 
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SBOM local directory.
   inputs:
     command: bom
@@ -348,7 +348,7 @@ jobs:
     mkdir testdir
     echo "test" > testdir/test.txt
 
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SLSA local directory.
   inputs:
     command: slsa
@@ -366,7 +366,7 @@ jobs:
 For a remote git repo:
   
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SBOM remote git repository.
   inputs:
     command: bom
@@ -381,7 +381,7 @@ For a local git repo:
 ```YAML
 - checkout: self
 
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SBOM local git repository.
   inputs:
     command: bom
@@ -396,7 +396,7 @@ For a local git repo:
 For a remote git repo:
   
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SBOM remote git repository.
   inputs:
     command: slsa
@@ -410,7 +410,7 @@ For a remote git repo:
 ```YAML
 - checkout: self
 
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: SLSA local git repository.
   inputs:
     command: slsa
@@ -441,9 +441,9 @@ Related flags:
   steps:
   - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
-  - task: scribeInstall@0
+  - task: ScribeInstall@2
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       commandName: bom
       target: [target]
@@ -452,7 +452,7 @@ Related flags:
       oci: true
       ociRepo: [oci_repo]
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       commandName: verify
       target: [target]
@@ -471,7 +471,7 @@ Related flags:
 Create SBOM for remote `busybox:latest` image.
 
 ```YAML
-- task: ValintCli@0
+- task: ValintCli@2
   displayName: Generate cyclonedx json SBOM
   inputs:
     commandName: bom
@@ -517,9 +517,9 @@ For example, using `docker login` command.
   steps:
   - script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
-  - task: scribeInstall@0
+  - task: ScribeInstall@2
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       commandName: bom
       target: [target]
@@ -528,7 +528,7 @@ For example, using `docker login` command.
       oci: true
       ociRepo: [oci_repo]
 
-  - task: ValintCli@0
+  - task: ValintCli@2
     inputs:
       commandName: verify
       target: [target]
