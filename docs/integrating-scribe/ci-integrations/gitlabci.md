@@ -62,6 +62,41 @@ scribe-gitlab-job:
           -P $SCRIBE_TOKEN
 ```
 
+#### Example: Enforcing SP 800-190 Controls with Valint Initiatives
+
+In this example, we use Valint’s initiative framework to apply a suite of SP 800-190 policies against a container image. The job automatically generates evidence (SBOM or provenance), feeds it into Valint, and evaluates the defined controls.
+
+```yaml
+image: ubuntu:latest
+
+before_script:
+  - apt update
+  - apt install -y git curl
+  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+stages:
+  - validate
+
+validate-image:
+  stage: validate
+  script:
+    # Run Trivy to produce a SARIF report:
+    - trivy image --format sarif --output scan_report_trivy.sarif ubuntu:latest
+
+    # Verify the image against SP 800-190 initiatives:
+    - valint verify [target]
+        -i attest
+        --bom                          # Auto-generate the SBOM for evidence
+        --base-image Dockerfile       # Specify the Dockerfile or base image
+        --input sarif:scan_report_trivy.sarif
+        --context-type gitlab
+        --output-directory ./scribe/valint
+        -P $SCRIBE_TOKEN
+```
+
+> **Note:** The `--bom`, `--provenance`, or `--input` flags ensure that Valint includes evidence generation as part of the verification process.
+
 #### Using custom x509 keys
 
 Utilizing X509 Keys on Gitlab CI.

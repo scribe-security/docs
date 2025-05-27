@@ -89,11 +89,11 @@ To overcome the limitation install tool directly - **[installer](https://github.
   oci-repo:
     description: Select OCI custom attestation repo
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform]
   package-group:
     description: Select package group, options=[index install all]
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform]
   pass:
     description: Private key password
   payload:
@@ -104,6 +104,8 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Include SLSA Provenance evidence
   pubkey:
     description: Public key path
+  skip-confirmation:
+    description: Skip Sigstore Confirmation
   supplier-email:
     description: Set supplier email
   supplier-name:
@@ -120,8 +122,10 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Mark as deliverable, options=[true, false]
   env:
     description: Environment keys to include in evidence
-  gate:
+  gate-name:
     description: Policy Gate name
+  gate-type:
+    description: Policy Gate type
   input:
     description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
@@ -173,7 +177,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.5.19
+  uses: scribe-security/action-bom@v2.0.0
   with:
     target: 'busybox:latest'
 ```
@@ -181,7 +185,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.5.19
+  uses: scribe-security/action-bom-cli@v2.0.0
   with:
     target: 'hello-world:latest'
 ```
