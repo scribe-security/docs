@@ -92,6 +92,8 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Import predicate path
   pubkey:
     description: Public key path
+  skip-confirmation:
+    description: Skip Sigstore Confirmation
   started-on:
     description: Set metadata started time (YYYY-MM-DDThh:mm:ssZ)
   statement:
@@ -104,8 +106,10 @@ To overcome the limitation install tool directly - [installer](https://github.co
     description: Mark as deliverable, options=[true, false]
   env:
     description: Environment keys to include in evidence
-  gate:
+  gate-name:
     description: Policy Gate name
+  gate-type:
+    description: Policy Gate type
   input:
     description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
@@ -157,7 +161,7 @@ To overcome the limitation install tool directly - [installer](https://github.co
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate SLSA provenance
-  uses: scribe-security/action-slsa@v1.5.19
+  uses: scribe-security/action-slsa@v2.0.0
   with:
     target: 'busybox:latest'
 ```
@@ -165,7 +169,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-slsa-cli@v1.5.19
+  uses: scribe-security/action-slsa-cli@v2.0.0
   with:
     target: 'hello-world:latest'
 ```
