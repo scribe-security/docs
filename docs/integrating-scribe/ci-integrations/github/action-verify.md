@@ -243,6 +243,60 @@ jobs:
           scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
 ```
 
+#### Example: Enforcing SP 800-190 Controls with Valint Initiatives
+
+This workflow demonstrates how to leverage Valint’s initiative engine to automatically generate evidence (SBOM and vulnerability reports), submit it to Valint, and enforce SP 800-190 controls on your container image.
+
+```yaml
+name: sp-800-190-policy-check
+
+on:
+  pull_request:
+
+jobs:
+  image-policy-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          tags: |
+            ${{ github.sha }}
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        continue-on-error: true
+        with:
+          image-ref: ${{ github.sha }}
+          format: sarif
+          output: trivy-report.sarif
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: 0
+
+      - name: Collect Evidence & Evaluate SP 800-190 Initiative
+        uses: scribe-security/action-verify@main
+        with:
+          initiative: sp-800-190@v2
+          target: ${{ github.sha }}
+          bom: true                   # Generate CycloneDX SBOM
+          base-image: Dockerfile      # Include base image in SBOM
+          input: sarif:trivy-report.sarif
+          input-format: attest 
+          beautify: true
+```
+
+> **Note:** Enabling `bom`, `provenance`, or `input` flags ensures Valint generates and ingests the necessary evidence before policy evaluation.
+
+
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
 

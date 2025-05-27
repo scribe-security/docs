@@ -221,24 +221,67 @@ If `COMMAND` is set to `verify`:
 
 ---
 
-### Key Updates:
+# Example: Enforcing SP 800-190 Controls with Valint Initiatives
 
-* Added the **initiative flags**: `INITIATIVE`, `INITIATIVE_ID`, and `INITIATIVE_NAME` as optional fields.
-* Kept the rest of the flags consistent with their usage and defaults.
-
-Let me know if you need any further modifications!
-
-
-### Usage
+This workflow demonstrates how to leverage Valint’s initiative engine to automatically generate evidence (SBOM and vulnerability reports), submit it to Valint, and enforce SP 800-190 controls on your container image.
 
 ```yaml
- - pipe: scribe-security/valint-pipe:2.0.0
-   variables:
-    COMMAND_NAME: bom
-    TARGET: busybox:latest
-    VERBOSE: 2
-    FORCE: "true"
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Build Docker image
+          image: docker:stable-git
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            # Build the image tagged with the commit SHA
+            - docker build -t my_image:latest -f Dockerfile .
+
+      - step:
+          name: Scan image with Trivy
+          image: docker:stable-git
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            # Install Trivy CLI
+            - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \  
+                | sh -s -- -b /usr/local/bin
+            # Scan and emit SARIF
+            - trivy image \
+                --format sarif \
+                --output trivy-report.sarif \
+                --exit-code 0 \
+                --ignore-unfixed \
+                --severity CRITICAL,HIGH \
+                my_image:latest
+
+      - step:
+          name: Collect Evidence & Evaluate SP 800-190 Initiative
+          image: docker:stable-git
+          services:
+            - docker
+          script:
+            - pipe: scribe-security/valint-pipe:2.0.0
+              variables:
+                COMMAND_NAME:  "verify"
+                INITIATIVE:    "sp-800-190@v2"
+                TARGET:        "my_image:latest"
+                BOM:           "true"                      # auto-generate SBOM
+                BASE_IMAGE:    "Dockerfile"                # include base-image evidence
+                INPUT:         "sarif:trivy-report.sarif" # vulnerability evidence
+                INPUT_FORMAT:  "attest"                    # treat SARIF as attest
+                BEAUTIFY:      "true"
+
 ```
+
+
+> **Note:** Enabling `BOM`, `provenance` `PROVENANCE`, or `INPUT` flags ensures Valint generates and ingests the necessary evidence before policy evaluation.
+
 
 # Scribe integration
 
