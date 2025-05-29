@@ -1,5 +1,24 @@
 # Scribe Hub
-*Last modified January 29, 2025*
+*Last modified May 29, 2025*
+
+# Scribe Hub Version 1.43.2
+*May 29, 2025*
+
+## Improvements  
+
+User can review the 3rd party application security scanners' uploaded findings under Products \ <product version> \ Findings tab
+Simplified policies to handle scanner findings were added to the catalog.
+Support ingestion of CycloneDX v1.6
+Vulnerability tables improvements: 
+  Filter dependency relationship type (Direct or Transitive) to the vulnerability tables
+  Vulnerbaility Description
+  Vulnerbaility CWEs
+Analytics (Early Access) improvements
+  Vulnerability Risk dashboard
+  End of life data from endoflife.date website 
+Usability
+  New sidebar filter in Products page
+  Email alerts minor improvements
 
 # Scribe Hub Version 1.30.3
 *January 29, 2025*
