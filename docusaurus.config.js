@@ -95,6 +95,7 @@ const config = {
                 "guides/secure-sfw-slsa/basic-examples.md",
                 // "guides/secure-sfw-slsa/cosign-keyverno.md",
                 "guides/secure-sfw-slsa/slsapolicies.md",
+                "guides/enforcing-sdlc-initiative.md",
                 "guides/ssdf-compliance/README.md",
                 "guides/ssdf-compliance/ssdfpolicies.md",
                 "guides/enforcing-sdlc-policy.md",
@@ -166,6 +167,9 @@ const config = {
                 "platforms/usage.md",
                 "platforms/hooks.md",
                 "release-notes/rns.md",
+                "configuration/**/*.md",
+                "configuration/*.md",
+
 
                 // "advanced-guide/generating-sboms.md",
                 // "advanced-guide/source-code-integrity.md",
