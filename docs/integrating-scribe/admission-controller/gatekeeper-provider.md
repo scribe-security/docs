@@ -5,14 +5,14 @@ sidebar_position: 4
 ---
 # Valint Gatekeeper Provider
 Valint Gatekeeper Provider seamlessly integrates with OPA Gatekeeper's [ExternalData](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) feature to facilitate policy verification within your supply chain. 
-This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-policy) (Software Development Life Cycle) policies.
+This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) (Software Development Life Cycle) initiatives.
 
-The Valint Gatekeeper Provider offers a means to enforce or generate alerts for any violations or successful policy evaluations based on evidence collected from the supply chain, whether signed or unsigned (or any combination thereof).
+The Valint Gatekeeper Provider offers a means to enforce or generate alerts for any violations or successful initiative evaluations based on evidence collected from the supply chain, whether signed or unsigned (or any combination thereof).
 
 ## Policy As Code
 Our policies, expressed in code, offer extensive customization options and can be tailored to suit specific needs.
 
-For more detailed information, please visit our page on [enforcing SDLC policies](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-policy) or refer to our [policy reference guide](https://scribe-security.netlify.app/docs/valint/policies).
+For more detailed information, please visit our page on [Applying Initiatives to your SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) or refer to our [initiatives reference guide](https://scribe-security.netlify.app/docs/valint/initiatives).
 
 Additionally, you have the option to reference or fork our default [policy bundle](https://github.com/scribe-public/sample-policies) repository.
 
@@ -75,7 +75,7 @@ curl -sSfL https://raw.githubusercontent.com/scribe-security/gatekeeper-valint/m
 ### Step 4: Installing Provider with Scribe Evidence store
 Scribe evidence store allows you store evidence using scribe Service.
 
-> Alternatively, you can explore the OCI-supported [alternative evidence stores](#alterative-evidence-stores---oci).
+> Alternatively, you can explore the OCI-supported [alternative evidence stores](#alternative-evidence-stores---oci).
 
 #### Before you begin
 Integrating Scribe Hub with admission controller requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
@@ -146,7 +146,7 @@ valint evidence som_evidence.json -o attest --attest.default <x509,x509-env> \
     --cert <cert path/env/url> \
     --ca <ca-chain path/env/url> [FLAGS]
     
-# Verifing a image
+# Verifying a image
 valint verify <target> -i <attest, attest-slsa, attest-generic> --attest.default <x509,x509-env> \
     --ca <cert path/env/url> \
     --crl <crl path/env/url>  [FLAGS]
@@ -177,7 +177,7 @@ valint <bom, slsa> <target> -o attest [FLAGS]
 # Signing third party evidence
 valint evidence som_evidence.json -o attest [FLAGS]
     
-# Verifing a image
+# Verifying a image
 valint verify <target> -i <attest, attest-slsa, attest-generic> [FLAGS]
 ```
 
@@ -201,19 +201,25 @@ helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
 
 ```yaml
 select:
-  gate: signed_images_gate
+  gate-name: signed_images_gate
+  gate-type: admission
   apply:
   - namespace: "" # Any
     glob:
     - "my_company/**"
     filter-by:
     - target
-    policy:
-      name: require_signed_images
-      rules:
-      - name: error_on_unsigned_image
-        uses: sbom/artifact-signed@v2
-        level: error
+    initiative:
+      config-type: initiative
+      id: admission_initiative
+      name: Signed Images initiative
+      controls:
+      - name: require_signed_images
+        id: signed_images
+        rules:
+        - name: error_on_unsigned_image
+          uses: sbom/artifact-signed@v2
+          level: error
 ```
 
 In the provided `signed_image_policy.yaml`, we specify a policy to enforce signature verification for images admitted from the my_company Dockerhub account.
@@ -308,24 +314,30 @@ The Gate Policies in Valint Gatekeeper Provider allow for fine-grained control o
 ### Gate Configuration options
 ```yaml
 select:
-  gate: default_gate # Requried
+  gate-name: default_gate # Required
+  gate-type: admission
   apply:
   - namespace: <string> # Optional
     glob: <string> # Optional
     filter-by: <string> # Optional
     product-key: <string> # Optional
-    policy: <object> # Reuquired
+    initiative: <object> # Optional # inline definition
+    initiative-ref: <string> # Optional   # e.g. sp-800-190@v2
 ```
 
 * `gate`: Specifies the gate name.
 * `apply`: list of policies to apply
 * `namespace`: Specifies the namespace to which the policy should apply to.
 * `glob`: Defines the image reference pattern to which the policy is applied to.
+* `product-key` Product key under which evidence will be stored.
+* `product-version`: 	Product version under which  evidence will be stored.
 * `filter-by`: Determines the scope of the policy evaluation. Supported options include:
   * `target`: Evaluate policies scoped by the admission imageID.
   * `pipeline`: Evaluate policies scoped by the image build pipeline.
-  * `product-key`: Evaluate policies scoped by a specific product.
+  * `product`: Evaluate policies scoped by a specific product.
 * `policy`: Set policy to evaluate, for more details see  [enforcing SDLC policies](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-policy) or refer to our [policy reference guide](https://scribe-security.netlify.app/docs/valint/policies).
+* `initiative-ref`: Set initiative reference to evaluate for example [sp-800-190@v2](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/sp-800-190.yaml).
+* `initiative`: Custom initiative to evaluate on, see [initiatives reference guide](https://scribe-security.netlify.app/docs/valint/initiatives) for more details
 
 > policy gate configuration are mapped to a configmap named `gatekeeper-valint-policies`.
 
@@ -353,21 +365,27 @@ helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
 In the `my_gate.yaml` file, you can specify policy rules like this:
 ```yaml
 select:
-  gate: my_gate
+  gate-name: my_gate
+  gate-type: admission
   apply:
   - namespace: "some_namespace"
     glob: 
     - "**"
     filter-by:
     - target
-    policy:
-      name: cluster-policy
-      rules:
-      - name: fresh-image
-        uses: images/fresh-image@v2
-        level: warning
-        with:
-          max_days: 356
+    initiative:
+      config-type: initiative
+      id: admission_initiative
+      name: Fresh Images Initiative
+      controls:
+      - name: fresh Image control
+        id: fresh-image
+        rules:
+        - name: fresh-image
+          uses: images/fresh-image@v2
+          level: warning
+          with:
+            max_days: 356
 ```
 
 ## Filter-By Options 
@@ -379,21 +397,27 @@ The filter-by field allows you to specify the scope of the policy evaluation. Be
 The target option evaluates policies based on the imageID for admission. This allows you to run policies directly on the images themselves.
 ```yaml
 select:
-  gate: image_gate
+  gate-name: image_gate
+  gate-type: admission
   apply:
   - namespace: ""
     glob: 
     - "**"
     filter-by:
     - target
-    policy:
-      name: cluster-policy
-      rules:
-      - name: fresh-image
-        uses: images/fresh-image@v2
-        level: warning
-        with:
-          max_days: 356
+    initiative:
+      config-type: initiative
+      id: admission_initiative
+      name: Fresh Images Initiative
+      controls:
+      - name: require_fresh_images
+        id: fresh-image
+        rules:
+        - name: fresh-image
+          uses: images/fresh-image@v2
+          level: warning
+          with:
+            max_days: 356
 ```
 This policy aims to ensure that images admitted into the system are fresh, defined as being built within the last year. 
 The fresh-image rule is applied with a warning level severity.
@@ -404,23 +428,28 @@ The fresh-image rule is applied with a warning level severity.
 The pipeline option evaluates policies based on the image build runID and workflow. This allows you to run policies related to the image build pipeline.
 ```yaml
 select:
-  gate: pipeline_gate
+  gate-name: pipeline_gate
+  gate-type: admission
   apply:
   - namespace: ""
     glob: 
     - "my_company/**"
     filter-by:
     - pipeline
-    policy:
-      name: pipeline-scanners
-      rules:
-      - name: check-vulnerabilities
-        uses: sarif/verify-sarif@v2
-        evidence:
-          tool: "Trivy Vulnerability Scanner"
-        with:
-          rule_level:
-            - critical
+    initiative:
+      config-type: initiative
+      id: admission_pipeline_scanners
+      name: pipeline-scanners initiative
+      controls:
+      - name: Vulnerability Check Control
+        id: vuln-check
+        rules:
+          uses: sarif/verify-sarif@v2
+          evidence:
+            tool: "Trivy Vulnerability Scanner"
+          with:
+            rule_level:
+              - critical
 ```
 The policy named pipeline-scanners is applied, which requires that images admitted from the my_company Dockerhub repository undergo vulnerability scanning using Trivy. The check-vulnerabilities rule is defined within this policy, configured to check for any critical vulnerabilities in the image. If critical vulnerabilities are detected, the policy will trigger a violation, indicating a failure.
 
@@ -452,7 +481,8 @@ The product option evaluates policies based on the product, allowing you to veri
 
 ```yaml
 select:
-  gate: product_gate
+  gate-name: product_gate
+  gate-type: admission
   apply:
   - namespace: ""
     glob: 
@@ -460,19 +490,26 @@ select:
     product-key: my-product
     filter-by:
     - product
-    policy:
-      name: pipeline-scanners
-      rules:
-      - name: check-vulnerabilities
-        uses: sarif/verify-sarif@v2
-        evidence:
-          tool: "Trivy Vulnerability Scanner"
-        with:
-          rule_level:
-            - critical
+    initiative:
+      config-type: initiative
+      id: admission_pipeline_scanners
+      name: pipeline-scanners initiative
+      controls:
+      - name: Vulnerability Check Control
+        id: vuln-check
+        rules:
+        - name: check-vulnerabilities
+          uses: sarif/verify-sarif@v2
+          evidence:
+            tool: "Trivy Vulnerability Scanner"
+          with:
+            rule_level:
+              - critical
 ```
 In this example, the `pipeline-scanners` policy is applied to evaluate images associated with the `my-product`. 
 Specifically checking for vulnerabilities using the Trivy Vulnerability Scanner. This ensures that product undergo thorough vulnerability assessment.
+
+> If you keep `filter-by`: product but omit product-key or product-version, the evaluator automatically derives the product name and version from the most recent image evidence reference.
 
 <details>
   <summary> Collecting evidence in product </summary>
@@ -520,25 +557,6 @@ helm upgrade gatekeeper-valint scribe/gatekeeper-valint \
 ## Default Policy - Unsigned Image Warning
 By default, the provider is installed with a policy to warn on *ANY* image that is not signed. This serves as a basic security measure to alert users about potentially risky, unsigned images.
 
-Default policy:
-```yaml
-select:
-  gate: default_gate
-  apply:
-  - namespace: "" # Any
-    glob: 
-    - "**"  # Any
-    filter-by:
-    - target
-    Policy-bundle: default-provider-policy@v1 <= 
-    policy:
-      name: default-provider-policy
-      rules:
-      - name: warn_on_unsigned_image
-        uses: sbom/artifact-signed@v2
-        level: "warning"
-```
-
 To pass the evaluation, you can sign your images using the valint tool, like so:
 ```bash
 valint [bom,slsa] some_image -o attest [FLAGS]
@@ -571,11 +589,11 @@ type: kubernetes.io/dockerconfigjson
 ```
 
 ## Private Policy Bundles
-By default policeis are pulled from our default [policy bundle](https://github.com/scribe-public/sample-policies).
+By default policies are pulled from our default [policy bundle](https://github.com/scribe-public/sample-policies).
 To use private bundles from your preferred Git platform, follow these steps:
 * Set the `image.bundlePullSecrets` with read access token to bundle git repository.
 * Set `valint.attest.bundle` with your required bundle details.
-* Optionaly set `valint.git.branch` or `valint.git.tag` to set the bundle git refrence to pull.
+* Optionaly set `valint.git.branch` or `valint.git.tag` to set the bundle git reference to pull.
 
 For example, to perform an upgrade with your local docker config:
 ```bash
@@ -609,7 +627,8 @@ For example, to perform an upgrade to your policy gate:
 In the `my_gate.yaml` file, you can specify policy rules like this:
 ```yaml
 select:
-  gate: my_gate
+  gate-name: my_gate
+  gate-type: admission
   apply:
   - namespace: "some_namespace"
     glob: 
@@ -628,7 +647,7 @@ valint:
 
 
 
-### Alterative Evidence Stores
+### alternative Evidence Stores
 
 Valint supports both storage and verification flows for `attestations` and `statement` objects using an **OCI* registry as an evidence store. <br />
 Using OCI registry as an evidence store allows you to upload and verify evidence across your supply chain in a seamless manner.
@@ -688,19 +707,25 @@ We strongly recommend replacing CA certificates with those from your trusted org
 
 ```yaml
 select:
-  gate: signed_images_gate
+  gate-name: signed_images_gate
+  gate-type: admission
   apply:
   - namespace: "" # Any
     glob:
     - "mycompany/**"
     filter-by:
     - target
-    policy:
-      name: require_signed_images
-      rules:
-      - name: error_on_unsigned_image
-        uses: sbom/artifact-signed@v2
-        level: error
+    initiative:
+      config-type: initiative
+      id: admission_pipeline_scanners
+      name: pipeline-scanners initiative
+      controls:
+      - name: require_signed_images
+        id: signed_images
+        rules:
+        - name: error_on_unsigned_image
+          uses: sbom/artifact-signed@v2
+          level: error
 ```
 
 In the provided `signed_image_policy.yaml`, we specify a policy to enforce signature verification for images admitted from the my_company Dockerhub account.
@@ -741,12 +766,11 @@ spec:
 In the output, you should see a rejected admission error due to the unsigned image.
 
 ```log
-Error from server (Forbidden): error when creating "policy/examples/signed-deployment.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: {"errors": [], "responses": [], "status_code": 200, "system_error": "
-Scribe Admission refused 'scribesecurity/signed:latest' deployment to 'default'.
+Error from server (Forbidden): error when creating "policy/examples/error.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [gatekeeper-valint] image not accepted: 
 
-- policy check failed, Policies [require_signed_images] failed with the following errors.
-* rule [error_on_unsigned_image] failed resource not found, no evidence found
-"}
+{"errors": [], "responses": [], "status_code": 200, "system_error": "\nScribe Admission refused 'devopps/alpine:notsigned' deployment to 'default'.\n\n- control check failed, Controls [admission-initiative/admission-control] failed with the following errors.\n* rule [admission-initiative/admission-control/sbom-signed] failed\n"}
+make: *** [Makefile:210: error_test] Error 1
+
 ```
 
 To resolve this, sign your image using the Valint tool:
@@ -767,17 +791,26 @@ kubectl apply -f signed-deployment.yaml
 Upon successful deployment, you'll see a detailed evaluation summary in the admission logs, providing insights into the policy checks performed and their outcomes.
 
 ```log
-[2024-03-17 09:47:28]  INFO verify: [TRUSTED] verify success, CA: x509-verifier, CN: Gatekeeper Root CA, Emails: [], URIs: []
-...
-[2024-03-11 10:05:27]  INFO Target 'mycompany/signed:latest' results
-[2024-03-11 10:05:27]  INFO Policy "require_signed_images" Evaluation Summary: 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Policy "require_signed_images" Evaluation Summary                                                                         │
-├─────────────────────────┬────────┬────────────────────────┬───────────────────┬────────────────────────────────────────────┤
-│ RULE NAME               │ SIGNED │ SIGNATURE VERIFICATION │ POLICY EVALUATION │ COMMENT                                    │
-├─────────────────────────┼────────┼────────────────────────┼───────────────────┼────────────────────────────────────────────┤
-│ error_on_unsigned_image │ true   │ passed                 │                   │ 1/1 evidence origin and signature verified │
-├─────────────────────────┼────────┼────────────────────────┼───────────────────┼────────────────────────────────────────────┤
-│ AGGREGATE POLICY RESULT │        │                        │ PASSED            │                                            │
-└─────────────────────────┴────────┴────────────────────────┴───────────────────┴────────────────────────────────────────────┘
+│ [2025-06-05 10:15:25]  INFO unassigned: Control "Unassigned Control" Evaluation Summary:                                                                            │
+│                                                                                                                                                                     │
+│ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ │ [unassigned] Control "Unassigned Control" Evaluation Summary                                                                                                      │
+│ ├──────────────────────┬──────────────────────┬───────┬──────────┬────────┬──────────────────────┬───────────────────────────────────────────────────────────────── │
+│ │ RULE ID              │ RULE NAME            │ LEVEL │ VERIFIED │ RESULT │ SUMMARY              │ TARGET                                                           │
+│ ├──────────────────────┼──────────────────────┼───────┼──────────┼────────┼──────────────────────┼───────────────────────────────────────────────────────────────── │
+│ │ default-any-artifact │ default-any-artifact │ none  │ false    │ pass   │ Statement validated. │ scribe-docker-public-local/test/valint_alpine_input:latest (imag │
+│ │                      │                      │       │          │        │                      │ e)                                                               │
+│ ├──────────────────────┼──────────────────────┼───────┼──────────┼────────┼──────────────────────┼───────────────────────────────────────────────────────────────── │
+│ │ CONTROL RESULT       │                      │       │          │ PASS   │                      │                                                                  │
+│ └──────────────────────┴──────────────────────┴───────┴──────────┴────────┴──────────────────────┴───────────────────────────────────────────────────────────────── │
+│ [2025-06-05 10:15:25]  INFO unassigned: Initiative "Unassigned Initiative" Evaluation Summary:                                                                      │
+│ ┌─────────────────────────────────────────────────────────────────────────────────┐                                                                                 │
+│ │ [unassigned] Initiative "Unassigned Initiative" Evaluation Summary              │                                                                                 │
+│ ├───────────────────┬────────────────────┬───────────────────────────────┬────────┤                                                                                 │
+│ │ CONTROL ID        │ CONTROL NAME       │ RULE LIST                     │ RESULT │                                                                                 │
+│ ├───────────────────┼────────────────────┼───────────────────────────────┼────────┤                                                                                 │
+│ │ unassigned        │ Unassigned Control │ - default-any-artifact (pass) │ pass   │                                                                                 │
+│ ├───────────────────┼────────────────────┼───────────────────────────────┼────────┤                                                                                 │
+│ │ INITIATIVE RESULT │                    │                               │ PASS   │                                                                                 │
+│ └───────────────────┴────────────────────┴───────────────────────────────┴────────┘   
 ```

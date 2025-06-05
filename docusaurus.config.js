@@ -142,6 +142,7 @@ const config = {
                 "valint/help/valint_discard.md",
                 "valint/help/valint_download.md",
                 "valint/help/valint_evidence.md",
+                "valint/initiatives.md",
                 "integrating-scribe/admission-controller/gatekeeper-provider.md",
                 "integrating-scribe/admission-controller/kyverno.md",
                 "scribe-hub-reports/README.md",
