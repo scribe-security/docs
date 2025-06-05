@@ -5,9 +5,9 @@ sidebar_position: 4
 ---
 # Valint Gatekeeper Provider
 Valint Gatekeeper Provider seamlessly integrates with OPA Gatekeeper's [ExternalData](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) feature to facilitate policy verification within your supply chain. 
-This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) (Software Development Life Cycle) policies.
+This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) (Software Development Life Cycle) initiatives.
 
-The Valint Gatekeeper Provider offers a means to enforce or generate alerts for any violations or successful policy evaluations based on evidence collected from the supply chain, whether signed or unsigned (or any combination thereof).
+The Valint Gatekeeper Provider offers a means to enforce or generate alerts for any violations or successful initiative evaluations based on evidence collected from the supply chain, whether signed or unsigned (or any combination thereof).
 
 ## Policy As Code
 Our policies, expressed in code, offer extensive customization options and can be tailored to suit specific needs.
