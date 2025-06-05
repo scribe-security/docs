@@ -321,10 +321,12 @@ select:
 * `apply`: list of policies to apply
 * `namespace`: Specifies the namespace to which the policy should apply to.
 * `glob`: Defines the image reference pattern to which the policy is applied to.
+* `product-key` Product key under which evidence will be stored.
+* `product-version`: 	Product version under which  evidence will be stored.
 * `filter-by`: Determines the scope of the policy evaluation. Supported options include:
   * `target`: Evaluate policies scoped by the admission imageID.
   * `pipeline`: Evaluate policies scoped by the image build pipeline.
-  * `product-key`: Evaluate policies scoped by a specific product.
+  * `product`: Evaluate policies scoped by a specific product.
 * `policy`: Set policy to evaluate, for more details see  [enforcing SDLC policies](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-policy) or refer to our [policy reference guide](https://scribe-security.netlify.app/docs/valint/policies).
 
 > policy gate configuration are mapped to a configmap named `gatekeeper-valint-policies`.
@@ -473,6 +475,8 @@ select:
 ```
 In this example, the `pipeline-scanners` policy is applied to evaluate images associated with the `my-product`. 
 Specifically checking for vulnerabilities using the Trivy Vulnerability Scanner. This ensures that product undergo thorough vulnerability assessment.
+
+> If you keep `filter-by`: product but omit product-key or product-version, the evaluator automatically derives the product name and version from the most recent image evidence reference.
 
 <details>
   <summary> Collecting evidence in product </summary>
