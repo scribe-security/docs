@@ -4,13 +4,13 @@ title: Secure Software Pipeline Blueprint
 ---  
 # Secure Software Pipeline Blueprint  
 **Type:** Initiative  
-**ID:** `SSPB`  
+**ID:** `SSPB-GH`  
 **Version:** `1.0.0`  
 **Bundle-Version:** `v2`  
-**Source:** [v2/initiatives/sspb.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/sspb.yaml)  
+**Source:** [v2/initiatives/sspb-gh.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/sspb-gh.yaml)  
 **Help:** https://github.com/Venafi/blueprint-securesoftwarepipeline  
 
-Blueprint for secure pipelines - Gitlab
+Blueprint for secure pipelines - GitHub
 
 ## **Description**
 
@@ -21,9 +21,10 @@ This initiative defines a set of best practices and technical guidelines designe
 | Control Name | Control Description | Mitigation |
 |--------------|---------------------|------------|
 | [[CTL-1] Restrict administrative access to CI/CD tools](#ctl-1-restrict-administrative-access-to-cicd-tools) | Restrict administrative access to CI/CD tools | Limit administrative privileges to a minimal, controlled group to reduce the risk of unauthorized pipeline changes. |
-| [[CTL-2] Only accept commits signed with a developer GPG key](#ctl-2-only-accept-commits-signed-with-a-developer-gpg-key) | The use of these two rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab | Require all commits to be signed to improve accountability and reduce the risk of unauthorized code modifications. |
+| [[CTL-2] Only accept commits signed with a developer GPG key](#ctl-2-only-accept-commits-signed-with-a-developer-gpg-key) | The use of these rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by GitHub | Require all commits to be signed to improve accountability and reduce the risk of unauthorized code modifications. |
 | [[CTL-3] Automation access keys expire automatically](#ctl-3-automation-access-keys-expire-automatically) | Automation access keys expire automatically | Configure automation keys to expire automatically, limiting the window in which compromised keys can be exploited. |
 | [[CTL-4] Reduce automation access to read-only](#ctl-4-reduce-automation-access-to-read-only) | Reduce automation access to read-only | Restrict automation accounts to read-only access, following the principle of least privilege to minimize potential damage. |
+| [[CTL-5] Only dependencies from trusted registries can be used](#ctl-5-only-dependencies-from-trusted-registries-can-be-used) | Only dependencies from trusted registries can be used | Restrict dependencies to trusted registries to prevent the introduction of malicious code through third-party packages. |
 | [[CTL-6] Any critical or high severity vulnerability breaks the build](#ctl-6-any-critical-or-high-severity-vulnerability-breaks-the-build) | Any critical or high severity vulnerability breaks the build | Immediately fail the build when critical or high-severity vulnerabilities are detected, forcing prompt investigation and remediation. |
 | [[CTL-8] Validate artifact digest](#ctl-8-validate-artifact-digest) | Validate artifact digest | Validate the artifact’s digest before deployment to ensure it has not been tampered with and maintains software integrity. |
 | [[CTL-9] Pull-requests require two reviewers (including one default reviewer) and a passing build to be merged](#ctl-9-pull-requests-require-two-reviewers-including-one-default-reviewer-and-a-passing-build-to-be-merged) | Pull-requests require two reviewers (including one default reviewer) and a passing build to be merged | Enforce a review process requiring at least two reviewers and a passing build, ensuring thorough evaluation and testing before code is merged. |
@@ -61,11 +62,11 @@ Both host and application-layer access to CI/CD tools should be protected with m
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [max-admins](rules/gitlab/org/max-admins.md) | [max-admins](rules/gitlab/org/max-admins.md) | Verify the maximum number of admins for the GitLab project is restricted. |
+| [max-admins](rules/github/org/max-admins.md) | [max-admins](rules/github/org/max-admins.md) | Verify the maximum number of GitHub organization admins is restricted. |
 
 ## [CTL-2] Only accept commits signed with a developer GPG key
 
-The use of these two rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab
+The use of these rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by GitHub
 
 
 ### Mitigation  
@@ -81,8 +82,9 @@ Unsigned code commits are difficult to trace and pose a risk to the integrity of
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [disallow-committing-unsigned](rules/gitlab/project/reject-unsigned-commits.md) | [disallow-committing-unsigned](rules/gitlab/project/reject-unsigned-commits.md) | Verify `reject_unsigned_commits` is enabled for the GitLab project. |
-| [all-commits-signed](rules/gitlab/project/check-signed-commits.md) | [all-commits-signed](rules/gitlab/project/check-signed-commits.md) | Verify all commits in the GitLab project are signed. |
+| [disallow-committing-unsigned](rules/github/repository/signed-commits.md) | [disallow-committing-unsigned](rules/github/repository/signed-commits.md) | Verify all commits are signed in a repository attestation. |
+| [all-commits-verified](rules/github/repository/check-signed-commits.md) | [all-commits-verified](rules/github/repository/check-signed-commits.md) | Verify all commits in the GitHub repository are signed. |
+| [web-commit-signoff-required](rules/github/repository/web-commit-signoff.md) | [web-commit-signoff-required](rules/github/repository/web-commit-signoff.md) | Verify contributors sign off on commits to the GitHub repository through the GitHub web interface. |
 
 ## [CTL-3] Automation access keys expire automatically
 
@@ -102,7 +104,7 @@ Ensuring that access keys used by automation expire periodically reduces the ris
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [token-excessive-lifespan](rules/gitlab/org/longlive-tokens.md) | [token-excessive-lifespan](rules/gitlab/org/longlive-tokens.md) | Verify no GitLab organization tokens have an excessively long lifespan. |
+| demodata/data@experimental | demodata/data@experimental |  |
 
 ## [CTL-4] Reduce automation access to read-only
 
@@ -122,7 +124,34 @@ CI systems should have read access only to source code repositories to limit the
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [disallowed-token-scope](rules/gitlab/org/forbid-token-scopes.md) | [disallowed-token-scope](rules/gitlab/org/forbid-token-scopes.md) | Verify no GitLab organization tokens have disallowed scopes. |
+| demodata/data@experimental | demodata/data@experimental |  |
+
+## [CTL-5] Only dependencies from trusted registries can be used
+
+Only dependencies from trusted registries can be used
+
+
+### Mitigation  
+Restrict dependencies to trusted registries to prevent the introduction of malicious code through third-party packages.
+
+### **Description**
+
+Modern software dependency managers, including `npm`, `maven`, `Nuget`, `pip`, and others, rely on declaring the dependencies required for the application and then fetching them at build time. By configuring the dependency manager to only allow connections to an authorized list of registries, these attacks can be blunted by keeping malicious packages in the public registries from entering the pipeline.
+
+The trusted repository can also ensure that security policies are enforced on dependencies. For example, trusted repositories could ensure that only dependencies that are free of critical or high vulnerabilities are used. Implementing a control at the repository that returns an error when a component with known vulnerabilities is requested helps to reduce the chances of an attack against a known vulnerability downstream.
+
+Teams should be aware of implicit runtime dependencies as well as explicit buildtime dependencies (see Control 14).
+
+> :skull: 
+> Attackers can quickly spread malicious code through dependencies. Attackers might insert malicious code that is then incorporated into the application’s manifest by stealing credentials en masse for sophisticated, targeted thefts.
+> Hackers can also target mistakes and oversights through _typo-squatting_ and _dependency confusion_. Adversaries go to great ends to publish packages under a trusted name or even with common typos so that they are included in builds.
+> All of the stakes are raised exponentially when public repositories are used.  
+
+### Rules
+
+| Rule ID | Rule Name | Rule Description |
+|---------|-----------|------------------|
+| demodata/data@experimental | demodata/data@experimental |  |
 
 ## [CTL-6] Any critical or high severity vulnerability breaks the build
 
@@ -186,7 +215,7 @@ Requiring multiple code reviews and successful tests helps ensure that no change
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| [merge-approval](rules/gitlab/project/approvals-policy-check.md) | [merge-approval](rules/gitlab/project/approvals-policy-check.md) | Verify the project's merge approval policy complies with requirements. |
+| [merge-approval](rules/github/repository/approvals-policy-check.md) | [merge-approval](rules/github/repository/approvals-policy-check.md) | Verify the repository's pull request approval policy |
 
 ## [CTL-11] Available container images don’t have any high or critical vulnerabilities
 
