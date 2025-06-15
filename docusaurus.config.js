@@ -93,7 +93,7 @@ const config = {
                 "guides/secure-sfw-slsa/README.md",
                 "guides/secure-sfw-slsa/slsa-lvl-1.md",
                 "guides/secure-sfw-slsa/slsa-lvl-2.md",
-                "guides/secure-sfw-slsa/slsa-lvl-2-on-scale.md",
+                "guides/secure-sfw-slsa/slsa-on-scale.md",
                 "guides/secure-sfw-slsa/slsa-lvl-3.md",
                 "guides/secure-sfw-slsa/customizing-provenance.md",
                 "guides/secure-sfw-slsa/basic-examples.md",
