@@ -10,7 +10,8 @@
 | [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
 | [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 | [SSDF Client Initiative](/docs/configuration/initiatives/ssdf.md) | Evaluate PS rules from the SSDF initiative |
-| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gl.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gh.md) | Blueprint for secure pipelines - GitHub |
 
 ## Rules
 
@@ -32,7 +33,6 @@
 
 | Rule Name | Description |
 |-----------|-------------|
-| [Verify File Integrity](/docs/configuration/initiatives/rules/multievidence/files_integrity.md) | Verify the checksum of each file in one SBOM matches the checksum in a second SBOM. |
 | [Verify Image Labels](/docs/configuration/initiatives/rules/images/verify-labels.md) | Verify specified labels key-value pairs exist in the image. |
 | [Forbid Large Images](/docs/configuration/initiatives/rules/images/forbid-large-images.md) | Verify the image size is below the specified threshold. |
 | [Disallow Container Shell Entrypoint](/docs/configuration/initiatives/rules/images/restrict-shell-entrypoint.md) | Verify the container image disallows shell entrypoint. |
@@ -92,6 +92,7 @@
 
 | Rule Name | Description |
 |-----------|-------------|
+| [3rd Party Scanner Violations](/docs/configuration/initiatives/rules/generic/3rd-pty.md) | Limit allowed violations in 3rd party scanner reports |
 | [Required Trivy Evidence Exists](/docs/configuration/initiatives/rules/generic/trivy-exists.md) | Verify required Trivy evidence exists |
 | [Required Generic Evidence Exists](/docs/configuration/initiatives/rules/generic/evidence-exists.md) | Verify required evidence exists. |
 | [Generic Artifact Signed](/docs/configuration/initiatives/rules/generic/artifact-signed.md) | Verify required evidence is signed. |
@@ -128,6 +129,7 @@
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Pull request approval policy check for GitHub repository](/docs/configuration/initiatives/rules/github/repository/approvals-policy-check.md) | Verify the repository's pull request approval policy |
 | [Verify secret scanning.](/docs/configuration/initiatives/rules/github/repository/validity-checks.md) | Verify both `secret_scanning_validity_checks` and `security_and_analysis` are set in GitHub organization and all the repositories. |
 | [Verify Dependabot security updates setting](/docs/configuration/initiatives/rules/github/repository/dependabot.md) | Verify Dependabot security updates are configured in the GitHub repository. |
 | [Verify Repository Is Private](/docs/configuration/initiatives/rules/github/repository/repo-private.md) | Verify the GitHub repository is private. |
