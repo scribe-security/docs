@@ -59,8 +59,6 @@ When running hooks, `platforms` provides useful environment variables:
 - `NAMESPACE`: Target asset namespace (avilable for `k8s`).
 - `POD`: Target asset namespace (avilable for `k8s`).
 
-Of course! Here's a cleaner, more formal rephrasing for the Kubernetes (K8s) parts you added, while keeping the structure and meaning you intended:
-
 
 #### CI and Git Context
 These variables represent the CI and Git environment in which platforms is executed:
