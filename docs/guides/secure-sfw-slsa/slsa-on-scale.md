@@ -95,6 +95,53 @@ This command will:
   * Perform all actions of the L1 example.
   * **Additionally, it will cryptographically sign the generated SLSA provenance statements**, elevating them to SLSA Level 2.
 
+
+## 🔁 Example GitHub Actions Workflow
+
+> ℹ️ **Tip:** It's recommended to schedule this workflow (instead of running manually) to ensure timely collection of logs before GitHub Actions deletes them (typically after 90 days).
+
+You can also run the `discover` command from within GitHub Actions using the [Scribe Security GitHub Action](https://github.com/scribe-security/action-platforms):
+
+<details>
+<summary>Click to view GitHub Actions workflow example</summary>
+
+```yaml
+name: Discover SLSA Provenance from GitHub
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # Runs daily at 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  id-token: write # Allows Sigstore signing via GitHub OIDC identity
+  contents: read
+
+jobs:
+  discover-slsa:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
+      SCRIBE_TOKEN: ${{ secrets.GH_CI_DEV_SCRIBE_SECRET }}
+    steps:
+      - name: Discover GitHub Provenance
+        uses: scribe-security/action-platforms@dev
+        with:
+          command: discover
+          platform: github
+          sign: true # required for SLSA Level 2
+          slsa: true
+          args: >-
+            --slsa-enable
+            --slsa.tags-only
+            --scope.organization=scribe-security
+            --scope.repository=valint
+            --organization.mapping=scribe-security::valint_slsa::v1
+            --repository.mapping=scribe-security*valint::valint_slsa::v1
+```
+
+</details>
+
 ## 📂 Key Flags
 
 | Flag                   | Description                                                    |
