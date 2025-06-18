@@ -64,7 +64,7 @@ platforms discover github \
   --repository.mapping *::valint_slsa::v1 \
   --commit.skip \
   --slsa-enable \
-  --slsa.tags-only \
+  --slsa.tags-only
 ```
 
 This command will:
