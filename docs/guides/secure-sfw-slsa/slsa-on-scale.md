@@ -46,10 +46,12 @@ Behind the scenes, Scribe Platforms performs several steps to turn raw workflow 
   Generate Associates both source-code and image SBOMs with the build for end-to-end traceability.
 * **Generate in-toto SLSA statements (L1 or L2)**  
   Produces valid provenance, optionally signing it when `--valint.sign` is enabled.
-* **Export the evidence to Scribe Hub or local storage**  
-  Tags each artifact with the correct repository, workflow run, and product key.
+* **Run SLSA-compliance initiatives**  
+  Once each provenance file is written, Scribe automatically executes the matching policy-as-code initiative (`slsa.l1` for unsigned L1, `slsa.l2` for signed L2).  
+  The initiative verifies the evidence set, emits a SARIF report, and—when applicable—signs that report before attaching it as additional evidence.
+* **Execute SLSA Compliance Initiatives** 
+After provenance generation, Scribe automatically applies relevant policy-as-code initiatives (`slsa.l1` or `slsa.l2`). These initiatives validate the evidence, generate a SARIF report detailing compliance status, and (for Level 2) sign this report as additional, verifiable evidence.
 
-(Users don’t need to run any extra steps—this all happens automatically when you invoke `platforms discover`.)
 
 ## 🧪 Example Usage L1 (Unsigned Provenance)
 
@@ -107,6 +109,38 @@ This command will:
 | `--slsa.scope.image`     | Restrict provenance to particular **image names/repositories** |
 | `--repository.mapping` | Assign product key for evidence export                         |
 | `--skip-cache`         | Force recomputation even if cached results exist               |
+
+
+## 🔒 Proving SLSA Compliance with Policy-as-Code Initiatives
+
+After Scribe generates SLSA provenance for your container images, it automatically takes a critical extra step: it runs **policy-as-code initiatives** against the provenance and its associated evidence. This provides a robust, verifiable way to demonstrate SLSA compliance.
+
+### What are Scribe Initiatives?
+
+Scribe Initiatives are predefined or custom sets of policy rules that evaluate your software supply chain's compliance. For SLSA, Scribe offers specific initiatives to verify various aspects of your provenance and its linked SBOMs (Software Bill of Materials) for both source and image.
+
+These initiatives check for things like:
+
+  * The **existence and integrity** of the provenance document and its linked SBOMs.
+  * That **critical fields** in the provenance (e.g., builder identity, source repository) match expected values.
+  * For **SLSA Level 2**, that both the provenance and the resulting SARIF (Static Analysis Results Interchange Format) compliance report are **cryptographically signed**, ensuring their authenticity.
+
+The outcome of these evaluations is a **SARIF report**. This report details your compliance status, highlights any policy deviations, and links back to all relevant evidence. For SLSA Level 2, this SARIF report is also signed, adding another layer of verifiable assurance.
+
+This automated verification and reporting gives you:
+
+  * **Robust Compliance Proof:** Independently validated evidence of your SLSA adherence.
+  * **End-to-End Traceability:** Links all artifacts and reports directly to the build process.
+  * **Streamlined Auditing:** A standardized, machine-readable format for compliance reporting.
+
+### Further Reading and Resources
+
+For more details on Scribe's policy-as-code initiatives and their role in SLSA compliance, explore these resources:
+
+  * **Applying Initiatives to your SDLC:** [https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative)
+  * **SLSA L1 Initiative Documentation & Source:** [https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l1/](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l1/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml)
+  * **SLSA L2 Initiative Documentation & Source:** [https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l2/](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l2/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml)
+
 
 ## 🚧 What's Collected in the Provenance Attestation
 * **`subject`**: Captures the **single output artifact** of the build—its full image reference **plus a SHA-256 digest** (the cryptographic hash that uniquely fingerprints the image).  
