@@ -74,8 +74,8 @@ This command will:
   * Extract image build metadata from logs.
   * Generate SLSA Level 1 provenance (unsigned).
   * Include links to source and image SBOMs.
-  * Export that evidence under the appropriate product key using the mapping.
-
+  * Export the evidence under product key **`valint_slsa`** with version **`v1`**.
+  
 ## 🧪 Example Usage L2 (Signed Provenance)
 
 To generate SLSA Level 2 provenance, you need to sign the provenance statement. This is done by adding the `--valint.sign` flag. This typically requires integration with a signing service (e.g., Scribe Hub's attestation signing).
