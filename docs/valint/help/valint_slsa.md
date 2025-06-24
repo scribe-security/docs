@@ -19,6 +19,7 @@ Flags for `slsa` subcommand
 | | --all-env | Attach all environment variables | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
+| | --bom | Upload SBOM evidence and by product | |
 | | --build-type | Set build type | |
 | | --builder-id | Set builder id | |
 | | --by-product | Attach by product path | |
@@ -49,6 +50,7 @@ Flags for `slsa` subcommand
 | | --predicate | Import predicate path | |
 | | --pubkey | Public key path | |
 | -y | --skip-confirmation | Skip Sigstore Confirmation | |
+| | --source | Git repository source for target | |
 | | --started-on | Set metadata started time (YYYY-MM-DDThh:mm:ssZ) | |
 | | --statement | Import statement path | |
 
@@ -64,8 +66,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket teamcity local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
-| -G | --gate | Policy Gate name | |
-| | --input | Input Evidence target, format (\<parser\>:\<file\> or \<scheme\>:\<name\>:\<tag\>) | |
+| | --gate-name | Policy Gate name | |
+| -G | --gate-type | Policy Gate type | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |

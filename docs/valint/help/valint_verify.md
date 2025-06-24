@@ -16,10 +16,12 @@ Flags for `verify` subcommand
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --all-evidence | Run all evidence verification | |
 | | --attest.config | Attestation config path | |
 | | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | -a | --attestation | Attestation for target | |
 | | --base-image | Base image for the target | |
+| | --beautify | Enhance the output using ANSI and Unicode characters | |
 | | --bom | Create target SBOM evidence | |
 | | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
 | | --bundle-auth | Bundle repository authentication info, [format: 'username:password'] | |
@@ -42,16 +44,18 @@ Flags for `verify` subcommand
 | | --git-commit | Git commit hash in the repository | |
 | | --git-tag | Git tag in the repository | |
 | -h | --help | help for verify | |
-| | --initiative | Run only rules with specified initiative | |
+| | --initiative | Initiative configuration file path (early-availability) | |
+| | --initiative-id | Initiative id | |
+| | --initiative-name | Initiative name | |
 | -i | --input-format | Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | | --key | x509 Private key path | |
 | | --kms | Provide KMS key reference | |
+| | --md | Output Initiative result markdown report file | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
 | | --pass | Private key password | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
-| | --policy | Policy configuration file path (early-availability) | |
 | | --provenance | Create target SLSA Provenance evidence | |
 | | --pubkey | Public key path | |
 | | --public-key | Public key path | |
@@ -75,8 +79,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket teamcity local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
-| -G | --gate | Policy Gate name | |
-| | --input | Input Evidence target, format (\<parser\>:\<file\> or \<scheme\>:\<name\>:\<tag\>) | |
+| | --gate-name | Policy Gate name | |
+| -G | --gate-type | Policy Gate type | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |

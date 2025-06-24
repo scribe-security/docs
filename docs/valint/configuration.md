@@ -60,14 +60,18 @@ attest:
     commit: ""
     depth: 0
     clone-path: ""
+  initiative_file: ""
+  initiative_name: ""
+  initiative_id: ""
+  all-evidence: false
   policy_configs: []
   rule_configs: []
   label_filters: []
-  initiative_filters: []
   default: sigstore
   report:
     add-passed: true
-  cocosign: {}
+  cocosign:
+    all-evidence: false
   x509: {}
   fulcio:
     enable: false
