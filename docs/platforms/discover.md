@@ -22,13 +22,10 @@ The evidence generation process uses Scribe's `valint` tool to upload and option
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [-h] [--check-token-permissions] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD]
-                                    [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only] [--max-threads MAX_THREADS]
-                                    [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY] [--allow-failures] [--export-partial] [--skip-evidence]
-                                    [--valint.scribe.client-secret CLIENT_SECRET] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
-                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
-                                    [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+usage: platforms [options] discover [-h] [--check-token-permissions] [--db.local.store_policy {update,replace}] [--db.update_period UPDATE_PERIOD] [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only] [--max-threads MAX_THREADS] [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY]
+                                    [--allow-failures] [--export-partial] [--skip-evidence] [--valint.scribe.client-secret CLIENT_SECRET] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.assume-context ASSUME_CONTEXT] [--valint.payload PAYLOAD] [--valint.log-level LOG_LEVEL] [--valint.arch ARCH]
+                                    [--valint.input [INPUT ...]] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.statement STATEMENT] [--valint.source SOURCE] [--valint.attest ATTEST]
+                                    [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique] [--valint.git-commit GIT_COMMIT] [--valint.git-branch GIT_BRANCH] [--valint.git-tag GIT_TAG]
                                     {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins,bitbucket,azure} ...
 
 Discover assets and save data to a local store
@@ -62,8 +59,15 @@ options:
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
+  --valint.assume-context ASSUME_CONTEXT
+                        Valint assume context (type: str, default: )
+  --valint.payload PAYLOAD
+                        Valint payload (type: str, default: )
   --valint.log-level LOG_LEVEL
                         Valint log level (type: str, default: )
+  --valint.arch ARCH    Set Image architecture (type: str, default: )
+  --valint.input [INPUT ...]
+                        Valint extra input targets (default: [])
   --valint.output-directory OUTPUT_DIRECTORY
                         Local evidence cache directory (type: str, default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default: /home/mikey/.scribe/bin/valint)
@@ -73,13 +77,23 @@ options:
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
                         Evidence predicate type (type: str, default: )
+  --valint.statement STATEMENT
+                        SLSA Evidence statement type (type: str, default: )
+  --valint.source SOURCE
+                        SLSA Source target (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x75bbf48f2ca0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x79b17cc96de0>, default: [])
   --unique              Allow unique assets (default: False)
+  --valint.git-commit GIT_COMMIT
+                        Set Input Target Git commit (type: str, default: )
+  --valint.git-branch GIT_BRANCH
+                        Set Input Target Git branch (type: str, default: )
+  --valint.git-tag GIT_TAG
+                        Set Input Target Git tag (type: str, default: )
 
 subcommands:
   For more details of each subcommand, add it as an argument followed by --help.
@@ -134,15 +148,11 @@ platforms discover gitlab \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] gitlab [-h] [--instance.instance INSTANCE]
-                                                     [--types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} ...]]
-                                                     [--exclude.types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} ...]]
-                                                     [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]]
-                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip]
-                                                     [--default_product_key_strategy {mapping}] [--scope.skip_org_members] [--scope.skip_project_members]
-                                                     [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs]
-                                                     [--scope.pipeline.reports] [--broad] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
-                                                     [--organization.single] [--project.single] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+usage: platforms [options] discover [options] gitlab [-h] [--instance.instance INSTANCE] [--types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} ...]]
+                                                     [--exclude.types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} ...]] [--token TOKEN] [--url URL]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}] [--scope.skip_org_members] [--scope.skip_project_members]
+                                                     [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports] [--broad] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--organization.single] [--project.single] [--skip-cache]
+                                                     [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -157,8 +167,7 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
   --scope.project [PROJECT ...]
-                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
-                        'namespace / project_name' (default: ['*'])
+                        Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Gitlab branches wildcards (default: null)
   --scope.tag [TAG ...]
@@ -241,16 +250,13 @@ platforms discover github \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] github [-h] [--instance.instance INSTANCE]
-                                                     [--types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]]
-                                                     [--exclude.types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} ...]]
-                                                     [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]]
-                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
-                                                     [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS] [--workflow.skip]
-                                                     [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.runners] [--scope.sbom]
-                                                     [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
-                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache]
-                                                     [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+usage: platforms [options] discover [options] github [-h] [--instance.instance INSTANCE] [--types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]]
+                                                     [--exclude.types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} ...]] [--token TOKEN] [--url URL]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]] [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip] [--tag.only] [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS]
+                                                     [--workflow.skip] [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.workflow.name [NAME ...]] [--scope.runners] [--scope.api-sbom] [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]] [--bom]
+                                                     [--provenance] [--bom.scope.branch [BRANCH ...]] [--slsa.scope.branch [BRANCH ...]] [--slsa.scope.tag [TAG ...]] [--slsa.scope.workflow [WORKFLOW ...]] [--slsa.scope.image [IMAGE ...]] [--slsa-enable] [--slsa.tags-only] [--slsa.all-versions]
+                                                     [--slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]] [--slsa.skip-cache] [--slsa.cache-ttl CACHE_TTL] [--slsa.cache-group CACHE_GROUP] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache] [--cache-ttl CACHE_TTL]
+                                                     [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -265,14 +271,14 @@ options:
   --scope.organization [ORGANIZATION ...]
                         Github organization list (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace
-                        / project_name' (default: ['*'])
+                        Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Github branches wildcards (default: [])
-  --scope.tag [TAG ...]
-                        Github tags wildcards (default: [])
+                        Github branches wildcards (default: ['*'])
+  --scope.tag.name [NAME ...]
+                        Github tags wildcards (default: ['*'])
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --tag.only            Only include tags in the evidence, skip branches (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --scope.commit.past_days PAST_DAYS
@@ -282,8 +288,10 @@ options:
                         Number of past days to include in the report (type: int, default: 30)
   --scope.workflow.analyzed_logs
                         Include analyzed workflow logs (default: False)
+  --scope.workflow.name [NAME ...]
+                        Scope Workflow names (default: ['*'])
   --scope.runners       Include repository allocated runners in evidence (default: False)
-  --scope.sbom          Include repositories SBOM in evidence (default: False)
+  --scope.api-sbom      Include repositories SBOM in evidence (default: False)
   --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
@@ -291,12 +299,32 @@ options:
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
+  --bom                 Retrieves Source SBOM from all repositories (default: False)
+  --provenance          Retrieves Image provenance discovered in platform API (default: False)
+  --bom.scope.branch [BRANCH ...]
+                        Scope branchs to include Repository Source SBOM evidence for (default: [])
+  --slsa.scope.branch [BRANCH ...]
+                        Scope branchs to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.tag [TAG ...]
+                        Scope tags to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.workflow [WORKFLOW ...]
+                        Scope workflows to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.image [IMAGE ...]
+                        Scope images to include asset SLSA Provenance evidence for (default: ['*'])
+  --slsa-enable         Include SLSA Provenance evidence (default: False)
+  --slsa.tags-only      Include SLSA Provenance evidence only for tags, skip branches (default: False)
+  --slsa.all-versions   Include SLSA Provenance evidence for all versions of the image, not only latest (default: False)
+  --slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]
+                        Extended SLSA evidence types to include in the report (default: ['all'])
+  --slsa.skip-cache     Skip Scribe SLSA cache lookup (default: False)
+  --slsa.cache-ttl CACHE_TTL
+                        time to live for SLSA cache (default: 20d)
+  --slsa.cache-group CACHE_GROUP
+                        Scribe SLSA cache group, default to runners pipeline ID, empty to use global context (default: any)
   --organization.mapping [MAPPING ...]
-                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are
-                        supported (type: AssetMappingString, default: [])
+                        Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
-                        (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type: AssetMappingString, default: [])
   --skip-cache, -f      Skip Scribe Evidence cache lookup (default: False)
   --cache-ttl CACHE_TTL
                         time to live for cache (default: 2d)
@@ -342,16 +370,11 @@ platforms discover dockerhub \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] dockerhub [-h] [--instance.instance INSTANCE]
-                                                        [--types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]]
-                                                        [--exclude.types {instance,namespace,repository,repository_tag,webhook,token} [{instance,namespace,repository,repository_tag,webhook,token} ...]]
-                                                        [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]]
-                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                        [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                                        [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS] [--broad] [--namespace.single]
-                                                        [--repository.single] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                        [--instance.mapping [MAPPING ...]] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
-                                                        [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hook [HOOK ...]]
+usage: platforms [options] discover [options] dockerhub [-h] [--instance.instance INSTANCE] [--types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]]
+                                                        [--exclude.types {instance,namespace,repository,repository_tag,webhook,token} [{instance,namespace,repository,repository_tag,webhook,token} ...]] [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]]
+                                                        [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS] [--broad]
+                                                        [--namespace.single] [--repository.single] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--default_product_key_strategy {mapping,mapping,mapping,mapping}] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]]
+                                                        [--hook.skip] [--repository.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -432,15 +455,9 @@ platforms discover k8s \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] k8s [-h] [--instance.instance INSTANCE]
-                                                  [--types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]]
-                                                  [--exclude.types {namespace,pod,secret,deployment} [{namespace,pod,secret,deployment} ...]] [--url URL]
-                                                  [--token TOKEN] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]]
-                                                  [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
-                                                  [--secret.skip] [--deployment.skip] [--broad] [--namespace.single] [--pod.single]
-                                                  [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]]
-                                                  [--hook [HOOK ...]] [--hook.skip] [--namespace.hooks [HOOKS ...]]
-                                                  [--default_product_key_strategy {namespace,pod,image,mapping}]
+usage: platforms [options] discover [options] k8s [-h] [--instance.instance INSTANCE] [--types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]] [--exclude.types {namespace,pod,secret,deployment} [{namespace,pod,secret,deployment} ...]] [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]]
+                                                  [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--secret.skip] [--deployment.skip] [--broad] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]]
+                                                  [--pod.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--namespace.hooks [HOOKS ...]] [--default_product_key_strategy {namespace,pod,image,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -531,16 +548,11 @@ platforms discover jfrog \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] jfrog [-h] [--instance.instance INSTANCE]
-                                                    [--types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]]
-                                                    [--exclude.types {jf-repository,repository,repository_tag,user,token,webhook} [{jf-repository,repository,repository_tag,user,token,webhook} ...]]
-                                                    [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]]
-                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                    [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
-                                                    [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
-                                                    [--broad] [--jf-repository.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                    [--instance.mapping [MAPPING ...]] [--jf-repository.single] [--repository.single]
-                                                    [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+usage: platforms [options] discover [options] jfrog [-h] [--instance.instance INSTANCE] [--types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]]
+                                                    [--exclude.types {jf-repository,repository,repository_tag,user,token,webhook} [{jf-repository,repository,repository_tag,user,token,webhook} ...]] [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]]
+                                                    [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
+                                                    [--scope.tag_limit TAG_LIMIT] [--broad] [--jf-repository.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--jf-repository.single] [--repository.single] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                    [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -569,8 +581,7 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit applies also to the past_days
-                        filter. 0 for no limit, default is 10. (type: int, default: 20)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 20)
   --broad               Retrieves limited information (only jf-repositories and repositories) (default: False)
   --jf-repository.mapping [MAPPING ...]
                         Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
@@ -583,6 +594,12 @@ options:
   --repository.single   Export all repositories in a single evidence (default: False)
   --default_product_key_strategy {mapping,mapping,mapping,mapping}
                         Override product key with jf-repository, repository or image names (default: mapping)
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --repository.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -628,15 +645,10 @@ platforms discover ecr \
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] discover [options] ecr [-h] [--instance.instance INSTANCE]
-                                                  [--types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]]
-                                                  [--exclude.types {aws-account,repository,repository_tags} [{aws-account,repository,repository_tags} ...]]
-                                                  [--token TOKEN] [--url URL] [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]]
-                                                  [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
-                                                  [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
-                                                  [--broad] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single]
-                                                  [--repository.single] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+usage: platforms [options] discover [options] ecr [-h] [--instance.instance INSTANCE] [--types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]] [--exclude.types {aws-account,repository,repository_tags} [{aws-account,repository,repository_tags} ...]] [--token TOKEN] [--url URL]
+                                                  [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
+                                                  [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
 
 options:
   -h, --help            Show this help message and exit.
@@ -665,8 +677,7 @@ options:
   --scope.past_days PAST_DAYS
                         Ignore tags pushed earlier that previous to this number of days (type: int, default: 30)
   --scope.tag_limit TAG_LIMIT
-                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit applies also to the past_days
-                        filter. 0 for no limit, default is 10. (type: int, default: 10)
+                        Limit the number of recent tags to be discovered. Scoping to tag names is done on the limited tag list. Limit applies also to the past_days filter. 0 for no limit, default is 10. (type: int, default: 10)
   --broad               Retrieves limited information (only aws-account and repository) (default: False)
   --aws-account.mapping [MAPPING ...]
                         Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
@@ -725,13 +736,9 @@ platforms discover bitbucket \
 ```bash
 usage: platforms [options] discover [options] bitbucket [-h] [--instance.instance INSTANCE]
                                                         [--types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} ...]]
-                                                        [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN]
-                                                        [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
-                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]]
-                                                        [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--broad]
-                                                        [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                        [--default_product_key_strategy {mapping}] [--workspace.single] [--project.single] [--repository.single]
-                                                        [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+                                                        [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
+                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--broad] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--default_product_key_strategy {mapping}]
+                                                        [--workspace.single] [--project.single] [--repository.single] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -750,11 +757,9 @@ options:
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
-                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace /
-                        project_name' (default: ['*'])
+                        BitBucket projects wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.repository [REPOSITORY ...]
-                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format
-                        'namespace / project_name' (default: ['*'])
+                        BitBucket repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
@@ -766,14 +771,11 @@ options:
                         Skip Branch protection in discovery/evidence (default: False)
   --broad               Retrieves limited information (only workspaces, repositories) (default: False)
   --workspace.mapping [MAPPING ...]
-                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are
-                        supported (type: AssetMappingString, default: [])
+                        Workspace product key mapping in the format of workspace::product_key::product_version where org is the workspace name, wildcards are supported (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
-                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported
-                        (type: AssetMappingString, default: [])
+                        Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
-                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported
-                        (type: AssetMappingString, default: [])
+                        Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type: AssetMappingString, default: [])
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --workspace.single    Export all workspaces in a single evidence (default: False)
@@ -828,12 +830,9 @@ platforms discover jenkins \
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] discover [options] jenkins [-h] [--instance.instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--url URL] [--broad]
-                                                      [--types {all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} [{all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} ...]]
-                                                      [--credential_stores.skip] [--users.skip] [--plugins.skip] [--security_settings.skip] [--computer_set.skip]
-                                                      [--jobs.skip] [--scope.folder [FOLDER ...]] [--exclude.folder [FOLDER ...]]
-                                                      [--scope.job_runs.past_days PAST_DAYS] [--scope.job_runs.max MAX] [--scope.job_runs.analyzed_logs]
-                                                      [--job_runs.skip] [--default_product_key_strategy {mapping}] [--instance-mapping [INSTANCE_MAPPING ...]]
-                                                      [--folder.mapping [MAPPING ...]]
+                                                      [--types {all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} [{all,computer_set,users,jobs,job_runs,credential_stores,plugins,security_settings,all} ...]] [--credential_stores.skip] [--users.skip] [--plugins.skip] [--security_settings.skip]
+                                                      [--computer_set.skip] [--jobs.skip] [--scope.folder [FOLDER ...]] [--exclude.folder [FOLDER ...]] [--scope.job_runs.past_days PAST_DAYS] [--scope.job_runs.max MAX] [--scope.job_runs.analyzed_logs] [--job_runs.skip] [--default_product_key_strategy {mapping}]
+                                                      [--instance-mapping [INSTANCE_MAPPING ...]] [--folder.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -854,28 +853,23 @@ options:
   --computer_set.skip   Skip computer sets in discovery/evidence (default: False)
   --jobs.skip           Skip jobs (default: False)
   --scope.folder [FOLDER ...]
-                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can include the job name in order to
-                        scope specific jobs. Wildcard is supported only as a suffix. examples: folder-a* will discover all folders that are included in a root folder
-                        that starts with folder-a. folder-a/* will discover all folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default:
-                        ['*'])
+                        Jenkins folder/job list. Default is all folders. The folder scoping is defined as a path of folders and can include the job name in order to scope specific jobs. Wildcard is supported only as a suffix. examples: folder-a* will discover all folders that are included in a root folder that starts with folder-a.
+                        folder-a/* will discover all folders and jobs under the root folder folder-a (type: JenkinsFolderScope, default: ['*'])
   --exclude.folder [FOLDER ...]
                         Jenkins folder/job list to exclude from discovery. Format is like the --scope.folder argument (type: JenkinsFolderScope, default: [])
   --scope.job_runs.past_days PAST_DAYS
                         Number of past days to include in the job run discovery, 0 for no time limit (type: int, default: 30)
   --scope.job_runs.max MAX
-                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in the past_days range. 0 for no
-                        limit (type: int, default: 10)
+                        Mam number of job runs to include in the job run discovery. This argument will limit the number of job runs in the past_days range. 0 for no limit (type: int, default: 10)
   --scope.job_runs.analyzed_logs
                         Include analyzed job run logs (default: False)
   --job_runs.skip       Skip commits in discovery/evidence (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by folder name too. (default: mapping)
   --instance-mapping [INSTANCE_MAPPING ...]
-                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported (type: AssetMappingString, default:
-                        [])
+                        Instance product key mapping in the format of *::product_key::product_version, wildcards are supported (type: AssetMappingString, default: [])
   --folder.mapping [MAPPING ...]
-                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are supported (type: AssetMappingString,
-                        default: [])
+                        Folder product key mapping in the format of folder_path::product_key::product_version, wildcards are supported (type: AssetMappingString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 

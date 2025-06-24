@@ -57,7 +57,9 @@ When running hooks, `platforms` provides useful environment variables:
 - `PLATFORMS_KUBECONFIG`: Kubeconfig path with the provided `url` and `token` to platforms command (avilable for `k8s`).
 - `CLUSTER_URL`: Provided `url` to platforms command (avilable for `k8s`).
 - `NAMESPACE`: Target asset namespace (avilable for `k8s`).
-- `POD`: Target asset namespace (avilable for `k8s`).
+- `POD`: Target asset pod (avilable for `k8s`).
+
+Of course! Here's a cleaner, more formal rephrasing for the Kubernetes (K8s) parts you added, while keeping the structure and meaning you intended:
 
 
 #### CI and Git Context
@@ -118,6 +120,7 @@ These hooks are provided by the `platforms` container along with required config
 | Trivy Vulnerability Scan | trivy_image | repository | dockerhub | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | dockerhub | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
+| Trivy Vulnerability Scan | trivy_image | repository | jfrog | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | AppArmor Profile Check | apparmor_namespace | namespace | k8s | apparmor | json |  |
 | Kubescape Cluster Scan | kubescape_cluster | namespace | k8s | kubescape | kubescape | [Apache-2.0](https://github.com/kubescape/kubescape/blob/master/LICENSE) |
 
@@ -133,6 +136,7 @@ These hooks are provided by the `platforms` container along with required config
 | Gitleaks Secret Scan | gitleaks_secrets | repository | github | gitleaks | gitleaks | [MIT](https://github.com/gitleaks/gitleaks/blob/master/LICENSE) |
 | KICS IaC Security Scan | kics_scan | repository | github | kics | kics | [Apache-2.0](https://github.com/Checkmarx/kics/blob/master/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
+| Trivy Vulnerability Scan | trivy_image | image | jfrog | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy Vulnerability Scan K8s | trivy_k8s_image | image | k8s | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | k8s | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 
@@ -152,16 +156,19 @@ platform: github
 command: discover
 tool: trivy
 parser: trivy
+predicate-type: auto
 allow_failure: false
 use-stdout-evidence: false
 license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
 run: |
   trivy repository \
-    --scanners config,secret \
+    --scanners misconfig,secret \
     --exit-code 0 \
     --format json \
     --output $HOOK_OUTPUT_FILE \
-    $REMOTE_SOURCE_URL_WITH_TOKEN
+    ${REPO_BRANCH:+--branch "$REPO_BRANCH"} \
+    ${REPO_TAG:+--tag "$REPO_TAG"} \
+    $REMOTE_SOURCE_URL
 ```
 </details>
 
@@ -199,15 +206,18 @@ platform: github
 command: bom
 tool: trivy
 parser: trivy
+predicate-type: auto
 allow_failure: true
 use-stdout-evidence: false
 license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
 run: |
   trivy config \
-    --scanners config,secret \
+    --scanners misconfig,secret \
     --exit-code 0 \
     --format json \
     --output $HOOK_OUTPUT_FILE \
+    ${REPO_BRANCH:+--branch "$REPO_BRANCH"} \
+    ${REPO_TAG:+--tag "$REPO_TAG"} \
     $LOCAL_SOURCE_DIR
 ```
 </details>
@@ -297,6 +307,7 @@ platform: dockerhub
 command: discover
 tool: trivy
 parser: trivy
+predicate-type: auto
 allow_failure: false
 use-stdout-evidence: false
 license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
@@ -348,6 +359,7 @@ platform: dockerhub
 command: bom
 tool: trivy
 parser: trivy
+predicate-type: auto
 allow_failure: false
 use-stdout-evidence: false
 license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
@@ -400,10 +412,8 @@ tool: apparmor
 parser: json
 allow_failure: true
 use-stdout-evidence: false
-run: "echo bash scripts/hooks/k8s-apparmor-profiles.sh \\\n  --namespace $ASSET_NAME\
-  \ \\\n  --output $HOOK_OUTPUT_FILE \\\n  --format json  \n\necho bash scripts/hooks/k8s-apparmor-profiles.sh\
-  \ \\\n  --namespace $ASSET_NAME \\\n  --output $HOOK_OUTPUT_FILE \\\n  --format\
-  \ json  \n"
+run: "sh scripts/hooks/k8s-apparmor-profiles.sh \\\n  --namespace $ASSET_NAME \\\n\
+  \  --output $HOOK_OUTPUT_FILE \\\n  --format json  \n"
 ```
 </details>
 
@@ -445,16 +455,69 @@ platform: k8s
 command: bom
 tool: trivy
 parser: trivy
+predicate-type: auto
 allow_failure: false
 use-stdout-evidence: false
 license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
-run: |-
+run: |
   trivy image \
     --scanners misconfig,secret \
     --exit-code 0 \
     --format json \
     --output $HOOK_OUTPUT_FILE \
     $REMOTE_IMAGE_REF
+```
+</details>
+
+<details>
+
+<summary>Trivy Vulnerability Scan</summary>
+
+```yaml
+name: Trivy Vulnerability Scan
+id: trivy_image
+type: repository
+platform: jfrog
+command: discover
+tool: trivy
+parser: sarif
+allow_failure: false
+use-stdout-evidence: false
+predicate-type: auto
+license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
+run: |
+  trivy image \
+  --scanners vuln \
+  --exit-code 0 \
+  --format sarif \
+  --output $HOOK_OUTPUT_FILE \
+  $REMOTE_IMAGE_REF
+```
+</details>
+
+<details>
+
+<summary>Trivy Vulnerability Scan</summary>
+
+```yaml
+name: Trivy Vulnerability Scan
+id: trivy_image
+type: image
+platform: jfrog
+command: bom
+tool: trivy
+parser: sarif
+allow_failure: false
+use-stdout-evidence: false
+predicate-type: auto
+license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
+run: |-
+  trivy image \
+  --scanners vuln \
+  --exit-code 0 \
+  --format sarif \
+  --output $HOOK_OUTPUT_FILE \
+  $REMOTE_IMAGE_REF
 ```
 </details>
 
