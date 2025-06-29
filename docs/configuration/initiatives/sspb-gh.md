@@ -1,5 +1,5 @@
 ---
-sidebar_label: Secure Software Pipeline Blueprint
+sidebar_label: Secure Software Pipeline Blueprint for GitHub
 title: Secure Software Pipeline Blueprint
 ---  
 # Secure Software Pipeline Blueprint  
