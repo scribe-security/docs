@@ -106,7 +106,7 @@ Ensuring that access keys used by automation expire periodically reduces the ris
 > :skull: Automated systems run continuously and are attractive targets; compromised keys with a short lifespan minimize potential damage.
 
 :::warning  
-This control is not supported yet.
+This control not currently supported on this platform.
 ::: 
 
 ## [CTL-4] Reduce automation access to read-only
@@ -124,7 +124,7 @@ CI systems should have read access only to source code repositories to limit the
 > :skull: Attackers who gain write access via automation credentials can bypass review processes; restricting access reduces this risk.
 
 :::warning  
-This control is not supported yet.
+This control not currently supported on this platform.
 ::: 
 
 ## [CTL-5] Only dependencies from trusted registries can be used
