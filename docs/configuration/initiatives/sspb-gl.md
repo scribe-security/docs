@@ -1,5 +1,5 @@
 ---
-sidebar_label: Secure Software Pipeline Blueprint
+sidebar_label: Secure Software Pipeline Blueprint for Gitlab
 title: Secure Software Pipeline Blueprint
 ---  
 # Secure Software Pipeline Blueprint  
@@ -21,16 +21,20 @@ This initiative defines a set of best practices and technical guidelines designe
 | Control Name | Control Description | Mitigation |
 |--------------|---------------------|------------|
 | [[CTL-1] Restrict administrative access to CI/CD tools](#ctl-1-restrict-administrative-access-to-cicd-tools) | Restrict administrative access to CI/CD tools | Limit administrative privileges to a minimal, controlled group to reduce the risk of unauthorized pipeline changes. |
-| [[CTL-2] Only accept commits signed with a developer GPG key](#ctl-2-only-accept-commits-signed-with-a-developer-gpg-key) | The use of these two rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab | Require all commits to be signed to improve accountability and reduce the risk of unauthorized code modifications. |
+| [[CTL-2] Only accept commits signed with a developer GPG key](#ctl-2-only-accept-commits-signed-with-a-developer-gpg-key) | The use of these rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab | Require all commits to be signed to improve accountability and reduce the risk of unauthorized code modifications. |
 | [[CTL-3] Automation access keys expire automatically](#ctl-3-automation-access-keys-expire-automatically) | Automation access keys expire automatically | Configure automation keys to expire automatically, limiting the window in which compromised keys can be exploited. |
 | [[CTL-4] Reduce automation access to read-only](#ctl-4-reduce-automation-access-to-read-only) | Reduce automation access to read-only | Restrict automation accounts to read-only access, following the principle of least privilege to minimize potential damage. |
 | [[CTL-5] Only dependencies from trusted registries can be used](#ctl-5-only-dependencies-from-trusted-registries-can-be-used) | Only dependencies from trusted registries can be used | Restrict dependencies to trusted registries to prevent the introduction of malicious code through third-party packages. |
 | [[CTL-6] Any critical or high severity vulnerability breaks the build](#ctl-6-any-critical-or-high-severity-vulnerability-breaks-the-build) | Any critical or high severity vulnerability breaks the build | Immediately fail the build when critical or high-severity vulnerabilities are detected, forcing prompt investigation and remediation. |
+| [[CTL-7] Artifacts are stored in a repository in development, stage and production](#ctl-7-artifacts-are-stored-in-a-repository-in-development-stage-and-production) | Artifacts are stored in a repository in development, stage and production | Store all artifacts in a repository at each stage of the build pipeline to ensure traceability and maintain immutability. |
 | [[CTL-8] Validate artifact digest](#ctl-8-validate-artifact-digest) | Validate artifact digest | Validate the artifact’s digest before deployment to ensure it has not been tampered with and maintains software integrity. |
 | [[CTL-9] Pull-requests require two reviewers (including one default reviewer) and a passing build to be merged](#ctl-9-pull-requests-require-two-reviewers-including-one-default-reviewer-and-a-passing-build-to-be-merged) | Pull-requests require two reviewers (including one default reviewer) and a passing build to be merged | Enforce a review process requiring at least two reviewers and a passing build, ensuring thorough evaluation and testing before code is merged. |
+| [[CTL-10] Artifacts in higher repositories are signed](#ctl-10-artifacts-in-higher-repositories-are-signed) | Artifacts in higher repositories are signed | Require artifacts to be signed in higher repositories to ensure authenticity and prevent tampering. |
 | [[CTL-11] Available container images don’t have any high or critical vulnerabilities](#ctl-11-available-container-images-dont-have-any-high-or-critical-vulnerabilities) | Available container images don’t have any high or critical vulnerabilities | Continuously scan container images for vulnerabilities and ensure that only images without high or critical issues are deployed. |
 | [[CTL-12] Validate artifact signatures and digests](#ctl-12-validate-artifact-signatures-and-digests) | Validate artifact signatures and digests | Ensure that artifacts are properly signed and their digests validated, confirming authenticity and preventing tampering. |
 | [[CTL-13] Scan deployed images in production](#ctl-13-scan-deployed-images-in-production) | Scan deployed images in production | Continuously monitor and scan production images to ensure ongoing compliance with security standards. |
+| [[CTL-14] Validate Kubernetes resource manifests](#ctl-14-validate-kubernetes-resource-manifests) | Validate Kubernetes resource manifests | Ensure that Kubernetes manifests are validated to prevent misconfigurations and security vulnerabilities. |
+| [[CTL-15] Ensure build environments are ephemeral and immutable](#ctl-15-ensure-build-environments-are-ephemeral-and-immutable) | Ensure build environments are ephemeral and immutable | Build environments should be defined in code with automated creation and teardown, and that a fresh environment is created for every build |
 
 ## Evidence Defaults
 
@@ -63,10 +67,11 @@ Both host and application-layer access to CI/CD tools should be protected with m
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
 | [max-admins](rules/gitlab/org/max-admins.md) | [max-admins](rules/gitlab/org/max-admins.md) | Verify the maximum number of admins for the GitLab project is restricted. |
+| [allowed-admins](rules/gitlab/org/allow-admins.md) | [allowed-admins](rules/gitlab/org/allow-admins.md) | Verify only users in the Allowed List have admin privileges in the GitLab organization. |
 
 ## [CTL-2] Only accept commits signed with a developer GPG key
 
-The use of these two rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab
+The use of these rules enables first measuring the adoption of commit signing without enforcement that could interfere with the developers work, and only when signed commits are well deployed to move to enforcement by Gitlab
 
 
 ### Mitigation  
@@ -150,7 +155,7 @@ Teams should be aware of implicit runtime dependencies as well as explicit build
 
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
-| demodata/data@experimental | demodata/data@experimental |  |
+| [allowed-base-image](rules/images/allowed-base-image.md) | [Ensure that base images are from an approved source](rules/images/allowed-base-image.md) | Verifies that every base image is from an approved source. The rule returns a summary including the component names and versions of valid base images, or lists the invalid ones. This rule requires Dockerfile context; for example, run it with: `valint my_image --base-image Dockerfile`. |
 
 ## [CTL-6] Any critical or high severity vulnerability breaks the build
 
@@ -175,6 +180,28 @@ Early detection reduces remediation costs, but also requires a well-defined vuln
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
 | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+
+## [CTL-7] Artifacts are stored in a repository in development, stage and production
+
+Artifacts are stored in a repository in development, stage and production
+
+
+### Mitigation  
+Store all artifacts in a repository at each stage of the build pipeline to ensure traceability and maintain immutability.
+
+### **Description**
+
+All artifacts should be stored in a repository at each stage of the build pipeline so that there is clear traceability between the test results and the actual artifact that was tested. This control also helps to enforce the immutability of the artifacts, such that we can compare artifacts in the development, staging and production repositories and ensure that we maintain a chain of control.
+
+Repositories for dev, stage and production should be segregated so that role-based access control can ensure least privilege at each stage, and so that more stringent policies (such as artifact signing) can be enforced in higher environments.
+
+Artifacts should be promoted from repository to repository in accordance with the principle of immutability.
+
+### Rules
+
+| Rule ID | Rule Name | Rule Description |
+|---------|-----------|------------------|
+| [artifacts-stored-in-registries](rules/images/allowed-image-source.md) | [Artifacts are stored in a repository](rules/images/allowed-image-source.md) | Ensures the main container image referenced in the SBOM is from an approved source. |
 
 ## [CTL-8] Validate artifact digest
 
@@ -215,6 +242,28 @@ Requiring multiple code reviews and successful tests helps ensure that no change
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
 | [merge-approval](rules/gitlab/project/approvals-policy-check.md) | [merge-approval](rules/gitlab/project/approvals-policy-check.md) | Verify the project's merge approval policy complies with requirements. |
+
+## [CTL-10] Artifacts in higher repositories are signed
+
+Artifacts in higher repositories are signed
+
+
+### Mitigation  
+Require artifacts to be signed in higher repositories to ensure authenticity and prevent tampering.
+
+### **Description**
+
+Requiring artifacts to be signed in a repository throughout the process ensures visibility and traceability for whatever is deployed to production. Requiring signed artifacts helps to ensure that untrusted binaries are not deployed to customer environments and allows validating the source of the binaries.
+
+> :skull: 
+> Through credential theft, vulnerability exploit, targeted attacks or more, attackers succeed in inserting their malicious code into pipelines and repositories. Code should be considered suspect and malicious.
+
+### Rules
+
+| Rule ID | Rule Name | Rule Description |
+|---------|-----------|------------------|
+| [sbom-is-signed](rules/sbom/artifact-signed.md) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
+| [artifacts-stored-in-registries](rules/images/allowed-image-source.md) | [Artifacts are stored in a repository](rules/images/allowed-image-source.md) | Ensures the main container image referenced in the SBOM is from an approved source. |
 
 ## [CTL-11] Available container images don’t have any high or critical vulnerabilities
 
@@ -277,3 +326,41 @@ Production images should be validated to ensure that controls enforced during ea
 | [sbom-is-signed](rules/sbom/artifact-signed.md) | [sbom-is-signed](rules/sbom/artifact-signed.md) | Verify the SBOM is signed. |
 | [disallow-dependencies](rules/sbom/blocklist-packages.md) | [disallow-dependencies](rules/sbom/blocklist-packages.md) | Verify the number of disallowed dependencies remains below the specified threshold. |
 | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | [stop-critical-or-high-vuln](rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
+
+## [CTL-14] Validate Kubernetes resource manifests
+
+Validate Kubernetes resource manifests
+
+
+### Mitigation  
+Ensure that Kubernetes manifests are validated to prevent misconfigurations and security vulnerabilities.
+
+### **Description**
+
+The last line of defense is the _container orchestration layer_. Kubernetes is responsible for deploying the containers of the application into production, and if the resource manifests are tampered with, it could be tricked into deploying a container of the attacker’s choice. It is important to ensure that the Kubernetes resource manifests are controlled and validated just as the actual images are.
+
+### Rules
+
+| Rule ID | Rule Name | Rule Description |
+|---------|-----------|------------------|
+| [k8s-manifests-integrity-validated](rules/generic/evidence-exists.md) | [Validate Kubernetes resource manifests integrity](rules/generic/evidence-exists.md) | Verify required evidence exists. |
+
+## [CTL-15] Ensure build environments are ephemeral and immutable
+
+Ensure build environments are ephemeral and immutable
+
+
+### Mitigation  
+Build environments should be defined in code with automated creation and teardown, and that a fresh environment is created for every build
+
+### **Description**
+
+Build environments should be defined in code with automated creation and teardown, and that a fresh environment is created for every build. Build hosts should not be accessible using interactive logins.
+
+> :skull: 
+> Attackers who gain access to build environments are able to bypass controls implemented earlier in the build pipeline. Ensuring build environments are themselves defined as code and live only for the duration of a build prevents attackers from persisting in build infrastructures.
+
+
+:::warning  
+This control not currently supported on this platform.
+::: 
