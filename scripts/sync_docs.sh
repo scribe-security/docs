@@ -194,6 +194,10 @@ import_action-installer() {
 import_action-slsa() {
     import_action "action-slsa"
 }
+import_action-evidence() {
+    repo="action-evidence"
+    import_action  ${repo}
+}
 
 export_action-bom() {
     repo="action-bom"
@@ -211,6 +215,12 @@ export_action-installer() {
 }
 export_action-slsa() {
     repo="action-slsa"
+    export_action ${repo}
+    export_action_extra ${repo}
+}
+
+export_action-evidence() {
+    repo="action-evidence"
     export_action ${repo}
     export_action_extra ${repo}
 }
