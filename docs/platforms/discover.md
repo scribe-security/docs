@@ -26,9 +26,11 @@ usage: platforms [options] discover [-h] [--check-token-permissions] [--db.local
                                     [--evidence.local.path PATH] [--evidence.local.prefix PREFIX] [--evidence.local_only] [--max-threads MAX_THREADS]
                                     [--thread-timeout THREAD_TIMEOUT] [--rate-limit-retry RATE_LIMIT_RETRY] [--allow-failures] [--export-partial] [--skip-evidence]
                                     [--valint.scribe.client-secret CLIENT_SECRET] [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE]
-                                    [--valint.log-level LOG_LEVEL] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
-                                    [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+                                    [--valint.assume-context ASSUME_CONTEXT] [--valint.payload PAYLOAD] [--valint.log-level LOG_LEVEL] [--valint.arch ARCH]
+                                    [--valint.input [INPUT ...]] [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
+                                    [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.statement STATEMENT]
+                                    [--valint.source SOURCE] [--valint.attest ATTEST] [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL]
+                                    [--unique] [--valint.git-commit GIT_COMMIT] [--valint.git-branch GIT_BRANCH] [--valint.git-tag GIT_TAG]
                                     {gitlab,dockerhub,k8s,github,jfrog,ecr,jenkins,bitbucket,azure} ...
 
 Discover assets and save data to a local store
@@ -62,8 +64,15 @@ options:
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
+  --valint.assume-context ASSUME_CONTEXT
+                        Valint assume context (type: str, default: )
+  --valint.payload PAYLOAD
+                        Valint payload (type: str, default: )
   --valint.log-level LOG_LEVEL
                         Valint log level (type: str, default: )
+  --valint.arch ARCH    Set Image architecture (type: str, default: )
+  --valint.input [INPUT ...]
+                        Valint extra input targets (default: [])
   --valint.output-directory OUTPUT_DIRECTORY
                         Local evidence cache directory (type: str, default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default: /home/mikey/.scribe/bin/valint)
@@ -73,13 +82,23 @@ options:
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
                         Evidence predicate type (type: str, default: )
+  --valint.statement STATEMENT
+                        SLSA Evidence statement type (type: str, default: )
+  --valint.source SOURCE
+                        SLSA Source target (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x75bbf48f2ca0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7a399b53a840>, default: [])
   --unique              Allow unique assets (default: False)
+  --valint.git-commit GIT_COMMIT
+                        Set Input Target Git commit (type: str, default: )
+  --valint.git-branch GIT_BRANCH
+                        Set Input Target Git branch (type: str, default: )
+  --valint.git-tag GIT_TAG
+                        Set Input Target Git tag (type: str, default: )
 
 subcommands:
   For more details of each subcommand, add it as an argument followed by --help.
@@ -245,12 +264,16 @@ usage: platforms [options] discover [options] github [-h] [--instance.instance I
                                                      [--types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]]
                                                      [--exclude.types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} ...]]
                                                      [--token TOKEN] [--url URL] [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]]
-                                                     [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip]
+                                                     [--scope.branch [BRANCH ...]] [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip] [--tag.only]
                                                      [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS] [--workflow.skip]
-                                                     [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.runners] [--scope.sbom]
-                                                     [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
-                                                     [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache]
-                                                     [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+                                                     [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.workflow.name [NAME ...]]
+                                                     [--scope.runners] [--scope.api-sbom] [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]]
+                                                     [--hook.skip] [--repository.hooks [HOOKS ...]] [--bom] [--provenance] [--bom.scope.branch [BRANCH ...]]
+                                                     [--slsa.scope.branch [BRANCH ...]] [--slsa.scope.tag [TAG ...]] [--slsa.scope.workflow [WORKFLOW ...]]
+                                                     [--slsa.scope.image [IMAGE ...]] [--slsa-enable] [--slsa.tags-only] [--slsa.all-versions]
+                                                     [--slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]] [--slsa.skip-cache]
+                                                     [--slsa.cache-ttl CACHE_TTL] [--slsa.cache-group CACHE_GROUP] [--organization.mapping [MAPPING ...]]
+                                                     [--repository.mapping [MAPPING ...]] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -268,11 +291,12 @@ options:
                         Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace
                         / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Github branches wildcards (default: [])
-  --scope.tag [TAG ...]
-                        Github tags wildcards (default: [])
+                        Github branches wildcards (default: ['*'])
+  --scope.tag.name [NAME ...]
+                        Github tags wildcards (default: ['*'])
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --tag.only            Only include tags in the evidence, skip branches (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --scope.commit.past_days PAST_DAYS
@@ -282,8 +306,10 @@ options:
                         Number of past days to include in the report (type: int, default: 30)
   --scope.workflow.analyzed_logs
                         Include analyzed workflow logs (default: False)
+  --scope.workflow.name [NAME ...]
+                        Scope Workflow names (default: ['*'])
   --scope.runners       Include repository allocated runners in evidence (default: False)
-  --scope.sbom          Include repositories SBOM in evidence (default: False)
+  --scope.api-sbom      Include repositories SBOM in evidence (default: False)
   --broad               Retrieves limited information (only organizations, repositories and workflows) (default: False)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
@@ -291,6 +317,28 @@ options:
   --hook.skip           Skip hooks (default: False)
   --repository.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
+  --bom                 Retrieves Source SBOM from all repositories (default: False)
+  --provenance          Retrieves Image provenance discovered in platform API (default: False)
+  --bom.scope.branch [BRANCH ...]
+                        Scope branchs to include Repository Source SBOM evidence for (default: [])
+  --slsa.scope.branch [BRANCH ...]
+                        Scope branchs to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.tag [TAG ...]
+                        Scope tags to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.workflow [WORKFLOW ...]
+                        Scope workflows to include SLSA Provenance evidence for (default: ['*'])
+  --slsa.scope.image [IMAGE ...]
+                        Scope images to include asset SLSA Provenance evidence for (default: ['*'])
+  --slsa-enable         Include SLSA Provenance evidence (default: False)
+  --slsa.tags-only      Include SLSA Provenance evidence only for tags, skip branches (default: False)
+  --slsa.all-versions   Include SLSA Provenance evidence for all versions of the image, not only latest (default: False)
+  --slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]
+                        Extended SLSA evidence types to include in the report (default: ['all'])
+  --slsa.skip-cache     Skip Scribe SLSA cache lookup (default: False)
+  --slsa.cache-ttl CACHE_TTL
+                        time to live for SLSA cache (default: 20d)
+  --slsa.cache-group CACHE_GROUP
+                        Scribe SLSA cache group, default to runners pipeline ID, empty to use global context (default: any)
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of org::product_key::product_version where org is the organization name, wildcards are
                         supported (type: AssetMappingString, default: [])
@@ -540,7 +588,8 @@ usage: platforms [options] discover [options] jfrog [-h] [--instance.instance IN
                                                     [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT]
                                                     [--broad] [--jf-repository.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                     [--instance.mapping [MAPPING ...]] [--jf-repository.single] [--repository.single]
-                                                    [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                    [--default_product_key_strategy {mapping,mapping,mapping,mapping}] [--hook-config [HOOK_CONFIG ...]]
+                                                    [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -583,6 +632,12 @@ options:
   --repository.single   Export all repositories in a single evidence (default: False)
   --default_product_key_strategy {mapping,mapping,mapping,mapping}
                         Override product key with jf-repository, repository or image names (default: mapping)
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --repository.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 

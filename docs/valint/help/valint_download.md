@@ -12,9 +12,12 @@ Flags for `download` subcommand
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --beautify | Enhance the output using ANSI and Unicode characters | |
 | | --folder-path | Folder to download the evidences of the given target | |
 | -o | --format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
 | -h | --help | help for download | |
+| -I | --initiative-report | Download Initiative result report | |
+| | --md | Output Initiative result markdown report file | |
 | | --payload | path of the decoded payload | |
 | | --ref | Evidence store refrence | |
 | | --store | Select evidence store | |
@@ -31,8 +34,9 @@ Flags for all `valint` subcommands
 | -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket teamcity local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
 | -e | --env | Environment keys to include in evidence | |
-| -G | --gate | Policy Gate name | |
-| | --input | Input Evidence target, format (\<parser\>:\<file\> or \<scheme\>:\<name\>:\<tag\>) | |
+| | --gate-name | Policy Gate name | |
+| -G | --gate-type | Policy Gate type | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
 | | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |

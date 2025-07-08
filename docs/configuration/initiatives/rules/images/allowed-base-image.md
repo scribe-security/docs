@@ -63,4 +63,5 @@ is found, a violation is recorded indicating that the necessary base image infor
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | approved_sources | array | False | A list of approved base image  pattern. |
+| fail_on_no_base_image | boolean | False | Whether to fail the rule if no base image is found. |
 

@@ -18,10 +18,12 @@ This command enables users to generate SBOMs on scale.
 ```bash
 usage: platforms [options] bom [-h] [--allow-failures] [--save-scan-plan] [--dry-run] [--monitor.mount MOUNT] [--monitor.threshold THRESHOLD]
                                [--monitor.clean-docker] [--max-threads MAX_THREADS] [--evidence.local.path PATH] [--valint.scribe.client-secret CLIENT_SECRET]
-                               [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.log-level LOG_LEVEL]
-                               [--valint.output-directory OUTPUT_DIRECTORY] [--valint.bin BIN] [--valint.product-key PRODUCT_KEY]
-                               [--valint.product-version PRODUCT_VERSION] [--valint.predicate-type PREDICATE_TYPE] [--valint.attest ATTEST] [--valint.sign]
-                               [--valint.components COMPONENTS] [--valint.label LABEL] [--unique]
+                               [--valint.cache.disable] [--valint.context-type CONTEXT_TYPE] [--valint.assume-context ASSUME_CONTEXT] [--valint.payload PAYLOAD]
+                               [--valint.log-level LOG_LEVEL] [--valint.arch ARCH] [--valint.input [INPUT ...]] [--valint.output-directory OUTPUT_DIRECTORY]
+                               [--valint.bin BIN] [--valint.product-key PRODUCT_KEY] [--valint.product-version PRODUCT_VERSION]
+                               [--valint.predicate-type PREDICATE_TYPE] [--valint.statement STATEMENT] [--valint.source SOURCE] [--valint.attest ATTEST]
+                               [--valint.sign] [--valint.components COMPONENTS] [--valint.label LABEL] [--unique] [--valint.git-commit GIT_COMMIT]
+                               [--valint.git-branch GIT_BRANCH] [--valint.git-tag GIT_TAG]
                                {gitlab,k8s,dockerhub,github,jfrog,ecr,bitbucket,azure} ...
 
 Export bom data
@@ -47,8 +49,15 @@ options:
                         Disable Valint local cache (default: False)
   --valint.context-type CONTEXT_TYPE
                         Valint context type (type: str, default: )
+  --valint.assume-context ASSUME_CONTEXT
+                        Valint assume context (type: str, default: )
+  --valint.payload PAYLOAD
+                        Valint payload (type: str, default: )
   --valint.log-level LOG_LEVEL
                         Valint log level (type: str, default: )
+  --valint.arch ARCH    Set Image architecture (type: str, default: )
+  --valint.input [INPUT ...]
+                        Valint extra input targets (default: [])
   --valint.output-directory OUTPUT_DIRECTORY
                         Local evidence cache directory (type: str, default: )
   --valint.bin BIN      Valint CLI binary path (type: str, default: /home/mikey/.scribe/bin/valint)
@@ -58,13 +67,23 @@ options:
                         Evidence product version (type: str, default: )
   --valint.predicate-type PREDICATE_TYPE
                         Evidence predicate type (type: str, default: )
+  --valint.statement STATEMENT
+                        SLSA Evidence statement type (type: str, default: )
+  --valint.source SOURCE
+                        SLSA Source target (type: str, default: )
   --valint.attest ATTEST
                         Evidence attest type (type: str, default: x509-env)
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7ece7edf87c0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x71cbe8ddd120>, default: [])
   --unique              Allow unique assets (default: False)
+  --valint.git-commit GIT_COMMIT
+                        Set Input Target Git commit (type: str, default: )
+  --valint.git-branch GIT_BRANCH
+                        Set Input Target Git branch (type: str, default: )
+  --valint.git-tag GIT_TAG
+                        Set Input Target Git tag (type: str, default: )
 
 subcommands:
   For more details of each subcommand, add it as an argument followed by --help.
@@ -319,7 +338,8 @@ usage: platforms [options] bom [options] jfrog [-h] [--instance.instance INSTANC
                                                [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.jf-repository [JF_REPOSITORY ...]]
                                                [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]]
-                                               [--image.mapping [MAPPING ...]]
+                                               [--image.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip]
+                                               [--repository.hooks [HOOKS ...]] [--image.hook [HOOK ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -347,6 +367,14 @@ options:
                         Jfrog tags to exclude (default: [])
   --image.mapping [MAPPING ...]
                         Image product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
+  --hook-config [HOOK_CONFIG ...]
+                        Paths to YAML files containing custom hook definitions. (type: str, default: [])
+  --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
+  --hook.skip           Skip hooks (default: False)
+  --repository.hooks [HOOKS ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
+  --image.hook [HOOK ...]
+                        Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -488,9 +516,10 @@ Note that the image characterization string is a wildcarded string, some useful 
 ```bash
 usage: platforms [options] bom [options] github [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {repository,all}]
                                                 [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]]
-                                                [--scope.tag [TAG ...]] [--branch.shallow] [--commit.skip] [--default_product_key_strategy {mapping}]
-                                                [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]]
-                                                [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
+                                                [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip] [--tag.only]
+                                                [--default_product_key_strategy {mapping}] [--organization.mapping [MAPPING ...]]
+                                                [--repository.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip]
+                                                [--repository.hooks [HOOKS ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -506,11 +535,12 @@ options:
                         Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace
                         / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Github branches wildcards (default: [])
-  --scope.tag [TAG ...]
-                        Github tags wildcards (default: [])
+                        Github branches wildcards (default: ['*'])
+  --scope.tag.name [NAME ...]
+                        Github tags wildcards (default: ['*'])
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
+  --tag.only            Only include tags in the evidence, skip branches (default: False)
   --default_product_key_strategy {mapping}
                         Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
   --organization.mapping [MAPPING ...]

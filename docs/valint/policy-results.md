@@ -49,6 +49,7 @@ The results of the control verification are presented in a table format. The tab
 * `RESULT`: The result of the rule verification. It can be "pass", "fail" or "open".
 * `SUMMARY`: The reason for the rule result.
 * `TARGET`: The target asset of the rule verification.
+* `CONTROL RESULT`: The result of the control verification. Every rule with the "error" level must pass for the control to pass. If at least one rule fails, the control fails. If no such rule fails but at least one rule returns "open," the control is considered "open." If all rules pass, the control passes. Rules with the "warning" or "note" levels do not affect the control result.
 
 The results of the initiative verification are also presented in a table format. The table consists of the following columns:
 
@@ -56,6 +57,7 @@ The results of the initiative verification are also presented in a table format.
 * `CONTROL NAME`: The name of the control.
 * `RULE LIST`: A list of rules that were verified for the control. Each rule is mentioned as many times as it was verified. In parentheses, the rule's result is shown with consideration of the rule level: for example, if the rule failed, but the level was set to `warning`, the result of the rule evaluation will also be `warning`.
 * `RESULT`: The result of the control verification. It can be "pass", "fail" or "open".
+* `INITIATIVE RESULT`: The result of the initiative verification. If at least one control fails, the initiative fails. If no control fails but at least one control returns "open," the initiative is considered "open." If all controls pass, the initiative passes.
 
 ## Example
 
