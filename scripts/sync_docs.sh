@@ -340,9 +340,26 @@ sidebar_position: 4
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations"
+    src="docs/integrating-scribe/ci-integrations/azure.md"
+    dst="${repo_dir}/README.md"
 
-    sed -n '/^# Azure Pipelines Task/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
+    # 1) grab the title from front-matter
+    title=$(grep '^title:' "$src" | sed 's/^title:[[:space:]]*//')
+
+    # 2) write out a new README:
+    {
+      # H1 from title
+      echo "# $title"
+      echo
+
+      # skip until after the second '---' line, then print everything
+      awk 'c<2 {
+              if (/^---/) { c++; }
+              next
+          }
+          { print }
+      ' "$src"
+    } > "$dst" 
 }
 
 import_cli() {
