@@ -14,7 +14,7 @@ Further documentation **[GitHub integration](../../../integrating-scribe/ci-inte
 
 ### Bom Action
 The command allows users to generate sbom and third party evidence.
-- CycloneDX 1.4 SBOM support. 
+- CycloneDX 1.5 SBOM support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
 - Attach evidence to any OCI registry.
@@ -177,7 +177,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v2.0.0
+  uses: scribe-security/action-bom@v2.0.1
   with:
     target: 'busybox:latest'
 ```
@@ -185,7 +185,7 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v2.0.0
+  uses: scribe-security/action-bom-cli@v2.0.1
   with:
     target: 'hello-world:latest'
 ```

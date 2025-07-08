@@ -51,6 +51,9 @@ Flags for `slsa` subcommand
 | | --pubkey | Public key path | |
 | -y | --skip-confirmation | Skip Sigstore Confirmation | |
 | | --source | Git repository source for target | |
+| | --source-asset-id | Source asset id for Git source repo | |
+| | --source-asset-name | Source asset name for Git source repo | |
+| | --source-asset-platform | Source asset platform for Git source repo | |
 | | --started-on | Set metadata started time (YYYY-MM-DDThh:mm:ssZ) | |
 | | --statement | Import statement path | |
 

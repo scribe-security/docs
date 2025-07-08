@@ -65,6 +65,10 @@ Flags for `verify` subcommand
 | | --skip-bundle | Skip bundle download | |
 | -y | --skip-confirmation | Skip Sigstore Confirmation | |
 | | --skip-report | Skip Policy report stage | |
+| | --source | SLSA Git repository source for target | |
+| | --source-asset-id | Source asset id for SLSA Git repository source | |
+| | --source-asset-name | Source asset name for SLSA Git repository source | |
+| | --source-asset-platform | Source asset platform for SLSA Git repository source | |
 | | --uri | Default policy allowed uris | |
 
 
