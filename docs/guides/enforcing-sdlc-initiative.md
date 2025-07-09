@@ -449,7 +449,8 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
 | [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 | [SSDF Client Initiative](/docs/configuration/initiatives/ssdf.md) | Evaluate PS rules from the SSDF initiative |
-| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gl.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gh.md) | Blueprint for secure pipelines - GitHub |
 
 ## Rules
 
@@ -473,7 +474,6 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
-| [Verify File Integrity](/docs/configuration/initiatives/rules/multievidence/files_integrity.md) | Verify the checksum of each file in one SBOM matches the checksum in a second SBOM. |
 | [Verify Image Labels](/docs/configuration/initiatives/rules/images/verify-labels.md) | Verify specified labels key-value pairs exist in the image. |
 | [Forbid Large Images](/docs/configuration/initiatives/rules/images/forbid-large-images.md) | Verify the image size is below the specified threshold. |
 | [Disallow Container Shell Entrypoint](/docs/configuration/initiatives/rules/images/restrict-shell-entrypoint.md) | Verify the container image disallows shell entrypoint. |
@@ -536,6 +536,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [3rd Party Scanner Violations](/docs/configuration/initiatives/rules/generic/3rd-pty.md) | Limit allowed violations in 3rd party scanner reports |
 | [Required Trivy Evidence Exists](/docs/configuration/initiatives/rules/generic/trivy-exists.md) | Verify required Trivy evidence exists |
 | [Required Generic Evidence Exists](/docs/configuration/initiatives/rules/generic/evidence-exists.md) | Verify required evidence exists. |
 | [Generic Artifact Signed](/docs/configuration/initiatives/rules/generic/artifact-signed.md) | Verify required evidence is signed. |
@@ -574,6 +575,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Pull request approval policy check for GitHub repository](/docs/configuration/initiatives/rules/github/repository/approvals-policy-check.md) | Verify the repository's pull request approval policy |
 | [Verify secret scanning.](/docs/configuration/initiatives/rules/github/repository/validity-checks.md) | Verify both `secret_scanning_validity_checks` and `security_and_analysis` are set in GitHub organization and all the repositories. |
 | [Verify Dependabot security updates setting](/docs/configuration/initiatives/rules/github/repository/dependabot.md) | Verify Dependabot security updates are configured in the GitHub repository. |
 | [Verify Repository Is Private](/docs/configuration/initiatives/rules/github/repository/repo-private.md) | Verify the GitHub repository is private. |
@@ -741,7 +743,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
-| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified exterenal parameters value match in the provenance document. |
+| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified external parameters value match in the provenance document. |
 | [Verify that provenance is authenticated](/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticated.md) | Verify the artifact is signed. |
 | [SLSA Field Exists in Provenance Document](/docs/configuration/initiatives/rules/slsa/field-exists.md) | Verify the specified field exists in the provenance document. |
 | [Verify Provenance Document Exists](/docs/configuration/initiatives/rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
@@ -763,6 +765,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Sign Selected Commits in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-list.md) | Verify the selected commits are signed in the GitLab organization. |
 | [Set Push Rules in GitLab](/docs/configuration/initiatives/rules/gitlab/api/push-rules.md) | Verify GitLab push rules are configured via the API. |
 | [Sign Selected Commit Range in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-range.md) | Verify the selected range of commits is signed via the GitLab API. |
+| [Verify No 3rd Party Findings via Scribe API](/docs/configuration/initiatives/rules/api/scribe-api-findings.md) | Verify via Scribe API that there are no findings reported by 3rd party tools in the target product. |
 | [Verify No Critical or High Vulnerabilities in Product](/docs/configuration/initiatives/rules/api/scribe-api-cve-product.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in any deliverable component of the product. |
 
 <!-- END TABLE -->
