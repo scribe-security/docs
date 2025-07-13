@@ -30,8 +30,8 @@ Rule is scoped by target and product.
 uses: images/allowed-base-image@v2
 with:
   approved_sources:
-    - "docker.io/library/"
-    - "docker.io/my_org/"
+    - "docker.io/.*"
+    - "docker.io/my_org/.*"
 ```
 
 ## Mitigation  
