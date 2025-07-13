@@ -276,7 +276,7 @@ File based key management library, go library abstracting the key type from appl
 
 ### **KMS (Key Management Service) Integration**
 
-The Sigstore-based KMS signer allows users to sign artifacts using various KMS providers. Refer to the [Sigstore documentation](https://docs.sigstore.dev/key_management/overview/) for more details.
+The Sigstore-based KMS signer allows users to sign artifacts using various KMS providers. Refer to the [Sigstore documentation](https://docs.sigstore.dev/cosign/key_management/overview/) for more details.
 
 To use KMS with Valint, provide a `kms` reference in the following format:
 
@@ -290,7 +290,7 @@ Key Points:
 * Signer commands (`bom`, `evidence`, `slsa`) require signing permissions.
 * The `verify` command requires public read access to verify the evidence. Additionally, signing permissions are needed if you want to sign the evaluation report evidence.
 
-Supported Services:
+**Supported Services:**
 
 | Service         | Provider Prefix       |
 |-----------------|-----------------------|
@@ -299,7 +299,19 @@ Supported Services:
 | Google Cloud KMS| `gcpkms`           |
 | HashiCorp Vault | `hashivault`       |
 
-For example, AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYID`. Ensure that AWS environment variables such as `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` are properly mapped.
+Usage example:
+
+```bash
+# Signing requires signing access
+valint bom busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+
+# Verifying requires public key read access
+valint verify busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+```
+
+#### AWS KMS
+
+AWS keys can be accessed using the format `awskms://$ENDPOINT/$KEYID`. Ensure that AWS environment variables such as `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` are properly mapped.
 
 Supported AWS URI schemes:
 
@@ -314,14 +326,28 @@ Supported AWS URI schemes:
 | Alias ARN                | `awskms:///arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`                                     |
 | Alias ARN with endpoint  | `awskms://localhost:4566/arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`                       |
 
-Usage example:
+#### Hashicorp Vault
 
-```bash
-# Signing requires signing access
-valint bom busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+For Hashicorp Vault, ensure that the `transit` secret engine is mounted and the `VAULT_ADDR` and `VAULT_TOKEN` environment variables are set. The KMS reference should be in the format `hashivault://KEYID`.
 
-# Verifying requires public key read access
-valint verify busybox:latest --kms awskms:///arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+Minimal token permissions are (suppose that the `transit` secret engine is mounted at `/transit` and the key is `KEYID`):
+
+```
+path "transit/keys/KEYID" {
+  capabilities = ["read"]
+}
+
+path "transit/hmac/KEYID/*" {
+  capabilities = ["read"]
+}
+
+path "transit/sign/KEYID/*" {
+  capabilities = ["update"]
+}
+
+path "transit/verify/KEYID/*" {
+  capabilities = ["update"]
+}
 ```
 
 ### Local keys
