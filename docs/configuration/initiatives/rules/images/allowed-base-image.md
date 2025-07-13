@@ -30,8 +30,8 @@ Rule is scoped by target and product.
 uses: images/allowed-base-image@v2
 with:
   approved_sources:
-    - "docker.io/library/*"
-    - "docker.io/my_org/*"
+    - "docker.io/library/"
+    - "docker.io/my_org/"
 ```
 
 ## Mitigation  
@@ -62,6 +62,5 @@ is found, a violation is recorded indicating that the necessary base image infor
 ## Input Definitions  
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| approved_sources | array | False | A list of approved base image  pattern. |
-| fail_on_no_base_image | boolean | False | Whether to fail the rule if no base image is found. |
+| approved_sources | array | False | A list of approved base image registry URL prefixes. |
 

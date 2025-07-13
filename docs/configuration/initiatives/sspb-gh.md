@@ -153,6 +153,7 @@ Teams should be aware of implicit runtime dependencies as well as explicit build
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
 | [allowed-base-image](rules/images/allowed-base-image.md) | [Ensure that base images are from an approved source](rules/images/allowed-base-image.md) | Verifies that every base image is from an approved source. The rule returns a summary including the component names and versions of valid base images, or lists the invalid ones. This rule requires Dockerfile context; for example, run it with: `valint my_image --base-image Dockerfile`. |
+| [allowed-npm-registries](rules/images/allowed-npm-registries.md) | [Verify NPM Packages Origin](rules/images/allowed-npm-registries.md) | Verify that the artifact contains only components from allowed NPM registries. |
 
 ## [CTL-6] Any critical or high severity vulnerability breaks the build
 

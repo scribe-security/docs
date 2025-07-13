@@ -449,7 +449,8 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
 | [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 | [SSDF Client Initiative](/docs/configuration/initiatives/ssdf.md) | Evaluate PS rules from the SSDF initiative |
-| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gl.md) | Blueprint for secure pipelines - Gitlab |
+| [Secure Software Pipeline Blueprint](/docs/configuration/initiatives/sspb-gh.md) | Blueprint for secure pipelines - GitHub |
 
 ## Rules
 
@@ -461,6 +462,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 |-----------|-------------|
 | [Apply Scribe Template Policy](/docs/configuration/initiatives/rules/api/scribe-api.md) | Verify XX using the Scribe API template rule. |
 | [Scribe Published Policy](/docs/configuration/initiatives/rules/api/scribe-api-published.md) | Verify image Scribe Publish flag is set for container image. |
+| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 | [NTIA SBOM Compliance Check](/docs/configuration/initiatives/rules/sbom/NTIA-compliance.md) | Validates that SBOM metadata meets basic NTIA requirements for authors and supplier. |
 | [Enforce SBOM Freshness](/docs/configuration/initiatives/rules/sbom/fresh-sbom.md) | Verify the SBOM is not older than the specified duration. |
 | [Require SBOM Existence](/docs/configuration/initiatives/rules/sbom/evidence-exists.md) | Verify the SBOM exists as evidence. |
@@ -473,7 +475,6 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
-| [Verify File Integrity](/docs/configuration/initiatives/rules/multievidence/files_integrity.md) | Verify the checksum of each file in one SBOM matches the checksum in a second SBOM. |
 | [Verify Image Labels](/docs/configuration/initiatives/rules/images/verify-labels.md) | Verify specified labels key-value pairs exist in the image. |
 | [Forbid Large Images](/docs/configuration/initiatives/rules/images/forbid-large-images.md) | Verify the image size is below the specified threshold. |
 | [Disallow Container Shell Entrypoint](/docs/configuration/initiatives/rules/images/restrict-shell-entrypoint.md) | Verify the container image disallows shell entrypoint. |
@@ -482,13 +483,13 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Disallow Specific Users in SBOM](/docs/configuration/initiatives/rules/images/banned-users.md) | Verify specific users are not allowed in an SBOM. |
 | [Restrict Build Scripts](/docs/configuration/initiatives/rules/images/blocklist-build-scripts.md) | Verify no build scripts commands appear in block list. |
 | [Registry Connection HTTPS](/docs/configuration/initiatives/rules/images/enforce-https-registry.md) | Checks if the container's registry scheme is HTTPS |
+| [Verify NPM Packages Origin](/docs/configuration/initiatives/rules/images/allowed-npm-registries.md) | Verify that the artifact contains only components from allowed NPM registries. |
 | [Require Image Labels](/docs/configuration/initiatives/rules/images/verify-labels-exist.md) | Verify the image has the specified labels. |
 | [Require Healthcheck](/docs/configuration/initiatives/rules/images/require-healthcheck.md) | Checks that the container image includes at least one healthcheck property. |
 | [Allowed Base Image](/docs/configuration/initiatives/rules/images/allowed-base-image.md) | Verifies that every base image is from an approved source. The rule returns a summary including the component names and versions of valid base images, or lists the invalid ones. This rule requires Dockerfile context; for example, run it with: `valint my_image --base-image Dockerfile`. |
 | [Fresh Image](/docs/configuration/initiatives/rules/images/fresh-image.md) | Verify the image is not older than the specified threshold. |
 | [Allowed Main Image Source](/docs/configuration/initiatives/rules/images/allowed-image-source.md) | Ensures the main container image referenced in the SBOM is from an approved source. |
 | [Require Signed Container Image](/docs/configuration/initiatives/rules/images/image-signed.md) | Enforces that container images (target_type=container) are cryptographically signed. |
-| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 | [Disallow Specific Users in SBOM](/docs/configuration/initiatives/rules/sbom/banned-users.md) | Verify specific users are not allowed in an SBOM. |
 | [Enforce SBOM Dependencies](/docs/configuration/initiatives/rules/sbom/required-packages.md) | Verify the artifact includes all required dependencies. |
 | [Enforce SBOM License Completeness](/docs/configuration/initiatives/rules/sbom/complete-licenses.md) | Verify all dependencies in the artifact have a license. |
@@ -536,6 +537,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [3rd Party Scanner Violations](/docs/configuration/initiatives/rules/generic/3rd-pty.md) | Limit allowed violations in 3rd party scanner reports |
 | [Required Trivy Evidence Exists](/docs/configuration/initiatives/rules/generic/trivy-exists.md) | Verify required Trivy evidence exists |
 | [Required Generic Evidence Exists](/docs/configuration/initiatives/rules/generic/evidence-exists.md) | Verify required evidence exists. |
 | [Generic Artifact Signed](/docs/configuration/initiatives/rules/generic/artifact-signed.md) | Verify required evidence is signed. |
@@ -574,6 +576,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Pull request approval policy check for GitHub repository](/docs/configuration/initiatives/rules/github/repository/approvals-policy-check.md) | Verify the repository's pull request approval policy |
 | [Verify secret scanning.](/docs/configuration/initiatives/rules/github/repository/validity-checks.md) | Verify both `secret_scanning_validity_checks` and `security_and_analysis` are set in GitHub organization and all the repositories. |
 | [Verify Dependabot security updates setting](/docs/configuration/initiatives/rules/github/repository/dependabot.md) | Verify Dependabot security updates are configured in the GitHub repository. |
 | [Verify Repository Is Private](/docs/configuration/initiatives/rules/github/repository/repo-private.md) | Verify the GitHub repository is private. |
@@ -741,7 +744,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
-| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified exterenal parameters value match in the provenance document. |
+| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified external parameters value match in the provenance document. |
 | [Verify that provenance is authenticated](/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticated.md) | Verify the artifact is signed. |
 | [SLSA Field Exists in Provenance Document](/docs/configuration/initiatives/rules/slsa/field-exists.md) | Verify the specified field exists in the provenance document. |
 | [Verify Provenance Document Exists](/docs/configuration/initiatives/rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
@@ -763,6 +766,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Sign Selected Commits in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-list.md) | Verify the selected commits are signed in the GitLab organization. |
 | [Set Push Rules in GitLab](/docs/configuration/initiatives/rules/gitlab/api/push-rules.md) | Verify GitLab push rules are configured via the API. |
 | [Sign Selected Commit Range in GitLab](/docs/configuration/initiatives/rules/gitlab/api/signed-commits-range.md) | Verify the selected range of commits is signed via the GitLab API. |
+| [Verify No 3rd Party Findings via Scribe API](/docs/configuration/initiatives/rules/api/scribe-api-findings.md) | Verify via Scribe API that there are no findings reported by 3rd party tools in the target product. |
 | [Verify No Critical or High Vulnerabilities in Product](/docs/configuration/initiatives/rules/api/scribe-api-cve-product.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in any deliverable component of the product. |
 
 <!-- END TABLE -->

@@ -22,6 +22,7 @@
 |-----------|-------------|
 | [Apply Scribe Template Policy](/docs/configuration/initiatives/rules/api/scribe-api.md) | Verify XX using the Scribe API template rule. |
 | [Scribe Published Policy](/docs/configuration/initiatives/rules/api/scribe-api-published.md) | Verify image Scribe Publish flag is set for container image. |
+| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 | [NTIA SBOM Compliance Check](/docs/configuration/initiatives/rules/sbom/NTIA-compliance.md) | Validates that SBOM metadata meets basic NTIA requirements for authors and supplier. |
 | [Enforce SBOM Freshness](/docs/configuration/initiatives/rules/sbom/fresh-sbom.md) | Verify the SBOM is not older than the specified duration. |
 | [Require SBOM Existence](/docs/configuration/initiatives/rules/sbom/evidence-exists.md) | Verify the SBOM exists as evidence. |
@@ -41,13 +42,13 @@
 | [Disallow Specific Users in SBOM](/docs/configuration/initiatives/rules/images/banned-users.md) | Verify specific users are not allowed in an SBOM. |
 | [Restrict Build Scripts](/docs/configuration/initiatives/rules/images/blocklist-build-scripts.md) | Verify no build scripts commands appear in block list. |
 | [Registry Connection HTTPS](/docs/configuration/initiatives/rules/images/enforce-https-registry.md) | Checks if the container's registry scheme is HTTPS |
+| [Verify NPM Packages Origin](/docs/configuration/initiatives/rules/images/allowed-npm-registries.md) | Verify that the artifact contains only components from allowed NPM registries. |
 | [Require Image Labels](/docs/configuration/initiatives/rules/images/verify-labels-exist.md) | Verify the image has the specified labels. |
 | [Require Healthcheck](/docs/configuration/initiatives/rules/images/require-healthcheck.md) | Checks that the container image includes at least one healthcheck property. |
 | [Allowed Base Image](/docs/configuration/initiatives/rules/images/allowed-base-image.md) | Verifies that every base image is from an approved source. The rule returns a summary including the component names and versions of valid base images, or lists the invalid ones. This rule requires Dockerfile context; for example, run it with: `valint my_image --base-image Dockerfile`. |
 | [Fresh Image](/docs/configuration/initiatives/rules/images/fresh-image.md) | Verify the image is not older than the specified threshold. |
 | [Allowed Main Image Source](/docs/configuration/initiatives/rules/images/allowed-image-source.md) | Ensures the main container image referenced in the SBOM is from an approved source. |
 | [Require Signed Container Image](/docs/configuration/initiatives/rules/images/image-signed.md) | Enforces that container images (target_type=container) are cryptographically signed. |
-| [Verify No Critical or High Vulnerabilities](/docs/configuration/initiatives/rules/api/scribe-api-cve.md) | Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.). |
 | [Disallow Specific Users in SBOM](/docs/configuration/initiatives/rules/sbom/banned-users.md) | Verify specific users are not allowed in an SBOM. |
 | [Enforce SBOM Dependencies](/docs/configuration/initiatives/rules/sbom/required-packages.md) | Verify the artifact includes all required dependencies. |
 | [Enforce SBOM License Completeness](/docs/configuration/initiatives/rules/sbom/complete-licenses.md) | Verify all dependencies in the artifact have a license. |
