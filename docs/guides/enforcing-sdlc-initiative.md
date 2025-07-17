@@ -35,7 +35,7 @@ For a detailed initiative description, see the **[initiatives](../valint/initiat
 
 See [Getting started with valint](../valint/getting-started-valint.md) for more information on the `bom` command.
 
-Alternatively, you can use GitHub actions, as described in detail in [Setting up an integration in GitHub](../quick-start/set-up-integration/set-up-github.md).
+Alternatively, you can use GitHub actions, as described in detail in [Setting up an integration in GitHub](../../integrating-scribe/ci-integrations/github).
 
 ### Verifying an initiative
 
