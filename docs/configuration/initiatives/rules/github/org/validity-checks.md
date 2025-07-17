@@ -36,7 +36,7 @@ uses: github/org/validity-checks@v2
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | github |
 | asset_type | organization |
-| asset_name | {{- if eq .Context.asset_type "organization" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
+| asset_name | `{{- if eq .Context.asset_type "organization" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}}` |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |

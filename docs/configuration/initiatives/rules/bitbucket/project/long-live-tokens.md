@@ -51,7 +51,7 @@ It performs the following steps:
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | bitbucket |
 | asset_type | project |
-| asset_name | {{- if eq .Context.asset_type "project" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
+| asset_name | `{{- if eq .Context.asset_type "project" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}}` |
 | labels | - platform_instance=bitbucket_dc |
 
 ## Input Definitions  

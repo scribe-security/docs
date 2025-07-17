@@ -39,5 +39,5 @@ uses: jenkins/instance/evidence-exists@v2
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | jenkins |
 | asset_type | instance |
-| asset_name | {{- if eq .Context.asset_type "instance" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
+| asset_name | `{{- if eq .Context.asset_type "instance" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}}` |
 

@@ -52,7 +52,7 @@ It performs the following steps:
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | gitlab |
 | asset_type | repo |
-| asset_name | {{- if eq .Context.asset_type "project" "repo" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
+| asset_name | `{{- if eq .Context.asset_type "project" "repo" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}}` |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |
