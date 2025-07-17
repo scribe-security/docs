@@ -37,6 +37,7 @@ Flags for `verify` subcommand
 | | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
 | | --email | Default policy allowed emails | |
+| | --exit-code | Exit code to use when policy violations occur (-1 = ignore and keep original status, 0 = succeed regardless, 1-255 = fail with that code) | -1 |
 | -f | --force | Force skip cache | |
 | -o | --format | Policy Result Evidence format, options=[statement-sarif attest-sarif sarif ] | |
 | | --git-auth | Git repository authentication info, [format: 'username:password'] | |

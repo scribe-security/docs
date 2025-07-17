@@ -44,5 +44,17 @@ It performs the following steps:
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - asset_type=project<br/>- platform=dockerhub |
+| asset_platform | dockerhub |
+| asset_type | oci_repo |
+| asset_name | Template value (see below) |
+
+**Template Value** (see [here](/docs/valint/initiatives#template-arguments) for more details)
+
+```
+{{- if eq .Context.asset_type "oci_repo" -}}
+{{- on_target .Context.asset_name -}}
+{{- else -}}
+{{- on_target nil -}}
+{{- end -}}
+```
 

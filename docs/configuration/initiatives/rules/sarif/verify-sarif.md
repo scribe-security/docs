@@ -63,6 +63,7 @@ severity, and the corresponding location in the artifact.
 | rule_level | array | False | List of rule levels to check for in the SARIF report. |
 | precision | array | False | List of precision levels to check for in the SARIF report. |
 | rule_ids | array | False | List of rule IDs to check for in the SARIF report. |
+| rule_names | array | False | List of rule names to check for in the SARIF report. |
 | ignore | array | False | List of rule IDs to ignore in the SARIF report. |
 | max_allowed | integer | False | The maximum number of allowed violations. |
 

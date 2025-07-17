@@ -88,6 +88,15 @@ attest:
   target-fallback-name: false
   target-fallback-hash: false
   target-fallback-repo-digest: false
+  skip-sanity-verification: false
+verify:
+  formats: ""
+  input-format: ""
+  attestation: ""
+  force: false
+  final-artifact: false
+  bom: false
+  exit-code: -1
 filter:
   filter-regex:
   - '**/*.pyc'

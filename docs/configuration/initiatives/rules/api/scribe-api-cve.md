@@ -33,6 +33,8 @@ with:
     cve:
       max: 0
       severity: 6
+      has_kev: true
+      has_fix: false
 ```
 
 ## Mitigation  
@@ -48,10 +50,9 @@ This rule ensures that there are no critical or high severity vulnerabilities in
 | filter-by | ['product', 'target'] |
 | signed | False |
 | content_body_type | cyclonedx-json |
-| target_type | container |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int]] |
+| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. |
 

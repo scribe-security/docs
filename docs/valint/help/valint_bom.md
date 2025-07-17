@@ -30,6 +30,7 @@ Flags for `bom` subcommand
 | | --crl-full-chain | Enable Full chain CRL verfication | |
 | | --depth | Git clone depth | |
 | | --disable-crl | Disable certificate revocation verificatoin | |
+| | --filter-purl | Filter out purls by regex | |
 | -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
 | | --filter-scope | Filter packages by scope | |
 | -f | --force | Force overwrite cache | |
@@ -43,9 +44,9 @@ Flags for `bom` subcommand
 | | --kms | Provide KMS key reference | |
 | | --oci | Enable OCI store | |
 | -R | --oci-repo | Select OCI custom attestation repo | |
-| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform] | |
+| | --package-exclude-type | Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix gem conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform] | |
 | | --package-group | Select package group, options=[index install all] | |
-| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform] | |
+| -t | --package-type | Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix gem conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform] | |
 | | --pass | Private key password | |
 | | --payload | path of the decoded payload | |
 | | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |

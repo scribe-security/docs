@@ -12,7 +12,7 @@ title: Verify Exposed Credentials
 Verify there are no exposed credentials.
 
 :::note 
-This rule requires Discovery Evidence. See [here](/docs/platforms/discover) for more details.  
+This rule requires Jenkins Folder Discovery Evidence. See [here](/docs/platforms/discover#jenkins-discovery) for more details.  
 ::: 
 :::tip 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
@@ -48,5 +48,17 @@ It performs the following steps:
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - asset_type=folder |
+| asset_platform | jenkins |
+| asset_type | folder |
+| asset_name | Template value (see below) |
+
+**Template Value** (see [here](/docs/valint/initiatives#template-arguments) for more details)
+
+```
+{{- if eq .Context.asset_type "folder" -}}
+{{- on_target .Context.asset_name -}}
+{{- else -}}
+{{- on_target nil -}}
+{{- end -}}
+```
 
