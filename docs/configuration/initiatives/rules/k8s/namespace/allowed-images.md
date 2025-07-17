@@ -53,7 +53,9 @@ It performs the following steps:
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - asset_type=namespace<br/>- platform=k8s |
+| asset_platform | k8s |
+| asset_type | namespace |
+| asset_name | {{- if eq .Context.asset_type "namespace" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |

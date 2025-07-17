@@ -52,7 +52,9 @@ layer of security against unauthorized access.
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - platform=github<br/>- asset_type=organization |
+| asset_platform | github |
+| asset_type | organization |
+| asset_name | {{- if eq .Context.asset_type "organization" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |

@@ -555,6 +555,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Verify `secret_scanning` Setting in `security_and_analysis`](/docs/configuration/initiatives/rules/github/org/secret-scanning-sa.md) | Verify secret scanning is configured in the GitHub repository. |
 | [Limit Admin Number in GitHub Organization](/docs/configuration/initiatives/rules/github/org/max-admins.md) | Verify the maximum number of GitHub organization admins is restricted. |
 | [Verify `advanced_security_enabled_for_new_repositories` setting](/docs/configuration/initiatives/rules/github/org/advanced-security.md) | Verify Advanced Security is enabled for new repositories in the GitHub organization. |
+| [Require GitHub Organization Discovery Evidence](/docs/configuration/initiatives/rules/github/org/evidence-exists.md) | Verify the GitHub Organization exists as evidence. |
 | [Verify dependency_graph_enabled_for_new_repositories setting](/docs/configuration/initiatives/rules/github/org/dependency-graph.md) | Verify dependency graph is enabled for new repositories in the GitHub organization. |
 | [Verify GitHub Organization Requires Signoff on Web Commits](/docs/configuration/initiatives/rules/github/org/web-commit-signoff.md) | Verify contributors sign commits through the GitHub web interface. |
 | [Verify Two-Factor Authentication (2FA) Requirement Enabled](/docs/configuration/initiatives/rules/github/org/2fa.md) | Verify Two-factor Authentication is required in the GitHub organization. |
@@ -580,6 +581,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Verify secret scanning.](/docs/configuration/initiatives/rules/github/repository/validity-checks.md) | Verify both `secret_scanning_validity_checks` and `security_and_analysis` are set in GitHub organization and all the repositories. |
 | [Verify Dependabot security updates setting](/docs/configuration/initiatives/rules/github/repository/dependabot.md) | Verify Dependabot security updates are configured in the GitHub repository. |
 | [Verify Repository Is Private](/docs/configuration/initiatives/rules/github/repository/repo-private.md) | Verify the GitHub repository is private. |
+| [Require GitHub Repository Discovery Evidence](/docs/configuration/initiatives/rules/github/repository/evidence-exists.md) | Verify the GitHub Repository exists as evidence. |
 | [Verify Repository Requires Commit Signoff](/docs/configuration/initiatives/rules/github/repository/web-commit-signoff.md) | Verify contributors sign off on commits to the GitHub repository through the GitHub web interface. |
 | [Verify Default Branch Protection](/docs/configuration/initiatives/rules/github/repository/default-branch-protection.md) | Verify the default branch protection is configured in the GitHub repository. |
 | [Verify No Old Secrets Exist in Repository](/docs/configuration/initiatives/rules/github/repository/old-secrets.md) | Verify secrets in the GitHub repository are not older than the specified threshold. |
@@ -665,6 +667,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 |-----------|-------------|
 | [Allowed Container Images](/docs/configuration/initiatives/rules/k8s/namespace/allowed-images.md) | Verify only container images specified in the Allowed List run within the Kubernetes namespace. |
 | [Verify Namespace Termination](/docs/configuration/initiatives/rules/k8s/namespace/verify-namespace-termination.md) | Verify Kubernetes namespaces are properly terminated to prevent lingering resources and maintain cluster hygiene. |
+| [Require K8s Namespace Discovery Evidence](/docs/configuration/initiatives/rules/k8s/namespace/evidence-exists.md) | Verify the K8s Namespace exists as evidence. |
 | [Allowed Namespaces](/docs/configuration/initiatives/rules/k8s/namespace/white-listed-namespaces.md) | Verify only namespaces specified in the Allowed List are allowed within the cluster. |
 | [Verify Namespace Runtime Duration](/docs/configuration/initiatives/rules/k8s/namespace/verify-namespace-duration.md) | Verify Kubernetes namespaces adhere to a specified runtime duration to enforce lifecycle limits. |
 | [Allowed Namespace Registries](/docs/configuration/initiatives/rules/k8s/namespace/allowed-registries.md) | Verify container images in Kubernetes namespaces originate from registries in the Allowed List. |
@@ -677,6 +680,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | Rule Name | Description |
 |-----------|-------------|
 | [Verify Pod Runtime Duration](/docs/configuration/initiatives/rules/k8s/pods/verify-pod-duration.md) | Verify Kubernetes pods adhere to a specified runtime duration to enforce lifecycle limits. |
+| [Require K8s Pod Discovery Evidence](/docs/configuration/initiatives/rules/k8s/pods/evidence-exists.md) | Verify the K8s Pod exists as evidence. |
 | [Verify Pod Termination](/docs/configuration/initiatives/rules/k8s/pods/verify-pod-termination.md) | Verify Kubernetes pods are properly terminated to prevent lingering resources and maintain cluster hygiene. |
 | [Allowed Pods](/docs/configuration/initiatives/rules/k8s/pods/white-listed-pod.md) | Verify only pods explicitly listed in the Allowed List are allowed to run. |
 
@@ -687,6 +691,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | Rule Name | Description |
 |-----------|-------------|
 | [Prevent Long-Lived Tokens](/docs/configuration/initiatives/rules/bitbucket/project/long-live-tokens.md) | Verify Bitbucket API tokens expire before the maximum time to live. |
+| [Require Bitbucket Project Discovery Evidence](/docs/configuration/initiatives/rules/bitbucket/project/evidence-exists.md) | Verify the Bitbucket Project exists as evidence. |
 | [Allowed Project Admins](/docs/configuration/initiatives/rules/bitbucket/project/allow-admins.md) | Verify only users specified in the Allowed List have admin privileges in the Bitbucket project. |
 | [Allowed Project Users](/docs/configuration/initiatives/rules/bitbucket/project/allow-users.md) | Verify only users specified in the Allowed List have user access to the Bitbucket project. |
 | [Prevent Credential Exposure](/docs/configuration/initiatives/rules/bitbucket/project/exposed-credentials.md) | Verify access to the Bitbucket project is blocked if exposed credentials are detected. |
@@ -697,6 +702,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Require Bitbucket Repository Discovery Evidence](/docs/configuration/initiatives/rules/bitbucket/repository/evidence-exists.md) | Verify the Bitbucket Repository exists as evidence. |
 | [Allowed Repository Admins](/docs/configuration/initiatives/rules/bitbucket/repository/allow-admins.md) | Verify only users specified in the Allowed List have admin privileges in the Bitbucket repository. |
 | [Verify Default Branch Protection Setting Is Configured](/docs/configuration/initiatives/rules/bitbucket/repository/branch-protection.md) | Verify the default branch protection is enabled in the Bitbucket repository. |
 | [Allowed Repository Users](/docs/configuration/initiatives/rules/bitbucket/repository/allow-users.md) | Verify only users specified in the Allowed List have user access to the Bitbucket repository. |
@@ -707,18 +713,9 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Require Bitbucket Workspace Discovery Evidence](/docs/configuration/initiatives/rules/bitbucket/workspace/evidence-exists.md) | Verify the Bitbucket Workspace exists as evidence. |
 | [Allowed Workspace Admins](/docs/configuration/initiatives/rules/bitbucket/workspace/allow-admins.md) | Verify only users specified in the Allowed List have admin privileges in the Bitbucket workspace. |
 | [Allowed Workspace Users](/docs/configuration/initiatives/rules/bitbucket/workspace/allow-users.md) | Verify only users specified in the Allowed List have user access to the Bitbucket workspace. |
-
-### Discovery Evidence
-
-**Evidence Type:** [Discovery Evidence](/docs/platforms/discover)
-
-| Rule Name | Description |
-|-----------|-------------|
-| [Verify GitLab Pipeline Labels](/docs/configuration/initiatives/rules/gitlab/pipeline/verify-labels.md) | Verify the pipeline includes all required label keys and values. |
-| [GitLab pipeline verify labels exist](/docs/configuration/initiatives/rules/gitlab/pipeline/verify-labels-exist.md) | Verify the pipeline has all required label keys and values. |
-| [Verify Exposed Credentials](/docs/configuration/initiatives/rules/jenkins/folder/exposed-credentials.md) | Verify there are no exposed credentials. |
 
 ### Dockerhub Project Discovery Evidence
 
@@ -729,12 +726,22 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Verify DockerHub Tokens are Active](/docs/configuration/initiatives/rules/dockerhub/token-expiration.md) | Verify that all discovered Dockerhub tokens are set to Active in Dockerhub. |
 | [Verify no unused Dockerhub](/docs/configuration/initiatives/rules/dockerhub/token-not-used.md) | Verify that there are no unused Dockerhub. |
 
+### Jenkins Folder Discovery Evidence
+
+**Evidence Type:** [Jenkins Folder Discovery Evidence](/docs/platforms/discover#jenkins-discovery)
+
+| Rule Name | Description |
+|-----------|-------------|
+| [Require Jenkins Folder Discovery Evidence](/docs/configuration/initiatives/rules/jenkins/folder/evidence-exists.md) | Verify the Jenkins Folder exists as evidence. |
+| [Verify Exposed Credentials](/docs/configuration/initiatives/rules/jenkins/folder/exposed-credentials.md) | Verify there are no exposed credentials. |
+
 ### Jenkins Instance Discovery Evidence
 
 **Evidence Type:** [Jenkins Instance Discovery Evidence](/docs/platforms/discover#jenkins-discovery)
 
 | Rule Name | Description |
 |-----------|-------------|
+| [Require Jenkins Instance Discovery Evidence](/docs/configuration/initiatives/rules/jenkins/instance/evidence-exists.md) | Verify the Jenkins Instance exists as evidence. |
 | [Disallow Unused Users](/docs/configuration/initiatives/rules/jenkins/instance/unused-users.md) | Verify there are no users with zero activity. |
 | [Verify Inactive Users](/docs/configuration/initiatives/rules/jenkins/instance/inactive-users.md) | Verify there are no inactive users. |
 

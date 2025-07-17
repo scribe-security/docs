@@ -49,7 +49,10 @@ It performs the following steps:
 | signed | False |
 | content_body_type | generic |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - asset_type=project<br/>- platform=bitbucket<br/>- platform_instance=bitbucket_dc |
+| asset_platform | bitbucket |
+| asset_type | project |
+| asset_name | {{- if eq .Context.asset_type "project" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
+| labels | - platform_instance=bitbucket_dc |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |

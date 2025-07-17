@@ -53,7 +53,9 @@ It performs the following steps:
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - platform=bitbucket<br/>- asset_type=workspace |
+| asset_platform | bitbucket |
+| asset_type | workspace |
+| asset_name | {{- if eq .Context.asset_type "workspace" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}} |
 
 ## Input Definitions  
 | Parameter | Type | Required | Description |
