@@ -48,5 +48,17 @@ It performs the following steps:
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
-| labels | - platform=bitbucket<br/>- asset_type=project |
+| asset_platform | bitbucket |
+| asset_type | project |
+| asset_name | Template value (see below) |
+
+**Template Value** (see [here](/docs/valint/initiatives#template-arguments) for more details)
+
+```
+{{- if eq .Context.asset_type "project" -}}
+{{- on_target .Context.asset_name -}}
+{{- else -}}
+{{- on_target nil -}}
+{{- end -}}
+```
 
