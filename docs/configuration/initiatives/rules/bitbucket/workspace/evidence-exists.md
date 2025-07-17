@@ -39,5 +39,15 @@ uses: bitbucket/workspace/evidence-exists@v2
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | bitbucket |
 | asset_type | workspace |
-| asset_name | `{{- if eq .Context.asset_type "workspace" -}} {{- on_target .Context.asset_name -}} {{- else -}} {{- on_target nil -}} {{- end -}}` |
+| asset_name | Template value (see below) |
+
+**Template Value** (see [here](/docs/valint/initiatives#template-arguments) for more details)
+
+```
+{{- if eq .Context.asset_type "workspace" -}}
+{{- on_target .Context.asset_name -}}
+{{- else -}}
+{{- on_target nil -}}
+{{- end -}}
+```
 
