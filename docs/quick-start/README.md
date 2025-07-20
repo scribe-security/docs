@@ -147,8 +147,8 @@ jobs:
 # **Next Steps**  
 
 Additional guides for securing and managing your software supply chain:  
-- **[Managing SBOMs & Vulnerabilities](../guides/manag-sbom-and-vul)**
-- **[Securing Software with SLSA Framework](../guides/secure-sfw-slsa)**
-- **[Enforcing SDLC Initiative](../guides/enforcing-sdlc-initiative)**
-- **[Achieving SSDF Compliance](../guides/ssdf-compliance)**
-- **[Securing Your Builds](../guides/securing-builds)**
+- **[Managing SBOMs & Vulnerabilities](guides/manag-sbom-and-vul)**
+- **[Securing Software with SLSA Framework](guides/secure-sfw-slsa)**
+- **[Enforcing SDLC Initiative](guides/enforcing-sdlc-initiative)**
+- **[Achieving SSDF Compliance](guides/ssdf-compliance)**
+- **[Securing Your Builds](guides/securing-builds)**
