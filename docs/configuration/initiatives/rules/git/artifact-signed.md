@@ -4,7 +4,7 @@ title: Git Artifact Signed
 ---  
 # Git Artifact Signed  
 **Type:** Rule  
-**ID:** `git-artifact-signed`  
+**ID:** `git-sbom-signed`  
 **Source:** [v2/rules/git/artifact-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/artifact-signed.yaml)  
 **Rego Source:** [artifact-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/artifact-signed.rego)  
 **Labels:** SBOM, Git  
@@ -46,9 +46,9 @@ Ensure that only Git artifacts with valid cryptographic signatures are deployed 
 | Field | Value |
 |-------|-------|
 | filter-by | ['product', 'target'] |
-| signed | True |
 | content_body_type | cyclonedx-json |
 | target_type | git |
+| signed | True |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |

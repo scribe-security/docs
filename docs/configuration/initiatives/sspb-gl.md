@@ -16,6 +16,22 @@ Blueprint for secure pipelines - Gitlab
 
 This initiative defines a set of best practices and technical guidelines designed to safeguard every stage of the software delivery process—from code development and build, to testing and production deployment. It emphasizes the importance of ensuring code integrity, authenticating build artifacts, and continuously monitoring system changes to mitigate the risk of supply chain attacks. The framework is adaptable to various environments and aligned with industry standards, providing organizations with actionable steps to enhance their overall security posture.
 
+## Evidence Requirements
+
+This initiative requires the following evidence types:
+
+- [Signed SBOM](/docs/valint/sbom)
+- [Signed Image SBOM](/docs/valint/sbom)
+- [Signed Generic Statement](/docs/valint/generic)
+- [Signed Gitlab Organization Discovery Evidence](/docs/platforms/discover#gitlab-discovery)
+- [Signed Gitlab Project Discovery Evidence](/docs/platforms/discover#gitlab-discovery)
+
+## Evidence Defaults
+
+| Field | Value |
+|-------|-------|
+| signed | True |
+
 ## Controls Overview
 
 | Control Name | Control Description | Mitigation |
@@ -35,12 +51,6 @@ This initiative defines a set of best practices and technical guidelines designe
 | [[CTL-13] Scan deployed images in production](#ctl-13-scan-deployed-images-in-production) | Scan deployed images in production | Continuously monitor and scan production images to ensure ongoing compliance with security standards. |
 | [[CTL-14] Validate Kubernetes resource manifests](#ctl-14-validate-kubernetes-resource-manifests) | Validate Kubernetes resource manifests | Ensure that Kubernetes manifests are validated to prevent misconfigurations and security vulnerabilities. |
 | [[CTL-15] Ensure build environments are ephemeral and immutable](#ctl-15-ensure-build-environments-are-ephemeral-and-immutable) | Ensure build environments are ephemeral and immutable | Build environments should be defined in code with automated creation and teardown, and that a fresh environment is created for every build |
-
-## Evidence Defaults
-
-| Field | Value |
-|-------|-------|
-| signed | True |
 
 ---
 

@@ -16,17 +16,24 @@ Evaluate SLSA Level 2
 
 Evaluate SLSA L2 and ensure that provenance information is both recorded and authenticated. This helps protect against unauthorized modifications and ensures artifact integrity."
 
-## Controls Overview
+## Evidence Requirements
 
-| Control Name | Control Description | Mitigation |
-|--------------|---------------------|------------|
-| [[provenance] Provenance authenticated](#provenance-provenance-authenticated) | Ensure that provenance metadata for build artifacts is authenticated, confirming that it originates from a trusted source. | Authentication of provenance data prevents attackers from forging or modifying build metadata, ensuring the integrity of the software supply chain. |
+This initiative requires the following evidence types:
+
+- [SLSA Provenance](/docs/valint/help/valint_slsa)
+- [Signed SLSA Provenance](/docs/valint/help/valint_slsa)
 
 ## Evidence Defaults
 
 | Field | Value |
 |-------|-------|
 | signed | False |
+
+## Controls Overview
+
+| Control Name | Control Description | Mitigation |
+|--------------|---------------------|------------|
+| [[provenance] Provenance authenticated](#provenance-provenance-authenticated) | Ensure that provenance metadata for build artifacts is authenticated, confirming that it originates from a trusted source. | Authentication of provenance data prevents attackers from forging or modifying build metadata, ensuring the integrity of the software supply chain. |
 
 ---
 

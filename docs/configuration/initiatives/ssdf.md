@@ -12,6 +12,21 @@ title: SSDF Client Initiative
 
 Evaluate PS rules from the SSDF initiative
 
+## Evidence Requirements
+
+This initiative requires the following evidence types:
+
+- [Signed SBOM](/docs/valint/sbom)
+- [SLSA Provenance](/docs/valint/help/valint_slsa)
+- [Github Organization Discovery Evidence](/docs/platforms/discover#github-discovery)
+- [Github Repository Discovery Evidence](/docs/platforms/discover#github-discovery)
+
+## Evidence Defaults
+
+| Field | Value |
+|-------|-------|
+| signed | False |
+
 ## Controls Overview
 
 | Control Name | Control Description | Mitigation |
@@ -20,12 +35,6 @@ Evaluate PS rules from the SSDF initiative
 | [[PS/PS.2/PS.2.1] Make software integrity verification information available to software acquirers](#psps2ps21-make-software-integrity-verification-information-available-to-software-acquirers) | Help software acquirers ensure that the software they acquire is legitimate and has not been tampered with. | Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Ensure that the signing keys are stored securely and that access to them is restricted. Implement automated processes to sign releases and verify their integrity before distribution. Regularly audit the signing process and keys to ensure their security and integrity. |
 | [[PS/PS.3/PS.3.1] Securely archive the necessary files and supporting data to be retained for each software release](#psps3ps31-securely-archive-the-necessary-files-and-supporting-data-to-be-retained-for-each-software-release) | Securely archive the necessary files and supporting data (e.g., integrity verification information, provenance data) to be retained for each software release | Use secure, version-controlled repositories to store software releases and their supporting data. Implement access controls to restrict who can modify or delete these repositories. Use cryptographic signatures to sign software releases and provide a way for users to verify these signatures. Regularly back up the repositories to prevent data loss and ensure that software releases are preserved even in the event of a system failure. |
 | [[PS/PS.3/PS.3.2] Collect, safeguard, maintain, and share provenance data for all components of each software release](#psps3ps32-collect-safeguard-maintain-and-share-provenance-data-for-all-components-of-each-software-release) | Collect, safeguard, maintain, and share provenance data for all components of each software release (e.g., in a software bill of materials [SBOM]) | Use software bill of materials (SBOM) to document the provenance of each software release and its components. Store SBOMs in a secure, version-controlled repository to ensure they can be retrieved and analyzed in the future. Implement access controls to restrict who can modify or delete SBOMs. Use cryptographic signatures to sign SBOMs and provide a way for users to verify these signatures. Regularly back up the repository to prevent data loss and ensure that SBOMs are preserved even in the event of a system failure. Document the SBOM creation process and train personnel on its importance and proper handling procedures. |
-
-## Evidence Defaults
-
-| Field | Value |
-|-------|-------|
-| signed | False |
 
 ---
 

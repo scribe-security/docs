@@ -26,7 +26,9 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 ```yaml
 uses: gitlab/project/co-approval-required@v2
 with:
-  branch: "main"
+  branches:
+    - "main"
+    - "master"
 ```
 
 ## Mitigation  
@@ -67,5 +69,5 @@ It performs the following steps:
 ## Input Definitions  
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| branch | string | True | The branch to require code owner approval. |
+| branches | array | True | The branch to require code owner approval. |
 

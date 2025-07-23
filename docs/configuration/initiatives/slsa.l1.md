@@ -16,17 +16,23 @@ Evaluate SLSA Level 1
 
 This initiative ensures that every critical build artifact includes the minimum required provenance metadata as specified in SLSA Level 1. By recording detailed information about the build process—such as timestamps, authors, and build details— organizations establish a traceable chain-of-custody for their software artifacts.
 
-## Controls Overview
+## Evidence Requirements
 
-| Control Name | Control Description | Mitigation |
-|--------------|---------------------|------------|
-| [[provenance] Provenance exists](#provenance-provenance-exists) | This control verifies that essential provenance metadata is present for each build artifact. | Ensure that provenance metadata is present for critical build artifacts to support supply chain integrity. |
+This initiative requires the following evidence types:
+
+- [SLSA Provenance](/docs/valint/help/valint_slsa)
 
 ## Evidence Defaults
 
 | Field | Value |
 |-------|-------|
 | signed | False |
+
+## Controls Overview
+
+| Control Name | Control Description | Mitigation |
+|--------------|---------------------|------------|
+| [[provenance] Provenance exists](#provenance-provenance-exists) | This control verifies that essential provenance metadata is present for each build artifact. | Ensure that provenance metadata is present for critical build artifacts to support supply chain integrity. |
 
 ---
 
