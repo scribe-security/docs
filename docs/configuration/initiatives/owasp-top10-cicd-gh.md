@@ -1,8 +1,8 @@
 ---
-sidebar_label: OWASP Top 10 CI/CD Security Controls -- GitHub for GitHub
-title: OWASP Top 10 CI/CD Security Controls -- GitHub
+sidebar_label: OWASP Top 10 CI/CD Security Controls for GitHub
+title: OWASP Top 10 CI/CD Security Controls
 ---  
-# OWASP Top 10 CI/CD Security Controls -- GitHub  
+# OWASP Top 10 CI/CD Security Controls  
 **Type:** Initiative  
 **ID:** `OWASP-TOP10-CICD-SC-GH`  
 **Version:** ``  
@@ -10,7 +10,7 @@ title: OWASP Top 10 CI/CD Security Controls -- GitHub
 **Source:** [v2/initiatives/owasp-top10-cicd-gh.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/owasp-top10-cicd-gh.yaml)  
 **Help:** https://owasp.org/www-project-top-10-ci-cd-security-risks/  
 
-This initiative implements a policy to verify compliance with the OWASP Top 10 Security Controls.
+OWASP Top 10 CI/CD Security Controls - GitHub
 
 ## Evidence Requirements
 
