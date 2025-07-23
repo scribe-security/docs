@@ -87,6 +87,9 @@ Valint can collect the output of SCA tools, SBOM tools, or application security 
 Valint can act as a supply chain policy evaluation and enforcement agent. To this end, it pulls required evidence objects previously uploaded to an evidence store (Scribe Hub or on-prem) and evaluates them against policies that you set. These are either canned policies that you can parametrize or coded policies that you author and maintain by a gitops process.
 The output of an evaluation includes evaluation details, a verdict, and a reference to the evidence.
 
+## Evidence Deduplication
+Evidence of the same `target` with the same `labels` uploaded to the same product (defined by `product-key` and `product-version`) of the same team is deduplicated. This means that if you upload the same evidence twice, the older one is replaced by the newer one.
+
 ## Using alternative Evidence Stores
 In lieu of Scribe Hub, you can configure Valint to use other stores to store and retrieve evidence. However, in this scenario, you cannot benefit from Scribe Hub’s evidence retrieval by context, data enrichment and risk analysis, and cross-organizational supply chain transparency sharing.
 * OCI registry 
