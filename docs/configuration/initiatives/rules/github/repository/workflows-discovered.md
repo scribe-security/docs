@@ -4,7 +4,7 @@ title: Repo Workflows and Pipelines Discovered
 ---  
 # Repo Workflows and Pipelines Discovered  
 **Type:** Rule  
-**ID:** `skip-pipelines-check`  
+**ID:** `workflows-discovered`  
 **Source:** [v2/rules/github/repository/workflows-discovered.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/workflows-discovered.yaml)  
 **Rego Source:** [workflows-discovered.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/repository/workflows-discovered.rego)  
 **Labels:** GitHub, Repository  

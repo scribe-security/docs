@@ -188,4 +188,4 @@ Identify and build an inventory of all the systems in use within the organizatio
 | Rule ID | Rule Name | Rule Description |
 |---------|-----------|------------------|
 | [github-repo-exists](rules/github/repository/evidence-exists.md) | [GitHub repository evidence](rules/github/repository/evidence-exists.md) | Identify and build an inventory of all the systems in use within the organization, containing every instance of these systems. |
-| [skip-pipelines-check](rules/github/repository/workflows-discovered.md) | [Repo Workflows and Pipelines Discovered](rules/github/repository/workflows-discovered.md) | Repository workflows scan helps to keep track of the repo workflows, pipeline runs, run reasons, authors and other relevant information. |
+| [workflows-discovered](rules/github/repository/workflows-discovered.md) | [Repo Workflows and Pipelines Discovered](rules/github/repository/workflows-discovered.md) | Repository workflows scan helps to keep track of the repo workflows, pipeline runs, run reasons, authors and other relevant information. |
