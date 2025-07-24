@@ -16,7 +16,7 @@ Blueprint for secure pipelines - GitHub
 
 This initiative defines a set of best practices and technical guidelines designed to safeguard every stage of the software delivery process—from code development and build, to testing and production deployment. It emphasizes the importance of ensuring code integrity, authenticating build artifacts, and continuously monitoring system changes to mitigate the risk of supply chain attacks. The framework is adaptable to various environments and aligned with industry standards, providing organizations with actionable steps to enhance their overall security posture.
 
-## Evidence Requirements
+## Required Evidence
 
 This initiative requires the following evidence types:
 
@@ -31,6 +31,47 @@ This initiative requires the following evidence types:
 | Field | Value |
 |-------|-------|
 | signed | True |
+
+## Rule Parameters
+To configure this initiative for your organization needs, the following parameters should be specified:
+
+- **[CTL-1] Restrict administrative access to CI/CD tools**
+  - **Limit Admin Number in GitHub Organization**
+    - **`max_admins`**: `integer` - Maximum number of admins allowed.  
+      *Default:* `1`.
+  - **Allowed GitHub Organization Admins**
+    - **`allowed_admins`**: `array` - List of allowed GitHub organization admins.  
+      *Default:* `['admin']`.
+- **[CTL-5] Only dependencies from trusted registries can be used**
+  - **Ensure that base images are from an approved source**
+    - **`approved_sources`**: `array` - A list of approved base image registry URL prefixes.  
+      *Default:* `['index.docker.io/library/.*', 'gcr.io/.*']`.
+  - **Verify NPM Packages Origin**
+    - **`allowed_registries`**: `array` - A list of allowed NPM registries.  
+      *Default:* `['https://registry.npmjs.org/']`.
+- **[CTL-6] Any critical or high severity vulnerability breaks the build**
+  - **Verify No Critical or High Vulnerabilities**
+    - **`superset`**: `object` - The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]].  
+      *Default:* `{'cve': {'severity': 6, 'max': 0}}`.
+- **[CTL-7] Artifacts are stored in a repository in development, stage and production**
+  - **Artifacts are stored in a repository**
+    - **`approved_sources`**: `array` - A list of approved Image source patterns.  
+      *Default:* `['index.docker.io/library/.*', 'gcr.io/.*']`.
+- **[CTL-10] Artifacts in higher repositories are signed**
+  - **Artifacts are stored in a repository**
+    - **`approved_sources`**: `array` - A list of approved Image source patterns.  
+      *Default:* `['index.docker.io/library/.*', 'gcr.io/.*']`.
+- **[CTL-11] Available container images don’t have any high or critical vulnerabilities**
+  - **Verify No Critical or High Vulnerabilities**
+    - **`superset`**: `object` - The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]].  
+      *Default:* `{'cve': {'severity': 6, 'max': 0}}`.
+- **[CTL-13] Scan deployed images in production**
+  - **Restrict Disallowed Dependencies**
+    - **`blocklist`**: .  
+      *Default:* `['liblzma5@5.6.0', 'liblzma5@5.6.1', 'xz-utils@5.6.0', 'xz-utils@5.6.1']`.
+  - **Verify No Critical or High Vulnerabilities**
+    - **`superset`**: `object` - The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]].  
+      *Default:* `{'cve': {'severity': 6, 'max': 0}}`.
 
 ## Controls Overview
 

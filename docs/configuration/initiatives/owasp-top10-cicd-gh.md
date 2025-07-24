@@ -14,44 +14,9 @@ OWASP Top 10 CI/CD Security Controls - GitHub
 
 ## **Description**
 
-This initiative provides a set of security controls for CI/CD pipelines implementing the OWASP Top 10 CI/CD Security Risks framework. To adopt this initiative for a specific organization, the following parameters should be specified:
+This initiative provides a set of security controls for CI/CD pipelines implementing the OWASP Top 10 CI/CD Security Risks framework.
 
-- **CICD-SEC-1**
-  - **Require Branch Protection**
-    - `branches`: list of branches to protect, default is `["main", "master"]`
-  - **Pull request approval policy check**
-    - `approvals_required_min`: minimum number of approvals required for a pull request
-- **CICD-SEC-2**
-  - **Limit Admin Number**
-    - **`max_admins`**: maximum number of admins allowed in the organization
-  - **Allowed GitHub Organization Admins**
-    - **`allowed_admins`**: list of allowed GitHub organization admins
-  - **Allowed GitHub Organization Users**
-    - **`allowed_users`**: list of allowed GitHub organization users
-  - **Create repositories permissions check**
-    - **`allowed_users`**: list of users allowed to create repositories in the organization
-  - **Limit Public Repositories**
-    - **`allowed_repo_names`**: list of allowed public repositories in the organization
-    - If not specified, all repositories are considered private.
-- **CICD-SEC-3**
-  - **Ensure that base images are from an approved source**
-    - **`approved_sources`**: list of approved base image sources, default is `["index.docker.io/library/.*", "gcr.io/.*"]`
-  - **Verify NPM Packages Origin**
-    - **`allowed_sources`**: list of allowed NPM package sources, default is `["registry.npmjs.org"]`
-- **CICD-SEC-4**
-  - **Restrict Pipeline Script Modification**
-    - **`ids`**: list of allowed commit authors for modifying the pipeline script
-  - **Require Branch Protection**
-    - **`branches`**: list of branches to protect, default is `["main", "master"]`
-- **CICD-SEC-6**
-  - **Verify No Old Secrets Exist in Organization**
-    - **`max_secret_age`**: maximum age of organization secrets in months, default is `6`
-  - **Verify No Old Secrets Exist in Repository**
-    - **`max_secret_age`**: maximum age of repository secrets in months, default is `6`
-  - **Verify Trivy Report**
-    - **`max_allowed`**: maximum number of allowed secrets in the Trivy report, default is `0`
-
-## Evidence Requirements
+## Required Evidence
 
 This initiative requires the following evidence types:
 
@@ -69,6 +34,54 @@ This initiative requires the following evidence types:
 | Field | Value |
 |-------|-------|
 | signed | False |
+
+## Rule Parameters
+To configure this initiative for your organization needs, the following parameters should be specified:
+
+- **[CICD-SEC-1] Insufficient Flow Control Mechanisms**
+  - **Require Branch Protection**
+    - **`branches`**: `array` - List of branches to be protected.  
+      *Default:* `['main', 'master']`.
+  - **Pull request approval policy check**
+    - **`approvals_required_min`**: `number` - Minimum number of approvals required for pull requests.  
+      *Default:* `1`.
+- **[CICD-SEC-2] Inadequate Identity and Access Management**
+  - **Limit Admin Number**
+    - **`max_admins`**: `integer` - Maximum number of admins allowed.  
+      *Default:* `4`.
+  - **Allowed GitHub Organization Admins**
+    - **`allowed_admins`**: `array` - List of allowed GitHub organization admins.
+  - **Allowed GitHub Organization Users**
+    - **`allowed_users`**: `array` - List of allowed users.
+  - **'Create repositories' permissions check**
+  - **Limit Public Repositories**
+    - **`allowed_repo_names`**: `array` - List of repository pattern allowed to be visible.
+- **[CICD-SEC-3] Dependency Chain Abuse**
+  - **Ensure that base images are from an approved source**
+    - **`approved_sources`**: `array` - A list of approved base image registry URL prefixes.  
+      *Default:* `['index.docker.io/library/.*', 'gcr.io/.*']`.
+  - **Verify NPM Packages Origin**
+    - **`allowed_registries`**: `array` - A list of allowed NPM registries.  
+      *Default:* `['https://registry.npmjs.org/']`.
+- **[CICD-SEC-4] Poisoned Pipeline Execution**
+  - **Restrict Pipeline Script Modification**
+    - **`files`**: `array` - The list of files that are allowed to be committed to the repository.  
+      *Default:* `['.github/workflow/*.yml', '.github/workflow/*.yaml']`.
+    - **`ids`**: `array` - The list of user (commit.author) IDs allowed to commit to the repository.
+  - **Require Branch Protection**
+    - **`branches`**: `array` - List of branches to be protected.  
+      *Default:* `['main', 'master']`.
+- **[CICD-SEC-6] Insufficient Credential Hygiene**
+  - **Verify No Old Secrets Exist in Organization**
+    - **`max_secret_age`**: `integer` - Maximum age of secrets in months.  
+      *Default:* `6`.
+  - **Verify No Old Secrets Exist in Repository**
+    - **`max_secret_age`**: `integer` - Maximum age of secrets in months.  
+      *Default:* `6`.
+  - **Verify Trivy Report**
+    - **`rule_names`**: `array` - List of rule names to check for in the Trivy SARIF report.  
+      *Default:* `['Secret']`.
+    - **`max_allowed`**: `integer` - The maximum number of allowed violations.
 
 ## Controls Overview
 

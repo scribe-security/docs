@@ -12,7 +12,7 @@ title: SSDF Client Initiative
 
 Evaluate PS rules from the SSDF initiative
 
-## Evidence Requirements
+## Required Evidence
 
 This initiative requires the following evidence types:
 
@@ -26,6 +26,23 @@ This initiative requires the following evidence types:
 | Field | Value |
 |-------|-------|
 | signed | False |
+
+## Rule Parameters
+To configure this initiative for your organization needs, the following parameters should be specified:
+
+- **[PS/PS.1/PS.1.1] Store all forms of code based on the principle of least privilege**
+  - **Limit admins**
+    - **`max_admins`**: `integer` - Maximum number of admins allowed.  
+      *Default:* `3`.
+  - **Require signoff on web commits**
+    - **`desired_value`**: .  
+      *Default:* `True`.
+  - **Branch protected**
+    - **`desired_protected`**: `boolean` - Desired branch protection setting.  
+      *Default:* `True`.
+  - **Repo private**
+    - **`desired_private`**: .  
+      *Default:* `True`.
 
 ## Controls Overview
 
