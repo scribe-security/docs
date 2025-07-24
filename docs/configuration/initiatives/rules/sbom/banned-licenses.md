@@ -61,8 +61,8 @@ remains below the specified threshold. It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| blocklist | array | False | A list of disallowed licenses. |
-| blocklisted_limit | integer | False | The maximum number of components with disallowed licenses allowed. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| blocklist | array | False | A list of disallowed licenses. | [] |
+| blocklisted_limit | integer | False | The maximum number of components with disallowed licenses allowed. | 0 |
 

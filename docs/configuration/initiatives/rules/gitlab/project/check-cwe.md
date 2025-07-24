@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| cwe_value | string | True | The CWE value to check for. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| cwe_value | string | True | The CWE value to check for. | 89 |
 

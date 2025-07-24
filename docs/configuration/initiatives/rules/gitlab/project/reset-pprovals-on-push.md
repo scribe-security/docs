@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| reset_approvals_on_push | boolean | False | The binary field to enforce for resetting approvals on push. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| reset_approvals_on_push | boolean | False | The binary field to enforce for resetting approvals on push. | True |
 

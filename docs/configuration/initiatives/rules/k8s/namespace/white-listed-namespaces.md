@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| namespaces | array | False | A list of allowed namespaces. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| namespaces | array | False | A list of allowed namespaces. | [] |
 

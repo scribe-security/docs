@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| selective_code_owner_removals | boolean | True | Indicates whether `selective_code_owner_removals` is set for the GitLab project. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| selective_code_owner_removals | boolean | True | Indicates whether `selective_code_owner_removals` is set for the GitLab project. | True |
 

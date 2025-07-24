@@ -68,7 +68,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| images_to_include | array | False | List of allowed container images. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| images_to_include | array | False | List of allowed container images. | [] |
 

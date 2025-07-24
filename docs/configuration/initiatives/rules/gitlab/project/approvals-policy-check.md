@@ -67,8 +67,8 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| name | string | True | Name of the group or user that must approve the merge request. |
-| approvals_required_min | number | True | Minimum number of approvals required for merge requests. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| name | string | True | Name of the group or user that must approve the merge request. | All Members |
+| approvals_required_min | number | True | Minimum number of approvals required for merge requests. | 2 |
 

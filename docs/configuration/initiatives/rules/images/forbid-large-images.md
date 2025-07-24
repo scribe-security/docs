@@ -59,7 +59,7 @@ The extracted size is then converted to a numeric value and compared against the
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_size | integer | True | The maximum allowed image size in bytes. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_size | integer | True | The maximum allowed image size in bytes. | 77819980 |
 

@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| namespaces | array | False | A list of namespaces to verify (supports regex). |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| namespaces | array | False | A list of namespaces to verify (supports regex). | ['.*'] |
 

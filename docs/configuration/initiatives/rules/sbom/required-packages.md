@@ -60,8 +60,8 @@ It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| required_pkgs | array | True | A list of required dependencies specified as PURLs. |
-| violations_limit | integer | False | The maximum number of allowed violations. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| required_pkgs | array | True | A list of required dependencies specified as PURLs. | [] |
+| violations_limit | integer | False | The maximum number of allowed violations. | 0 |
 

@@ -54,7 +54,7 @@ Ensure that all findings reported by 3rd party tools are addressed before delive
 This rule ensures that there are no findings, such as vulnerabilities, misconfigurations, or other issues reported by 3rd party tools, in any component of the product by verifying via the Scribe API.
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| superset | object | False | Filters for the findings. See usage example. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| superset | object | False | Filters for the findings. See usage example. | {'findings': {'severities': [], 'tools': [], 'titles': [], 'cwes': [], 'descriptions': [], 'descriptions_to_ignore': []}} |
 

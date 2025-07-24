@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_days | integer | False | The maximum allowed duration for pods in days. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_days | integer | False | The maximum allowed duration for pods in days. | 30 |
 

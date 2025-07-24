@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| desired_value | boolean | False | The desired value for the `members_can_create_repositories` setting. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_value | boolean | False | The desired value for the `members_can_create_repositories` setting. | False |
 

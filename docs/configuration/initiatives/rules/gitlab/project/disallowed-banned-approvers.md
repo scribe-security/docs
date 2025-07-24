@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| banned_list | array | False | List of users banned from approving in the GitLab project. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| banned_list | array | False | List of users banned from approving in the GitLab project. | [] |
 

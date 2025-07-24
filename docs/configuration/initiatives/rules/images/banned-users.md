@@ -59,7 +59,7 @@ a violation is recorded.
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| users | array | False | A list of disallowed users. Each entry should be a string representing a username. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| users | array | False | A list of disallowed users. Each entry should be a string representing a username. | ['root'] |
 

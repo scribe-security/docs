@@ -40,10 +40,10 @@ It performs the following steps:
 - Github API token must be provided to access the GitHub API.
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| commit_id_list | array | True | List of commit IDs to verify if they are signed. |
-| access_token | string | True | GitHub API access token. |
-| owner | string | True | GitHub repository owner. |
-| repo | string | True | GitHub repository name. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| commit_id_list | array | True | List of commit IDs to verify if they are signed. | [] |
+| access_token | string | True | GitHub API access token. |  |
+| owner | string | True | GitHub repository owner. |  |
+| repo | string | True | GitHub repository name. |  |
 

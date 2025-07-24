@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branches | array | False | The branch to disallow force pushes. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branches | array | False | The branch to disallow force pushes. | ['main', 'master'] |
 

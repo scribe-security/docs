@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_admins | number | False | Maximum number of admins allowed in the GitLab organization. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_admins | number | False | Maximum number of admins allowed in the GitLab organization. | 0 |
 

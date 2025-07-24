@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| merge_requests_disable_committers_approval | boolean | False | The binary field to enforce for merge requests committers' approval. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| merge_requests_disable_committers_approval | boolean | False | The binary field to enforce for merge requests committers' approval. | False |
 

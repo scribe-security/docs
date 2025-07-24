@@ -43,12 +43,12 @@ It performs the following steps:
 - Github API token must be provided to access the GitHub API.
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| access_token | string | True | GitHub API access token. |
-| owner | string | True | GitHub repository owner. |
-| repo | string | True | GitHub repository name. |
-| since | string | False | ISO 8601 date-time string. The beginning of the time range. |
-| until | string | False | ISO 8601 date-time string. The end of the time range. |
-| sha | string | False | The SHA of the commit to verify. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| access_token | string | True | GitHub API access token. |  |
+| owner | string | True | GitHub repository owner. |  |
+| repo | string | True | GitHub repository name. |  |
+| since | string | False | ISO 8601 date-time string. The beginning of the time range. | None |
+| until | string | False | ISO 8601 date-time string. The end of the time range. | None |
+| sha | string | False | The SHA of the commit to verify. | None |
 

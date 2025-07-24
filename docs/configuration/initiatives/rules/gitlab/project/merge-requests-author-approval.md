@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| merge_requests_author_approval | boolean | False | The binary field to enforce for merge requests author approval. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| merge_requests_author_approval | boolean | False | The binary field to enforce for merge requests author approval. | True |
 

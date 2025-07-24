@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_token_scopes | array | False | List of allowed token scopes in the GitLab organization. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_token_scopes | array | False | List of allowed token scopes in the GitLab organization. | [] |
 

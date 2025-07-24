@@ -68,7 +68,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_admins | array | False | List of users allowed to have admin privileges in the Bitbucket repository. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_admins | array | False | List of users allowed to have admin privileges in the Bitbucket repository. | [] |
 

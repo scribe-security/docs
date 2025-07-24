@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| inactive_for_days | number | False | Number of days before a project is considered inactive. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| inactive_for_days | number | False | Number of days before a project is considered inactive. | 90 |
 

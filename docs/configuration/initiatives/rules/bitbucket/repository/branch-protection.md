@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branches | array | False | List of branches to verify default branch protection. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branches | array | False | List of branches to verify default branch protection. | ['main'] |
 

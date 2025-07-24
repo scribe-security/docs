@@ -52,7 +52,7 @@ If a match is found, the rule generates a violation indicating that a disallowed
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| blocklist | array | False | A list of disallowed build script commands. Each entry should be a string representing a command or substring. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| blocklist | array | False | A list of disallowed build script commands. Each entry should be a string representing a command or substring. | [] |
 

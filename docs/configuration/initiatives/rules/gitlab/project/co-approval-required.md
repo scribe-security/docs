@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branches | array | True | The branch to require code owner approval. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branches | array | True | The branch to require code owner approval. | ['main', 'master'] |
 

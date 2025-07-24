@@ -63,7 +63,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_secret_age | integer | False | Maximum age of secrets in months. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_secret_age | integer | False | Maximum age of secrets in months. | 12 |
 

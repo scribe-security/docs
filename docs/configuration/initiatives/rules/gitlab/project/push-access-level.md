@@ -67,9 +67,9 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branch | string | False | The branch to enforce push access level policy. |
-| access_level | number | False | The access level to enforce for push access level policy. |
-| access_level_description | string | False | The access level description to enforce for push access level policy. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branch | string | False | The branch to enforce push access level policy. | main |
+| access_level | number | False | The access level to enforce for push access level policy. |  |
+| access_level_description | string | False | The access level description to enforce for push access level policy. | Maintainers |
 

@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| exiring_in_days | number | False | Number of days before a token expires. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| exiring_in_days | number | False | Number of days before a token expires. | 30 |
 

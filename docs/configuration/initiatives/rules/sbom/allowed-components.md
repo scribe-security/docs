@@ -63,8 +63,8 @@ It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| types | array | True | A list of allowed component types. |
-| allowlist | array | True | A list of allowed components. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| types | array | True | A list of allowed component types. | [] |
+| allowlist | array | True | A list of allowed components. | [] |
 

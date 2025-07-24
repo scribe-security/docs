@@ -56,8 +56,8 @@ It performs the following steps:
 | target_type | git |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| ids | array | False | The list of user (commit.author) IDs allowed to commit to the repository. |
-| files | array | False | The list of files that are allowed to be committed to the repository. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| ids | array | False | The list of user (commit.author) IDs allowed to commit to the repository. | [] |
+| files | array | False | The list of files that are allowed to be committed to the repository. | [] |
 

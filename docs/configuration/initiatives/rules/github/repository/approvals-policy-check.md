@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| approvals_required_min | number | True | Minimum number of approvals required for pull requests. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| approvals_required_min | number | True | Minimum number of approvals required for pull requests. | 1 |
 

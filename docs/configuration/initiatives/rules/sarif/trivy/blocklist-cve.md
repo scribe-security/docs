@@ -60,8 +60,8 @@ the rule ID, severity (extracted from the rule’s properties), and the location
 | filter-by | ['product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| rule_ids | array | False | List of CVE identifiers to check for in the Trivy SARIF report. |
-| violations_threshold | integer | False | The maximum number of allowed violations. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| rule_ids | array | False | List of CVE identifiers to check for in the Trivy SARIF report. | [] |
+| violations_threshold | integer | False | The maximum number of allowed violations. | 0 |
 

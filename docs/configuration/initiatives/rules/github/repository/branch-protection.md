@@ -68,8 +68,8 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| desired_protected | boolean | False | Desired branch protection setting. |
-| branches | array | False | List of branches to be protected. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_protected | boolean | False | Desired branch protection setting. | True |
+| branches | array | False | List of branches to be protected. | ['main', 'master'] |
 

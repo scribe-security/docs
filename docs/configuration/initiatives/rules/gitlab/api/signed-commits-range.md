@@ -43,10 +43,10 @@ It performs the following steps:
 - GitLab API token must be provided to access the GitLab API.
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| since | string | False | ISO 8601 date-time string. The beginning of the time range. |
-| until | string | False | ISO 8601 date-time string. The end of the time range. |
-| project_id | string | True | GitLab project ID. |
-| private_token | string | True | GitLab API access token. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| since | string | False | ISO 8601 date-time string. The beginning of the time range. |  |
+| until | string | False | ISO 8601 date-time string. The end of the time range. |  |
+| project_id | string | True | GitLab project ID. |  |
+| private_token | string | True | GitLab API access token. |  |
 

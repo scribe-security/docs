@@ -70,8 +70,8 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| white_listed_pod | array | True | A list of allowed pods (supports regex). |
-| verify_namespaces | array | True | A list of namespaces to verify (supports regex). |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| white_listed_pod | array | True | A list of allowed pods (supports regex). | [] |
+| verify_namespaces | array | True | A list of namespaces to verify (supports regex). | ['.*'] |
 

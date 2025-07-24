@@ -56,11 +56,11 @@ Each violation includes details such as the rule identifier, the extracted sever
 | predicate_type | http://docs.oasis-open.org/sarif/sarif/2.1.0 |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| rule_level | array | False | List of rule levels to check for in the SARIF report. |
-| precision | array | False | List of precision levels to check for in the SARIF report. |
-| rule_ids | array | False | List of rule IDs to check for in the SARIF report. |
-| ignore | array | False | List of rule IDs to ignore in the SARIF report. |
-| max_allowed | integer | False | The maximum number of allowed violations. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| rule_level | array | False | List of rule levels to check for in the SARIF report. |  |
+| precision | array | False | List of precision levels to check for in the SARIF report. |  |
+| rule_ids | array | False | List of rule IDs to check for in the SARIF report. | [] |
+| ignore | array | False | List of rule IDs to ignore in the SARIF report. |  |
+| max_allowed | integer | False | The maximum number of allowed violations. |  |
 

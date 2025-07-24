@@ -68,7 +68,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_registries | array | False | A list of allowed container registries Regex patterns. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_registries | array | False | A list of allowed container registries Regex patterns. | [] |
 

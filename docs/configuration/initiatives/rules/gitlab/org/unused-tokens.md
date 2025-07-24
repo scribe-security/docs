@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| unused_for_days | number | False | Number of days before a token is considered unused. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| unused_for_days | number | False | Number of days before a token is considered unused. | 90 |
 

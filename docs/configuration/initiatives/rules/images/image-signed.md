@@ -62,8 +62,8 @@ for images that do not require a signature. Otherwise, if the evidence does not 
 | content_body_type | cyclonedx-json |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| identity | object | False | Identity information for the signers |
-| skip_image_regex | array | False | Patterns to bypass the signature requirement for certain images |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| identity | object | False | Identity information for the signers | {'emails': [], 'common-names': []} |
+| skip_image_regex | array | False | Patterns to bypass the signature requirement for certain images | [] |
 
