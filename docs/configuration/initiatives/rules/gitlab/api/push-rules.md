@@ -58,7 +58,7 @@ It performs the following steps:
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| api_token | string | True | GitLab API access token. | {{ .Args.Token }} |
-| project | string | True | GitLab project name. | {{ .Args.Project }} |
-| push_rule | object | True | GitLab push rules. | {'commit_message_regex': '', 'commit_message_negative_regex': None, 'branch_name_regex': None, 'deny_delete_tag': False, 'member_check': False, 'prevent_secrets': False, 'author_email_regex': '', 'file_name_regex': 'abc', 'max_file_size': 100, 'commit_committer_name_check': None, 'reject_unsigned_commits': None} |
+| api_token | string | True | GitLab API access token. | `{{ .Args.Token }}` |
+| project | string | True | GitLab project name. | `{{ .Args.Project }}` |
+| push_rule | object | True | GitLab push rules. | `{'commit_message_regex': '', 'commit_message_negative_regex': None, 'branch_name_regex': None, 'deny_delete_tag': False, 'member_check': False, 'prevent_secrets': False, 'author_email_regex': '', 'file_name_regex': 'abc', 'max_file_size': 100, 'commit_committer_name_check': None, 'reject_unsigned_commits': None}` |
 

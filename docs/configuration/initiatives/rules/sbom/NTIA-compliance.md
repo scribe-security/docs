@@ -79,6 +79,6 @@ It performs the following steps:
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| required_author | object | False | The required author (case-insensitive match for name/email). | {} |
-| required_supplier | object | False | The required supplier (case-insensitive match for supplier name). | {} |
+| required_author | object | False | The required author (case-insensitive match for name/email). | `{}` |
+| required_supplier | object | False | The required supplier (case-insensitive match for supplier name). | `{}` |
 

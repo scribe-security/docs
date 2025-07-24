@@ -60,5 +60,5 @@ The allowed parameters values can be passed to the rule in the `key: value` form
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. | {} |
+| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. | `{}` |
 

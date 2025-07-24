@@ -49,5 +49,5 @@ The key must be a path within the Provenance document, and the value must be a s
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| fields | object | False | The expected field values to match in the provenance document given as a `key:value` map. | {} |
+| fields | object | False | The expected field values to match in the provenance document given as a `key:value` map. | `{}` |
 

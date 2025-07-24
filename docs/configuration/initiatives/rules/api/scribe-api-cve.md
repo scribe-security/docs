@@ -54,5 +54,5 @@ This rule ensures that there are no critical or high severity vulnerabilities in
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. | {'cve': {'max': 0, 'severity': 6}} |
+| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. | `{'cve': {'max': 0, 'severity': 6}}` |
 

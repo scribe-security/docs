@@ -64,6 +64,6 @@ for images that do not require a signature. Otherwise, if the evidence does not 
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| identity | object | False | Identity information for the signers | {'emails': [], 'common-names': []} |
+| identity | object | False | Identity information for the signers | `{'emails': [], 'common-names': []}` |
 | skip_image_regex | array | False | Patterns to bypass the signature requirement for certain images | [] |
 

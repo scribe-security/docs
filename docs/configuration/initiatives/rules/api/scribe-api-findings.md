@@ -56,5 +56,5 @@ This rule ensures that there are no findings, such as vulnerabilities, misconfig
 ## Input Definitions  
 | Parameter | Type | Required | Description | Default |
 |-----------|------|----------|-------------| --------|
-| superset | object | False | Filters for the findings. See usage example. | {'findings': {'severities': [], 'tools': [], 'titles': [], 'cwes': [], 'descriptions': [], 'descriptions_to_ignore': []}} |
+| superset | object | False | Filters for the findings. See usage example. | `{'findings': {'severities': [], 'tools': [], 'titles': [], 'cwes': [], 'descriptions': [], 'descriptions_to_ignore': []}}` |
 
