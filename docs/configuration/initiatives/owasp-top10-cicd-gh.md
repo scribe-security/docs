@@ -78,7 +78,7 @@ To configure this initiative for your organization needs, the following paramete
   - **Verify No Old Secrets Exist in Repository**
     - **`max_secret_age`**: `integer` - Maximum age of secrets in months.  
       *Default:* `6`.
-  - **Verify Trivy Report**
+  - **Verify Trivy Secret Scan Report**
     - **`rule_names`**: `array` - List of rule names to check for in the Trivy SARIF report.  
       *Default:* `['Secret']`.
     - **`max_allowed`**: `integer` - The maximum number of allowed violations.
@@ -188,7 +188,7 @@ Ensure that the CI/CD pipeline has sufficient credential hygiene to prevent  una
 | [github-repo-old-secrets](rules/github/repository/old-secrets.md) | [Verify No Old Secrets Exist in Repository](rules/github/repository/old-secrets.md) | Verify secrets in the GitHub repository are not older than the specified threshold. |
 | [github-repo-no-org-secrets](rules/github/repository/no-org-secrets.md) | [Separate Repo Secrets](rules/github/repository/no-org-secrets.md) | Avoid sharing the same set of credentials across multiple contexts. |
 | [github-repo-secret-scanning](rules/github/repository/secret-scanning.md) | [Verify secret_scanning setting](rules/github/repository/secret-scanning.md) | Detect secrets pushed to and stored on code repositories. |
-| [trivy-report](rules/sarif/trivy/verify-trivy-report.md) | [Verify Trivy Report](rules/sarif/trivy/verify-trivy-report.md) | Verify the Trivy report for exposed secrets. |
+| [trivy-secret-scan](rules/sarif/trivy/verify-trivy-report.md) | [Verify Trivy Secret Scan Report](rules/sarif/trivy/verify-trivy-report.md) | Verify the Trivy report for exposed secrets. |
 
 ## [CICD-SEC-7] Insecure System Configuration
 
