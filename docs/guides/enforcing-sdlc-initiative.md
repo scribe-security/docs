@@ -403,12 +403,12 @@ including smart filtering as shown in the [Rule Filtering](../valint/initiatives
 :::
 
 :::note
-Starting with `valint v2.0.4`, some initiatives are shipped as part of the Scribe Catalog. See [this section](#example) and [this section](#sample-policy-catalog) for more details.
+Starting with `valint v2.0.3`, some initiatives are shipped as part of the Scribe Catalog. See [this section](#example) and [this section](#sample-policy-catalog) for more details.
 :::
 
 #### Example
 
-Let's take SLSA L2 as an example. Prior to `valint v2.0.4`, one could verify a single SLSA L2 rule using the following command:
+Let's take SLSA L2 as an example. Prior to `valint v2.0.3`, one could verify a single SLSA L2 rule using the following command:
 
 ```bash
 valint verify alpine:latest --rule slsa/l2-provenance-authenticated@v1 --product-key <PRODUCT_KEY> --product-version <PRODUCT_VERSION>
