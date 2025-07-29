@@ -330,11 +330,11 @@ In this case, no rule was disabled, and all of them were verified.
 
 ### Migration from an older version
 
-Before initiatives were introduced in `valint v2.0.4`, a slightly different format of configs was used for the policy engine. Essentially, there were only `rule` and `policy` configs, so if you're using one of those, here's how you can migrate to the new format.
+Before initiatives were introduced in `valint v2.0.3`, a slightly different format of configs was used for the policy engine. Essentially, there were only `rule` and `policy` configs, so if you're using one of those, here's how you can migrate to the new format.
 
 #### Rule configs migration
 
-In general, older rule configs can be used in `valint v2.0.4` and newer with some minor changes. The main difference is that, from now on, `valint` requires each config to state its format. The only change needed is to add this line to your rule config:
+In general, older rule configs can be used in `valint v2.0.3` and newer with some minor changes. The main difference is that, from now on, `valint` requires each config to state its format. The only change needed is to add this line to your rule config:
 
 ```yaml
 config-type: rule
@@ -344,7 +344,7 @@ After that, you can pass the rule config to `valint` using the same `--rule` fla
 
 #### Policy configs migration
 
-Policy configs were deprecated in `valint v2.0.4`. Policies themselves were renamed to _controls_ and are now consumed as part of the _initiative_ config. The migration process is slightly more complex but still quite straightforward.
+Policy configs were deprecated in `valint v2.0.3`. Policies themselves were renamed to _controls_ and are now consumed as part of the _initiative_ config. The migration process is slightly more complex but still quite straightforward.
 
 If you use a single policy config, you can copy it entirely under the `controls` key in the new initiative config. For example, if you have a policy config like this:
 
