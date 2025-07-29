@@ -49,9 +49,6 @@ Behind the scenes, Scribe Platforms performs several steps to turn raw workflow 
 * **Run SLSA-compliance initiatives**  
   Once each provenance file is written, Scribe automatically executes the matching policy-as-code initiative (`slsa.l1` for unsigned L1, `slsa.l2` for signed L2).  
   The initiative verifies the evidence set, emits a SARIF report, and—when applicable—signs that report before attaching it as additional evidence.
-* **Execute SLSA Compliance Initiatives** 
-After provenance generation, Scribe automatically applies relevant policy-as-code initiatives (`slsa.l1` or `slsa.l2`). These initiatives validate the evidence, generate a SARIF report detailing compliance status, and (for Level 2) sign this report as additional, verifiable evidence.
-
 
 ## 🧪 Example Usage L1 (Unsigned Provenance)
 
