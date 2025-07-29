@@ -120,6 +120,7 @@ These hooks are provided by the `platforms` container along with required config
 | Trivy Vulnerability Scan | trivy_image | repository | dockerhub | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | image | dockerhub | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy IaC and Secrets Scan | trivy_iac_and_secrets | repository | github | trivy | trivy | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
+| Trivy IaC and Secrets Scan (SARIF) | trivy_iac_and_secrets_sarif | repository | github | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | Trivy Vulnerability Scan | trivy_image | repository | jfrog | trivy | sarif | [Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE) |
 | AppArmor Profile Check | apparmor_namespace | namespace | k8s | apparmor | json |  |
 | Kubescape Cluster Scan | kubescape_cluster | namespace | k8s | kubescape | kubescape | [Apache-2.0](https://github.com/kubescape/kubescape/blob/master/LICENSE) |
@@ -174,6 +175,34 @@ run: |
 
 <details>
 
+<summary>Trivy IaC and Secrets Scan (SARIF)</summary>
+
+```yaml
+name: Trivy IaC and Secrets Scan (SARIF)
+id: trivy_iac_and_secrets_sarif
+type: repository
+platform: github
+command: discover
+tool: trivy
+parser: sarif
+predicate-type: auto
+allow_failure: false
+use-stdout-evidence: false
+license: '[Apache-2.0](https://github.com/aquasecurity/trivy/blob/main/LICENSE)'
+run: |
+  trivy repository \
+    --scanners misconfig,secret \
+    --exit-code 0 \
+    --format sarif \
+    --output $HOOK_OUTPUT_FILE \
+    ${REPO_BRANCH:+--branch "$REPO_BRANCH"} \
+    ${REPO_TAG:+--tag "$REPO_TAG"} \
+    $REMOTE_SOURCE_URL
+```
+</details>
+
+<details>
+
 <summary>Opengrep Static Analysis Scan</summary>
 
 ```yaml
@@ -190,7 +219,7 @@ license: '[LGPL-2.1](https://github.com/opengrep/opengrep/blob/main/LICENSE)'
 predicate-type: auto
 timeout: 300
 run: |
-  opengrep scan --metrics=on --config auto --sarif -o "$HOOK_OUTPUT_FILE" "$LOCAL_SOURCE_DIR"
+  opengrep scan --debug --config auto --sarif -o "$HOOK_OUTPUT_FILE" "$LOCAL_SOURCE_DIR"
 ```
 </details>
 

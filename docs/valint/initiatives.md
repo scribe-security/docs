@@ -946,29 +946,9 @@ To simplify the rule-args input, the rules template engine has built-in function
 
 List of supported functions:
 
-- `on_target` - returns the value of the argument if the `--all-evidence` flag is not used, see below
-- `asset` -- used for specifying asset labels as they are set by `platforms`, for example: `asset_name` would result in `asset=asset_name`.
-- `asset_on_target` -- same as `asset`, but disables filtering when the `--all-evidence` flag is used.
-- `asset_if_found` -- same as `asset`, but doesn't disable the rule if no arg value is found and uses an empty string instead.
+- `on_target` - returns the value of the argument unless the `--all-evidence` flag is used, see below
 
-<details>
-  <summary>Example</summary>
-
-In the following rule, the `MyAsset` input arg (specified as `--rule-args MyAsset=MyAssetValue`) is used to filter the evidence by the asset label as it is set by the `platforms` tool:
-
-```yaml
-...
-with:
-  defaults:
-    evidence:
-      labels:
-        - '{{ asset .Args.MyAsset }}'
-...
-```
-
-When being run with the `--rule-args MyAsset=MyAssetValue` flag, the rule will use the `asset=MyAssetValue` label for the evidence lookup.
-
-</details>
+See the example [below](#whole-product-evaluation).
 
 ### Whole product evaluation
 
@@ -980,7 +960,7 @@ valint verify --initiative my-initiative@v2 --all-evidence \
   --scribe.client-secret <SCRIBE_TOKEN>
 ```
 
-If template args are used within the initiative, they should be defined through built-in functions that disable filtering when the `--all-evidence` flag is used. For example, the following example filters evidence by label only when the `--all-evidence` flag is not used:
+If template args are used within the initiative, and you want to disable filtering during whole product evaluation, they should be defined using built-in functions. For example, the following example filters evidence by label only when the `--all-evidence` flag is not used:
 
 ```yaml
 ...
