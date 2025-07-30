@@ -120,6 +120,7 @@ const config = {
                 "integrating-scribe/ci-integrations/valint-ci-configuration.md",
                 "integrating-scribe/other-evidence-stores.md",
                 "integrating-scribe/vulnerability-scanners.md",
+                "integrating-scribe/jira.md",
                 // "integrating-scribe/git-repositories.md",
                 // "integrating-scribe/package-repositories.md",
                 "valint/README.md",
