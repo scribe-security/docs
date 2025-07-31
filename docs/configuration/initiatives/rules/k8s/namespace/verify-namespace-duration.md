@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| threshold_date | string | False | The threshold date for namespace duration (supports regex). |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| threshold_date | string | False | The threshold date for namespace duration (supports regex). | 1970-01-01T00:00:00Z |
 

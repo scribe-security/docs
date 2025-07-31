@@ -56,7 +56,7 @@ It performs the following steps:
 | content_body_type | cyclonedx-json |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_days | integer | False | The maximum allowed age of the SBOM in days. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_days | integer | False | The maximum allowed age of the SBOM in days. | 30 |
 

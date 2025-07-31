@@ -68,12 +68,12 @@ Violations are recorded if any findings exceed the configured limits or match bl
 | predicate_type | http://scribesecurity.com/evidence/finding/v0.1 |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| severities | array | False | List of severities to filter by. |
-| titles | array | False | List of titles to filter by. |
-| cwes | array | False | List of CWE identifiers to filter by. |
-| descriptions | array | False | List of descriptions to filter by. |
-| descriptions_to_ignore | array | False | List of descriptions to ignore from findings. |
-| component_names | array | False | List of component names to filter by. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| severities | array | False | List of severities to filter by. | [] |
+| titles | array | False | List of titles to filter by. | [] |
+| cwes | array | False | List of CWE identifiers to filter by. | [] |
+| descriptions | array | False | List of descriptions to filter by. | [] |
+| descriptions_to_ignore | array | False | List of descriptions to ignore from findings. | [] |
+| component_names | array | False | List of component names to filter by. | [] |
 

@@ -56,7 +56,7 @@ the rule flags the image as too old and generates a violation with details on th
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_days | integer | True | The maximum allowed age of the image in days. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_days | integer | True | The maximum allowed age of the image in days. | 183 |
 

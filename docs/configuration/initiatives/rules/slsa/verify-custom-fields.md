@@ -47,7 +47,7 @@ The key must be a path within the Provenance document, and the value must be a s
 | content_body_type | slsa |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| fields | object | False | The expected field values to match in the provenance document given as a `key:value` map. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| fields | object | False | The expected field values to match in the provenance document given as a `key:value` map. | `{}` |
 

@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_committers | array | False | List of email addresses allowed to use committer email addresses in the GitLab project. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_committers | array | False | List of email addresses allowed to use committer email addresses in the GitLab project. | [] |
 

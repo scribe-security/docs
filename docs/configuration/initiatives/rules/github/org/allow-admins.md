@@ -69,7 +69,7 @@ the desired value, a violation is recorded. This ensures that only users in the 
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_admins | array | False | List of allowed GitHub organization admins. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_admins | array | False | List of allowed GitHub organization admins. | [] |
 

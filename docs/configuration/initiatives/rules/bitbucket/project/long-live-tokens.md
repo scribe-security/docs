@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_days | number | False | Maximum number of days a token can be valid. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_days | number | False | Maximum number of days a token can be valid. | 30 |
 

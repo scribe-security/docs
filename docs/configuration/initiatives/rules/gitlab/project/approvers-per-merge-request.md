@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| disable_overriding_approvers_per_merge_request | boolean | False | Whether to disable overriding approvers per merge request. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| disable_overriding_approvers_per_merge_request | boolean | False | Whether to disable overriding approvers per merge request. | False |
 

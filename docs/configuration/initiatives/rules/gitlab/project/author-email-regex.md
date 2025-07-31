@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| author_email_regex | string | False | The regular expression for the author email. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| author_email_regex | string | False | The regular expression for the author email. |  |
 

@@ -61,7 +61,7 @@ It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_registries | array | False | A list of allowed NPM registries. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_registries | array | False | A list of allowed NPM registries. | ['https://registry.npmjs.org/'] |
 

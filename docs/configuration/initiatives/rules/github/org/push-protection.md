@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| desired_value | boolean | False | Indicates if the secret scanning push protection is enabled for new repositories. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_value | boolean | False | Indicates if the secret scanning push protection is enabled for new repositories. | True |
 

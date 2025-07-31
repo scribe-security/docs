@@ -69,7 +69,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_users | array | False | List of allowed users. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_users | array | False | List of allowed users. |  |
 

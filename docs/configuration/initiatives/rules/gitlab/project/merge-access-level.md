@@ -67,9 +67,9 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branch | string | False | The branch to enforce merge access level policy. |
-| access_level | number | False | The access level to enforce for merge access level policy. |
-| access_level_description | string | False | The access level description to enforce for merge access level policy. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branch | string | False | The branch to enforce merge access level policy. | main |
+| access_level | number | False | The access level to enforce for merge access level policy. |  |
+| access_level_description | string | False | The access level description to enforce for merge access level policy. | Maintainers |
 

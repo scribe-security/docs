@@ -62,8 +62,8 @@ It performs the following steps:
 {{- end -}}
 ```
 
-## Rule Parameters (`with`)  
-| Parameter | Default |
-|-----------|---------|
-| max_secret_age | 12 |
+## Input Definitions  
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_secret_age | integer | False | Maximum age of secrets in months. | 12 |
 

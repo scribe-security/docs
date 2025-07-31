@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| desired_value | boolean | False | Indicates if Dependabot security updates for new repositories are enabled. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_value | boolean | False | Indicates if Dependabot security updates for new repositories are enabled. | True |
 

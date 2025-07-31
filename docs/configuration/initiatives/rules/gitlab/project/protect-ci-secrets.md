@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| pattern | string | False | The pattern to match secrets. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| pattern | string | False | The pattern to match secrets. | (?i)(token|secret) |
 

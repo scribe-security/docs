@@ -26,7 +26,9 @@ Rule requires evaluation with a target. Without one, it will be **disabled** unl
 ```yaml
 uses: gitlab/project/force-push-protection@v2
 with:
-  branch: "main"
+  branches:
+    - "main"
+    - "master"
 ```
 
 ## Mitigation  
@@ -65,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| branch | string | False | The branch to disallow force pushes. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| branches | array | False | The branch to disallow force pushes. | ['main', 'master'] |
 

@@ -66,7 +66,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_committers | array | False | List of users allowed to commit by name in the GitLab project. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_committers | array | False | List of users allowed to commit by name in the GitLab project. | [] |
 

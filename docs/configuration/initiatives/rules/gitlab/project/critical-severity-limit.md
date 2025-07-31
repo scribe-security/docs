@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_allowed_vulnerability_count | number | False | Maximum allowed critical severity alerts for the GitLab project. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_allowed_vulnerability_count | number | False | Maximum allowed critical severity alerts for the GitLab project. | 0 |
 

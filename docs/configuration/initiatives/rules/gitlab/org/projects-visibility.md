@@ -63,7 +63,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_public | array | False | List of projects allowed to have public visibility in the GitLab organization. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_public | array | False | List of projects allowed to have public visibility in the GitLab organization. | [] |
 

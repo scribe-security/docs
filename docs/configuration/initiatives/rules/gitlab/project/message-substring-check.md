@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| pattern | string | True | The pattern to search for in the message attribute of vulnerabilities. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| pattern | string | True | The pattern to search for in the message attribute of vulnerabilities. |  |
 

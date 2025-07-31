@@ -68,7 +68,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| blocked_users | array | False | List of users blocked in the GitLab organization. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| blocked_users | array | False | List of users blocked in the GitLab organization. | [] |
 

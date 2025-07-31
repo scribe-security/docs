@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| commit_message_regex | string | True | The regular expression to match the commit message format. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| commit_message_regex | string | True | The regular expression to match the commit message format. |  |
 

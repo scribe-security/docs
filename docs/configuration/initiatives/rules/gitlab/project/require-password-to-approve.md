@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| require_password_to_approve | boolean | False | The binary field to enforce for requiring password to approve. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| require_password_to_approve | boolean | False | The binary field to enforce for requiring password to approve. | True |
 

@@ -58,7 +58,7 @@ The allowed parameters values can be passed to the rule in the `key: value` form
 | content_body_type | slsa |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. | `{}` |
 

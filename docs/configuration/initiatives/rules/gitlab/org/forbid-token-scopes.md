@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| project_scopes | array | False | List of disallowed token scopes in the GitLab organization. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| project_scopes | array | False | List of disallowed token scopes in the GitLab organization. | ['write_api', 'write_repository'] |
 

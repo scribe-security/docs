@@ -63,7 +63,7 @@ It performs the following steps:
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| banned_ports | array | False | A list of banned ports and protocols. Each entry should be a dictionary with 'port' and 'protocol' keys. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| banned_ports | array | False | A list of banned ports and protocols. Each entry should be a dictionary with 'port' and 'protocol' keys. | [] |
 

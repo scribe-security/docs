@@ -60,7 +60,7 @@ The matching is performed using a case-insensitive, anchored regex.
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| approved_sources | array | False | A list of approved Image source patterns. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| approved_sources | array | False | A list of approved Image source patterns. | [] |
 

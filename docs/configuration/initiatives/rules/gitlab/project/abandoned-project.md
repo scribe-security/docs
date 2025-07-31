@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| inactive_for_days | number | False | Number of days the project has been inactive. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| inactive_for_days | number | False | Number of days the project has been inactive. | 30 |
 

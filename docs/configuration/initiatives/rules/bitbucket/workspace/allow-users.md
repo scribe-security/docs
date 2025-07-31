@@ -68,7 +68,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_users | array | False | List of users allowed to have user access to the Bitbucket workspace. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_users | array | False | List of users allowed to have user access to the Bitbucket workspace. | [] |
 

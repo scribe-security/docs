@@ -60,7 +60,7 @@ is found, a violation is recorded indicating that the necessary base image infor
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| approved_sources | array | False | A list of approved base image registry URL prefixes. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| approved_sources | array | False | A list of approved base image registry URL prefixes. | [] |
 

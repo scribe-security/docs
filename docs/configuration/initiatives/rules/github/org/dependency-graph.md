@@ -65,7 +65,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| desired_value | boolean | False | Indicates if the dependency graph is enabled. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_value | boolean | False | Indicates if the dependency graph is enabled. | True |
 

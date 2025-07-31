@@ -60,7 +60,7 @@ required label (as defined in the `with.labels` parameter) exists with the corre
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| labels | array | False | A list of required labels. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| labels | array | False | A list of required labels. | [] |
 

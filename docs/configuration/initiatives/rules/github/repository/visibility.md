@@ -67,7 +67,7 @@ It performs the following steps:
 ```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_repo_names | string | False | List of allowed repository patterns. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_repo_names | string | False | List of allowed repository patterns. | [] |
 

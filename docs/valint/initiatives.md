@@ -473,6 +473,18 @@ valint verify --initiative ssdf@v2 \
   --gate-type Build --gate-name "Build of My Product"
 ```
 
+## Specifying parameters for an initiative from Scribe Bundle
+
+To customize parameters for an initiative from the Scribe Bundle — such as specifying a list of allowed registries for the [NIST Application Container Security (SP-800-190) Initiative](../configuration/initiatives/sp-800-190) — the recommended approach is to copy the initiative configuration file from the bundle and modify it locally.
+
+A local initiative file enables the definition of configuration parameters specific to an organization, while still referencing rules from the Scribe Bundle. This local initiative file can then be used with the `--initiative` flag in the `valint verify` command, for example:
+
+```bash
+valint verify --initiative my-initiative.yaml \
+  --product-key <PRODUCT_KEY> -- product-version <PRODUCT_VERSION> \
+  --scribe.client-secret <SCRIBE_TOKEN>
+```
+
 ## Using a private bundle
 
 Rules and initiatives can be provided locally or reused either from the public Scribe bundle or a private bundle managed by the user. By default, the public Scribe bundle is used.

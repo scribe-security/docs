@@ -63,7 +63,7 @@ It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| licenses | array | True | A list of specified licenses. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| licenses | array | True | A list of specified licenses. | [] |
 
