@@ -81,7 +81,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7542684831a0>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x739dad0fe980>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.git-commit GIT_COMMIT
                         Set Input Target Git commit (type: str, default: )
@@ -133,17 +133,17 @@ options:
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {organization,project,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
-  --scope.project [PROJECT ...]
+  --scope.project [PROJECT ...], --project [PROJECT ...]
                         Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Gitlab branches wildcards (default: null)
+                        Gitlab branches wildcards (default: ['*'])
   --scope.tag [TAG ...]
-                        Gitlab tags wildcards (default: null)
+                        Gitlab tags wildcards (default: ['*'])
   --commit.skip         Skip commits in evidence (default: False)
   --pipeline.skip       Skip pipeline (default: False)
-  --default_product_key_strategy {mapping}
+  --default_product_key_strategy {mapping}, --strategy {mapping}
                         Override product key with namespace, pod or image names (default: mapping)
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of to organization::product_key::product_version (type: AssetMappingString, default: [])
@@ -183,9 +183,9 @@ options:
   --url URL             Github base URL (default: https://github.com)
   --types {organization,repository,all,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Github organization list (default: ['*'])
-  --scope.repository [REPOSITORY ...]
+  --scope.repository [REPOSITORY ...], --repo [REPOSITORY ...]
                         Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: ['*'])
@@ -223,7 +223,7 @@ platforms evidence dockerhub --namespace.mapping "my-namespace::my-product::1.0"
 ```bash
 usage: platforms [options] evidence [options] dockerhub [-h] [--instance.instance INSTANCE] [--types {instance,token,repository,namespace,repository_tag,webhook,all}] [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
                                                         [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.namespace [NAMESPACE ...]] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
-                                                        [--instance.mapping [MAPPING ...]] [--namespace.single] [--repository.single] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                        [--instance.mapping [MAPPING ...]] [--namespace.single] [--repository.single] [--default_product_key_strategy {mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -255,8 +255,12 @@ options:
                         Repository tag product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --namespace.single    Export all namespaces in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {mapping,mapping,mapping,mapping}
+  --default_product_key_strategy {mapping}, --strategy {mapping}
                         Override product key with namespace, repository or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -276,7 +280,8 @@ platforms evidence k8s --namespace.mapping "my-namespace::my-product::1.0" --pod
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] k8s [-h] [--instance.instance INSTANCE] [--types {namespace,pod,all}] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]]
-                                                  [--default_product_key_strategy {namespace,pod,image,mapping}] [--secret.skip] [--url URL] [--token TOKEN] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]] [--pod.mapping [MAPPING ...]]
+                                                  [--default_product_key_strategy {namespace,pod,image,mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--secret.skip] [--url URL] [--token TOKEN] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]]
+                                                  [--pod.mapping [MAPPING ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -297,8 +302,12 @@ options:
                         Pods to exclude from discovery process (default: [])
   --exclude.image [IMAGE ...]
                         Images to exclude from discovery process (default: [])
-  --default_product_key_strategy {namespace,pod,image,mapping}
+  --default_product_key_strategy {namespace,pod,image,mapping}, --strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --secret.skip         Skip secrets information in the evidence (default: False)
   --url URL             Kubernetes API URL (required, default: )
   --token TOKEN         Kubernetes token, with access to pods and secrets (K8S_TOKEN) (default: )
@@ -330,7 +339,7 @@ platforms evidence jfrog --jf-repository.mapping "*::my-product::1.0" --namespac
 ```bash
 usage: platforms [options] evidence [options] ecr [-h] [--instance.instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}] [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                   [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
-                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
+                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -359,8 +368,12 @@ options:
                         Repository image_tags product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --aws-account.single  Export all aws-account in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {instance,aws-account,repository,tag,mapping}
+  --default_product_key_strategy {instance,aws-account,repository,tag,mapping}, --strategy {instance,aws-account,repository,tag,mapping}
                         Override product key with aws-account, repository or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -382,7 +395,7 @@ platforms evidence ecr --repository.mapping "*my-service*::my-product::1.0"
 ```bash
 usage: platforms [options] evidence [options] ecr [-h] [--instance.instance INSTANCE] [--url URL] [--types {instance,aws-account,repository,all}] [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
                                                   [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
-                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}]
+                                                  [--default_product_key_strategy {instance,aws-account,repository,tag,mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -411,8 +424,12 @@ options:
                         Repository image_tags product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --aws-account.single  Export all aws-account in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {instance,aws-account,repository,tag,mapping}
+  --default_product_key_strategy {instance,aws-account,repository,tag,mapping}, --strategy {instance,aws-account,repository,tag,mapping}
                         Override product key with aws-account, repository or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -433,7 +450,7 @@ platforms evidence bitbucker --workspace.mapping "my-workspace::my-product::1.0"
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] evidence [options] bitbucket [-h] [--instance.instance INSTANCE] [--types {workspace,project,repository,all,all}] [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
-                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
+                                                        [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--default_product_key_strategy {mapping}] [--workspace.mapping [MAPPING ...]]
                                                         [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--workspace.single] [--project.single] [--repository.single]
 
 options:
@@ -459,7 +476,9 @@ options:
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
-                        BitBucket branches wildcards (default: [])
+                        BitBucket branches wildcards (default: ['*'])
+  --scope.tag [TAG ...]
+                        BitBucket tags wildcards (default: ['*'])
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
