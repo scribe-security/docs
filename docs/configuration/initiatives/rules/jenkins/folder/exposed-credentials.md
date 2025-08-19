@@ -18,7 +18,7 @@ This rule requires Jenkins Folder Discovery Evidence. See [here](/docs/platforms
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
