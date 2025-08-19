@@ -18,8 +18,11 @@ This rule requires Github Organization Discovery Evidence. See [here](/docs/plat
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
 
 ## Usage example
 
@@ -50,26 +53,16 @@ It performs the following steps:
 ## Evidence Requirements  
 | Field | Value |
 |-------|-------|
+| filter-by | ['product', 'target'] |
 | signed | False |
 | content_body_type | generic |
 | target_type | data |
 | predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
 | asset_platform | github |
 | asset_type | organization |
-| asset_name | Template value (see below) |
-
-**Template Value** (see [here](/docs/valint/initiatives#template-arguments) for more details)
-
-```
-{{- if eq .Context.asset_type "organization" -}}
-{{- on_target .Context.asset_name -}}
-{{- else -}}
-{{- on_target nil -}}
-{{- end -}}
-```
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| allowed_users | array | False | List of allowed users. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| allowed_users | array | False | List of allowed users. |  |
 

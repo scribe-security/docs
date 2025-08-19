@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -59,7 +59,7 @@ a violation is recorded.
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| users | array | False | A list of disallowed users. Each entry should be a string representing a username. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| users | array | False | A list of disallowed users. Each entry should be a string representing a username. | ['root'] |
 

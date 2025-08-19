@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
@@ -60,8 +60,8 @@ It performs the following steps:
 | target_type | container |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| required_pkgs | array | True | A list of required dependencies specified as PURLs. |
-| violations_limit | integer | False | The maximum number of allowed violations. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| required_pkgs | array | True | A list of required dependencies specified as PURLs. | [] |
+| violations_limit | integer | False | The maximum number of allowed violations. | 0 |
 

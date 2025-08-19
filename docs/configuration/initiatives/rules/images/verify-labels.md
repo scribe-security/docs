@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -60,7 +60,7 @@ required label (as defined in the `with.labels` parameter) exists with the corre
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| labels | array | False | A list of required labels. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| labels | array | False | A list of required labels. | [] |
 

@@ -4,7 +4,7 @@ title: Git Artifact Signed
 ---  
 # Git Artifact Signed  
 **Type:** Rule  
-**ID:** `git-artifact-signed`  
+**ID:** `git-sbom-signed`  
 **Source:** [v2/rules/git/artifact-signed.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/artifact-signed.yaml)  
 **Rego Source:** [artifact-signed.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/git/artifact-signed.rego)  
 **Labels:** SBOM, Git  
@@ -21,7 +21,7 @@ This rule requires Signed Git SBOM. See [here](/docs/valint/sbom) for more detai
 Signed Evidence for this rule **IS** required by default.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
@@ -46,9 +46,9 @@ Ensure that only Git artifacts with valid cryptographic signatures are deployed 
 | Field | Value |
 |-------|-------|
 | filter-by | ['product', 'target'] |
-| signed | True |
 | content_body_type | cyclonedx-json |
 | target_type | git |
+| signed | True |
 
 ## Rule Parameters (`with`)  
 | Parameter | Default |

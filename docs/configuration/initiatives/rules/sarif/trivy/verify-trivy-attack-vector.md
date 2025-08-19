@@ -42,8 +42,8 @@ with:
 | filter-by | ['product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| attack_vectors | array | False | List of attack vectors to check for in the Trivy SARIF report. |
-| violations_threshold | integer | False | The maximum number of allowed attack vector violations in the Trivy SARIF report. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| attack_vectors | array | False | List of attack vectors to check for in the Trivy SARIF report. | [] |
+| violations_threshold | integer | False | The maximum number of allowed attack vector violations in the Trivy SARIF report. | 0 |
 

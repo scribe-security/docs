@@ -18,7 +18,7 @@ This rule requires SLSA Provenance. See [here](/docs/valint/help/valint_slsa) fo
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 
 ## Usage example
@@ -58,7 +58,7 @@ The allowed parameters values can be passed to the rule in the `key: value` form
 | content_body_type | slsa |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| parameters | object | False | The expected external parameters to match in the provenance document given as `key:value` map. | `{}` |
 

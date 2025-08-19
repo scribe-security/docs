@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -56,7 +56,7 @@ the rule flags the image as too old and generates a violation with details on th
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| max_days | integer | True | The maximum allowed age of the image in days. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| max_days | integer | True | The maximum allowed age of the image in days. | 183 |
 

@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
@@ -62,8 +62,8 @@ for images that do not require a signature. Otherwise, if the evidence does not 
 | content_body_type | cyclonedx-json |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| identity | object | False | Identity information for the signers |
-| skip_image_regex | array | False | Patterns to bypass the signature requirement for certain images |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| identity | object | False | Identity information for the signers | `{'emails': [], 'common-names': []}` |
+| skip_image_regex | array | False | Patterns to bypass the signature requirement for certain images | [] |
 

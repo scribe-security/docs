@@ -34,7 +34,7 @@ valint bom my_company/my_image:latest \
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
@@ -77,8 +77,8 @@ It performs the following steps:
 | content_body_type | cyclonedx-json |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| required_author | object | False | The required author (case-insensitive match for name/email). |
-| required_supplier | object | False | The required supplier (case-insensitive match for supplier name). |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| required_author | object | False | The required author (case-insensitive match for name/email). | `{}` |
+| required_supplier | object | False | The required supplier (case-insensitive match for supplier name). | `{}` |
 

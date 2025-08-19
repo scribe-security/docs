@@ -18,7 +18,7 @@ This rule requires Generic Statement. See [here](/docs/valint/generic) for more 
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 
 ## Usage example
@@ -68,12 +68,12 @@ Violations are recorded if any findings exceed the configured limits or match bl
 | predicate_type | http://scribesecurity.com/evidence/finding/v0.1 |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| severities | array | False | List of severities to filter by. |
-| titles | array | False | List of titles to filter by. |
-| cwes | array | False | List of CWE identifiers to filter by. |
-| descriptions | array | False | List of descriptions to filter by. |
-| descriptions_to_ignore | array | False | List of descriptions to ignore from findings. |
-| component_names | array | False | List of component names to filter by. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| severities | array | False | List of severities to filter by. | [] |
+| titles | array | False | List of titles to filter by. | [] |
+| cwes | array | False | List of CWE identifiers to filter by. | [] |
+| descriptions | array | False | List of descriptions to filter by. | [] |
+| descriptions_to_ignore | array | False | List of descriptions to ignore from findings. | [] |
+| component_names | array | False | List of component names to filter by. | [] |
 

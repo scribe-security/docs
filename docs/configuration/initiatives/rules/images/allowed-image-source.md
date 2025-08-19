@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -60,7 +60,7 @@ The matching is performed using a case-insensitive, anchored regex.
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| approved_sources | array | False | A list of approved Image source patterns. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| approved_sources | array | False | A list of approved Image source patterns. | [] |
 

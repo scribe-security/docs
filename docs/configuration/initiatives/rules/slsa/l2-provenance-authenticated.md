@@ -22,7 +22,7 @@ This rule requires Signed SLSA Provenance. See [here](/docs/valint/help/valint_s
 Signed Evidence for this rule **IS** required by default.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  

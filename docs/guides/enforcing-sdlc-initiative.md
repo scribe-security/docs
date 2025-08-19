@@ -446,6 +446,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 |------|-------------|
 | [NIST Application Container Security Initiative](/docs/configuration/initiatives/sp-800-190.md) | This initiative enforces container security controls as outlined in  NIST SP 800-190. It ensures that containerized applications follow  security best practices, including vulnerability scanning, trusted  image sources, registry security, and proper configuration to minimize risk. The initiative enables policy-driven enforcement of security controls  throughout the software development lifecycle (SDLC), providing real-time  feedback to developers and enforcement in CI/CD pipelines. |
 | [NIST Supply Chain Integrity Initiative](/docs/configuration/initiatives/sp-800-53.md) | This initiative enforces key supply chain requirements from NIST SP 800-53. It mandates that container builds include:   - A Software Bill of Materials (SBOM) to ensure component inventory and traceability,     addressing requirements from SR-4 and CM-8.   - Provenance data to support architectural traceability, as outlined in SA-8. Both the SBOM and the provenance artifacts must be cryptographically signed to meet integrity requirements specified in SA-12. |
+| [OWASP Top 10 CI/CD Security Controls](/docs/configuration/initiatives/owasp-top10-cicd-gh.md) | OWASP Top 10 CI/CD Security Controls - GitHub |
 | [SLSA L1 Framework](/docs/configuration/initiatives/slsa.l1.md) | Evaluate SLSA Level 1 |
 | [SLSA L2 Framework](/docs/configuration/initiatives/slsa.l2.md) | Evaluate SLSA Level 2 |
 | [SSDF Client Initiative](/docs/configuration/initiatives/ssdf.md) | Evaluate PS rules from the SSDF initiative |
@@ -509,6 +510,22 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Git Artifact Signed](/docs/configuration/initiatives/rules/git/artifact-signed.md) | Verify the Git artifact is signed. |
 | [Disallow Commits to Main Branch](/docs/configuration/initiatives/rules/git/no-commit-to-main.md) | Verify commits made directly to the main branch are disallowed. |
 | [Disallow Unsigned Commits](/docs/configuration/initiatives/rules/git/no-unsigned-commits.md) | Verify all commits are signed. |
+
+### SLSA Provenance
+
+**Evidence Type:** [SLSA Provenance](/docs/valint/help/valint_slsa)
+
+| Rule Name | Description |
+|-----------|-------------|
+| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified external parameters value match in the provenance document. |
+| [Verify that provenance is authenticated](/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticated.md) | Verify the artifact is signed. |
+| [SLSA Field Exists in Provenance Document](/docs/configuration/initiatives/rules/slsa/field-exists.md) | Verify the specified field exists in the provenance document. |
+| [Verify Provenance Document Exists](/docs/configuration/initiatives/rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
+| [Disallow dependencies in SLSA Provenance Document](/docs/configuration/initiatives/rules/slsa/banned-builder-deps.md) | Verify that dependencies in the block list do not appear in the SLSA Proveance document. |
+| [Verify build time](/docs/configuration/initiatives/rules/slsa/build-time.md) | Verify the artifact was created within the specified time window. |
+| [Verify that artifact was created by the specified builder](/docs/configuration/initiatives/rules/slsa/verify-builder.md) | Verify the artifact was created by the specified builder. |
+| [Verify that artifact has no disallowed builder dependencies](/docs/configuration/initiatives/rules/slsa/verify-byproducts.md) | Verify the artifact has no disallowed builder dependencies. |
+| [SLSA Field Value Matches in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-custom-fields.md) | Verify the specified field value matches in the provenance document. |
 
 ### SARIF Evidence
 
@@ -592,6 +609,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Verify secret_scanning setting](/docs/configuration/initiatives/rules/github/repository/secret-scanning.md) | Verify `secret_scanning` is configured in the GitHub repository. |
 | [Verify No Cache Usage Exists in Repository](/docs/configuration/initiatives/rules/github/repository/no-cache-usage.md) | Verify the GitHub repository has no cache usage. |
 | [Verify All Commits Are Signed in Repository](/docs/configuration/initiatives/rules/github/repository/check-signed-commits.md) | Verify all commits in the GitHub repository are signed. |
+| [Repo Workflows and Pipelines Discovered](/docs/configuration/initiatives/rules/github/repository/workflows-discovered.md) | Ensure that repository pipelines discovery was not skipped. |
 | [Verify Only Ephemeral Runners Exist in Repository](/docs/configuration/initiatives/rules/github/repository/ephemeral-runners-only.md) | Verify self-hosted runners are disallowed in the GitHub repository. |
 | [Allowed Public Repositories](/docs/configuration/initiatives/rules/github/repository/visibility.md) | Verify only GitHub repositories in the Allowed List are public. |
 | [Verify Push Protection Setting](/docs/configuration/initiatives/rules/github/repository/push-protection.md) | Verify `secret_scanning_push_protection` is configured in the GitHub repository. |
@@ -603,6 +621,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | Rule Name | Description |
 |-----------|-------------|
 | [Limit Admins in GitLab Organization](/docs/configuration/initiatives/rules/gitlab/org/max-admins.md) | Verify the maximum number of admins for the GitLab project is restricted. |
+| [Require Gitlab Organization Discovery Evidence](/docs/configuration/initiatives/rules/gitlab/org/evidence-exists.md) | Verify the Gitlab Organization exists as evidence. |
 | [Ensure Active Projects in GitLab Organization](/docs/configuration/initiatives/rules/gitlab/org/inactive-projects.md) | Verify no GitLab organization projects are inactive. |
 | [Restrict Public Visibility in GitLab Organization](/docs/configuration/initiatives/rules/gitlab/org/projects-visibility.md) | Verify only allowed projects in the GitLab organization have public visibility. |
 | [Allowed Admins in GitLab Organization](/docs/configuration/initiatives/rules/gitlab/org/allow-admins.md) | Verify only users in the Allowed List have admin privileges in the GitLab organization. |
@@ -635,6 +654,7 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Restrict Selective Code Owner Removals in GitLab](/docs/configuration/initiatives/rules/gitlab/project/selective-code-owner-removals.md) | Verify `selective_code_owner_removals` is set for the GitLab project. |
 | [Run Secrets Scanning in GitLab Project](/docs/configuration/initiatives/rules/gitlab/project/secrets-scanning.md) | Verify secrets scanning is performed for the GitLab project. |
 | [Reset Approvals on Push in GitLab Project](/docs/configuration/initiatives/rules/gitlab/project/reset-pprovals-on-push.md) | Verify `reset_approvals_on_push` is set for the GitLab project. |
+| [Require Gitlab Project Discovery Evidence](/docs/configuration/initiatives/rules/gitlab/project/evidence-exists.md) | Verify the Gitlab Project exists as evidence. |
 | [Reject Unsigned Commits in GitLab Project](/docs/configuration/initiatives/rules/gitlab/project/reject-unsigned-commits.md) | Verify `reject_unsigned_commits` is enabled for the GitLab project. |
 | [Enable Commit Committer Check in GitLab Project](/docs/configuration/initiatives/rules/gitlab/project/commit-committer-check.md) | Verify `commit_committer_check` is enabled for the GitLab project. |
 | [Protect CI Secrets in GitLab Project](/docs/configuration/initiatives/rules/gitlab/project/protect-ci-secrets.md) | Verify secrets in the GitLab project are not shared. |
@@ -744,22 +764,6 @@ To use a custom initiatives rule catalog, you can specify the path to the catalo
 | [Require Jenkins Instance Discovery Evidence](/docs/configuration/initiatives/rules/jenkins/instance/evidence-exists.md) | Verify the Jenkins Instance exists as evidence. |
 | [Disallow Unused Users](/docs/configuration/initiatives/rules/jenkins/instance/unused-users.md) | Verify there are no users with zero activity. |
 | [Verify Inactive Users](/docs/configuration/initiatives/rules/jenkins/instance/inactive-users.md) | Verify there are no inactive users. |
-
-### SLSA Provenance
-
-**Evidence Type:** [SLSA Provenance](/docs/valint/help/valint_slsa)
-
-| Rule Name | Description |
-|-----------|-------------|
-| [SLSA External Parameters Match in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-external-parameters.md) | Verify the specified external parameters value match in the provenance document. |
-| [Verify that provenance is authenticated](/docs/configuration/initiatives/rules/slsa/l2-provenance-authenticated.md) | Verify the artifact is signed. |
-| [SLSA Field Exists in Provenance Document](/docs/configuration/initiatives/rules/slsa/field-exists.md) | Verify the specified field exists in the provenance document. |
-| [Verify Provenance Document Exists](/docs/configuration/initiatives/rules/slsa/l1-provenance-exists.md) | Verify that the Provenance document evidence exists. |
-| [Disallow dependencies in SLSA Provenance Document](/docs/configuration/initiatives/rules/slsa/banned-builder-deps.md) | Verify that dependencies in the block list do not appear in the SLSA Proveance document. |
-| [Verify build time](/docs/configuration/initiatives/rules/slsa/build-time.md) | Verify the artifact was created within the specified time window. |
-| [Verify that artifact was created by the specified builder](/docs/configuration/initiatives/rules/slsa/verify-builder.md) | Verify the artifact was created by the specified builder. |
-| [Verify that artifact has no disallowed builder dependencies](/docs/configuration/initiatives/rules/slsa/verify-byproducts.md) | Verify the artifact has no disallowed builder dependencies. |
-| [SLSA Field Value Matches in Provenance Document](/docs/configuration/initiatives/rules/slsa/verify-custom-fields.md) | Verify the specified field value matches in the provenance document. |
 
 ### Statement
 

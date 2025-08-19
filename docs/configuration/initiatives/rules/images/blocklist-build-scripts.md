@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -52,7 +52,7 @@ If a match is found, the rule generates a violation indicating that a disallowed
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| blocklist | array | False | A list of disallowed build script commands. Each entry should be a string representing a command or substring. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| blocklist | array | False | A list of disallowed build script commands. Each entry should be a string representing a command or substring. | [] |
 

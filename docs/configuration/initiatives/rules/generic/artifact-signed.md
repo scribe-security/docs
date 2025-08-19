@@ -21,7 +21,7 @@ This rule requires Signed Generic Statement. See [here](/docs/valint/generic) fo
 Signed Evidence for this rule **IS** required by default.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 
 ## Usage example

@@ -18,7 +18,7 @@ This rule requires SARIF Evidence. See [here](/docs/valint/sarif) for more detai
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 
 ## Usage example
@@ -63,8 +63,8 @@ associated with specific attack vectors are properly identified. The rule works 
 | predicate_type | http://docs.oasis-open.org/sarif/sarif/2.1.0 |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| attack_vectors | array | False | List of attack vectors to check for in the SARIF report. |
-| violations_threshold | integer | False | The maximum number of allowed attack vector violations. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| attack_vectors | array | False | List of attack vectors to check for in the SARIF report. | [] |
+| violations_threshold | integer | False | The maximum number of allowed attack vector violations. | 0 |
 

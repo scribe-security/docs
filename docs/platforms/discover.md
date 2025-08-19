@@ -86,7 +86,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7c3353adfd80>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x714a07ea6fc0>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.git-commit GIT_COMMIT
                         Set Input Target Git commit (type: str, default: )
@@ -150,9 +150,9 @@ platforms discover gitlab \
 ```bash
 usage: platforms [options] discover [options] gitlab [-h] [--instance.instance INSTANCE] [--types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule,all} ...]]
                                                      [--exclude.types {organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} [{organization,project,authenticated_user,member,token,variable,branch,user,commit,pipeline,job,rule} ...]] [--token TOKEN] [--url URL]
-                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping}] [--scope.skip_org_members] [--scope.skip_project_members]
-                                                     [--scope.commit.past_days PAST_DAYS] [--scope.pipeline.past_days PAST_DAYS] [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports] [--broad] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--organization.single] [--project.single] [--skip-cache]
-                                                     [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--pipeline.skip] [--default_product_key_strategy {mapping,scm}] [--default_product_version_strategy {latest,pipeline,ref,sha}]
+                                                     [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--scope.skip_org_members] [--scope.skip_project_members] [--scope.commit.past_days PAST_DAYS] [--scope.tags.past_days PAST_DAYS] [--scope.pipeline.past_days PAST_DAYS]
+                                                     [--scope.pipeline.analyzed_logs] [--scope.pipeline.reports] [--broad] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--organization.single] [--project.single] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -164,24 +164,32 @@ options:
                         Defines which asset types to exclude for discovery. (default: [])
   --token TOKEN         Gitlab token (GITLAB_TOKEN, CI_JOB_TOKEN) (default: )
   --url URL             Gitlab base URL (default: https://gitlab.com/)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
-  --scope.project [PROJECT ...]
+  --scope.project [PROJECT ...], --project [PROJECT ...]
                         Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Gitlab branches wildcards (default: null)
+                        Gitlab branches wildcards (default: ['*'])
   --scope.tag [TAG ...]
-                        Gitlab tags wildcards (default: null)
+                        Gitlab tags wildcards (default: ['*'])
   --commit.skip         Skip commits in evidence (default: False)
   --pipeline.skip       Skip pipeline (default: False)
-  --default_product_key_strategy {mapping}
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
                         Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --scope.skip_org_members
                         Skip organization members discovery (default: False)
   --scope.skip_project_members
                         Skip project members discovery (default: False)
   --scope.commit.past_days PAST_DAYS
                         Number of past days to include in the report (type: int, default: 28)
+  --scope.tags.past_days PAST_DAYS
+                        Number of past days to include in the report (type: int, default: 365)
   --scope.pipeline.past_days PAST_DAYS
                         Number of past days to include in the report (type: int, default: 30)
   --scope.pipeline.analyzed_logs
@@ -252,11 +260,12 @@ platforms discover github \
 ```bash
 usage: platforms [options] discover [options] github [-h] [--instance.instance INSTANCE] [--types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable,all} ...]]
                                                      [--exclude.types {organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} [{organization,repository,branch,commit,workflow,run,member,authenticated_user,collaborator,secret,variable} ...]] [--token TOKEN] [--url URL]
-                                                     [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]] [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip] [--tag.only] [--default_product_key_strategy {mapping}] [--scope.commit.past_days PAST_DAYS]
-                                                     [--workflow.skip] [--scope.workflow.past_days PAST_DAYS] [--scope.workflow.analyzed_logs] [--scope.workflow.name [NAME ...]] [--scope.workflow.run [RUN ...]] [--scope.runners] [--scope.api-sbom] [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip]
-                                                     [--repository.hooks [HOOKS ...]] [--bom] [--provenance] [--bom.scope.branch [BRANCH ...]] [--slsa.scope.branch [BRANCH ...]] [--slsa.scope.tag [TAG ...]] [--slsa.scope.workflow [WORKFLOW ...]] [--slsa.scope.image [IMAGE ...]] [--slsa-enable] [--slsa.tags-only]
-                                                     [--slsa.all-versions] [--slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]] [--slsa.skip-cache] [--slsa.cache-ttl CACHE_TTL] [--slsa.cache-group CACHE_GROUP] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache]
-                                                     [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+                                                     [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]] [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip] [--tag.only] [--default_product_key_strategy {mapping,scm}]
+                                                     [--default_product_version_strategy {latest,pipeline,ref,sha}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--scope.commit.past_days PAST_DAYS] [--workflow.skip] [--scope.workflow.past_days PAST_DAYS]
+                                                     [--scope.workflow.analyzed_logs] [--scope.workflow.name [NAME ...]] [--scope.workflow.run [RUN ...]] [--scope.runners] [--scope.api-sbom] [--broad] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]] [--bom] [--provenance]
+                                                     [--bom.scope.branch [BRANCH ...]] [--slsa.scope.branch [BRANCH ...]] [--slsa.scope.tag [TAG ...]] [--slsa.scope.workflow [WORKFLOW ...]] [--slsa.scope.image [IMAGE ...]] [--slsa-enable] [--slsa.tags-only] [--slsa.all-versions]
+                                                     [--slsa.types {source_sbom,image_sbom,all} [{source_sbom,image_sbom,all} ...]] [--slsa.skip-cache] [--slsa.cache-ttl CACHE_TTL] [--slsa.cache-group CACHE_GROUP] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--skip-cache] [--cache-ttl CACHE_TTL]
+                                                     [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -268,9 +277,9 @@ options:
                         Defines which asset types to exclude for discovery. (default: [])
   --token TOKEN         Github token (GITHUB_TOKEN, GH_TOKEN) (default: )
   --url URL             Github base URL (default: https://github.com)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Github organization list (default: ['*'])
-  --scope.repository [REPOSITORY ...]
+  --scope.repository [REPOSITORY ...], --repo [REPOSITORY ...]
                         Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: ['*'])
@@ -279,8 +288,14 @@ options:
   --branch.shallow      Shallow branch discovery (default: False)
   --commit.skip         Skip commits in discovery/evidence (default: False)
   --tag.only            Only include tags in the evidence, skip branches (default: False)
-  --default_product_key_strategy {mapping}
-                        Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
+                        Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --scope.commit.past_days PAST_DAYS
                         Number of past days to include in the report (type: int, default: 30)
   --workflow.skip       Skip workflows in evidence (default: False)
@@ -375,8 +390,8 @@ platforms discover dockerhub \
 usage: platforms [options] discover [options] dockerhub [-h] [--instance.instance INSTANCE] [--types {instance,namespace,repository,repository_tag,webhook,token,all} [{instance,namespace,repository,repository_tag,webhook,token,all} ...]]
                                                         [--exclude.types {instance,namespace,repository,repository_tag,webhook,token} [{instance,namespace,repository,repository_tag,webhook,token} ...]] [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--scope.repository [REPOSITORY ...]]
                                                         [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--namespace-list [NAMESPACE_LIST ...]] [--scope.past_days PAST_DAYS] [--broad]
-                                                        [--namespace.single] [--repository.single] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--default_product_key_strategy {mapping,mapping,mapping,mapping}] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]]
-                                                        [--hook.skip] [--repository.hook [HOOK ...]]
+                                                        [--namespace.single] [--repository.single] [--namespace.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--default_product_key_strategy {mapping}] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip]
+                                                        [--repository.hook [HOOK ...]] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -413,7 +428,7 @@ options:
                         Repository product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --instance.mapping [MAPPING ...]
                         Repository tag product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
-  --default_product_key_strategy {mapping,mapping,mapping,mapping}
+  --default_product_key_strategy {mapping}, --strategy {mapping}
                         Override product key with namespace, repository or image names (default: mapping)
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
@@ -421,6 +436,10 @@ options:
   --hook.skip           Skip hooks (default: False)
   --repository.hook [HOOK ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -459,7 +478,8 @@ platforms discover k8s \
 ```bash
 usage: platforms [options] discover [options] k8s [-h] [--instance.instance INSTANCE] [--types {namespace,pod,secret,deployment,all} [{namespace,pod,secret,deployment,all} ...]] [--exclude.types {namespace,pod,secret,deployment} [{namespace,pod,secret,deployment} ...]] [--url URL] [--token TOKEN] [--scope.namespace [NAMESPACE ...]]
                                                   [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--secret.skip] [--deployment.skip] [--broad] [--namespace.single] [--pod.single] [--namespace.mapping [MAPPING ...]]
-                                                  [--pod.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--namespace.hooks [HOOKS ...]] [--default_product_key_strategy {namespace,pod,image,mapping}]
+                                                  [--pod.mapping [MAPPING ...]] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--namespace.hooks [HOOKS ...]] [--default_product_key_strategy {namespace,pod,image,mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION]
+                                                  [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -499,8 +519,12 @@ options:
   --hook.skip           Skip hooks (default: False)
   --namespace.hooks [HOOKS ...]
                         Inline hook format <run>::<tool/id>::<parser>::<name> (type: ToolHookString, default: [])
-  --default_product_key_strategy {namespace,pod,image,mapping}
+  --default_product_key_strategy {namespace,pod,image,mapping}, --strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -553,8 +577,8 @@ platforms discover jfrog \
 usage: platforms [options] discover [options] jfrog [-h] [--instance.instance INSTANCE] [--types {jf-repository,repository,repository_tag,user,token,webhook,all} [{jf-repository,repository,repository_tag,user,token,webhook,all} ...]]
                                                     [--exclude.types {jf-repository,repository,repository_tag,user,token,webhook} [{jf-repository,repository,repository_tag,user,token,webhook} ...]] [--token TOKEN] [--url URL] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]]
                                                     [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS]
-                                                    [--scope.tag_limit TAG_LIMIT] [--broad] [--jf-repository.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--jf-repository.single] [--repository.single] [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
-                                                    [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
+                                                    [--scope.tag_limit TAG_LIMIT] [--broad] [--jf-repository.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--instance.mapping [MAPPING ...]] [--jf-repository.single] [--repository.single] [--default_product_key_strategy {mapping}]
+                                                    [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--hook-config [HOOK_CONFIG ...]] [--hook [HOOK ...]] [--hook.skip] [--repository.hooks [HOOKS ...]]
 
 options:
   -h, --help            Show this help message and exit.
@@ -594,8 +618,12 @@ options:
   --jf-repository.single
                         Export all jf-repositorys in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {mapping,mapping,mapping,mapping}
+  --default_product_key_strategy {mapping}, --strategy {mapping}
                         Override product key with jf-repository, repository or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --hook-config [HOOK_CONFIG ...]
                         Paths to YAML files containing custom hook definitions. (type: str, default: [])
   --hook [HOOK ...]     Specify hook IDs to execute. Available preconfigured hooks are: trivy_image. (default: [])
@@ -649,8 +677,8 @@ platforms discover ecr \
 ```bash
 usage: platforms [options] discover [options] ecr [-h] [--instance.instance INSTANCE] [--types {aws-account,repository,repository_tags,all} [{aws-account,repository,repository_tags,all} ...]] [--exclude.types {aws-account,repository,repository_tags} [{aws-account,repository,repository_tags} ...]] [--token TOKEN] [--url URL]
                                                   [--scope.aws-account [AWS_ACCOUNT ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.aws-account [AWS_ACCOUNT ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single]
-                                                  [--default_product_key_strategy {mapping,mapping,mapping,mapping}]
+                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.past_days PAST_DAYS] [--scope.tag_limit TAG_LIMIT] [--broad] [--aws-account.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--aws-account.single] [--repository.single] [--default_product_key_strategy {mapping}]
+                                                  [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -687,8 +715,12 @@ options:
                         Repository image_tags product key mapping in the format of asset::product_key::product_version (type: AssetMappingString, default: [])
   --aws-account.single  Export all aws-account in a single evidence (default: False)
   --repository.single   Export all repositories in a single evidence (default: False)
-  --default_product_key_strategy {mapping,mapping,mapping,mapping}
+  --default_product_key_strategy {mapping}, --strategy {mapping}
                         Override product key with aws-account, repository or image names (default: mapping)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -739,8 +771,9 @@ platforms discover bitbucket \
 usage: platforms [options] discover [options] bitbucket [-h] [--instance.instance INSTANCE]
                                                         [--types {workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} [{workspace,project,repository,branch,commit,authenticated_user,webhooks,repo_permission,user_permission,branch_protection,token,all} ...]]
                                                         [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]]
-                                                        [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--broad] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--default_product_key_strategy {mapping}]
-                                                        [--workspace.single] [--project.single] [--repository.single] [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
+                                                        [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--broad] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+                                                        [--default_product_key_strategy {mapping,scm}] [--default_product_version_strategy {latest,pipeline,ref,sha}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--workspace.single] [--project.single] [--repository.single]
+                                                        [--skip-cache] [--cache-ttl CACHE_TTL] [--cache-group CACHE_GROUP]
 
 options:
   -h, --help            Show this help message and exit.
@@ -765,7 +798,9 @@ options:
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
-                        BitBucket branches wildcards (default: [])
+                        BitBucket branches wildcards (default: ['*'])
+  --scope.tag [TAG ...]
+                        BitBucket tags wildcards (default: ['*'])
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
@@ -778,8 +813,14 @@ options:
                         Project product key mapping in the format of project::product_key::product_version where org is the project name, wildcards are supported (type: AssetMappingString, default: [])
   --repository.mapping [MAPPING ...]
                         Repository product key mapping in the format of repo::product_key::product_version where repo is the repository name, wildcards are supported (type: AssetMappingString, default: [])
-  --default_product_key_strategy {mapping}
-                        Deferment product key by mapping. In the future - we shall support by reopsitory name too. (default: mapping)
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
+                        Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --workspace.single    Export all workspaces in a single evidence (default: False)
   --project.single      Export all projects in a single evidence (default: False)
   --repository.single   Export all repos in a single evidence (default: False)

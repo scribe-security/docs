@@ -18,7 +18,7 @@ This rule requires Image SBOM. See [here](/docs/valint/sbom) for more details.
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by target and product.  
@@ -63,7 +63,7 @@ It performs the following steps:
 | filter-by | ['target', 'product'] |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| banned_ports | array | False | A list of banned ports and protocols. Each entry should be a dictionary with 'port' and 'protocol' keys. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| banned_ports | array | False | A list of banned ports and protocols. Each entry should be a dictionary with 'port' and 'protocol' keys. | [] |
 

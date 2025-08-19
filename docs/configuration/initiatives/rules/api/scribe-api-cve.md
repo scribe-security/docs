@@ -18,7 +18,7 @@ Rule requires the Scribe API to be enabled. Ensure that you provide the Scribe T
 Signed Evidence for this rule **IS NOT** required by default but is recommended.  
 ::: 
 :::warning  
-Rule requires evaluation with a target. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
 ::: 
 :::info  
 Rule is scoped by product and target.  
@@ -52,7 +52,7 @@ This rule ensures that there are no critical or high severity vulnerabilities in
 | content_body_type | cyclonedx-json |
 
 ## Input Definitions  
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. | `{'cve': {'max': 0, 'severity': 6}}` |
 
