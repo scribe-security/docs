@@ -49,6 +49,26 @@ Mapping links evidence or SBOMs to products. The simplest approach is specifying
 
 > Mapping is a many-to-many relationship: an asset can belong to multiple products (e.g., a microservice), and a product can include multiple assets.
 
+
+
+### Product Key and Version Strategies
+
+The new `--strategy` and `--version-strategy` flags provide powerful, rule-based alternatives to manual mapping.
+
+* **`--strategy scm`**: This is a new, dynamic strategy that automatically generates the `product_key` based on the asset's full path within the SCM platform.
+    * **GitHub**: `product_key` is derived from the full repository name, in the format `organization/repository`.
+    * **GitLab**: `product_key` is derived from the full project path, in the format `organization/project`.
+    * **BitBucket**: `product_key` is derived from the repository path, in the format `workspace/repository`.
+    * **Azure**: `product_key` is derived from the repository path, in the format `organization/project/repository`.
+
+* **`--version-strategy`**: Determines the `product_version` dynamically. This is especially useful in CI/CD pipelines.
+    * `ref`: Uses the branch or tag name (e.g., `main`, `v1.2.3`).
+    * `sha`: Uses the short commit SHA of the branch or tag (e.g., `a1b2c3d`).
+    * `pipeline`: Uses the unique ID of the CI pipeline run.
+    * `latest` (default): A fallback option that assigns the version "latest".
+
+This new approach drastically reduces manual configuration, especially for large organizations, and ensures that your Scribe data remains consistently aligned with your development lifecycle.
+
 ### Evidence
 Evidence is data generated from assets, such as metadata from source code repositories, SBOMs for Docker images, or secrets metadata for Kubernetes clusters. Evidence is stored in an attestation store (default: ScribeHub, but local and OCI storage options are also supported).
 

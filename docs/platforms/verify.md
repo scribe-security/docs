@@ -62,7 +62,7 @@ options:
   --valint.sign         sign evidence (default: False)
   --valint.components COMPONENTS
                         components list (type: str, default: )
-  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x7ccc847e9580>, default: [])
+  --valint.label LABEL  Set additional labels (type: <function <lambda> at 0x76eed4c69c60>, default: [])
   --unique              Allow unique assets (default: False)
   --valint.git-commit GIT_COMMIT
                         Set Input Target Git commit (type: str, default: )
@@ -159,8 +159,9 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --proje
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] gitlab [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip] [--organization.mapping [MAPPING ...]]
-                                                   [--project.mapping [MAPPING ...]] [--initiative INITIATIVE] [--org-policy-skip-aggregate] [--project-policy-skip-aggregate]
+usage: platforms [options] verify [options] gitlab [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,project,all}] [--scope.organization [ORGANIZATION ...]] [--scope.project [PROJECT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--commit.skip]
+                                                   [--default_product_key_strategy {mapping,scm}] [--default_product_version_strategy {latest,pipeline,ref,sha}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--organization.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]]
+                                                   [--initiative INITIATIVE] [--org-policy-skip-aggregate] [--project-policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -170,15 +171,23 @@ options:
   --url URL             Gitlab base URL (default: https://gitlab.com/)
   --types {organization,project,all}
                         Defines which evidence to consume, scoped by scope parameters (default: all)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Gitlab organization list (default: ['*'])
-  --scope.project [PROJECT ...]
+  --scope.project [PROJECT ...], --project [PROJECT ...]
                         Gitlab projects epositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
-                        Gitlab branches wildcards (default: null)
+                        Gitlab branches wildcards (default: ['*'])
   --scope.tag [TAG ...]
-                        Gitlab tags wildcards (default: null)
+                        Gitlab tags wildcards (default: ['*'])
   --commit.skip         Skip commits in evidence (default: False)
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
+                        Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --organization.mapping [MAPPING ...]
                         Organization product key mapping in the format of to organization::product_key::product_version (type: AssetMappingString, default: [])
   --project.mapping [MAPPING ...]
@@ -207,7 +216,8 @@ platforms verify gitlab --organization.mapping "my-org::my-product::1.0" --repos
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [options] github [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {organization,repository,all}] [--scope.organization [ORGANIZATION ...]] [--scope.repository [REPOSITORY ...]] [--scope.branch [BRANCH ...]] [--scope.tag.name [NAME ...]] [--branch.shallow] [--commit.skip]
-                                                   [--tag.only] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--initiative INITIATIVE] [--org-policy-skip-aggregate] [--repo-policy-skip-aggregate]
+                                                   [--tag.only] [--organization.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]] [--initiative INITIATIVE] [--org-policy-skip-aggregate] [--repo-policy-skip-aggregate] [--default_product_key_strategy {mapping,scm}]
+                                                   [--default_product_version_strategy {latest,pipeline,ref,sha}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
 
 options:
   -h, --help            Show this help message and exit.
@@ -217,9 +227,9 @@ options:
   --url URL             Github base URL (default: https://github.com)
   --types {organization,repository,all}
                         Defines which evidence to validate, scoped by scope parameters (default: all)
-  --scope.organization [ORGANIZATION ...]
+  --scope.organization [ORGANIZATION ...], --org [ORGANIZATION ...]
                         Github organization list (default: ['*'])
-  --scope.repository [REPOSITORY ...]
+  --scope.repository [REPOSITORY ...], --repo [REPOSITORY ...]
                         Github repositories wildcards. Default is all projects. Note that a project name includes as a prefix its namesapce in the format 'namespace / project_name' (default: ['*'])
   --scope.branch [BRANCH ...]
                         Github branches wildcards (default: ['*'])
@@ -238,6 +248,14 @@ options:
                         Skip Aggregate organization policy results (default: False)
   --repo-policy-skip-aggregate
                         Skip Aggregate repo policy results (default: False)
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
+                        Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
 ```
 <!-- { "object-type": "command-output-end" } -->
 
@@ -255,8 +273,8 @@ To evaluate policies on DockerHub evidence.
 <!-- { "object-type": "command-output-start" } -->
 ```bash
 usage: platforms [options] verify [options] dockerhub [-h] [--instance.instance INSTANCE] [--username USERNAME] [--password PASSWORD] [--token TOKEN] [--url URL] [--types {token,repository,namespace,all}] [--default_product_key_strategy {namespace,repository,tag,mapping}]
-                                                      [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]]
-                                                      [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.namespace [NAMESPACE ...]] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
+                                                      [--default_product_version_strategy {tag,short_image_id,image_id}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]]
+                                                      [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--scope.namespace [NAMESPACE ...]] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -268,10 +286,14 @@ options:
   --url URL             Dockerhub base URL (default: https://hub.docker.com)
   --types {token,repository,namespace,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
-  --default_product_key_strategy {namespace,repository,tag,mapping}
+  --default_product_key_strategy {namespace,repository,tag,mapping}, --strategy {namespace,repository,tag,mapping}
                         Override product key with namespace, repository or image names (default: mapping)
-  --default_product_version_strategy {tag,short_image_id,image_id}
+  --default_product_version_strategy {tag,short_image_id,image_id}, --version-strategy {tag,short_image_id,image_id}
                         Override product version with tag or image id (default: short_image_id)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --scope.repository [REPOSITORY ...]
                         Dockerhub repositories (default: ['*'])
   --scope.repository_tags [REPOSITORY_TAGS ...]
@@ -326,8 +348,9 @@ The option `--image.policy` sets the image mapping policy file, defaulting to "c
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] k8s [-h] [--instance.instance INSTANCE] [--url URL] [--token TOKEN] [--types {namespace,pod,cluster-images,all}] [--default_product_key_strategy {namespace,pod,image,mapping}] [--default_product_version_strategy {namespace_hash,pod_hash,image_id}] [--scope.namespace [NAMESPACE ...]]
-                                                [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]] [--exclude.image [IMAGE ...]] [--namespace.single] [--pod.single] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
+usage: platforms [options] verify [options] k8s [-h] [--instance.instance INSTANCE] [--url URL] [--token TOKEN] [--types {namespace,pod,cluster-images,all}] [--default_product_key_strategy {namespace,pod,image,mapping}] [--default_product_version_strategy {namespace_hash,pod_hash,image_id}]
+                                                [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--scope.namespace [NAMESPACE ...]] [--scope.pod [POD ...]] [--scope.image [IMAGE ...]] [--ignore-state] [--exclude.namespace [NAMESPACE ...]] [--exclude.pod [POD ...]]
+                                                [--exclude.image [IMAGE ...]] [--namespace.single] [--pod.single] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -337,10 +360,14 @@ options:
   --token TOKEN         Kubernetes token, with access to pods and secrets (K8S_TOKEN) (default: )
   --types {namespace,pod,cluster-images,all}
                         Defines which evidence to create, scoped by scope parameters (default: cluster-images)
-  --default_product_key_strategy {namespace,pod,image,mapping}
+  --default_product_key_strategy {namespace,pod,image,mapping}, --strategy {namespace,pod,image,mapping}
                         Override product key with namespace, pod or image names (default: mapping)
-  --default_product_version_strategy {namespace_hash,pod_hash,image_id}
+  --default_product_version_strategy {namespace_hash,pod_hash,image_id}, --version-strategy {namespace_hash,pod_hash,image_id}
                         Override product version with namespace, pod or image names (default: namespace_hash)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --scope.namespace [NAMESPACE ...]
                         Kubernetes namespaces wildcard list (default: ['*'])
   --scope.pod [POD ...]
@@ -403,9 +430,9 @@ To evaluate policies on Jfrog evidence.
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] jfrog [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {token,repository,jf-repository,all}] [--default_product_key_strategy {jf-repository,repository,tag,mapping}] [--default_product_version_strategy {tag,short_image_id,image_id}]
-                                                  [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]] [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]]
-                                                  [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
+usage: platforms [options] verify [options] jfrog [-h] [--instance.instance INSTANCE] [--token TOKEN] [--url URL] [--types {token,repository,jf-repository,all}] [--default_product_key_strategy {jf-repository,repository,tag,mapping}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX]
+                                                  [--default_product_version_strategy {tag,short_image_id,image_id}] [--scope.jf-repository [JF_REPOSITORY ...]] [--scope.repository [REPOSITORY ...]] [--scope.repository_tags [REPOSITORY_TAGS ...]] [--scope.image_platform [IMAGE_PLATFORM ...]]
+                                                  [--exclude.jf-repository [JF_REPOSITORY ...]] [--exclude.repository [REPOSITORY ...]] [--exclude.repository_tags [REPOSITORY_TAGS ...]] [--image.mapping [MAPPING ...]] [--initiative INITIATIVE] [--policy-skip-aggregate]
 
 options:
   -h, --help            Show this help message and exit.
@@ -415,9 +442,13 @@ options:
   --url URL             Jfrog base URL (default: )
   --types {token,repository,jf-repository,all}
                         Defines which evidence to create, scoped by scope parameters (default: all)
-  --default_product_key_strategy {jf-repository,repository,tag,mapping}
+  --default_product_key_strategy {jf-repository,repository,tag,mapping}, --strategy {jf-repository,repository,tag,mapping}
                         Override product key with jf-repository, repository or image names (default: mapping)
-  --default_product_version_strategy {tag,short_image_id,image_id}
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
+  --default_product_version_strategy {tag,short_image_id,image_id}, --version-strategy {tag,short_image_id,image_id}
                         Override product version with tag or image id (default: short_image_id)
   --scope.jf-repository [JF_REPOSITORY ...]
                         Jfrog repositories (default: ['*'])
@@ -456,8 +487,9 @@ platforms verify bitbucket --workspace.mapping "my-workspace::my-product::1.0" -
 -->
 <!-- { "object-type": "command-output-start" } -->
 ```bash
-usage: platforms [options] verify [options] bitbucket [-h] [--instance.instance INSTANCE] [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--types {workspace,project,repository,all}] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]]
-                                                      [--scope.repository [REPOSITORY ...]] [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
+usage: platforms [options] verify [options] bitbucket [-h] [--instance.instance INSTANCE] [--app_password APP_PASSWORD] [--username USERNAME] [--workspace_token WORKSPACE_TOKEN] [--workspace WORKSPACE] [--url URL] [--types {workspace,project,repository,all}] [--default_product_key_strategy {mapping,scm}]
+                                                      [--default_product_version_strategy {latest,pipeline,ref,sha}] [--external-product-version EXTERNAL_PRODUCT_VERSION] [--product-key-prefix PRODUCT_KEY_PREFIX] [--scope.workspace [WORKSPACE ...]] [--scope.project [PROJECT ...]] [--scope.repository [REPOSITORY ...]]
+                                                      [--scope.commit [COMMIT ...]] [--scope.branch [BRANCH ...]] [--scope.tag [TAG ...]] [--scope.webhook [WEBHOOK ...]] [--commit.skip] [--branch-protection.skip] [--workspace.mapping [MAPPING ...]] [--project.mapping [MAPPING ...]] [--repository.mapping [MAPPING ...]]
                                                       [--initiative INITIATIVE] [--org-policy-skip-aggregate] [--repo-policy-skip-aggregate]
 
 options:
@@ -474,6 +506,14 @@ options:
   --url URL             BitBucket URL (required, default: https://api.bitbucket.org)
   --types {workspace,project,repository,all}
                         Defines which evidence to validate, scoped by scope parameters (default: all)
+  --default_product_key_strategy {mapping,scm}, --strategy {mapping,scm}
+                        Override product key with namespace, pod or image names (default: mapping)
+  --default_product_version_strategy {latest,pipeline,ref,sha}, --version-strategy {latest,pipeline,ref,sha}
+                        Override product version with tag or image id (default: latest)
+  --external-product-version EXTERNAL_PRODUCT_VERSION
+                        Override product key when using mapping (type: str, default: )
+  --product-key-prefix PRODUCT_KEY_PREFIX, --prefix PRODUCT_KEY_PREFIX
+                        Override product key when using mapping (type: str, default: )
   --scope.workspace [WORKSPACE ...]
                         BitBucket workspace list (default: ['*'])
   --scope.project [PROJECT ...]
@@ -483,7 +523,9 @@ options:
   --scope.commit [COMMIT ...]
                         BitBucket commit wildcards (default: [])
   --scope.branch [BRANCH ...]
-                        BitBucket branches wildcards (default: [])
+                        BitBucket branches wildcards (default: ['*'])
+  --scope.tag [TAG ...]
+                        BitBucket tags wildcards (default: ['*'])
   --scope.webhook [WEBHOOK ...]
                         BitBucket webhook wildcards (default: [])
   --commit.skip         Skip commits in discovery/evidence (default: False)
