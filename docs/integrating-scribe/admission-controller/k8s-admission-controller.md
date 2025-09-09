@@ -80,6 +80,7 @@ Related values:
 
 
 ### Alternative evidence stores
+
 > You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
@@ -217,8 +218,8 @@ After installing the admission you you want to upload evidence .
 ### Upload to Scribe service
 ```bash
 # Generating evidence, storing on [my_repo] OCI repo.
-valint [bom,slsa,evidence] [target] -o [attest, statement] -E \
-  -P $SCRIBE_CLIENT_SECRET
+valint [bom,slsa,evidence] [target] -o [attest, statement] \
+  -P $SCRIBE_TOKEN
 ```
 
 ### Upload to OCI registry
@@ -260,7 +261,7 @@ helm uninstall -n scribe admission-controller
 | webhook.extraArgs.structured | bool | `true` |  |
 | webhook.extraArgs.verbose | int | `2` |  |
 | webhook.image.pullPolicy | string | `"IfNotPresent"` |  |
-| webhook.image.repository | string | `"scribesecuriy.jfrog.io/scribe-docker-public-local/valint"` |  |
+| webhook.image.repository | string | `"scribesecurity/valint"` |  |
 | webhook.image.version | string | `"v0.1.4-1-admission"` |  |
 | webhook.name | string | `"webhook"` |  |
 | webhook.podSecurityContext.allowPrivilegeEscalation | bool | `false` |  |

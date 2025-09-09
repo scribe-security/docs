@@ -11,6 +11,8 @@ Valint is a tool used to manage `evidence` generation (for directories, file art
 
 Valint also enables you to **capture** any 3rd party report, scan or configuration (any file) into evidence. 
 
+> Latest Version `v1.5.19`.
+
 ### Installing Valint
 
 Choose any of the following command line interface (CLI) installation options:
@@ -32,7 +34,7 @@ Pull the `valint` release binary wrapped in its relevant docker image. <br />
 Tag value should be the requested version.
 
 ```bash
-docker pull scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest
+docker pull scribesecurity/valint:latest
 ```
 </details>
 
@@ -113,7 +115,7 @@ Other using one of the commands `bom` or `slsa` you should add the flag `-o` to 
    tlog entry created with index: 10855458 c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d
    INFO storer: upload success, Storer: rekorStorer
    sign success - TRUSTED CA signature, Signer trust: fulcioSigner, CN: sigstore-intermediate, Emails: [user@example.com]
-   INFO output: File write to FS, Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+   INFO output: File write to FS, Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
    INFO scribe: client disabled
    INFO attest: evidence generated successfully
    ```
@@ -121,6 +123,7 @@ Other using one of the commands `bom` or `slsa` you should add the flag `-o` to 
    Attestation is written by default to the local cache provided by the `--output-directory` flag (default `$HOME/.cache/valint`), you can also use `--output-file` flag to provide a custom path for the attestation.
 
    Note in the logs that the signed attestation is now saved on your machine in the default location. The path is specified in the result. In the example above it's saved in: `$HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json`.
+
 ### Using Valint to retrieve and verify a signed SBOM
 
 Once you have signed something into an attestation you can later verify that the object you're checking is identical to the one you have signed. For example, if we signed the `busybox:latest` image I can later compare that image to the signed attestation we have saved.
@@ -157,7 +160,7 @@ The `verify` command's default value of the `-i` flag is `attest` so you can omi
    INFO rekor: verify offline success (bundle)
    INFO attest: verify attestation success
    INFO attest: verify policy success, Policies: []
-   INFO verify: success, Type: attest-cyclonedx-json Path: /home/mikey/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
+   INFO verify: success, Type: attest-cyclonedx-json Path: $HOME/.cache/valint/docker/busybox/latest/sha256-9810966b5f712084ea05bf28fc8ba2c8fb110baa2531a10e2da52c1efc504698.bom.sig.json
    ```
    Note the `TRUSTED CA signatures, Verifier trust: fulcioVerifier, CN: sigstore-intermediate, Emails: [user@example.com], URIs: []` which includes signers identity,
    
@@ -224,7 +227,7 @@ As a more complete example, here's the SBOM for Alpine:
         "version": "0.0.0",
         "externalReferences": [
           {
-            "url": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.0.0",
+            "url": "https://scribesecurity/valint:0.0.0",
             "type": "other"
           }
         ]

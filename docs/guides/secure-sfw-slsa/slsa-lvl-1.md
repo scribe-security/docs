@@ -17,10 +17,9 @@ The general Valint call structure is:
 ```
   # Create an unsigned SLSA Provenance Document
   valint slsa [target] -o statement \
-  -E \
-   -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_TOKEN]
 ```
-Where `[Target]` is the build artifact and `-E` specifies storing the document in Scribe Hub where you can manage all your documents and distribute them to consumers.
+Where `[Target]` is the build artifact and `SCRIBE_TOKEN` is the token for accessing Scribe, when specified the document shall be stored at Scribe.
 
 You can store the Provenance Document in **[alternative evidence stores](../../integrating-scribe/other-evidence-stores)**.
 Use command flags to **[customize the content of the provenance document](customizing-provenance)**.
@@ -28,8 +27,7 @@ Use command flags to **[customize the content of the provenance document](custom
 Verify downstream that the attestation exists in the **[evidence store](../../integrating-scribe/other-evidence-stores)** by calling:
 ```
   valint verify [target] -i statement-slsa \
-  -E \
-   -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_TOKEN]
 ```
 #### Examples
 
@@ -44,7 +42,7 @@ Verify downstream that the attestation exists in the **[evidence store](../../in
    target: 'busybox:latest'
    format: statement-slsa
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
  with:
    name: provenance
    path: ${{ steps.valint_slsa_statement.outputs.OUTPUT_PATH }}
@@ -62,7 +60,7 @@ scribe-gitlab-job:
           -o attest-slsa
           --context-type gitlab
           --output-directory ./scribe/valint
-          -E -P $SCRIBE_CLIENT_SECRET
+          -P $SCRIBE_TOKEN
 ```
 </details>
 
@@ -92,7 +90,7 @@ script:
         --format [attest, statement] \
         --context-type travis \
         --output-directory ./scribe/valint \
-        -E -P $SCRIBE_CLIENT_SECRET \
+        -P $SCRIBE_TOKEN \
 ```
 </details>
 
@@ -108,6 +106,6 @@ name: scribe-bitbucket-pipeline
               TARGET:  [target]
               FORMAT: attest-slsa
               SCRIBE_ENABLE: true
-              SCRIBE_CLIENT_SECRET: $SCRIBE_CLIENT_SECRET
+              SCRIBE_CLIENT_SECRET: $SCRIBE_TOKEN
 ```
 </details>

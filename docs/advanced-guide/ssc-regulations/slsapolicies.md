@@ -63,6 +63,6 @@ This policy checks that every change to the source is tracked in a version contr
 
 * __Change history__ There exists a record of the history of changes that went into the revision. Each change must contain: the identities of the uploader and reviewers (if any), timestamps of the reviews (if any) and submission, the change description/justification, the content of the change, and the parent revisions.
 
-* __Immutable reference__ There exists a way to indefinitely reference this particular, immutable revision. In git, this is the {repo URL + branch/tag/ref + commit ID}.
+* __Immutable reference__ There exists a way to indefinitely reference this particular, immutable revision. In git, this is the (repo URL + branch/tag/ref + commit ID).
 
 Most popular version control system meet this requirement, such as git, Mercurial, Subversion, or Perforce.

@@ -57,6 +57,9 @@ Valint collects and formats evidence according to the [in-toto](https://in-toto.
 In order to provide control and a consistent view across different links in the supply chain it is important to maintain context for the different pieces of evidence that are collected. For example, Valint enables piecing together the identity (digest) of an image stored in a container registry by attaching information from the environment variables of the CI system about the build agent that built it, build run ID, git project, commit ID, and so on.
 This allows the application of compound policies that consider different steps in the software’s development life cycle.
 
+### Autodetect Context Type
+Valint will automatically detect the CI environment and add contextual fields to the evidence. For instance, Valint identifies the Build Run Identifier across various CI systems, enabling you to verify the origin of assets.
+
 ## Attestation - signing evidence and verifying it
 Valint signs the evidence with different schemes:
 * PKI - x509
@@ -83,6 +86,9 @@ Valint can collect the output of SCA tools, SBOM tools, or application security 
 ## Applying supply chain policies
 Valint can act as a supply chain policy evaluation and enforcement agent. To this end, it pulls required evidence objects previously uploaded to an evidence store (Scribe Hub or on-prem) and evaluates them against policies that you set. These are either canned policies that you can parametrize or coded policies that you author and maintain by a gitops process.
 The output of an evaluation includes evaluation details, a verdict, and a reference to the evidence.
+
+## Evidence Deduplication
+Evidence of the same `target` with the same `labels` uploaded to the same product (defined by `product-key` and `product-version`) of the same team is deduplicated. This means that if you upload the same evidence twice, the older one is replaced by the newer one.
 
 ## Using alternative Evidence Stores
 In lieu of Scribe Hub, you can configure Valint to use other stores to store and retrieve evidence. However, in this scenario, you cannot benefit from Scribe Hub’s evidence retrieval by context, data enrichment and risk analysis, and cross-organizational supply chain transparency sharing.

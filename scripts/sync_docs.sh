@@ -4,7 +4,7 @@ submodules_dir="sub"
 [ ! -d "${submodules_dir}" ] && mkdir "${submodules_dir}"
 base="git@github.com:scribe-security"
 base_public="git@github.com:scribe-public"
-supported_repos=( "valint" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" "sample-policies" )
+supported_repos=(  "valint" "platforms_lib" "action-bom" "action-verify" "action-slsa" "action-installer" "orbs" "azure-tasks" "helm-charts" "valint-pipe" "gatekeeper-provider" "sample-policies" )
 
 pull_submodules() {
     repos=$1
@@ -17,10 +17,23 @@ pull_submodules() {
             repo_url="${base}/${repo}"
         fi
         repo_dir="${submodules_dir}/${repo}"
-        [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
+            if [ ! -z "$BRANCH" ]; then
+                git clone --depth 1 --branch "$BRANCH" "${repo_url}" "${repo_dir}"
+            else
+                git clone --depth 1 "${repo_url}" "${repo_dir}"
+            fi
         pushd "${repo_dir}"
-        git checkout master || git checkout main
-        git pull origin master || git pull origin main
+        # if BRANCH
+        if [ ! -z "$BRANCH" ]; then
+            git fetch origin $BRANCH
+            git checkout $BRANCH
+            git config pull.rebase false  # Or `true` if you prefer rebasing
+            git pull origin $BRANCH
+        else
+            git checkout master || git checkout main
+            git pull origin master || git pull origin main
+        fi
+        
         popd
     done
 }
@@ -34,8 +47,14 @@ checkout_submodules() {
         repo_dir="${submodules_dir}/${repo}"
         [[ ! -d "${repo_dir}" ]] && git clone --depth 1 "${repo_url}" "${repo_dir}"
         pushd "${repo_dir}"
-        git checkout master || git checkout main
-        git pull origin master || git pull origin main
+        if [ ! -z "$BRANCH" ]; then
+            git branch -D $BRANCH
+            git checkout -b $BRANCH
+        else
+            git checkout master || git checkout main
+            git pull origin master || git pull origin main
+        fi
+
         git branch -D doc_export
         git checkout -b doc_export
         popd
@@ -123,14 +142,14 @@ import_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
 
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     import_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 import_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     cp -r "${repo_dir}/docs" "${dst_dir}" || true
     cp -r "${repo_dir}/docs" "${dst_dir}/../" || true
 }
@@ -139,17 +158,26 @@ import_action_extra() {
 export_action() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     export_file_rename ${repo} "" "${dst_dir}/${repo}.md"
 }
 
 export_action_extra() {
     repo=$1
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations/github/github-actions"
+    dst_dir="docs/integrating-scribe/ci-integrations/github"
     cp -r "${dst_dir}/../docs" "${repo_dir}" || true
 }
 
+import_platforms_lib() {
+    repo="platforms_lib"
+    repo_dir="${submodules_dir}/${repo}"
+    dst_dir="docs/platforms/"
+    cp -r "${repo_dir}/docs/cli/*" "${dst_dir}" || true}
+}
+export_platforms_lib() {
+    echo "pass"
+}
 
 import_action-bom() {
     repo="action-bom"
@@ -165,6 +193,10 @@ import_action-installer() {
 }
 import_action-slsa() {
     import_action "action-slsa"
+}
+import_action-evidence() {
+    repo="action-evidence"
+    import_action  ${repo}
 }
 
 export_action-bom() {
@@ -183,6 +215,12 @@ export_action-installer() {
 }
 export_action-slsa() {
     repo="action-slsa"
+    export_action ${repo}
+    export_action_extra ${repo}
+}
+
+export_action-evidence() {
+    repo="action-evidence"
     export_action ${repo}
     export_action_extra ${repo}
 }
@@ -227,28 +265,40 @@ export_orbs() {
     export_file_rename ${repo} "" "${dst_dir}/circleci.md"
 }
 
-
 import_sample-policies() {
     repo="sample-policies"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/guides"
 
-    echo '---
-sidebar_label: "Applying Policies to your SDLC"
-title: Applying Policies to your SDLC
-sidebar_position: 3
-toc_min_heading_level: 2
-toc_max_heading_level: 5
----' > "${dst_dir}/enforcing-sdlc-policy.md"
 
-    tail -n +2 "${repo_dir}/README.md" >> "${dst_dir}/enforcing-sdlc-policy.md"
+    cp -r "${repo_dir}/docs/v2/*" "docs/configuration/"
+
+    # Create a temporary file to hold the table content from index.md
+    tmpfile=$(mktemp)
+
+    # Extract everything between <!-- START TABLE --> and <!-- END TABLE --> from index.md
+    # (excluding the markers themselves) into tmpfile
+    sed -n '/<!-- START TABLE -->/,/<!-- END TABLE -->/ {
+        /<!-- START TABLE -->/d
+        /<!-- END TABLE -->/d
+        p
+    }' docs/configuration/initiatives/index.md > "${tmpfile}"
+
+    # Replace the block in enforcing-sdlc-initiative.md with the table content from tmpfile
+    sed -i '/<!-- START TABLE -->/,/<!-- END TABLE -->/{
+        /<!-- START TABLE -->/!{ /<!-- END TABLE -->/!d; }
+        /<!-- START TABLE -->/r '"${tmpfile}"'
+    }' "${dst_dir}/enforcing-sdlc-initiative.md"
+
+    # Clean up
+    rm "${tmpfile}"
 }
 
 export_sample-policies() {
     repo="sample-policies"
     repo_dir="${submodules_dir}/${repo}"
     dst_dir="docs/guides"
-    export_file_rename ${repo} "" "${dst_dir}/enforcing-sdlc-policy.md"
+    export_file_rename ${repo} "" "${dst_dir}/enforcing-sdlc-initiative.md"
     sed -i '/^---$/,/^---$/c\
 # Sample policies' "${repo_dir}/README.md"
 }
@@ -300,9 +350,26 @@ sidebar_position: 4
 export_azure-tasks() {
     repo="azure-tasks"
     repo_dir="${submodules_dir}/${repo}"
-    dst_dir="docs/integrating-scribe/ci-integrations"
+    src="docs/integrating-scribe/ci-integrations/azure.md"
+    dst="${repo_dir}/README.md"
 
-    sed -n '/^# Azure Pipelines Task/,$p' ${dst_dir}/azure.md > ${repo_dir}/README.md    
+    # 1) grab the title from front-matter
+    title=$(grep '^title:' "$src" | sed 's/^title:[[:space:]]*//')
+
+    # 2) write out a new README:
+    {
+      # H1 from title
+      echo "# $title"
+      echo
+
+      # skip until after the second '---' line, then print everything
+      awk 'c<2 {
+              if (/^---/) { c++; }
+              next
+          }
+          { print }
+      ' "$src"
+    } > "$dst" 
 }
 
 import_cli() {
@@ -367,7 +434,7 @@ EOF
 
 
 parse_args() {
-  while getopts "r:IESLdh?x" arg; do
+  while getopts "b:r:IESLdh?x" arg; do
     case "$arg" in
       x) set -x ;;
       r) repos+=(${OPTARG});;
@@ -375,6 +442,7 @@ parse_args() {
       E) COMMAND="export";;
       S) COMMAND="status";;
       L) LOCAL="true";;
+      b) BRANCH=${OPTARG};;
       h | \?) usage "$0" ;;
     esac
   done

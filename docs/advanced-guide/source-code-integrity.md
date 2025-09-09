@@ -36,7 +36,6 @@ build:
       uses: scribe-security/action-bom@master
       with:
         target: 'git:.'
-        scribe-enable: true
         product-key: ${{ github.repository }}
          scribe-client-secret: ${{ secrets.CLIENT_SECRET }}
         label: is_git_commit
@@ -52,14 +51,14 @@ As an example, here's what you need to do in a general pipeline where you use CL
 * **Source Code Checkout**: Calling `valint` at this point will collect evidence from the source code files hash values to facilitate the Scribe integrity validation. 
 
 ```
-$HOME/.scribe/bin/valint bom dir:<path> --scribe.client-id=$CLIENT-ID \
---scribe.client-secret=$CLIENT-SECRET -E -f -v
+$HOME/.scribe/bin/valint bom dir:<path> \
+--scribe.client-secret=$SCRIBE_TOKEN -f -v
 ```
 
 * **Final built image**: Generating SBOM right after the final Docker image is created. This is the main and ___mandatory___ point.  
 ```
-   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> --scribe.client-id=$CLIENT-ID \
-   --scribe.client-secret=$CLIENT-SECRET -E -f -v
+   $HOME/.scribe/bin/valint bom <your_docker_repository:tag> \
+   --scribe.client-secret=$SCRIBE_TOKEN -f -v
    --supplier-phone $SUPPLIER-PHONE   
 ```
 

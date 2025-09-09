@@ -1,0 +1,58 @@
+---
+sidebar_label: Verify No Critical or High Vulnerabilities
+title: Verify No Critical or High Vulnerabilities
+---  
+# Verify No Critical or High Vulnerabilities  
+**Type:** Rule  
+**ID:** `scribe-cve`  
+**Source:** [v2/rules/api/scribe-api-cve.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api-cve.yaml)  
+**Rego Source:** [scribe-api-cve.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/api/scribe-api-cve.rego)  
+**Labels:** SCA, Blueprint, Scribe  
+
+Verify via Scribe API that there are no critical or high severity vulnerabilities in the target artifact (container image, folder, etc.).
+
+:::tip 
+Rule requires the Scribe API to be enabled. Ensure that you provide the Scribe Token to the `valint` utility.  
+::: 
+:::tip 
+Signed Evidence for this rule **IS NOT** required by default but is recommended.  
+::: 
+:::warning  
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
+
+## Usage example
+
+```yaml
+uses: api/scribe-api-cve@v2
+with:
+  superset:
+    cve:
+      max: 0
+      severity: 6
+      has_kev: true
+      has_fix: false
+```
+
+## Mitigation  
+Ensure that all critical or high severity vulnerabilities are addressed before delivering the product.
+
+
+## Description  
+This rule ensures that there are no critical or high severity vulnerabilities in any deliverable component of the product by verifying via the Scribe API.
+
+## Evidence Requirements  
+| Field | Value |
+|-------|-------|
+| filter-by | ['product', 'target'] |
+| signed | False |
+| content_body_type | cyclonedx-json |
+
+## Input Definitions  
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| superset | object | False | The superset of CVEs to check for, including the following format [cve: [max: int, severity: int], has_kev: bool, has_fix: bool]]. | `{'cve': {'max': 0, 'severity': 6}}` |
+

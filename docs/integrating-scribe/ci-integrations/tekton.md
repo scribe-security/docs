@@ -3,10 +3,49 @@ sidebar_position: 8
 sidebar_label: "Tekton CI/CD"
 title: Integrating Scribe in your Tekton Pipelines
 ---
+Use the following instructions to integrate your Tekton pipelines with Scribe.
 
-Scribe support evidence collecting and integrity verification for Tekton CI/CD.
+### 1. Obtain a Scribe Hub API Token
 
-## Usage
+Create an API token in [Scribe Hub > Account > Tokens](https://app.scribesecurity.com/account/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
+
+### 2. Add the API token to Kubernetes secrets
+
+Add the Scribe Hub API token as SCRIBE_TOKEN to your [kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+The following example looks for a Kubernetes secret that holds your Scribe API token. This secret is called `scribe-secret` by default and is expected to have the key `scribe-token`.
+You can use the following example configuration
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: orka-creds
+type: Opaque
+stringData:
+  scribe_token: $(SCRIBE_TOKEN)
+  scribe_enable: true
+```
+
+```sh
+kubectl apply --namespace=<namespace> -f scribe-secret.yaml
+```
+
+Omit `--namespace` if installing in the `default` namespace.
+
+### 3. Install Scribe CLI
+
+**Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
+1. Install Azure DevOps [Valint-task](https://marketplace.visualstudio.com/items?itemName=ScribeSecurity.valint-cli) from the Azure marketplace.  
+2. Follow **[install-an-extension](https://learn.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser#install-an-extension)** to add the extension to your organization and use the task in your pipelines.
+
+### 4. Instrument your build scripts
+
+#### Usage
 ```yaml
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -24,7 +63,7 @@ spec:
       value: bom busybox:latest
 ```
 
-## Parameters
+#### Parameters
 
 | Parameter | Description | Default |
 | --- | --- | ---: |
@@ -32,62 +71,11 @@ spec:
 | `args` | Arguments of the `valint` CLI | |
 | `image-version-sha` | The ID of the valint image cli to be used. | |
 
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
 
-| Type  | Description | requirement |
-| --- | --- | --- |
-| scribe | Evidence is stored on scribe service | scribe credentials |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
-
-## Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-> Note the flag set:
->* `-U`, `--scribe.client-id`
->* `-P`, `--scribe.client-secret`
->* `-E`, `--scribe.enable`
-
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://prod.hub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Store credentials in [kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)
-
-
-#### Storing your credentials
-
-The `valint` task looks for a Kubernetes secret that stores your Scribe user credentials. This secret is called `scribe-secret` by default and is expected to have the keys `scribe-client-id` and `scribe-client-secret`.
-You can use the following example configuration. Make sure to provide the correct credentials for your Scribe environment.
+#### Basic example
 
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: orka-creds
-type: Opaque
-stringData:
-  scribe_client_secret: $(client_secret)
-  scribe_enable: true
-```
-
-```sh
-kubectl apply --namespace=<namespace> -f scribe-secret.yaml
-```
-
-Omit `--namespace` if installing in the `default` namespace.
-
-> **NOTE:** These credentials are used by the `valint` task to generate an authentication token to access the Scribe API.
-
-
-### Usage
-
-```yaml
-# Creates a CycloneDX SBOM and verifies its policy.
+# Create a CycloneDX SBOM and verify it.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -126,7 +114,7 @@ spec:
 ```
 
 ```yaml
-# Creates a SLSA Provanence and verifies its policy.
+# Create a SLSA Provanence and verify.
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -165,120 +153,7 @@ spec:
         - alpine:latest 
         - -i=statement-slsa
 ```
-
-### Alternative evidence stores
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
-
-<details>
-  <summary> <b> OCI Evidence store </b></summary>
-Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `--oci` Enable OCI store.
-* `--oci-repo` - Evidence store location.
-
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-
-### Usage
-```yaml
-# Creates a CycloneDX SBOM and verifies its policy.
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-bom
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    params:
-    - name: args
-      value: 
-        - bom 
-        - busybox:latest
-        - -o=statement
-        - --oci
-        - --oci-repo [my_repo]
-
-  - name: valint-verify-bom
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-bom
-    params:
-    - name: args
-      value: 
-        - verify 
-        - busybox:latest 
-        - -i=statement
-        - --oci
-        - --oci-repo [my_repo]
-```
-
-```yaml
-# Creates a SLSA Provanence and verifies its policy.
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: basic-tests
-spec:
-  workspaces:
-  - name: shared-workspace
-  tasks:
-  - name: valint-slsa
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-verify-bom
-    params:
-    - name: args
-      value: 
-        - slsa 
-        - busybox:latest
-        - -o=statement
-        - --oci
-        - --oci-repo [my_repo]
-
-  - name: valint-verify-slsa
-    taskRef:
-      name: valint
-    workspaces:
-    - name: output
-      workspace: shared-workspace
-    runAfter:
-    - valint-slsa
-    params:
-    - name: args
-      value: 
-        - verify 
-        - busybox:latest 
-        - -i=statement-slsa
-        - --oci
-        - --oci-repo [my_repo]
-```
-
-</details>
-
-## Basic examples
+## Additional examples
 <details>
   <summary>  Public registry image (SBOM) </summary>
 
@@ -603,7 +478,7 @@ spec:
         - git:https://github.com/mongo-express/mongo-express.git
 ```
 
-Create SBOM for local git repository. <br />
+Create SBOM for local git repository. 
 
 > When using implicit checkout note the Gitlab-CI [git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
 
@@ -657,7 +532,7 @@ spec:
         - git:https://github.com/mongo-express/mongo-express.git
 ```
 
-Create SLSA for local git repository. <br />
+Create SLSA for local git repository. 
 
 > When using implicit checkout note the Gitlab-CI [git-strategy](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy) will effect the commits collected by the SBOM.
 
@@ -682,4 +557,117 @@ spec:
         - slsa 
         - git:.
 ``` 
+</details>
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+Valint supports both storage and verification flows for `attestations`  and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `--oci` Enable OCI store.
+* `--oci-repo` - Evidence store location.
+
+
+### Before you begin
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+
+### Usage
+```yaml
+# Creates a CycloneDX SBOM and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-bom
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: args
+      value: 
+        - bom 
+        - busybox:latest
+        - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
+
+  - name: valint-verify-bom
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-bom
+    params:
+    - name: args
+      value: 
+        - verify 
+        - busybox:latest 
+        - -i=statement
+        - --oci
+        - --oci-repo [my_repo]
+```
+
+```yaml
+# Creates a SLSA Provanence and verifies its policy.
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: basic-tests
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: valint-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-verify-bom
+    params:
+    - name: args
+      value: 
+        - slsa 
+        - busybox:latest
+        - -o=statement
+        - --oci
+        - --oci-repo [my_repo]
+
+  - name: valint-verify-slsa
+    taskRef:
+      name: valint
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    runAfter:
+    - valint-slsa
+    params:
+    - name: args
+      value: 
+        - verify 
+        - busybox:latest 
+        - -i=statement-slsa
+        - --oci
+        - --oci-repo [my_repo]
+```
+
 </details>

@@ -14,7 +14,7 @@ Further documentation **[GitHub integration](../../../integrating-scribe/ci-inte
 
 ### Bom Action
 The command allows users to generate sbom and third party evidence.
-- CycloneDX 1.4 SBOM support. 
+- CycloneDX 1.5 SBOM support. 
 - Generates detailed SBOMs for images, directories, files and git repositories targets.
 - Store and manage evidence on Scribe service.
 - Attach evidence to any OCI registry.
@@ -38,66 +38,42 @@ To overcome the limitation install tool directly - **[installer](https://github.
     required: true
   attach-regex:
     description: Attach files content by regex
+  attest-config:
+    description: Attestation config path
+  attest-default:
+    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey]
   author-email:
     description: Set author email
   author-name:
     description: Set author name
   author-phone:
     description: Set author phone
-  components:
-    description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  force:
-    description: Force overwrite cache
-  format:
-    description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
-  package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
-  package-group:
-    description: Select package group, options=all
-  package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
-  supplier-email:
-    description: Set supplier email
-  supplier-name:
-    description: Set supplier name
-  supplier-phone:
-    description: Set supplier phone
-  supplier-url:
-    description: Set supplier url
-  allow-expired:
-    description: Allow expired certs
-  attest-config:
-    description: Attestation config path
-  attest-default:
-    description: Attestation default config, options=[sigstore sigstore-github x509 x509-env]
-  backoff:
-    description: Backoff duration
+  base-image:
+    description: Base image for the target
   ca:
     description: x509 CA Chain path
-  cache-enable:
-    description: Enable local cache
   cert:
     description: x509 Cert path
-  config:
-    description: Configuration file path
-  context-dir:
-    description: Context dir
+  components:
+    description: Select sbom components groups, options=[metadata layers packages syft files dep commits base_image]
   crl:
     description: x509 CRL path
   crl-full-chain:
     description: Enable Full chain CRL verfication
-  deliverable:
-    description: Mark as deliverable, options=[true, false]
   depth:
     description: Git clone depth
   disable-crl:
     description: Disable certificate revocation verificatoin
-  env:
-    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  force:
+    description: Force overwrite cache
+  format:
+    description: Evidence format, options=[json statement attest]
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -106,6 +82,52 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Git tag in the repository
   key:
     description: x509 Private key path
+  kms:
+    description: Provide KMS key reference
+  oci:
+    description: Enable OCI store
+  oci-repo:
+    description: Select OCI custom attestation repo
+  package-exclude-type:
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform]
+  package-group:
+    description: Select package group, options=[index install all]
+  package-type:
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua bitnami terraform]
+  pass:
+    description: Private key password
+  payload:
+    description: path of the decoded payload
+  platform:
+    description: Select target platform, examples=windows/armv6, arm64 ..)
+  provenance:
+    description: Include SLSA Provenance evidence
+  pubkey:
+    description: Public key path
+  skip-confirmation:
+    description: Skip Sigstore Confirmation
+  supplier-email:
+    description: Set supplier email
+  supplier-name:
+    description: Set supplier name
+  supplier-phone:
+    description: Set supplier phone
+  supplier-url:
+    description: Set supplier url
+  cache-enable:
+    description: Enable local cache
+  config:
+    description: Configuration file path
+  deliverable:
+    description: Mark as deliverable, options=[true, false]
+  env:
+    description: Environment keys to include in evidence
+  gate-name:
+    description: Policy Gate name
+  gate-type:
+    description: Policy Gate type
+  input:
+    description: Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>)
   label:
     description: Add Custom labels
   level:
@@ -114,10 +136,6 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Attach context to all logs
   log-file:
     description: Output log to file
-  oci:
-    description: Enable OCI store
-  oci-repo:
-    description: Select OCI custom attestation repo
   output-directory:
     description: Output directory path
     default: ./scribe/valint
@@ -125,22 +143,20 @@ To overcome the limitation install tool directly - **[installer](https://github.
     description: Output file name
   pipeline-name:
     description: Pipeline name
-  platform:
-    description: Select target platform, examples=windows/armv6, arm64 ..)
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
-  rule-args:
-    description: Policy arguments
-  scribe-auth-audience:
-    description: Scribe auth audience
+  scribe-client-id:
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
+  scribe-disable:
+    description: Disable scribe client
   scribe-enable:
-    description: Enable scribe client
+    description: Enable scribe client (deprecated)
   scribe-url:
     description: Scribe API Url
   structured:
@@ -161,7 +177,7 @@ To overcome the limitation install tool directly - **[installer](https://github.
 Containerized action can be used on Linux runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom@v1.4.1
+  uses: scribe-security/action-bom@v2.0.6
   with:
     target: 'busybox:latest'
 ```
@@ -169,12 +185,55 @@ Containerized action can be used on Linux runners as following
 Composite Action can be used on Linux or Windows runners as following
 ```yaml
 - name: Generate cyclonedx json SBOM
-  uses: scribe-security/action-bom-cli@v1.4.1
+  uses: scribe-security/action-bom-cli@v2.0.6
   with:
     target: 'hello-world:latest'
 ```
 
 > Use `master` instead of tag to automatically pull latest version.
+
+
+### 1. Obtain a Scribe Hub API Token
+1. Sign in to [Scribe Hub](https://app.scribesecurity.com). If you don't have an account you can sign up for free [here](https://scribesecurity.com/scribe-platform-lp/ "Start Using Scribe For Free").
+
+2. Create a API token in [Scribe Hub > Settings > Tokens](https://app.scribesecurity.com/settings/tokens). Copy it to a safe temporary notepad until you complete the integration.
+
+:::note Important
+The token is a secret and will not be accessible from the UI after you finalize the token generation. 
+:::
+
+### 2. Add the API token to Github secrets
+
+Set your Scribe Hub API token in Github with a key named SCRIBE_TOKEN as instructed in *GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")
+
+### 3. Instrument your build scripts
+
+#### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+
+      - uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          scribe-client-secret: ${{ secrets.SCRIBE_TOKEN }}
+```
 
 ### Configuration
 If you prefer using a custom configuration file instead of specifying arguments directly, you have two choices. You can either place the configuration file in the default path, which is `.valint.yaml`, or you can specify a custom path using the `config` argument.
@@ -265,149 +324,47 @@ jobs:
 
 </details>
 
-### Target types - `[target]`
----
-Target types are types of artifacts produced and consumed by your supply chain.
-Using supported targets, you can collect evidence and verify compliance on a range of artifacts.
+### Mapping the DOCKER_CONFIG Environment Variable
 
-> Fields specified as [target] support the following format.
+When using a job's Docker daemon to pull private images, you might need to log in to your private registry before running **valint**. To ensure that the containerized action `action-bom` can access your private image, set `DOCKER_CONFIG` to a directory in your workflow that is accessible for mapping.
 
-### Format
-
-`[scheme]:[name]:[tag]` 
-
-> Backwards compatibility: It is still possible to use the `type: [scheme]`, `target: [name]:[tag]` format.
-
-| Sources | target-type | scheme | Description | example
-| --- | --- | --- | --- | --- |
-| Docker Daemon | image | docker | use the Docker daemon | docker:busybox:latest |
-| OCI registry | image | registry | use the docker registry directly | registry:busybox:latest |
-| Docker archive | image | docker-archive | use a tarball from disk for archives created from "docker save" | image | docker-archive:path/to/yourimage.tar |
-| OCI archive | image | oci-archive | tarball from disk for OCI archives | oci-archive:path/to/yourimage.tar |
-| Remote git | git| git | remote repository git | git:https://github.com/yourrepository.git |
-| Local git | git | git | local repository git | git:path/to/yourrepository | 
-| Directory | dir | dir | directory path on disk | dir:path/to/yourproject | 
-| File | file | file | file path on disk | file:path/to/yourproject/file | 
-
-### Evidence Stores
-Each storer can be used to store, find and download evidence, unifying all the supply chain evidence into a system is an important part to be able to query any subset for policy validation.
-
-| Type  | Description | requirement |
-| --- | --- | --- |
-| scribe | Evidence is stored on scribe service | scribe credentials |
-| OCI | Evidence is stored on a remote OCI registry | access to a OCI registry |
-
-### Scribe Evidence store
-Scribe evidence store allows you store evidence using scribe Service.
-
-Related Flags:
-> Note the flag set:
->* `scribe-client-id`
->* `scribe-client-secret`
->* `scribe-enable`
-
-### Before you begin
-Integrating Scribe Hub with your environment requires the following credentials that are found in the **Integrations** page. (In your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** go to **integrations**)
-
-* **Client Secret**
-
-<img src='../../../../../img/ci/integrations-secrets.jpg' alt='Scribe Integration Secrets' width='70%' min-width='400px'/>
-
-* Add the credentials according to the **[GitHub instructions](https://docs.github.com/en/actions/security-guides/encrypted-secrets/ "GitHub Instructions")**. Based on the code example below, be sure to call the secrets **clientid** for the **client_id**, and **clientsecret** for the **client_secret**.
-
-* Use the Scribe custom actions as shown in the example bellow
-
-### Usage
+Below is an example configuration:
 
 ```yaml
-name:  scribe_github_workflow
+env:
+  DOCKER_CONFIG: ${{ github.workspace }}/.docker
 
-on: 
-  push:
-    tags:
-      - "*"
+steps:
+  - name: Login to GitHub Container Registry
+    uses: docker/login-action@v2
+    with:
+      registry: ${{ env.REGISTRY_URL }}
+      username: ${{ secrets.REGISTRY_USERNAME }}
+      password: ${{ secrets.REGISTRY_TOKEN }}
 
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement]
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
-
-      - uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [attest, statement]
-          scribe-enable: true
-          scribe-client-id: ${{ secrets.clientid }}
-          scribe-client-secret: ${{ secrets.clientsecret }}
+  - name: Generate cyclonedx json SBOM
+    uses: scribe-security/action-bom@master
+    with:
+      target: 'scribesecurity/example:latest'
 ```
-You can store the Provenance Document in alternative evidence stores. You can learn more about them **[here](../../../other-evidence-stores)**.
 
+Alternatively, you can use uncontainerized actions directly:
 
-<details>
-  <summary> Alternative store OCI </summary>
-
-### OCI Evidence store
-Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
-
-Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
-
-Related flags:
-* `oci` Enable OCI store.
-* `oci-repo` - Evidence store location.
-
-### Before you begin
-Evidence can be stored in any accusable registry.
-* Write access is required for upload (generate).
-* Read access is required for download (verify).
-
-You must first login with the required access privileges to your registry before calling Valint.
-For example, using `docker login` command or `docker/login-action` action.
-
-### Usage
 ```yaml
-name:  scribe_github_workflow
+- name: Login to GitHub Container Registry
+  uses: docker/login-action@v2
+  with:
+    registry: ${{ env.REGISTRY_URL }}
+    username: ${{ secrets.REGISTRY_USERNAME }}
+    password: ${{ secrets.REGISTRY_TOKEN }}
 
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-sign-verify:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.my_registry }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name:  Generate evidence step
-        uses: scribe-security/action-bom@master
-        with:
-          target: [target]
-          format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
-
-      - name:  Verify policy step
-        uses: scribe-security/action-verify@master
-        with:
-          target: [target]
-          input-format: [attest, statement]
-          oci: true
-          oci-repo: [oci_repo]
+- name: Generate cyclonedx json SBOM
+  uses: scribe-security/action-bom-cli@master
+  with:
+    target: 'scribesecurity/example:latest'
+    format: json
 ```
-</details>
+
 
 ### Running action as non root user
 By default, the action runs in its own pid namespace as the root user. You can change the user by setting specific `USERID` and `USERNAME` environment variables.
@@ -552,7 +509,7 @@ Create SBOM for image hosted by a private registry.
 
 ```YAML
 env:
-  DOCKER_CONFIG: $HOME/.docker
+  DOCKER_CONFIG: ${{ github.workspace }}/.docker
 steps:
   - name: Login to GitHub Container Registry
     uses: docker/login-action@v2
@@ -564,10 +521,66 @@ steps:
   - name: Generate cyclonedx json SBOM
     uses: scribe-security/action-bom@master
     with:
-      target: 'scribesecurity.jfrog.io/scribe-docker-local/example:latest'
-      force: true
+      target: 'scribesecurity/example:latest'
+      
 ```
 </details>
+
+<details>
+  <summary>  SBOM with SLSA Provenance </summary>
+
+Generate an SBOM and SLSA Provenance for a container image.
+
+```yaml
+- name: Generate SBOM with SLSA Provenance
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    provenance: true
+```
+
+</details>
+
+<details>
+  <summary>  SBOM with Base Image Analysis </summary>
+
+Generate an SBOM for a container image while analyzing its base image.
+
+```yaml
+- name: Generate SBOM with Base Image Analysis
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    base-image: alpine:latest
+```
+
+</details>
+
+<details>
+  <summary>  SBOM with Additional Inputs </summary>
+
+Create an SBOM for a container image by including supplementary inputs like SARIF reports, Git repositories, or additional images.
+
+```yaml
+- name: Generate SBOM with Additional Inputs
+  uses: scribe-security/action-bom@dev
+  with:
+    target: 'hello-world:latest'
+    verbose: 2
+    format: statement
+    input: |
+      sarif:test.json,
+      git:git:https://github.com/mongo-express/mongo-express.git,
+      alpine:latest
+```
+
+</details>
+
+
 
 <details>
   <summary>  Custom metadata </summary>
@@ -629,12 +642,12 @@ Using action `OUTPUT_PATH` output argument you can access the generated SBOM and
     output-file: my_sbom.json
     format: json
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-sbom
     path: ${{ steps.valint_json.outputs.OUTPUT_PATH }}
 
-- uses: actions/upload-artifact@v2
+- uses: actions/upload-artifact@v4
   with:
     name: scribe-evidence
     path: scribe/
@@ -652,7 +665,7 @@ Create SBOM for local `docker save ...` output.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=docker,dest=stub_local.tar
 
 - name: Generate cyclonedx json SBOM
@@ -674,7 +687,7 @@ Create SBOM for the local OCI archive.
   with:
     context: .
     file: .GitHub/workflows/fixtures/Dockerfile_stub
-    tags: scribesecurity.jfrog.io/scribe-docker-local/example:latest
+    tags: scribesecurity/example:latest
     outputs: type=oci,dest=stub_oci_local.tar
 
 - name: Generate cyclonedx json SBOM
@@ -833,7 +846,7 @@ Full job example of a image signing and verifying flow.
         with:
            target: 'busybox:latest'
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-busybox-test
           path: scribe/valint
@@ -875,7 +888,7 @@ Full job example of a directory signing and verifying flow.
            type: dir
            target: '/GitHub/workspace/'
       
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-workdir-evidence
           path: |
@@ -920,7 +933,7 @@ Full job example of a git repository signing and verifying flow.
            type: git
            target: '/GitHub/workspace/my_repo'
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: valint-git-evidence
           path: |
@@ -1002,6 +1015,71 @@ Install Valint as a tool
     valint bom busybox:latest
 ``` 
 </details>
+
+### Alternative evidence stores
+
+> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+<details>
+  <summary> <b> OCI Evidence store </b></summary>
+
+Valint supports both storage and verification flows for `attestations` and `statement` objects utilizing OCI registry as an evidence store.
+
+Using OCI registry as an evidence store allows you to upload, download and verify evidence across your supply chain in a seamless manner.
+
+Related flags:
+* `oci` Enable OCI store.
+* `oci-repo` - Evidence store location.
+
+### Before you begin
+
+Evidence can be stored in any accusable registry.
+* Write access is required for upload (generate).
+* Read access is required for download (verify).
+
+You must first login with the required access privileges to your registry before calling Valint.
+For example, using `docker login` command or `docker/login-action` action.
+
+### Usage
+
+```yaml
+name:  scribe_github_workflow
+
+on: 
+  push:
+    tags:
+      - "*"
+
+jobs:
+  scribe-sign-verify:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.my_registry }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name:  Generate evidence step
+        uses: scribe-security/action-bom@master
+        with:
+          target: [target]
+          format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+
+      - name:  Verify policy step
+        uses: scribe-security/action-verify@master
+        with:
+          target: [target]
+          input-format: [attest, statement]
+          oci: true
+          oci-repo: [oci_repo]
+```
+</details>
+
 
 ## .gitignore
 It's recommended to add output directory value to your .gitignore file.

@@ -14,24 +14,23 @@ Configuration format and default values.
 ```yaml
 cache:
   enable: true
-  output_directory: ${XDG_CACHE_HOME}/valint
+  output_directory: $\{XDG_CACHE_HOME\}/valint
 scribe:
   auth:
     enable: true
   url: https://api.scribesecurity.com
   enable: false
+  disable: false
   retry:
     backoff: 15s
     timeout: 120s
 context:
   predicate-type: http://scribesecurity.com/evidence/generic/v0.1
-  context-type: local
 bom:
   normalizers:
     packagejson:
       enable: true
-  formats:
-  - cyclonedx-json
+  formats: []
   force: false
   components:
   - metadata
@@ -47,34 +46,57 @@ bom:
   attach-regex: []
   final-artifact: false
 slsa:
-  formats:
-  - statement
   components:
   - metadata
   - layers
-evidence:
-  formats:
-  - statement
-  compress: false
 attest:
   config: ""
   bundle: https://github.com/scribe-public/sample-policies
   skip-bundle: true
+  bundle-args:
+    auth: ""
+    tag: ""
+    branch: ""
+    commit: ""
+    depth: 0
+    clone-path: ""
+  initiative_file: ""
+  initiative_name: ""
+  initiative_id: ""
+  all-evidence: false
   policy_configs: []
   rule_configs: []
   label_filters: []
-  initiative_filters: []
   default: sigstore
   report:
     add-passed: true
-  cocosign: {}
+  cocosign:
+    all-evidence: false
   x509: {}
+  fulcio:
+    enable: false
+    url: ""
+    oidc:
+      auth: ""
+      issuer: ""
+      clientid: ""
+  kms:
+    enable: false
+    ref: ""
+  pubkey: {}
+  target-fallback: false
+  target-fallback-name: false
+  target-fallback-hash: false
+  target-fallback-repo-digest: false
+  skip-sanity-verification: false
 verify:
-  formats: statement-sarif
+  formats: ""
   input-format: ""
   attestation: ""
   force: false
   final-artifact: false
+  bom: false
+  exit-code: -1
 filter:
   filter-regex:
   - '**/*.pyc'

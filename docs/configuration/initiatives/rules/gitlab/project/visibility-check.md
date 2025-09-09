@@ -1,0 +1,64 @@
+---
+sidebar_label: Set Visibility Level in GitLab Project
+title: Set Visibility Level in GitLab Project
+---  
+# Set Visibility Level in GitLab Project  
+**Type:** Rule  
+**ID:** `gitlab-project-project-visibility-level`  
+**Source:** [v2/rules/gitlab/project/visibility-check.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/visibility-check.yaml)  
+**Rego Source:** [visibility-check.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/visibility-check.rego)  
+**Labels:** Gitlab, Project  
+
+Verify the GitLab project's visibility matches the required level.
+
+:::note 
+This rule requires Gitlab Project Discovery Evidence. See [here](/docs/platforms/discover#gitlab-discovery) for more details.  
+::: 
+:::tip 
+Signed Evidence for this rule **IS NOT** required by default but is recommended.  
+::: 
+:::warning  
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
+
+## Usage example
+
+```yaml
+uses: gitlab/project/visibility-check@v2
+with:
+  visibility: private
+```
+
+## Mitigation  
+Ensure that the GitLab project's visibility matches the required level to prevent unauthorized access.
+
+
+## Description  
+This rule ensures that the GitLab project's visibility matches the required level.
+It performs the following steps:
+
+1. Checks the settings of the GitLab project.
+2. Verifies that the visibility level matches the required level.
+
+**Evidence Requirements:**
+- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitLab project resources.
+
+## Evidence Requirements  
+| Field | Value |
+|-------|-------|
+| filter-by | ['product', 'target'] |
+| signed | False |
+| content_body_type | generic |
+| target_type | data |
+| predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
+| asset_platform | gitlab |
+| asset_type | repo |
+
+## Input Definitions  
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| visibility | string | True | The visibility level to enforce for the GitLab project. | private |
+

@@ -9,7 +9,7 @@ toc_max_heading_level: 5
 
 A product's build SBOM report shows you all the components of the build built at the end of the pipeline. 
 
-To reach the SBOM go to **Products > {Your Product} > {Version} > SBOM**.
+To reach the SBOM go to **Products > (Your Product) > (Version) > SBOM**.
 
 <img src='../../img/start/sbom-report.jpg' alt='Your SBOM Report'/>
 

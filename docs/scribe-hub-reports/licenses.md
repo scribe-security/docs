@@ -8,7 +8,7 @@ toc_max_heading_level: 5
 
 A product's build license report shows you all the licenses used by packages in the build built at the end of the pipeline. 
 
-To reach the license report go to **Products > {Your Product} > {Version} > Licenses**.
+To reach the license report go to **Products > (Your Product) > (Version) > Licenses**.
 
 <img src='../../img/start/license-start.jpg' alt='Your Licenses Report'/>
 

@@ -13,8 +13,7 @@ In your build script call,
 
 ```
 valint bom <target> -o [statement, attest] <flags> \
- -E \
- -P [SCRIBE_CLIENT_SECRET]
+ -P [SCRIBE_TOKEN]
 ```
 
 Where `<target>` of either type of container image, file or file directory, or a git repo. It is formatted as `[<image:tag>, <dir path>, <git url>]`.
@@ -79,7 +78,7 @@ Next, click the card and select the specific version that you wish to share, and
 Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. 
 Scribe will alert subscribers on new vulnerabilities when they are later published for this version.
 
-To review these vulnerabilities go to **Products > {Your Product} > {Version} > Vulnerabilities**
+To review these vulnerabilities go to **Products > (Your Product) > (Version) > Vulnerabilities**
 
 <img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
 
@@ -131,7 +130,7 @@ When sharing an SBOM with the stakeholders you might often require to include re
 
 Your team and your stakeholders can download these advisories in a **[VEX format](https://cyclonedx.org/capabilities/vex/)** which is machine-readable and can be used by Scribe’s policy agent.
 
-To add an advisory to a vulnerability reported, go to **Products > {Your Product} > {Version} > Advisories**.
+To add an advisory to a vulnerability reported, go to **Products > (Your Product) > (Version) > Advisories**.
 
 Find the vulnerability according to its ID and click ‘+Add’ in its line in the rightmost column. Note that the CVE ID is identical to the one found on the **Vulnerabilities** page.
 
@@ -258,7 +257,7 @@ Next, click the card and select the specific version that you wish to share, and
 
 ### Tracking vulnerabilities and managing security advisories
 
-Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To review these vulnerabilities go to Products > {Your Product} > {Version} > Vulnerabilities.
+Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To review these vulnerabilities go to Products > (Your Product) > (Version) > Vulnerabilities.
 
 <img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
 
@@ -277,7 +276,7 @@ When sharing an SBOM with the stakeholders you might often require to include re
 
 Your team and your stakeholders can download these advisories in a VEX format which is machine-readable and can be used by Scribe’s policy agent.
 
-To add an advisory to a vulnerability reported go to Products > {Your Product} > {Version} > Vulnerabilities.  
+To add an advisory to a vulnerability reported go to Products > (Your Product) > (Version) > Vulnerabilities.  
 Find the vulnerability according to its ID and click ‘+Add’ in its line in the right-end column.  
 A dialog appears:
 

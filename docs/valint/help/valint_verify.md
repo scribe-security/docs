@@ -16,19 +16,60 @@ Flags for `verify` subcommand
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
+| | --all-evidence | Run all evidence verification | |
+| | --attest.config | Attestation config path | |
+| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env kms pubkey] | |
 | -a | --attestation | Attestation for target | |
+| | --base-image | Base image for the target | |
+| | --beautify | Enhance the output using ANSI and Unicode characters | |
+| | --bom | Create target SBOM evidence | |
 | | --bundle | Policy bundle uri/path (early-availability) | "https://github.com/scribe-public/sample-policies" |
+| | --bundle-auth | Bundle repository authentication info, [format: 'username:password'] | |
+| | --bundle-branch | Bundle branch in the repository | |
+| | --bundle-commit | Bundle commit hash in the repository | |
+| | --bundle-depth | Bundle clone depth | |
+| | --bundle-tag | Bundle tag in the repository | |
+| | --ca | x509 CA Chain path | |
+| | --cert | x509 Cert path | |
 | | --common-name | Default policy allowed common names | |
+| | --crl | x509 CRL path | |
+| | --crl-full-chain | Enable Full chain CRL verfication | |
+| | --depth | Git clone depth | |
+| | --disable-crl | Disable certificate revocation verificatoin | |
 | | --email | Default policy allowed emails | |
+| | --exit-code | Exit code to use when policy violations occur (-1 = ignore and keep original status, 0 = succeed regardless, 1-255 = fail with that code) | -1 |
 | -f | --force | Force skip cache | |
+| -o | --format | Policy Result Evidence format, options=[statement-sarif attest-sarif sarif ] | |
+| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
+| | --git-branch | Git branch in the repository | |
+| | --git-commit | Git commit hash in the repository | |
+| | --git-tag | Git tag in the repository | |
 | -h | --help | help for verify | |
-| | --initiative | Run only rules with specified initiative | |
-| -i | --input-format | Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
-| | --policy | Policy configuration file path (early-availability) | |
+| | --initiative | Initiative configuration file path (early-availability) | |
+| | --initiative-id | Initiative id | |
+| | --initiative-name | Initiative name | |
+| -i | --input-format | Input Evidence format, options=[attest-cyclonedx-json attest-slsa statement-slsa statement-cyclonedx-json statement-generic attest-generic ] | |
+| | --key | x509 Private key path | |
+| | --kms | Provide KMS key reference | |
+| | --md | Output Initiative result markdown report file | |
+| | --oci | Enable OCI store | |
+| -R | --oci-repo | Select OCI custom attestation repo | |
+| | --pass | Private key password | |
+| | --payload | path of the decoded payload | |
+| | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
+| | --provenance | Create target SLSA Provenance evidence | |
+| | --pubkey | Public key path | |
+| | --public-key | Public key path | |
 | | --rule | Rule configuration file path (early-availability) | |
+| | --rule-args | Policy arguments | [] |
 | | --rule-label | Run only rules with specified label | |
 | | --skip-bundle | Skip bundle download | |
+| -y | --skip-confirmation | Skip Sigstore Confirmation | |
 | | --skip-report | Skip Policy report stage | |
+| | --source | SLSA Git repository source for target | |
+| | --source-asset-id | Source asset id for SLSA Git repository source | |
+| | --source-asset-name | Source asset name for SLSA Git repository source | |
+| | --source-asset-platform | Source asset platform for SLSA Git repository source | |
 | | --uri | Default policy allowed uris | |
 
 
@@ -38,48 +79,29 @@ Flags for all `valint` subcommands
 
 | Short | Long | Description | Default |
 | --- | --- | --- | --- |
-| | --allow-expired | Allow expired certs | |
-| | --attest.config | Attestation config path | |
-| | --attest.default | Attestation default config, options=[sigstore sigstore-github x509 x509-env] | "sigstore" |
-| | --backoff | Backoff duration | "15s" |
-| | --ca | x509 CA Chain path | |
 | | --cache-enable | Enable local cache | true |
-| | --cert | x509 Cert path | |
 | -c | --config | Configuration file path | |
-| | --context-dir | Context dir | |
-| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket local admission] | "local" |
-| | --crl | x509 CRL path | |
-| | --crl-full-chain | Enable Full chain CRL verfication | |
+| -C | --context-type | CI context type, options=[jenkins github circleci azure gitlab travis tekton bitbucket teamcity local admission] | |
 | | --deliverable | Mark as deliverable, options=[true, false] | |
-| | --depth | Git clone depth | |
-| | --disable-crl | Disable certificate revocation verificatoin | |
 | -e | --env | Environment keys to include in evidence | |
-| -F | --filter-regex | Filter out files by regex | [**/*.pyc,**/.git/**] |
-| | --filter-scope | Filter packages by scope | |
-| -G | --gate | Policy Gate name | |
-| | --git-auth | Git repository authentication info, [format: 'username:password'] | |
-| | --git-branch | Git branch in the repository | |
-| | --git-commit | Git commit hash in the repository | |
-| | --git-tag | Git tag in the repository | |
-| | --key | x509 Private key path | |
+| | --gate-name | Policy Gate name | |
+| -G | --gate-type | Policy Gate type | |
+| | --input | Input Evidence target, format (\<parser>:\<file> or \<scheme>:\<name>:\<tag>) | |
 | -L | --label | Add Custom labels | |
-| -D | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
+| | --level | Log depth level, options=[panic fatal error warning info debug trace] | |
 | | --log-context | Attach context to all logs | |
 | | --log-file | Output log to file | |
-| | --oci | Enable OCI store | |
-| -R | --oci-repo | Select OCI custom attestation repo | |
-| -d | --output-directory | Output directory path | "${XDG_CACHE_HOME}/valint" |
+| -d | --output-directory | Output directory path | "$\{XDG_CACHE_HOME\}/valint" |
 | -O | --output-file | Output file name | |
 | -p | --pipeline-name | Pipeline name | |
-| | --platform | Select target platform, examples=windows/armv6, arm64 ..) | |
 | | --predicate-type | Custom Predicate type (generic evidence format) | "http://scribesecurity.com/evidence/generic/v0.1" |
 | -n | --product-key | Product Key | |
 | -V | --product-version | Product Version | |
 | -q | --quiet | Suppress all logging output | |
-| | --rule-args | Policy arguments | [] |
-| -U | --scribe.client-id | Scribe Client ID | |
-| -P | --scribe.client-secret | Scribe Client Secret | |
-| -E | --scribe.enable | Enable scribe client | |
+| -U | --scribe.client-id | Scribe Client ID (deprecated) | |
+| -P | --scribe.client-secret | Scribe Client Token | |
+| -D | --scribe.disable | Disable scribe client | |
+| -E | --scribe.enable | Enable scribe client (deprecated) | |
 | -u | --scribe.url | Scribe API Url | "https://api.scribesecurity.com" |
 | -s | --show | Print evidence to stdout | |
 | | --structured | Enable structured logger | |

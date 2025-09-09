@@ -71,3 +71,14 @@ Following are some of the customizable features we support.
 
 ## Package dependency relations
 For package-to-package relations, default support is partial, and it is limited to specific types of packages. To enhance the accuracy and completeness of these relations, especially for broader package types, we recommend using the OWASP plugin during your actual build process. This approach typically yields a more precise representation of package relations. You can then seamlessly merge this information into your artifact SBOM by including it in the final artifact. This ensures that your Software Bill of Materials reflects the most up-to-date and accurate dependency relationships.
+
+
+Here's a paragraph you can add to the documentation regarding the new multi-target input support:
+
+## Multi-target input support
+
+The SBOM generation process now supports enhanced flexibility with multi-target inputs. By using the `--input` flag, users can specify diverse evidence or assets as inputs, which are processed alongside the primary target. These inputs allow for the creation of third-party evidence and enable richer policy evaluations and enforcement. Relationships between the primary target and inputs are dynamically built, ensuring comprehensive and accurate SBOMs.
+
+## Base Image Verification
+
+The `--base-image` flag allows for precise base image identification and verification. When specified, Valint ensures that the target container is accurately linked to its base image. This feature updates the SBOM and in-memory context with information such as base image labels, layer references, and derived package sources. The SBOM graph is also updated to reflect the dependency relationships between the base image and the target container. This ensures a detailed representation of the base image’s influence within the SBOM, including all relevant layers and associated packages.

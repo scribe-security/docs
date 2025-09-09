@@ -26,8 +26,41 @@ Create SLSA Provenance for images hosted by a private registry.
 
 ```bash
 docker login
-valint slsa scribesecurity.jfrog.io/scribe-docker-local/example:latest
+valint slsa scribesecurity/example:latest
 ```
+</details>
+
+<details>
+  <summary>  Create SBOM and SLSA evidence </summary>
+
+Generate a Software Bill of Materials (SBOM) and corresponding SLSA evidence for a container image.
+
+```bash
+valint bom scribesecurity/example:latest --provenance
+```
+
+</details>
+
+<details>
+  <summary>  Create SBOM with Base Image And SLSA evidence </summary>
+
+Generate an SBOM and corresponding SLSA evidence for a container image, including analysis of the specified base image.      
+
+```bash
+valint bom scribesecurity/example:latest --provenance --base-image ./Dockerfile
+```
+
+</details>
+
+<details>
+  <summary> Create SLSA provenance with by-product asset evidence </summary>
+
+Generate SLSA Provenance for a container image, incorporating by-product asset evidence using the `--input` flag.
+
+```bash
+valint bom scribesecurity/example:latest --provenance --input sarif:my_report.json --input git:https://github.com/example/repo.git --input sqllite:latest
+```
+
 </details>
 
 <details>
@@ -81,6 +114,53 @@ docker save busybox:latest -o busybox_archive.tar
 valint slsa docker-archive:busybox_archive.tar
 ``` 
 </details>
+
+<details>
+  <summary>Generate and attach source SBOM evidence reference</summary>
+
+Generate an SBOM for the Git repository and attach it to the SLSA provenance as a by-product evidence reference.
+
+```bash
+valint slsa --source git:https://github.com/your-org/your-repo.git --git-tag v1.0.0
+```
+
+</details>
+
+<details>
+  <summary>Generate and attach target image SBOM evidence reference</summary>
+
+Generate an SBOM for the primary image target and attach it to the provenance.
+
+```bash
+valint slsa alpine:latest --bom
+```
+
+</details>
+
+<details>
+  <summary>Combine source and image SBOM evidence references</summary>
+
+Attach SBOMs for both the source repository and the image in a single provenance document.
+
+```bash
+valint slsa alpine:latest \
+  --bom \
+  --source git:https://github.com/your-org/your-repo.git --git-tag v1.0.0
+```
+
+</details>
+
+<details>
+  <summary>Attach third-party scan evidence with <code>--input</code></summary>
+
+Include external scan results (e.g., a Trivy JSON report) as an additional by-product evidence reference.
+
+```bash
+valint slsa alpine:latest --input trivy:scan_result.json
+```
+
+</details>
+
 
 <details>
   <summary> Directory target  </summary>
@@ -153,6 +233,8 @@ valint verify busybox:latest -i attest-slsa
 ```
 </details>
 
+
+
 <details>
   <summary> Attest and verify Git repository target  </summary>
 
@@ -211,18 +293,31 @@ Support storage for all targets and both SLSA Provenance and SLSA evidence forma
 ```bash
 
 # Set Scribe credentials
-export SCRIBE_CLIENT_SECRET=**
+export SCRIBE_TOKEN=**
 
 # Generate and push evidence to registry
-valint slsa [target] -o [attest, statement] --f -E \
-  -P $SCRIBE_CLIENT_SECRET
+valint slsa [target] -o [attest, statement] --f \
+  -P $SCRIBE_TOKEN
 
 # Pull and validate evidence from registry
-valint verify [target] -i [attest-slsa, statement-slsa] -f -E \
-  -P $SCRIBE_CLIENT_SECRET
+valint verify [target] -i [attest-slsa, statement-slsa] -f \
+  -P $SCRIBE_TOKEN
 ```
 
 > Note `-f` in the verification command, which skips the local cache evidence lookup.
 
 </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
 

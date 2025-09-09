@@ -44,7 +44,26 @@ The customization options enable you to tailor the evidence generation process a
 * `--tool`, `--tool-version`, `--tool-vendor`, Can be used for custom tool integrations.
 * `--format-type`, `--format-version`, `--format-encoding`, Can be used for custom format integrations.
 
-#### Trivy integration exmaple
+### SCA Integration
+
+Scribe Service analysis of a range of SCA reports allows users to track, analyze, and act according to the organization's needs. It also seamlessly integrates scans as part of evidence-based policies for supply chain requirements.
+
+- Use `--parser` to select one of the [supported parsers](https://scribe-security.netlify.app/docs/valint/help/valint_evidence#examples-for-running-valint-evidence).
+
+For example:
+
+```bash
+## Upload trivy report
+valint evidence my_report.json --parser trivy
+```
+
+Once an SCA report is uploaded to Scribe Service, you can enforce policies on it. For example:
+
+```yaml
+valint verify finding/is_vuln@v1 --parser trivy
+```
+
+#### Trivy integration example
 Install Trivy's latest version.
 
 Run the following command to export a Sarif report.
@@ -55,8 +74,7 @@ trivy image --format sarif -o report.sarif  golang:1.12-alpine
 Run the following Valint command to add the report as evidence to the Scribe Service.
 ```bash
 valint evidence report.sarif -o  [attest, statement] \
-  -E \
-   -P [SCRIBE_CLIENT_SECRET]
+   -P [SCRIBE_TOKEN]
 ```
 
 ### Format

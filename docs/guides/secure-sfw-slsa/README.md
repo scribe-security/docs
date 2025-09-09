@@ -235,7 +235,7 @@ Scribe Valint generates by default the **[standard provenance document](https://
        "id": "https://github.com/Attestations/GitHubHostedActions@v1",
        "builderDependencies": [
          {
-           "uri": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.3.0-3",
+           "uri": "https://scribesecurity/valint:0.3.0-3",
            "name": "valint",
            "annotations": {
              "vendor": "Scribe security, Inc",
@@ -438,7 +438,7 @@ Scribe Valint generates by default the **[standard provenance document](https://
         "id": "JenkinsCI",
         "builderDependencies": [
           {
-            "uri": "https://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:0.3.0-3",
+            "uri": "https://scribesecurity/valint:0.3.0-3",
             "name": "valint",
             "annotations": {
               "vendor": "Scribe security, Inc",

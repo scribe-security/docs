@@ -6,59 +6,104 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-**[Kyverno](https://https://github.com/kyverno/kyverno)** is an open source policy engine designed for kubernetes. Valint integrates with the Kyverno **[verify-images](https://kyverno.io/docs/writing-policies/verify-images/)** rule; Kyverno can enforce policies requiring the use of signed images, and ```valint``` can be used to generate the required attestations that include the image signature.
+### **Introduction**
 
-### Sigstore Keyless admission
+[Kyverno](https://github.com/kyverno/kyverno) is an open-source policy engine designed for Kubernetes. It supports the **[verify-images](https://kyverno.io/docs/writing-policies/verify-images/)** rule, which enforces signed image usage policies. Valint integrates seamlessly with Kyverno, enabling users to generate required attestations, such as image signatures, to comply with these policies. 
 
-Use Kyverno keyless flow to verify the attestation (see also **[kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)**)
+### Step 1: Evidence Generation in an OCI Store
+
+To generate signed attestations using Valint, the OCI store must be enabled with the `--oci` flag.
+
+> Learn about alternative evidence storage options in our **[documentation](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+
+
+```bash
+# Generate Evidence attestation
+valint [bom,slsa] image -o attest --oci [--oci-repo repo]
+```
+
+- **Optional Flag**: `--oci-repo` specifies a central location for storing evidence.  
+- **Kyverno Integration**: When using `--oci-repo`, evidence is stored under `<evidence_repo>/container`. Configure the `repository` field in the Kyverno rule to reference this location.
+
+#### **Example**
+
+```bash
+valint [bom, slsa, verify] [image] -o attest --oci --oci-repo my_account/evidence --provenance
+```
+
+This command generates both SBOM and SLSA provenance or Policy Results and attaches them to the image on the OCI store.
+
+---
+
+### Step 2 **Sanity check with Valint and OCI Store** [Optional]
+
+Use Valint to verify attestations or validate them against specific Kyverno policies.
+
+```bash
+# Verify Cyclonedx or Provenance attestation
+valint verify [image] -i [attest, attest-slsa] --oci [--oci-repo evidence_repo]
+```
+
+
+
+## Step 3 **Setting Kyverno `verifyImages` Rules**
+
+For detailed guidance on setting up Kyverno to verify image signatures, refer to the official **[Kyverno Verify Images documentation](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)**.
+
+### **Sigstore Keyless Admission Example**
+
+If you’re using Sigstore for signing, here’s an example configuration:
 
 ```yaml
-# Generate SLSA Provenance attestation
-valint slsa my_account/my_image:latest -o attest -f --oci
-
-
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
- name: check-image-keyless
+  name: check-image-keyless
 spec:
- validationFailureAction: Enforce
- webhookTimeoutSeconds: 30
- rules:
-   - name: check-slsa-image-keyless
-     match:
-       any:
-       - resources:
-           kinds:
-             - Pod
-     verifyImages:
-     - imageReferences:
-       - "my_account/my_image*"
-       attestations:
-         - predicateType: https://slsa.dev/provenance/v1
-           attestors:
-           - entries:
-             - keyless:
-                 subject: name@example.com
-                 issuer: https://accounts.example.com
-                 rekor:
-                   url: https://rekor.sigstore.dev
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-slsa-image-keyless
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "my_account/my_image*"
+          # `repository` optional field expected in `[evidence-repo]/container` format
+          repository: "my_account/evidence/container"
+          attestations:
+            # - predicateType: https://cyclonedx.org/bom/v1.5
+            - predicateType: https://slsa.dev/provenance/v1
+              attestors:
+                - entries:
+                    - keyless:
+                        subject: name@example.com
+                        issuer: https://accounts.example.com
+                        rekor:
+                          url: https://rekor.sigstore.dev
 ```
 
-### Verifying using X509 Keys
 
-Use Kyverno X509 flow to verify the attestation (see also **[kyverno verify-images](https://kyverno.io/docs/writing-policies/verify-images/sigstore/#verifying-image-signatures)**)
+### **X509 Key-Based Verification**
 
-```yaml
-# Generate SLSA Provenance attestation
-valint slsa my_account/my_image:latest -o attest -f --oci \
+Generate SLSA and Cyclonedx attestations signed with X509 certificates using the following command:
+
+```bash
+valint [slsa,bom] my_account/my_image:latest -o attest -f --oci \
  --attest.default x509 \
  --cert cert.pem \
  --ca ca-chain.cert.pem \
  --key key.pem
 ```
 
-### Certificate example
+### **Certificate-Based Kyverno Example**
+
+Here’s an example policy for verifying X509-signed attestations:
+
+```yaml
 ```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -77,11 +122,18 @@ spec:
      verifyImages:
      - imageReferences:
        - "my_account/my_image*"
+       # `repository` optional field expected in `[evidence-repo]/container` format
+       repository: "my_account/evidence/container"
        attestations:
+        # - predicateType: https://cyclonedx.org/bom/v1.5
          - predicateType: https://slsa.dev/provenance/v1
            attestors:
            - entries:
              - certificates:
+                 rekor:
+                   ignoreTlog: true 
+                 ctlog:
+                   ignoreSCT: true
                  certChain: |-
                    -----BEGIN CERTIFICATE-----
                    MIIF8jCCA9qgAwIBAgICEjQwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNVBAYTAklM
@@ -154,8 +206,6 @@ spec:
                    -----END CERTIFICATE-----
 ```
 
-An explicit `cert` field is not required because Valint attaches certificate to its attestations.
-
 #### X509 Certificate Constraints​
 
 * Certificate must include a **[Subject Alternate Name](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6)** extension.
@@ -179,3 +229,69 @@ X509v3 extensions:
    ...
 ```
 
+### Verifying Policy Initiative Results
+
+When Valint produces SARIF attestations, you may want to **enforce** that a specific **initiative** or **control** has passed before the image can run. For instance, you might block images unless their **`initiative-id`** is `"SP-800-190"` and **`initiative-result`** is `"pass"`, or you might need a particular control ID—like `"SP-800-190/4.1"`—to pass.
+
+Below is an example **Kyverno** policy snippet showing how to reference these fields under `conditions` in the `verifyImages` rule. **Uncomment or edit** the checks that meet your needs:
+
+```yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-keyless-evidence
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-evidence
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "my_account/my_image*"
+          repository: "my_account/evidence/container"
+          attestations:
+            - predicateType: "http://docs.oasis-open.org/sarif/sarif/2.1.0"
+              attestors:
+                - entries:
+                    - keyless:
+                        subject: "mdstrauss91@gmail.com"
+                        issuer: "https://github.com/login/oauth"
+                        rekor:
+                          url: "https://rekor.sigstore.dev"
+              conditions:
+                - all:
+                  # Uncomment the checks you wish to enforce:
+
+                  # 1) Ensure the initiative result is "pass":
+                  - key: "{{ content.runs[0].invocations[0].properties.\"initiative-result\" }}"
+                    operator: Equals
+                    value: "pass"
+
+                  # 2) Verify the initiative ID is "SP-800-190":
+                  - key: "{{ content.runs[0].invocations[0].properties.\"initiative-id\" }}"
+                    operator: Equals
+                    value: "SP-800-190"
+
+                  # 3) Confirm a specific control ID—"SP-800-190/4.1"—passed:
+                  - key: "{{ content.runs[0].invocations[0].properties.\"control-result\".\"control-id:SP-800-190/4.1\" }}"
+                    operator: Equals
+                    value: "pass"
+```
+
+To generate and evaluate evidence for `sp-800-190` in this example, run:
+
+```bash
+trivy image --format sarif -o my_image_trivy_report.sarif my_account/my_image:latest
+
+valint verify my_account/my_image:latest  \
+  --bom \ # Required for container-targeted rules
+  --input my_image_trivy_report.sarif \ # Required for CVE rules
+  --oci --oci-repo my_account/evidence/container \
+  --initiative sp-800-190@v2 \
+  -o attest
+```

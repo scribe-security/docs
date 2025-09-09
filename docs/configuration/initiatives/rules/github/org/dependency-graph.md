@@ -1,0 +1,64 @@
+---
+sidebar_label: Verify dependency_graph_enabled_for_new_repositories setting
+title: Verify dependency_graph_enabled_for_new_repositories setting
+---  
+# Verify dependency_graph_enabled_for_new_repositories setting  
+**Type:** Rule  
+**ID:** `github-org-dependency-graph`  
+**Source:** [v2/rules/github/org/dependency-graph.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependency-graph.yaml)  
+**Rego Source:** [dependency-graph.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/github/org/dependency-graph.rego)  
+**Labels:** GitHub, Organization  
+
+Verify dependency graph is enabled for new repositories in the GitHub organization.
+
+:::note 
+This rule requires Github Organization Discovery Evidence. See [here](/docs/platforms/discover#github-discovery) for more details.  
+::: 
+:::tip 
+Signed Evidence for this rule **IS NOT** required by default but is recommended.  
+::: 
+:::warning  
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
+
+## Usage example
+
+```yaml
+uses: github/org/dependency-graph@v2
+with:
+  desired_value: true
+```
+
+## Mitigation  
+Ensures that the dependency graph is enabled in the GitHub organization, providing better visibility into dependencies and potential vulnerabilities.
+
+
+## Description  
+This rule ensures that the dependency graph is enabled in the GitHub organization.
+It performs the following steps:
+
+1. Checks the settings of the GitHub organization.
+2. Verifies that the dependency graph setting is enabled.
+
+**Evidence Requirements:**
+- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources.
+
+## Evidence Requirements  
+| Field | Value |
+|-------|-------|
+| filter-by | ['product', 'target'] |
+| signed | False |
+| content_body_type | generic |
+| target_type | data |
+| predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
+| asset_platform | github |
+| asset_type | organization |
+
+## Input Definitions  
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------| --------|
+| desired_value | boolean | False | Indicates if the dependency graph is enabled. | True |
+

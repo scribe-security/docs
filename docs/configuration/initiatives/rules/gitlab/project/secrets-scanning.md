@@ -1,0 +1,57 @@
+---
+sidebar_label: Run Secrets Scanning in GitLab Project
+title: Run Secrets Scanning in GitLab Project
+---  
+# Run Secrets Scanning in GitLab Project  
+**Type:** Rule  
+**ID:** `gitlab-project-secrets-scanning`  
+**Source:** [v2/rules/gitlab/project/secrets-scanning.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/secrets-scanning.yaml)  
+**Rego Source:** [secrets-scanning.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/gitlab/project/secrets-scanning.rego)  
+**Labels:** Gitlab, Project  
+
+Verify secrets scanning is performed for the GitLab project.
+
+:::note 
+This rule requires Gitlab Project Discovery Evidence. See [here](/docs/platforms/discover#gitlab-discovery) for more details.  
+::: 
+:::tip 
+Signed Evidence for this rule **IS NOT** required by default but is recommended.  
+::: 
+:::warning  
+Rule requires evaluation with a target or an asset input. Without one, it will be **disabled** unless the `--all-evidence` flag is provided.
+::: 
+:::info  
+Rule is scoped by product and target.  
+:::  
+
+## Usage example
+
+```yaml
+uses: gitlab/project/secrets-scanning@v2
+```
+
+## Mitigation  
+Ensure that secrets scanning is performed for the GitLab project to prevent unauthorized changes.
+
+
+## Description  
+This rule ensures that secrets scanning is performed for the GitLab project.
+It performs the following steps:
+
+1. Checks the settings of the GitLab project.
+2. Verifies that secrets scanning is performed.
+
+**Evidence Requirements:**
+- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitLab project resources.
+
+## Evidence Requirements  
+| Field | Value |
+|-------|-------|
+| filter-by | ['product', 'target'] |
+| signed | False |
+| content_body_type | generic |
+| target_type | data |
+| predicate_type | http://scribesecurity.com/evidence/discovery/v0.1 |
+| asset_platform | gitlab |
+| asset_type | repo |
+
