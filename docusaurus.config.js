@@ -60,7 +60,8 @@ const config = {
   title: 'The Scribe Documentation Site',
   tagline: 'Four legs good. Two legs bad.',
   url: 'https://profound-wisp-8a86b9.netlify.app/',
-  baseUrl: process.env.DOCUSAURUS_BASE_URL || '/',  //onBrokenLinks: 'throw',
+  baseUrl: '/',
+  //onBrokenLinks: 'throw',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -84,14 +85,9 @@ const config = {
       ({
         docs: {
           include: [
-            ...(
-                // --- FIX: allow forcing prod list via env; otherwise keep your original logic ---
-                !FORCE_PROD && (
-                    (isPullRequest && branch.includes("dev-preview") ||
-                        (!isPullRequest && branch == "dev"))
-                )
-            ) ? [
-              '**/*.md',
+              ...((isPullRequest && branch.includes("dev-preview") ||
+                  (!isPullRequest && branch == "dev") )) ? [
+                  '**/*.md',
             ] : [
               "introducing-scribe/what-is-scribe.md",
               "introducing-scribe/scribe-hub.md",
