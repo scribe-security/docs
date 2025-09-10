@@ -4,11 +4,18 @@ const {themes} = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 
-var branch = require('child_process')
-  .execSync('git branch --show-current')
-  .toString().trim();
-branch = branch ? branch : process.env.HEAD?.toString() ?? "";
-var isPullRequest = process.env.PULL_REQUEST === "true";
+// --- FIX: safe branch resolution + env fallback (works without .git) ---
+const {execSync} = require('child_process');
+let branch = 'main';
+try {
+  branch = execSync('git branch --show-current', {stdio: ['ignore','pipe','ignore']})
+      .toString().trim() || branch;
+} catch {
+  branch = process.env.HEAD || process.env.GIT_BRANCH || branch;
+}
+var isPullRequest = String(process.env.PULL_REQUEST || '').toLowerCase() === 'true';
+// Optional: force prod-like includes regardless of branch/PR (useful for submodule builds)
+const FORCE_PROD = String(process.env.DOCS_ALWAYS_PROD || '').toLowerCase() === 'true';
 // console.log(process.env);
 
 /** @type {import('@docusaurus/types').Config} */
@@ -53,7 +60,7 @@ const config = {
   title: 'The Scribe Documentation Site',
   tagline: 'Four legs good. Two legs bad.',
   url: 'https://profound-wisp-8a86b9.netlify.app/',
-  baseUrl: '/',
+  baseUrl: process.env.DOCUSAURUS_BASE_URL || '/',
   //onBrokenLinks: 'throw',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -78,8 +85,13 @@ const config = {
       ({
         docs: {
           include: [
-            ...((isPullRequest && branch.includes("dev-preview") || 
-              (!isPullRequest && branch == "dev") )) ? [
+            ...(
+                // --- FIX: allow forcing prod list via env; otherwise keep your original logic ---
+                !FORCE_PROD && (
+                    (isPullRequest && branch.includes("dev-preview") ||
+                        (!isPullRequest && branch == "dev"))
+                )
+            ) ? [
               '**/*.md',
               ] : [
                 "introducing-scribe/what-is-scribe.md",
