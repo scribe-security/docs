@@ -89,7 +89,7 @@ const config = {
                 // --- FIX: allow forcing prod list via env; otherwise keep your original logic ---
                 !FORCE_PROD && (
                     (isPullRequest && branch.includes("dev-preview") ||
-                        (!isPullRequest && branch == "dev"))
+                        (!isPullRequest && branch === "dev"))
                 )
             ) ? [
               '**/*.md',
