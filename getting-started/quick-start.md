@@ -14,7 +14,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 
 * **Client Secret**
 
-<img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
+<!-- <img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/> -->
 ![integrations-secrets](/img/ci/integrations-secrets.jpg)
 
 ### Using Scribe on a Sample Project
@@ -35,7 +35,7 @@ To run the demo you need to:
 
    - Under your repository name, click `Settings`. If you cannot see the `Settings` tab, select the dropdown menu, then click `Settings`.
 
-      <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
+      <!-- <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/> -->
       ![github-settings](/img/ci/github-settings.jpg)
 
    - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Actions`.
@@ -51,12 +51,12 @@ To run the demo you need to:
 4. You can now run a workflow to create an attestation of the last version committed and pushed to Git. This attestation represents the 'source of truth' regarding the project's source code. Once you have created and stored this attestation it is quite difficult for a potential adversary to tamper with the code anywhere down the pipeline. In the demo project page, go to Actions.  
 Click ‘I understand my workflows, go ahead and enable them’.
 
-   <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
+   <!-- <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/> -->
    ![demo-project-actions](/img/ci/understand_workflows.jpg)
 
 This would lead you to your 'Actions' tab:   
 
-   <img src='../../../img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>  
+   <!-- <img src='../../../img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>   -->
    ![demo-project-actions](/img/ci/demo-project-actions.jpg)
 
 
