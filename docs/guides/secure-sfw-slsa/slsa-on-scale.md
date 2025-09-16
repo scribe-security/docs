@@ -181,9 +181,9 @@ This automated verification and reporting gives you:
 
 For more details on Scribe's policy-as-code initiatives and their role in SLSA compliance, explore these resources:
 
-  * **Applying Initiatives to your SDLC:** [https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative)
-  * **SLSA L1 Initiative Documentation & Source:** [https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l1/](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l1/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml)
-  * **SLSA L2 Initiative Documentation & Source:** [https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l2/](https://www.google.com/search?q=https://scribe-security.netlify.app/docs/configuration/initiatives/slsa.l2/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml)
+  * **Applying Initiatives to your SDLC:** [https://scribe-security.github.io/docs/guides/enforcing-sdlc-initiative](https://www.google.com/search?q=https://scribe-security.github.io/docs/guides/enforcing-sdlc-initiative)
+  * **SLSA L1 Initiative Documentation & Source:** [https://scribe-security.github.io/docs/configuration/initiatives/slsa.l1/](https://www.google.com/search?q=https://scribe-security.github.io/docs/configuration/initiatives/slsa.l1/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l1.yaml)
+  * **SLSA L2 Initiative Documentation & Source:** [https://scribe-security.github.io/docs/configuration/initiatives/slsa.l2/](https://www.google.com/search?q=https://scribe-security.github.io/docs/configuration/initiatives/slsa.l2/) and [https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml](https://www.google.com/search?q=https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/slsa.l2.yaml)
 
 
 ## 🚧 What's Collected in the Provenance Attestation
@@ -216,7 +216,7 @@ For more details on Scribe's policy-as-code initiatives and their role in SLSA c
 
 ## 📄 Related Pages
 
-* [Platforms Documentation](https://scribe-security.netlify.app/docs/platforms/discover.md)
+* [Platforms Documentation](https://scribe-security.github.io/docs/platforms/discover.md)
 * [SLSA Provenance Spec](https://slsa.dev/spec/v1.0/provenance/)
 
 ---

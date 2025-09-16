@@ -26,7 +26,7 @@ Installation instructions and usage examples can be found on the [Scribe Securit
 
 ### Alternative evidence stores
 
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+> You can learn more about alternative stores **[here](https://scribe-security.github.io/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
   <summary> <b> OCI Evidence store </b></summary>

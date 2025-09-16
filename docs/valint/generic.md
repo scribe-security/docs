@@ -48,7 +48,7 @@ The customization options enable you to tailor the evidence generation process a
 
 Scribe Service analysis of a range of SCA reports allows users to track, analyze, and act according to the organization's needs. It also seamlessly integrates scans as part of evidence-based policies for supply chain requirements.
 
-- Use `--parser` to select one of the [supported parsers](https://scribe-security.netlify.app/docs/valint/help/valint_evidence#examples-for-running-valint-evidence).
+- Use `--parser` to select one of the [supported parsers](https://scribe-security.github.io/docs/valint/help/valint_evidence#examples-for-running-valint-evidence).
 
 For example:
 

@@ -12,7 +12,7 @@ sidebar_position: 4
 This command is used for uploading evidence, based on the assets discovered in the previous step, to the attestation store.
 This command is for creating platform evidence; creating SBOMs of assets such as DockerHub images is done through the `bom` command.
 
-The evidence command uses Scribe's `valint` tool to upload the evidence and to sign it if necessary. Documentation of the `valint` tool can be found [here](https://scribe-security.netlify.app/docs/introducing-scribe/what-is-scribe/).
+The evidence command uses Scribe's `valint` tool to upload the evidence and to sign it if necessary. Documentation of the `valint` tool can be found [here](https://scribe-security.github.io/docs/introducing-scribe/what-is-scribe/).
 
 
 ## Common Options

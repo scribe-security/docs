@@ -5,14 +5,14 @@ sidebar_position: 4
 ---
 # Valint Gatekeeper Provider
 Valint Gatekeeper Provider seamlessly integrates with OPA Gatekeeper's [ExternalData](https://open-policy-agent.github.io/gatekeeper/website/docs/externaldata) feature to facilitate policy verification within your supply chain. 
-This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) (Software Development Life Cycle) initiatives.
+This integration enables you to enforce a variety of supply chain policies, including signed image verification and various [SDLC](https://scribe-security.github.io/docs/guides/enforcing-sdlc-initiative) (Software Development Life Cycle) initiatives.
 
 The Valint Gatekeeper Provider offers a means to enforce or generate alerts for any violations or successful initiative evaluations based on evidence collected from the supply chain, whether signed or unsigned (or any combination thereof).
 
 ## Policy As Code
 Our policies, expressed in code, offer extensive customization options and can be tailored to suit specific needs.
 
-For more detailed information, please visit our page on [Applying Initiatives to your SDLC](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-initiative) or refer to our [initiatives reference guide](https://scribe-security.netlify.app/docs/valint/initiatives).
+For more detailed information, please visit our page on [Applying Initiatives to your SDLC](https://scribe-security.github.io/docs/guides/enforcing-sdlc-initiative) or refer to our [initiatives reference guide](https://scribe-security.github.io/docs/valint/initiatives).
 
 Additionally, you have the option to reference or fork our default [policy bundle](https://github.com/scribe-public/sample-policies) repository.
 
@@ -110,7 +110,7 @@ In your policies you then can set what rules should be verified over signed evid
 
 ### Signing evidence
 You can sign image SBOMs or any other type of evidence using Valint.
-For more information see [attestation](https://scribe-security.netlify.app/docs/valint/attestations) page.
+For more information see [attestation](https://scribe-security.github.io/docs/valint/attestations) page.
 
 ### X509-based Signatures
 To enable the provider to verify X509-based signatures, follow these steps:
@@ -152,7 +152,7 @@ valint verify <target> -i <attest, attest-slsa, attest-generic> --attest.default
     --crl <crl path/env/url>  [FLAGS]
 ```
 
-> For more information see [attestation](https://scribe-security.netlify.app/docs/valint/attestations) page.
+> For more information see [attestation](https://scribe-security.github.io/docs/valint/attestations) page.
 
 </details>
 
@@ -181,7 +181,7 @@ valint evidence som_evidence.json -o attest [FLAGS]
 valint verify <target> -i <attest, attest-slsa, attest-generic> [FLAGS]
 ```
 
-> For more information see [attestation](https://scribe-security.netlify.app/docs/valint/attestations) page.
+> For more information see [attestation](https://scribe-security.github.io/docs/valint/attestations) page.
 
 </details>
 
@@ -335,9 +335,9 @@ select:
   * `target`: Evaluate policies scoped by the admission imageID.
   * `pipeline`: Evaluate policies scoped by the image build pipeline.
   * `product`: Evaluate policies scoped by a specific product.
-* `policy`: Set policy to evaluate, for more details see  [enforcing SDLC policies](https://scribe-security.netlify.app/docs/guides/enforcing-sdlc-policy) or refer to our [policy reference guide](https://scribe-security.netlify.app/docs/valint/policies).
+* `policy`: Set policy to evaluate, for more details see  [enforcing SDLC policies](https://scribe-security.github.io/docs/guides/enforcing-sdlc-policy) or refer to our [policy reference guide](https://scribe-security.github.io/docs/valint/policies).
 * `initiative-ref`: Set initiative reference to evaluate for example [sp-800-190@v2](https://github.com/scribe-public/sample-policies/blob/main/v2/initiatives/sp-800-190.yaml).
-* `initiative`: Custom initiative to evaluate on, see [initiatives reference guide](https://scribe-security.netlify.app/docs/valint/initiatives) for more details
+* `initiative`: Custom initiative to evaluate on, see [initiatives reference guide](https://scribe-security.github.io/docs/valint/initiatives) for more details
 
 > policy gate configuration are mapped to a configmap named `gatekeeper-valint-policies`.
 
@@ -453,12 +453,12 @@ select:
 ```
 The policy named pipeline-scanners is applied, which requires that images admitted from the my_company Dockerhub repository undergo vulnerability scanning using Trivy. The check-vulnerabilities rule is defined within this policy, configured to check for any critical vulnerabilities in the image. If critical vulnerabilities are detected, the policy will trigger a violation, indicating a failure.
 
-For CI integrations see [CI integration](https://scribe-security.netlify.app/docs/integrating-scribe/ci-integrations/)
+For CI integrations see [CI integration](https://scribe-security.github.io/docs/integrating-scribe/ci-integrations/)
 
 <details>
   <summary> Collecting evidence in pipeline </summary>
 
-For all our [CI integration](https://scribe-security.netlify.app/docs/integrating-scribe/ci-integrations/), the relevant fields are automatically set by our CI integration. 
+For all our [CI integration](https://scribe-security.github.io/docs/integrating-scribe/ci-integrations/), the relevant fields are automatically set by our CI integration. 
 
 However, if you need to mock this locally, you can manually set the `RUN_ID` and `WORKFLOW` fields while collecting evidence. Once set, you can proceed to collect your scanner report and attach it as evidence in the pipeline.
 
@@ -530,7 +530,7 @@ valint evidence report.sarif --product-key my_product --product-version v1 [FLAG
 </details>
 
 ## Policy results
-Policy results are generated individually for each image evaluation, delivered in Sarif format as evidence. For further details, please refer to the [policy results](https://scribe-security.netlify.app/docs/valint/policy-results) page.
+Policy results are generated individually for each image evaluation, delivered in Sarif format as evidence. For further details, please refer to the [policy results](https://scribe-security.github.io/docs/valint/policy-results) page.
 
 > Admission Policy Results Context is attached with resource identification, including labels and namespaces, of the Kubernetes resources that were admitted, along with information about the admission provider.
 

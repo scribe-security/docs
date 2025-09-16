@@ -10,7 +10,7 @@ The `discover` command is used to sample asset data from various sources. The da
 
 Once executed, the command generates evidence related to the discovered assets. This evidence can either be uploaded to an attestation store or exported locally. The discover command supports various platforms, including DockerHub, GitHub, GitLab, and others.
 
-The evidence generation process uses Scribe's `valint` tool to upload and optionally sign the evidence. Documentation for the `valint` tool can be found [here](https://scribe-security.netlify.app/docs/introducing-scribe/what-is-scribe/).
+The evidence generation process uses Scribe's `valint` tool to upload and optionally sign the evidence. Documentation for the `valint` tool can be found [here](https://scribe-security.github.io/docs/introducing-scribe/what-is-scribe/).
 
 > **Notice:** The `discover` command creates a local database that supports other platform commands such as `evidence`, `verify`, and `bom`. This database must be accessible when running these commands. Multiple databases can be created for different purposes—for instance, using one database for generating fresh evidence during a build process and another for conducting a comprehensive asset discovery across the organization. By default, the database is named `platforms.db` and is stored in the working directory, but the filename can be customized using CLI flags.
 
@@ -454,7 +454,7 @@ K8s evidence generation supports the creation of namespace and pod evidence. Nam
 
 ### Access
 
-Access to Kubernetes is managed via a token. For more details, see [Generate K8s Token](https://scribe-security.netlify.app/docs/platforms/generate_k8s_token.md).
+Access to Kubernetes is managed via a token. For more details, see [Generate K8s Token](https://scribe-security.github.io/docs/platforms/generate_k8s_token.md).
 
 ### Example
 

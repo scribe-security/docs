@@ -121,7 +121,7 @@ cat my_ca-chain.pem | base64
 
 We recommended to base64 encode your PEM files to ensure they can be marked as protected and masked.
 
-> Explore additional signing options in the [attestations](https://scribe-security.netlify.app/docs/valint/attestations) section.
+> Explore additional signing options in the [attestations](https://scribe-security.github.io/docs/valint/attestations) section.
 
 Lastly Use the masked environment variables with Valint by decoding them:
 ```yaml
@@ -456,7 +456,7 @@ git-remote-job:
 
 ### Alternative evidence stores
 
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+> You can learn more about alternative stores **[here](https://scribe-security.github.io/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
   <summary> <b> OCI Evidence store </b></summary>

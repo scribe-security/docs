@@ -14,7 +14,7 @@ toc_max_heading_level: 5
 
 To generate signed attestations using Valint, the OCI store must be enabled with the `--oci` flag.
 
-> Learn about alternative evidence storage options in our **[documentation](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+> Learn about alternative evidence storage options in our **[documentation](https://scribe-security.github.io/docs/integrating-scribe/other-evidence-stores)**.
 
 
 ```bash

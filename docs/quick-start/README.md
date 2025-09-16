@@ -18,7 +18,7 @@ Valint enables you to:
 
 ## **1. Set Up Your Project**  
 - Choose a **GitHub project** that builds container images, or fork our **[demo project](https://github.com/Scribe-public-demos/demo-project)** to get started quickly.  
-- Using **GitLab, Azure Pipelines, or another CI platform?** Refer to [integration guides](https://scribe-security.netlify.app/docs/integrating-scribe/ci-integrations/).  
+- Using **GitLab, Azure Pipelines, or another CI platform?** Refer to [integration guides](https://scribe-security.github.io/docs/integrating-scribe/ci-integrations/).  
 
 ## **2. Generate a Scribe API Token**  
 - Obtain your API token from **[Scribe Hub](https://app.scribesecurity.com/account/tokens?modal=openCreateTokenModal)**.  

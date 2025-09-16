@@ -338,7 +338,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/2fa",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/2fa",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/2fa",
                                     "name": "Enforce 2FA",
                                     "shortDescription": {
@@ -369,7 +369,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/max-admins",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/max-admins",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/max-admins",
                                     "name": "Limit admins",
                                     "shortDescription": {
@@ -400,7 +400,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/web-commit-signoff",
                                     "name": "Require signoff on web commits",
                                     "shortDescription": {
@@ -435,7 +435,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/branch-protection",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/branch-protection",
                                     "name": "Branch protected",
                                     "shortDescription": {
@@ -466,7 +466,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/repo-private",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/repo-private",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/repo-is-private",
                                     "name": "Repo private",
                                     "shortDescription": {
@@ -522,7 +522,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                     "id": "rule-id:SSDF/PS/PS.2/PS.2.1/sbom-is-signed",
                                     "name": "Image-verifiable",
                                     "shortDescription": {
@@ -627,7 +627,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         },
                                         "rank": -1
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                     "id": "rule-id:SSDF/PS/PS.3/PS.3.2/sbom-is-signed",
                                     "name": "SBOM archived",
                                     "shortDescription": {
@@ -1182,13 +1182,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "This rule verifies that two-factor authentication (2FA) is enabled for the organization by examining the provided evidence.\nIt checks the organization's details (retrieved from the SARIF or equivalent evidence) and compares the value of the \n`organization_details.two_factor_requirement_enabled` field against the expected value.\n\nThe rule iterates over the organization data in the evidence, and if the `two_factor_requirement_enabled` field does not match \nthe desired value, a violation is recorded. This ensures that all organizational accounts enforce 2FA, providing an additional \nlayer of security against unauthorized access.\n\n### **Evidence Requirements**\n- Evidence must include organization data with a field named `organization_details.two_factor_requirement_enabled`.\n- The data should come from a trusted source (e.g., a GitHub organization scan).\n- The evidence must clearly indicate whether 2FA is enabled.",
                                         "text": "This rule verifies that two-factor authentication (2FA) is enabled for the organization by examining the provided evidence.\nIt checks the organization's details (retrieved from the SARIF or equivalent evidence) and compares the value of the \n`organization_details.two_factor_requirement_enabled` field against the expected value.\n\nThe rule iterates over the organization data in the evidence, and if the `two_factor_requirement_enabled` field does not match \nthe desired value, a violation is recorded. This ensures that all organizational accounts enforce 2FA, providing an additional \nlayer of security against unauthorized access.\n\n### **Evidence Requirements**\n- Evidence must include organization data with a field named `organization_details.two_factor_requirement_enabled`.\n- The data should come from a trusted source (e.g., a GitHub organization scan).\n- The evidence must clearly indicate whether 2FA is enabled."
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/2fa",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/2fa",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/2fa",
                                     "name": "Enforce 2FA",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.1/PS.1.1",
                                         "control-name": "Store all forms of code based on the principle of least privilege",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/2fa",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/2fa",
                                         "file-hash": "dbe86363a09014d6de4950d2e375cfa46ced22f7ca1908ffd2a14be8dfc95e39",
                                         "labels": [
                                             "GitHub",
@@ -1239,13 +1239,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "This rule ensures that the number of admins in the GitHub organization does not exceed the specified maximum.\nIt performs the following steps:\n\n1. Checks the list of admins in the GitHub organization.\n2. Verifies that the number of admins does not exceed the value specified in the `with.max_admins` configuration.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources.",
                                         "text": "This rule ensures that the number of admins in the GitHub organization does not exceed the specified maximum.\nIt performs the following steps:\n\n1. Checks the list of admins in the GitHub organization.\n2. Verifies that the number of admins does not exceed the value specified in the `with.max_admins` configuration.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources."
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/max-admins",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/max-admins",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/max-admins",
                                     "name": "Limit admins",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.1/PS.1.1",
                                         "control-name": "Store all forms of code based on the principle of least privilege",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/max-admins",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/max-admins",
                                         "file-hash": "5093c9dcb056f04f20fcd1d5ca485ce2a23b404afdf9b57eb602fb330fec4a68",
                                         "labels": [
                                             "GitHub",
@@ -1296,13 +1296,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "This rule checks if the `web_commit_signoff` setting is enabled to ensure all web-based commits are signed off.\nIt performs the following steps:\n\n1. Checks the web commit signoff settings of the GitHub organization.\n2. Verifies that the web commit signoff setting is enabled.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources.",
                                         "text": "This rule checks if the `web_commit_signoff` setting is enabled to ensure all web-based commits are signed off.\nIt performs the following steps:\n\n1. Checks the web commit signoff settings of the GitHub organization.\n2. Verifies that the web commit signoff setting is enabled.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub organization resources."
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/web-commit-signoff",
                                     "name": "Require signoff on web commits",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.1/PS.1.1",
                                         "control-name": "Store all forms of code based on the principle of least privilege",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/org/web-commit-signoff",
                                         "file-hash": "4c895ffaa308b4090cd047a494ddaa61d4f1ad9053fd51dacc0e9987655341b8",
                                         "labels": [
                                             "GitHub",
@@ -1357,13 +1357,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "This rule ensures that branch protection is configured in the GitHub repository.\nIt performs the following steps:\n\n1. Checks the repository settings for branch protection.\n2. Verifies that the protection settings match the expected values.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub repository settings.",
                                         "text": "This rule ensures that branch protection is configured in the GitHub repository.\nIt performs the following steps:\n\n1. Checks the repository settings for branch protection.\n2. Verifies that the protection settings match the expected values.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub repository settings."
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/branch-protection",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/branch-protection",
                                     "name": "Branch protected",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.1/PS.1.1",
                                         "control-name": "Store all forms of code based on the principle of least privilege",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/branch-protection",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/branch-protection",
                                         "file-hash": "f64f1ea140ea2b0de656283bce732c7c3ce516d7d86458cdd47f7a24d0682c1b",
                                         "labels": [
                                             "GitHub",
@@ -1414,13 +1414,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "This rule ensures that the GitHub repository is private.\nIt performs the following steps:\n\n1. Checks the repository settings for privacy.\n2. Verifies that the repository is private.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub repository settings.",
                                         "text": "This rule ensures that the GitHub repository is private.\nIt performs the following steps:\n\n1. Checks the repository settings for privacy.\n2. Verifies that the repository is private.\n\n**Evidence Requirements:**\n- Evidence must be provided by the Scribe Platform's CLI tool through scanning GitHub repository settings."
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/repo-private",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/repo-private",
                                     "id": "rule-id:SSDF/PS/PS.1/PS.1.1/repo-is-private",
                                     "name": "Repo private",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.1/PS.1.1",
                                         "control-name": "Store all forms of code based on the principle of least privilege",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/github/repository/repo-private",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/github/repository/repo-private",
                                         "file-hash": "685f36b245c750260d57d82538cb28174473655d859c676a915c89592dace8e4",
                                         "labels": [
                                             "GitHub",
@@ -1474,13 +1474,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "PS.2 Provide a mechanism to verify the integrity of the image",
                                         "text": "PS.2 Provide a mechanism to verify the integrity of the image"
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                     "id": "rule-id:SSDF/PS/PS.2/PS.2.1/sbom-is-signed",
                                     "name": "Image-verifiable",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.2/PS.2.1",
                                         "control-name": "Make software integrity verification information available to software acquirers",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                         "file-hash": "97a32ff04b930f3b093d2e201585cbb7ac6ffdfd05ac8160092219d3e7cba055",
                                         "labels": [
                                             "SBOM",
@@ -1534,7 +1534,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.3/PS.3.1",
                                         "control-name": "Securely archive the necessary files and supporting data to be retained for each software release",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/slsa/l1-provenance-exists",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/slsa/l1-provenance-exists",
                                         "file-hash": "f33680678db455905d921dbb799e84077db4136f20bd39696f5ba38dff8ac62b",
                                         "help-uri": "https://slsa.dev/spec/v1.0/requirements",
                                         "labels": [
@@ -1586,13 +1586,13 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                         "markdown": "PS.3 Archive SBOM",
                                         "text": "PS.3 Archive SBOM"
                                     },
-                                    "helpUri": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                    "helpUri": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                     "id": "rule-id:SSDF/PS/PS.3/PS.3.2/sbom-is-signed",
                                     "name": "SBOM archived",
                                     "properties": {
                                         "control-id": "control-id:SSDF/PS/PS.3/PS.3.2",
                                         "control-name": "Collect, safeguard, maintain, and share provenance data for all components of each software release",
-                                        "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/rules/sbom/artifact-signed",
+                                        "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/rules/sbom/artifact-signed",
                                         "file-hash": "97a32ff04b930f3b093d2e201585cbb7ac6ffdfd05ac8160092219d3e7cba055",
                                         "labels": [
                                             "SBOM",
@@ -1632,7 +1632,7 @@ Results are also presented as a SARIF report inside an in-toto statement.
                                 ],
                                 "name": "SSDF Client Initiative",
                                 "properties": {
-                                    "doc-url": "https://scribe-security.netlify.app/docs/configuration/initiatives/ssdf",
+                                    "doc-url": "https://scribe-security.github.io/docs/configuration/initiatives/ssdf",
                                     "help-uri": "https://csrc.nist.gov/pubs/sp/800/218/final",
                                     "initiative-hash": "d9e4049ae300a219f21eb55047c4461f3bec75bf914e84742cb18a28e29c2ca2",
                                     "initiative-id": "SSDF",

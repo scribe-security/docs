@@ -78,7 +78,7 @@ Valint can analyze your software project dependencies by examining different ste
 Valint can map relationships such as package to OCI image layers, package to git commit or commit history, package to files, to package, commit to package.
 
 ## SLSA Provenance Document
-Valint can generate a Provenance Document required for SLSA compliance. Read more about attaining compliance with SLSA [here](https://scribe-security.netlify.app/docs/guides/secure-sfw-slsa/).
+Valint can generate a Provenance Document required for SLSA compliance. Read more about attaining compliance with SLSA [here](https://scribe-security.github.io/docs/guides/secure-sfw-slsa/).
 
 ## Collecting evidence from third-party tools
 Valint can collect the output of SCA tools, SBOM tools, or application security scans as evidence, sign, and upload them to the evidence store. You can use this evidence to evaluate policies downstream with Valint. For example, block unapproved licenses of dependencies in a software artifact that were detected by a third-party SCA.

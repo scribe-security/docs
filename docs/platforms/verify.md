@@ -135,7 +135,7 @@ The option `--valint.disable-evidence-cache` disables the caching of evidence, e
 
 The option `--valint.sign` enables the signing of evidence to verify its integrity and source.
 
-The following options are used to tweek the fetching of specific or customized policy bundles. Documentation of these features is part of the `valint` tools documentation and can be found [here](https://scribe-security.netlify.app/docs/introducing-scribe/what-is-scribe/)
+The following options are used to tweek the fetching of specific or customized policy bundles. Documentation of these features is part of the `valint` tools documentation and can be found [here](https://scribe-security.github.io/docs/introducing-scribe/what-is-scribe/)
 
 The option `--valint.bundle` sets the bundle git branch, with an empty string as the default.
 

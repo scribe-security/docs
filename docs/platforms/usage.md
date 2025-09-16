@@ -24,7 +24,7 @@ docker pull scribesecurity/platforms:latest
 
 Platforms CLI has supported CI integrations to automate the discovery, evidence generation, SBOM generation and policy evaluation process.
 
-* [Gitlab Integration](https://scribe-security.netlify.app/docs/platforms/gitlab-integration.md)
+* [Gitlab Integration](https://scribe-security.github.io/docs/platforms/gitlab-integration.md)
 
 ## CLI Commands Structure
 All the commands in the `platforms` tool are structured as follows:

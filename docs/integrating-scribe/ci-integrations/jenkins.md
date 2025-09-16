@@ -487,7 +487,7 @@ pipeline {
 
 <details>
   <summary> Using an OCI registry as an evidence store instead of Scribe Hub </summary>
-For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry <a href="https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores">(learn more)</a>
+For on-prem deployment scenarios where you do not want to utilize Scribe Hub as a SaaS you can store, retrieve, and verify evidence with an OCI Resitry <a href="https://scribe-security.github.io/docs/integrating-scribe/other-evidence-stores">(learn more)</a>
    
 Related flags:
 * `--oci` Enable OCI store.
@@ -662,7 +662,7 @@ Related environment:
 
 ### Alternative evidence stores
 
-> You can learn more about alternative stores **[here](https://scribe-security.netlify.app/docs/integrating-scribe/other-evidence-stores)**.
+> You can learn more about alternative stores **[here](https://scribe-security.github.io/docs/integrating-scribe/other-evidence-stores)**.
 
 <details>
   <summary> <b> OCI Evidence store </b></summary>

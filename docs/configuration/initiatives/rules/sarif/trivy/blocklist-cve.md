@@ -7,7 +7,7 @@ title: Trivy Blocklist CVE Check
 **ID:** `trivy-blocklist-cve`  
 **Source:** [v2/rules/sarif/trivy/blocklist-cve.yaml](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/blocklist-cve.yaml)  
 **Rego Source:** [../blocklist-report.rego](https://github.com/scribe-public/sample-policies/blob/main/v2/rules/sarif/trivy/../blocklist-report.rego)  
-**Help:** https://scribe-security.netlify.app/docs/valint/generic#trivy-integration-example  
+**Help:** https://scribe-security.github.io/docs/valint/generic#trivy-integration-example  
 **Labels:** SARIF, Trivy  
 
 Verify a CVE Blocklist against a SARIF report
