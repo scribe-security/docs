@@ -26,6 +26,6 @@ You can start using Scribe Hub by opening a free account **[here](https://scribe
 
 Start here with the **[Quickstart](../quick-start/demo "Quickstart - Demo project")** guide.
 
-<!-- <img src='../../../img/start/how-scribe-works.jpg' alt='Scribe Security high-level deployment architecture'/> -->
+![Scribe Security high-level deployment architecture](/img/start/how-scribe-works.JPG)
 ![Scribe Security high-level deployment architecture](/img/start/how-scribe-works.JPG)
 

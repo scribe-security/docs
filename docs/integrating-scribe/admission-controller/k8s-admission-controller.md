@@ -7,7 +7,7 @@ toc_max_heading_level: 5
 ---
 
 <!-- # K8s Admission Controller - Coming Soon! -->
-<!-- <img src='../../../img/help/coming-soon.jpg' alt='Coming Soon'/> -->
+![Coming Soon](/img/help/coming-soon.jpg)
 
 
 ![Version: 0.1.4-1](https://img.shields.io/badge/Version-0.1.4--1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4-1](https://img.shields.io/badge/AppVersion-0.1.4--1-informational?style=flat-square)

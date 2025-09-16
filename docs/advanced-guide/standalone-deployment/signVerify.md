@@ -80,11 +80,11 @@ Following table includes the supported format.
 
    Assuming you approve, you'll be directed to *Sigstore* in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 
-   <img src='../../../../img/ci/sigstore.jpg' alt='Log in to Sigstore' width='50%' min-width='500px'/>
+   ![Log in to Sigstore](/img/ci/sigstore.JPG)
 
    Once you have signed in you'll see that the login was successful 
 
-   <img src='../../../../img/ci/sigstoreSuccess.jpg' alt='Sigstore Auth Successful' width='50%' min-width='400px'/>
+   ![Sigstore Auth Successful](/img/ci/sigstoreSuccess.JPG)
 
    at which point you can close the browser page and go back to your Shell
 
