@@ -228,11 +228,11 @@ Sigstore, Sigstore-github, x509 (public key certificates) or KMS (key management
 
 After you approve, you'll be directed to Sigstore in your browser where you'll need to log in using either your GitHub account, your Google account, or your Microsoft account:
 
-<img src='../../../img/ci/sigstore.jpg' alt='Log in to Sigstore' width='50%' min-width='500px'/>
+![Log in to Sigstore](/img/ci/sigstore.JPG)
 
 Once you have signed in you'll see that the login was successful
 
-<img src='../../../img/ci/sigstoreSuccess.jpg' alt='Sigstore Auth Successful' width='50%' min-width='400px'/>
+![Sigstore Auth Successful](/img/ci/sigstoreSuccess.JPG)
 
 at which point you can close the browser page and go back to your Shell
 
@@ -337,19 +337,19 @@ Scribe Hub compares the checkout SBOM with the SBOM from the relevant commit. No
 
 The result would appear as part of your project icon:
 
-<img src='../../../img/ci/integrity-validated-1.jpg' alt='Project integrity example'/>
+![Project integrity example](/img/ci/integrity-validated-1.JPG)
 
 This is how a specific validated build run would look:
 
-<img src='../../../img/ci/integrity-validated-3.jpg' alt='build integrity example'/>
+![build integrity example](/img/ci/integrity-validated-3.JPG)
 
 In this example the project's source code integrity has been validated. If there is a problem you'll see this result:
 
-<img src='../../../img/ci/integrity-modified-1.jpg' alt='Project integrity modified example'/>
+![Project integrity modified example](/img/ci/integrity-modified-1.JPG)
 
 And this is how a specific modified build run would look:
 
-<img src='../../../img/ci/integrity-modified-2.jpg' alt='build integrity modified example'/>
+![build integrity modified example](/img/ci/integrity-modified-2.JPG)
 
 Clicking on the build run displays the breakdown of the integrity analysis.
 

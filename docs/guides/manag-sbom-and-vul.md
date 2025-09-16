@@ -22,11 +22,11 @@ Where `<target>` of either type of container image, file or file directory, or a
 
 You can find the SBOMs in Scribe Hub under the Products catalog by drilling down from product to its versions, and to a specific version.  
 
-<img src='../../../img/start/products-start.jpg' alt='Scribe Hub Products Page'/>  
+![Scribe Hub Products Page](/img/start/products-start.jpg)  
 
-<img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
+![Product builds page](/img/start/builds-start.JPG)
 
-<img src='../../../img/start/sbom-report.jpg' alt='Your SBOM Report'/>
+![Your SBOM Report](/img/start/sbom-report.JPG)
 
 In cases when the build SBOM doesn’t reflect all the dependency information, you can utilize Valint to generate additional SBOMs from the source code or from the package manager that Scribe Hub will merge to increase the accuracy of the composition analysis. These cases depend on the source code language, the package manager type, and the method of building the final artifact and is not an ordinary case. You can **[contact us](https://scribesecurity.com/contact-us/)** for more support in such cases.
 
@@ -67,11 +67,11 @@ You can share SBOMs of versions that you publish with stakeholders such as consu
 
 To configure go to the Products catalog and find the relevant product card click ‘Invite Subscribers’ and input the email addresses of the stakeholders.
 
-<img src='../../../img/start/demo-start-1.jpg' alt='Scribe Hub Demo Product'/>
+![Scribe Hub Demo Product](/img/start/demo-start-1.jpg)
 
 Next, click the card and select the specific version that you wish to share, and click publish in its rightmost column. Note that at this point you need to manually publish every version explicitly.
 
-<img src='../../../img/start/publish-1.jpg' alt='Scribe Hub Build Publish'/>
+![Scribe Hub Build Publish](/img/start/publish-1.JPG)
 
 ### Tracking vulnerabilities and managing security advisories
 
@@ -80,7 +80,7 @@ Scribe will alert subscribers on new vulnerabilities when they are later publish
 
 To review these vulnerabilities go to **Products > (Your Product) > (Version) > Vulnerabilities**
 
-<img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
+![Scribe Hub Product Build Vulnerabilities Page](/img/start/vulnerabilities-start.JPG)
 
 **Explanation:**  
 **Product** - The product name where this vulnerability was found  
@@ -134,17 +134,17 @@ To add an advisory to a vulnerability reported, go to **Products > (Your Product
 
 Find the vulnerability according to its ID and click ‘+Add’ in its line in the rightmost column. Note that the CVE ID is identical to the one found on the **Vulnerabilities** page.
 
-<img src='../../../img/start/advisories-start.jpg' alt='Scribe Hub Product Build Advisories Page'/>
+![Scribe Hub Product Build Advisories Page](/img/start/advisories-start.jpg)
   
 A dialog appears:
 
-<img src='../../../img/start/vex-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX window'/>
+![Scribe Hub Product Build Vulnerabilitiy Advisory VEX window](/img/start/vex-start.JPG)
 
 Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be canceled and the vulnerability line would be pushed to the end of the report.
 
 To export the VEX report click the Export button at the top right and select VEX document.
 
-<img src='../../../img/start/export-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX export'/>
+![Scribe Hub Product Build Vulnerabilitiy Advisory VEX export](/img/start/export-start.JPG)
 
 ### Searching for SBOMs
 
@@ -200,11 +200,11 @@ It is possible to call Valint more than one step in a build run in order to add 
 
 You can manage security-related evidence, such as SBOMs, of software products you build or from 3rd party through the Products catalog. You can label several different build artifacts in one or more pipelines as belonging to the same **logical application** and its version. To this end use the special Valint call flags `--app-name` and `--app-version`. Any evidence linked by its app-name and version can be filtered in the various Scribe hub reports such as the **[investigation report](../scribe-hub-reports/investigation)**.
 
-<img src='../../img/start/BI-start-1.jpg' alt='Investigation page, Aggregate SBOM'/>
+![Investigation page, Aggregate SBOM](/img/start/BI-start-1.JPG)
 
 Take a minute to explore the Demo Product in your Scribe account to review the different **[reports](../scribe-hub-reports)** available for your products’ vulnerabilities, compliance with supply chain security standards, SBOMs, and contextual metadata.
 
-<img src='../../../img/start/products-start.jpg' alt='Scribe Hub Products Page'/>
+![Scribe Hub Products Page](/img/start/products-start.jpg)
 
 To gather evidence from your own products **[install the Scribe Valint plugin in your CI system](../integrating-scribe/ci-integrations/)**.
 Once evidence is collected you can drill down to the reports by selecting the relevant product card in the catalog or **[search for relevant builds](#searching-for-anything)** using a rich set of filters.
@@ -251,7 +251,7 @@ You can share SBOMs of versions that you publish with stakeholders such as consu
 
 Go to the Products catalog and find the relevant product card click ‘Invite Subscribers’ and input the email addresses of the stakeholders. 
 
-<img src='../../../img/start/demo-start-1.jpg' alt='Scribe Hub Demo Product'/>
+![Scribe Hub Demo Product](/img/start/demo-start-1.jpg)
 
 Next, click the card and select the specific version that you wish to share, and click publish in its rightmost column. Note that at this point you need to manually publish every version explicitly.
 
@@ -259,7 +259,7 @@ Next, click the card and select the specific version that you wish to share, and
 
 Once an SBOM is uploaded, Scribe Hub will scan it for known vulnerabilities. To review these vulnerabilities go to Products > (Your Product) > (Version) > Vulnerabilities.
 
-<img src='../../../img/start/vulnerabilities-start.jpg' alt='Scribe Hub Product Build Vulnerabilities Page'/>
+![Scribe Hub Product Build Vulnerabilities Page](/img/start/vulnerabilities-start.JPG)
 
 **Explanation:**  
 **Severity** - severity assigned by the CVE Numbering Authority (CNA)  
@@ -280,13 +280,13 @@ To add an advisory to a vulnerability reported go to Products > (Your Product) >
 Find the vulnerability according to its ID and click ‘+Add’ in its line in the right-end column.  
 A dialog appears:
 
-<img src='../../../img/start/vex-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX window'/>
+![Scribe Hub Product Build Vulnerabilitiy Advisory VEX window](/img/start/vex-start.JPG)
 
 Fill the form according to your analysis of the vulnerability. If you set the status to ‘Not Affected’ the severity would be canceled and the vulnerability line would be pushed to the end of the report.
 
 To export the VEX report click the Export button at the top right and select VEX document.
 
-<img src='../../../img/start/export-start.jpg' alt='Scribe Hub Product Build Vulnerabilitiy Advisory VEX export'/>
+![Scribe Hub Product Build Vulnerabilitiy Advisory VEX export](/img/start/export-start.JPG)
 
 ### Searching for anything
 
