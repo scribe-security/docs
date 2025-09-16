@@ -6,20 +6,20 @@
   NODE_VERSION = "20"
   DOCUSAURUS_BASE_URL = "/docs/"
 
-# Serve the app under /docs/ (SPA fallback inside /docs)
-[[redirects]]
-  from = "/docs/*"
-  to   = "/docs/:splat"
-  status = 200
-
-# Root -> /docs/
+# 1) Root -> /docs/
 [[redirects]]
   from = "/"
   to   = "/docs/"
   status = 301
 
-# Anything not starting with /docs -> send to /docs/<same path>
-# (keeps deep links working, e.g. /introducing-scribe/... -> /docs/introducing-scribe/...)
+# 2) If someone hits /docs (no trailing slash), add it
+[[redirects]]
+  from = "/docs"
+  to   = "/docs/"
+  status = 301
+
+# 3) Anything *not* starting with /docs gets mapped into /docs/…
+#    e.g. /introducing-scribe/... -> /docs/introducing-scribe/...
 [[redirects]]
   from = "/*"
   to   = "/docs/:splat"
