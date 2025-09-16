@@ -17,4 +17,4 @@ Scribe continuously gathers and examines evidence from the software development 
 Essentially, Scribe acts as a hub where software producers and consumers can exchange this evidence, attesting to the safety of their software products. Both producers and consumers can manage their risk by applying Scribe's policies to the collected evidence. This means that Scribe helps in setting and enforcing rules about what kind of evidence is needed to show that the software is safe.
 
 <!-- <img src="/docs/img/start/scribe-approach.jpg" alt="Scribe Approach"> -->
-![Scribe Approach 7](/img/start/scribe-approach.JPG)
+![Scribe Approach](/img/start/scribe-approach.JPG)

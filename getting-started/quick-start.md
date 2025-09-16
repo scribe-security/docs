@@ -15,6 +15,7 @@ Integrating Scribe Hub with your environment requires the following credentials 
 * **Client Secret**
 
 <img src='../../../img/ci/integrations-secrets.jpg' alt='' width='70%' min-width='400px'/>
+![integrations-secrets](/img/ci/integrations-secrets.jpg)
 
 ### Using Scribe on a Sample Project
 
@@ -35,6 +36,7 @@ To run the demo you need to:
    - Under your repository name, click `Settings`. If you cannot see the `Settings` tab, select the dropdown menu, then click `Settings`.
 
       <img src='../../../img/ci/github-settings.jpg' alt='github-settings' width='90%'/>
+      ![github-settings](/img/ci/github-settings.jpg)
 
    - In the `Security` section of the sidebar, select `Secrets and variables`, then click `Actions`.
 
@@ -50,10 +52,13 @@ To run the demo you need to:
 Click ‘I understand my workflows, go ahead and enable them’.
 
    <img src='../../../img/ci/understand_workflows.jpg' alt='I understand my workflows' width='70%'/>
+   ![demo-project-actions](/img/ci/understand_workflows.jpg)
 
 This would lead you to your 'Actions' tab:   
 
    <img src='../../../img/ci/demo-project-actions.jpg' alt='demo-project-actions'/>  
+   ![demo-project-actions](/img/ci/demo-project-actions.jpg)
+
 
    From the actions available on the left panel select *`Create signed git commit sbom`* and click `Run workflow`.  Once the workflow finished executing, a signed attestation (an SBOM) has been generated and automatically uploaded to your Scribe Hub account.
 
@@ -65,7 +70,9 @@ This would lead you to your 'Actions' tab:
 
 The first page you see when you log into your **[Scribe Hub](https://scribehub.scribesecurity.com/ "Scribe Hub Link")** is your **products** page.
 
-<img src='../../../img/start/products-start.jpg' alt='Products page'/>
+<!-- <img src='../../../img/start/products-start.jpg' alt='Products page'/> -->
+![Products page](/img/start/products-start.JPG)
+
 
 Even if you have never used Scribe before you'd still be able to see a demo project. Since you have just run the sample project's workflows, running a pipeline, generating evidence, and uploading it to Scribe, you'll see your new project under the default demo project.
 
@@ -73,13 +80,15 @@ The **products** page shows you your products along with some basic information:
 
 Clicking on a product will show you all the product's builds and their information:
 
-<img src='../../../img/start/builds-start.jpg' alt='Product builds page'/>
+<!-- <img src='../../../img/start/builds-start.jpg' alt='Product builds page'/> -->
+![Product builds page](/img/start/builds-start.JPG)
 
 For each build you can see its version ID, the build date, if the source code integrity was verified or not, the number and severity of vulnerabilities, how that build stands in terms of compliance, whether the build was published and if its signature was verified.
 
 for more information click on any of the builds and you'll get to the build dashboard:
 
-<img src='../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+<!-- <img src='../../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/> -->
+![Product build dashboard page](/img/start/dashboard-start.JPG)
 
 The dashboard is your main access to see this build's reports. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
 
