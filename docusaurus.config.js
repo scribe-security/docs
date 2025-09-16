@@ -58,8 +58,8 @@ const config = {
   ],
 
   title: 'The Scribe Documentation Site',
-  tagline: 'Four legs good. Two legs bad.',
-  url: 'https://profound-wisp-8a86b9.netlify.app/',
+  tagline: 'Evidence-driven supply chain security.',
+  // url: 'https://profound-wisp-8a86b9.netlify.app/',
   baseUrl: process.env.DOCUSAURUS_BASE_URL || '/',  //onBrokenLinks: 'throw',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -67,8 +67,10 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  url: 'https://scribe-security.github.io/',
+  organizationName: 'scribe-security', // Usually your GitHub org/user name.
+  projectName: 'docs', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
