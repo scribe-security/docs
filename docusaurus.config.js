@@ -67,7 +67,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  url: 'https://scribe-security.github.io',
+  url: process.env.URL || 'https://scribe-security.github.io',
   organizationName: 'scribe-security', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
   deploymentBranch: 'gh-pages',
