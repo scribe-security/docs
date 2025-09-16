@@ -17,22 +17,22 @@ The token is a secret and will not be accessible from the UI after you finalize 
 
 ### 2. Add the API token to Jenkins secrets
 1. Log in to your Jenkins account and select **Dashboard > Manage Jenkins > Manage credentials (under Security options)**.
-   <img src="/img/start/jenkins-1.jpg" alt="Jenkins Dashboard - Manage credentials"/>
+   ![Jenkins Dashboard - Manage credentials](/img/start/jenkins-1.JPG)
 
 2. Select 'Global' in the list of domains:
-   <img src="/img/start/jenkins-global.jpg" alt="Jenkins Global domain"/>
+   ![Jenkins Global domain](/img/start/jenkins-global.jpg)
 
 3. In the **Global credentials** section, click **+ Add Credentials**. A new **Credentials** form opens.
-   <img src="/img/start/jenkins-add-credentials.jpg" alt="Jenkins Add Credentials"/>
+   ![Jenkins Add Credentials](/img/start/jenkins-add-credentials.jpg)
 
 4. Copy the Scribe Hub API Token to the **Password**,  and **Username** with anything:
-   <img src="/img/start/jenkins-username.jpg" alt="Jenkins Credentials Username/Password"/>
+   ![Jenkins Credentials Username/Password](/img/start/jenkins-username.jpg)
 
 5. Set **ID** to `scribe-auth-id` (lowercase)
-   <img src="/img/start/jenkins-auth-id.jpg" alt="Jenkins Credentials ID"/>
+   ![Jenkins Credentials ID](/img/start/jenkins-auth-id.jpg)
 
 6. Click **Create**.
-   <img src="/img/start/jenkins-cred-create.jpg" alt="Jenkins Credentials Create"/>
+   ![Jenkins Credentials Create](/img/start/jenkins-cred-create.jpg)
 
 ### 3. Install Scribe CLI
 
