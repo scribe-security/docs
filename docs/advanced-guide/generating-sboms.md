@@ -29,12 +29,12 @@ It is possible to call Valint more than one step in a build run in order to add 
 
 ### Generating SBOMs from a container registry - coming soon
 
-<img src='../../../../img/help/coming-soon.jpg' alt='Coming Soon'/>
+![Coming Soon](/img/help/coming-soon.jpg)
 
 You can connect Scribe Hub to your container registry API and generate SBOMs of container images.
 Go to the Integrations page and select the container registry platform you wish to connect. In the dialog that appears input your registry account URL and API token. You will see platform specific instructions in the dialog.
 
-<img src='../../../../img/start/integrations-start.jpg' alt='Integration Options'/>
+![Integration Options](/img/start/integrations-start.JPG)
 
 After the connection succeeds you will be redirected to the registry repo selection page where you can select whole repos or only specific tags within them. When you are done, Scribe will scan these repositories periodically for new images and generate SBOMs for them.  
 

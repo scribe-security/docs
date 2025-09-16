@@ -10,7 +10,7 @@ A product's build vulnerabilities report shows you all the vulnerabilities disco
 
 To reach the vulnerabilities report go to **Products > (Your Product) > (Version) > Vulnerabilities**.
 
-<img src='../../img/start/vulnerabilities-start.jpg' alt='Your Vulnerabilities Report'/>
+![Your Vulnerabilities Report](/img/start/vulnerabilities-start.JPG)
 
 ### Explanation
 

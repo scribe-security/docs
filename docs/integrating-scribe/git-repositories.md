@@ -14,41 +14,41 @@ To collect security policy information (SLSA and SSDF) from your GitHub pipeline
 
 Before you connect to ScribeApp no security policy data will be included in your build version information. To start the integration visit your **[Scribe Hub account](https://scribehub.scribesecurity.com/ "Scribe Hub Link")**. On the left column go to the **integrations** option.
 
-<!-- <img src='../../../../img/ci/scribe-beta-integrations-1.jpg' alt='Scribe Integrations' width='20%' min-width='150px'/> 
+<!-- ![Scribe Integrations](/img/ci/scribe-beta-integrations-1.JPG) 
 
 Once you click on **integrations** you'll get to a page that includes links to all possible environments you could integrate with Scribe Hub.
 If you scroll down a bit you'd get to the **Source Control** section:
 
-<img src='../../../../img/ci/scribe-beta-source-control-integrations.jpg' alt='Source Control' width='20%' min-width='150px'/> 
+![Source Control](/img/ci/scribe-beta-source-control-integrations.JPG) 
 
 To continue press the **connect** link designed to connect ScribeApp to your GitHub organization's account. That will lead you to a page like this:
 
-<img src='../../../../img/ci/install_scribeapp.jpg' alt='Install ScribeApp' width='50%' min-width='500px'/>
+![Install ScribeApp](/img/ci/install_scribeapp.jpg)
 
 Choose the GitHub account you want to integrate the ScribeApp with. Make sure you have owner access to the account to allow the app integration.
 Make sure the account is organizational - the integration won't work with a private account.
 
 Once you have chosen the account you wish to integrate with ScribeApp GitHub will present the following window. 
 
-<img src='../../../../img/ci/install_scribeapp_github.jpg' alt='Install ScribeApp Integration' width='50%' min-width='500px'/>
+![Install ScribeApp Integration](/img/ci/install_scribeapp_github.jpg)
 
 Choose the access level you wish to grant ScribeApp. You can choose to allow it access to all repositories or just select repositories. Note that repositories that are not covered by the ScribeApp will not be able to produce the SLSA provenance. 
 
 After reviewing the access granted to ScribeApp go ahead and approve it by pressing the big green button.
 
-<img src='../../../../img/ci/green_button.jpg' alt='Green button' width='20%' min-width='150px'/> 
+![Green button](/img/ci/green_button.jpg) 
 
 Next, you'll be directed to GitHub to approve your access by inputting your password. 
 
-<img src='../../../../img/ci/approve_access.jpg' alt='Approve access' width='30%' min-width='300px'/>
+![Approve access](/img/ci/approve_access.jpg)
 
 As soon as you provide your password GitHub will handle everything else and redirect you back to the **integrations** page. Note that now there is a green checkmark next to the GitHub icon:
 
-<img src='../../../../img/ci/github_integrated.jpg' alt='Approve access' width='20%' min-width='150px'/>  -->
+![Approve access](/img/ci/github_integrated.jpg)  -->
 
 **Step 1:** Access Integrations Log in to Scribe Hub. Navigate to the left pane and click on "Integrations".
 
-<img src='../../../../img/start/integrations-start.jpg' alt='Scribe Integrations'/>
+![Scribe Integrations](/img/start/integrations-start.JPG)
 
 **Step 2:** Scroll down to find GitHub among the listed services. Select GitHub and click "Connect". 
         
@@ -81,7 +81,7 @@ $HOME/.scribe/bin/valint bom report.md --scribe.client-id=$CLIENT-ID \
 --scribe.client-secret=$SCRIBE_TOKEN -f -v
 ```
 
-<img src='../../../../img/start/gitgat-1.jpg' alt='GitGat run'/>
+![GitGat run](/img/start/gitgat-1.JPG)
 
 You can read more about **[here](https://github.com/scribe-public/gitgat#readme)** the GitGat full documentation here or view the **[free course](https://training.linuxfoundation.org/training/github-supply-chain-security-using-gitgat-lfd122x/)**.
 

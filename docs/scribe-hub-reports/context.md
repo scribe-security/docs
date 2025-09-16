@@ -10,8 +10,8 @@ A product's build context report shows you the context/metadata associated with 
 
 To reach the build's context go to **Products > (Your Product) > (Version) > Context**.
 
-<img src='../../img/start/context-start-1.jpg' alt='Build Context Including each build component'/>
+![Build Context Including each build component](/img/start/context-start-1.JPG)
 
-<img src='../../img/start/context-start-2.jpg' alt='Build Context'/>
+![Build Context](/img/start/context-start-2.jpg)
 
 The build's context includes information such as the build run, the system that created it, the branch and commit associated with it, the job name, the project name, etc. It also includes the workflow id and timestamp. Any metadata you have chosen to add to your build SBOM is also included such as the SBOM's author, their email, phone, etc.  

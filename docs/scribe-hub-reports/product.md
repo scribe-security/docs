@@ -10,7 +10,7 @@ toc_max_heading_level: 5
 
 This is the main page of the Scribe Hub. All of your products managed by the platform are presented here for easy access. 
 
-<img src='../../img/start/products-start.jpg' alt='Products page'/>
+![Products page](/img/start/products-start.jpg)
 
 At the top of the page there is a search bar to help you find the product you're looking for. You can search for a product by its name, a CVE it might contain, the date it was updated, etc.
 
@@ -24,7 +24,7 @@ Some of the information you can see about each product is:
 
 Clicking on a product would present that product information details including all its builds:
 
-<img src='../../img/start/builds-start.jpg' alt='Product builds page'/>
+![Product builds page](/img/start/builds-start.JPG)
 
 For each of the product's builds you can see:
 * The build's version ID
@@ -41,31 +41,31 @@ The subscriber's for a product see the security information of a build only once
 
 On the right side of the build's screen you can see the **Subscribers** information. 
 
-<img src='../../img/start/subscribers.jpg' alt='Product builds page subscribers information' width='20%' min-width='200px'/>
+![Product builds page subscribers information](/img/start/subscribers.JPG)
 
 You can add subscribers to this product by clicking on the **invite** button. A potential subscriber needs to approve the invitation before they are subscribed to the product. You can see all the product's subscribers by clicking on the **Subscribers** tab at the top of the build page.
 
-<img src='../../img/start/subscribers-1.jpg' alt='Product builds page subscribers information' width='60%' min-width='500px'/>
+![Product builds page subscribers information](/img/start/subscribers-1.JPG)
 
 Once you invite a subscriber they'll get an email similar to this one:
 
-<img src='../../img/start/subscriber-invite-b.jpg' alt='subscriber invite email' width='50%' min-width='500px'/>
+![subscriber invite email](/img/start/subscriber-invite-b.jpg)
 
 A subscriber must have an account in **Scribe Hub** to be able to access information. Once they join they get a screen listing all the products they are subscribed to:
 
-<img src='../../img/start/subscriber-screen-b.jpg' alt='subscriber screen' />
+![subscriber screen](/img/start/subscriber-screen-b.jpg)
 
 Once a software producer publishes a build version, all of the product's subscribers get this email:
 
-<img src='../../img/start/subscriber-publish-b.jpg' alt='subscriber publish email' width='50%' min-width='500px'/>
+![subscriber publish email](/img/start/subscriber-publish-b.jpg)
 
 Clicking on the **View Release** will take them to the build information on their subscriber screen:
 
-<img src='../../img/start/subscriber-release-1-b.jpg' alt='subscriber screen' />
+![subscriber screen](/img/start/subscriber-release-1-b.jpg)
 
 Clicking on the build will take the subscriber to a more in-depth information screen:
 
-<img src='../../img/start/subscriber-release-2.jpg' alt='subscriber publish email' width='60%' min-width='500px'/>
+![subscriber publish email](/img/start/subscriber-release-2.JPG)
 
 Each of the **More>>** links leads to a full report about that topic.
 
@@ -73,7 +73,7 @@ Each of the **More>>** links leads to a full report about that topic.
 
 Clicking on a build will take us to the main build dashboard - an overview screen that concentrates access to most of the build's information and reports. 
 
-<img src='../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+![Product build dashboard page](/img/start/dashboard-start.JPG)
 
 The dashboard presents:
 * The compliance level to each of the policies we check by default (SLSA up to level 3 and the SSDF)

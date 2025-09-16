@@ -11,7 +11,7 @@ A product's build SBOM report shows you all the components of the build built at
 
 To reach the SBOM go to **Products > (Your Product) > (Version) > SBOM**.
 
-<img src='../../img/start/sbom-report.jpg' alt='Your SBOM Report'/>
+![Your SBOM Report](/img/start/sbom-report.JPG)
 
 ### Explanation
 
@@ -35,11 +35,11 @@ To reach the SBOM go to **Products > (Your Product) > (Version) > SBOM**.
 
 You can choose to download the SBOM using the **export** button on the top right of the report.
 
-<img src='../../img/start/export-start.jpg' alt='Export dialog' width='20%' min-width='200px'/>
+![Export dialog](/img/start/export-start.JPG)
 
 The SBOM would exported as a JSON in a CycloneDX format. It looks like this:
 
-<img src='../../img/start/sbom-json-start.jpg' alt='Your SBOM JSON'/>
+![Your SBOM JSON](/img/start/sbom-json-start.JPG)
 
 
 

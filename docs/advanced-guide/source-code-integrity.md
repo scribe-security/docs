@@ -66,20 +66,20 @@ After the image is built and the evidence collected is sent to the Scribe platfo
 
 The result would appear as part of your project icon:
 
-<!-- <img src='../../../img/ci/integrity.jpg' alt='Project integrity example'/> -->
-<img src='../../../img/ci/integrity-validated-1.jpg' alt='Project integrity example'/>
+![Project integrity example](/img/ci/integrity.JPG)
+![Project integrity example](/img/ci/integrity-validated-1.JPG)
 
 This is how a specific validated build run would look:
 
-<img src='../../../img/ci/integrity-validated-3.jpg' alt='build integrity example'/>
+![build integrity example](/img/ci/integrity-validated-3.JPG)
 
 In this example the project's source code integrity has been validated. If there is a problem you'll see this result:
 
-<img src='../../../img/ci/integrity-modified-1.jpg' alt='Project integrity modified example'/>
+![Project integrity modified example](/img/ci/integrity-modified-1.JPG)
 
 And this is how a specific modified build run would look:
 
-<img src='../../../img/ci/integrity-modified-2.jpg' alt='build integrity modified example'/>
+![build integrity modified example](/img/ci/integrity-modified-2.JPG)
 
 Clicking on the build run displays the breakdown of the integrity analysis.
 

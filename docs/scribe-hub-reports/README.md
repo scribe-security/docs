@@ -8,7 +8,7 @@ The first page you see when you log into your **[Scribe Hub](https://scribehub.s
 
 Clicking on a product would lead you to the Builds page for the product and clicking on a Build would lead you to the build dashboard.
 
-<img src='../../img/start/dashboard-start.jpg' alt='Product build dashboard page'/>
+![Product build dashboard page](/img/start/dashboard-start.JPG)
 
 The dashboard is your main access to see this build's reports. You can see a summary of the build's compliance information to each of the frameworks, you can see a summary of the vulnerability information, and you can see the integrity validation information.
 

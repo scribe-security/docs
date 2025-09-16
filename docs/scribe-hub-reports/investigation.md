@@ -12,7 +12,7 @@ The Investigation page shows the total evidence of all your projects with added 
 
 To reach the Investigation page go to the **Investigation** tag on the left.
 
-<img src='../../img/start/arsbom-2.jpg' alt='Investigation page, Aggregate SBOM'/>
+![Investigation page, Aggregate SBOM](/img/start/arsbom-2.JPG)
 
 The first thing you can see is an **Aggregate SBOM** view. This view shows you all packages in all your projects' SBOMs. You can filter by project name and/or version or run a search on all packages. This report is particularly useful if you want to check for a particular package name and version in all your projects, for example the Apache Log4j package containing the **[Log4J](https://logging.apache.org/log4j/2.x/)** vulnerability. 
 
@@ -42,7 +42,7 @@ You can sort the information in the table by each of these columns. For example,
 
 The filter bar at the top of the page is design to allow you to narrow down the information presented by project, time, version, layer, labels used etc. 
 
-<img src='../../img/start/investigation-filter-3.jpg' alt='Investigation filter bar'/>
+![Investigation filter bar](/img/start/investigation-filter-3.JPG)
 
 No matter the report page you're viewing, in all cases you'll be seeing the aggregated information of all your projects and builds unless you use some filter to view something more specific.
 
@@ -50,7 +50,7 @@ No matter the report page you're viewing, in all cases you'll be seeing the aggr
 
 The **Out of Date Components** report displays packages that have newer versions available. 
 
-<img src='../../img/start/out-of-date-components-1.jpg' alt='Out of Date Components Report'/>
+![Out of Date Components Report](/img/start/out-of-date-components-1.JPG)
 
 ##### Out of Date Components Fields
 
@@ -70,7 +70,7 @@ The **Out of Date Components** report displays packages that have newer versions
 
 Other than the Aggregate SBOM you can choose to see the **vulnerabilities**, where you can go via link (**vul_hyperlinks**) to the vulnerability's description. This report shows you the vulnerabilities progression by version and date of creation. For example, in this image we see 2 different images and we can see that the first one has more vulnerabilities than the second.
 
-<img src='../../img/start/vulnerabilities-rep-start-1.jpg' alt='Investigation page, Vulnerabilities report'/>
+![Investigation page, Vulnerabilities report](/img/start/vulnerabilities-rep-start-1.JPG)
 
 ##### Vulnerabilities Report Fields
 
@@ -95,19 +95,19 @@ Other than the Aggregate SBOM you can choose to see the **vulnerabilities**, whe
 
 The **Compliance Report** where you can look at compliance on a company-wide scale rather than just 1 project at a time.
 
-<img src='../../img/start/compliance-rep-start-1.jpg' alt='Investigation page, Compliance report'/>
+![Investigation page, Compliance report](/img/start/compliance-rep-start-1.JPG)
 
 #### The Library reputation report
 
 Or the **Library reputation**, based on the **[OpenSSF Scorecard](https://github.com/ossf/scorecard)** project. If you see a package with a particularly low score it might behoove you to consider replacing it with a more secure option. 
 
-<img src='../../img/start/library-rep-start-1.jpg' alt='Investigation page, Library reputation report'/>
+![Investigation page, Library reputation report](/img/start/library-rep-start-1.JPG)
 
 #### The Evidence report
 
 The evidence report shows all the evidence you have collected and uploaded to Scribe Hub from all your pipelines and projects.
 
-<img src='../../img/start/evidence-1.jpg' alt='Evidence page, all evidence uploaded by this account'/>
+![Evidence page, all evidence uploaded by this account](/img/start/evidence-1.JPG)
 
 You can search and drill down by timestamp or project to find the evidence set of a specific project or build run.
 
@@ -120,7 +120,7 @@ The simplest use case is to view all the information for a single application (*
 
 To see all the evidence linked to a particular product or application, go to the search bar at the top of the page and type in the product or application name (assuming you've added the **product-key** metadata). If that application has multiple versions released you can narrow the search by adding the specific version you're looking for (if you've added the **product-version** metadata). To make it easier, all app/product names and all versions that have been identified in your data are present as a list in the relevant field for you to choose from.
 
-<img src='../../img/start/investigation-search-1.jpg' alt='Investigation Search bar' width='40%' min-width='400px'/>
+![Investigation Search bar](/img/start/investigation-search-1.JPG)
 
 Be aware that unless you added the product-key and product-version metadata fields to the SBOMs you generated, the product name will be derived from the pipeline that created the evidence. We strongly encourage you to include that information to make it easier to search for and analyze your evidence data.
 
