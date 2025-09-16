@@ -5,7 +5,22 @@
 [build.environment]
   DOCUSAURUS_BASE_URL = "/docs/"
 
+# Serve the app under /docs/ (SPA fallback inside /docs)
+[[redirects]]
+  from = "/docs/*"
+  to   = "/docs/:splat"
+  status = 200
+
+# Root -> /docs/
 [[redirects]]
   from = "/"
-  to = "/docs/"
-  status = 302
+  to   = "/docs/"
+  status = 301
+
+# Anything not starting with /docs -> send to /docs/<same path>
+# (keeps deep links working, e.g. /introducing-scribe/... -> /docs/introducing-scribe/...)
+[[redirects]]
+  from = "/*"
+  to   = "/docs/:splat"
+  status = 301
+  force = true
