@@ -10,7 +10,7 @@
 
 # As this is a template, we won't commit package-lock.json
 # You should track this once it's created when you install.
-package-lock.json
+#package-lock.json
 
 # Misc
 .DS_Store
@@ -25,3 +25,10 @@ yarn-debug.log*
 yarn-error.log*
 **/sub
 **dev.md
+node_modules/
+build/
+.docusaurus/
+.cache/
+npm-debug.log*
+yarn-error.log*
+.DS_Store
