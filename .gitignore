@@ -25,9 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 **/sub
 **dev.md
-node_modules/
-build/
-.docusaurus/
 .cache/
 npm-debug.log*
 yarn-error.log*
