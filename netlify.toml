@@ -3,6 +3,7 @@
   publish = "build"
 
 [build.environment]
+  NODE_VERSION = "20"
   DOCUSAURUS_BASE_URL = "/docs/"
 
 # Serve the app under /docs/ (SPA fallback inside /docs)
