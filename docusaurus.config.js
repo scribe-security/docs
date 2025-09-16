@@ -67,7 +67,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  url: 'https://scribe-security.github.io/',
+  url: 'https://scribe-security.github.io',
   organizationName: 'scribe-security', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
   deploymentBranch: 'gh-pages',
@@ -202,6 +202,7 @@ const config = {
               // "advanced-guide/ssc-regulations/ssdfpolicies.md"
             ],
           ],
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
