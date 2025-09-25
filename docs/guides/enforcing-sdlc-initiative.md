@@ -22,7 +22,7 @@ For a detailed initiative description, see the **[initiatives](../valint/initiat
 1. Install `valint`:
 
    ```bash
-   curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh  | sh -s -- -t valint
    ```
 
 2. Create an SBOM of the type you want to verify. For a Docker image, the command would be:

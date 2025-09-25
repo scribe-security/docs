@@ -27,7 +27,7 @@ Following table includes the supported format.
 
 1. Using a Shell-based CLI, download the `valint` CLI tool, created by Scribe:
    ```sh
-   curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+   curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh  | sh -s -- -t valint
    ```
 2. Run the `valint bom [target] -o [format]` command on one of the available.
  `format` options: See supported formats table.   

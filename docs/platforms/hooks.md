@@ -701,7 +701,7 @@ run: |-
 
 Example:
 ```bash
-docker run -it scribesecurity/platforms:latest discover github --hook trivy_iac_and_secrets_remote
+docker run -it ghcr.io/scribe-security/platforms:latest discover github --hook trivy_iac_and_secrets_remote
 ```
 
 ## Evidence from Hooks

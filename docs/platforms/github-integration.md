@@ -568,7 +568,7 @@ jobs:
   discovery-ecr:
     stage: discovery
     image:
-        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        name: ghcr.io/scribe-security/platforms:${PLATFORMS_VERSION}
         entrypoint: [""]
         pull_policy: always
     cache:
@@ -606,7 +606,7 @@ jobs:
     needs: ["discovery-ecr"]
     timeout: 5 hours
     image:
-        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        name: ghcr.io/scribe-security/platforms:${PLATFORMS_VERSION}
         entrypoint: [""]
         pull_policy: always
     services:
@@ -649,7 +649,7 @@ jobs:
     needs: ["bom-sign-ecr"] # "policy-gitlab" hack to win some time for the backend to process the SBOMs
     timeout: 5 hours
     image:
-        name: scribesecurity/platforms:${PLATFORMS_VERSION}
+        name: ghcr.io/scribe-security/platforms:${PLATFORMS_VERSION}
         entrypoint: [""]
         pull_policy: always
     services:
