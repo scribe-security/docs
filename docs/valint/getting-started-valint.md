@@ -22,8 +22,10 @@ Choose any of the following command line interface (CLI) installation options:
 
 Get the `valint` tool
 ```bash
-curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh  | sh -s -- -t valint
 ```
+> If you hit GitHub API rate limits, set GITHUB_TOKEN.
+> We've deprecated the old installer (curl -sSfL https://get.scribesecurity.com/install.sh) in favor of the command above.
 
 </details>
 
@@ -34,8 +36,11 @@ Pull the `valint` release binary wrapped in its relevant docker image. <br />
 Tag value should be the requested version.
 
 ```bash
-docker pull scribesecurity/valint:latest
+docker pull ghcr.io/scribe-security/valint:latest
 ```
+
+> The old image `scribesecurity/valint:latest` is deprecated—use the GHCR image above.
+
 </details>
 
 ### Using Valint to generate and sign an SBOM

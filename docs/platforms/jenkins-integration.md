@@ -86,7 +86,7 @@ pipeline {
     stage('jfrog-discovery') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -104,7 +104,7 @@ pipeline {
     stage('jfrog-bom') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -120,7 +120,7 @@ pipeline {
     stage('jfrog-policy') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -177,7 +177,7 @@ def dockerRunPlatforms = { args ->
     -v $WORKSPACE@tmp:$WORKSPACE@tmp:rw,z \
     -w $WORKSPACE \
     --group-add ${DOCKER_GID} \
-    scribesecurity/platforms:dev-latest ${args}
+    ghcr.io/scribe-security/platforms:dev-latest ${args}
   """
 }
 
@@ -276,7 +276,7 @@ pipeline {
     stage('github-discovery') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -297,7 +297,7 @@ pipeline {
     stage('github-bom') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -313,7 +313,7 @@ pipeline {
     stage('github-policy') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -366,7 +366,7 @@ pipeline {
     stage('k8s-discovery') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -384,7 +384,7 @@ pipeline {
     stage('k8s-bom') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -401,7 +401,7 @@ pipeline {
     stage('k8s-policy') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -458,7 +458,7 @@ pipeline {
     stage('dockerhub-discovery') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -480,7 +480,7 @@ pipeline {
     stage('dockerhub-bom') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -497,7 +497,7 @@ pipeline {
     stage('dockerhub-policy') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -550,7 +550,7 @@ pipeline {
     stage('gitlab-discovery') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -576,7 +576,7 @@ pipeline {
     stage('gitlab-bom') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args ' -e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }
@@ -596,7 +596,7 @@ pipeline {
     stage('gitlab-policy') {
       agent {
               docker { 
-                  image 'scribesecurity/platforms:dev-latest'
+                  image 'ghcr.io/scribe-security/platforms:dev-latest'
                   args '-e DOCKER_CONFIG=$PLATFORM_DOCKER_CONFIG --entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.docker/config.json:/$WORKSPACE/.docker/config.json:rw --group-add ${DOCKER_GID}'
                   reuseNode true
               }

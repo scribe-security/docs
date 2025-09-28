@@ -23,14 +23,14 @@ Set your Scribe Hub API token in GitLab with a key named SCRIBE_TOKEN as instruc
 **Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
 Install Valint on your build runner with the following command:
 ```
-sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
 ```
 Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
 ```yaml
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
 ```
 
 ### 4. Instrument your build scripts
@@ -41,7 +41,7 @@ image: ubuntu:latest
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
 
 stages:
     - scribe-gitlab-stage
@@ -72,7 +72,7 @@ image: ubuntu:latest
 before_script:
   - apt update
   - apt install -y git curl
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
   - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
 stages:
@@ -137,7 +137,7 @@ Lastly Use the masked environment variables with Valint by decoding them:
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
 
 stages:
     - scribe-gitlab-job
@@ -326,7 +326,7 @@ save-artifact-job:
 before_script:
   - apk update
   - apk add curl
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
 
 valint-docker-job:
     tags: [ saas-linux-large-amd64 ]
@@ -356,7 +356,7 @@ valint-docker-job:
 before_script:
   - apk update
   - apk add curl
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
 
 valint-docker-job:
     tags: [ saas-linux-large-amd64 ]
@@ -490,7 +490,7 @@ services:
 before_script:
   - apt update
   - apt install git curl -y
-  - curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b /usr/local/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b /usr/local/bin
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin [my_registry]
 
 stages:

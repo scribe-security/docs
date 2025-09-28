@@ -29,7 +29,7 @@ Replace '\<scribe_api_token\>' with the token you obtained in the previous step.
 
 **Valint** -Scribe CLI- is required to generate evidence in such as SBOMs and SLSA provenance. 
 ```
-curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh  | sh -s -- -t valint
 ```
 
 ### 4. Instrument your build scripts

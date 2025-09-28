@@ -15,7 +15,7 @@ Pull the `platforms` release binary wrapped in its relevant docker image. <br />
 Tag value should be the requested version.
 
 ```bash
-docker pull scribesecurity/platforms:latest
+docker pull ghcr.io/scribe-security/platforms:latest
 ```
 
 </details>

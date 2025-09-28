@@ -21,14 +21,14 @@ Add the Scribe Hub API token as SCRIBE_TOKEN to your environment by following th
 **Valint** (Scribe CLI) is required to generate evidence in such as SBOMs and SLSA provenance. 
 Install Valint on your build runner with the following command
 ```
-sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
 ```
 
 Alternatively, add an instalation stage at the beginning of your relevant builds as follows:
 ```yaml
 install:
   - mkdir ./bin
-  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 ```
 ### 4. Instrument your build scripts
@@ -37,7 +37,7 @@ install:
 ```yaml
 install:
   - mkdir ./bin
-  - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+  - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh| sh -s -- -b $PWD/bin
   - export PATH=$PATH:$PWD/bin/
 
 
@@ -72,7 +72,7 @@ jobs:
         depth: false
       install:
         - mkdir ./bin
-        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh| sh -s -- -b $PWD/bin
         - export PATH=$PATH:$PWD/bin/
       env: test_env=test_env_value
       script:
@@ -209,7 +209,7 @@ For more details see **[Artifact documentation](https://docs.travis-ci.com/user/
 
       install:
         - mkdir ./bin
-        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh| sh -s -- -b $PWD/bin
         - export PATH=$PATH:$PWD/bin/
       
       script:
@@ -249,7 +249,7 @@ For more details see [Artifact documentation](https://docs.travis-ci.com/user/up
 
       install:
         - mkdir ./bin
-        - curl -sSfL https://get.scribesecurity.com/install.sh| sh -s -- -b $PWD/bin
+        - curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh| sh -s -- -b $PWD/bin
         - export PATH=$PATH:$PWD/bin/
       
       script:

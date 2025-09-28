@@ -39,14 +39,14 @@ The token is a secret and will not be accessible from the UI after you finalize 
 **Valint** - Scribe CLI is required to generate evidence such as SBOMs and SLSA provenance. 
 Install Valint on your build runner with the following command:
 ```bash
-sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
 ```
 
 Alternatively, add an installation stage at the beginning of your relevant builds as follows:
 ```javascript
 stage('install-valint') {
     steps {
-      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+      sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
     }
 }
 ```
@@ -68,7 +68,7 @@ pipeline {
   stages {
     stage('install-valint') {
         steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
         }
     }
 
@@ -95,7 +95,7 @@ node {
     "PATH=./temp/bin:$PATH"
   ]) {
     stage('install') {
-      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+      sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
     }
     
     stage('bom') {
@@ -143,7 +143,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('dir-bom') {
       agent {
         docker {
-          image 'scribesecurity/valint:latest'
+          image 'ghcr.io/scribe-security/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -162,7 +162,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('image-bom') {
       agent {
         docker {
-          image 'scribesecurity/valint:latest'
+          image 'ghcr.io/scribe-security/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -192,7 +192,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('slsa-provenance') {
       agent {
         docker {
-          image 'scribesecurity/valint:latest'
+          image 'ghcr.io/scribe-security/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -210,7 +210,7 @@ Following are more examples of integration of Valint with Jenkins deployed in di
     stage('verify') {
       agent {
         docker {
-          image 'scribesecurity/valint:latest'
+          image 'ghcr.io/scribe-security/valint:latest'
           reuseNode true
           args "--entrypoint="
         }
@@ -298,7 +298,7 @@ spec:
     - name: CONTAINER_ENV_VAR
       value: jnlp
   - name: valint
-    image: scribesecurity/valint:latest 
+    image: ghcr.io/scribe-security/valint:latest 
     command:
     - cat
     tty: true
@@ -363,7 +363,7 @@ spec:
     - name: CONTAINER_ENV_VAR
       value: jnlp
   - name: valint
-    image: scribesecurity/valint:latest 
+    image: ghcr.io/scribe-security/valint:latest 
     command:
     - cat
     tty: true
@@ -510,7 +510,7 @@ pipeline {
   stages {
     stage('install') {
         steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
         }
     }
     stage('bom') {
@@ -550,7 +550,7 @@ node {
     "PATH=./temp/bin:$PATH"
   ]) {
     stage('install') {
-      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
+      sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin -D'
     }
     stage('bom') {
         sh '''
@@ -697,7 +697,7 @@ pipeline {
   stages {
     stage('install') {
         steps {
-          sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin'
+          sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin'
         }
     }
     stage('bom') {
@@ -735,7 +735,7 @@ node {
     "PATH=./temp/bin:$PATH"
   ]) {
     stage('install') {
-      sh 'curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -b ./temp/bin -D'
+      sh 'curl -sSfL https://raw.githubusercontent.com/scribe-security/misc/master/gh_install.sh | sh -s -- -b ./temp/bin -D'
     }
     stage('bom') {
         sh '''
